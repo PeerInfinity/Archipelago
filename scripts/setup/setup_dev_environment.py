@@ -142,20 +142,51 @@ def main():
     
     # Step 5: Set Up Host Configuration
     print_step(5, "Setting Up Host Configuration")
-    
+
     host_yaml_path = project_root / "host.yaml"
     if host_yaml_path.exists():
         safe_print("[OK] host.yaml already exists")
     else:
         print("Creating host.yaml...")
-        if not run_command([python_venv, "Launcher.py", "--update_settings"], "Create host.yaml"):
-            return False
-    
-    # Configure for testing
+        # Try to create host.yaml via Launcher first
+        if not run_command([python_venv, "Launcher.py", "--update_settings"], "Create host.yaml", check_exit=False):
+            # Fallback: create a minimal host.yaml manually
+            print("Launcher failed, creating minimal host.yaml...")
+            try:
+                minimal_config = {
+                    'general_options': {
+                        'output_path': 'output',
+                    }
+                }
+                import yaml
+                with open(host_yaml_path, 'w') as f:
+                    yaml.dump(minimal_config, f, default_flow_style=False)
+                safe_print("[OK] Created minimal host.yaml")
+            except Exception as e:
+                safe_print(f"[WARN] Could not create host.yaml: {e}")
+
+    # Configure for testing - this will add JSON export settings
     print("Configuring host.yaml for minimal spoiler testing...")
     update_script = project_root / "scripts" / "setup" / "update_host_settings.py"
-    if not run_command([python_venv, str(update_script), "minimal-spoilers"], "Configure testing settings"):
-        safe_print("[WARN] Failed to configure testing settings - you may need to edit host.yaml manually")
+    if update_script.exists():
+        if not run_command([python_venv, str(update_script), "minimal-spoilers"], "Configure testing settings"):
+            safe_print("[WARN] Failed to configure testing settings - you may need to edit host.yaml manually")
+    else:
+        # Fallback: set skip_required_files directly if update script doesn't exist
+        print("Update script not found, setting skip_required_files directly...")
+        try:
+            import yaml
+            if host_yaml_path.exists():
+                with open(host_yaml_path, 'r') as f:
+                    data = yaml.safe_load(f) or {}
+                if 'general_options' not in data:
+                    data['general_options'] = {}
+                data['general_options']['skip_required_files'] = True
+                with open(host_yaml_path, 'w') as f:
+                    yaml.dump(data, f, default_flow_style=False)
+                safe_print("[OK] Set skip_required_files = True")
+        except Exception as e:
+            safe_print(f"[WARN] Could not set skip_required_files: {e}")
     
     # Step 6: Install Node.js Dependencies (if available)
     if node_available:

@@ -8,7 +8,7 @@ game entry so the frontend can display test status.
 import argparse
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
@@ -230,16 +230,31 @@ def extract_multiclient_test_status(template_data: Dict[str, Any]) -> Dict[str, 
 
 
 def extract_multiworld_test_status(template_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Extract pass/fail status from multiworld test results."""
+    """Extract pass/fail status from multiworld test results.
+
+    Uses the same logic as chart_generators/multiworld.py: if a second_pass
+    exists its result is authoritative (the first pass is often skipped for
+    single-player games waiting for 2+ templates).
+    """
     multiworld_result = template_data.get('multiworld_test', {})
 
     if not multiworld_result:
         return None
 
-    success = multiworld_result.get('success', False)
-    players_passed = multiworld_result.get('players_passed', 0)
-    players_failed = multiworld_result.get('players_failed', 0)
-    total_players = multiworld_result.get('total_players_tested', 0)
+    # Second pass is authoritative when present (mirrors chart generator logic)
+    second_pass = template_data.get('second_pass')
+    if second_pass is not None:
+        success = second_pass.get('success', False)
+        players_passed = second_pass.get('players_passed', 0)
+        players_failed = second_pass.get('players_failed', 0)
+        total_players = second_pass.get('total_players_tested', 0)
+        first_failure = second_pass.get('first_failure_player')
+    else:
+        success = multiworld_result.get('success', False)
+        players_passed = multiworld_result.get('players_passed', 0)
+        players_failed = multiworld_result.get('players_failed', 0)
+        total_players = multiworld_result.get('total_players_tested', 0)
+        first_failure = multiworld_result.get('first_failure_player')
 
     # Overall passed if success is true and no players failed
     passed = success and players_failed == 0
@@ -249,7 +264,41 @@ def extract_multiworld_test_status(template_data: Dict[str, Any]) -> Dict[str, A
         'players_passed': players_passed,
         'players_failed': players_failed,
         'total_players': total_players,
-        'first_failure_player': multiworld_result.get('first_failure_player'),
+        'first_failure_player': first_failure,
+    }
+
+
+def extract_spoiler_fuzz_test_status(template_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract pass/fail status from spoiler fuzz test results."""
+    fuzz_result = template_data.get('spoiler_fuzz', {})
+
+    if not fuzz_result:
+        return None
+
+    passed = fuzz_result.get('passed', False)
+    total_runs = fuzz_result.get('total', 0)
+    successful_runs = fuzz_result.get('success', 0)
+    generation_failures = fuzz_result.get('generation_failure', 0)
+    test_failures = fuzz_result.get('test_failure', 0)
+    timeouts = fuzz_result.get('timeout', 0)
+    failed_runs = generation_failures + test_failures + timeouts
+
+    # Build failure types string for tooltip
+    failure_parts = []
+    if generation_failures > 0:
+        failure_parts.append(f"{generation_failures} gen")
+    if test_failures > 0:
+        failure_parts.append(f"{test_failures} test")
+    if timeouts > 0:
+        failure_parts.append(f"{timeouts} timeout")
+    failure_types = ", ".join(failure_parts) if failure_parts else None
+
+    return {
+        'passed': passed,
+        'total_runs': total_runs,
+        'runs_passed': successful_runs,
+        'runs_failed': failed_runs,
+        'failure_types': failure_types,
     }
 
 
@@ -285,6 +334,8 @@ def update_preset_files_with_all_test_data(preset_files: Dict[str, Any], all_tes
                     status = extract_multiclient_test_status(template_data)
                 elif test_type == 'multiworld':
                     status = extract_multiworld_test_status(template_data)
+                elif test_type == 'spoiler_fuzz':
+                    status = extract_spoiler_fuzz_test_status(template_data)
                 else:
                     status = None
 
@@ -303,7 +354,7 @@ def update_preset_files_with_all_test_data(preset_files: Dict[str, Any], all_tes
     games_without_test_data = [game_id for game_id in all_game_ids if game_id not in updated_games]
 
     updated_preset_files['metadata'].update({
-        'test_data_updated': datetime.now().isoformat(),
+        'test_data_updated': datetime.now(timezone.utc).isoformat(),
         'games_with_test_data': len(updated_games),
         'total_games': len(all_game_ids),
         'games_without_test_data': len(games_without_test_data),
@@ -328,8 +379,13 @@ def update_preset_files_with_all_test_data(preset_files: Dict[str, Any], all_tes
 
 
 def find_game_in_preset_files(expected_game_name: str, preset_files: Dict[str, Any]) -> str:
-    """Find a game in preset_files by name, with fuzzy matching fallback."""
-    # First try exact match on name field
+    """Find a game in preset_files by name, with fuzzy matching fallback.
+
+    When multiple directories share the same name (e.g. alttp and alttp_vanilla),
+    prefers the non-vanilla directory so test results are attached to the main entry.
+    """
+    # Collect all exact matches, then prefer non-vanilla directories
+    exact_matches = []
     for game_id, game_data in preset_files.items():
         if game_id == 'metadata':
             continue
@@ -338,9 +394,15 @@ def find_game_in_preset_files(expected_game_name: str, preset_files: Dict[str, A
 
         preset_game_name = game_data.get('name', '')
         if preset_game_name == expected_game_name:
-            return game_id
+            exact_matches.append(game_id)
 
-    # Try case-insensitive fuzzy matching as fallback
+    if exact_matches:
+        # Prefer directories whose game_id does not contain '_vanilla'
+        non_vanilla = [gid for gid in exact_matches if '_vanilla' not in gid]
+        return non_vanilla[0] if non_vanilla else exact_matches[0]
+
+    # Try case-insensitive fuzzy matching as fallback, same preference
+    fuzzy_matches = []
     for game_id, game_data in preset_files.items():
         if game_id == 'metadata':
             continue
@@ -351,7 +413,11 @@ def find_game_in_preset_files(expected_game_name: str, preset_files: Dict[str, A
         if (preset_game_name.lower() == expected_game_name.lower() or
             preset_game_name.lower().replace(':', '').replace(' ', '') ==
             expected_game_name.lower().replace(':', '').replace(' ', '')):
-            return game_id
+            fuzzy_matches.append(game_id)
+
+    if fuzzy_matches:
+        non_vanilla = [gid for gid in fuzzy_matches if '_vanilla' not in gid]
+        return non_vanilla[0] if non_vanilla else fuzzy_matches[0]
 
     return None
 
@@ -441,7 +507,7 @@ def update_preset_files_with_test_data(preset_files: Dict[str, Any], test_result
     games_without_test_data = [game_id for game_id in all_game_ids if game_id not in updated_games]
     
     updated_preset_files['metadata'].update({
-        'test_data_updated': datetime.now().isoformat(),
+        'test_data_updated': datetime.now(timezone.utc).isoformat(),
         'test_data_source': test_results.get('metadata', {}),
         'games_with_test_data': len(updated_games),
         'total_games': len([k for k in updated_preset_files.keys() if k not in ['metadata', 'multiworld']]),
@@ -469,6 +535,47 @@ def update_preset_files_with_test_data(preset_files: Dict[str, Any], test_result
             print(f"  ... and {len(missing_games) - 10} more")
     
     return updated_preset_files
+
+
+def update_placement_flags(preset_files: Dict[str, Any], presets_dir: str) -> int:
+    """Scan rules.json files for is_vanilla/is_canonical and add to folder entries in preset_files.
+
+    Returns the number of folders updated.
+    """
+    updated_count = 0
+    for game_id, game_data in preset_files.items():
+        if game_id == 'metadata' or not isinstance(game_data, dict):
+            continue
+        folders = game_data.get('folders', {})
+        for folder_name, folder_data in folders.items():
+            if not isinstance(folder_data, dict):
+                continue
+            # Skip if already has both flags checked
+            if 'is_vanilla' in folder_data or 'is_canonical' in folder_data:
+                continue
+            # Find the rules.json file in this folder
+            files = folder_data.get('files', [])
+            rules_file = next((f for f in files if f.endswith('_rules.json')), None)
+            if not rules_file:
+                continue
+            rules_path = os.path.join(presets_dir, game_id, folder_name, rules_file)
+            if not os.path.exists(rules_path):
+                continue
+            try:
+                with open(rules_path, 'r') as f:
+                    rules_data = json.load(f)
+                changed = False
+                if rules_data.get('is_vanilla'):
+                    folder_data['is_vanilla'] = True
+                    changed = True
+                if rules_data.get('is_canonical'):
+                    folder_data['is_canonical'] = True
+                    changed = True
+                if changed:
+                    updated_count += 1
+            except (json.JSONDecodeError, IOError):
+                pass
+    return updated_count
 
 
 def save_preset_files(preset_files: Dict[str, Any], output_path: str):
@@ -512,6 +619,36 @@ def main():
         help='Multiworld test results JSON file (default: scripts/output/multiworld/test-results.json)'
     )
     parser.add_argument(
+        '--test-results-fuzz',
+        type=str,
+        default='scripts/output/spoiler-fuzz/test-results-fixed-seed.json',
+        help='Spoiler fuzz test results JSON file (default: scripts/output/spoiler-fuzz/test-results-fixed-seed.json)'
+    )
+    parser.add_argument(
+        '--test-results-minimal-worldgen',
+        type=str,
+        default='scripts/output/spoiler-minimal-worldgen/test-results.json',
+        help='WorldGen minimal spoiler test results JSON file'
+    )
+    parser.add_argument(
+        '--test-results-full-worldgen',
+        type=str,
+        default='scripts/output/spoiler-full-worldgen/test-results.json',
+        help='WorldGen full spoiler test results JSON file'
+    )
+    parser.add_argument(
+        '--test-results-multiclient-worldgen',
+        type=str,
+        default='scripts/output/multiclient-worldgen/test-results.json',
+        help='WorldGen multiclient test results JSON file'
+    )
+    parser.add_argument(
+        '--test-results-multiworld-worldgen',
+        type=str,
+        default='scripts/output/multiworld-worldgen/test-results.json',
+        help='WorldGen multiworld test results JSON file'
+    )
+    parser.add_argument(
         '--preset-files',
         type=str,
         default='frontend/presets/preset_files.json',
@@ -535,11 +672,21 @@ def main():
     project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
     # Build paths for all test result files
+    # Original game tests
     test_results_paths = {
         'minimal_spoiler': os.path.join(project_root, args.test_results_minimal),
         'full_spoiler': os.path.join(project_root, args.test_results_full),
         'multiclient': os.path.join(project_root, args.test_results_multiclient),
         'multiworld': os.path.join(project_root, args.test_results_multiworld),
+        'spoiler_fuzz': os.path.join(project_root, args.test_results_fuzz),
+    }
+
+    # WorldGen game tests (same test types, different game entries in preset_files)
+    worldgen_results_paths = {
+        'minimal_spoiler': os.path.join(project_root, args.test_results_minimal_worldgen),
+        'full_spoiler': os.path.join(project_root, args.test_results_full_worldgen),
+        'multiclient': os.path.join(project_root, args.test_results_multiclient_worldgen),
+        'multiworld': os.path.join(project_root, args.test_results_multiworld_worldgen),
     }
 
     preset_files_path = os.path.join(project_root, args.preset_files)
@@ -565,6 +712,23 @@ def main():
         else:
             print(f"Warning: {test_type} test results file not found: {path}")
 
+    # Load worldgen test result files and merge their results into the same test types.
+    # WorldGen games are separate entries in preset_files (e.g. "A Hat in Time WorldGen")
+    # so there are no key collisions with original game results.
+    for test_type, path in worldgen_results_paths.items():
+        if os.path.exists(path):
+            print(f"Loading {test_type} (worldgen) test results from: {path}")
+            results = load_test_results(path)
+            if results and 'results' in results:
+                if test_type in all_test_results and 'results' in all_test_results[test_type]:
+                    all_test_results[test_type]['results'].update(results['results'])
+                else:
+                    all_test_results[test_type] = results
+            elif not results:
+                print(f"Warning: Failed to load {test_type} (worldgen) test results from {path}")
+        else:
+            print(f"Warning: {test_type} (worldgen) test results file not found: {path}")
+
     if not all_test_results:
         print("Error: No test results files could be loaded.")
         return 1
@@ -579,7 +743,13 @@ def main():
     # Update preset files with test data from all sources
     print(f"\nUpdating preset files with test data...")
     updated_preset_files = update_preset_files_with_all_test_data(preset_files, all_test_results)
-    
+
+    # Scan rules.json files for is_vanilla/is_canonical metadata and backfill into preset_files
+    presets_dir = os.path.join(project_root, os.path.dirname(args.preset_files))
+    placement_count = update_placement_flags(updated_preset_files, presets_dir)
+    if placement_count > 0:
+        print(f"\nUpdated {placement_count} folder(s) with placement flags from rules.json files")
+
     # Save or display results
     if args.dry_run:
         print(f"\nDry run complete. Would update: {output_path}")

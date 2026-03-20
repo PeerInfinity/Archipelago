@@ -16,7 +16,7 @@ import os
 import shlex
 import shutil
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List
 from .seed_utils import get_seed_id as compute_seed_id
 
@@ -56,7 +56,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         'game_name_from_filename': game_name_from_filename,
         'seed': seed,
         'seed_id': seed_id,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'world_info': world_info,
         'generation': {
             'success': False,
@@ -206,7 +206,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
         result['generation']['note'] = 'Skipped in test-only mode'
 
     # Check if rules file exists (files are actually in frontend/presets/)
-    # Use world_directory from world_info if available (for multitemplate mode),
+    # Use world_directory from world_info if available,
     # otherwise fall back to game_name_from_filename
     preset_dir = world_info.get('world_directory', game_name_from_filename) if world_info else game_name_from_filename
     rules_path = f"./presets/{preset_dir}/{seed_id}/{seed_id}_rules.json"
@@ -256,7 +256,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             # Single-client mode
             multiclient_cmd = [
                 "npx", "playwright", "test",
-                "tests/e2e/multiclient.spec.js",
+                "test_json/e2e/multiclient.spec.js",
                 "-g", "single client timer test"
             ]
             multiclient_env = os.environ.copy()
@@ -265,7 +265,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             # Dual-client mode (default)
             multiclient_cmd = [
                 "npx", "playwright", "test",
-                "tests/e2e/multiclient.spec.js",
+                "test_json/e2e/multiclient.spec.js",
                 "-g", "multiclient timer test"
             ]
             multiclient_env = os.environ.copy()
@@ -326,6 +326,41 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
                 print(f"ERROR: Could not list test results directory: {e}")
 
         test_results = parse_multiclient_test_results(test_results_dir, single_client=single_client)
+
+        # If test failed, print diagnostic info
+        if test_return_code != 0:
+            # Check if .archipelago file exists at expected path
+            expected_arch_path = os.path.join(project_root, 'frontend', 'presets', preset_dir, seed_id, f'{seed_id}.archipelago')
+            if os.path.exists(expected_arch_path):
+                print(f"DEBUG: .archipelago file exists at: {expected_arch_path}")
+                print(f"DEBUG: .archipelago file size: {os.path.getsize(expected_arch_path)} bytes")
+            else:
+                print(f"DEBUG: .archipelago file NOT FOUND at: {expected_arch_path}")
+                # Check what's in the preset directory
+                preset_path = os.path.join(project_root, 'frontend', 'presets', preset_dir)
+                if os.path.exists(preset_path):
+                    print(f"DEBUG: Preset directory contents: {os.listdir(preset_path)}")
+                    seed_path = os.path.join(preset_path, seed_id)
+                    if os.path.exists(seed_path):
+                        print(f"DEBUG: Seed directory contents: {os.listdir(seed_path)}")
+                else:
+                    print(f"DEBUG: Preset directory NOT FOUND: {preset_path}")
+
+            # Print server log if it exists
+            server_log_path = os.path.join(project_root, 'server_log.txt')
+            if os.path.exists(server_log_path):
+                print(f"DEBUG: Server log contents:")
+                try:
+                    with open(server_log_path, 'r') as f:
+                        log_content = f.read()
+                        # Print last 50 lines
+                        lines = log_content.strip().split('\n')
+                        for line in lines[-50:]:
+                            print(f"  SERVER: {line}")
+                except Exception as e:
+                    print(f"DEBUG: Could not read server log: {e}")
+            else:
+                print(f"DEBUG: Server log not found at: {server_log_path}")
 
         result['multiclient_test'].update({
             'success': test_results['success'],
@@ -423,10 +458,10 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             if include_error_details:
                 result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
 
-        # Read total spheres from spheres_log.jsonl file
+        # Read total spheres from sphere_log.jsonl file
         # Use preset_dir (world_directory) instead of game_name for correct path
-        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', preset_dir, seed_id, f'{seed_id}_spheres_log.jsonl')
-        total_spheres = count_total_spheres(spheres_log_path)
+        sphere_log_path = os.path.join(project_root, 'frontend', 'presets', preset_dir, seed_id, f'{seed_id}_sphere_log.jsonl')
+        total_spheres = count_total_spheres(sphere_log_path)
         result['spoiler_test']['total_spheres'] = total_spheres
 
         # If test passed, sphere_reached should equal total_spheres
@@ -497,7 +532,7 @@ def test_template_seed_range(template_file: str, templates_dir: str, project_roo
         'first_failure_reason': None,
         'consecutive_passes_before_failure': 0,
         'stop_on_failure': stop_on_failure,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'individual_results': {},
         'summary': {
             'all_passed': False,
@@ -632,13 +667,14 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
                             keep_templates: bool = False, test_all_players: bool = False,
                             require_prerequisites: bool = True,
                             include_error_details: bool = False, max_templates: int = 10,
-                            dry_run: bool = False) -> Dict:
+                            dry_run: bool = False, is_second_pass: bool = False,
+                            retry_failed_players: int = 0, split_number: int = None) -> Dict:
     """
     Test a single template in multiworld mode.
 
-    By default (require_prerequisites=True), only tests templates that have passed
-    spoiler minimal, spoiler full, and multiclient tests. If require_prerequisites
-    is False, tests all templates regardless of other test results.
+    By default (require_prerequisites=False), tests all templates regardless of other
+    test results. If require_prerequisites is True, only tests templates that have
+    passed spoiler minimal, spoiler full, and multiclient tests.
     Copies template to the multiworld directory, runs generation with all accumulated
     templates, and tests each player.
 
@@ -656,10 +692,14 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         headed: If True, run Playwright tests in headed mode
         keep_templates: If True, don't copy template to multiworld directory (just test existing templates)
         test_all_players: If True, test all players; if False, only test the newly added player
-        require_prerequisites: If True, skip templates that haven't passed other test types (default: True)
+        require_prerequisites: If True, skip templates that haven't passed other test types (default: False)
         include_error_details: If True, include first error/warning lines in results
         max_templates: Maximum number of templates to keep in multiworld directory (default: 10)
         dry_run: If True, show what would be done without making changes (default: False)
+        is_second_pass: If True, this is a second pass retest (template already in multiworld,
+                        skip adding, just test the player at its alphabetical position)
+        retry_failed_players: Number of times to retry a failed player test (default: 0)
+        split_number: The parallel job split number (for tracking which job ran this test)
 
     Returns:
         Dictionary with test results
@@ -677,7 +717,8 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
     # Get world info
     world_info = get_world_info(template_file, templates_dir, world_mapping)
 
-    print(f"\n=== Testing {template_filename} (Multiworld Mode) ===")
+    pass_label = "Second Pass" if is_second_pass else "Multiworld Mode"
+    print(f"\n=== Testing {template_filename} ({pass_label}) ===")
 
     result = {
         'template_filename': template_filename,
@@ -685,7 +726,7 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         'game_name_from_filename': game_name_from_filename,
         'seed': seed,
         'seed_id': seed_id,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'world_info': world_info,
         'prerequisite_check': {
             'spoiler_minimal_passed': False,
@@ -695,17 +736,21 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         },
         'multiworld_test': {
             'success': False,
+            'is_second_pass': is_second_pass,
             'player_number': current_player_count + 1,
             'total_players_tested': 0,
             'players_passed': 0,
             'players_failed': 0,
             'first_failure_player': None,
             'player_results': {},
-            'processing_time_seconds': 0
+            'processing_time_seconds': 0,
+            'intermittent_failures': [],  # Players that failed initially but passed on retry
+            'split_number': split_number  # Which parallel job ran this test
         }
     }
 
     # Check prerequisites - the template must have passed all three other test types
+    # (always run this check - it's cheap and provides useful verification info)
     print(f"Checking prerequisites for {template_filename}...")
 
     # Load the three test results files
@@ -800,7 +845,56 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
         print(f"Proceeding with multiworld test (prerequisite check disabled)")
 
     # Copy template to multiworld directory (unless keep_templates is True)
-    if not keep_templates:
+    # Track whether we need to regenerate (if template set changed in second pass)
+    needs_regeneration = False
+
+    if is_second_pass:
+        # In second pass mode, check if template is in multiworld directory
+        expected_path = os.path.join(multiworld_dir, template_filename)
+        if os.path.exists(expected_path):
+            print(f"Second pass mode - template already in multiworld directory")
+        else:
+            # Template was removed during first pass (total templates > max_templates)
+            # Need to copy it back and regenerate
+            print(f"Second pass mode - template not in multiworld directory, restoring...")
+
+            existing_templates = [f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')]
+
+            # If at max capacity, remove the oldest template to make room
+            if len(existing_templates) >= max_templates:
+                # Get file modification times
+                template_times = []
+                for template in existing_templates:
+                    template_path = os.path.join(multiworld_dir, template)
+                    mtime = os.path.getmtime(template_path)
+                    template_times.append((template, mtime))
+
+                # Sort by modification time (oldest first)
+                template_times.sort(key=lambda x: x[1])
+
+                # Remove the oldest template
+                old_template = template_times[0][0]
+                old_template_path = os.path.join(multiworld_dir, old_template)
+                try:
+                    os.remove(old_template_path)
+                    print(f"  Removed {old_template} to make room")
+                except Exception as e:
+                    print(f"  Warning: Could not remove {old_template}: {e}")
+
+            # Copy the template from templates_dir
+            source_path = os.path.join(templates_dir, template_filename)
+            dest_path = os.path.join(multiworld_dir, template_filename)
+
+            try:
+                shutil.copy2(source_path, dest_path)
+                print(f"  Restored {template_filename} to multiworld directory")
+                needs_regeneration = True  # Template set changed, need to regenerate
+            except Exception as e:
+                print(f"  Error restoring template: {e}")
+                result['multiworld_test']['success'] = False
+                result['multiworld_test']['error'] = f"Failed to restore template: {e}"
+                return result
+    elif not keep_templates:
         # Check if we need to remove old templates to stay under the limit
         existing_templates = [f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')]
 
@@ -866,16 +960,53 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
 
         # Return early if export_only mode
         if export_only:
+            # Still capture templates for export_only mode
+            templates_in_dir = sorted([f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')])
+            templates_in_multiworld = {}
+            for i, template in enumerate(templates_in_dir, start=1):
+                templates_in_multiworld[f"player_{i}"] = template
+            result['multiworld_test']['templates_in_multiworld'] = templates_in_multiworld
             print(f"Template copied for {template_filename} (export-only mode)")
+            print(f"Templates in multiworld: {templates_in_dir}")
             return result
     else:
         print(f"Skipping template copy (--multiworld-keep-templates mode)")
         # In keep_templates mode, we don't add new templates
         # So we shouldn't increment the player count
 
-    # Step 1: Run Generate.py with all templates in multiworld directory (skip if test_only mode)
-    if not test_only:
-        print(f"Running Generate.py for multiworld with {current_player_count + 1} players...")
+    # Capture the exact set of templates in the multiworld directory before generation
+    # Templates are sorted alphabetically, which determines player number assignment
+    templates_in_dir = sorted([f for f in os.listdir(multiworld_dir) if f.endswith('.yaml')])
+    templates_in_multiworld = {}
+    for i, template in enumerate(templates_in_dir, start=1):
+        templates_in_multiworld[f"player_{i}"] = template
+    result['multiworld_test']['templates_in_multiworld'] = templates_in_multiworld
+    print(f"Templates in multiworld: {templates_in_dir}")
+
+    # Skip testing if there's only 1 template - multiworld tests require at least 2 games
+    # This is because the exporter uses the single-game export path when there's only 1 game,
+    # which places files in frontend/presets/<game>/ instead of frontend/presets/multiworld/
+    if len(templates_in_dir) < 2:
+        print(f"  Skipping tests - multiworld requires at least 2 templates (currently {len(templates_in_dir)})")
+        print(f"  Template will remain in multiworld directory for testing with the next template")
+        result['multiworld_test']['total_players_in_multiworld'] = len(templates_in_dir)
+        result['multiworld_test']['total_players_tested'] = 0
+        result['multiworld_test']['skip_reason'] = 'Waiting for 2+ templates'
+        result['multiworld_test']['success'] = None  # Neither pass nor fail - just skipped
+        print(f"\nCompleted {template_filename}: Multiworld Test=[SKIP], waiting for more templates")
+        return result
+
+    # Step 1: Run Generate.py with all templates in multiworld directory
+    # Skip if test_only mode, or if second pass without template set changes
+    # If needs_regeneration is True (template was restored in second pass), we must regenerate
+    if is_second_pass and not needs_regeneration:
+        print(f"Skipping generation for {template_filename} (second pass mode - using existing output)")
+        result['generation'] = {'note': 'Skipped in second pass mode'}
+    elif not test_only or needs_regeneration:
+        if needs_regeneration:
+            print(f"Running Generate.py for multiworld with {len(templates_in_dir)} players (template restored, regeneration required)...")
+        else:
+            print(f"Running Generate.py for multiworld with {len(templates_in_dir)} players...")
         generate_cmd = [
             "python", "Generate.py",
             "--player_files_path", "Players/presets/Multiworld",
@@ -910,12 +1041,14 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
             print(f"Generation failed with return code {gen_return_code}")
             result['multiworld_test']['success'] = False
             result['multiworld_test']['error'] = 'Generation failed'
-            # Delete the template from multiworld directory since it failed
-            try:
-                os.remove(dest_path)
-                print(f"  Removed {template_filename} from multiworld directory due to generation failure")
-            except Exception as e:
-                print(f"  Error removing template: {e}")
+            # Delete the template from multiworld directory since it failed (only in first pass)
+            if not is_second_pass and not keep_templates:
+                try:
+                    dest_path = os.path.join(multiworld_dir, template_filename)
+                    os.remove(dest_path)
+                    print(f"  Removed {template_filename} from multiworld directory due to generation failure")
+                except Exception as e:
+                    print(f"  Error removing template: {e}")
             return result
     else:
         print(f"Skipping generation for {template_filename} (test-only mode)")
@@ -925,21 +1058,29 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
     if test_all_players or keep_templates:
         # Test all players
         start_player = 1
-        end_player = current_player_count + (0 if keep_templates else 1)
+        end_player = len(templates_in_dir)
         print(f"Running multiworld spoiler tests for all {end_player} players...")
+        players_to_test = list(range(start_player, end_player + 1))
     else:
         # Only test the newly added player
-        start_player = current_player_count + 1
-        end_player = current_player_count + 1
-        print(f"Running multiworld spoiler test for player {start_player} only...")
+        # Find the player number by looking up the template's position in the sorted list
+        # (templates are sorted alphabetically, so the new template might not be last)
+        try:
+            new_player_number = templates_in_dir.index(template_filename) + 1
+        except ValueError:
+            # Template not found in list (shouldn't happen, but fallback to old behavior)
+            new_player_number = len(templates_in_dir)
+        print(f"Running multiworld spoiler test for player {new_player_number} ({template_filename})...")
+        players_to_test = [new_player_number]
+        # Update result with the correct player number
+        result['multiworld_test']['player_number'] = new_player_number
 
     test_start_time = time.time()
     all_players_passed = True
 
-    # Test the appropriate range of players
-    for player_num in range(start_player, end_player + 1):
-        print(f"\n  Testing Player {player_num}...")
-
+    # Helper function to run a single player test
+    def run_player_test(player_num: int) -> dict:
+        """Run spoiler test for a single player and return the result."""
         # Use npm run test:headed if --headed flag is set
         if headed:
             spoiler_cmd = ["npm", "run", "test:headed", "--mode=test-spoilers",
@@ -984,11 +1125,11 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
             except IOError:
                 pass
 
-        # Read total spheres from spheres_log.jsonl file
-        # For multiworld, there's a single spheres_log file with data for all players
-        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', 'multiworld', seed_id,
-                                       f'{seed_id}_spheres_log.jsonl')
-        total_spheres = count_total_spheres(spheres_log_path, player_num=player_num)
+        # Read total spheres from sphere_log.jsonl file
+        # For multiworld, there's a single sphere_log file with data for all players
+        sphere_log_path = os.path.join(project_root, 'frontend', 'presets', 'multiworld', seed_id,
+                                       f'{seed_id}_sphere_log.jsonl')
+        total_spheres = count_total_spheres(sphere_log_path, player_num=player_num)
 
         # If test passed, sphere_reached should equal total_spheres
         if pass_fail == 'passed':
@@ -1003,56 +1144,350 @@ def test_template_multiworld(template_file: str, templates_dir: str, project_roo
             'pass_fail': pass_fail,
             'error_count': test_error_count,
             'warning_count': test_warning_count,
-            # 'first_error_line': test_first_error,  # Disabled by default, use --include-error-details to enable
-            # 'first_warning_line': test_first_warning  # Disabled by default, use --include-error-details to enable
         }
 
         if include_error_details:
             player_result['first_error_line'] = test_first_error
             player_result['first_warning_line'] = test_first_warning
 
+        return player_result
+
+    # Test the appropriate players
+    for player_num in players_to_test:
+        print(f"\n  Testing Player {player_num}...")
+
+        # Run the initial test
+        player_result = run_player_test(player_num)
+        attempt = 1
+
+        # If test failed and retries are enabled, retry
+        if not player_result['passed'] and retry_failed_players > 0:
+            initial_sphere_reached = player_result['sphere_reached']
+            initial_total_spheres = player_result['total_spheres']
+            print(f"    Player {player_num}: FAIL (sphere {initial_sphere_reached}/{initial_total_spheres}) - will retry up to {retry_failed_players} time(s)")
+
+            for retry_num in range(1, retry_failed_players + 1):
+                print(f"    Retry {retry_num}/{retry_failed_players} for Player {player_num}...")
+                player_result = run_player_test(player_num)
+                attempt = retry_num + 1
+
+                if player_result['passed']:
+                    # Test passed on retry - record as intermittent failure
+                    print(f"    Player {player_num}: PASS on retry {retry_num} (sphere {player_result['sphere_reached']}/{player_result['total_spheres']})")
+                    result['multiworld_test']['intermittent_failures'].append({
+                        'player_number': player_num,
+                        'initial_sphere_reached': initial_sphere_reached,
+                        'initial_total_spheres': initial_total_spheres,
+                        'passed_on_attempt': attempt,
+                        'final_sphere_reached': player_result['sphere_reached'],
+                        'final_total_spheres': player_result['total_spheres']
+                    })
+                    # Mark the player result as having been an intermittent failure
+                    player_result['was_intermittent_failure'] = True
+                    player_result['passed_on_attempt'] = attempt
+                    break
+                else:
+                    print(f"    Player {player_num}: Still FAIL on retry {retry_num} (sphere {player_result['sphere_reached']}/{player_result['total_spheres']})")
+
+        # Store the final result
+        player_result['total_attempts'] = attempt
         result['multiworld_test']['player_results'][f'player_{player_num}'] = player_result
 
         if player_result['passed']:
             result['multiworld_test']['players_passed'] += 1
-            print(f"    Player {player_num}: PASS (sphere {sphere_reached}/{total_spheres})")
+            if attempt == 1:
+                print(f"    Player {player_num}: PASS (sphere {player_result['sphere_reached']}/{player_result['total_spheres']})")
+            # else: already printed the pass message in the retry loop
         else:
             result['multiworld_test']['players_failed'] += 1
             all_players_passed = False
             if result['multiworld_test']['first_failure_player'] is None:
                 result['multiworld_test']['first_failure_player'] = player_num
-            print(f"    Player {player_num}: FAIL (sphere {sphere_reached}/{total_spheres})")
+            if attempt == 1:
+                print(f"    Player {player_num}: FAIL (sphere {player_result['sphere_reached']}/{player_result['total_spheres']})")
 
     test_end_time = time.time()
     test_processing_time = round(test_end_time - test_start_time, 2)
 
-    # Set total_players based on mode
-    if keep_templates:
-        result['multiworld_test']['total_players_tested'] = end_player
-    else:
-        result['multiworld_test']['total_players_tested'] = current_player_count + 1
+    # Set total_players based on templates in the multiworld directory
+    result['multiworld_test']['total_players_in_multiworld'] = len(templates_in_dir)
+    result['multiworld_test']['total_players_tested'] = len(players_to_test)
     result['multiworld_test']['processing_time_seconds'] = test_processing_time
     result['multiworld_test']['success'] = all_players_passed
 
-    # If any player failed, delete the template from multiworld directory (unless keep_templates)
+    # Handle template cleanup based on test result and mode
     if not all_players_passed:
         print(f"\n  Multiworld test FAILED for {template_filename}")
-        if not keep_templates:
+        if not keep_templates and not is_second_pass:
+            # First pass failure - remove the template
             print(f"  Removing {template_filename} from multiworld directory...")
             try:
+                dest_path = os.path.join(multiworld_dir, template_filename)
                 os.remove(dest_path)
                 print(f"  Removed successfully")
             except Exception as e:
                 print(f"  Error removing template: {e}")
+        elif is_second_pass and needs_regeneration:
+            # Second pass with restored template - remove it to restore previous state
+            print(f"  Removing restored template {template_filename} from multiworld directory...")
+            try:
+                dest_path = os.path.join(multiworld_dir, template_filename)
+                os.remove(dest_path)
+                print(f"  Removed successfully")
+            except Exception as e:
+                print(f"  Error removing template: {e}")
+        elif is_second_pass:
+            print(f"  Second pass mode - keeping template in multiworld directory")
     else:
         print(f"\n  Multiworld test PASSED for {template_filename}")
-        if not keep_templates:
+        if not keep_templates and not is_second_pass:
             print(f"  Keeping {template_filename} in multiworld directory for future tests")
+        elif is_second_pass and needs_regeneration:
+            # Second pass with restored template that passed - keep it!
+            # (The template we removed to make room was the oldest from first pass)
+            print(f"  Keeping restored template {template_filename} in multiworld directory (passed second pass)")
 
     print(f"\nCompleted {template_filename}: Multiworld Test={'[PASS]' if result['multiworld_test']['success'] else '[FAIL]'}, "
           f"Players Passed={result['multiworld_test']['players_passed']}/{result['multiworld_test']['total_players_tested']}")
 
     return result
+
+
+def test_template_multiworld_bisect(template_file: str, templates_dir: str, project_root: str,
+                                    world_mapping: Dict[str, Dict], seed: str,
+                                    multiworld_dir: str, other_templates: List[str],
+                                    headed: bool = False,
+                                    include_error_details: bool = False) -> Dict:
+    """
+    Run bisection tests to find which specific template pair causes a failure.
+
+    When a template fails in a multiworld with N templates, this function tests
+    the failing template with each other template individually (2-template tests)
+    to identify which specific combination causes the failure.
+
+    Args:
+        template_file: Name of the template file that failed (the one being tested)
+        templates_dir: Path to templates directory
+        project_root: Path to project root
+        world_mapping: World mapping dictionary
+        seed: Seed number to use
+        multiworld_dir: Path to Players/presets/Multiworld directory
+        other_templates: List of other template filenames that were in the multiworld
+        headed: If True, run Playwright tests in headed mode
+        include_error_details: If True, include first error/warning lines in results
+
+    Returns:
+        Dictionary with bisection results:
+        {
+            'triggered': True,
+            'tested_pairs': [
+                {'partner_template': 'TemplateA.yaml', 'success': True/False, 'error': ...},
+                ...
+            ],
+            'failing_pairs': ['TemplateB.yaml', ...]
+        }
+    """
+    template_filename = os.path.basename(template_file)
+
+    print(f"\n{'='*60}")
+    print(f"=== BISECTION: Testing {template_filename} with each partner ===")
+    print(f"{'='*60}")
+    print(f"Partners to test: {len(other_templates)}")
+
+    bisection_result = {
+        'triggered': True,
+        'tested_pairs': [],
+        'failing_pairs': [],
+        'timestamp': datetime.now(timezone.utc).isoformat()
+    }
+
+    # Compute seed ID
+    try:
+        seed_id = compute_seed_id(int(seed))
+    except (ValueError, TypeError):
+        print(f"Error: Seed '{seed}' is not a valid number")
+        seed_id = None
+
+    source_template_path = os.path.join(templates_dir, template_filename)
+
+    for partner_template in other_templates:
+        print(f"\n--- Testing pair: {template_filename} + {partner_template} ---")
+
+        pair_result = {
+            'partner_template': partner_template,
+            'success': False,
+            'generation_success': False,
+            'player_results': {}
+        }
+
+        # Clear the multiworld directory
+        print(f"  Clearing multiworld directory...")
+        for f in os.listdir(multiworld_dir):
+            if f.endswith('.yaml'):
+                try:
+                    os.remove(os.path.join(multiworld_dir, f))
+                except Exception as e:
+                    print(f"    Warning: Could not remove {f}: {e}")
+
+        # Copy the two templates to the multiworld directory
+        print(f"  Setting up 2-template test...")
+        try:
+            # Copy the failing template
+            shutil.copy2(source_template_path, os.path.join(multiworld_dir, template_filename))
+            # Copy the partner template
+            partner_source_path = os.path.join(templates_dir, partner_template)
+            shutil.copy2(partner_source_path, os.path.join(multiworld_dir, partner_template))
+        except Exception as e:
+            print(f"  Error setting up templates: {e}")
+            pair_result['error'] = f"Failed to copy templates: {e}"
+            bisection_result['tested_pairs'].append(pair_result)
+            continue
+
+        # Determine player order (sorted alphabetically)
+        sorted_templates = sorted([template_filename, partner_template])
+        pair_result['player_1_template'] = sorted_templates[0]
+        pair_result['player_2_template'] = sorted_templates[1]
+
+        # Run generation
+        print(f"  Running generation...")
+        generate_cmd = [
+            "python", "Generate.py",
+            "--player_files_path", "Players/presets/Multiworld",
+            "--seed", seed
+        ]
+
+        gen_start_time = time.time()
+        gen_return_code, gen_stdout, gen_stderr = run_command(generate_cmd, cwd=project_root, timeout=600)
+        gen_end_time = time.time()
+        gen_processing_time = round(gen_end_time - gen_start_time, 2)
+
+        # Analyze generation output
+        full_output = gen_stdout + "\n" + gen_stderr
+        gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
+        gen_error_type = classify_generation_error(full_output) if gen_return_code != 0 else None
+
+        pair_result['generation'] = {
+            'success': gen_return_code == 0,
+            'return_code': gen_return_code,
+            'error_count': gen_error_count,
+            'warning_count': gen_warning_count,
+            'error_type': gen_error_type,
+            'processing_time_seconds': gen_processing_time
+        }
+        if include_error_details:
+            pair_result['generation']['first_error_line'] = gen_first_error
+            pair_result['generation']['first_warning_line'] = gen_first_warning
+
+        if gen_return_code != 0:
+            print(f"  Generation FAILED (return code {gen_return_code})")
+            pair_result['generation_success'] = False
+            pair_result['error'] = 'Generation failed'
+            bisection_result['tested_pairs'].append(pair_result)
+            bisection_result['failing_pairs'].append(partner_template)
+            continue
+
+        pair_result['generation_success'] = True
+
+        # Test both players
+        print(f"  Running spoiler tests for both players...")
+        all_players_passed = True
+
+        for player_num in [1, 2]:
+            print(f"    Testing Player {player_num}...")
+
+            if headed:
+                spoiler_cmd = ["npm", "run", "test:headed", "--mode=test-spoilers",
+                             f"--game=multiworld", f"--seed={seed}", f"--player={player_num}"]
+            else:
+                spoiler_cmd = ["npm", "test", "--mode=test-spoilers",
+                             f"--game=multiworld", f"--seed={seed}", f"--player={player_num}"]
+
+            spoiler_env = os.environ.copy()
+            spoiler_return_code, spoiler_stdout, spoiler_stderr = run_command(
+                spoiler_cmd, cwd=project_root, timeout=900, env=spoiler_env
+            )
+
+            player_passed = spoiler_return_code == 0
+
+            # Analyze test output
+            full_output = spoiler_stdout + "\n" + spoiler_stderr
+            test_error_count, test_warning_count, test_first_error, test_first_warning = count_errors_and_warnings(full_output)
+
+            # Run test analysis
+            analysis_cmd = ["npm", "run", "test:analyze"]
+            analysis_return_code, analysis_stdout, analysis_stderr = run_command(
+                analysis_cmd, cwd=project_root, timeout=60
+            )
+
+            sphere_reached = 0
+            total_spheres = 0
+            pass_fail = 'unknown'
+
+            # Read playwright-analysis.txt if it exists
+            analysis_file = os.path.join(project_root, "playwright-analysis.txt")
+            if os.path.exists(analysis_file):
+                try:
+                    with open(analysis_file, 'r') as f:
+                        analysis_text = f.read()
+                    analysis_result = parse_playwright_analysis(analysis_text)
+                    sphere_reached = analysis_result.get('sphere_reached', 0)
+                    pass_fail = analysis_result.get('pass_fail', 'unknown')
+                except IOError:
+                    pass
+
+            # Read total spheres from sphere_log.jsonl file
+            if seed_id:
+                sphere_log_path = os.path.join(project_root, 'frontend', 'presets', 'multiworld', seed_id,
+                                               f'{seed_id}_sphere_log.jsonl')
+                total_spheres = count_total_spheres(sphere_log_path, player_num=player_num)
+
+            # If test passed, sphere_reached should equal total_spheres
+            if pass_fail == 'passed':
+                sphere_reached = total_spheres
+
+            player_result = {
+                'player_number': player_num,
+                'template': sorted_templates[player_num - 1],
+                'passed': player_passed and pass_fail == 'passed',
+                'return_code': spoiler_return_code,
+                'sphere_reached': sphere_reached,
+                'total_spheres': total_spheres,
+                'pass_fail': pass_fail,
+                'error_count': test_error_count,
+                'warning_count': test_warning_count
+            }
+
+            if include_error_details:
+                player_result['first_error_line'] = test_first_error
+                player_result['first_warning_line'] = test_first_warning
+
+            pair_result['player_results'][f'player_{player_num}'] = player_result
+
+            if player_result['passed']:
+                print(f"      Player {player_num}: PASS (sphere {sphere_reached}/{total_spheres})")
+            else:
+                print(f"      Player {player_num}: FAIL (sphere {sphere_reached}/{total_spheres})")
+                all_players_passed = False
+
+        pair_result['success'] = all_players_passed
+        bisection_result['tested_pairs'].append(pair_result)
+
+        if not all_players_passed:
+            bisection_result['failing_pairs'].append(partner_template)
+            print(f"  Pair FAILED: {template_filename} + {partner_template}")
+        else:
+            print(f"  Pair PASSED: {template_filename} + {partner_template}")
+
+    # Summary
+    print(f"\n{'='*60}")
+    print(f"=== BISECTION COMPLETE ===")
+    print(f"{'='*60}")
+    print(f"Total pairs tested: {len(bisection_result['tested_pairs'])}")
+    print(f"Failing pairs: {len(bisection_result['failing_pairs'])}")
+    if bisection_result['failing_pairs']:
+        print(f"Failing partners: {bisection_result['failing_pairs']}")
+
+    return bisection_result
 
 
 def test_generation_consistency(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1") -> Dict:
@@ -1061,7 +1496,7 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
 
     Returns a dict with:
         - rules_identical: bool (True if rules.json files are identical)
-        - spoilers_identical: bool (True if spheres_log.jsonl files are identical)
+        - spoilers_identical: bool (True if sphere_log.jsonl files are identical)
         - seed: str (the seed tested)
         - timestamp: str (ISO format timestamp)
     """
@@ -1077,7 +1512,7 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
         print(f"Error: Seed '{seed}' is not a valid number")
         return {
             'seed': seed,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'rules_identical': None,
             'spoilers_identical': None,
             'error': f"Invalid seed: {seed}"
@@ -1089,9 +1524,9 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
 
     # Paths to the generated files
     rules_path = f"./presets/{preset_dir}/{seed_id}/{seed_id}_rules.json"
-    spheres_path = f"./presets/{preset_dir}/{seed_id}/{seed_id}_spheres_log.jsonl"
+    sphere_log_path = f"./presets/{preset_dir}/{seed_id}/{seed_id}_sphere_log.jsonl"
     full_rules_path = os.path.join(project_root, 'frontend', rules_path.lstrip('./'))
-    full_spheres_path = os.path.join(project_root, 'frontend', spheres_path.lstrip('./'))
+    full_sphere_log_path = os.path.join(project_root, 'frontend', sphere_log_path.lstrip('./'))
 
     print(f"\n=== Testing Generation Consistency for {template_filename} (seed {seed}) ===")
 
@@ -1100,20 +1535,20 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
         print(f"Error: Original rules file not found: {full_rules_path}")
         return {
             'seed': seed,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'rules_identical': None,
             'spoilers_identical': None,
             'error': 'Original rules file not found'
         }
 
-    if not os.path.exists(full_spheres_path):
-        print(f"Error: Original spheres log file not found: {full_spheres_path}")
+    if not os.path.exists(full_sphere_log_path):
+        print(f"Error: Original sphere log file not found: {full_sphere_log_path}")
         return {
             'seed': seed,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'rules_identical': None,
             'spoilers_identical': None,
-            'error': 'Original spheres log file not found'
+            'error': 'Original sphere log file not found'
         }
 
     # Helper function to compute file hash
@@ -1128,8 +1563,8 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
     # Compute hashes of original files
     print(f"Computing hash of original rules file...")
     original_rules_hash = compute_file_hash(full_rules_path)
-    print(f"Computing hash of original spheres log file...")
-    original_spheres_hash = compute_file_hash(full_spheres_path)
+    print(f"Computing hash of original sphere log file...")
+    original_sphere_log_hash = compute_file_hash(full_sphere_log_path)
 
     # Run generation again (no need to backup files, we only need the hashes)
     template_file_with_ext = template_filename if template_filename.endswith(('.yaml', '.yml')) else f"{template_filename}.yaml"
@@ -1158,7 +1593,7 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
         print(f"Error: Re-generation failed with return code {gen_return_code}")
         return {
             'seed': seed,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'rules_identical': None,
             'spoilers_identical': None,
             'error': f'Re-generation failed with return code {gen_return_code}'
@@ -1167,28 +1602,28 @@ def test_generation_consistency(template_file: str, templates_dir: str, project_
     # Compute hashes of new files
     print(f"Computing hash of new rules file...")
     new_rules_hash = compute_file_hash(full_rules_path)
-    print(f"Computing hash of new spheres log file...")
-    new_spheres_hash = compute_file_hash(full_spheres_path)
+    print(f"Computing hash of new sphere log file...")
+    new_sphere_log_hash = compute_file_hash(full_sphere_log_path)
 
     # Compare hashes
     rules_identical = (original_rules_hash == new_rules_hash)
-    spoilers_identical = (original_spheres_hash == new_spheres_hash)
+    spoilers_identical = (original_sphere_log_hash == new_sphere_log_hash)
 
     print(f"\n  Rules files identical: {rules_identical}")
-    print(f"  Spheres log files identical: {spoilers_identical}")
+    print(f"  Sphere log files identical: {spoilers_identical}")
 
     result = {
         'seed': seed,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'rules_identical': rules_identical,
         'spoilers_identical': spoilers_identical,
         'original_rules_hash': original_rules_hash,
         'new_rules_hash': new_rules_hash,
-        'original_spheres_hash': original_spheres_hash,
-        'new_spheres_hash': new_spheres_hash
+        'original_sphere_log_hash': original_sphere_log_hash,
+        'new_sphere_log_hash': new_sphere_log_hash
     }
 
     print(f"\nCompleted consistency test for {template_filename}: Rules={'IDENTICAL' if rules_identical else 'DIFFERENT'}, "
-          f"Spheres={'IDENTICAL' if spoilers_identical else 'DIFFERENT'}")
+          f"Sphere Log={'IDENTICAL' if spoilers_identical else 'DIFFERENT'}")
 
     return result

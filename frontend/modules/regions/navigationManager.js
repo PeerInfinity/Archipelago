@@ -151,7 +151,7 @@ export class NavigationManager {
   navigateToRegion(regionName) {
     logger.info(`Navigating to region: ${regionName}`);
     if (this.eventBus) {
-      this.eventBus.publish('ui:navigateToRegion', { regionName }, 'regions');
+      this.eventBus.publish('ui:navigateToRegion', { regionName });
     }
   }
 
@@ -164,7 +164,7 @@ export class NavigationManager {
   navigateToLocation(locationName, regionName) {
     logger.info(`Navigating to location: ${locationName} in ${regionName}`);
     if (this.eventBus) {
-      this.eventBus.publish('ui:navigateToLocation', { locationName, regionName }, 'regions');
+      this.eventBus.publish('ui:navigateToLocation', { locationName, regionName });
     }
   }
 

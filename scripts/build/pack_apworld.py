@@ -13,8 +13,8 @@ from pathlib import Path
 
 def pack_apworld(world_name: str):
     """Pack a world directory into an .apworld file."""
-    # Get the worlds directory (parent of scripts directory)
-    project_root = Path(__file__).parent.parent
+    # Get the project root (two levels up from scripts/build/)
+    project_root = Path(__file__).parent.parent.parent
     worlds_dir = project_root / "worlds"
     world_dir = worlds_dir / world_name
 

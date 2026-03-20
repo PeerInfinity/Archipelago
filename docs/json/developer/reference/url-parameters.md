@@ -25,7 +25,9 @@ Parameters are processed during application initialization and can override conf
 | `server` | Server WebSocket URL | `?server=ws://localhost:38281` |
 | `playerName` | Player name for connection | `?playerName=Player1` |
 | `reset` | Reset to defaults | `?reset=true` |
-| `panel` | Focus specific panel | `?panel=inventory` |
+| `focusPanel` | Focus specific panel(s) | `?focusPanel=inventoryPanel,regionsPanel` |
+| `movePanel` | Move panel(s) to specific stack(s) | `?movePanel=loopsPanel:left-stack` |
+| `loadModule` | Load external module(s) by URL | `?loadModule=https://example.com/module/index.js` |
 
 ## Supported Parameters
 
@@ -215,13 +217,13 @@ These parameters control automatic connection to an Archipelago server.
 
 ### UI Parameters
 
-#### `panel`
+#### `focusPanel`
 
-**Purpose:** Focus a specific panel on application load.
+**Purpose:** Focus one or more panels on application load. Supports comma-separated values to activate a panel in each stack simultaneously.
 
-**Usage:** `?panel=<componentType>`
+**Usage:** `?focusPanel=<componentType>` or `?focusPanel=<type1>,<type2>,<type3>`
 
-**Valid Values:** The `componentType` value from any panel module. See the [Module Info Status Report](../guides/module_info_status.md) for a complete list of available panels - use the value from the `componentType` column.
+**Valid Values:** The `componentType` value from any panel module. See the [Module Info Status Report](../guides/module_info_status.md) for a complete list of available panels - use the value from the `componentType` column. Multiple values are separated by commas.
 
 **Common Panel Values:**
 - `clientPanel` - Archipelago server connection
@@ -232,41 +234,133 @@ These parameters control automatic connection to an Archipelago server.
 - `presetsPanel` - Preset selection
 
 **Examples:**
-- `?panel=inventoryPanel` - Focus the inventory panel on load
-- `?panel=clientPanel` - Focus the client/console panel on load
+- `?focusPanel=inventoryPanel` - Focus the inventory panel on load
+- `?focusPanel=clientPanel` - Focus the client/console panel on load
+- `?focusPanel=inventoryPanel,regionsPanel` - Focus inventory and regions panels, each in its own stack
+- `?focusPanel=loopsPanel,regionPanel,proofGraph` - Focus one panel in each of the three stacks
 
 **Details:**
-- The panel must be loaded in the current mode's layout to be activated
+- The panels must be loaded in the current mode's layout to be activated
 - Activation occurs after a 1.5 second delay to allow Golden Layout to initialize
-- If the panel is in a tabbed stack, it will be brought to the front
+- If a panel is in a tabbed stack, it will be brought to the front
+- Each panel is activated in whichever stack contains it (order in the URL does not matter)
+
+#### `movePanel`
+
+**Purpose:** Move one or more panels to specific layout stacks on application load. Panels are moved before `panel` activation occurs, so the two parameters can be combined.
+
+**Usage:** `?movePanel=<componentType>:<stackId>` or `?movePanel=<type1>:<stackId1>,<type2>:<stackId2>`
+
+**Valid Values:** Comma-separated pairs of `componentType:stackId`. The `componentType` is the same value used by the `focusPanel` parameter. The `stackId` is the Golden Layout stack ID from the layout preset (e.g., `left-stack`, `middle-stack`, `right-stack`).
+
+**Examples:**
+- `?movePanel=loopsPanel:left-stack` - Move the Loops panel to the left stack
+- `?movePanel=loopsPanel:left-stack,clientPanel:right-stack` - Move two panels to different stacks
+- `?movePanel=loopsPanel:middle-stack&focusPanel=loopsPanel` - Move the Loops panel to the middle stack and activate it
+
+**Details:**
+- Moves are processed before `focusPanel` activations, so both parameters work together
+- If the panel is already in the target stack, it is simply activated
+- The stack IDs correspond to the `id` fields in the layout preset configuration (`frontend/layout-configs/layout_presets.json`)
+- Uses Golden Layout's internal reparenting mechanism (the same approach used by drag/drop)
+
+#### `loadModule`
+
+**Purpose:** Automatically load one or more external modules by URL on application start, as if the user had clicked "Add External Module" and entered the URL.
+
+**Usage:** `?loadModule=<url_to_module>` (repeatable for multiple modules)
+
+**Valid Values:** Any URL or path to a module's `index.js` file
+
+**Examples:**
+- `?loadModule=./modules/testModule/index.js` - Load the built-in test module
+- `?loadModule=https://example.com/my-module/index.js` - Load a single external module
+- `?loadModule=./modules/custom/index.js&loadModule=https://cdn.example.com/another/index.js` - Load two external modules
+
+**Details:**
+- Modules are loaded after the panel manager is initialized, ensuring panels can be created
+- Uses the same loading mechanism as the "Add External Module" button in the Modules panel
+- Each URL generates a unique module ID based on the sanitized URL
+- Multiple modules can be loaded by repeating the `loadModule` parameter
+- Load failures are logged but do not prevent other modules from loading
+
+#### `iframe`
+
+**Purpose:** Auto-load an iframe application on startup by shortname or URL. Can be combined with `useWindow` to load into a separate window instead.
+
+**Usage:** `?iframe=<shortname>` or `?iframe=<url>`
+
+**Valid Values:** A shortname from the known pages list (`textadventure`, `iframebase`, `mazegame`, `jta`) or a full URL.
+
+**Examples:**
+- `?iframe=jta` - Load Journey to Ascension in an iframe
+- `?iframe=mazegame` - Load A-Mazing-Idle in an iframe
+- `?iframe=jta&useWindow=1` - Load JTA in a separate browser window instead
+
+**Details:**
+- Resolved via `knownIframePages.js` shortname lookup, or passed through as a URL
+- Falls back to the `iframeAutoLoad` setting from mode settings (e.g., `settings-jta.json` has `"iframeAutoLoad": "jta"`)
+- Publishes `iframe:loadUrl` (or `window:loadUrl` when `useWindow=1`)
+- Loading happens after the panel manager initializes, with a 500ms delay
+
+#### `useWindow`
+
+**Purpose:** Redirect iframe auto-loads to the window adapter, opening content in a separate browser window instead of an embedded iframe.
+
+**Usage:** `?useWindow=1`
+
+**Examples:**
+- `?iframe=jta&useWindow=1` - Load JTA in a separate window
+- `?mode=jta&useWindow=1` - JTA mode with game in a separate window (via `iframeAutoLoad`)
+- `?metagame=mazegame&useWindow=1` - Maze metagame with mazes opening in separate windows
+
+**Details:**
+- Works with both `?iframe=` parameter and `iframeAutoLoad` setting
+- Also affects metagame configurations: maze challenges open/close in separate windows instead of switching iframe panel tabs
+- The same HTML pages work in both iframe and window contexts thanks to the unified AdapterClient
+
+#### `metagame`
+
+**Purpose:** Load a metagame configuration on startup. Metagames add secondary gameplay layers on top of the Archipelago tracker.
+
+**Usage:** `?metagame=<shortname>`
+
+**Valid Values:** `mazegame`, `mazegameloops`
+
+**Examples:**
+- `?metagame=mazegame` - Standard maze challenges
+- `?metagame=mazegameloops` - Loops-compatible maze challenges
+- `?metagame=mazegame&useWindow=1` - Maze challenges in separate windows
 
 ---
 
-### Window/Iframe Parameters
+### Window/Iframe Client Parameters
 
-These parameters are used for multi-window setups and embedded iframe clients.
+These parameters are used by the unified `AdapterClient` (in iframe or window contexts). They are appended to the URL by the iframe panel or window panel when loading content.
 
-#### `windowId` / `iframeId`
+#### `clientId` / `windowId` / `iframeId`
 
-**Purpose:** Sets a custom identifier for the window or iframe instance.
+**Purpose:** Sets a custom identifier for the client instance.
 
-**Usage:** `?windowId=<id>` or `?iframeId=<id>`
+**Usage:** `?clientId=<id>`, `?windowId=<id>`, or `?iframeId=<id>`
 
 **Details:**
-- Used to distinguish between multiple window/iframe instances
-- `windowId` and `iframeId` are interchangeable for compatibility
+- Used to distinguish between multiple client instances
+- All three are accepted interchangeably by the unified `AdapterClient`
+- `windowId` also influences auto-detection: its presence hints at window mode
+- Typically set automatically by the iframe panel (`?iframeId=`) or window panel (`?windowId=`)
 
 #### `windowName` / `iframeName`
 
-**Purpose:** Sets a custom display name for the window or iframe.
+**Purpose:** Sets a custom display name used when generating a client ID (if no explicit ID is provided).
 
 **Usage:** `?windowName=<name>` or `?iframeName=<name>`
 
-**Default:** `window-base` or `iframe-base`
+**Default:** `window-client` or `iframe-client` (based on auto-detected mode)
 
 #### `heartbeatInterval`
 
-**Purpose:** Sets the heartbeat interval for window/iframe communication.
+**Purpose:** Sets the heartbeat interval for adapter communication.
 
 **Usage:** `?heartbeatInterval=<milliseconds>`
 
@@ -355,10 +449,9 @@ URL parameters are processed in multiple locations during initialization:
 |------|---------------------|
 | `frontend/app/mode/modeManager.js` | `mode`, `reset` |
 | `frontend/app/mode/modeDataLoader.js` | `rules`, `game`, `seed`, `player` |
-| `frontend/app/initialization/index.js` | `mode`, `panel` |
+| `frontend/app/initialization/index.js` | `mode`, `focusPanel`, `movePanel`, `loadModule`, `iframe`, `useWindow`, `metagame` |
 | `frontend/modules/client/index.js` | `autoConnect`, `server`, `playerName` |
-| `frontend/modules/window-base/windowClient.js` | `windowId`, `windowName`, `heartbeatInterval` |
-| `frontend/modules/iframe-base/iframeClient.js` | `iframeId`, `iframeName`, `heartbeatInterval` |
+| `frontend/modules/shared/adapterClient.js` | `windowId`, `iframeId`, `clientId`, `windowName`, `iframeName`, `heartbeatInterval` |
 | `frontend/modules/tests/testLogic.js` | `mode`, `testOrderSeed` |
 
 ---
@@ -367,7 +460,7 @@ URL parameters are processed in multiple locations during initialization:
 
 URL parameters are used extensively in the automated testing system:
 
-- **Playwright Tests:** The `tests/e2e/app.spec.js` file constructs URLs with appropriate parameters
+- **Playwright Tests:** The `test_json/e2e/app.spec.js` file constructs URLs with appropriate parameters
 - **npm Scripts:** Test scripts in `package.json` use environment variables that map to URL parameters
 - **Test Modes:** Special modes like `test-spoilers` are designed specifically for automated testing
 

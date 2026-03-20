@@ -1,12 +1,11 @@
 // UI component for window panel module - displays connection status and heartbeat counter
-import { moduleEventBus } from './index.js';
-import eventBus from '../../app/core/eventBus.js';
-import { 
-    MessageTypes, 
-    createMessage, 
-    validateMessage, 
+import { getModuleEventBus } from './index.js';
+import {
+    MessageTypes,
+    createMessage,
+    validateMessage,
     safePostMessage,
-    generateWindowId 
+    generateWindowId
 } from '../windowAdapter/communicationProtocol.js';
 
 // Helper function for logging with fallback
@@ -23,7 +22,8 @@ export class WindowPanelUI {
     constructor(container, componentState) {
         this.container = container;
         this.componentState = componentState;
-        
+        Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
+
         // UI elements
         this.rootElement = null;
         this.statusElement = null;
@@ -179,37 +179,37 @@ export class WindowPanelUI {
     }
 
     setupEventSubscriptions() {
-        log('debug', `setupEventSubscriptions: eventBus available: ${eventBus !== null}`);
-        if (eventBus) {
+        log('debug', `setupEventSubscriptions: eventBus available: ${this.eventBus !== null}`);
+        if (this.eventBus) {
             log('debug', 'Subscribing to window events...');
-            
+
             // Subscribe to window connection events
-            const windowConnectedUnsubscribe = eventBus.subscribe('window:connected', (data) => {
+            const windowConnectedUnsubscribe = this.eventBus.subscribe('window:connected', (data) => {
                 log('debug', 'Window connected event received:', data);
                 this.handleWindowConnected(data);
-            }, 'windowPanel');
+            });
             this.unsubscribeHandles.push(windowConnectedUnsubscribe);
 
             // Subscribe to window disconnection events
-            const windowDisconnectedUnsubscribe = eventBus.subscribe('window:disconnected', (data) => {
+            const windowDisconnectedUnsubscribe = this.eventBus.subscribe('window:disconnected', (data) => {
                 log('debug', 'Window disconnected event received:', data);
                 this.handleWindowDisconnected(data);
-            }, 'windowPanel');
+            });
             this.unsubscribeHandles.push(windowDisconnectedUnsubscribe);
 
             // Subscribe to window load commands
-            const loadWindowUnsubscribe = eventBus.subscribe('window:loadUrl', (data) => {
+            const loadWindowUnsubscribe = this.eventBus.subscribe('window:loadUrl', (data) => {
                 log('debug', 'UI component received window:loadUrl event:', data);
                 this.handleLoadWindow(data);
-            }, 'windowPanel');
+            });
             this.unsubscribeHandles.push(loadWindowUnsubscribe);
 
             // Subscribe to window close commands
-            const closeWindowUnsubscribe = eventBus.subscribe('window:close', (data) => {
+            const closeWindowUnsubscribe = this.eventBus.subscribe('window:close', (data) => {
                 this.handleCloseWindow(data);
-            }, 'windowPanel');
+            });
             this.unsubscribeHandles.push(closeWindowUnsubscribe);
-            
+
             log('debug', 'Event subscriptions set up successfully');
         } else {
             log('error', 'eventBus is null! Cannot subscribe to events');
@@ -275,12 +275,17 @@ export class WindowPanelUI {
      */
     handleCloseWindow(data) {
         const { panelId } = data;
-        
+
         // Check if this command is for us
         if (panelId && panelId !== this.container?.id) {
             return; // Not for us
         }
-        
+
+        // Ignore if no window is open
+        if (!this.connectedWindowRef) {
+            return;
+        }
+
         log('info', 'Closing connected window');
         this.closeWindow();
     }
@@ -325,12 +330,12 @@ export class WindowPanelUI {
                 }, 1000);
                 
                 // Publish window opened event
-                if (moduleEventBus) {
-                    moduleEventBus.publish('windowPanel:opened', { 
+                if (this.eventBus) {
+                    this.eventBus.publish('windowPanel:opened', {
                         panelId: this.container?.id,
                         windowId: this.windowId,
                         url: url
-                    }, 'windowPanel');
+                    });
                 }
             } else {
                 this.handleWindowError('Failed to open window - popup blocked?');
@@ -346,14 +351,20 @@ export class WindowPanelUI {
      * Close the connected window
      */
     closeWindow() {
-        if (this.connectedWindowRef && !this.connectedWindowRef.closed) {
+        if (this.connectedWindowRef) {
+            // Save ref locally — unregisterWindow publishes window:disconnected
+            // which synchronously nulls this.connectedWindowRef via handleWindowDisconnected
+            const windowRef = this.connectedWindowRef;
+            this.connectedWindowRef = null;
+
             // Notify adapter that window is disconnecting
             if (this.isConnected && window.windowAdapterCore) {
                 window.windowAdapterCore.unregisterWindow(this.windowId);
             }
-            
-            this.connectedWindowRef.close();
-            this.connectedWindowRef = null;
+
+            if (!windowRef.closed) {
+                windowRef.close();
+            }
         }
         
         this.isConnected = false;
@@ -367,10 +378,10 @@ export class WindowPanelUI {
         this.updateWindowInfo();
         
         // Publish window closed event
-        if (moduleEventBus) {
-            moduleEventBus.publish('windowPanel:closed', { 
-                panelId: this.container?.id 
-            }, 'windowPanel');
+        if (this.eventBus) {
+            this.eventBus.publish('windowPanel:closed', {
+                panelId: this.container?.id
+            });
         }
     }
 
@@ -405,12 +416,12 @@ export class WindowPanelUI {
         this.updateStatus('Error with window');
         
         // Publish error event
-        if (moduleEventBus) {
-            moduleEventBus.publish('windowPanel:error', { 
+        if (this.eventBus) {
+            this.eventBus.publish('windowPanel:error', {
                 panelId: this.container?.id,
                 error: errorMessage,
                 windowId: this.windowId
-            }, 'windowPanel');
+            });
         }
     }
 
@@ -482,12 +493,12 @@ export class WindowPanelUI {
         }
         
         // Publish connected event
-        log('debug', `Attempting to publish windowPanel:connected event. moduleEventBus available: ${moduleEventBus !== null}`);
-        if (moduleEventBus) {
-            moduleEventBus.publish('windowPanel:connected', { 
+        log('debug', `Attempting to publish windowPanel:connected event. eventBus available: ${this.eventBus !== null}`);
+        if (this.eventBus) {
+            this.eventBus.publish('windowPanel:connected', {
                 panelId: this.container?.id,
                 windowId: this.windowId
-            }, 'windowPanel');
+            });
         }
     }
 

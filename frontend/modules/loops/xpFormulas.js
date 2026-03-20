@@ -50,7 +50,7 @@ export function calculateXPGain(
   let baseXP = baseCost;
 
   // If in farming mode (fully explored region), apply 4x multiplier
-  if (actionType === 'explore' && isFarmingMode) {
+  if (actionType === 'customAction' && isFarmingMode) {
     return baseXP * 4;
   }
 

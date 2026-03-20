@@ -10,12 +10,13 @@ from collections import defaultdict, deque
 class ProofStatement:
     """Represents a single statement in a metamath proof."""
 
-    def __init__(self, index: int, label: Optional[str], expression: str, dependencies: List[int], full_text: Optional[str] = None):
+    def __init__(self, index: int, label: Optional[str], expression: str, dependencies: List[int], full_text: Optional[str] = None, instantiated_expression: Optional[str] = None):
         self.index = index  # Statement number (1-based)
         self.label = label  # Optional theorem/axiom name
         self.expression = expression  # The mathematical expression
         self.dependencies = dependencies  # List of statement indices this depends on
         self.full_text = full_text  # Full text description of the statement (if available)
+        self.instantiated_expression = instantiated_expression  # Concrete expression from proof verification
 
 class ProofStructure:
     """
@@ -59,33 +60,66 @@ class ProofStructure:
                     provable.add(stmt_index)
         return provable
 
-def set_metamath_rules(world, proof_structure: ProofStructure):
-    """Set access rules for metamath regions based on proof dependencies."""
+def set_metamath_rules(world, proof_structure: ProofStructure, entrance_rule_mode: int = 1):
+    """Set access rules for metamath regions based on proof dependencies.
+
+    entrance_rule_mode is a 2-bit field (bit 0 = relaxed items, bit 1 = relaxed events):
+        0 (strict):         All events + all items required for every entrance.
+        1 (relaxed_items):  All events required, but only source step's item.
+        2 (relaxed_events): All items required, but only source step's event.
+        3 (fully_relaxed):  Only source step's event and item required.
+    """
     player = world.player
+    relax_items = bool(entrance_rule_mode & 1)
+    relax_events = bool(entrance_rule_mode & 2)
 
-    # Set access rules on locations and entrances based on dependencies
+    # Use the world's reverse lookup to map region names back to statement indices
+    region_name_to_index = getattr(world, '_region_name_to_index', {})
+
+    # Set access rules on entrances based on dependencies
     for region in world.multiworld.get_regions(player):
-        if region.name.startswith("Prove Statement "):
-            # Extract statement number from region name
-            stmt_num = int(region.name.split()[-1])
+        stmt_num = region_name_to_index.get(region.name)
+        if stmt_num is None:
+            continue
 
-            if stmt_num in proof_structure.dependency_graph:
-                dependencies = proof_structure.dependency_graph[stmt_num]
+        if stmt_num in proof_structure.dependency_graph:
+            dependencies = proof_structure.dependency_graph[stmt_num]
 
-                if dependencies:  # Only set rule if there are dependencies
-                    # Create a set of item names for this statement's dependencies
-                    item_names = {f"Statement {d}" for d in dependencies}
-
-                    # Create the access rule lambda
-                    access_rule = lambda state, p=player, items=item_names: state.has_all(items, p)
-
-                    # Set access rules on all locations in this region
-                    for location in region.locations:
-                        add_rule(location, access_rule)
-
-                    # Also set the same access rules on all entrances to this region
-                    # This ensures you can't even enter the region without the required items
+            if dependencies:
+                if not relax_items and not relax_events:
+                    # Strict: one shared rule with all events + all items
+                    required_names = frozenset(
+                        name
+                        for d in dependencies
+                        for name in (world.get_item_name(d), f"Proved Statement {d}")
+                    )
+                    access_rule = lambda state, p=player, items=required_names: state.has_all(items, p)
                     for entrance in region.entrances:
+                        add_rule(entrance, access_rule)
+                else:
+                    # Per-entrance rules based on source node
+                    for entrance in region.entrances:
+                        source_index = region_name_to_index.get(entrance.parent_region.name)
+                        is_valid_source = source_index is not None and source_index in dependencies
+
+                        required_names = set()
+
+                        # Events: source only if relaxed, all otherwise
+                        if relax_events and is_valid_source:
+                            required_names.add(f"Proved Statement {source_index}")
+                        else:
+                            for d in dependencies:
+                                required_names.add(f"Proved Statement {d}")
+
+                        # Items: source only if relaxed, all otherwise
+                        if relax_items and is_valid_source:
+                            required_names.add(world.get_item_name(source_index))
+                        else:
+                            for d in dependencies:
+                                required_names.add(world.get_item_name(d))
+
+                        required_names = frozenset(required_names)
+                        access_rule = lambda state, p=player, items=required_names: state.has_all(items, p)
                         add_rule(entrance, access_rule)
 
 def download_metamath_database(target_path: str) -> bool:
@@ -218,7 +252,7 @@ def topological_sort_proof(ordered_steps: List[str], dependencies: Dict[str, Set
     # Return sorted order if successful, otherwise original order
     return result if len(result) == len(ordered_steps) else ordered_steps
 
-def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[str, Set[str]]]:
+def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[str, List[str]], Dict[str, str]]:
     """
     Extract proof steps and dependencies using metamath-py's proof verification.
 
@@ -227,11 +261,12 @@ def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[s
         theorem_name: Name of the theorem to analyze
 
     Returns:
-        Tuple of (ordered list of proof steps, dependency dictionary)
+        Tuple of (ordered list of proof steps, dependency dictionary, conclusions dictionary)
+        The conclusions dict maps label -> instantiated expression string from proof verification.
     """
     if theorem_name not in db.rules:
         print(f"Warning: Theorem {theorem_name} not found in database")
-        return [], {}
+        return [], {}, {}
 
     rule = db.rules[theorem_name]
 
@@ -244,6 +279,7 @@ def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[s
 
         # Build dependency graph
         dependencies = {}
+        conclusions = {}
         ordered_steps = []
         seen = set()
 
@@ -259,22 +295,26 @@ def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[s
                     seen.add(label)
                     ordered_steps.append(label)
 
-                    # Extract dependencies for this step
-                    deps = set()
+                    # Extract dependencies for this step (preserving duplicates)
+                    deps = []
                     for dep_label, dep_step in step.dependencies.items():
                         if hasattr(dep_step.rule, 'consequent'):
                             dep_name = dep_step.rule.consequent.label
                             # Only include non-constant, non-hypothesis dependencies
                             if not dep_name.startswith('c') and not dep_name.startswith('w'):
-                                deps.add(dep_name)
+                                deps.append(dep_name)
 
                     dependencies[label] = deps
 
-        return ordered_steps, dependencies
+                    # Capture instantiated expression from proof verification
+                    if hasattr(step, 'conclusion') and step.conclusion:
+                        conclusions[label] = ' '.join(step.conclusion)
+
+        return ordered_steps, dependencies, conclusions
 
     except Exception as e:
         print(f"Error verifying proof for {theorem_name}: {e}")
-        return [], {}
+        return [], {}, {}
 
 def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str] = None) -> ProofStructure:
     """
@@ -284,7 +324,7 @@ def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str
     structure = ProofStructure()
 
     # Extract dependencies using proof verification
-    ordered_steps, dependencies = extract_proof_dependencies(db, theorem_name)
+    ordered_steps, dependencies, conclusions = extract_proof_dependencies(db, theorem_name)
 
     if not ordered_steps:
         # Fallback: create a single-step proof if extraction failed
@@ -293,7 +333,7 @@ def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str
             expression = ' '.join(stmt.tokens)
             full_text = None
             if descriptions and theorem_name in descriptions:
-                full_text = f"{theorem_name}: {descriptions[theorem_name]} ({expression})"
+                full_text = f"{theorem_name}: {descriptions[theorem_name]}"
             else:
                 full_text = f"{theorem_name}: {expression}"
             structure.add_statement(ProofStatement(
@@ -333,21 +373,25 @@ def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str
         # Get full text description if available
         full_text = None
         if descriptions and label in descriptions:
-            full_text = f"{label}: {descriptions[label]} ({expression})"
+            full_text = f"{label}: {descriptions[label]}"
         elif label in db.statements:
             # If no description, use label and expression
             full_text = f"{label}: {expression}"
 
         # Convert label dependencies to index dependencies
-        label_deps = dependencies.get(label, set())
+        label_deps = dependencies.get(label, [])
         index_deps = [label_to_index[dep] for dep in label_deps if dep in label_to_index]
+
+        # Get instantiated expression from proof verification (if available)
+        inst_expr = conclusions.get(label)
 
         structure.add_statement(ProofStatement(
             index=i,
             label=label,
             expression=expression,
             dependencies=index_deps,
-            full_text=full_text
+            full_text=full_text,
+            instantiated_expression=inst_expr
         ))
 
     return structure
@@ -361,16 +405,16 @@ def get_hardcoded_2p2e4_proof() -> ProofStructure:
 
     # The actual 2p2e4 proof structure based on metamath with descriptions
     steps = [
-        (1, 'df-2', '2 = (1 + 1)', [], 'df-2: Define the number 2. (2 = (1 + 1))'),
-        (2, 'df-3', '3 = (2 + 1)', [], 'df-3: Define the number 3. (3 = (2 + 1))'),
-        (3, 'df-4', '4 = (3 + 1)', [], 'df-4: Define the number 4. (4 = (3 + 1))'),
-        (4, 'ax-1cn', '1 ∈ ℂ', [], 'ax-1cn: 1 is a complex number. (1 ∈ ℂ)'),
-        (5, '2cn', '2 ∈ ℂ', [], '2cn: 2 is a complex number. (2 ∈ ℂ)'),
-        (6, 'oveq2i', '(2 + 2) = (2 + (1 + 1))', [1], 'oveq2i: Equality of operation value. ((2 + 2) = (2 + (1 + 1)))'),  # Depends on df-2
-        (7, 'oveq1i', '(3 + 1) = ((2 + 1) + 1)', [2], 'oveq1i: Equality of operation value. ((3 + 1) = ((2 + 1) + 1))'),  # Depends on df-3
-        (8, 'addassi', '((2 + 1) + 1) = (2 + (1 + 1))', [4, 5], 'addassi: Associative law for addition. (((2 + 1) + 1) = (2 + (1 + 1)))'),  # Depends on ax-1cn and 2cn
-        (9, '3eqtri', '4 = (2 + (1 + 1))', [3, 7, 8], '3eqtri: Transitive equality. (4 = (2 + (1 + 1)))'),  # Depends on df-4, oveq1i, addassi
-        (10, 'eqtr4i', '(2 + 2) = 4', [6, 9], 'eqtr4i: Transitive equality. ((2 + 2) = 4)')  # Final step depends on oveq2i and 3eqtri
+        (1, 'df-2', '2 = (1 + 1)', [], 'df-2: Define the number 2.'),
+        (2, 'df-3', '3 = (2 + 1)', [], 'df-3: Define the number 3.'),
+        (3, 'df-4', '4 = (3 + 1)', [], 'df-4: Define the number 4.'),
+        (4, 'ax-1cn', '1 ∈ ℂ', [], 'ax-1cn: 1 is a complex number.'),
+        (5, '2cn', '2 ∈ ℂ', [], '2cn: 2 is a complex number.'),
+        (6, 'oveq2i', '(2 + 2) = (2 + (1 + 1))', [1], 'oveq2i: Equality of operation value.'),  # Depends on df-2
+        (7, 'oveq1i', '(3 + 1) = ((2 + 1) + 1)', [2], 'oveq1i: Equality of operation value.'),  # Depends on df-3
+        (8, 'addassi', '((2 + 1) + 1) = (2 + (1 + 1))', [5, 4, 4], 'addassi: Associative law for addition.'),  # Depends on 2cn, ax-1cn, ax-1cn
+        (9, '3eqtri', '4 = (2 + (1 + 1))', [3, 7, 8], '3eqtri: Transitive equality.'),  # Depends on df-4, oveq1i, addassi
+        (10, 'eqtr4i', '(2 + 2) = 4', [6, 9], 'eqtr4i: Transitive equality.')  # Final step depends on oveq2i and 3eqtri
     ]
 
     for index, label, expression, dependencies, full_text in steps:

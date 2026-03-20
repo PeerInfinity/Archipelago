@@ -1,5 +1,7 @@
 // iframeManagerPanel module entry point
 import { IframeManagerUI } from './iframeManagerUI.js';
+import eventBus from '../../app/core/eventBus.js';
+import { knownIframePages } from '../../app/config/knownIframePages.js';
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -24,7 +26,7 @@ function log(level, message, ...data) {
 
 // Store module-level references
 let moduleEventBus = null;
-const moduleId = 'iframeManagerPanel';
+let moduleId = 'iframeManagerPanel';
 
 export async function register(registrationApi) {
     log('info', `[${moduleId} Module] Registering...`);
@@ -48,13 +50,7 @@ export async function register(registrationApi) {
     registrationApi.registerSettingsSchema(moduleId, {
         knownPages: {
             type: 'array',
-            default: [
-                {
-                    name: "Text Adventure (Standalone)",
-                    url: "./modules/textAdventure-remote/index-iframe.html",
-                    description: "Interactive text adventure running in iframe"
-                }
-            ],
+            default: knownIframePages.map(({ name, url, description }) => ({ name, url, description })),
             description: 'List of known iframe applications'
         },
         allowCustomUrls: {
@@ -68,13 +64,26 @@ export async function register(registrationApi) {
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store API references
     moduleEventBus = initializationApi.getEventBus();
     
     log('info', `[${moduleId} Module] Initialization complete.`);
 }
 
-// Export eventBus for use by UI components
-export { moduleEventBus };
+// Export eventBus getter for use by UI components
+export function getModuleEventBus() {
+  if (moduleEventBus) return moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'iframeManagerPanel'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'iframeManagerPanel'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'iframeManagerPanel'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}

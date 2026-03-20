@@ -1,0 +1,2248 @@
+{
+  "schema_version": 3,
+  "game_name": "Coding Adventure WorldGen",
+  "game_directory": "codingadventure_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "StartLearning",
+            "connected_region": "LearningHub",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "LearningHub": {
+        "name": "LearningHub",
+        "exits": [
+          {
+            "name": "ToVisualPath",
+            "connected_region": "VisualPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToLogicPath",
+            "connected_region": "LogicPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToServerPath",
+            "connected_region": "ServerPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToToolsPath",
+            "connected_region": "ToolsPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToStaticWebsite",
+            "connected_region": "StaticWebsiteHub",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "HasAny",
+                  "args": {
+                    "items": [
+                      "Git",
+                      "JavaScript Basics",
+                      "Server Basics"
+                    ]
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "CSS",
+                      "HTML"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "VisualPath": {
+        "name": "VisualPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn HTML",
+            "id": 400000001,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "HTML",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn CSS",
+            "id": 400000002,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "HTML"
+              }
+            },
+            "item": {
+              "name": "CSS",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn Design Systems",
+            "id": 400000003,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "CSS"
+              }
+            },
+            "item": {
+              "name": "Design Systems",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "LogicPath": {
+        "name": "LogicPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn JavaScript",
+            "id": 400000004,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "JavaScript Basics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn DOM Manipulation",
+            "id": 400000005,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "JavaScript Basics"
+              }
+            },
+            "item": {
+              "name": "DOM Manipulation",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn Algorithms",
+            "id": 400000006,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "JavaScript Basics"
+              }
+            },
+            "item": {
+              "name": "Algorithms",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ServerPath": {
+        "name": "ServerPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Choose Server Language",
+            "id": 400000007,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Server Basics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn File I/O",
+            "id": 400000008,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Server Basics"
+              }
+            },
+            "item": {
+              "name": "File I/O",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn HTTP Basics",
+            "id": 400000009,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Server Basics"
+              }
+            },
+            "item": {
+              "name": "HTTP Basics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ToolsPath": {
+        "name": "ToolsPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Git",
+            "id": 400000010,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Git",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn Command Line",
+            "id": 400000011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Command Line",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn Package Managers",
+            "id": 400000012,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Command Line"
+              }
+            },
+            "item": {
+              "name": "Package Managers",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "StaticWebsiteHub": {
+        "name": "StaticWebsiteHub",
+        "exits": [
+          {
+            "name": "ToFrontendTrack",
+            "connected_region": "FrontendTrack",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToBackendTrack",
+            "connected_region": "BackendTrack",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToDesignTrack",
+            "connected_region": "DesignTrack",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToDataTrack",
+            "connected_region": "DataTrack",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToInteractiveApp",
+            "connected_region": "InteractiveAppHub",
+            "access_rule": {
+              "rule": "Or",
+              "children": [
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Database Basics",
+                      "State Management"
+                    ]
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Frontend Framework",
+                      "REST APIs"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Static Website Milestone",
+            "id": 400000013,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Static Website Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "FrontendTrack": {
+        "name": "FrontendTrack",
+        "exits": [
+          {
+            "name": "ToReactRoute",
+            "connected_region": "ReactRoute",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "DOM Manipulation"
+              }
+            }
+          },
+          {
+            "name": "ToVueRoute",
+            "connected_region": "VueRoute",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToVanillaRoute",
+            "connected_region": "VanillaRoute",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Algorithms"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ReactRoute": {
+        "name": "ReactRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn React",
+            "id": 400000014,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "React",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "React Components",
+            "id": 400000015,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "React"
+              }
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Redux",
+            "id": 400000016,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Frontend Framework"
+              }
+            },
+            "item": {
+              "name": "State Management",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "VueRoute": {
+        "name": "VueRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Vue",
+            "id": 400000017,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Vue",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Vue Components",
+            "id": 400000018,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Vue"
+              }
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Vuex",
+            "id": 400000019,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Frontend Framework"
+              }
+            },
+            "item": {
+              "name": "State Management",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "VanillaRoute": {
+        "name": "VanillaRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Advanced Vanilla JS",
+            "id": 400000020,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Frontend Framework",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Custom State System",
+            "id": 400000021,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Frontend Framework"
+              }
+            },
+            "item": {
+              "name": "State Management",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "BackendTrack": {
+        "name": "BackendTrack",
+        "exits": [
+          {
+            "name": "ToExpressRoute",
+            "connected_region": "ExpressRoute",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "JavaScript Basics"
+              }
+            }
+          },
+          {
+            "name": "ToDjangoRoute",
+            "connected_region": "DjangoRoute",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Server Basics"
+              }
+            }
+          },
+          {
+            "name": "ToFlaskRoute",
+            "connected_region": "FlaskRoute",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Server Basics"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ExpressRoute": {
+        "name": "ExpressRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Express",
+            "id": 400000022,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Express",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Build REST APIs",
+            "id": 400000023,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Express"
+              }
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "MongoDB Integration",
+            "id": 400000024,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "REST APIs"
+              }
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "DjangoRoute": {
+        "name": "DjangoRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Django",
+            "id": 400000025,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Django",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Django REST Framework",
+            "id": 400000026,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Django"
+              }
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Django ORM",
+            "id": 400000027,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "REST APIs"
+              }
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "FlaskRoute": {
+        "name": "FlaskRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn Flask",
+            "id": 400000028,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Flask",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flask-RESTful",
+            "id": 400000029,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Flask"
+              }
+            },
+            "item": {
+              "name": "REST APIs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "SQLAlchemy",
+            "id": 400000030,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "REST APIs"
+              }
+            },
+            "item": {
+              "name": "Database Integration",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "DesignTrack": {
+        "name": "DesignTrack",
+        "exits": [],
+        "locations": [
+          {
+            "name": "UI/UX Principles",
+            "id": 400000031,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Design Systems"
+              }
+            },
+            "item": {
+              "name": "UI/UX",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Responsive Design",
+            "id": 400000032,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "UI/UX"
+              }
+            },
+            "item": {
+              "name": "Responsive Design",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Accessibility",
+            "id": 400000033,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Responsive Design"
+              }
+            },
+            "item": {
+              "name": "Accessibility",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "DataTrack": {
+        "name": "DataTrack",
+        "exits": [
+          {
+            "name": "ToSQLRoute",
+            "connected_region": "SQLRoute",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToNoSQLRoute",
+            "connected_region": "NoSQLRoute",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "SQLRoute": {
+        "name": "SQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn SQL",
+            "id": 400000034,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "SQL",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "PostgreSQL",
+            "id": 400000035,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "SQL"
+              }
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Query Optimization",
+            "id": 400000036,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Database Basics"
+              }
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "NoSQLRoute": {
+        "name": "NoSQLRoute",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Learn NoSQL",
+            "id": 400000037,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "NoSQL",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "MongoDB",
+            "id": 400000038,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "NoSQL"
+              }
+            },
+            "item": {
+              "name": "Database Basics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Indexing Strategies",
+            "id": 400000039,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Database Basics"
+              }
+            },
+            "item": {
+              "name": "Query Optimization",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "InteractiveAppHub": {
+        "name": "InteractiveAppHub",
+        "exits": [
+          {
+            "name": "ToAuthPath",
+            "connected_region": "AuthPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToPerfPath",
+            "connected_region": "PerfPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToTestPath",
+            "connected_region": "TestPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToDevOpsPath",
+            "connected_region": "DevOpsPath",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToFullStackHub",
+            "connected_region": "FullStackHub",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Or",
+                  "children": [
+                    {
+                      "rule": "HasAll",
+                      "args": {
+                        "items": [
+                          "DevOps",
+                          "Performance"
+                        ]
+                      }
+                    },
+                    {
+                      "rule": "HasAll",
+                      "args": {
+                        "items": [
+                          "DevOps",
+                          "Testing"
+                        ]
+                      }
+                    },
+                    {
+                      "rule": "HasAll",
+                      "args": {
+                        "items": [
+                          "Performance",
+                          "Testing"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Authentication"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Interactive App Milestone",
+            "id": 400000040,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Interactive App Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "AuthPath": {
+        "name": "AuthPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sessions",
+            "id": 400000041,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "HTTP Basics"
+              }
+            },
+            "item": {
+              "name": "Sessions",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "JWT",
+            "id": 400000042,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Sessions"
+              }
+            },
+            "item": {
+              "name": "JWT",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "OAuth",
+            "id": 400000043,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "JWT"
+              }
+            },
+            "item": {
+              "name": "Authentication",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "PerfPath": {
+        "name": "PerfPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Caching",
+            "id": 400000044,
+            "access_rule": {
+              "rule": "HasAny",
+              "args": {
+                "items": [
+                  "Database Basics",
+                  "REST APIs"
+                ]
+              }
+            },
+            "item": {
+              "name": "Caching",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CDN",
+            "id": 400000045,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Caching"
+              }
+            },
+            "item": {
+              "name": "CDN",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Load Balancing",
+            "id": 400000046,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "CDN"
+              }
+            },
+            "item": {
+              "name": "Performance",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "TestPath": {
+        "name": "TestPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Unit Tests",
+            "id": 400000047,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Unit Tests",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Integration Tests",
+            "id": 400000048,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Unit Tests"
+              }
+            },
+            "item": {
+              "name": "Integration Tests",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "E2E Tests",
+            "id": 400000049,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Integration Tests"
+              }
+            },
+            "item": {
+              "name": "Testing",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "DevOpsPath": {
+        "name": "DevOpsPath",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Docker",
+            "id": 400000050,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Command Line"
+              }
+            },
+            "item": {
+              "name": "Docker",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CI/CD",
+            "id": 400000051,
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Docker",
+                  "Git"
+                ]
+              }
+            },
+            "item": {
+              "name": "CI/CD",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Monitoring",
+            "id": 400000052,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "CI/CD"
+              }
+            },
+            "item": {
+              "name": "DevOps",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "FullStackHub": {
+        "name": "FullStackHub",
+        "exits": [
+          {
+            "name": "ToSecurityBranch",
+            "connected_region": "SecurityBranch",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToScalingBranch",
+            "connected_region": "ScalingBranch",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToDeploymentBranch",
+            "connected_region": "DeploymentBranch",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "ToProduction",
+            "connected_region": "ProductionHub",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Deployment Complete",
+                  "Scaling Complete",
+                  "Security Complete"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Full-Stack Integration Milestone",
+            "id": 400000053,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Full-Stack Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "SecurityBranch": {
+        "name": "SecurityBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "HTTPS",
+            "id": 400000054,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "HTTPS",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CORS",
+            "id": 400000055,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "HTTPS"
+              }
+            },
+            "item": {
+              "name": "CORS",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Input Validation",
+            "id": 400000056,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "CORS"
+              }
+            },
+            "item": {
+              "name": "Security Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ScalingBranch": {
+        "name": "ScalingBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Horizontal Scaling",
+            "id": 400000057,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Performance"
+              }
+            },
+            "item": {
+              "name": "Horizontal Scaling",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Microservices",
+            "id": 400000058,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Horizontal Scaling"
+              }
+            },
+            "item": {
+              "name": "Scaling Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "DeploymentBranch": {
+        "name": "DeploymentBranch",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cloud Provider",
+            "id": 400000059,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "DevOps"
+              }
+            },
+            "item": {
+              "name": "Cloud Provider",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Domain Setup",
+            "id": 400000060,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Cloud Provider"
+              }
+            },
+            "item": {
+              "name": "Domain",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "SSL Certificate",
+            "id": 400000061,
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Domain",
+                  "HTTPS"
+                ]
+              }
+            },
+            "item": {
+              "name": "Deployment Complete",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ProductionHub": {
+        "name": "ProductionHub",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Production Deployment",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "HTML": {
+        "name": "HTML",
+        "id": 400100001,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "CSS": {
+        "name": "CSS",
+        "id": 400100002,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Design Systems": {
+        "name": "Design Systems",
+        "id": 400100003,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "JavaScript Basics": {
+        "name": "JavaScript Basics",
+        "id": 400100004,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "DOM Manipulation": {
+        "name": "DOM Manipulation",
+        "id": 400100005,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Algorithms": {
+        "name": "Algorithms",
+        "id": 400100006,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Server Basics": {
+        "name": "Server Basics",
+        "id": 400100007,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "File I/O": {
+        "name": "File I/O",
+        "id": 400100008,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "HTTP Basics": {
+        "name": "HTTP Basics",
+        "id": 400100009,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Git": {
+        "name": "Git",
+        "id": 400100010,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Command Line": {
+        "name": "Command Line",
+        "id": 400100011,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Package Managers": {
+        "name": "Package Managers",
+        "id": 400100012,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Static Website Complete": {
+        "name": "Static Website Complete",
+        "id": 400100013,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "React": {
+        "name": "React",
+        "id": 400100014,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Vue": {
+        "name": "Vue",
+        "id": 400100015,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Frontend Framework": {
+        "name": "Frontend Framework",
+        "id": 400100016,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "State Management": {
+        "name": "State Management",
+        "id": 400100017,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Express": {
+        "name": "Express",
+        "id": 400100018,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Django": {
+        "name": "Django",
+        "id": 400100019,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Flask": {
+        "name": "Flask",
+        "id": 400100020,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "REST APIs": {
+        "name": "REST APIs",
+        "id": 400100021,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Database Integration": {
+        "name": "Database Integration",
+        "id": 400100022,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "UI/UX": {
+        "name": "UI/UX",
+        "id": 400100023,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Responsive Design": {
+        "name": "Responsive Design",
+        "id": 400100024,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Accessibility": {
+        "name": "Accessibility",
+        "id": 400100025,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "SQL": {
+        "name": "SQL",
+        "id": 400100026,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "NoSQL": {
+        "name": "NoSQL",
+        "id": 400100027,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Database Basics": {
+        "name": "Database Basics",
+        "id": 400100028,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Query Optimization": {
+        "name": "Query Optimization",
+        "id": 400100029,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Interactive App Complete": {
+        "name": "Interactive App Complete",
+        "id": 400100030,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Sessions": {
+        "name": "Sessions",
+        "id": 400100031,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "JWT": {
+        "name": "JWT",
+        "id": 400100032,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Authentication": {
+        "name": "Authentication",
+        "id": 400100033,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Caching": {
+        "name": "Caching",
+        "id": 400100034,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "CDN": {
+        "name": "CDN",
+        "id": 400100035,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Performance": {
+        "name": "Performance",
+        "id": 400100036,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Unit Tests": {
+        "name": "Unit Tests",
+        "id": 400100037,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Integration Tests": {
+        "name": "Integration Tests",
+        "id": 400100038,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Testing": {
+        "name": "Testing",
+        "id": 400100039,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Docker": {
+        "name": "Docker",
+        "id": 400100040,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "CI/CD": {
+        "name": "CI/CD",
+        "id": 400100041,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "DevOps": {
+        "name": "DevOps",
+        "id": 400100042,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Full-Stack Complete": {
+        "name": "Full-Stack Complete",
+        "id": 400100043,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1,
+        "hint_text": "Full Stack Complete"
+      },
+      "HTTPS": {
+        "name": "HTTPS",
+        "id": 400100044,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "CORS": {
+        "name": "CORS",
+        "id": 400100045,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Security Complete": {
+        "name": "Security Complete",
+        "id": 400100046,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Horizontal Scaling": {
+        "name": "Horizontal Scaling",
+        "id": 400100047,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Scaling Complete": {
+        "name": "Scaling Complete",
+        "id": 400100048,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloud Provider": {
+        "name": "Cloud Provider",
+        "id": 400100049,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Domain": {
+        "name": "Domain",
+        "id": 400100050,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Deployment Complete": {
+        "name": "Deployment Complete",
+        "id": 400100051,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Accessibility": 1,
+      "Algorithms": 1,
+      "Authentication": 1,
+      "CDN": 1,
+      "CI/CD": 1,
+      "CORS": 1,
+      "CSS": 1,
+      "Caching": 1,
+      "Cloud Provider": 1,
+      "Command Line": 1,
+      "DOM Manipulation": 1,
+      "Database Basics": 2,
+      "Database Integration": 3,
+      "Deployment Complete": 1,
+      "Design Systems": 1,
+      "DevOps": 1,
+      "Django": 1,
+      "Docker": 1,
+      "Domain": 1,
+      "Express": 1,
+      "File I/O": 1,
+      "Flask": 1,
+      "Frontend Framework": 3,
+      "Full-Stack Complete": 1,
+      "Git": 1,
+      "HTML": 1,
+      "HTTP Basics": 1,
+      "HTTPS": 1,
+      "Horizontal Scaling": 1,
+      "Integration Tests": 1,
+      "Interactive App Complete": 1,
+      "JWT": 1,
+      "JavaScript Basics": 1,
+      "NoSQL": 1,
+      "Package Managers": 1,
+      "Performance": 1,
+      "Query Optimization": 2,
+      "REST APIs": 3,
+      "React": 1,
+      "Responsive Design": 1,
+      "SQL": 1,
+      "Scaling Complete": 1,
+      "Security Complete": 1,
+      "Server Basics": 1,
+      "Sessions": 1,
+      "State Management": 3,
+      "Static Website Complete": 1,
+      "Testing": 1,
+      "UI/UX": 1,
+      "Unit Tests": 1,
+      "Victory": 1,
+      "Vue": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Learn HTML": "HTML",
+      "Learn CSS": "CSS",
+      "Learn Design Systems": "Design Systems",
+      "Learn JavaScript": "JavaScript Basics",
+      "Learn DOM Manipulation": "DOM Manipulation",
+      "Learn Algorithms": "Algorithms",
+      "Choose Server Language": "Server Basics",
+      "Learn File I/O": "File I/O",
+      "Learn HTTP Basics": "HTTP Basics",
+      "Learn Git": "Git",
+      "Learn Command Line": "Command Line",
+      "Learn Package Managers": "Package Managers",
+      "Static Website Milestone": "Static Website Complete",
+      "Learn React": "React",
+      "Advanced Vanilla JS": "Frontend Framework",
+      "React Components": "Frontend Framework",
+      "Vue Components": "Frontend Framework",
+      "Custom State System": "State Management",
+      "Redux": "State Management",
+      "Vuex": "State Management",
+      "Learn Vue": "Vue",
+      "Learn Express": "Express",
+      "Build REST APIs": "REST APIs",
+      "Django REST Framework": "REST APIs",
+      "Flask-RESTful": "REST APIs",
+      "Django ORM": "Database Integration",
+      "MongoDB Integration": "Database Integration",
+      "SQLAlchemy": "Database Integration",
+      "Learn Django": "Django",
+      "Learn Flask": "Flask",
+      "UI/UX Principles": "UI/UX",
+      "Responsive Design": "Responsive Design",
+      "Accessibility": "Accessibility",
+      "Learn SQL": "SQL",
+      "MongoDB": "Database Basics",
+      "PostgreSQL": "Database Basics",
+      "Indexing Strategies": "Query Optimization",
+      "Query Optimization": "Query Optimization",
+      "Learn NoSQL": "NoSQL",
+      "Interactive App Milestone": "Interactive App Complete",
+      "Sessions": "Sessions",
+      "JWT": "JWT",
+      "OAuth": "Authentication",
+      "Caching": "Caching",
+      "CDN": "CDN",
+      "Load Balancing": "Performance",
+      "Unit Tests": "Unit Tests",
+      "Integration Tests": "Integration Tests",
+      "E2E Tests": "Testing",
+      "Docker": "Docker",
+      "CI/CD": "CI/CD",
+      "Monitoring": "DevOps",
+      "Full-Stack Integration Milestone": "Full-Stack Complete",
+      "HTTPS": "HTTPS",
+      "CORS": "CORS",
+      "Input Validation": "Security Complete",
+      "Horizontal Scaling": "Horizontal Scaling",
+      "Microservices": "Scaling Complete",
+      "Cloud Provider": "Cloud Provider",
+      "Domain Setup": "Domain",
+      "SSL Certificate": "Deployment Complete"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Coding Adventure WorldGen",
+      "world_class_name": "CodingAdventureWorld",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "use_canonical_options": true,
+        "vanilla_placement": false
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        },
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Item Placement"
+        }
+      },
+      "world_description": "Coding Adventure is an educational game that takes you through the complete journey\nof becoming a web developer, from learning HTML/CSS basics to deploying\nproduction-ready full-stack applications.",
+      "web": {
+        "theme": "ocean",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Coding Adventure for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "codingadventure_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
+      }
+    }
+  },
+  "helpers": {},
+  "is_canonical": true
+}

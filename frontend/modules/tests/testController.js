@@ -1,6 +1,6 @@
 // frontend/modules/tests/testController.js
 import { stateManagerProxySingleton } from '../stateManager/index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
 // --- TestController Class ---
@@ -92,7 +92,7 @@ export class TestController {
     switch (actionDetails.type) {
       case 'DISPATCH_EVENT':
         if (this.eventBus) {
-          this.eventBus.publish(actionDetails.eventName, actionDetails.payload, 'tests');
+          this.eventBus.publish(actionDetails.eventName, actionDetails.payload);
         } else {
           this.log(
             'Error: eventBus not available for DISPATCH_EVENT.',
@@ -218,7 +218,7 @@ export class TestController {
         const snapshot = this.stateManager.getSnapshot();
         const staticData = this.stateManager.getStaticData();
         if (snapshot && staticData && actionDetails.locationName) {
-          const snapshotInterface = createStateSnapshotInterface(
+          const snapshotInterface = createSnapshotInterface(
             snapshot,
             staticData
           );
@@ -594,6 +594,185 @@ export class TestController {
         }
         return; // This action is for setup
 
+      // === Loop-specific actions ===
+      case 'GET_LOOP_STATE': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState) {
+            this.log('LoopState singleton not available', 'warn');
+            return null;
+          }
+          result = {
+            mana: loopState.getCurrentMana?.() ?? 0,
+            maxMana: loopState.getMaxMana?.() ?? 100,
+            isPaused: loopState.isPaused ?? true,
+            isProcessing: loopState.isProcessing ?? false,
+            gameSpeed: loopState.gameSpeed ?? 1,
+            loopCount: loopState.loopCount ?? 0,
+            totalXP: loopState.totalXP ?? 0,
+            actionsCompleted: loopState.actionsCompleted ?? 0,
+          };
+          this.log(`GET_LOOP_STATE result: ${JSON.stringify(result)}`);
+        } catch (error) {
+          this.log(`Error getting loop state: ${error.message}`, 'error');
+          result = null;
+        }
+        break;
+      }
+
+      case 'SET_LOOP_SPEED': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.setGameSpeed !== 'function') {
+            throw new Error('LoopState.setGameSpeed not available');
+          }
+          const speed = actionDetails.speed ?? 1;
+          loopState.setGameSpeed(speed);
+          this.log(`SET_LOOP_SPEED: speed set to ${speed}`);
+          result = true;
+        } catch (error) {
+          this.log(`Error setting loop speed: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'LOOP_START_PROCESSING': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.startProcessing !== 'function') {
+            throw new Error('LoopState.startProcessing not available');
+          }
+          loopState.startProcessing();
+          this.log('LOOP_START_PROCESSING: processing started');
+          result = true;
+        } catch (error) {
+          this.log(`Error starting loop processing: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'LOOP_STOP_PROCESSING': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.stopProcessing !== 'function') {
+            throw new Error('LoopState.stopProcessing not available');
+          }
+          loopState.stopProcessing();
+          this.log('LOOP_STOP_PROCESSING: processing stopped');
+          result = true;
+        } catch (error) {
+          this.log(`Error stopping loop processing: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'LOOP_SET_PAUSED': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.setPaused !== 'function') {
+            throw new Error('LoopState.setPaused not available');
+          }
+          const paused = actionDetails.paused ?? true;
+          loopState.setPaused(paused);
+          this.log(`LOOP_SET_PAUSED: paused set to ${paused}`);
+          result = true;
+        } catch (error) {
+          this.log(`Error setting loop paused state: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'LOOP_HARD_RESET': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.hardReset !== 'function') {
+            throw new Error('LoopState.hardReset not available');
+          }
+          await loopState.hardReset();
+          this.log('LOOP_HARD_RESET: loop state reset');
+          result = true;
+        } catch (error) {
+          this.log(`Error resetting loop state: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'GET_REGION_XP': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.getRegionXP !== 'function') {
+            throw new Error('LoopState.getRegionXP not available');
+          }
+          const regionName = actionDetails.regionName;
+          if (!regionName) {
+            throw new Error('GET_REGION_XP requires regionName parameter');
+          }
+          result = loopState.getRegionXP(regionName);
+          this.log(`GET_REGION_XP for "${regionName}": ${JSON.stringify(result)}`);
+        } catch (error) {
+          this.log(`Error getting region XP: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'ADD_REGION_XP': {
+        try {
+          const loopStateModule = await import('../../loops/loopStateSingleton.js');
+          const loopState = loopStateModule.default;
+          if (!loopState || typeof loopState.addRegionXP !== 'function') {
+            throw new Error('LoopState.addRegionXP not available');
+          }
+          const regionName = actionDetails.regionName;
+          const xpAmount = actionDetails.xpAmount ?? 10;
+          if (!regionName) {
+            throw new Error('ADD_REGION_XP requires regionName parameter');
+          }
+          result = loopState.addRegionXP(regionName, xpAmount);
+          this.log(`ADD_REGION_XP: added ${xpAmount} XP to "${regionName}", result: ${JSON.stringify(result)}`);
+        } catch (error) {
+          this.log(`Error adding region XP: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'WAIT_FOR_LOOP_ACTION_COMPLETE': {
+        try {
+          const timeout = actionDetails.timeout ?? 10000;
+          result = await this.waitForEvent('loopState:actionCompleted', timeout);
+          this.log('WAIT_FOR_LOOP_ACTION_COMPLETE: action completed');
+        } catch (error) {
+          this.log(`Error waiting for loop action: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
+      case 'WAIT_FOR_LOOP_RESET': {
+        try {
+          const timeout = actionDetails.timeout ?? 10000;
+          result = await this.waitForEvent('loopState:loopReset', timeout);
+          this.log('WAIT_FOR_LOOP_RESET: loop reset');
+        } catch (error) {
+          this.log(`Error waiting for loop reset: ${error.message}`, 'error');
+          throw error;
+        }
+        break;
+      }
+
       default:
         this.log(`Unknown action type: ${actionDetails.type}`, 'warn');
         return Promise.resolve();
@@ -662,7 +841,7 @@ export class TestController {
       }, timeoutMilliseconds);
 
       if (this.eventBus && typeof this.eventBus.subscribe === 'function') {
-        this.eventBus.subscribe(eventName, handler, 'tests');
+        this.eventBus.subscribe(eventName, handler);
         
         // Track this listener for cleanup
         this._addEventListenerToTracking(eventName, handler);

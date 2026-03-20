@@ -1,6 +1,6 @@
 from typing import Dict, List
 from BaseClasses import Region, Entrance, MultiWorld
-from .Locations import ChocolateChipCookiesLocation, location_table, get_locations_by_region
+from .Locations import BakingAdventureLocation, location_table, get_locations_by_region
 
 
 def create_regions(multiworld: MultiWorld, player: int) -> None:
@@ -22,10 +22,10 @@ def create_regions(multiworld: MultiWorld, player: int) -> None:
             # Check if this is an event location (id is None)
             if location_data.id is None:
                 # Event locations have special handling
-                location = ChocolateChipCookiesLocation(player, location_name, None, region)
+                location = BakingAdventureLocation(player, location_name, None, region)
                 location.event = True
             else:
-                location = ChocolateChipCookiesLocation(player, location_name, location_data.id, region)
+                location = BakingAdventureLocation(player, location_name, location_data.id, region)
             region.locations.append(location)
     
     # Create entrances and connections - all two-way

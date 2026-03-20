@@ -1,143 +1,590 @@
 #!/bin/bash
 
-python Generate.py --weights_file_path "Templates/A Link to the Past.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/A Link to the Past.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/A Link to the Past.yaml" --multi 1 --seed 3
-python Generate.py --weights_file_path "Templates/Adventure.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Adventure.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/Adventure.yaml" --multi 1 --seed 3
-python Generate.py --weights_file_path "Templates/A Short Hike.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/A Short Hike.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/A Short Hike.yaml" --multi 1 --seed 3
-python Generate.py --weights_file_path "Templates/A Hat in Time.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/A Hat in Time.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/A Hat in Time.yaml" --multi 1 --seed 3
+# generate_all_templates.sh - Generate all Archipelago presets
+#
+# Usage:
+#   ./generate_all_templates.sh                  Run all generation commands
+#   ./generate_all_templates.sh --script FILE     Write commands to FILE instead of running them
+#
+# Environment variables (defaults match the GitHub Actions workflow):
+#   GENERATE_MULTIWORLD=true       Generate multiworld presets
+#   GENERATE_EXTRA_SEEDS=true      Generate seeds 2 and 3 for supported templates
+#   GENERATE_VANILLA_SEEDS=true    Generate vanilla placement seeds for adventure games
+#   GENERATE_WORLDGEN=true         Generate worldgen worlds for standard templates
+#   WORLDGEN_CANONICAL_SEED=1      Canonical seed number (empty to disable)
+#   GENERATE_WORLDGEN2=true        Generate worldgen2 worlds from worldgen worlds
+#   CLEAN_EXISTING=false           Delete existing presets and worldgen worlds before generating
 
-rm -rf Players/presets/Multiworld/
-mkdir -p Players/presets/Multiworld/
-cp Players/Templates/*.yaml Players/presets/Multiworld/
+# --- Command-line argument parsing ---
 
-#Exclude list:
-rm -f Players/presets/Multiworld/"Archipelago.yaml" \
-      Players/presets/Multiworld/"Final Fantasy.yaml" \
-      Players/presets/Multiworld/"Hollow Knight.yaml" \
-      Players/presets/Multiworld/"Ocarina of Time.yaml" \
-      Players/presets/Multiworld/"Sudoku.yaml" \
-      Players/presets/Multiworld/"Universal Tracker.yaml" \
-      Players/presets/Multiworld/"Zillion.yaml"
+SCRIPT_MODE=false
+OUTPUT_SCRIPT=""
 
-#Currently failing games:
-rm -f Players/presets/Multiworld/"Blasphemous.yaml" \
-      Players/presets/Multiworld/"Kingdom Hearts.yaml" \
-      Players/presets/Multiworld/"SMZ3.yaml" \
-      Players/presets/Multiworld/"Stardew Valley.yaml" \
-      Players/presets/Multiworld/"Super Metroid.yaml"
+usage() {
+  echo "Usage: $0 [--script OUTPUT_FILE]"
+  echo ""
+  echo "Options:"
+  echo "  --script FILE   Write commands to FILE instead of running them"
+  echo "  --help, -h      Show this help"
+  echo ""
+  echo "See file header for environment variable documentation."
+}
 
-python Generate.py --player_files_path "Players/presets/Multiworld" --seed 1
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --script)
+      SCRIPT_MODE=true
+      OUTPUT_SCRIPT="${2:?Error: --script requires an output file path}"
+      shift 2
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
 
-rm -rf Players/presets/Multiworld/
-mkdir -p Players/presets/Multiworld/
-cp "Players/Templates/A Hat in Time.yaml" "Players/Templates/A Link to the Past.yaml" "Players/Templates/Adventure.yaml" "Players/Templates/A Short Hike.yaml" Players/presets/Multiworld/
+# --- Environment variables (defaults match GitHub Actions workflow) ---
 
-python Generate.py --player_files_path "Players/presets/Multiworld" --seed 2
+GENERATE_MULTIWORLD="${GENERATE_MULTIWORLD:-true}"
+GENERATE_EXTRA_SEEDS="${GENERATE_EXTRA_SEEDS:-true}"
+GENERATE_VANILLA_SEEDS="${GENERATE_VANILLA_SEEDS:-true}"
+GENERATE_WORLDGEN="${GENERATE_WORLDGEN:-true}"
+WORLDGEN_CANONICAL_SEED="${WORLDGEN_CANONICAL_SEED:-1}"
+GENERATE_WORLDGEN2="${GENERATE_WORLDGEN2:-true}"
+CLEAN_EXISTING="${CLEAN_EXISTING:-false}"
 
-rm -rf Players/presets/Multiworld/
-mkdir -p Players/presets/Multiworld/
-cp "Players/Templates/Adventure.yaml" "Players/Templates/A Short Hike.yaml" Players/presets/Multiworld/
+echo "Configuration:"
+echo "  GENERATE_MULTIWORLD=$GENERATE_MULTIWORLD"
+echo "  GENERATE_EXTRA_SEEDS=$GENERATE_EXTRA_SEEDS"
+echo "  GENERATE_VANILLA_SEEDS=$GENERATE_VANILLA_SEEDS"
+echo "  GENERATE_WORLDGEN=$GENERATE_WORLDGEN"
+echo "  WORLDGEN_CANONICAL_SEED=$WORLDGEN_CANONICAL_SEED"
+echo "  GENERATE_WORLDGEN2=$GENERATE_WORLDGEN2"
+echo "  CLEAN_EXISTING=$CLEAN_EXISTING"
+echo ""
 
-python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3
+# --- Script mode setup ---
 
-python Generate.py --weights_file_path "Templates/APQuest.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Aquaria.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Blasphemous.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Bomb Rush Cyberfunk.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Bumper Stickers.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Castlevania 64.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Castlevania - Circle of the Moon.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Celeste (Open World).yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Celeste 64.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/ChecksFinder.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Choo-Choo Charles.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Civilization VI.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Dark Souls III.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/DLCQuest.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Donkey Kong Country 3.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/DOOM 1993.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/DOOM II.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Factorio.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Faxanadu.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Final Fantasy Mystic Quest.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Heretic.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Hylics 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Inscryption.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Jak and Daxter The Precursor Legacy.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Kingdom Hearts.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Kingdom Hearts 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Kirby's Dream Land 3.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Landstalker - The Treasures of King Nole.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Lingo.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Links Awakening DX.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Lufia II Ancient Cave.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Mario & Luigi Superstar Saga.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Mega Man 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/MegaMan Battle Network 3.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Meritous.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Muse Dash.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Noita.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Old School Runescape.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Overcooked! 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Paint.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Pokemon Emerald.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Pokemon Red and Blue.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Raft.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Risk of Rain 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Saving Princess.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Secret of Evermore.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/shapez.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Shivers.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/SMZ3.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Sonic Adventure 2 Battle.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Starcraft 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Stardew Valley.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Subnautica.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Super Mario 64.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Super Mario Land 2.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Super Mario World.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Super Metroid.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Terraria.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/The Legend of Zelda.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/The Messenger.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/The Wind Waker.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/The Witness.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Timespinner.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/TUNIC.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Undertale.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/VVVVVV.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Wargroove.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Yacht Dice.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Yoshi's Island.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Yu-Gi-Oh! 2006.yaml" --multi 1 --seed 1
+if [ "$SCRIPT_MODE" = true ]; then
+  cat > "$OUTPUT_SCRIPT" << HEADER
+#!/bin/bash
+# Generated by generate_all_templates.sh on $(date -Iseconds)
+#
+# Configuration:
+#   GENERATE_MULTIWORLD=$GENERATE_MULTIWORLD
+#   GENERATE_EXTRA_SEEDS=$GENERATE_EXTRA_SEEDS
+#   GENERATE_VANILLA_SEEDS=$GENERATE_VANILLA_SEEDS
+#   GENERATE_WORLDGEN=$GENERATE_WORLDGEN
+#   WORLDGEN_CANONICAL_SEED=$WORLDGEN_CANONICAL_SEED
+#   GENERATE_WORLDGEN2=$GENERATE_WORLDGEN2
+#   CLEAN_EXISTING=$CLEAN_EXISTING
+HEADER
+  chmod +x "$OUTPUT_SCRIPT"
+  echo "Script mode: writing commands to $OUTPUT_SCRIPT"
+  echo ""
+fi
 
-python Generate.py --weights_file_path "Templates/MathProof2p2e4.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/MathProof2p2e4.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/MathProof2p2e4.yaml" --multi 1 --seed 3
-python Generate.py --weights_file_path "Templates/ChocolateChipCookies.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/ChocolateChipCookies.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/ChocolateChipCookies.yaml" --multi 1 --seed 3
-python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 --seed 3
+# ============================================================
+# Helper functions
+# ============================================================
 
-python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 1
-python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 2
-python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 3
+# Format a command array into a properly-quoted shell string
+_fmt() {
+  local result=""
+  for arg in "$@"; do
+    if [ -n "$result" ]; then result+=" "; fi
+    if [[ "$arg" == *" "* || "$arg" == *'!'* || "$arg" == *'&'* || "$arg" == *'('* || "$arg" == *')'* || "$arg" == *";"* || "$arg" == *'*'* || "$arg" == *'?'* ]]; then
+      result+="\"$arg\""
+    else
+      result+="$arg"
+    fi
+  done
+  echo "$result"
+}
 
-#python scripts/build/pack_apworld.py metamath
-#python scripts/build/pack_apworld.py mathadventure
-#python scripts/build/pack_apworld.py bakingadventure
-#python scripts/build/pack_apworld.py codingadventure
+# Execute a command (run mode) or append it to the output script (script mode)
+run_cmd() {
+  if [ "$SCRIPT_MODE" = true ]; then
+    _fmt "$@" >> "$OUTPUT_SCRIPT"
+  else
+    "$@"
+  fi
+}
 
-#remove empty preset directories
-find frontend/presets -type d -empty -delete
+# Write a section header
+section() {
+  if [ "$SCRIPT_MODE" = true ]; then
+    printf '\n# ===== %s =====\n\n' "$1" >> "$OUTPUT_SCRIPT"
+  else
+    printf '\n===== %s =====\n\n' "$1"
+  fi
+}
 
-#cp -r frontend/modules/shared frontend/modules/textAdventure-remote/
+# Write a comment (script mode only, informational in run mode)
+comment() {
+  if [ "$SCRIPT_MODE" = true ]; then
+    echo "# $1" >> "$OUTPUT_SCRIPT"
+  fi
+}
+
+# --- Generation helpers ---
+
+# Generate a single seed for a template
+gen_seed() {
+  run_cmd python Generate.py --weights_file_path "Templates/${1}.yaml" --multi 1 --seed "$2"
+}
+
+# Generate seed 1, and optionally seeds 2 and 3 (respects GENERATE_EXTRA_SEEDS)
+gen_seeds() {
+  gen_seed "$1" 1
+  if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+    gen_seed "$1" 2
+    gen_seed "$1" 3
+  fi
+}
+
+# Run test-world-generator.py for a template
+gen_worldgen_world() {
+  local args=(python scripts/test/test-world-generator.py --include-list "${1}.yaml" --phase generate-test-worlds --seed 1)
+  [ -n "$WORLDGEN_CANONICAL_SEED" ] && args+=(--canonical-seed "$WORLDGEN_CANONICAL_SEED")
+  run_cmd "${args[@]}"
+}
+
+# Run world_generator to create a world package from rules.json
+# Usage: run_world_generator RULES_JSON OUTPUT_DIR GAME_NAME [EXTRA_ARGS...]
+run_world_generator() {
+  local rules_json="$1" output_dir="$2" game_name="$3"
+  shift 3
+  local args=(python -m world_generator "$rules_json" -o "$output_dir" --game-name "$game_name" --force)
+  [ -n "$WORLDGEN_CANONICAL_SEED" ] && args+=(--canonical-seed "$WORLDGEN_CANONICAL_SEED")
+  args+=("$@")
+  run_cmd "${args[@]}"
+}
+
+# Regenerate YAML template files
+regen_templates() {
+  run_cmd python -c "from Options import generate_yaml_templates; generate_yaml_templates('Players/Templates')"
+}
+
+# Generate a vanilla seed (creates temp YAML with vanilla_placement: true)
+generate_vanilla_seed() {
+  local game_name="$1"
+  local vanilla_yaml="Players/Templates/${game_name} Vanilla.yaml"
+
+  if [ "$SCRIPT_MODE" = true ]; then
+    {
+      echo "mkdir -p \"Players/Templates\""
+      echo "cat > \"${vanilla_yaml}\" << 'YAMLEOF'"
+      echo "name: Player{number}"
+      echo "game: \"${game_name}\""
+      echo "${game_name}:"
+      echo "  vanilla_placement: true"
+      echo "YAMLEOF"
+      _fmt python Generate.py --weights_file_path "Templates/${game_name} Vanilla.yaml" --multi 1 --seed 1
+      echo "rm -f \"${vanilla_yaml}\""
+    } >> "$OUTPUT_SCRIPT"
+  else
+    mkdir -p "Players/Templates"
+    cat > "$vanilla_yaml" << YAMLEOF
+name: Player{number}
+game: "${game_name}"
+${game_name}:
+  vanilla_placement: true
+YAMLEOF
+    python Generate.py --weights_file_path "Templates/${game_name} Vanilla.yaml" --multi 1 --seed 1
+    rm -f "$vanilla_yaml"
+  fi
+}
+
+# Generate a MetaMath seed with a specific theorem (and optional extra options)
+generate_metamath_seed() {
+  local theorem="$1" seed_num="$2" extra_opts="${3:-}"
+  local temp_yaml="Players/Templates/Metamath ${theorem}.yaml"
+
+  if [ "$SCRIPT_MODE" = true ]; then
+    {
+      echo "mkdir -p \"Players/Templates\""
+      echo "cat > \"${temp_yaml}\" << 'YAMLEOF'"
+      echo "name: Player{number}"
+      echo "game: \"Metamath\""
+      echo "Metamath:"
+      echo "  theorem: ${theorem}"
+      if [ -n "$extra_opts" ]; then
+        echo "$extra_opts"
+      fi
+      echo "YAMLEOF"
+      _fmt python Generate.py --weights_file_path "Templates/Metamath ${theorem}.yaml" --multi 1 --seed "$seed_num"
+      echo "rm -f \"${temp_yaml}\""
+    } >> "$OUTPUT_SCRIPT"
+  else
+    mkdir -p "Players/Templates"
+    cat > "$temp_yaml" << YAMLEOF
+name: Player{number}
+game: "Metamath"
+Metamath:
+  theorem: ${theorem}
+$([ -n "$extra_opts" ] && echo "$extra_opts")
+YAMLEOF
+    python Generate.py --weights_file_path "Templates/Metamath ${theorem}.yaml" --multi 1 --seed "$seed_num"
+    rm -f "$temp_yaml"
+  fi
+}
+
+# Generate a DepGraph seed with a specific graph (and optional extra options)
+generate_depgraph_seed() {
+  local graph="$1" seed_num="$2" extra_opts="${3:-}"
+  local temp_yaml="Players/Templates/DepGraph ${graph}.yaml"
+
+  if [ "$SCRIPT_MODE" = true ]; then
+    {
+      echo "mkdir -p \"Players/Templates\""
+      echo "cat > \"${temp_yaml}\" << 'YAMLEOF'"
+      echo "name: Player{number}"
+      echo "game: \"DepGraph\""
+      echo "DepGraph:"
+      echo "  graph_file: ${graph}"
+      if [ -n "$extra_opts" ]; then
+        echo "$extra_opts"
+      fi
+      echo "YAMLEOF"
+      _fmt python Generate.py --weights_file_path "Templates/DepGraph ${graph}.yaml" --multi 1 --seed "$seed_num"
+      echo "rm -f \"${temp_yaml}\""
+    } >> "$OUTPUT_SCRIPT"
+  else
+    mkdir -p "Players/Templates"
+    cat > "$temp_yaml" << YAMLEOF
+name: Player{number}
+game: "DepGraph"
+DepGraph:
+  graph_file: ${graph}
+$([ -n "$extra_opts" ] && echo "$extra_opts")
+YAMLEOF
+    python Generate.py --weights_file_path "Templates/DepGraph ${graph}.yaml" --multi 1 --seed "$seed_num"
+    rm -f "$temp_yaml"
+  fi
+}
+
+# Check if a game has vanilla seeds
+has_vanilla() {
+  [ -n "${VANILLA_PRESET_DIR[$1]+x}" ]
+}
+
+# Check if a game has normal (non-vanilla) WorldGen2
+has_worldgen2() {
+  [ -n "${WORLDGEN2_PRESET_DIR[$1]+x}" ]
+}
+
+# Dispatch vanilla seed generation (ALTTP uses special scripts, others use temp YAML)
+gen_vanilla_seed() {
+  case "$1" in
+    "A Link to the Past")
+      comment "A Link to the Past vanilla (special handling)"
+      run_cmd python scripts/vanilla-alttp/generate_incremental_yamls.py
+      run_cmd python scripts/vanilla-alttp/generate_vanilla_alttp.py --seed 1
+      ;;
+    *)
+      generate_vanilla_seed "$1"
+      ;;
+  esac
+}
+
+# Generate vanilla WorldGen world from vanilla seed preset
+gen_vanilla_worldgen_world() {
+  local preset_dir="${VANILLA_PRESET_DIR[$1]}"
+  run_world_generator \
+    "frontend/presets/${preset_dir}_vanilla/AP_14089154938208861744/AP_14089154938208861744_rules.json" \
+    "worlds/${preset_dir}_vanilla_worldgen" "${1} Vanilla WorldGen"
+}
+
+# Generate vanilla WorldGen2 world from vanilla WorldGen preset
+gen_vanilla_worldgen2_world() {
+  local preset_dir="${VANILLA_PRESET_DIR[$1]}"
+  run_world_generator \
+    "frontend/presets/${preset_dir}_vanilla_worldgen/AP_14089154938208861744/AP_14089154938208861744_rules.json" \
+    "worlds/${preset_dir}_vanilla_worldgen2" "${1} Vanilla WorldGen2"
+}
+
+# Generate normal WorldGen2 world from WorldGen preset
+gen_worldgen2_world() {
+  local preset_dir="${WORLDGEN2_PRESET_DIR[$1]}"
+  run_world_generator \
+    "frontend/presets/${preset_dir}_worldgen/AP_14089154938208861744/AP_14089154938208861744_rules.json" \
+    "worlds/${preset_dir}_worldgen2" "${1} WorldGen2"
+}
+
+# ============================================================
+# Template lists
+# ============================================================
+
+# Templates that generate seeds 1, 2, 3
+# Note: Metamath is handled in its own dedicated section (theorem variants)
+EXTRA_SEED_TEMPLATES=(
+  "A Link to the Past"
+  "Adventure"
+  "A Short Hike"
+  "A Hat in Time"
+  "Journey to Ascension"
+  "Baking Adventure"
+  "Coding Adventure"
+)
+
+# Templates included in the multiworld preset
+MULTIWORLD_TEMPLATES=(
+  "A Hat in Time"
+  "A Link to the Past"
+  "Adventure"
+  "A Short Hike"
+)
+
+# Games with vanilla seeds (game name -> preset directory name)
+# ALTTP uses special scripts in scripts/vanilla-alttp/; others use generate_vanilla_seed
+declare -A VANILLA_PRESET_DIR
+VANILLA_PRESET_DIR["A Link to the Past"]="alttp"
+VANILLA_PRESET_DIR["Journey to Ascension"]="jta"
+VANILLA_PRESET_DIR["Baking Adventure"]="bakingadventure"
+VANILLA_PRESET_DIR["Coding Adventure"]="codingadventure"
+# Note: Metamath vanilla is handled in its own dedicated section (theorem variants)
+
+# WorldGen2 templates (game name -> preset directory name for source WorldGen presets)
+declare -A WORLDGEN2_PRESET_DIR
+WORLDGEN2_PRESET_DIR["A Hat in Time"]="ahit"
+WORLDGEN2_PRESET_DIR["A Link to the Past"]="alttp"
+WORLDGEN2_PRESET_DIR["A Short Hike"]="shorthike"
+WORLDGEN2_PRESET_DIR["Adventure"]="adventure"
+
+# All WorldGen2 games (union of vanilla and normal WorldGen2)
+# Note: Metamath WorldGen2 is handled in its own dedicated section (theorem variants)
+WORLDGEN2_TEMPLATES=(
+  "A Hat in Time"
+  "A Link to the Past"
+  "A Short Hike"
+  "Adventure"
+  "Baking Adventure"
+  "Coding Adventure"
+)
+
+# ============================================================
+# Dynamic template lists (from world-mapping.json + exclude lists)
+# ============================================================
+
+# All base game templates (permanent exclude_list already applied)
+mapfile -t ALL_BASE_TEMPLATES < <(
+  python scripts/utils/list-template-files.py | sed 's/\.yaml$//'
+)
+
+# Single-seed templates = all base templates minus extra-seed templates
+declare -A _EXTRA_SEED_SET
+for t in "${EXTRA_SEED_TEMPLATES[@]}"; do _EXTRA_SEED_SET["$t"]=1; done
+SINGLE_SEED_TEMPLATES=()
+for t in "${ALL_BASE_TEMPLATES[@]}"; do
+  if [[ -z "${_EXTRA_SEED_SET[$t]+x}" ]]; then
+    SINGLE_SEED_TEMPLATES+=("$t")
+  fi
+done
+unset _EXTRA_SEED_SET
+
+# WorldGen-eligible templates (also excludes main_test + worldgen_test lists)
+mapfile -t WORLDGEN_TEMPLATES < <(
+  python scripts/utils/list-template-files.py \
+    --exclude main_test_exclude_list \
+    --exclude worldgen_test_exclude_list \
+  | sed 's/\.yaml$//'
+)
+
+# ============================================================
+# Main execution
+# ============================================================
+
+# --- Clean existing ---
+
+if [ "$CLEAN_EXISTING" = "true" ]; then
+  section "Cleaning existing presets and worldgen worlds"
+  run_cmd find frontend/presets -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+  run_cmd find worlds -maxdepth 1 -name '*_worldgen*' -type d -exec rm -rf {} +
+fi
+
+# --- Extra-seed templates ---
+
+section "Generating seeds for extra-seed templates (1, 2, 3)"
+for template in "${EXTRA_SEED_TEMPLATES[@]}"; do
+  if [ "$GENERATE_VANILLA_SEEDS" = "true" ] && has_vanilla "$template"; then
+    gen_vanilla_seed "$template"
+  fi
+  gen_seeds "$template"
+done
+
+# --- MetaMath theorem variants ---
+
+section "Generating MetaMath theorem variant presets"
+
+# --- Vanilla seeds ---
+if [ "$GENERATE_VANILLA_SEEDS" = "true" ]; then
+  generate_vanilla_seed "Metamath"                                    # 2p2e4, seed 1
+  generate_metamath_seed "canth" 2 "  vanilla_placement: true"        # canth, seed 2
+  generate_metamath_seed "wilth" 3 "  vanilla_placement: true"        # wilth, seed 3
+fi
+
+# --- Main seeds ---
+# 2p2e4 (easy): seeds 1-3 via default template
+gen_seeds "Metamath"
+# canth (medium): seeds 4-6
+generate_metamath_seed "canth" 4
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_metamath_seed "canth" 5
+  generate_metamath_seed "canth" 6
+fi
+# wilth (hard): seeds 7-9
+generate_metamath_seed "wilth" 7
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_metamath_seed "wilth" 8
+  generate_metamath_seed "wilth" 9
+fi
+
+# --- DepGraph graph variant presets ---
+
+section "Generating DepGraph graph variant presets"
+
+# --- Vanilla seeds ---
+if [ "$GENERATE_VANILLA_SEEDS" = "true" ]; then
+  generate_vanilla_seed "DepGraph"                                            # coding_adventure, seed 1
+  generate_depgraph_seed "baking_adventure" 2 "  vanilla_placement: true"     # baking_adventure, seed 2
+  generate_depgraph_seed "tech_tree" 3 "  vanilla_placement: true"            # tech_tree, seed 3
+  generate_depgraph_seed "skill_tree" 4 "  vanilla_placement: true"           # skill_tree, seed 4
+  generate_depgraph_seed "recipe_chain" 5 "  vanilla_placement: true"         # recipe_chain, seed 5
+fi
+
+# --- Main seeds ---
+# coding_adventure (default): seeds 1-3 via default template
+gen_seeds "DepGraph"
+# baking_adventure: seeds 4-6
+generate_depgraph_seed "baking_adventure" 4
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_depgraph_seed "baking_adventure" 5
+  generate_depgraph_seed "baking_adventure" 6
+fi
+# tech_tree: seeds 7-9
+generate_depgraph_seed "tech_tree" 7
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_depgraph_seed "tech_tree" 8
+  generate_depgraph_seed "tech_tree" 9
+fi
+# skill_tree: seeds 10-12
+generate_depgraph_seed "skill_tree" 10
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_depgraph_seed "skill_tree" 11
+  generate_depgraph_seed "skill_tree" 12
+fi
+# recipe_chain: seeds 13-15
+generate_depgraph_seed "recipe_chain" 13
+if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+  generate_depgraph_seed "recipe_chain" 14
+  generate_depgraph_seed "recipe_chain" 15
+fi
+
+# --- Multiworld ---
+
+if [ "$GENERATE_MULTIWORLD" = "true" ]; then
+  section "Generating multiworld preset"
+
+  run_cmd rm -rf Players/presets/Multiworld/
+  run_cmd mkdir -p Players/presets/Multiworld/
+  for template in "${MULTIWORLD_TEMPLATES[@]}"; do
+    run_cmd cp "Players/Templates/${template}.yaml" Players/presets/Multiworld/
+  done
+
+  run_cmd python Generate.py --player_files_path "Players/presets/Multiworld" --seed 1
+  if [ "$GENERATE_EXTRA_SEEDS" = "true" ]; then
+    run_cmd python Generate.py --player_files_path "Players/presets/Multiworld" --seed 2
+    run_cmd python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3
+  fi
+
+  run_cmd rm -rf Players/presets/Multiworld/
+fi
+
+# --- Single-seed templates ---
+
+section "Generating seeds for single-seed templates (seed 1)"
+for template in "${SINGLE_SEED_TEMPLATES[@]}"; do
+  gen_seed "$template" 1
+done
+
+# --- WorldGen ---
+
+if [ "$GENERATE_WORLDGEN" = "true" ]; then
+  section "Generating WorldGen worlds"
+  for template in "${WORLDGEN_TEMPLATES[@]}"; do
+    if [ "$GENERATE_VANILLA_SEEDS" = "true" ] && has_vanilla "$template"; then
+      gen_vanilla_worldgen_world "$template"
+    fi
+    gen_worldgen_world "$template"
+  done
+
+  section "Regenerating templates (for WorldGen)"
+  regen_templates
+
+  section "Generating presets for WorldGen templates"
+  for template in "${WORLDGEN_TEMPLATES[@]}"; do
+    if [ "$GENERATE_VANILLA_SEEDS" = "true" ] && has_vanilla "$template"; then
+      gen_seed "${template} Vanilla WorldGen" 1
+    fi
+    gen_seed "${template} WorldGen" 1
+  done
+
+fi
+
+# --- WorldGen2 ---
+
+if [ "$GENERATE_WORLDGEN2" = "true" ]; then
+  section "Generating WorldGen2 worlds"
+  for template in "${WORLDGEN2_TEMPLATES[@]}"; do
+    if [ "$GENERATE_VANILLA_SEEDS" = "true" ] && has_vanilla "$template"; then
+      gen_vanilla_worldgen2_world "$template"
+    fi
+    if has_worldgen2 "$template"; then
+      gen_worldgen2_world "$template"
+    fi
+  done
+
+  section "Regenerating templates (for WorldGen2)"
+  regen_templates
+
+  section "Generating presets for WorldGen2 templates"
+  for template in "${WORLDGEN2_TEMPLATES[@]}"; do
+    if [ "$GENERATE_VANILLA_SEEDS" = "true" ] && has_vanilla "$template"; then
+      gen_seed "${template} Vanilla WorldGen2" 1
+    fi
+    if has_worldgen2 "$template"; then
+      gen_seed "${template} WorldGen2" 1
+    fi
+  done
+
+fi
+
+# --- Cleanup ---
+
+section "Cleanup"
+
+# Remove empty preset directories
+run_cmd find frontend/presets -type d -empty -delete
+
+# Update textAdventure-remote shared directory (without game-specific JS helpers)
+comment "Update textAdventure-remote shared directory"
+run_cmd rm -rf frontend/modules/textAdventure-remote/shared
+run_cmd cp -r frontend/modules/shared frontend/modules/textAdventure-remote/
+# Remove game-specific JS helper directories (keep only generic/)
+run_cmd find frontend/modules/textAdventure-remote/shared/gameLogic -mindepth 1 -maxdepth 1 -type d ! -name generic -exec rm -rf {} +
+# Use empty registry (no game-specific imports)
+run_cmd cp frontend/modules/shared/gameLogic/gameLogicRegistry.empty.js frontend/modules/textAdventure-remote/shared/gameLogic/gameLogicRegistry.js
+run_cmd rm frontend/modules/textAdventure-remote/shared/gameLogic/gameLogicRegistry.empty.js
+
+if [ "$SCRIPT_MODE" = true ]; then
+  echo ""
+  echo "Script written to: $OUTPUT_SCRIPT"
+  echo "Review and run with: bash $OUTPUT_SCRIPT"
+fi

@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "Undertale",
   "game_directory": "undertale",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "UndertaleWorld"
   },
   "regions": {
     "1": {
@@ -19,16 +17,14 @@
             "name": "New Game",
             "connected_region": "Hub",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "??? Exit",
             "connected_region": "???",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -37,7 +33,8 @@
       "???": {
         "name": "???",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Hub": {
         "name": "Hub",
@@ -46,40 +43,50 @@
             "name": "Ruins Hub",
             "connected_region": "Ruins",
             "access_rule": {
-              "type": "item_check",
-              "item": "Ruins Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Ruins Key"
+              }
             }
           },
           {
             "name": "Snowdin Hub",
             "connected_region": "Snowdin Forest",
             "access_rule": {
-              "type": "item_check",
-              "item": "Snowdin Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Snowdin Key"
+              }
             }
           },
           {
             "name": "Waterfall Hub",
             "connected_region": "Waterfall",
             "access_rule": {
-              "type": "item_check",
-              "item": "Waterfall Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Waterfall Key"
+              }
             }
           },
           {
             "name": "Hotland Hub",
             "connected_region": "Hotland",
             "access_rule": {
-              "type": "item_check",
-              "item": "Hotland Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Hotland Key"
+              }
             }
           },
           {
             "name": "Core Hub",
             "connected_region": "Core",
             "access_rule": {
-              "type": "item_check",
-              "item": "Core Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Core Key"
+              }
             }
           }
         ],
@@ -92,8 +99,7 @@
             "name": "Ruins Exit",
             "connected_region": "Old Home",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -102,134 +108,135 @@
             "name": "Candy 1",
             "id": 79014,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spider Cider",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Candy 2",
             "id": 79015,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Old Tutu",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Candy 3",
             "id": 79016,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "temy armor",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Candy 4",
             "id": 79017,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Snowdin Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Donut Sale",
             "id": 79018,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Stained Apron",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cider Sale",
             "id": 79019,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Ribbon Cracks",
             "id": 79020,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Torn Notebook",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Toy Knife Edge",
             "id": 79021,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Burnt Pan",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "B.Scotch Pie Given",
             "id": 79022,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Instant Noodles",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "Old Home": {
         "name": "Old Home",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Snowdin Forest": {
         "name": "Snowdin Forest",
@@ -238,8 +245,7 @@
             "name": "Snowdin Forest Exit",
             "connected_region": "Snowdin Town",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -248,49 +254,35 @@
             "name": "Snowman",
             "id": 79100,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Nice Cream",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Nicecream Snowdin",
             "id": 79001,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Legendary Hero",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -301,8 +293,7 @@
             "name": "Papyrus\" Home Entrance",
             "connected_region": "Papyrus\" Home",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -311,97 +302,69 @@
             "name": "Bunny 1",
             "id": 79034,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Cloudy Glasses",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bunny 2",
             "id": 79035,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Waterfall Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bunny 3",
             "id": 79036,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Toy Knife",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bunny 4",
             "id": 79037,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Snowdin Town"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Snowdin Town"
+              }
             },
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -413,15 +376,16 @@
             "name": "Papyrus Date",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Papyrus Date",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -432,8 +396,7 @@
             "name": "Undyne\"s Home Entrance",
             "connected_region": "Undyne\"s Home",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -442,52 +405,36 @@
             "name": "Nicecream Waterfall",
             "id": 79002,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Snowman Piece",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Nicecream Punch Card",
             "id": 79003,
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Waterfall"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Waterfall"
+                  }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Punch Card",
-                  "count": {
-                    "type": "constant",
-                    "value": 3
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Punch Card",
+                    "count": 3
                   }
                 }
               ]
@@ -497,346 +444,248 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
           },
           {
             "name": "Quiche Bench",
             "id": 79004,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Tough Glove",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tutu Hidden",
             "id": 79005,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Hotland Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Card Reward",
             "id": 79006,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Heart Locket",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Grass Shoes",
             "id": 79007,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Starfait",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Astro 1",
             "id": 79023,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Spider Donut",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Astro 2",
             "id": 79024,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Mettaton Plush",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Gerson 1",
             "id": 79038,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Butterscotch Pie",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Gerson 2",
             "id": 79039,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Crab Apple",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Gerson 3",
             "id": 79040,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Empty Gun",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Gerson 4",
             "id": 79041,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Ballet Shoes",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "TemmieShop 1",
             "id": 79050,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Astronaut Food",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "TemmieShop 2",
             "id": 79051,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "500G",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "TemmieShop 3",
             "id": 79052,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Waterfall"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Waterfall"
+              }
             },
             "item": {
               "name": "Astronaut Food",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "TemmieShop 4",
             "id": 79053,
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": "Waterfall"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    }
-                  ]
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Waterfall"
+                  }
                 },
                 {
-                  "type": "item_check",
-                  "item": "1000G",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "1000G",
+                    "count": 2
                   }
                 }
               ]
@@ -846,7 +695,8 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -858,15 +708,16 @@
             "name": "Undyne Date",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Undyne Date",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -877,16 +728,14 @@
             "name": "Cooking Show Entrance",
             "connected_region": "Cooking Show",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Lab Elevator",
             "connected_region": "True Lab",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -895,279 +744,203 @@
             "name": "Noodles Fridge",
             "id": 79008,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Hotland"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Hotland"
+              }
             },
             "item": {
               "name": "500G",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Pan Hidden",
             "id": 79009,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Hotland"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Hotland"
+              }
             },
             "item": {
               "name": "Faded Ribbon",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Apron Hidden",
             "id": 79010,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Cooking Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Cooking Show"
+              }
             },
             "item": {
               "name": "Cinnamon Bun",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bratty Catty 1",
             "id": 79042,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Abandoned Quiche",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bratty Catty 2",
             "id": 79043,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Core Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bratty Catty 3",
             "id": 79044,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Sea Tea",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bratty Catty 4",
             "id": 79045,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Bisicle",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Burgerpants 1",
             "id": 79046,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Worn Dagger",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Burgerpants 2",
             "id": 79047,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Spider Donut",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Burgerpants 3",
             "id": 79048,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Punch Card",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Burgerpants 4",
             "id": 79049,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "News Show"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "News Show"
+              }
             },
             "item": {
               "name": "Right Home Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Alphys Date",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Alphys Date",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -1178,8 +951,7 @@
             "name": "News Show Entrance",
             "connected_region": "News Show",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1188,12 +960,14 @@
       "News Show": {
         "name": "News Show",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "True Lab": {
         "name": "True Lab",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Core": {
         "name": "Core",
@@ -1202,81 +976,18 @@
             "name": "Core Exit",
             "connected_region": "New Home",
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "compare",
-                "left": {
-                  "type": "constant",
-                  "value": "Mettaton Plush"
-                },
-                "op": "==",
-                "right": {
-                  "type": "constant",
-                  "value": "Complete Skeleton"
-                }
-              },
-              "if_true": {
-                "type": "item_check",
-                "item": "Complete Skeleton"
-              },
-              "if_false": {
-                "type": "conditional",
-                "test": {
-                  "type": "compare",
-                  "left": {
-                    "type": "constant",
+              "rule": "_undertale_has_plot",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true,
+              "args": [
+                {
+                  "rule": "Constant",
+                  "args": {
                     "value": "Mettaton Plush"
                   },
-                  "op": "==",
-                  "right": {
-                    "type": "constant",
-                    "value": "Fish"
-                  }
-                },
-                "if_true": {
-                  "type": "item_check",
-                  "item": "Fish"
-                },
-                "if_false": {
-                  "type": "conditional",
-                  "test": {
-                    "type": "compare",
-                    "left": {
-                      "type": "constant",
-                      "value": "Mettaton Plush"
-                    },
-                    "op": "==",
-                    "right": {
-                      "type": "constant",
-                      "value": "Mettaton Plush"
-                    }
-                  },
-                  "if_true": {
-                    "type": "item_check",
-                    "item": "Mettaton Plush"
-                  },
-                  "if_false": {
-                    "type": "conditional",
-                    "test": {
-                      "type": "compare",
-                      "left": {
-                        "type": "constant",
-                        "value": "Mettaton Plush"
-                      },
-                      "op": "==",
-                      "right": {
-                        "type": "constant",
-                        "value": "DT Extractor"
-                      }
-                    },
-                    "if_true": {
-                      "type": "item_check",
-                      "item": "DT Extractor"
-                    },
-                    "if_false": null
-                  }
+                  "_converted_from_ast": true
                 }
-              }
+              ]
             }
           }
         ],
@@ -1285,39 +996,35 @@
             "name": "Trash Burger",
             "id": 79011,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "Core"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Core"
+              }
             },
             "item": {
               "name": "1000G",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mettaton Plot",
             "id": 79062,
             "access_rule": {
-              "type": "can_reach_entrance",
-              "entrance": "Core Exit"
+              "rule": "CanReachEntrance",
+              "args": {
+                "entrance_name": "Core Exit"
+              }
             },
             "item": {
               "name": "1000G",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -1328,27 +1035,27 @@
             "name": "New Home Exit",
             "connected_region": "Last Corridor",
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "rule": "Or",
+              "children": [
                 {
-                  "type": "and",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": "Left Home Key"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Right Home Key"
-                    }
-                  ]
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Left Home Key",
+                      "Right Home Key"
+                    ]
+                  }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Key Piece",
-                  "count": {
-                    "type": "constant",
-                    "value": 5
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Key Piece",
+                    "count": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "key_pieces"
+                      }
+                    }
                   }
                 }
               ]
@@ -1360,97 +1067,69 @@
             "name": "Present Knife",
             "id": 79012,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "New Home"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "New Home"
+              }
             },
             "item": {
               "name": "Cowboy Hat",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Present Locket",
             "id": 79013,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "New Home"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "New Home"
+              }
             },
             "item": {
               "name": "Left Home Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Left New Home Key",
             "id": 79064,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "New Home"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "New Home"
+              }
             },
             "item": {
               "name": "Face Steak",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Right New Home Key",
             "id": 79065,
             "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": "New Home"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                }
-              ]
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "New Home"
+              }
             },
             "item": {
               "name": "Manly Bandanna",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -1461,8 +1140,7 @@
             "name": "Last Corridor Exit",
             "connected_region": "Barrier",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1471,7 +1149,8 @@
       "Barrier": {
         "name": "Barrier",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       }
     }
   },
@@ -1491,10 +1170,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1504,10 +1180,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1517,10 +1190,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1530,10 +1200,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1543,10 +1210,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1556,10 +1220,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1569,10 +1230,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1582,12 +1240,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Stoic Onion": {
         "name": "Stoic Onion",
@@ -1595,10 +1250,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1608,10 +1260,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1621,12 +1270,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Butterscotch Pie": {
         "name": "Butterscotch Pie",
@@ -1634,12 +1280,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Faded Ribbon": {
         "name": "Faded Ribbon",
@@ -1647,12 +1290,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Toy Knife": {
         "name": "Toy Knife",
@@ -1660,12 +1300,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Tough Glove": {
         "name": "Tough Glove",
@@ -1673,12 +1310,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Manly Bandanna": {
         "name": "Manly Bandanna",
@@ -1686,12 +1320,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Snowman Piece": {
         "name": "Snowman Piece",
@@ -1699,12 +1330,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Nice Cream": {
         "name": "Nice Cream",
@@ -1712,12 +1340,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Puppydough Icecream": {
         "name": "Puppydough Icecream",
@@ -1725,10 +1350,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1738,12 +1360,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Unisicle": {
         "name": "Unisicle",
@@ -1751,10 +1370,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1764,12 +1380,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Temmie Flakes": {
         "name": "Temmie Flakes",
@@ -1777,10 +1390,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1790,12 +1400,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Old Tutu": {
         "name": "Old Tutu",
@@ -1803,12 +1410,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Ballet Shoes": {
         "name": "Ballet Shoes",
@@ -1816,12 +1420,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Punch Card": {
         "name": "Punch Card",
@@ -1829,12 +1430,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 6
+        "max_count": 3
       },
       "Annoying Dog": {
         "name": "Annoying Dog",
@@ -1842,10 +1440,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1855,10 +1450,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1868,10 +1460,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1881,12 +1470,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Instant Noodles": {
         "name": "Instant Noodles",
@@ -1894,12 +1480,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Crab Apple": {
         "name": "Crab Apple",
@@ -1907,12 +1490,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Hot Dog...?": {
         "name": "Hot Dog...?",
@@ -1920,10 +1500,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1933,10 +1510,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1946,12 +1520,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Sea Tea": {
         "name": "Sea Tea",
@@ -1959,12 +1530,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Starfait": {
         "name": "Starfait",
@@ -1972,12 +1540,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Legendary Hero": {
         "name": "Legendary Hero",
@@ -1985,12 +1550,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Cloudy Glasses": {
         "name": "Cloudy Glasses",
@@ -1998,12 +1560,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Torn Notebook": {
         "name": "Torn Notebook",
@@ -2011,12 +1570,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Stained Apron": {
         "name": "Stained Apron",
@@ -2024,12 +1580,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Burnt Pan": {
         "name": "Burnt Pan",
@@ -2037,12 +1590,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Cowboy Hat": {
         "name": "Cowboy Hat",
@@ -2050,12 +1600,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Empty Gun": {
         "name": "Empty Gun",
@@ -2063,12 +1610,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Heart Locket": {
         "name": "Heart Locket",
@@ -2076,12 +1620,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Worn Dagger": {
         "name": "Worn Dagger",
@@ -2089,12 +1630,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Real Knife": {
         "name": "Real Knife",
@@ -2102,10 +1640,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2115,10 +1650,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2128,10 +1660,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2141,10 +1670,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2154,10 +1680,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2167,10 +1690,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2180,10 +1700,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2193,10 +1710,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2206,10 +1720,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2219,12 +1730,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Hush Puppy": {
         "name": "Hush Puppy",
@@ -2232,10 +1740,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2245,10 +1750,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2258,12 +1760,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "ATK Up": {
         "name": "ATK Up",
@@ -2271,10 +1770,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2284,10 +1780,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2297,10 +1790,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2310,10 +1800,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
         "max_count": 1
       },
@@ -2323,10 +1810,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
         "max_count": 1
       },
@@ -2336,10 +1820,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
         "max_count": 1
       },
@@ -2349,10 +1830,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
         "max_count": 1
       },
@@ -2362,10 +1840,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2375,12 +1850,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Waterfall Key": {
         "name": "Waterfall Key",
@@ -2388,12 +1860,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Hotland Key": {
         "name": "Hotland Key",
@@ -2401,12 +1870,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Core Key": {
         "name": "Core Key",
@@ -2414,12 +1880,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Progressive Plot": {
         "name": "Progressive Plot",
@@ -2427,10 +1890,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2440,10 +1900,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2453,10 +1910,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2466,10 +1920,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2479,10 +1930,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2492,10 +1940,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2505,12 +1950,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Left Home Key": {
         "name": "Left Home Key",
@@ -2518,12 +1960,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "LOVE": {
         "name": "LOVE",
@@ -2531,10 +1970,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2544,12 +1980,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "1000G": {
         "name": "1000G",
@@ -2557,12 +1990,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "500G": {
         "name": "500G",
@@ -2570,12 +2000,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "100G": {
         "name": "100G",
@@ -2583,10 +2010,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2596,9 +2020,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2609,9 +2031,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2622,9 +2042,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2638,56 +2056,59 @@
   },
   "itempool_counts": {
     "1": {
-      "1000G": 4,
-      "500G": 4,
+      "1000G": 2,
+      "500G": 2,
       "ACT": 1,
-      "Abandoned Quiche": 2,
+      "Abandoned Quiche": 1,
       "Alphys Date": 1,
-      "Astronaut Food": 4,
-      "Ballet Shoes": 2,
-      "Bisicle": 2,
-      "Burnt Pan": 2,
-      "Butterscotch Pie": 2,
-      "Cinnamon Bun": 2,
-      "Cloudy Glasses": 2,
-      "Core Key": 2,
-      "Cowboy Hat": 2,
-      "Crab Apple": 2,
-      "Empty Gun": 2,
+      "Astronaut Food": 2,
+      "Ballet Shoes": 1,
+      "Bisicle": 1,
+      "Burnt Pan": 1,
+      "Butterscotch Pie": 1,
+      "Cinnamon Bun": 1,
+      "Cloudy Glasses": 1,
+      "Core Key": 1,
+      "Cowboy Hat": 1,
+      "Crab Apple": 1,
+      "Empty Gun": 1,
       "FIGHT": 1,
-      "Face Steak": 2,
-      "Faded Ribbon": 2,
-      "Glamburger": 2,
-      "Heart Locket": 2,
-      "Hotland Key": 2,
+      "Face Steak": 1,
+      "Faded Ribbon": 1,
+      "Glamburger": 1,
+      "Heart Locket": 1,
+      "Hotland Key": 1,
       "ITEM": 1,
-      "Instant Noodles": 2,
-      "Left Home Key": 2,
-      "Legendary Hero": 2,
+      "Instant Noodles": 1,
+      "Left Home Key": 1,
+      "Legendary Hero": 1,
       "MERCY": 1,
-      "Manly Bandanna": 2,
-      "Mettaton Plush": 2,
-      "Nice Cream": 2,
-      "Old Tutu": 2,
+      "Manly Bandanna": 1,
+      "Mettaton Plush": 1,
+      "Nice Cream": 1,
+      "Old Tutu": 1,
       "Papyrus Date": 1,
-      "Punch Card": 6,
-      "Right Home Key": 2,
+      "Punch Card": 3,
+      "Right Home Key": 1,
       "Ruins Key": 1,
-      "Sea Tea": 2,
-      "Snowdin Key": 2,
-      "Snowman Piece": 2,
-      "Spider Cider": 2,
-      "Spider Donut": 4,
-      "Stained Apron": 2,
-      "Starfait": 4,
-      "Torn Notebook": 2,
-      "Tough Glove": 2,
-      "Toy Knife": 2,
+      "Sea Tea": 1,
+      "Snowdin Key": 1,
+      "Snowman Piece": 1,
+      "Spider Cider": 1,
+      "Spider Donut": 2,
+      "Stained Apron": 1,
+      "Starfait": 2,
+      "Torn Notebook": 1,
+      "Tough Glove": 1,
+      "Toy Knife": 1,
       "Undyne Date": 1,
-      "Waterfall Key": 2,
-      "Worn Dagger": 2,
-      "temy armor": 2
+      "Waterfall Key": 1,
+      "Worn Dagger": 1,
+      "temy armor": 1
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -2701,18 +2122,275 @@
       "Ruins Key"
     ]
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Undertale",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "UndertaleWorld",
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "key_hunt": false,
+        "key_pieces": 5,
+        "local_items": [],
+        "no_equips": false,
+        "non_local_items": [],
+        "only_flakes": false,
+        "plando_items": [],
+        "priority_locations": [],
+        "prog_armor": false,
+        "prog_weapons": false,
+        "progression_balancing": 50,
+        "rando_item_button": false,
+        "rando_love": false,
+        "rando_stats": false,
+        "route_required": 0,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_area": 0,
+        "temy_include": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "key_hunt": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Key Piece Hunt"
+        },
+        "key_pieces": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 10,
+          "default": 5,
+          "display_name": "Key Piece Amount"
+        },
+        "no_equips": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "No Equippables"
+        },
+        "only_flakes": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Only Temmie Flakes"
+        },
+        "prog_armor": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Progressive Armor"
+        },
+        "prog_weapons": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Progressive Weapons"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "rando_item_button": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Randomize Item Button"
+        },
+        "rando_love": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Randomize LOVE"
+        },
+        "rando_stats": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Randomize Stats"
+        },
+        "route_required": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "neutral",
+            "1": "pacifist",
+            "2": "genocide",
+            "3": "all_routes"
+          },
+          "default": 0,
+          "display_name": "Required Route"
+        },
+        "starting_area": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "ruins",
+            "1": "snowdin",
+            "2": "waterfall",
+            "3": "hotland",
+            "4": "core"
+          },
+          "default": 0,
+          "display_name": "Starting Area"
+        },
+        "temy_include": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Include Temy Armor"
+        }
+      },
+      "world_description": "Undertale is an RPG where every choice you make matters. You could choose to hurt all the enemies, eventually\ncausing genocide of the monster species. Or you can spare all the enemies, befriending them and freeing them\nfrom their underground prison.",
+      "slot_data": {
+        "world_seed": 3390313828,
+        "seed_name": "14089154938208861744",
+        "player_name": "Player1",
+        "player_id": 1,
+        "client_version": [
+          0,
+          1,
+          6
+        ],
+        "race": false,
+        "route": "neutral",
+        "starting_area": "ruins",
+        "temy_armor_include": true,
+        "only_flakes": false,
+        "no_equips": false,
+        "key_hunt": false,
+        "key_pieces": 5,
+        "rando_love": false,
+        "rando_stats": false,
+        "prog_armor": false,
+        "prog_weapons": false,
+        "rando_item_button": false,
+        "route_required": 0,
+        "temy_include": 1
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up the Archipelago Undertale software on your computer. This guide covers single-player, multiworld, and related software.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Mewlif"
+            ]
+          }
+        ]
+      },
+      "world_directory": "undertale"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "Undertale",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "state_method",
+        "method": "can_reach",
+        "args": [
+          {
+            "type": "constant",
+            "value": "Barrier"
+          },
+          {
+            "type": "constant",
+            "value": "Region"
+          }
+        ]
+      }
+    }
+  },
+  "helpers": {
+    "1": {
+      "_undertale_has_plot": {
+        "params": [
+          "item"
+        ],
+        "body": {
+          "type": "conditional",
+          "test": {
+            "type": "compare",
+            "left": {
+              "type": "name",
+              "name": "item"
+            },
+            "op": "==",
+            "right": {
+              "type": "constant",
+              "value": "Complete Skeleton"
+            }
+          },
+          "if_true": {
+            "type": "item_check",
+            "item": "Complete Skeleton"
+          },
+          "if_false": {
+            "type": "conditional",
+            "test": {
+              "type": "compare",
+              "left": {
+                "type": "name",
+                "name": "item"
+              },
+              "op": "==",
+              "right": {
+                "type": "constant",
+                "value": "Fish"
+              }
+            },
+            "if_true": {
+              "type": "item_check",
+              "item": "Fish"
+            },
+            "if_false": {
+              "type": "conditional",
+              "test": {
+                "type": "compare",
+                "left": {
+                  "type": "name",
+                  "name": "item"
+                },
+                "op": "==",
+                "right": {
+                  "type": "constant",
+                  "value": "Mettaton Plush"
+                }
+              },
+              "if_true": {
+                "type": "item_check",
+                "item": "Mettaton Plush"
+              },
+              "if_false": {
+                "type": "conditional",
+                "test": {
+                  "type": "compare",
+                  "left": {
+                    "type": "name",
+                    "name": "item"
+                  },
+                  "op": "==",
+                  "right": {
+                    "type": "constant",
+                    "value": "DT Extractor"
+                  }
+                },
+                "if_true": {
+                  "type": "item_check",
+                  "item": "DT Extractor"
+                },
+                "if_false": null
+              }
+            }
+          }
+        }
       }
     }
   }

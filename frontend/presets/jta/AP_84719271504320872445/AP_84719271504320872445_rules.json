@@ -1,0 +1,1802 @@
+{
+  "schema_version": 3,
+  "game_name": "Journey to Ascension",
+  "game_directory": "jta",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 3,
+  "seed_name": "84719271504320872445",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Start Journey",
+            "connected_region": "The Village",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "The Village": {
+        "name": "The Village",
+        "exits": [
+          {
+            "name": "The Village -> The Village Watch",
+            "connected_region": "The Village Watch",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 1
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Learn How to Read",
+            "id": 590100,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Villager Gratitude",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Village Watch": {
+        "name": "The Village Watch",
+        "exits": [
+          {
+            "name": "The Village Watch -> The Raid",
+            "connected_region": "The Raid",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 2
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Learn How to Write",
+            "id": 590101,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "How to Write",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Raid": {
+        "name": "The Raid",
+        "exits": [
+          {
+            "name": "The Raid -> The Wilderness",
+            "connected_region": "The Wilderness",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 3
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Rescue Villager",
+            "id": 590102,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Goblin Scourge",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Save the Village",
+            "id": 590103,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Underground Connection",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Wilderness": {
+        "name": "The Wilderness",
+        "exits": [
+          {
+            "name": "The Wilderness -> The Cave System",
+            "connected_region": "The Cave System",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 4
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Find an Amulet",
+            "id": 590104,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Energetic Memory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Cave System": {
+        "name": "The Cave System",
+        "exits": [
+          {
+            "name": "The Cave System -> The Road to the City",
+            "connected_region": "The Road to the City",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 5
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Try Casting a Spell",
+            "id": 590105,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mysterious Amulet",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wipe Out Goblins",
+            "id": 590106,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Experienced Traveler",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Road to the City": {
+        "name": "The Road to the City",
+        "exits": [
+          {
+            "name": "The Road to the City -> The City Outskirts",
+            "connected_region": "The City Outskirts",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 6
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Get Used to Traveling",
+            "id": 590107,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Minor Time Compression",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Study the Amulet",
+            "id": 590108,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "The Worm",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The City Outskirts": {
+        "name": "The City Outskirts",
+        "exits": [
+          {
+            "name": "The City Outskirts -> The City",
+            "connected_region": "The City",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 7
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Negotiate with a Rogue Guard",
+            "id": 590109,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Deep Sea Diving",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The City": {
+        "name": "The City",
+        "exits": [
+          {
+            "name": "The City -> The Forest",
+            "connected_region": "The Forest",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 8
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Cast a Spell",
+            "id": 590110,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "High Altitude Climbing",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Purge Corrupt Bureaucracy",
+            "id": 590111,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Walk Without Rhythm",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Forest": {
+        "name": "The Forest",
+        "exits": [
+          {
+            "name": "The Forest -> The Magician",
+            "connected_region": "The Magician",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 9
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Scale the Mountain",
+            "id": 590112,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflections on the Journey",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Magician": {
+        "name": "The Magician",
+        "exits": [
+          {
+            "name": "The Magician -> The Ocean",
+            "connected_region": "The Ocean",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 10
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Figure Out How to Attune",
+            "id": 590113,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Purged Bureaucracy",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Ocean": {
+        "name": "The Ocean",
+        "exits": [
+          {
+            "name": "The Ocean -> The Island",
+            "connected_region": "The Island",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 11
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dive as a Squid",
+            "id": 590114,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Energetic Spell",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Explore Kraken's Lair",
+            "id": 590115,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Village Hero",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Island": {
+        "name": "The Island",
+        "exits": [
+          {
+            "name": "The Island -> The Desert",
+            "connected_region": "The Desert",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 12
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Explore the Jungle",
+            "id": 590116,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sunken Treasure",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Desert": {
+        "name": "The Desert",
+        "exits": [
+          {
+            "name": "The Desert -> The Oasis",
+            "connected_region": "The Oasis",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 13
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Avoid Notice by the Sandworm",
+            "id": 590117,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Found Lost Temple",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Learn to Dance the Worm",
+            "id": 590118,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Attunement",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Oasis": {
+        "name": "The Oasis",
+        "exits": [
+          {
+            "name": "The Oasis -> The Ritual",
+            "connected_region": "The Ritual",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 14
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Reflect on the Journey",
+            "id": 590119,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "How to Read",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Ritual": {
+        "name": "The Ritual",
+        "exits": [
+          {
+            "name": "The Ritual -> The Dream",
+            "connected_region": "The Dream",
+            "access_rule": {
+              "rule": "HasFromListUnique",
+              "args": {
+                "items": [
+                  "How to Read",
+                  "How to Write",
+                  "Villager Gratitude",
+                  "Village Hero",
+                  "Mysterious Amulet",
+                  "Energetic Spell",
+                  "Goblin Scourge",
+                  "Experienced Traveler",
+                  "Understanding of the Reset",
+                  "Underground Connection",
+                  "Minor Time Compression",
+                  "Purged Bureaucracy",
+                  "High Altitude Climbing",
+                  "Attunement",
+                  "Sunken Treasure",
+                  "Deep Sea Diving",
+                  "Found Lost Temple",
+                  "Walk Without Rhythm",
+                  "The Worm",
+                  "Reflections on the Journey",
+                  "Energetic Memory"
+                ],
+                "count": 15
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Practice Memorization",
+            "id": 590120,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Understanding of the Reset",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "The Dream": {
+        "name": "The Dream",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Reach Goal Zone",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "How to Read": {
+        "name": "How to Read",
+        "id": 590000,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "How to Write": {
+        "name": "How to Write",
+        "id": 590001,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Villager Gratitude": {
+        "name": "Villager Gratitude",
+        "id": 590002,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Village Hero": {
+        "name": "Village Hero",
+        "id": 590003,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mysterious Amulet": {
+        "name": "Mysterious Amulet",
+        "id": 590004,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Energetic Spell": {
+        "name": "Energetic Spell",
+        "id": 590005,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Goblin Scourge": {
+        "name": "Goblin Scourge",
+        "id": 590006,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Experienced Traveler": {
+        "name": "Experienced Traveler",
+        "id": 590007,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Understanding of the Reset": {
+        "name": "Understanding of the Reset",
+        "id": 590008,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Underground Connection": {
+        "name": "Underground Connection",
+        "id": 590009,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Minor Time Compression": {
+        "name": "Minor Time Compression",
+        "id": 590010,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Purged Bureaucracy": {
+        "name": "Purged Bureaucracy",
+        "id": 590011,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "High Altitude Climbing": {
+        "name": "High Altitude Climbing",
+        "id": 590012,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Attunement": {
+        "name": "Attunement",
+        "id": 590013,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Sunken Treasure": {
+        "name": "Sunken Treasure",
+        "id": 590014,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Deep Sea Diving": {
+        "name": "Deep Sea Diving",
+        "id": 590015,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Found Lost Temple": {
+        "name": "Found Lost Temple",
+        "id": 590016,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Walk Without Rhythm": {
+        "name": "Walk Without Rhythm",
+        "id": 590017,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "The Worm": {
+        "name": "The Worm",
+        "id": 590018,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Reflections on the Journey": {
+        "name": "Reflections on the Journey",
+        "id": 590019,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Energetic Memory": {
+        "name": "Energetic Memory",
+        "id": 590020,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Awakening": {
+        "name": "Awakening",
+        "id": 590021,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Tower of Babel": {
+        "name": "Tower of Babel",
+        "id": 590022,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Dream Prism": {
+        "name": "Dream Prism",
+        "id": 590023,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Major Time Compression": {
+        "name": "Major Time Compression",
+        "id": 590024,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Headmaster": {
+        "name": "Headmaster",
+        "id": 590025,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Hide in Plain Sight": {
+        "name": "Hide in Plain Sight",
+        "id": 590026,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Dragon Killing Plan": {
+        "name": "Dragon Killing Plan",
+        "id": 590027,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Dragon Slayer": {
+        "name": "Dragon Slayer",
+        "id": 590028,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Unified Theory of Magic": {
+        "name": "Unified Theory of Magic",
+        "id": 590029,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Gazed Beyond the Veil": {
+        "name": "Gazed Beyond the Veil",
+        "id": 590030,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Overcame Fear of Skydiving": {
+        "name": "Overcame Fear of Skydiving",
+        "id": 590031,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Destroyed the Ring": {
+        "name": "Destroyed the Ring",
+        "id": 590032,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Purged Demonic Influences": {
+        "name": "Purged Demonic Influences",
+        "id": 590033,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Studied Underground Forge": {
+        "name": "Studied Underground Forge",
+        "id": 590034,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Understanding Leviathan": {
+        "name": "Understanding Leviathan",
+        "id": 590035,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Communed with Damned Souls": {
+        "name": "Communed with Damned Souls",
+        "id": 590036,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Defied the Gods": {
+        "name": "Defied the Gods",
+        "id": 590037,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Survived the Void": {
+        "name": "Survived the Void",
+        "id": 590038,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Divine Power": {
+        "name": "Divine Power",
+        "id": 590039,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Energy Boost #1": {
+        "name": "Energy Boost #1",
+        "id": 590040,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #1": {
+        "name": "Starting Perk Bonus #1",
+        "id": 590041,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #2": {
+        "name": "Starting Perk Bonus #2",
+        "id": 590042,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #3": {
+        "name": "Starting Perk Bonus #3",
+        "id": 590043,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #4": {
+        "name": "Starting Perk Bonus #4",
+        "id": 590044,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #5": {
+        "name": "Starting Perk Bonus #5",
+        "id": 590045,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #6": {
+        "name": "Starting Perk Bonus #6",
+        "id": 590046,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #7": {
+        "name": "Starting Perk Bonus #7",
+        "id": 590047,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #8": {
+        "name": "Starting Perk Bonus #8",
+        "id": 590048,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #9": {
+        "name": "Starting Perk Bonus #9",
+        "id": 590049,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #10": {
+        "name": "Starting Perk Bonus #10",
+        "id": 590050,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #11": {
+        "name": "Starting Perk Bonus #11",
+        "id": 590051,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #12": {
+        "name": "Starting Perk Bonus #12",
+        "id": 590052,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #13": {
+        "name": "Starting Perk Bonus #13",
+        "id": 590053,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #14": {
+        "name": "Starting Perk Bonus #14",
+        "id": 590054,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Starting Perk Bonus #15": {
+        "name": "Starting Perk Bonus #15",
+        "id": 590055,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Attunement": 1,
+      "Deep Sea Diving": 1,
+      "Energetic Memory": 1,
+      "Energetic Spell": 1,
+      "Experienced Traveler": 1,
+      "Found Lost Temple": 1,
+      "Goblin Scourge": 1,
+      "High Altitude Climbing": 1,
+      "How to Read": 1,
+      "How to Write": 1,
+      "Minor Time Compression": 1,
+      "Mysterious Amulet": 1,
+      "Purged Bureaucracy": 1,
+      "Reflections on the Journey": 1,
+      "Sunken Treasure": 1,
+      "The Worm": 1,
+      "Underground Connection": 1,
+      "Understanding of the Reset": 1,
+      "Victory": 1,
+      "Village Hero": 1,
+      "Villager Gratitude": 1,
+      "Walk Without Rhythm": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {}
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Journey to Ascension",
+      "world_class_name": "JTAWorld",
+      "options": {
+        "accessibility": 0,
+        "auto_cost_adjust": true,
+        "automation_auto_queue": true,
+        "automation_auto_reset": true,
+        "automation_drain_strategy": true,
+        "automation_loadout_sequencing": true,
+        "costgen_artifacts": true,
+        "costgen_grind_with_push_collect": true,
+        "costgen_item_collection": true,
+        "costgen_mode": 2,
+        "costgen_normal_attempts": 2,
+        "costgen_perk_attempts": 5,
+        "costgen_push_collect": true,
+        "costgen_traversal_attempts": 5,
+        "exclude_locations": [],
+        "free_zones": 1,
+        "game_data_file": "",
+        "goal_zone": 15,
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "resets_per_sphere": 5,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_perk_list": [],
+        "starting_perks": 0,
+        "vanilla_placement": false
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "auto_cost_adjust": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Auto Cost Adjust"
+        },
+        "automation_auto_queue": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Automation: Auto Queue"
+        },
+        "automation_auto_reset": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Automation: Auto Reset"
+        },
+        "automation_drain_strategy": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Automation: Drain Strategy"
+        },
+        "automation_loadout_sequencing": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Automation: Loadout Sequencing"
+        },
+        "costgen_artifacts": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Cost Gen: Artifact Usage"
+        },
+        "costgen_grind_with_push_collect": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Cost Gen: Grind with Push/Collect"
+        },
+        "costgen_item_collection": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Cost Gen: Item Collection"
+        },
+        "costgen_mode": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 2,
+          "default": 2,
+          "display_name": "Cost Gen Mode"
+        },
+        "costgen_normal_attempts": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 10,
+          "default": 2,
+          "display_name": "Cost Gen: Normal Attempts"
+        },
+        "costgen_perk_attempts": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 20,
+          "default": 5,
+          "display_name": "Cost Gen: Perk Attempts"
+        },
+        "costgen_push_collect": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Cost Gen: Push/Collect"
+        },
+        "costgen_traversal_attempts": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 20,
+          "default": 5,
+          "display_name": "Cost Gen: Traversal Attempts"
+        },
+        "free_zones": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 15,
+          "default": 1,
+          "display_name": "Free Zones"
+        },
+        "game_data_file": {
+          "type": "freetext",
+          "default": "",
+          "display_name": "Game Data File"
+        },
+        "goal_zone": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 27,
+          "default": 15,
+          "display_name": "Goal Zone"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "resets_per_sphere": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 20,
+          "default": 5,
+          "display_name": "Resets Per Sphere"
+        },
+        "starting_perks": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 15,
+          "default": 0,
+          "display_name": "Starting Perks"
+        },
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Placement"
+        }
+      },
+      "world_description": "Journey to Ascension is an incremental/idle game where you progress\nthrough zones by completing tasks, leveling skills, and collecting perks.\nThis randomizer shuffles perk placements across tasks.",
+      "slot_data": {
+        "game": "Journey to Ascension",
+        "version": "0.5.0",
+        "goalZone": 15,
+        "resetsPerSphere": 5,
+        "costGenFactors": {
+          "itemCollection": true,
+          "pushCollect": true,
+          "grindWithPushCollect": true,
+          "artifacts": true
+        },
+        "automation": {
+          "autoQueue": true,
+          "autoReset": true,
+          "drainStrategy": true,
+          "loadoutSequencing": true
+        },
+        "perkPlacements": {
+          "13": "Villager Gratitude",
+          "27": "How to Write",
+          "34": "Goblin Scourge",
+          "37": "Underground Connection",
+          "43": "Energetic Memory",
+          "54": "Mysterious Amulet",
+          "58": "Experienced Traveler",
+          "64": "Minor Time Compression",
+          "69": "The Worm",
+          "74": "Deep Sea Diving",
+          "84": "High Altitude Climbing",
+          "89": "Walk Without Rhythm",
+          "90": "Reflections on the Journey",
+          "104": "Purged Bureaucracy",
+          "114": "Energetic Spell",
+          "118": "Village Hero",
+          "124": "Sunken Treasure",
+          "134": "Found Lost Temple",
+          "138": "Attunement",
+          "144": "How to Read",
+          "155": "Understanding of the Reset"
+        }
+      },
+      "web": {
+        "theme": "ocean",
+        "tutorials": [
+          {
+            "name": "Setup Guide",
+            "description": "A guide to setting up Journey to Ascension for Archipelago multiworld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "jta"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
+      }
+    }
+  },
+  "helpers": {}
+}

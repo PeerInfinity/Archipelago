@@ -215,10 +215,8 @@ This is useful for:
 Path to alternate template directory (default: `Players/Templates`).
 
 ```bash
-python scripts/test/test-all-templates.py --templates-dir Players/presets/multitemplate/alttp
+python scripts/test/test-all-templates.py --templates-dir Players/presets/custom-templates
 ```
-
-Required for `--multitemplate` mode.
 
 #### `--output-file <path>`
 Output file path for test results.
@@ -231,7 +229,6 @@ Default varies by test mode:
 - Spoiler: `scripts/output/spoiler-{minimal|full}/test-results.json`
 - Multiclient: `scripts/output/multiclient/test-results.json`
 - Multiworld: `scripts/output/multiworld/test-results.json`
-- Multitemplate: `scripts/output/multitemplate-{minimal|full}/test-results.json`
 
 ### Post-Processing Options
 
@@ -274,17 +271,6 @@ python scripts/test/test-all-templates.py --multiworld --multiworld-test-all-pla
 ```
 
 Only valid with `--multiworld`.
-
-### Multitemplate Mode
-
-#### `--multitemplate`
-Run tests on multiple template configurations for the same game.
-
-```bash
-python scripts/test/test-all-templates.py --templates-dir Players/presets/multitemplate/alttp --multitemplate
-```
-
-Requires `--templates-dir` to be specified. Results are nested by game name and template name.
 
 ### Multiclient-Specific Options
 
@@ -358,8 +344,6 @@ Results are organized under `scripts/output/` by test type:
   - Used when `extend_sphere_log_to_all_locations = true` in host.yaml
 - **`output/multiclient/`** - Multiclient timer tests
 - **`output/multiworld/`** - Multiworld integration tests
-- **`output/multitemplate-minimal/`** - Multi-template tests (minimal)
-- **`output/multitemplate-full/`** - Multi-template tests (full)
 
 Each directory contains:
 - `test-results.json` - Latest merged results (includes all templates ever tested)
@@ -501,17 +485,6 @@ python scripts/test/test-all-templates.py --multiclient
 
 # 2. Run multiworld tests
 python scripts/test/test-all-templates.py --multiworld
-```
-
-### Multi-Template Testing
-
-**Test multiple configurations of the same game:**
-```bash
-# 1. Generate template variations
-python scripts/build/generate-multitemplate-configs.py --game "A Link to the Past"
-
-# 2. Test all variations
-python scripts/test/test-all-templates.py --templates-dir Players/presets/multitemplate/alttp --multitemplate
 ```
 
 ### Advanced Workflows

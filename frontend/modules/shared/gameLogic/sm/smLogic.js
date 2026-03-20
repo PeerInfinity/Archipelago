@@ -344,7 +344,7 @@ export function knowsShortCharge(snapshot, staticData) {
   // ShortCharge ("Tight Short Charge") is DISABLED by default in VARIA
   // Different from SimpleShortCharge which IS enabled by default
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('ShortCharge' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.ShortCharge;
@@ -358,7 +358,7 @@ export function knowsShortCharge(snapshot, staticData) {
 export function knowsMockball(snapshot, staticData) {
   // Check exported knows settings for Mockball technique
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('Mockball' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.Mockball;
@@ -415,7 +415,10 @@ export function canMockball(snapshot, staticData) {
 }
 
 export function canSpringBallJump(snapshot, staticData) {
-  return canUseSpringBall(snapshot, staticData);
+  // Python: sm.wand(sm.canUseSpringBall(), sm.knowsSpringBallJump())
+  return wand(snapshot, staticData,
+    canUseSpringBall(snapshot, staticData),
+    knowsSpringBallJump(snapshot, staticData));
 }
 
 export function canShortCharge(snapshot, staticData) {
@@ -464,7 +467,7 @@ export function canHellRun(snapshot, staticData, hellRunType, mult = 1.0, minEAr
   // Hell runs require heat resistance OR enough energy reserves
   // In VARIA logic: heatProof() OR (Gravity with half protection) OR (energyReserveCount >= minE AND specific energy check)
   const playerId = getPlayerId(snapshot, staticData);
-  const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
+  const romPatches = staticData?.world?.[playerId]?.romPatches || {};
 
   // Check for full heat protection (returns immediately)
   const isHeatProof = heatProof(snapshot, staticData);
@@ -496,7 +499,7 @@ export function canHellRun(snapshot, staticData, hellRunType, mult = 1.0, minEAr
 
   // Get the difficulty presets for this hell run type
   // Prefer exported hellRuns settings from VARIA preset, fall back to hardcoded presets
-  const hellRunsSettings = staticData?.settings?.[playerId]?.hellRuns || {};
+  const hellRunsSettings = staticData?.world?.[playerId]?.hellRuns || {};
   const difficulties = hellRunsSettings[effectiveHellRunType] || HELL_RUN_PRESETS[effectiveHellRunType];
   if (!difficulties) {
     // No preset (like LowerNorfair) - requires suits
@@ -690,7 +693,7 @@ export function heatProof(snapshot, staticData) {
   // Gravity only provides full heat protection if NOT ProgressiveSuits and NOT NoGravityEnvProtection
   // Default gravityBehaviour is 'Balanced' which has NoGravityEnvProtection ACTIVE
   const playerId = getPlayerId(snapshot, staticData);
-  const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
+  const romPatches = staticData?.world?.[playerId]?.romPatches || {};
 
   // ProgressiveSuits must be explicitly enabled (true) to be active
   const progressiveSuits = romPatches.ProgressiveSuits === true;
@@ -899,27 +902,61 @@ export function canPassMetroids(snapshot, staticData) {
     itemCountOk(snapshot, staticData, 'PowerBomb', 3));
 }
 
+export function knowsIceZebSkip(snapshot, staticData) {
+  // Check exported knows settings for IceZebSkip technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+  if ('IceZebSkip' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.IceZebSkip;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsSpeedZebSkip(snapshot, staticData) {
+  // Check exported knows settings for SpeedZebSkip technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+  if ('SpeedZebSkip' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SpeedZebSkip;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled
+  return { bool: false, difficulty: 0 };
+}
+
 export function canPassZebetites(snapshot, staticData) {
-  // Pass zebetites: Ice skip OR Speed skip OR enough missiles for damage
-  // Simplified: need Ice OR SpeedBooster OR 10+ missiles (for ~1100 damage)
+  // Pass zebetites requires one of:
+  // 1. Ice + knowsIceZebSkip
+  // 2. SpeedBooster + knowsSpeedZebSkip
+  // 3. Enough missiles to deal 1100+ damage (supers ignored)
+  //    1100 damage = 11 missiles = 3+ missile packs (3 * 5 * 100 = 1500 >= 1100)
+  const missileCount = count(snapshot, staticData, 'Missile');
+  const missileDamage = missileCount * 5 * 100;
+
   return wor(snapshot, staticData,
-    haveItem(snapshot, staticData, 'Ice'),
-    haveItem(snapshot, staticData, 'SpeedBooster'),
-    itemCountOk(snapshot, staticData, 'Missile', 10));
+    wand(snapshot, staticData,
+      haveItem(snapshot, staticData, 'Ice'),
+      knowsIceZebSkip(snapshot, staticData)),
+    wand(snapshot, staticData,
+      haveItem(snapshot, staticData, 'SpeedBooster'),
+      knowsSpeedZebSkip(snapshot, staticData)),
+    { bool: missileDamage >= 1100, difficulty: 0 });
 }
 
 export function enoughStuffsMotherbrain(snapshot, staticData) {
   // Mother Brain fight requirements:
   // - Need 2+ missile packs AND 2+ super packs (to break the glass)
-  // - Need enough ammo for ~21000 damage total (MB1 3000 + MB2 18000)
+  // - Need enough ammo for MB1 (3000 damage) - charge beam CAN'T hit MB1!
+  // - Need enough ammo/charge for MB2 (18000 damage)
   // Each missile pack = 5 missiles, each does 100 damage = 500 damage/pack
   // Each super pack = 5 supers, each does 300 damage = 1500 damage/pack
-  // With charge beam, damage is essentially infinite
   const missileCount = count(snapshot, staticData, 'Missile');
   const superCount = count(snapshot, staticData, 'Super');
   const hasCharge = haveItem(snapshot, staticData, 'Charge');
 
-  // Minimum requirement: 2 missile packs and 2 super packs
+  // Minimum requirement: 2 missile packs and 2 super packs (to break the glass)
   if (missileCount < 2 || superCount < 2) {
     return { bool: false, difficulty: 0 };
   }
@@ -929,12 +966,17 @@ export function enoughStuffsMotherbrain(snapshot, staticData) {
   const superDamage = superCount * 5 * 300;      // 1500 per pack
   const totalAmmoDamage = missileDamage + superDamage;
 
-  // With charge beam, damage is unlimited
+  // CRITICAL: MB1 can't be hit by charge beam! Need at least 3000 ammo damage for MB1
+  if (totalAmmoDamage < 3000) {
+    return { bool: false, difficulty: 0 };
+  }
+
+  // With charge beam, MB2 damage is unlimited (only MB1 required ammo check above)
   if (hasCharge.bool) {
     return { bool: true, difficulty: 0 };
   }
 
-  // Need at least 21000 damage worth of ammo
+  // Without charge, need at least 21000 damage worth of ammo (MB1 + MB2)
   if (totalAmmoDamage >= 21000) {
     return { bool: true, difficulty: 0 };
   }
@@ -964,7 +1006,7 @@ export function knowsFirefleasWalljump(snapshot, staticData) {
 export function knowsBubbleMountainWallJump(snapshot, staticData) {
   // Check exported knows settings for BubbleMountainWallJump technique
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('BubbleMountainWallJump' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.BubbleMountainWallJump;
@@ -986,7 +1028,7 @@ export function knowsXrayDboost(snapshot, staticData) {
   // Check exported knows settings for XrayDboost technique
   // Regular preset: XrayDboost: [false, 0] - disabled
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('XrayDboost' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.XrayDboost;
@@ -1000,7 +1042,7 @@ export function knowsXrayIce(snapshot, staticData) {
   // Check exported knows settings for XrayIce technique
   // Regular preset: XrayIce: [true, 10] - enabled with difficulty 10
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('XrayIce' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.XrayIce;
@@ -1021,7 +1063,7 @@ export function knowsReverseGateGlitchHiJumpLess(snapshot, staticData) {
 
 export function knowsCrocPBsDBoost(snapshot, staticData) {
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('CrocPBsDBoost' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.CrocPBsDBoost;
@@ -1034,7 +1076,7 @@ export function knowsCrocPBsDBoost(snapshot, staticData) {
 
 export function knowsCrocPBsIce(snapshot, staticData) {
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('CrocPBsIce' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.CrocPBsIce;
@@ -1052,7 +1094,7 @@ export function knowsMaridiaWallJumps(snapshot, staticData) {
 export function knowsOldMBWithSpeed(snapshot, staticData) {
   // Check exported knows settings for OldMBWithSpeed technique
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('OldMBWithSpeed' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.OldMBWithSpeed;
@@ -1065,7 +1107,7 @@ export function knowsOldMBWithSpeed(snapshot, staticData) {
 export function knowsRonPopeilScrew(snapshot, staticData) {
   // Check exported knows settings for RonPopeilScrew technique
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('RonPopeilScrew' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.RonPopeilScrew;
@@ -1076,7 +1118,15 @@ export function knowsRonPopeilScrew(snapshot, staticData) {
 }
 
 export function knowsSpringBallJumpFromWall(snapshot, staticData) {
-  return { bool: true, difficulty: 0 };
+  // Check exported knows settings
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+  if ('SpringBallJumpFromWall' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SpringBallJumpFromWall;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled
+  return { bool: false, difficulty: 0 };
 }
 
 export function knowsKillPlasmaPiratesWithSpark(snapshot, staticData) {
@@ -1090,7 +1140,7 @@ export function knowsKillPlasmaPiratesWithCharge(snapshot, staticData) {
 export function knowsGravityJump(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('GravityJump' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.GravityJump;
@@ -1103,7 +1153,7 @@ export function knowsGravityJump(snapshot, staticData) {
 export function knowsLavaDive(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('LavaDive' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.LavaDive;
@@ -1116,7 +1166,7 @@ export function knowsLavaDive(snapshot, staticData) {
 export function knowsLavaDiveNoHiJump(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('LavaDiveNoHiJump' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.LavaDiveNoHiJump;
@@ -1129,7 +1179,7 @@ export function knowsLavaDiveNoHiJump(snapshot, staticData) {
 export function knowsMtEverestGravJump(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('MtEverestGravJump' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.MtEverestGravJump;
@@ -1143,7 +1193,7 @@ export function knowsTediousMountEverest(snapshot, staticData) {
   // Tedious climb of Mt. Everest suitless with ice and supers
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('TediousMountEverest' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.TediousMountEverest;
@@ -1163,7 +1213,7 @@ export function knowsNovaBoost(snapshot, staticData) {
   // D-Boost on the Sova to enter Cathedral with shorter hell run
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('NovaBoost' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.NovaBoost;
@@ -1291,9 +1341,9 @@ export function getDmgReduction(snapshot, staticData, envDmg = true) {
   const hasVaria = haveItem(snapshot, staticData, 'Varia').bool;
   const hasGravity = haveItem(snapshot, staticData, 'Gravity').bool;
 
-  // Get player settings - try both snapshot.playerId and default to '1'
-  const playerId = snapshot?.playerId || DEFAULT_PLAYER_ID;
-  const playerSettings = staticData?.settings?.[playerId] || {};
+  // Get player settings - use standard getPlayerId pattern for multiworld support
+  const playerId = getPlayerId(snapshot, staticData);
+  const playerSettings = staticData?.world?.[playerId] || {};
   const romPatches = playerSettings.romPatches || {};
 
   let dmgRed = 1.0;
@@ -1356,9 +1406,9 @@ export function divideByDmgReduction(snapshot, staticData, value) {
  * @returns {Object} SMBool result
  */
 export function energyReserveCountOkHardRoom(snapshot, staticData, roomName, mult = 1.0) {
-  // Get player settings - try both snapshot.playerId and default to '1'
-  const playerId = snapshot?.playerId || DEFAULT_PLAYER_ID;
-  const playerSettings = staticData?.settings?.[playerId] || {};
+  // Get player settings - use standard getPlayerId pattern for multiworld support
+  const playerId = getPlayerId(snapshot, staticData);
+  const playerSettings = staticData?.world?.[playerId] || {};
   const hardRooms = playerSettings.hardRooms || {};
   const difficulties = hardRooms[roomName];
 
@@ -1554,7 +1604,7 @@ export function canPassLowerNorfairChozo(snapshot, staticData) {
   // The LNChozoSJCheckDisabled ROM patch allows passing without Space Jump.
   // Without the patch, Space Jump is required to reach the area.
   const playerId = getPlayerId(snapshot, staticData);
-  const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
+  const romPatches = staticData?.world?.[playerId]?.romPatches || {};
   const hasLNChozoSJCheckDisabled = romPatches.LNChozoSJCheckDisabled === true;
 
   return wand(snapshot, staticData,
@@ -1647,7 +1697,7 @@ export function canExitScrewAttackArea(snapshot, staticData) {
 
   // Get knows settings for this player
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   // Check knows techniques
   const screwAttackExitKnows = knowsSettings.ScrewAttackExit || [false, 0];
@@ -1683,13 +1733,23 @@ export function canExitScrewAttackArea(snapshot, staticData) {
 }
 
 export function getPiratesPseudoScrewCoeff(snapshot, staticData) {
-  // Pirates coefficient - conservative: return 1.0 (default)
-  return { bool: true, difficulty: 0 };
+  // Pirates coefficient - returns a multiplier for damage calculations
+  // In VARIA this varies based on items, but default is 1.0
+  return 1.0;
 }
 
 export function int(snapshot, staticData, value) {
-  // Integer conversion helper - just return the value
-  return { bool: true, difficulty: 0 };
+  // Integer conversion helper - convert value to integer
+  // If value is an SMBool-like object, extract the difficulty for the number
+  if (value && typeof value === 'object' && 'difficulty' in value) {
+    return Math.floor(value.difficulty);
+  }
+  // For plain numbers, just floor them
+  if (typeof value === 'number') {
+    return Math.floor(value);
+  }
+  // Default fallback
+  return 0;
 }
 
 // Additional knowledge techniques
@@ -1711,7 +1771,7 @@ export function knowsDiagonalBombJump(snapshot, staticData) {
 export function knowsMockballWs(snapshot, staticData) {
   // Mockball in West Sand technique - DISABLED in Regular preset
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('MockballWs' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.MockballWs;
@@ -1733,17 +1793,41 @@ export function knowsGravLessLevel2(snapshot, staticData) {
 
 export function knowsSpongeBathBombJump(snapshot, staticData) {
   // Sponge Bath bomb jump technique
+  // Check exported knows settings - disabled by default in regular preset
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('SpongeBathBombJump' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SpongeBathBombJump;
+    return { bool: enabled, difficulty };
+  }
   return { bool: true, difficulty: 0 };
 }
 
 export function knowsSpongeBathHiJump(snapshot, staticData) {
   // Sponge Bath high jump technique
-  return { bool: true, difficulty: 0 };
+  // Check exported knows settings - enabled by default with difficulty 1
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('SpongeBathHiJump' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SpongeBathHiJump;
+    return { bool: enabled, difficulty };
+  }
+  return { bool: true, difficulty: 1 };
 }
 
 export function knowsSpongeBathSpeed(snapshot, staticData) {
   // Sponge Bath speed technique
-  return { bool: true, difficulty: 0 };
+  // Check exported knows settings - enabled by default with difficulty 5
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('SpongeBathSpeed' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SpongeBathSpeed;
+    return { bool: enabled, difficulty };
+  }
+  return { bool: true, difficulty: 5 };
 }
 
 export function knowsWestSandHoleSuitlessWallJumps(snapshot, staticData) {
@@ -1983,6 +2067,8 @@ export const helperFunctions = {
   enoughStuffsMotherbrain,
   canPassMetroids,
   canPassZebetites,
+  knowsIceZebSkip,
+  knowsSpeedZebSkip,
   // Room-specific helpers
   canAccessKraidsLair,
   canExitCathedral,
@@ -2060,7 +2146,12 @@ export const helperFunctions = {
   knowsNorfairReserveDBoost,
   knowsDoubleChamberWallJump,
   knowsPuyoClip,
+  knowsPuyoClipXRay,
+  knowsSuitlessPuyoClip,
   knowsAccessSpringBallWithHiJump,
+  knowsAccessSpringBallWithBombJumps,
+  knowsAccessSpringBallWithGravJump,
+  knowsAccessSpringBallWithFlatley,
   knowsHiJumpGauntletAccess,
   knowsHiJumpLessGauntletAccess,
   // New helper functions (21 total)
@@ -2520,22 +2611,57 @@ export function canUseCrocRoomToChargeSpeed(snapshot, staticData) {
  * @returns {Object} SMBool
  */
 export function canAccessShaktoolFromPantsRoom(snapshot, staticData) {
-  // Simplified version - full implementation requires many tech checks
+  // Full implementation matching Python graph_helpers.py:823-843
+  // Two main paths: Puyo Clip (Ice-based) or Grapple Block path
   return wor(snapshot, staticData,
+    // Puyo clip path: Ice + (Gravity+PuyoClip OR Gravity+XRay+PuyoClipXRay OR SuitlessPuyoClip)
     wand(snapshot, staticData,
       haveItem(snapshot, staticData, 'Ice'),
-      haveItem(snapshot, staticData, 'Gravity'),
-      knowsPuyoClip(snapshot, staticData)
-    ),
-    wand(snapshot, staticData,
-      haveItem(snapshot, staticData, 'Grapple'),
-      haveItem(snapshot, staticData, 'Gravity'),
       wor(snapshot, staticData,
         wand(snapshot, staticData,
-          haveItem(snapshot, staticData, 'HiJump'),
-          knowsAccessSpringBallWithHiJump(snapshot, staticData)
+          haveItem(snapshot, staticData, 'Gravity'),
+          knowsPuyoClip(snapshot, staticData)
         ),
-        haveItem(snapshot, staticData, 'SpaceJump')
+        wand(snapshot, staticData,
+          haveItem(snapshot, staticData, 'Gravity'),
+          haveItem(snapshot, staticData, 'XRayScope'),
+          knowsPuyoClipXRay(snapshot, staticData)
+        ),
+        knowsSuitlessPuyoClip(snapshot, staticData)
+      )
+    ),
+    // Grapple block path: Grapple + various methods to get through
+    wand(snapshot, staticData,
+      haveItem(snapshot, staticData, 'Grapple'),
+      wor(snapshot, staticData,
+        // With Gravity suit
+        wand(snapshot, staticData,
+          haveItem(snapshot, staticData, 'Gravity'),
+          wor(snapshot, staticData,
+            // HiJump + technique
+            wand(snapshot, staticData,
+              haveItem(snapshot, staticData, 'HiJump'),
+              knowsAccessSpringBallWithHiJump(snapshot, staticData)
+            ),
+            // SpaceJump
+            haveItem(snapshot, staticData, 'SpaceJump'),
+            // GravJump technique
+            knowsAccessSpringBallWithGravJump(snapshot, staticData),
+            // Bomb jumps path
+            wand(snapshot, staticData,
+              haveItem(snapshot, staticData, 'Bomb'),
+              wor(snapshot, staticData,
+                knowsAccessSpringBallWithBombJumps(snapshot, staticData),
+                canInfiniteBombJump(snapshot, staticData)
+              )
+            )
+          )
+        ),
+        // Suitless Flatley jump with SpaceJump
+        wand(snapshot, staticData,
+          haveItem(snapshot, staticData, 'SpaceJump'),
+          knowsAccessSpringBallWithFlatley(snapshot, staticData)
+        )
       )
     )
   );
@@ -2692,7 +2818,7 @@ export function canPassForgottenHighway(snapshot, staticData, fromWs = true) {
   // Match Python: When coming from Wrecked Ship without EastOceanPlatforms patch,
   // suitless path requires SpringBallJump or SpaceJump in addition to HiJump
   const playerId = getPlayerId(snapshot, staticData);
-  const romPatches = staticData?.settings?.[playerId]?.romPatches || {};
+  const romPatches = staticData?.world?.[playerId]?.romPatches || {};
   const eastOceanPlatforms = romPatches.EastOceanPlatforms === true;
 
   let suitless = wand(snapshot, staticData,
@@ -2963,7 +3089,7 @@ export function knowsHiJumpLessGauntletAccess(snapshot, staticData) {
   // HiJumpLessGauntletAccess is DISABLED by default in VARIA
   // Requires tricky wall jumps without HiJump
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('HiJumpLessGauntletAccess' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.HiJumpLessGauntletAccess;
@@ -2989,7 +3115,7 @@ export function knowsWorstRoomWallJump(snapshot, staticData) {
 export function knowsDodgeLowerNorfairEnemies(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('DodgeLowerNorfairEnemies' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.DodgeLowerNorfairEnemies;
@@ -3008,7 +3134,7 @@ export function knowsNorfairReserveDBoost(snapshot, staticData) {
   // Only enabled in expert, master, veteran, samus presets
   // Check if knows settings override exists in staticData
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('NorfairReserveDBoost' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.NorfairReserveDBoost;
@@ -3041,7 +3167,7 @@ export function canGoThroughColosseumSuitless(snapshot, staticData) {
 export function knowsPuyoClip(snapshot, staticData) {
   // Check exported knows settings
   const playerId = getPlayerId(snapshot, staticData);
-  const knowsSettings = staticData?.settings?.[playerId]?.knows || {};
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
 
   if ('PuyoClip' in knowsSettings) {
     const [enabled, difficulty] = knowsSettings.PuyoClip;
@@ -3053,4 +3179,70 @@ export function knowsPuyoClip(snapshot, staticData) {
 
 export function knowsAccessSpringBallWithHiJump(snapshot, staticData) {
   return { bool: true, difficulty: 3 };
+}
+
+export function knowsPuyoClipXRay(snapshot, staticData) {
+  // Check exported knows settings for PuyoClipXRay technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('PuyoClipXRay' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.PuyoClipXRay;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsSuitlessPuyoClip(snapshot, staticData) {
+  // Check exported knows settings for SuitlessPuyoClip technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('SuitlessPuyoClip' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SuitlessPuyoClip;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsAccessSpringBallWithBombJumps(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithBombJumps technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithBombJumps' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithBombJumps;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsAccessSpringBallWithGravJump(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithGravJump technique
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithGravJump' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithGravJump;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsAccessSpringBallWithFlatley(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithFlatley technique
+  // Requires Grapple and SpaceJump (suitless flatley jump)
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithFlatley' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithFlatley;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
 }

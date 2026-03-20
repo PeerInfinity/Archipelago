@@ -9,6 +9,25 @@ export const moduleInfo = {
 
 // Global progress bar manager instance
 let progressBarManager = null;
+let _moduleEventBus = null;
+
+/**
+ * Returns the scoped eventBus for this module.
+ * @returns {object|null} The scoped eventBus wrapper, or null if not yet initialized.
+ */
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'progressBar'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'progressBar'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'progressBar'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Registration function - called during app startup
 export function register(registrationApi) {
@@ -64,15 +83,16 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
 
   // Get core services
   const dispatcher = initializationApi.getDispatcher();
-  
-  // Initialize progress bar manager
-  progressBarManager = new ProgressBarManager(eventBus, dispatcher, log);
-  
-  // Subscribe to events on eventBus
+  _moduleEventBus = initializationApi.getEventBus();
+
+  // Initialize progress bar manager with scoped eventBus
+  progressBarManager = new ProgressBarManager(_moduleEventBus, dispatcher, log);
+
+  // Subscribe to events on scoped eventBus
   const unsubscribeHandles = [];
-  
+
   const subscribe = (eventName, handler) => {
-    const unsubscribe = eventBus.subscribe(eventName, handler.bind(progressBarManager), moduleInfo.name);
+    const unsubscribe = _moduleEventBus.subscribe(eventName, handler.bind(progressBarManager));
     unsubscribeHandles.push(unsubscribe);
   };
   

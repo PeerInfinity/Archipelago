@@ -13,7 +13,9 @@ function log(level, message, ...data) {
 
 export const moduleInfo = {
   name: 'testModule',
+  title: 'Test Module',
   description: 'A simple panel loaded dynamically.',
+  componentType: 'testPanel',
 };
 
 /**

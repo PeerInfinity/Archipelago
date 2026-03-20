@@ -1,0 +1,9 @@
+id,label,depends_on,description
+gather_herbs,Gather Herbs,,Collect medicinal herbs from the wild
+purify_water,Purify Water,,Create purified water for alchemy
+herb_extract,Herb Extract,gather_herbs,Distill herbs into concentrated extract
+alchemical_base,Alchemical Base,purify_water,Prepare the foundation for potions
+stabilizer,Stabilizer,gather_herbs;purify_water,Create a reagent that prevents potion decay
+raw_tincture,Raw Tincture,herb_extract;alchemical_base,Combine extract and base into a crude tincture
+refined_potion,Refined Potion,raw_tincture;stabilizer,Stabilize the tincture into a usable potion
+master_elixir,Master Elixir,refined_potion,The ultimate alchemical creation

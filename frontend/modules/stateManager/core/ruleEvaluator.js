@@ -74,6 +74,7 @@
 
 import { createUniversalLogger } from '../../../app/core/universalLogger.js';
 import { PlayerIdUtils } from '../../shared/playerIdUtils.js';
+import { evaluateRule, resolveHelperScope } from '../../shared/ruleEngine.js';
 
 const moduleLogger = createUniversalLogger('ruleEvaluator');
 
@@ -93,16 +94,47 @@ export function executeHelper(manager, name, ...args) {
   const wasInHelperExecution = manager._inHelperExecution;
   manager._inHelperExecution = true;
 
-  // Debug logging for helper execution (can be enabled when needed)
-  manager._logDebug(
-    `[RuleEvaluator executeHelper] Helper: ${name}, game: ${manager.settings?.game}, hasHelper: ${!!(manager.helperFunctions && manager.helperFunctions[name])}`
-  );
-
   try {
-    // The `manager.helperFunctions` property is now set dynamically based on the game.
+    const staticData = manager.getStaticGameData();
+    const playerId = manager.playerId || '1';
+    const playerIdStr = String(playerId);
+
+    // Check rules.json helpers first (exported from Python world files)
+    const helperDefinition = staticData?.helpers?.[playerIdStr]?.[name];
+
+    if (helperDefinition && helperDefinition.body) {
+      // Use shared utility to resolve parameter values from args, slot_data, or settings
+      const helperScope = resolveHelperScope(helperDefinition, args, staticData, playerIdStr);
+
+      // Create snapshot interface for rule evaluation
+      const snapshotInterface = manager._createSelfSnapshotInterface();
+
+      // Evaluate the helper body using the rule engine
+      const result = evaluateRule(helperDefinition.body, snapshotInterface, 0, helperScope);
+
+      // If definition evaluation succeeded (not undefined), use that result
+      // Otherwise, fall through to try JavaScript helpers as a fallback
+      // This handles cases where the exported Python helper relies on APIs not available in JS
+      if (result !== undefined) {
+        return result;
+      }
+      // Fall through to JavaScript helpers if definition returned undefined
+    } else if (helperDefinition && helperDefinition.type) {
+      // Handle rule-type helpers (e.g., {type: 'block', statements: [...]})
+      // These helpers ARE rules themselves, not wrappers with {params, body}
+      // Resolve any parameters in scope before evaluating
+      const helperScope = resolveHelperScope(helperDefinition, args, staticData, playerIdStr);
+      const snapshotInterface = manager._createSelfSnapshotInterface();
+      const result = evaluateRule(helperDefinition, snapshotInterface, 0, helperScope);
+      if (result !== undefined) {
+        return result;
+      }
+      // Fall through to JavaScript helpers if evaluation returned undefined
+    }
+
+    // Fall back to JavaScript helper functions from game logic registry
     if (manager.helperFunctions && manager.helperFunctions[name]) {
       const snapshot = manager.getSnapshot();
-      const staticData = manager.getStaticGameData();
 
       // Add evaluateRule method to snapshot for AHIT helpers
       snapshot.evaluateRule = function (rule) {
@@ -144,7 +176,16 @@ export function executeStateMethod(manager, method, ...args) {
     // 2. Check special case for can_reach since it's commonly used
     if (method === 'can_reach' && args.length >= 1) {
       const targetName = args[0];
-      const targetType = args[1] || 'Region';
+      let targetType = args[1];
+
+      // If no type specified, auto-detect based on whether it's a location or region
+      // This handles cases like Factorio's state.can_reach(loc) where loc is a Location object
+      // that gets exported without a type argument
+      if (!targetType) {
+        const isLocation = manager.locations && manager.locations.has(targetName);
+        targetType = isLocation ? 'Location' : 'Region';
+      }
+
       // Normalize player ID, defaulting to current player if not specified
       const playerId = args[2] !== undefined ? PlayerIdUtils.normalize(args[2]) : manager.playerId;
       return manager.can_reach(targetName, targetType, playerId);
@@ -156,11 +197,102 @@ export function executeStateMethod(manager, method, ...args) {
       return manager.inventory[itemName] || 0;
     }
 
+    // 2c. Handle count_group_unique - returns count of unique items from a group
+    if (method === 'count_group_unique' && args.length >= 1) {
+      const groupName = args[0];
+      if (typeof groupName !== 'string') return 0;
+
+      const staticData = manager.getStaticGameData();
+      const playerItemGroups = staticData?.item_groups?.[manager.playerId] || staticData?.item_groups;
+
+      let uniqueItemsFound = 0;
+
+      if (Array.isArray(playerItemGroups)) {
+        // ALTTP-style with group names as array
+        const playerItemsData = staticData.itemsByPlayer && staticData.itemsByPlayer[manager.playerId];
+        if (playerItemsData) {
+          for (const itemName in playerItemsData) {
+            if (playerItemsData[itemName]?.groups?.includes(groupName)) {
+              const itemCount = manager.inventory[itemName] || 0;
+              if (itemCount > 0) {
+                uniqueItemsFound++;
+              }
+            }
+          }
+        }
+      } else if (
+        typeof playerItemGroups === 'object' &&
+        playerItemGroups[groupName] &&
+        Array.isArray(playerItemGroups[groupName])
+      ) {
+        // Item_groups is an object { groupName: [itemNames...] }
+        for (const itemInGroup of playerItemGroups[groupName]) {
+          const itemCount = manager.inventory[itemInGroup] || 0;
+          if (itemCount > 0) {
+            uniqueItemsFound++;
+          }
+        }
+      } else if (staticData?.groups) {
+        // Fallback to old groups structure if available
+        const playerGroups = staticData.groups[manager.playerId] || staticData.groups;
+        if (
+          typeof playerGroups === 'object' &&
+          playerGroups[groupName] &&
+          Array.isArray(playerGroups[groupName])
+        ) {
+          for (const itemInGroup of playerGroups[groupName]) {
+            const itemCount = manager.inventory[itemInGroup] || 0;
+            if (itemCount > 0) {
+              uniqueItemsFound++;
+            }
+          }
+        }
+      }
+
+      return uniqueItemsFound;
+    }
+
+    // 2d. Handle has_from_list_unique - counts unique items from a list (ignores duplicates)
+    // Used by Super Mario Land 2 for golden coin collection
+    if (method === 'has_from_list_unique' && args.length >= 2) {
+      const items = args[0];
+      const count = args[1];
+      if (!Array.isArray(items)) return false;
+      if (typeof count !== 'number' || count < 0) return false;
+
+      // Count unique items from the list (items with count > 0)
+      let uniqueItemsFound = 0;
+      for (const itemName of items) {
+        const itemCount = manager.inventory[itemName] || 0;
+        if (itemCount > 0) {
+          uniqueItemsFound++;
+        }
+      }
+      return uniqueItemsFound >= count;
+    }
+
+    // 2e. Handle count_from_list - returns the total count of items from a list (sums all quantities)
+    // Used by SC2 for weapon/armor upgrade counting
+    if (method === 'count_from_list' && args.length >= 1) {
+      const items = args[0];
+      if (!Array.isArray(items)) return 0;
+
+      // Sum all item counts from the list
+      let totalCount = 0;
+      for (const itemName of items) {
+        totalCount += (manager.inventory[itemName] || 0);
+      }
+      return totalCount;
+    }
+
     // 3. Check for game-specific state methods (e.g., has_from_list_unique for Mario Land 2)
     if (manager.stateMethods && typeof manager.stateMethods[method] === 'function') {
       const snapshot = manager.getSnapshot();
       const staticData = manager.getStaticGameData();
-      return manager.stateMethods[method](snapshot, staticData, ...args);
+      // Pass player ID as the last argument if not already provided
+      // State methods like _tww_rematch_bosses_skipped need the player ID to look up settings
+      const argsWithPlayer = args.length === 0 ? [manager.playerId] : args;
+      return manager.stateMethods[method](snapshot, staticData, ...argsWithPlayer);
     }
 
     // 4. Look in modern helperFunctions system
@@ -169,7 +301,10 @@ export function executeStateMethod(manager, method, ...args) {
       if (typeof manager.helperFunctions[method] === 'function') {
         const snapshot = manager.getSnapshot();
         const staticData = manager.getStaticGameData();
-        return manager.helperFunctions[method](snapshot, staticData, ...args);
+        // Pass player ID as the last argument if not already provided
+        // Helper functions called as state_methods need the player ID for multiworld support
+        const argsWithPlayer = args.length === 0 ? [manager.playerId] : args;
+        return manager.helperFunctions[method](snapshot, staticData, ...argsWithPlayer);
       }
     }
 

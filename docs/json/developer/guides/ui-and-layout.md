@@ -8,7 +8,7 @@ Golden Layout is the foundation of the UI. It is a web-based window manager that
 
 -   **Panels and Stacks:** All UI components live inside panels. Panels can be arranged into rows and columns, or stacked on top of each other to create tabbed views.
 -   **Dynamic Layout:** Users can drag, drop, resize, and close panels. Golden Layout handles the complex logic of rearranging the layout tree.
--   **Configuration (`layout_presets.json`):** The initial arrangement of panels is defined in `layout_presets.json`. This file contains one or more named layout configurations (e.g., `"default"`, `"compact"`). The active layout is chosen based on the application's current mode and settings.
+-   **Configuration (`layout-configs/layout_presets.json`):** The initial arrangement of panels is defined in `layout-configs/layout_presets.json`. This file contains one or more named layout configurations (e.g., `"default"`, `"compact"`). The active layout is chosen based on the application's current mode and settings.
 -   **Persistence:** A user's custom layout is automatically saved to their browser's `localStorage` and will be restored on their next visit.
 
 ## The Panel Manager (`panelManager.js`)
@@ -99,4 +99,8 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('myModulePanel', MyModuleUI);
 }```
 
-This `componentType` string (`'myModulePanel'`) is the same string used in `layout_presets.json` to define where this panel should appear in the default layout.
+This `componentType` string (`'myModulePanel'`) is the same string used in `layout-configs/layout_presets.json` to define where this panel should appear in the default layout.
+
+## See Also
+
+- **[Desktop and Mobile Layout](./desktop-and-mobile-layout.md)** - Device detection, desktop vs mobile layout modes, responsive breakpoints, and column navigation

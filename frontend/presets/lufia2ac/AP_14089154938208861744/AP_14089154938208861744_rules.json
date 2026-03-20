@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "Lufia II Ancient Cave",
   "game_directory": "lufia2ac",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "L2ACWorld"
   },
   "regions": {
     "1": {
@@ -19,8 +17,7 @@
             "name": "AncientDungeonEntrance",
             "connected_region": "AncientDungeon",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -28,16 +25,16 @@
       },
       "AncientDungeon": {
         "name": "AncientDungeon",
+        "hint_text": "Ancient Dungeon",
         "exits": [
           {
             "name": "FinalFloorEntrance",
             "connected_region": "FinalFloor",
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             }
           }
@@ -47,81 +44,79 @@
             "name": "Blue chest 1",
             "id": 11272192,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Cryst shield",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 2",
             "id": 11272193,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Sizzle sword",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 3",
             "id": 11272194,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Thundo jewel",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 4",
             "id": 11272195,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Snow sword",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 5",
             "id": 11272196,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Silver eye",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 6",
             "id": 11272197,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -129,17 +124,16 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 7",
             "id": 11272198,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -147,17 +141,16 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 8",
             "id": 11272199,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -165,17 +158,16 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 9",
             "id": 11272200,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -183,17 +175,16 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 10",
             "id": 11272201,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -201,17 +192,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 11",
             "id": 11272202,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -219,17 +210,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 12",
             "id": 11272203,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -237,17 +228,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 13",
             "id": 11272204,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -255,17 +246,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 14",
             "id": 11272205,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -273,17 +264,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 15",
             "id": 11272206,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -291,17 +282,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 16",
             "id": 11272207,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -309,17 +300,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 17",
             "id": 11272208,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -327,17 +318,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 18",
             "id": 11272209,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -345,17 +336,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 19",
             "id": 11272210,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -363,17 +354,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 20",
             "id": 11272211,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -381,17 +372,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 21",
             "id": 11272212,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -399,17 +390,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 22",
             "id": 11272213,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -417,17 +408,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 23",
             "id": 11272214,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -435,17 +426,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 24",
             "id": 11272215,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -453,17 +444,17 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Blue chest 25",
             "id": 11272216,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -471,31 +462,32 @@
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Chest access 6-10",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Progressive chest access",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
           },
           {
             "name": "Chest access 11-15",
             "id": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access"
               }
             },
             "item": {
@@ -503,17 +495,19 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
           },
           {
             "name": "Chest access 16-20",
             "id": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 2
               }
             },
             "item": {
@@ -521,17 +515,19 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
           },
           {
             "name": "Chest access 21-25",
             "id": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 3
               }
             },
             "item": {
@@ -539,17 +535,19 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
           },
           {
             "name": "Iris treasure 4",
             "id": 11273119,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -557,17 +555,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 3",
             "id": 11273118,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -575,17 +573,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 6",
             "id": 11273121,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -593,17 +591,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 8",
             "id": 11273123,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -611,17 +609,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 5",
             "id": 11273120,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -629,17 +627,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 2",
             "id": 11273117,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -647,17 +645,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 7",
             "id": 11273122,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -665,17 +663,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 1",
             "id": 11273116,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -683,17 +681,17 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           },
           {
             "name": "Iris treasure 9",
             "id": 11273124,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -701,37 +699,39 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           }
         ]
       },
       "FinalFloor": {
         "name": "FinalFloor",
+        "hint_text": "Ancient Cave Final Floor",
         "exits": [],
         "locations": [
           {
             "name": "Final Floor reached",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Final Floor access",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           },
           {
             "name": "Boss",
             "id": 11272642,
             "access_rule": {
-              "type": "item_check",
-              "item": "Progressive chest access",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive chest access",
+                "count": 4
               }
             },
             "item": {
@@ -739,7 +739,8 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true
           }
         ]
       }
@@ -761,10 +762,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -774,10 +772,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -787,10 +782,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -800,10 +792,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -813,10 +802,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -826,10 +812,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -839,10 +822,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -852,10 +832,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -865,10 +842,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -878,10 +852,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -891,10 +862,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -904,10 +872,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -917,10 +882,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -930,10 +892,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -943,10 +902,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -956,10 +912,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -969,10 +922,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -982,10 +932,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -995,10 +942,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1008,10 +952,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1021,10 +962,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1034,10 +972,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1047,10 +982,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1060,10 +992,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1073,10 +1002,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1086,10 +1012,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1099,10 +1022,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1112,10 +1032,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1125,10 +1042,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1138,10 +1052,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1151,10 +1062,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1164,10 +1072,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1177,10 +1082,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1190,10 +1092,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1203,10 +1102,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1216,10 +1112,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1229,10 +1122,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1242,10 +1132,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1255,10 +1142,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1268,10 +1152,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1281,10 +1162,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1294,10 +1172,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1307,10 +1182,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1320,10 +1192,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1333,10 +1202,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1346,10 +1212,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1359,10 +1222,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1372,10 +1232,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1385,10 +1242,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1398,10 +1252,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1411,10 +1262,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1424,10 +1272,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1437,10 +1282,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1450,10 +1292,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1463,10 +1302,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1476,10 +1312,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1489,10 +1322,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1502,10 +1332,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1515,10 +1342,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1528,10 +1352,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1541,10 +1362,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1554,10 +1372,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1567,10 +1382,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1580,10 +1392,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1593,10 +1402,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1606,10 +1412,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1619,10 +1422,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1632,10 +1432,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1645,10 +1442,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1658,10 +1452,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1671,10 +1462,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1684,10 +1472,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1697,10 +1482,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1710,10 +1492,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1723,10 +1502,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1736,10 +1512,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1749,10 +1522,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1762,10 +1532,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1775,10 +1542,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1788,10 +1552,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1801,10 +1562,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1814,10 +1572,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1827,10 +1582,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1840,10 +1592,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1853,10 +1602,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1866,10 +1612,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1879,10 +1622,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1892,10 +1632,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1905,10 +1642,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1918,10 +1652,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1931,10 +1662,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1944,10 +1672,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1957,10 +1682,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1970,10 +1692,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1983,10 +1702,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1996,10 +1712,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2009,10 +1722,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2022,10 +1732,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2035,10 +1742,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2048,10 +1752,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2061,10 +1762,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2074,10 +1772,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2087,10 +1782,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2100,10 +1792,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2113,10 +1802,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2126,10 +1812,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2139,10 +1822,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2152,10 +1832,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2165,10 +1842,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2178,10 +1852,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2191,10 +1862,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2204,10 +1872,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2217,10 +1882,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2230,10 +1892,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2243,10 +1902,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2256,10 +1912,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2269,10 +1922,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2282,10 +1932,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2295,10 +1942,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2308,10 +1952,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2321,10 +1962,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2334,10 +1972,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2347,10 +1982,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2360,10 +1992,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2373,10 +2002,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2386,10 +2012,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2399,10 +2022,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2412,10 +2032,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2425,10 +2042,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2438,10 +2052,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2451,10 +2062,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2464,10 +2072,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2477,10 +2082,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2490,10 +2092,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2503,10 +2102,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2516,10 +2112,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2529,10 +2122,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2542,10 +2132,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2555,10 +2142,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2568,10 +2152,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2581,10 +2162,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2594,10 +2172,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2607,10 +2182,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2620,10 +2192,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2633,10 +2202,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2646,10 +2212,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2659,10 +2222,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2672,10 +2232,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2685,10 +2242,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2698,10 +2252,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2711,10 +2262,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2724,10 +2272,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2737,10 +2282,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2750,10 +2292,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2763,10 +2302,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2776,10 +2312,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2789,10 +2322,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2802,10 +2332,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2815,10 +2342,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2828,10 +2352,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2841,10 +2362,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2854,10 +2372,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2867,10 +2382,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2880,10 +2392,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2893,10 +2402,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2906,10 +2412,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2919,10 +2422,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2932,10 +2432,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2945,10 +2442,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2958,10 +2452,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2971,10 +2462,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2984,10 +2472,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2997,10 +2482,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3010,10 +2492,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3023,10 +2502,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3036,10 +2512,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3049,10 +2522,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3062,10 +2532,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3075,10 +2542,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3088,10 +2552,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3101,10 +2562,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3114,10 +2572,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3127,10 +2582,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3140,10 +2592,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3153,10 +2602,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3166,10 +2612,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3179,10 +2622,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3192,10 +2632,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3205,10 +2642,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3218,10 +2652,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3231,10 +2662,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3244,10 +2672,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3257,10 +2682,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3270,10 +2692,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3283,10 +2702,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3296,10 +2712,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3309,10 +2722,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3322,10 +2732,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3335,10 +2742,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3348,10 +2752,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3361,10 +2762,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3374,10 +2772,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3387,10 +2782,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3400,10 +2792,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3413,10 +2802,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3426,10 +2812,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3439,10 +2822,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3452,10 +2832,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3465,10 +2842,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3478,10 +2852,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3491,10 +2862,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3504,10 +2872,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3517,10 +2882,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3530,10 +2892,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3543,10 +2902,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3556,10 +2912,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3569,10 +2922,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3582,10 +2932,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3595,10 +2942,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3608,10 +2952,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3621,10 +2962,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3634,10 +2972,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3647,10 +2982,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3660,10 +2992,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3673,10 +3002,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3686,10 +3012,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3699,10 +3022,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3712,10 +3032,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3725,10 +3042,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3738,10 +3052,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3751,10 +3062,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3764,10 +3072,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3777,10 +3082,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3790,10 +3092,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3803,10 +3102,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3816,10 +3112,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3829,10 +3122,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3842,10 +3132,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3855,10 +3142,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3868,10 +3152,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3881,10 +3162,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3894,10 +3172,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3907,10 +3182,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3920,10 +3192,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3933,10 +3202,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3946,10 +3212,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3959,10 +3222,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3972,10 +3232,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3985,10 +3242,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -3998,10 +3252,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4011,10 +3262,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4024,10 +3272,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4037,10 +3282,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4050,10 +3292,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4063,10 +3302,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4076,10 +3312,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4089,10 +3322,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4102,10 +3332,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4115,10 +3342,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4128,10 +3352,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4141,10 +3362,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4154,10 +3372,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4167,10 +3382,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4180,10 +3392,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4193,10 +3402,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4206,10 +3412,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4219,10 +3422,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4232,10 +3432,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4245,10 +3442,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4258,10 +3452,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4271,10 +3462,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4284,10 +3472,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4297,10 +3482,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4310,10 +3492,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4323,10 +3502,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4336,10 +3512,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4349,10 +3522,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4362,10 +3532,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4375,10 +3542,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4388,10 +3552,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4401,10 +3562,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4414,10 +3572,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4427,10 +3582,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4440,10 +3592,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4453,10 +3602,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4466,10 +3612,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4479,10 +3622,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4492,10 +3632,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4505,10 +3642,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4518,10 +3652,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4531,10 +3662,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4544,10 +3672,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4557,10 +3682,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4570,10 +3692,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4583,10 +3702,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4596,10 +3712,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4609,10 +3722,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4622,10 +3732,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4635,10 +3742,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4648,10 +3752,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4661,10 +3762,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4674,10 +3772,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4687,10 +3782,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4700,10 +3792,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4713,10 +3802,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4726,10 +3812,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4739,10 +3822,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4752,10 +3832,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4765,10 +3842,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4778,10 +3852,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4791,10 +3862,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4804,10 +3872,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4817,10 +3882,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4830,10 +3892,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4843,10 +3902,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4856,10 +3912,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4870,10 +3923,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4884,10 +3934,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4898,10 +3945,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4912,10 +3956,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4926,10 +3967,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4940,10 +3978,7 @@
           "Everything",
           "Party members"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4954,10 +3989,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4968,10 +4000,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4982,10 +4011,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -4996,10 +4022,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5010,10 +4033,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5024,10 +4044,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5038,10 +4055,7 @@
           "Capsule monsters",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5051,10 +4065,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5065,10 +4076,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5079,10 +4087,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5093,10 +4098,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5107,10 +4109,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5121,10 +4120,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5135,10 +4131,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5149,10 +4142,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5163,10 +4153,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5177,10 +4164,7 @@
           "Everything",
           "Iris treasures"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression_skip_balancing",
         "type": null,
         "max_count": 1
       },
@@ -5191,12 +4175,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Blaze sword": {
         "name": "Blaze sword",
@@ -5205,10 +4186,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5219,12 +4197,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Sky sword": {
         "name": "Sky sword",
@@ -5233,12 +4208,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Snow sword": {
         "name": "Snow sword",
@@ -5247,12 +4219,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Fry sword": {
         "name": "Fry sword",
@@ -5261,10 +4230,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5275,10 +4241,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5289,10 +4252,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5303,12 +4263,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Water spear": {
         "name": "Water spear",
@@ -5317,10 +4274,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5331,12 +4285,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 6
+        "max_count": 3
       },
       "Mirak plate": {
         "name": "Mirak plate",
@@ -5345,10 +4296,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5359,10 +4307,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5373,12 +4318,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Water gaunt": {
         "name": "Water gaunt",
@@ -5387,10 +4329,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5401,10 +4340,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5415,12 +4351,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Dark mirror": {
         "name": "Dark mirror",
@@ -5429,12 +4362,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Apron shield": {
         "name": "Apron shield",
@@ -5443,10 +4373,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5457,12 +4384,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 6
+        "max_count": 3
       },
       "Boom turban": {
         "name": "Boom turban",
@@ -5471,12 +4395,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Aqua helm": {
         "name": "Aqua helm",
@@ -5485,12 +4406,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Ice hairband": {
         "name": "Ice hairband",
@@ -5499,10 +4417,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5513,10 +4428,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5527,10 +4439,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5541,12 +4450,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Sea ring": {
         "name": "Sea ring",
@@ -5555,10 +4461,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5569,10 +4472,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5583,10 +4483,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5597,12 +4494,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Earth jewel": {
         "name": "Earth jewel",
@@ -5611,12 +4505,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Twist jewel": {
         "name": "Twist jewel",
@@ -5625,10 +4516,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5639,10 +4527,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5653,10 +4538,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5667,12 +4549,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Camu jewel": {
         "name": "Camu jewel",
@@ -5681,10 +4560,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5695,10 +4571,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5709,10 +4582,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5723,10 +4593,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5737,12 +4604,9 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Gold eye": {
         "name": "Gold eye",
@@ -5751,10 +4615,7 @@
           "Blue chest items",
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5764,10 +4625,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5777,10 +4635,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5790,10 +4645,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5803,10 +4655,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5816,10 +4665,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5829,10 +4675,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5842,10 +4685,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5855,10 +4695,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5868,10 +4705,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5881,10 +4715,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5894,10 +4725,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5907,10 +4735,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5920,10 +4745,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5933,10 +4755,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5946,10 +4765,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5959,10 +4775,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5972,10 +4785,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5985,10 +4795,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -5998,10 +4805,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6011,10 +4815,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6024,10 +4825,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6037,10 +4835,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6050,10 +4845,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6063,10 +4855,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6076,10 +4865,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6089,10 +4875,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6102,10 +4885,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6115,10 +4895,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6128,10 +4905,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6141,10 +4915,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6154,10 +4925,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6167,10 +4935,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6180,10 +4945,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6193,10 +4955,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6206,10 +4965,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -6219,9 +4975,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 4
@@ -6232,9 +4986,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -6252,20 +5004,20 @@
   },
   "itempool_counts": {
     "1": {
-      "Agony helm": 6,
-      "Air whip": 2,
+      "Agony helm": 3,
+      "Air whip": 1,
       "Ancient key": 1,
-      "Aqua helm": 2,
-      "Boom turban": 4,
-      "Catfish jwl.": 2,
-      "Cryst shield": 2,
-      "Dark mirror": 4,
-      "Dia ring": 2,
-      "Dragon spear": 6,
-      "Earth jewel": 2,
+      "Aqua helm": 1,
+      "Boom turban": 2,
+      "Catfish jwl.": 1,
+      "Cryst shield": 1,
+      "Dark mirror": 2,
+      "Dia ring": 1,
+      "Dragon spear": 3,
+      "Earth jewel": 1,
       "Final Floor access": 1,
-      "Flame shield": 2,
-      "Gades blade": 2,
+      "Flame shield": 1,
+      "Gades blade": 1,
       "Iris armor": 1,
       "Iris helmet": 1,
       "Iris jewel": 1,
@@ -6276,12 +5028,15 @@
       "Iris sword": 1,
       "Iris tiara": 1,
       "Progressive chest access": 4,
-      "Silver eye": 2,
-      "Sizzle sword": 4,
-      "Sky sword": 2,
-      "Snow sword": 4,
-      "Thundo jewel": 2
+      "Silver eye": 1,
+      "Sizzle sword": 2,
+      "Sky sword": 1,
+      "Snow sword": 2,
+      "Thundo jewel": 1
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -6289,19 +5044,406 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Lufia II Ancient Cave",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "L2ACWorld",
+      "options": {
+        "accessibility": 0,
+        "blue_chest_chance": 25,
+        "blue_chest_count": 25,
+        "boss": 38,
+        "capsule_cravings_jp_style": false,
+        "capsule_starting_form": 1,
+        "capsule_starting_level": 1,
+        "crowded_floor_chance": 16,
+        "custom_item_pool": {},
+        "death_link": false,
+        "default_capsule": 0,
+        "default_party": "M",
+        "enemy_floor_numbers": 0,
+        "enemy_movement_patterns": 0,
+        "enemy_sprites": 0,
+        "exclude_locations": [],
+        "exp_modifier": 100,
+        "final_floor": 99,
+        "gear_variety_after_b9": false,
+        "goal": 1,
+        "gold_modifier": 100,
+        "healing_floor_chance": 16,
+        "inactive_exp_gain": 0,
+        "initial_floor": 1,
+        "iris_floor_chance": 5,
+        "iris_treasures_required": 9,
+        "item_links": [],
+        "local_items": [],
+        "master_hp": 9980,
+        "non_local_items": [],
+        "party_starting_level": 1,
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "run_speed": 8,
+        "shop_interval": 0,
+        "shop_inventory": {
+          "gear": 45,
+          "spell": 30,
+          "weapon": 82
+        },
+        "shuffle_capsule_monsters": false,
+        "shuffle_party_members": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": []
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "blue_chest_chance": {
+          "type": "range",
+          "range_start": 5,
+          "range_end": 75,
+          "default": 25,
+          "display_name": "Blue chest chance"
+        },
+        "blue_chest_count": {
+          "type": "range",
+          "range_start": 10,
+          "range_end": 100,
+          "default": 25,
+          "display_name": "Blue chest count"
+        },
+        "boss": {
+          "type": "choice",
+          "name_lookup": {
+            "1": "lizard_man",
+            "2": "big_catfish",
+            "5": "regal_goblin",
+            "6": "follower_x2",
+            "7": "camu",
+            "8": "tarantula",
+            "9": "pierre",
+            "10": "daniele",
+            "11": "gades_a",
+            "12": "mummy_x4",
+            "13": "troll_x3",
+            "14": "gades_b",
+            "15": "idura_a",
+            "18": "lion_x2",
+            "19": "idura_b",
+            "20": "idura_c",
+            "21": "rogue_flower",
+            "22": "soldier_x4",
+            "23": "gargoyle_x4",
+            "24": "venge_ghost",
+            "25": "white_dragon_x3",
+            "26": "fire_dragon",
+            "27": "ghost_ship",
+            "30": "tank",
+            "31": "gades_c",
+            "32": "amon",
+            "35": "erim",
+            "36": "daos",
+            "37": "egg_dragon",
+            "38": "master",
+            "39": "random-low",
+            "40": "random-middle",
+            "41": "random-high",
+            "42": "random-sinistral"
+          },
+          "default": 38,
+          "display_name": "Boss"
+        },
+        "capsule_cravings_jp_style": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Capsule cravings JP style"
+        },
+        "capsule_starting_form": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 5,
+          "default": 1,
+          "display_name": "Capsule monster starting form"
+        },
+        "capsule_starting_level": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 99,
+          "default": 1,
+          "display_name": "Capsule monster starting level"
+        },
+        "crowded_floor_chance": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 255,
+          "default": 16,
+          "display_name": "Crowded floor chance"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "default_capsule": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "jelze",
+            "1": "flash",
+            "2": "gusto",
+            "3": "zeppy",
+            "4": "darbi",
+            "5": "sully",
+            "6": "blaze"
+          },
+          "default": 0,
+          "display_name": "Default capsule monster"
+        },
+        "default_party": {
+          "type": "choice",
+          "name_lookup": {
+            "random-2p": "random-2p",
+            "random-3p": "random-3p",
+            "random-4p": "random-4p",
+            "M": "m",
+            "MA": "ma",
+            "MD": "md",
+            "MG": "mg",
+            "ML": "ml",
+            "MS": "ms",
+            "MT": "mt",
+            "MAD": "mad",
+            "MAG": "mag",
+            "MAL": "mal",
+            "MAS": "mas",
+            "MAT": "mat",
+            "MDG": "mdg",
+            "MDL": "mdl",
+            "MDS": "mds",
+            "MDT": "mdt",
+            "MGL": "mgl",
+            "MGS": "mgs",
+            "MGT": "mgt",
+            "MLS": "mls",
+            "MLT": "mlt",
+            "MST": "mst",
+            "MADG": "madg",
+            "MADL": "madl",
+            "MADS": "mads",
+            "MADT": "madt",
+            "MAGL": "magl",
+            "MAGS": "mags",
+            "MAGT": "magt",
+            "MALS": "mals",
+            "MALT": "malt",
+            "MAST": "mast",
+            "MDGL": "mdgl",
+            "MDGS": "mdgs",
+            "MDGT": "mdgt",
+            "MDLS": "mdls",
+            "MDLT": "mdlt",
+            "MDST": "mdst",
+            "MGLS": "mgls",
+            "MGLT": "mglt",
+            "MGST": "mgst",
+            "MLST": "mlst"
+          },
+          "default": "M",
+          "display_name": "Default party lineup"
+        },
+        "enemy_floor_numbers": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "vanilla",
+            "1": "shuffle",
+            "2": "randomize"
+          },
+          "default": 0,
+          "display_name": "Enemy floor numbers"
+        },
+        "enemy_movement_patterns": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "vanilla",
+            "1": "shuffle_by_pattern",
+            "2": "randomize_by_pattern",
+            "3": "shuffle_by_sprite",
+            "4": "randomize_by_sprite",
+            "5": "singularity"
+          },
+          "default": 0,
+          "display_name": "Enemy movement patterns"
+        },
+        "enemy_sprites": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "vanilla",
+            "1": "shuffle",
+            "2": "randomize",
+            "3": "singularity"
+          },
+          "default": 0,
+          "display_name": "Enemy sprites"
+        },
+        "exp_modifier": {
+          "type": "range",
+          "range_start": 100,
+          "range_end": 500,
+          "default": 100,
+          "display_name": "EXP modifier"
+        },
+        "final_floor": {
+          "type": "range",
+          "range_start": 2,
+          "range_end": 99,
+          "default": 99,
+          "display_name": "Final floor"
+        },
+        "gear_variety_after_b9": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Increase gear variety after B9"
+        },
+        "goal": {
+          "type": "choice",
+          "name_lookup": {
+            "1": "boss",
+            "2": "iris_treasure_hunt",
+            "3": "boss_iris_treasure_hunt",
+            "4": "final_floor"
+          },
+          "default": 1,
+          "display_name": "Goal"
+        },
+        "gold_modifier": {
+          "type": "range",
+          "range_start": 25,
+          "range_end": 400,
+          "default": 100,
+          "display_name": "Gold modifier"
+        },
+        "healing_floor_chance": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 255,
+          "default": 16,
+          "display_name": "Healing tile floor chance"
+        },
+        "inactive_exp_gain": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "disabled",
+            "50": "half",
+            "100": "full"
+          },
+          "default": 0,
+          "display_name": "Inactive character EXP gain"
+        },
+        "initial_floor": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 98,
+          "default": 1,
+          "display_name": "Initial floor"
+        },
+        "iris_floor_chance": {
+          "type": "range",
+          "range_start": 5,
+          "range_end": 255,
+          "default": 5,
+          "display_name": "Iris treasure floor chance"
+        },
+        "iris_treasures_required": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 9,
+          "default": 9,
+          "display_name": "Iris treasures required"
+        },
+        "master_hp": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 9980,
+          "default": 9980,
+          "display_name": "Master HP"
+        },
+        "party_starting_level": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 99,
+          "default": 1,
+          "display_name": "Party starting level"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "run_speed": {
+          "type": "choice",
+          "name_lookup": {
+            "8": "disabled",
+            "16": "double",
+            "22": "triple",
+            "32": "quadruple"
+          },
+          "default": 8,
+          "display_name": "Run speed"
+        },
+        "shop_interval": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 10,
+          "default": 0,
+          "display_name": "Shop interval"
+        },
+        "shuffle_capsule_monsters": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Shuffle capsule monsters"
+        },
+        "shuffle_party_members": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Shuffle party members"
+        }
+      },
+      "world_description": "The Ancient Cave is a roguelike dungeon crawling game built into\nthe RGP Lufia II. Face 99 floors of ever harder to beat monsters,\nrandom items and find new companions on the way to face the Royal\nJelly in the end. Can you beat it?",
+      "web": {
+        "theme": "dirt",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Lufia II Ancient Cave for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "word_fcuk"
+            ]
+          }
+        ]
+      },
+      "world_directory": "lufia2ac"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "Lufia II Ancient Cave",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Ancient key"
       }
     }
-  }
+  },
+  "helpers": {}
 }

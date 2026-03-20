@@ -60,13 +60,22 @@ class BinaryOpProcessor:
                     return {'type': 'list', 'value': result_list}
 
             # Handle list addition: list1 + list2
-            elif (op_symbol == '+' and
-                  left_result and left_result.get('type') == 'name' and
-                  right_result and right_result.get('type') == 'name'):
+            # Supports both 'name' types (resolved via game handler) and 'constant' types (directly resolved lists)
+            elif op_symbol == '+':
+                left_data = None
+                right_data = None
 
-                # Try to resolve both list references
-                left_data = self.try_resolve_list_data(left_result)
-                right_data = self.try_resolve_list_data(right_result)
+                # Try to get left list data
+                if left_result and left_result.get('type') == 'name':
+                    left_data = self.try_resolve_list_data(left_result)
+                elif left_result and left_result.get('type') == 'constant' and isinstance(left_result.get('value'), list):
+                    left_data = left_result.get('value')
+
+                # Try to get right list data
+                if right_result and right_result.get('type') == 'name':
+                    right_data = self.try_resolve_list_data(right_result)
+                elif right_result and right_result.get('type') == 'constant' and isinstance(right_result.get('value'), list):
+                    right_data = right_result.get('value')
 
                 if left_data is not None and right_data is not None:
                     combined_list = left_data + right_data
@@ -112,6 +121,14 @@ class BinaryOpProcessor:
             The list length, or None if it can't be resolved
         """
         try:
+            # Handle constant lists directly
+            if list_ref and list_ref.get('type') == 'constant':
+                constant_value = list_ref.get('value')
+                if isinstance(constant_value, list):
+                    length = len(constant_value)
+                    logging.debug(f"Resolved length of constant list to {length}")
+                    return length
+
             # Handle direct name references to known collections
             if list_ref and list_ref.get('type') == 'name':
                 name = list_ref.get('name')
@@ -206,6 +223,32 @@ class BinaryOpProcessor:
                     length = len(constant_list)
                     logging.debug(f"Pre-processed len() of constant list to {length}")
                     return {'type': 'constant', 'value': length}
+
+            # Handle binary_op type (list concatenation like list1 + list2)
+            if list_ref and list_ref.get('type') == 'binary_op' and list_ref.get('op') == '+':
+                # Try to resolve the combined list
+                left_data = None
+                right_data = None
+
+                left_ref = list_ref.get('left')
+                right_ref = list_ref.get('right')
+
+                # Try to resolve left operand
+                if left_ref and left_ref.get('type') == 'name':
+                    left_data = self.try_resolve_list_data(left_ref)
+                elif left_ref and left_ref.get('type') == 'constant' and isinstance(left_ref.get('value'), list):
+                    left_data = left_ref.get('value')
+
+                # Try to resolve right operand
+                if right_ref and right_ref.get('type') == 'name':
+                    right_data = self.try_resolve_list_data(right_ref)
+                elif right_ref and right_ref.get('type') == 'constant' and isinstance(right_ref.get('value'), list):
+                    right_data = right_ref.get('value')
+
+                if left_data is not None and right_data is not None:
+                    combined_length = len(left_data) + len(right_data)
+                    logging.debug(f"Pre-processed len() of list concatenation to {combined_length}")
+                    return {'type': 'constant', 'value': combined_length}
 
             return None  # Can't pre-process
         except Exception as e:

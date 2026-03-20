@@ -32,6 +32,9 @@ def make_json_serializable(value: Any) -> Any:
     Convert a value to a JSON-serializable format.
     Handles sets, tuples, and other non-JSON-serializable types.
 
+    For NamedTuples, preserves field metadata so the code generator can
+    reconstruct proper attribute access.
+
     Args:
         value: The value to convert
 
@@ -45,6 +48,17 @@ def make_json_serializable(value: Any) -> Any:
         processed = [make_json_serializable(item) for item in value]
         return sorted(processed, key=lambda x: (str(type(x).__name__), str(x)))
     elif isinstance(value, tuple):
+        # Check for NamedTuple BEFORE treating as regular tuple
+        # NamedTuples have a _fields attribute with field names
+        if hasattr(value, '_fields'):
+            # Preserve NamedTuple field metadata for proper code generation
+            # This allows the code generator to convert attribute access to index access
+            # Also include the type name so constructor calls can be mapped
+            return {
+                '_namedtuple_type': type(value).__name__,
+                '_namedtuple_fields': list(value._fields),  # type: ignore[attr-defined]
+                '_namedtuple_values': [make_json_serializable(item) for item in value]
+            }
         return [make_json_serializable(item) for item in value]
     elif isinstance(value, list):
         return [make_json_serializable(item) for item in value]
@@ -92,7 +106,7 @@ class LambdaFinder(ast.NodeVisitor):
             method_name = call_node.func.attr
             if method_name in ['get_location', 'get_entrance', 'get_region']:
                 if len(call_node.args) > 0 and isinstance(call_node.args[0], ast.Constant):
-                    return call_node.args[0].value
+                    return call_node.args[0].value  # type: ignore[return-value]
                 else:
                     logging.warning(f"LambdaFinder: No constant arg found for {method_name} call.")
         return None

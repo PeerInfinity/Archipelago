@@ -1,10 +1,10 @@
 // locationUI.js
 import {
   stateManagerProxySingleton as stateManager,
-  // createStateSnapshotInterface, // Removed redundant import
+  // createSnapshotInterface, // Removed redundant import
 } from '../stateManager/index.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // Keep this one
+import { createSnapshotInterface } from '../shared/snapshotInterface.js'; // Keep this one
 import commonUI, {
   debounce,
   renderLogicTree,
@@ -12,13 +12,12 @@ import commonUI, {
 } from '../commonUI/index.js';
 // Discovery mode tracking will be done via event listener
 import settingsManager from '../../app/core/settingsManager.js';
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus, getDispatcher } from './index.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import {
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
 } from '../commonUI/index.js';
-import { getDispatcher } from './index.js'; // Added import for dispatcher
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -35,6 +34,7 @@ export class LocationUI {
   constructor(container, componentState) {
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
     this.columns = 2; // Default number of columns
     this.rootElement = this.createRootElement(); // Create the root element on instantiation
     this.locationsGrid = this.rootElement.querySelector('#locations-grid'); // Cache grid element
@@ -49,6 +49,14 @@ export class LocationUI {
     this.isDiscoveryModeActive = false; // Track discovery mode state
     this.originalLocationOrder = []; // ADDED: To store original keys
     this.pendingLocations = new Set(); // ADDED: To track pending locations
+
+    // Discovery settings cache
+    this.discoverySettings = {
+      undiscoveredDisplay: 'hidden',
+      clickDiscoversLocation: true,
+      disableLocationCheckUI: false,
+      showUndiscoveredDetails: false
+    };
     // this.dispatcher = getDispatcher(); // Removed from constructor
 
     this.container.element.appendChild(this.rootElement);
@@ -84,13 +92,26 @@ export class LocationUI {
         '[LocationUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
 
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'locations');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
     });
+
+    // If the app is already initialized (e.g., this panel was created after a layout reload
+    // via goldenLayoutInstance.loadLayout()), app:readyForUiDataLoad will never fire again.
+    // In that case, initialize immediately and render with whatever data is available.
+    const existingStaticData = stateManager.getStaticData();
+    if (existingStaticData?.locations) {
+      this.initialize();
+      this.dispatcher = getDispatcher();
+      this.isInitialized = true;
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.originalLocationOrder = stateManager.getOriginalLocationOrder() || [];
+      this.updateLocationDisplay();
+    }
   }
 
   async subscribeToSettings() {
@@ -104,6 +125,13 @@ export class LocationUI {
       this.showName = await settingsManager.getSetting('moduleSettings.locations.showName', true);
       this.showLabel1 = await settingsManager.getSetting('moduleSettings.locations.showLabel1', false);
       this.showLabel2 = await settingsManager.getSetting('moduleSettings.locations.showLabel2', false);
+      this.useSubstitutedNames = await settingsManager.getSetting('generalSettings.useSubstitutedNames', true);
+      // Load discovery settings
+      this.discoverySettings.undiscoveredDisplay = await settingsManager.getSetting('moduleSettings.discovery.undiscoveredDisplay', 'hidden');
+      this.discoverySettings.clickDiscoversLocation = await settingsManager.getSetting('moduleSettings.discovery.clickDiscoversLocation', true);
+      this.discoverySettings.disableLocationCheckUI = await settingsManager.getSetting('moduleSettings.discovery.disableLocationCheckUI', false);
+      this.discoverySettings.showUndiscoveredDetails = await settingsManager.getSetting('moduleSettings.discovery.showUndiscoveredDetails', false);
+      this.isDiscoveryModeActive = await settingsManager.getSetting('moduleSettings.discovery.enableDiscoveryMode', false);
     } catch (error) {
       log('error', 'Error loading settings:', error);
       this.colorblindSettings = false;
@@ -111,12 +139,13 @@ export class LocationUI {
       this.showName = true;
       this.showLabel1 = false;
       this.showLabel2 = false;
+      this.useSubstitutedNames = true;
     }
 
-    this.settingsUnsubscribe = eventBus.subscribe(
+    this.settingsUnsubscribe = this.eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems') || key.startsWith('moduleSettings.locations.showName') || key.startsWith('moduleSettings.locations.showLabel1') || key.startsWith('moduleSettings.locations.showLabel2')) {
+        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems') || key.startsWith('moduleSettings.locations.showName') || key.startsWith('moduleSettings.locations.showLabel1') || key.startsWith('moduleSettings.locations.showLabel2') || key.startsWith('generalSettings.useSubstitutedNames')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
           try {
@@ -125,6 +154,7 @@ export class LocationUI {
             this.showName = await settingsManager.getSetting('moduleSettings.locations.showName', true);
             this.showLabel1 = await settingsManager.getSetting('moduleSettings.locations.showLabel1', false);
             this.showLabel2 = await settingsManager.getSetting('moduleSettings.locations.showLabel2', false);
+            this.useSubstitutedNames = await settingsManager.getSetting('generalSettings.useSubstitutedNames', true);
           } catch (error) {
             log('error', 'Error loading settings during update:', error);
             this.colorblindSettings = false;
@@ -132,11 +162,12 @@ export class LocationUI {
             this.showName = true;
             this.showLabel1 = false;
             this.showLabel2 = false;
+            this.useSubstitutedNames = true;
           }
           this.updateLocationDisplay(); // Trigger redraw
         }
       }
-      , 'locations');
+    );
   }
 
   onPanelDestroy() {
@@ -155,8 +186,10 @@ export class LocationUI {
     // Build array of display elements based on enabled settings
     const elements = [];
 
-    if (this.showName && location.name) {
-      elements.push({ type: 'name', text: location.name });
+    const name = (this.useSubstitutedNames && location.displayName) ? location.displayName : location.name;
+
+    if (this.showName && name) {
+      elements.push({ type: 'name', text: name });
     }
 
     if (this.showLabel1 && location.label1) {
@@ -181,14 +214,14 @@ export class LocationUI {
       this.unsubscribeFromStateEvents();
 
       log('info', '[LocationUI] Subscribing to state and loop events...');
-      if (!eventBus) {
-        log('error', '[LocationUI] Imported EventBus is not available!');
+      if (!this.eventBus) {
+        log('error', '[LocationUI] EventBus is not available!');
         return;
       }
 
       const subscribe = (eventName, handler) => {
         log('info', `[LocationUI] Subscribing to ${eventName}`);
-        const unsubscribe = eventBus.subscribe(eventName, handler, 'locations');
+        const unsubscribe = this.eventBus.subscribe(eventName, handler);
         this.stateUnsubscribeHandles.push(unsubscribe);
       };
 
@@ -327,6 +360,9 @@ export class LocationUI {
       // Subscribe to state manager location check rejection events
       subscribe('stateManager:locationCheckRejected', this.handleLocationCheckRejected.bind(this));
 
+      // Subscribe to metaGame progress bar cancellation (e.g. user clicked a new location while previous check was in progress)
+      subscribe('metaGame:progressBarCancelled', this.handleProgressBarCancelled.bind(this));
+
       // Subscribe to loop state changes if relevant
       subscribe('loop:stateChanged', debouncedUpdate); // May affect explored status visibility
       subscribe('loop:actionCompleted', debouncedUpdate); // May affect explored status
@@ -344,6 +380,25 @@ export class LocationUI {
               ? 'inline-block'
               : 'none';
           }
+          const undiscoveredCheckbox =
+            this.rootElement?.querySelector('#show-undiscovered');
+          if (undiscoveredCheckbox && undiscoveredCheckbox.parentElement) {
+            undiscoveredCheckbox.parentElement.style.display = this.isDiscoveryModeActive
+              ? 'inline-block'
+              : 'none';
+          }
+        }
+      });
+
+      // Subscribe to discovery settings changes
+      subscribe('discovery:settingsChanged', (data) => {
+        if (data && data.settings) {
+          this.discoverySettings.undiscoveredDisplay = data.settings.undiscoveredDisplay ?? 'hidden';
+          this.discoverySettings.clickDiscoversLocation = data.settings.clickDiscoversLocation ?? true;
+          this.discoverySettings.disableLocationCheckUI = data.settings.disableLocationCheckUI ?? false;
+          this.discoverySettings.showUndiscoveredDetails = data.settings.showUndiscoveredDetails ?? false;
+          log('info', '[LocationUI] Discovery settings updated:', this.discoverySettings);
+          debouncedUpdate();
         }
       });
     } catch (error) {
@@ -398,6 +453,10 @@ export class LocationUI {
         <label style="display: none"> <!-- Initially hidden, controlled by discovery mode -->
           <input type="checkbox" id="show-explored" checked />
           Show Explored
+        </label>
+        <label style="display: none"> <!-- Initially hidden, controlled by discovery mode -->
+          <input type="checkbox" id="show-undiscovered" checked />
+          Show Undiscovered
         </label>
         <button id="decrease-columns">-</button>
         <span id="column-count" style="margin: 0 5px;">${this.columns}</span> <!-- Display column count -->
@@ -470,6 +529,7 @@ export class LocationUI {
       'show-reachable',
       'show-unreachable',
       'show-explored',
+      'show-undiscovered',
     ].forEach((id) => {
       const element = this.rootElement.querySelector(`#${id}`);
       element?.addEventListener('change', () => this.updateLocationDisplay());
@@ -569,8 +629,21 @@ export class LocationUI {
       return;
     }
 
+    const locationName = locationData.name;
+    const regionName = locationData.region || locationData.parent_region;
+
+    // Discovery mode: if location checks are disabled, only block clicks in undiscovered regions
+    // Locations in discovered regions remain clickable (for loop mode explore)
+    if (this.isDiscoveryModeActive && this.discoverySettings.disableLocationCheckUI) {
+      const isRegionDiscovered = discoveryStateSingleton.isRegionDiscovered(regionName);
+      if (!isRegionDiscovered) {
+        log('info', `[LocationUI] Location check disabled (region ${regionName} not discovered), skipping: ${locationName}`);
+        return;
+      }
+    }
+
     // ADDED: Add to pending set and update UI
-    this.pendingLocations.add(locationData.name);
+    this.pendingLocations.add(locationName);
     this.updateLocationDisplay(); // Trigger UI update to show pending state immediately
 
     if (!this.dispatcher) {
@@ -583,8 +656,6 @@ export class LocationUI {
       // if (!this.dispatcher) return;
       return;
     }
-
-    const locationName = locationData.name;
 
     log(
       'info',
@@ -608,6 +679,8 @@ export class LocationUI {
       regionName: locationData.region, // Ensure regionName is correctly passed
       originator: 'LocationCardClick',
       originalDOMEvent: true, // Assuming this is a direct user click
+      isLocationDiscovered: !this.isDiscoveryModeActive || discoveryStateSingleton.isLocationDiscovered(locationName),
+      isRegionDiscovered: !this.isDiscoveryModeActive || discoveryStateSingleton.isRegionDiscovered(regionName),
     };
 
     const currentDispatcher = getDispatcher(); // Re-fetch dispatcher instance when needed
@@ -651,6 +724,19 @@ export class LocationUI {
       log('info', `[LocationUI] Cleared pending state for rejected location: ${locationName}`);
 
       // Update the display to reflect the cleared pending state
+      this.updateLocationDisplay();
+    }
+  }
+
+  /**
+   * Handles metaGame progress bar cancellation.
+   * Clears pending state for the location whose check was cancelled.
+   */
+  handleProgressBarCancelled(data) {
+    const locationName = data?.eventData?.locationName;
+    if (locationName && this.pendingLocations.has(locationName)) {
+      this.pendingLocations.delete(locationName);
+      log('info', `[LocationUI] Cleared pending state for cancelled location check: ${locationName}`);
       this.updateLocationDisplay();
     }
   }
@@ -734,7 +820,7 @@ export class LocationUI {
     resetUnknownEvaluationCounter(); // Assuming this is a global/static reset from commonUI/index.js
 
     // --- ADDED: Create snapshot interface for rule evaluation on main thread --- >
-    const snapshotInterface = createStateSnapshotInterface(
+    const snapshotInterface = createSnapshotInterface(
       snapshot,
       staticData
     );
@@ -756,6 +842,8 @@ export class LocationUI {
       this.rootElement.querySelector('#show-unreachable').checked;
     const showExplored =
       this.rootElement.querySelector('#show-explored').checked;
+    const showUndiscovered =
+      this.rootElement.querySelector('#show-undiscovered').checked;
     const showPending = this.rootElement.querySelector('#show-pending').checked; // ADDED: Get showPending state
     // sortMethod already declared above
     const searchTerm = this.rootElement
@@ -842,6 +930,41 @@ export class LocationUI {
         }
 
         const isExplored = discoveryStateSingleton.isLocationDiscovered(name);
+
+        // Discovery mode filtering
+        if (this.isDiscoveryModeActive) {
+          const isRegionDiscovered = discoveryStateSingleton.isRegionDiscovered(parentRegionName);
+          const isLocationDiscovered = discoveryStateSingleton.isLocationDiscovered(name);
+
+          // Determine if this location should be shown as a placeholder
+          let shouldShowAsPlaceholder = false;
+
+          if (!isRegionDiscovered) {
+            // Region is undiscovered
+            if (this.discoverySettings.undiscoveredDisplay === 'hidden') {
+              return false; // Hide locations in undiscovered regions
+            } else {
+              // undiscoveredDisplay === 'placeholder'
+              shouldShowAsPlaceholder = true;
+            }
+          } else if (!isLocationDiscovered) {
+            // Region is discovered but location is not
+            shouldShowAsPlaceholder = true;
+          }
+
+          // Store placeholder state on the location object for rendering
+          loc._showAsPlaceholder = shouldShowAsPlaceholder;
+
+          // Apply "Show Undiscovered" filter
+          // Only filter out locations in undiscovered regions.
+          // Locations in discovered regions should always be visible (as clickable ??? cards).
+          if (shouldShowAsPlaceholder && !showUndiscovered && !isRegionDiscovered) {
+            return false;
+          }
+        } else {
+          // Discovery mode not active, clear placeholder state
+          loc._showAsPlaceholder = false;
+        }
 
         // Visibility Filtering Logic (Using detailedStatus)
         if (detailedStatus === 'checked') {
@@ -1208,6 +1331,18 @@ export class LocationUI {
         // Clear existing content of locationCard before appending new elements
         locationCard.innerHTML = '';
 
+        // Check if this should be shown as a placeholder (undiscovered)
+        const showAsPlaceholder = location._showAsPlaceholder === true;
+        const showFullDetails = this.discoverySettings.showUndiscoveredDetails;
+        const parentRegionIsDiscovered = this.isDiscoveryModeActive &&
+          discoveryStateSingleton.isRegionDiscovered(parentRegionName);
+
+        // Add undiscovered class for styling, but not when region is discovered
+        // (locations in discovered regions should look clickable, not grayed out)
+        if (showAsPlaceholder && !parentRegionIsDiscovered) {
+          locationCard.classList.add('undiscovered-location');
+        }
+
         // Create a container for location text lines
         const locationTextContainer = document.createElement('div');
         locationTextContainer.className = 'location-text-container';
@@ -1215,103 +1350,161 @@ export class LocationUI {
         locationTextContainer.style.flexDirection = 'column';
         locationTextContainer.style.gap = '2px';
 
-        // Get display elements based on enabled settings
-        const displayElements = this.getLocationDisplayElements(location);
+        if (showAsPlaceholder) {
+          // Show placeholder text
+          const placeholderDiv = document.createElement('div');
+          placeholderDiv.className = 'location-name location-placeholder';
+          placeholderDiv.textContent = '???';
+          placeholderDiv.style.fontStyle = 'italic';
+          if (parentRegionIsDiscovered) {
+            // Region is discovered - card is clickable (queues explore)
+            placeholderDiv.style.color = '#ccc';
+            locationTextContainer.title = 'Click to explore this region';
+            locationCard.style.cursor = 'pointer';
+          } else {
+            placeholderDiv.style.color = '#888';
+            locationTextContainer.title = 'Undiscovered location';
+          }
+          locationTextContainer.appendChild(placeholderDiv);
+        } else {
+          // Get display elements based on enabled settings
+          const displayElements = this.getLocationDisplayElements(location);
 
-        // Create a separate div for each enabled element
-        displayElements.forEach((element, index) => {
-          const lineDiv = document.createElement('div');
-          lineDiv.className = `location-${element.type}`;
-          lineDiv.textContent = element.text;
-          locationTextContainer.appendChild(lineDiv);
-        });
+          // Create a separate div for each enabled element
+          displayElements.forEach((element, index) => {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = `location-${element.type}`;
+            lineDiv.textContent = element.text;
+            locationTextContainer.appendChild(lineDiv);
+          });
 
-        // Build tooltip with all available information
-        const tooltipParts = [];
-        if (location.name) tooltipParts.push(`Name: ${location.name}`);
-        if (location.label1) tooltipParts.push(`Label: ${location.label1}`);
-        if (location.label2) tooltipParts.push(`Expression: ${location.label2}`);
-        locationTextContainer.title = tooltipParts.join('\n') || name; // Show all info as tooltip
+          // Build tooltip with all available information
+          const tooltipParts = [];
+          if (location.name) tooltipParts.push(`Name: ${location.name}`);
+          if (location.label1) tooltipParts.push(`Label: ${location.label1}`);
+          if (location.label2) tooltipParts.push(`Expression: ${location.label2}`);
+          locationTextContainer.title = tooltipParts.join('\n') || name; // Show all info as tooltip
+        }
 
         locationCard.appendChild(locationTextContainer);
 
-        // Item at Location (if showLocationItems is enabled)
-        if (this.showLocationItems && staticData?.locationItems) {
-          const itemAtLocation = staticData.locationItems.get(name);
-          if (itemAtLocation && itemAtLocation.name) {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'text-sm location-item-name';
-            itemDiv.style.fontStyle = 'italic';
-            itemDiv.textContent = `Item: ${itemAtLocation.name}`;
-            if (itemAtLocation.player) {
-              itemDiv.textContent += ` (Player ${itemAtLocation.player})`;
-            }
-            locationCard.appendChild(itemDiv);
+        // For placeholder locations with minimal details, only show region
+        if (showAsPlaceholder && !showFullDetails) {
+          // Minimal placeholder: just show region
+          const regionNameForLink = location.parent_region || location.region;
+          const regionInfoDiv = document.createElement('div');
+          regionInfoDiv.className = 'text-sm location-card-region-link';
+          if (this.isDiscoveryModeActive && regionNameForLink && !discoveryStateSingleton.isRegionDiscovered(regionNameForLink)) {
+            // Region is undiscovered - mask the name
+            regionInfoDiv.textContent = 'Region: ???';
+            regionInfoDiv.style.fontStyle = 'italic';
+            regionInfoDiv.style.color = '#888';
+          } else if (regionNameForLink) {
+            const regionLink = commonUI.createRegionLink(
+              regionNameForLink,
+              this.colorblindSettings,
+              snapshot
+            );
+            regionInfoDiv.appendChild(document.createTextNode('Region: '));
+            regionInfoDiv.appendChild(regionLink);
+          } else {
+            regionInfoDiv.textContent = 'Region: N/A';
           }
-        }
+          locationCard.appendChild(regionInfoDiv);
 
-        // Region Info & Link
-        const regionNameForLink = location.parent_region || location.region;
-        const regionInfoDiv = document.createElement('div');
-        regionInfoDiv.className = 'text-sm location-card-region-link';
-        if (regionNameForLink) {
-          const regionLink = commonUI.createRegionLink(
-            regionNameForLink,
-            this.colorblindSettings,
-            snapshot
-          );
-          regionInfoDiv.appendChild(document.createTextNode('Region: '));
-          regionInfoDiv.appendChild(regionLink); // Append the DOM element
+          // Status: Unknown for undiscovered
+          const statusDiv = document.createElement('div');
+          statusDiv.className = 'text-sm';
+          statusDiv.textContent = 'Status: Unknown';
+          locationCard.appendChild(statusDiv);
         } else {
-          regionInfoDiv.textContent = 'Region: N/A';
+          // Full details (for discovered locations OR undiscovered with showFullDetails)
+
+          // Item at Location (if showLocationItems is enabled)
+          if (this.showLocationItems && staticData?.locationItems) {
+            const itemAtLocation = staticData.locationItems.get(name);
+            if (itemAtLocation && itemAtLocation.name) {
+              const itemDiv = document.createElement('div');
+              itemDiv.className = 'text-sm location-item-name';
+              itemDiv.style.fontStyle = 'italic';
+              const itemDisplayName = (this.useSubstitutedNames && itemAtLocation.displayName) ? itemAtLocation.displayName : itemAtLocation.name;
+              itemDiv.textContent = `Item: ${itemDisplayName}`;
+              if (itemAtLocation.player) {
+                itemDiv.textContent += ` (Player ${itemAtLocation.player})`;
+              }
+              locationCard.appendChild(itemDiv);
+            }
+          }
+
+          // Region Info & Link
+          const regionNameForLink = location.parent_region || location.region;
+          const regionInfoDiv = document.createElement('div');
+          regionInfoDiv.className = 'text-sm location-card-region-link';
+          if (this.isDiscoveryModeActive && regionNameForLink && !discoveryStateSingleton.isRegionDiscovered(regionNameForLink)) {
+            // Region is undiscovered - mask the name
+            regionInfoDiv.textContent = 'Region: ???';
+            regionInfoDiv.style.fontStyle = 'italic';
+            regionInfoDiv.style.color = '#888';
+          } else if (regionNameForLink) {
+            const regionLink = commonUI.createRegionLink(
+              regionNameForLink,
+              this.colorblindSettings,
+              snapshot
+            );
+            regionInfoDiv.appendChild(document.createTextNode('Region: '));
+            regionInfoDiv.appendChild(regionLink); // Append the DOM element
+          } else {
+            regionInfoDiv.textContent = 'Region: N/A';
+          }
+          locationCard.appendChild(regionInfoDiv);
+
+          // Dungeon Info & Link (only if region belongs to a dungeon)
+          const dungeonData = this.findDungeonForRegion(regionNameForLink);
+          if (dungeonData) {
+            const dungeonInfoDiv = document.createElement('div');
+            dungeonInfoDiv.className = 'text-sm location-card-dungeon-link';
+            dungeonInfoDiv.appendChild(document.createTextNode('Dungeon: '));
+            const dungeonLink = this.createDungeonLink(dungeonData.name);
+            dungeonInfoDiv.appendChild(dungeonLink);
+            locationCard.appendChild(dungeonInfoDiv);
+          }
+
+          // Player Info
+          if (location.player) {
+            const playerInfoDiv = document.createElement('div');
+            playerInfoDiv.className = 'text-sm';
+            playerInfoDiv.textContent = `Player ${location.player}`;
+            locationCard.appendChild(playerInfoDiv);
+          }
+
+          // Location Logic Tree
+          if (location.access_rule) {
+            const ruleDiv = document.createElement('div');
+            ruleDiv.className = 'text-sm';
+            // Create context-aware snapshot interface with location object
+            const locationContextInterface = createSnapshotInterface(
+              snapshot,
+              staticData,
+              { location: location }
+            );
+            const logicTreeElement = commonUI.renderLogicTree(
+              location.access_rule,
+              this.colorblindSettings,
+              locationContextInterface
+            );
+            ruleDiv.appendChild(document.createTextNode('Rule: '));
+            ruleDiv.appendChild(logicTreeElement); // Append the DOM element
+            locationCard.appendChild(ruleDiv);
+          }
+
+          // Detailed Status Text
+          const statusDiv = document.createElement('div');
+          statusDiv.className = 'text-sm';
+          statusDiv.textContent = `Status: ${statusText}`;
+          locationCard.appendChild(statusDiv);
         }
-        locationCard.appendChild(regionInfoDiv);
 
-        // Dungeon Info & Link (only if region belongs to a dungeon)
-        const dungeonData = this.findDungeonForRegion(regionNameForLink);
-        if (dungeonData) {
-          const dungeonInfoDiv = document.createElement('div');
-          dungeonInfoDiv.className = 'text-sm location-card-dungeon-link';
-          dungeonInfoDiv.appendChild(document.createTextNode('Dungeon: '));
-          const dungeonLink = this.createDungeonLink(dungeonData.name);
-          dungeonInfoDiv.appendChild(dungeonLink);
-          locationCard.appendChild(dungeonInfoDiv);
-        }
-
-        // Player Info
-        if (location.player) {
-          const playerInfoDiv = document.createElement('div');
-          playerInfoDiv.className = 'text-sm';
-          playerInfoDiv.textContent = `Player ${location.player}`;
-          locationCard.appendChild(playerInfoDiv);
-        }
-
-        // Location Logic Tree
-        if (location.access_rule) {
-          const ruleDiv = document.createElement('div');
-          ruleDiv.className = 'text-sm';
-          // Create context-aware snapshot interface with location object
-          const locationContextInterface = createStateSnapshotInterface(
-            snapshot,
-            staticData,
-            { location: location }
-          );
-          const logicTreeElement = commonUI.renderLogicTree(
-            location.access_rule,
-            this.colorblindSettings,
-            locationContextInterface
-          );
-          ruleDiv.appendChild(document.createTextNode('Rule: '));
-          ruleDiv.appendChild(logicTreeElement); // Append the DOM element
-          locationCard.appendChild(ruleDiv);
-        }
-
-        // Detailed Status Text
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'text-sm';
-        statusDiv.textContent = `Status: ${statusText}`;
-        locationCard.appendChild(statusDiv);
-
+        // Explored indicator (shown for discovered locations in discovery mode)
         if (this.isDiscoveryModeActive && !!isExplored) {
           const exploredIndicator = document.createElement('span');
           exploredIndicator.className = 'location-explored-indicator';
@@ -1401,7 +1594,7 @@ export class LocationUI {
       return;
     }
 
-    const snapshotInterface = createStateSnapshotInterface(
+    const snapshotInterface = createSnapshotInterface(
       snapshot,
       staticData
     );
@@ -1436,7 +1629,7 @@ export class LocationUI {
 
         // Render the rule tree using the imported renderLogicTree
         // Create context-aware snapshot interface with location object
-        const locationContextInterface = createStateSnapshotInterface(
+        const locationContextInterface = createSnapshotInterface(
           snapshot,
           staticData,
           { location: location }
@@ -1533,14 +1726,14 @@ export class LocationUI {
       log('info', `[LocationUI] Dungeon link clicked for: ${dungeonName}`);
 
       // Publish panel activation first
-      eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' }, 'locations');
+      this.eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' });
       log('info', `[LocationUI] Published ui:activatePanel for dungeonsPanel.`);
 
       // Then publish navigation
-      eventBus.publish('ui:navigateToDungeon', {
+      this.eventBus.publish('ui:navigateToDungeon', {
         dungeonName: dungeonName,
         sourcePanel: 'locations',
-      }, 'locations');
+      });
       log(
         'info',
         `[LocationUI] Published ui:navigateToDungeon for ${dungeonName}.`

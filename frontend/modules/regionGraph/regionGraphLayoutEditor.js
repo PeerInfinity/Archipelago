@@ -1,4 +1,5 @@
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
+import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 
 const logger = createUniversalLogger('regionGraph');
 
@@ -42,7 +43,7 @@ export class RegionGraphLayoutEditor {
       },
       'hierarchical': {
         name: 'breadthfirst',
-        directed: false,
+        directed: true,
         padding: 50,
         spacingFactor: 1.5,
         avoidOverlap: true,
@@ -112,7 +113,7 @@ export class RegionGraphLayoutEditor {
       },
       'hierarchical-auto': {
         name: 'breadthfirst',
-        directed: false,
+        directed: true,
         padding: 50,
         spacingFactor: 1.5,
         avoidOverlap: true,
@@ -415,7 +416,7 @@ export class RegionGraphLayoutEditor {
       // Special handling for dynamic presets
       if (presetName === 'hierarchical-auto') {
         // Add a note about auto-detection
-        preset._comment = "Auto-detects root node (Light World or highest degree)";
+        preset._comment = "Auto-detects root node (starting region or highest degree)";
       } else if (presetName === 'concentric-hub') {
         // Add a note about hub-based layout
         preset._comment = "Uses hub detection to organize nodes in concentric circles";
@@ -494,10 +495,14 @@ export class RegionGraphLayoutEditor {
       
       // Handle auto-root detection for hierarchical layouts
       if (layoutOptions.name === 'breadthfirst' && !layoutOptions.roots) {
-        // First check for Light World node
-        let rootNode = this.cy.$('#Light_World, #light_world, #LightWorld, #light-world');
-        if (rootNode.length === 0) {
-          // Find node with highest degree
+        let rootNode = null;
+        // Try starting region from stateManager
+        const startRegions = stateManager.getStartRegions?.() || [];
+        if (startRegions.length > 0) {
+          rootNode = this.cy.getElementById(startRegions[0]);
+        }
+        if (!rootNode || rootNode.length === 0) {
+          // Fall back to node with highest degree
           let maxDegree = 0;
           this.cy.nodes().forEach(node => {
             if (!node.hasClass('player')) {
@@ -535,9 +540,27 @@ export class RegionGraphLayoutEditor {
 
       this.processLayoutFunctions(layoutOptions);
 
+      // For directed breadthfirst, use custom hierarchy layout if nodes have
+      // pre-computed depths (Cytoscape's BFS ignores our longest-path depths)
+      if (layoutOptions.name === 'breadthfirst' && layoutOptions.directed) {
+        const hasDepths = this.cy.nodes().some(
+          n => !n.hasClass('player') && n.data('hierarchyDepth') !== undefined
+        );
+        if (hasDepths && regionGraphUI.layoutControlsManager) {
+          const customLayout = regionGraphUI.layoutControlsManager.buildHierarchyLayout();
+          this.isLayoutRunning = true;
+          regionGraphUI.updateStatus('Running hierarchical layout...');
+          this.currentLayout = this.cy.layout(customLayout);
+          this.currentLayout.run();
+          this.showJsonSuccess('Layout applied successfully!');
+          this.layoutPresets['custom'] = layoutOptions;
+          return;
+        }
+      }
+
       this.isLayoutRunning = true;
       regionGraphUI.updateStatus('Running custom layout...');
-      
+
       this.currentLayout = this.cy.layout(layoutOptions);
       this.currentLayout.run();
       

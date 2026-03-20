@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "Saving Princess",
   "game_directory": "saving_princess",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "SavingPrincessWorld"
   },
   "regions": {
     "1": {
@@ -19,8 +17,7 @@
             "name": "Hub entrance",
             "connected_region": "Hub",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -34,85 +31,91 @@
             "name": "Cave: After Wallboss",
             "id": 91630179862862,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cave: Balcony",
             "id": 91630179862863,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Full Heal",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cave: Spike pit",
             "id": 91630179862864,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powered Blaster",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cave: Powered Blaster chest",
             "id": 91630179862865,
             "access_rule": {
-              "type": "item_check",
-              "item": "Clip Extension"
+              "rule": "Has",
+              "args": {
+                "item_name": "Clip Extension"
+              }
             },
             "item": {
               "name": "Volcanic Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cave: Wallboss (Boss)",
             "id": 91630179862886,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cave: Guard (Boss)",
             "id": 91630179862887,
             "access_rule": {
-              "type": "item_check",
-              "item": "Clip Extension"
+              "rule": "Has",
+              "args": {
+                "item_name": "Clip Extension"
+              }
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -124,38 +127,18 @@
             "name": "Volcanic: Hot coals",
             "id": 91630179862866,
             "access_rule": {
-              "type": "or",
-              "conditions": [
+              "rule": "Or",
+              "children": [
                 {
-                  "type": "and",
-                  "conditions": [
-                    {
-                      "type": "state_method",
-                      "method": "has_any",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Flamethrower",
-                            "Ice Spreadshot",
-                            "Volt Laser"
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Faster Reload",
-                      "count": {
-                        "type": "constant",
-                        "value": 4
-                      }
-                    }
-                  ]
+                  "rule": "can_hover",
+                  "_original_ast_type": "helper",
+                  "_converted_from_ast": true
                 },
                 {
-                  "type": "item_check",
-                  "item": "Ice Spreadshot"
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Ice Spreadshot"
+                  }
                 }
               ]
             },
@@ -164,97 +147,68 @@
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Volcanic: Under bridge",
             "id": 91630179862867,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Volcanic: Behind wall",
             "id": 91630179862868,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Full Heal",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Volcanic: Flamethrower chest",
             "id": 91630179862869,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Cave Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Volcanic: Cliff (Boss)",
             "id": 91630179862888,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -266,119 +220,95 @@
             "name": "Arctic: Before pipes",
             "id": 91630179862870,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "System Power",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Arctic: After Guard",
             "id": 91630179862871,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Arctic Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Arctic: Under snow",
             "id": 91630179862872,
             "access_rule": {
-              "type": "item_check",
-              "item": "Flamethrower"
+              "rule": "Has",
+              "args": {
+                "item_name": "Flamethrower"
+              }
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Arctic: Ice Spreadshot chest",
             "id": 91630179862873,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Arctic: Jacket chest",
             "id": 91630179862874,
             "access_rule": {
-              "type": "item_check",
-              "item": "Flamethrower"
+              "rule": "Has",
+              "args": {
+                "item_name": "Flamethrower"
+              }
             },
             "item": {
               "name": "Ice Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Arctic: Ace (Boss)",
             "id": 91630179862889,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -389,103 +319,46 @@
             "name": "Cave entrance",
             "connected_region": "Cave",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Volcanic entrance",
             "connected_region": "Volcanic",
             "access_rule": {
-              "type": "item_check",
-              "item": "Powered Blaster"
+              "rule": "Has",
+              "args": {
+                "item_name": "Powered Blaster"
+              }
             }
           },
           {
             "name": "Arctic entrance",
             "connected_region": "Arctic",
             "access_rule": {
-              "type": "item_check",
-              "item": "Powered Blaster"
+              "rule": "Has",
+              "args": {
+                "item_name": "Powered Blaster"
+              }
             }
           },
           {
             "name": "Swamp entrance",
             "connected_region": "Swamp",
             "access_rule": {
-              "type": "item_check",
-              "item": "Powered Blaster"
+              "rule": "Has",
+              "args": {
+                "item_name": "Powered Blaster"
+              }
             }
           },
           {
             "name": "Electrical entrance",
             "connected_region": "Electrical",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "and",
-                  "conditions": [
-                    {
-                      "type": "state_method",
-                      "method": "has_any",
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": [
-                            "Flamethrower",
-                            "Ice Spreadshot",
-                            "Volt Laser"
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Clip Extension",
-                      "count": {
-                        "type": "constant",
-                        "value": 2
-                      }
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Faster Reload",
-                      "count": {
-                        "type": "constant",
-                        "value": 4
-                      }
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Life Extension",
-                      "count": {
-                        "type": "constant",
-                        "value": 2
-                      }
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Powered Blaster"
-                    }
-                  ]
-                },
-                {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Arctic Key",
-                        "Cave Key",
-                        "Swamp Key",
-                        "Volcanic Key"
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "rule": "is_gate_unlocked",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             }
           }
         ],
@@ -494,71 +367,77 @@
             "name": "Hub: Hidden near Arctic",
             "id": 91630179862875,
             "access_rule": {
-              "type": "item_check",
-              "item": "Powered Blaster"
+              "rule": "Has",
+              "args": {
+                "item_name": "Powered Blaster"
+              }
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hub: Hidden near Cave",
             "id": 91630179862876,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Swamp Key",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hub: Hidden near Swamp",
             "id": 91630179862877,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hub: Console login",
             "id": 91630179862890,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hub: Ninja scare (Boss?)",
             "id": 91630179862891,
             "access_rule": {
-              "type": "item_check",
-              "item": "Cave Key"
+              "rule": "Has",
+              "args": {
+                "item_name": "Cave Key"
+              }
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -570,128 +449,77 @@
             "name": "Swamp: Bramble room",
             "id": 91630179862878,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "state_method",
-                  "method": "has_any",
-                  "args": [
-                    {
-                      "type": "constant",
-                      "value": [
-                        "Flamethrower",
-                        "Ice Spreadshot",
-                        "Volt Laser"
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 4
-                  }
-                }
-              ]
+              "rule": "can_hover",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Volt Laser",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Swamp: Down the chimney",
             "id": 91630179862879,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Ice Spreadshot",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Swamp: Wall maze",
             "id": 91630179862880,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Swamp: Special Extension chest",
             "id": 91630179862881,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Swamp: Snake (Boss)",
             "id": 91630179862892,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Clip Extension"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Faster Reload",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": "Life Extension"
-                }
-              ]
+              "rule": "nice_check",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Ice Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -702,8 +530,9 @@
             "name": "Electrical (Power On) entrance",
             "connected_region": "Electrical (Power On)",
             "access_rule": {
-              "type": "item_check",
-              "item": "System Power"
+              "rule": "is_power_on",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             }
           }
         ],
@@ -712,57 +541,60 @@
             "name": "Elevator: Ninja (Boss)",
             "id": 91630179862893,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Ninja Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Volt Laser chest",
             "id": 91630179862885,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Generator (Boss)",
             "id": 91630179862895,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Full Heal",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Tesla orb",
             "id": 91630179862894,
             "access_rule": {
-              "type": "item_check",
-              "item": "Volt Laser"
+              "rule": "Has",
+              "args": {
+                "item_name": "Volt Laser"
+              }
             },
             "item": {
               "name": "Jacket",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -774,105 +606,90 @@
             "name": "Electrical: Near generator",
             "id": 91630179862882,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Special Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Behind wall",
             "id": 91630179862883,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Clip Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Before Malakhov",
             "id": 91630179862884,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Faster Reload",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: Malakhov (Boss)",
             "id": 91630179862896,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Ninja Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Electrical: BRAINOS (Boss)",
             "id": 91630179862897,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Flamethrower",
-                    "Ice Spreadshot",
-                    "Volt Laser"
-                  ]
-                }
-              ]
+              "rule": "all_weapons",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "Life Extension",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mission objective",
             "id": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Flamethrower",
-                    "Ice Spreadshot",
-                    "Volt Laser"
-                  ]
-                }
-              ]
+              "rule": "all_weapons",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true
             },
             "item": {
               "name": "PRINCESS",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       }
@@ -895,12 +712,9 @@
           "Everything",
           "Weapons"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Flamethrower": {
         "name": "Flamethrower",
@@ -909,12 +723,9 @@
           "Everything",
           "Weapons"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Ice Spreadshot": {
         "name": "Ice Spreadshot",
@@ -923,12 +734,9 @@
           "Everything",
           "Weapons"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Volt Laser": {
         "name": "Volt Laser",
@@ -937,12 +745,9 @@
           "Everything",
           "Weapons"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Life Extension": {
         "name": "Life Extension",
@@ -951,12 +756,13 @@
           "Everything",
           "Upgrades"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 12
+        "max_count": 6,
+        "classification_counts": {
+          "progression": 2,
+          "useful": 4
+        }
       },
       "Clip Extension": {
         "name": "Clip Extension",
@@ -965,12 +771,13 @@
           "Everything",
           "Upgrades"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 12
+        "max_count": 6,
+        "classification_counts": {
+          "useful": 4,
+          "progression": 2
+        }
       },
       "Faster Reload": {
         "name": "Faster Reload",
@@ -979,12 +786,13 @@
           "Everything",
           "Upgrades"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 12
+        "max_count": 6,
+        "classification_counts": {
+          "progression": 4,
+          "useful": 2
+        }
       },
       "Special Extension": {
         "name": "Special Extension",
@@ -993,12 +801,9 @@
           "Everything",
           "Upgrades"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Jacket": {
         "name": "Jacket",
@@ -1006,12 +811,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Cave Key": {
         "name": "Cave Key",
@@ -1020,12 +822,9 @@
           "Everything",
           "Keys"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Volcanic Key": {
         "name": "Volcanic Key",
@@ -1034,12 +833,9 @@
           "Everything",
           "Keys"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Arctic Key": {
         "name": "Arctic Key",
@@ -1048,12 +844,9 @@
           "Everything",
           "Keys"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Swamp Key": {
         "name": "Swamp Key",
@@ -1062,12 +855,9 @@
           "Everything",
           "Keys"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "System Power": {
         "name": "System Power",
@@ -1075,12 +865,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Full Heal": {
         "name": "Full Heal",
@@ -1089,12 +876,9 @@
           "Everything",
           "Filler"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 6
+        "max_count": 3
       },
       "Quick-fire Mode": {
         "name": "Quick-fire Mode",
@@ -1103,10 +887,7 @@
           "Everything",
           "Filler"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1117,10 +898,7 @@
           "Everything",
           "Filler"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1131,12 +909,9 @@
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true,
-        "event": false,
+        "classification": "trap",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Shake Trap": {
         "name": "Shake Trap",
@@ -1145,10 +920,7 @@
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1159,12 +931,9 @@
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true,
-        "event": false,
+        "classification": "trap",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "PRINCESS": {
         "name": "PRINCESS",
@@ -1172,9 +941,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -1193,25 +960,28 @@
   },
   "itempool_counts": {
     "1": {
-      "Arctic Key": 2,
-      "Cave Key": 2,
-      "Clip Extension": 12,
-      "Faster Reload": 12,
-      "Flamethrower": 2,
-      "Full Heal": 6,
-      "Ice Spreadshot": 2,
-      "Ice Trap": 4,
-      "Jacket": 2,
-      "Life Extension": 12,
-      "Ninja Trap": 4,
+      "Arctic Key": 1,
+      "Cave Key": 1,
+      "Clip Extension": 6,
+      "Faster Reload": 6,
+      "Flamethrower": 1,
+      "Full Heal": 3,
+      "Ice Spreadshot": 1,
+      "Ice Trap": 2,
+      "Jacket": 1,
+      "Life Extension": 6,
+      "Ninja Trap": 2,
       "PRINCESS": 1,
-      "Powered Blaster": 2,
-      "Special Extension": 2,
-      "Swamp Key": 2,
-      "System Power": 2,
-      "Volcanic Key": 2,
-      "Volt Laser": 2
+      "Powered Blaster": 1,
+      "Special Extension": 1,
+      "Swamp Key": 1,
+      "System Power": 1,
+      "Volcanic Key": 1,
+      "Volt Laser": 1
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -1219,18 +989,380 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Saving Princess",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "SavingPrincessWorld",
+      "options": {
+        "accessibility": 0,
+        "ace_weapon_upgrade": 1,
+        "cliff_weapon_upgrade": 1,
+        "death_link": false,
+        "exclude_locations": [],
+        "expanded_pool": true,
+        "iframes_duration": 100,
+        "instant_saving": true,
+        "item_links": [],
+        "local_items": [],
+        "music_shuffle": false,
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "shake_intensity": 50,
+        "sprint_availability": 2,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_inventory_from_pool": {},
+        "start_location_hints": [],
+        "trap_chance": 50
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "ace_weapon_upgrade": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "never_upgraded",
+            "1": "always_upgraded",
+            "2": "vanilla"
+          },
+          "default": 1,
+          "display_name": "Ace Weapon Upgrade"
+        },
+        "cliff_weapon_upgrade": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "never_upgraded",
+            "1": "always_upgraded",
+            "2": "vanilla"
+          },
+          "default": 1,
+          "display_name": "Cliff Weapon Upgrade"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "expanded_pool": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Expanded Item Pool"
+        },
+        "iframes_duration": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 400,
+          "default": 100,
+          "display_name": "IFrame Duration %"
+        },
+        "instant_saving": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Instant Saving"
+        },
+        "music_shuffle": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Music Shuffle"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "shake_intensity": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 50,
+          "display_name": "Screen Shake Intensity %"
+        },
+        "sprint_availability": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "never_available",
+            "1": "always_available",
+            "2": "available_with_jacket"
+          },
+          "default": 2,
+          "display_name": "Sprint Availability"
+        },
+        "start_inventory_from_pool": {
+          "type": "start_inventory_pool",
+          "default": {},
+          "display_name": "Start Inventory from Pool"
+        },
+        "trap_chance": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 50,
+          "display_name": "Trap Chance"
+        }
+      },
+      "music_table": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "is_pool_expanded": true,
+      "world_description": "Explore a space station crawling with rogue machines and even rival bounty hunters\nwith the same objective as you - but with far, far different intentions!\n\nExpand your arsenal as you collect upgrades to your trusty arm cannon and armor!",
+      "slot_data": {
+        "death_link": 0,
+        "expanded_pool": 1,
+        "instant_saving": 1,
+        "sprint_availability": 2,
+        "cliff_weapon_upgrade": 1,
+        "ace_weapon_upgrade": 1,
+        "shake_intensity": 50,
+        "iframes_duration": 100,
+        "music_table": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "web": {
+        "theme": "partyTime",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Saving Princess for Archipelago multiworld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "LeonarthCG"
+            ]
+          }
+        ]
+      },
+      "world_directory": "saving_princess"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "Saving Princess",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "item_check",
+        "item": "PRINCESS"
+      }
+    }
+  },
+  "helpers": {
+    "1": {
+      "all_weapons": {
+        "type": "state_method",
+        "method": "has_all",
+        "args": [
+          {
+            "type": "set",
+            "elements": [
+              {
+                "type": "constant",
+                "value": "Flamethrower"
+              },
+              {
+                "type": "constant",
+                "value": "Ice Spreadshot"
+              },
+              {
+                "type": "constant",
+                "value": "Volt Laser"
+              }
+            ]
+          }
+        ]
+      },
+      "can_hover": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "item_check",
+            "item": "Faster Reload",
+            "count": {
+              "type": "constant",
+              "value": 4
+            }
+          },
+          {
+            "type": "state_method",
+            "method": "has_any",
+            "args": [
+              {
+                "type": "set",
+                "elements": [
+                  {
+                    "type": "constant",
+                    "value": "Flamethrower"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Ice Spreadshot"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Volt Laser"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "is_gate_unlocked": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "set",
+                "elements": [
+                  {
+                    "type": "constant",
+                    "value": "Arctic Key"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Cave Key"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Swamp Key"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Volcanic Key"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "helper",
+            "name": "super_nice_check"
+          }
+        ]
+      },
+      "is_power_on": {
+        "type": "item_check",
+        "item": "System Power"
+      },
+      "nice_check": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "item_check",
+            "item": "Life Extension"
+          },
+          {
+            "type": "item_check",
+            "item": "Clip Extension"
+          },
+          {
+            "type": "item_check",
+            "item": "Faster Reload",
+            "count": {
+              "type": "constant",
+              "value": 2
+            }
+          }
+        ]
+      },
+      "super_nice_check": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "item_check",
+            "item": "Life Extension",
+            "count": {
+              "type": "constant",
+              "value": 2
+            }
+          },
+          {
+            "type": "item_check",
+            "item": "Clip Extension",
+            "count": {
+              "type": "constant",
+              "value": 2
+            }
+          },
+          {
+            "type": "item_check",
+            "item": "Faster Reload",
+            "count": {
+              "type": "constant",
+              "value": 4
+            }
+          },
+          {
+            "type": "item_check",
+            "item": "Powered Blaster"
+          },
+          {
+            "type": "state_method",
+            "method": "has_any",
+            "args": [
+              {
+                "type": "set",
+                "elements": [
+                  {
+                    "type": "constant",
+                    "value": "Flamethrower"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Ice Spreadshot"
+                  },
+                  {
+                    "type": "constant",
+                    "value": "Volt Laser"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   }

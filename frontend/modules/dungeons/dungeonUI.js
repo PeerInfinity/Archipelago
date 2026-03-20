@@ -1,9 +1,9 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import commonUI, { renderLogicTree } from '../commonUI/index.js';
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import { debounce } from '../commonUI/index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 
 function log(level, message, ...data) {
   if (window.logger) {
@@ -17,6 +17,7 @@ export class DungeonUI {
   constructor(container, componentState) {
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
     this.unsubscribeHandles = [];
     this.isInitialized = false;
     this.dungeonStates = {}; // To track expanded/collapsed state
@@ -51,7 +52,7 @@ export class DungeonUI {
         this.colorblindSettings = false;
       }
       this.update();
-      eventBus.unsubscribe('stateManager:ready', readyHandler);
+      this.eventBus.unsubscribe('stateManager:ready', readyHandler);
     };
 
     const settingsHandler = async ({ key, value }) => {
@@ -72,19 +73,19 @@ export class DungeonUI {
       }
     };
 
-    eventBus.subscribe('settings:changed', settingsHandler, 'dungeons');
-    eventBus.subscribe('stateManager:ready', readyHandler, 'dungeons');
-    eventBus.subscribe('stateManager:snapshotUpdated', debouncedUpdate, 'dungeons');
-    eventBus.subscribe('stateManager:rulesLoaded', () => this.update(), 'dungeons');
-    eventBus.subscribe('ui:navigateToDungeon', navigateToDungeonHandler, 'dungeons');
+    this.eventBus.subscribe('settings:changed', settingsHandler);
+    this.eventBus.subscribe('stateManager:ready', readyHandler);
+    this.eventBus.subscribe('stateManager:snapshotUpdated', debouncedUpdate);
+    this.eventBus.subscribe('stateManager:rulesLoaded', () => this.update());
+    this.eventBus.subscribe('ui:navigateToDungeon', navigateToDungeonHandler);
 
     // Store handlers for cleanup
     this.unsubscribeHandles.push(
-      () => eventBus.unsubscribe('settings:changed', settingsHandler),
+      () => this.eventBus.unsubscribe('settings:changed', settingsHandler),
       () =>
-        eventBus.unsubscribe('stateManager:snapshotUpdated', debouncedUpdate),
+        this.eventBus.unsubscribe('stateManager:snapshotUpdated', debouncedUpdate),
       () =>
-        eventBus.unsubscribe('ui:navigateToDungeon', navigateToDungeonHandler)
+        this.eventBus.unsubscribe('ui:navigateToDungeon', navigateToDungeonHandler)
     );
   }
 
@@ -161,7 +162,7 @@ export class DungeonUI {
       return;
     }
 
-    const snapshotInterface = createStateSnapshotInterface(
+    const snapshotInterface = createSnapshotInterface(
       snapshot,
       staticData
     );

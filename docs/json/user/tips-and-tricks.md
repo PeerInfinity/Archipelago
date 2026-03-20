@@ -50,3 +50,18 @@ A: Yes. Load your `rules.json` file, and the application works as a powerful off
 
 **Q: How does "Analyze Paths" in the Regions view work?**
 A: It uses a search algorithm to find all possible sequences of region connections from your starting point to the target region you are analyzing. It then examines the access rules for every exit along those paths and compiles a list of all the items or conditions you are missing to make the path fully accessible.
+
+**Q: Which repository should I use?**
+A: It depends on what you want to do:
+
+- **Just want to use the tracker with your existing Archipelago installation?**
+  Install the **[JSON Tools Installer APWorld](../../../worlds/json_tools_installer/README.md)**. Download [`json_tools_installer.apworld`](https://github.com/PeerInfinity/Archipelago-CC/raw/main/apworlds/json_tools_installer.apworld) and place it in your Archipelago `worlds/` directory. After restarting Archipelago, new components appear in the Launcher for installing and managing the JSON Tools. The installer automatically configures your `host.yaml` with the necessary export settings - choose the "Minimal spoilers" preset during installation to enable JSON export. This adds JSON export to your existing installation without needing to clone anything - generate games normally and the `rules.json` files will be created automatically.
+
+- **Want to run a local development setup from source?**
+  Clone **[PeerInfinity/Archipelago](https://github.com/PeerInfinity/Archipelago)** (JSONExport branch). This is a clean snapshot that's periodically updated. Recommended for most users who need the full source code.
+
+- **Want to contribute to this project's development?**
+  Clone **[PeerInfinity/Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC)**. This is the active development repository with full commit history. Note: The history includes large files from development sessions, so clone size is larger.
+
+- **Want to contribute features back to the main Archipelago project?**
+  Fork **[ArchipelagoMW/Archipelago](https://github.com/ArchipelagoMW/Archipelago)** and copy the relevant directories. See [Repository Changes](../developer/diffs/repository-changes.md) for details on what to copy.

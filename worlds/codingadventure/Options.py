@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from Options import Toggle, Choice, PerGameCommonOptions
+from Options import Toggle, PerGameCommonOptions
 
-class RandomizeItems(Toggle):
-    """Enable item randomization. When disabled, all items will remain in their original locations."""
-    display_name = "Randomize Items"
-    default = True
+class VanillaPlacement(Toggle):
+    """Place items in their original locations. When disabled, items are shuffled randomly."""
+    display_name = "Vanilla Item Placement"
+    default = False
 
 @dataclass
-class WebDevJourneyOptions(PerGameCommonOptions):
-    randomize_items: RandomizeItems
+class CodingAdventureOptions(PerGameCommonOptions):
+    vanilla_placement: VanillaPlacement

@@ -45,7 +45,7 @@ export async function timerSendTest(testController) {
       testController.log('Detected player joined:', eventData.player);
       secondClientConnected = true;
     };
-    const unsubSecondClient = testController.eventBus.subscribe('game:playerJoined', secondClientHandler, 'tests');
+    const unsubSecondClient = testController.eventBus.subscribe('game:playerJoined', secondClientHandler);
 
     // Give autoConnect time to establish connection (it runs 500ms after postInit)
     // Poll for connection status instead of waiting for event to avoid race conditions
@@ -206,7 +206,7 @@ export async function timerSendTest(testController) {
       timerStopped = true;
     };
 
-    const unsubStop = testController.eventBus.subscribe('timer:stopped', stopHandler, 'tests');
+    const unsubStop = testController.eventBus.subscribe('timer:stopped', stopHandler);
 
     // Wait for timer to stop (indicating all checks are done)
     let lastCheckedCount = 0;
@@ -312,7 +312,7 @@ export async function timerSendTest(testController) {
       timerStopped = false;
       const unsubStopPass = testController.eventBus.subscribe('timer:stopped', () => {
         timerStopped = true;
-      }, 'tests');
+      });
 
       const passTimeout = Date.now() + 60000;  // 60 second timeout for each pass
       while (!timerStopped && Date.now() < passTimeout) {
@@ -576,8 +576,7 @@ export async function timerReceiveTest(testController) {
 
     const unsubSnapshot = testController.eventBus.subscribe(
       'stateManager:snapshotUpdated',
-      snapshotHandler,
-      'tests'
+      snapshotHandler
     );
 
     // Wait for all locations to be checked

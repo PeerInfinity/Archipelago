@@ -6,7 +6,7 @@ The frontend application is built on a powerful, custom module system designed f
 
 -   **Module:** A self-contained unit of functionality, typically corresponding to a UI panel (e.g., `inventory`, `locations`) or a core service (e.g., `stateManager`, `client`). Each module resides in its own sub-directory in `frontend/modules/`.
 -   **`init.js`:** The main application entry point. It acts as the **module loader and orchestrator**, responsible for loading all modules, managing their lifecycle, and setting up core services.
--   **`modules.json`:** A configuration file that serves as the **manifest of all known modules**. It defines each module's path, its default enabled state, and, most importantly, its `loadPriority`.
+-   **`module-configs/modules.json`:** A configuration file that serves as the **manifest of all known modules**. It defines each module's path, its default enabled state, and, most importantly, its `loadPriority`.
 -   **`centralRegistry.js`:** A singleton that acts as a central "phone book" during the registration phase. Modules declare their capabilities (panels, event handlers, etc.) to the registry, and `init.js` uses it to wire up the application.
 
 ## The Module Lifecycle
@@ -15,7 +15,7 @@ The application starts and modules come online in a carefully orchestrated, thre
 
 ### Phase 1: Module Import & Registration
 
-1.  `init.js` reads `modules.json` to get the list of all potential modules and their load priority.
+1.  `init.js` reads `module-configs/modules.json` to get the list of all potential modules and their load priority.
 2.  It uses dynamic `import()` to load the `index.js` file for **every module** defined in the manifest.
 3.  As each module is imported, `init.js` immediately calls its exported `register(registrationApi)` function.
 4.  **During registration, a module's only job is to declare its capabilities to the `centralRegistry`** using the provided `registrationApi`. It must not perform any setup, create instances, or try to access other modules.
@@ -42,7 +42,7 @@ The application starts and modules come online in a carefully orchestrated, thre
 
 ### Phase 3: Module Initialization & Post-Initialization
 
-1.  `init.js` iterates through the `loadPriority` array from `modules.json`.
+1.  `init.js` iterates through the `loadPriority` array from `module-configs/modules.json`.
 2.  For each **enabled** module, it calls its exported `initialize(moduleId, priorityIndex, initializationApi)` function.
 3.  **During initialization, a module can perform its main setup.** It can use the `initializationApi` to get its settings, access core services like the `eventBus`, and set up its own internal state or singletons. It **must not** yet attempt to communicate with other modules, as they may not have been initialized.
 4.  After all enabled modules have been initialized, `init.js` performs a final loop, calling `postInitialize(initializationApi)` on any module that has this function.

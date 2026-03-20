@@ -10,6 +10,7 @@ These guides explain the fundamental systems that power the web client:
 - **[Event System](./event-system.md)**: How modules communicate using the Event Bus and Event Dispatcher
 - **[State Management](./state-management.md)**: The StateManager, Web Workers, and how game state flows through the application
 - **[UI and Layout System](./ui-and-layout.md)**: Golden Layout integration and how to create UI panels
+- **[Desktop and Mobile Layout](./desktop-and-mobile-layout.md)**: Device detection, desktop vs mobile layout modes, responsive breakpoints, and column navigation
 
 ## Development Guides
 
@@ -18,6 +19,14 @@ Practical guides for common development tasks:
 - **[Creating Modules](./creating-modules.md)**: Step-by-step guide to building a new frontend module
 - **[Testing Pipeline](./testing-pipeline.md)**: How the automated testing system validates game logic accuracy
 - **[Test Results](./test-results.md)**: Understanding and generating test result reports
+- **[Fuzzer Debugging](./fuzzer-debugging.md)**: Running the UT fuzzer and debugging logic mismatches
+
+## Conversion Tools
+
+Tools for converting between formats and generating code:
+
+- **[Rule Format Converter](./format-converter.md)**: Bidirectional conversion between Archipelago-CC and Rule Builder JSON formats
+- **[World Generator](./world-generator.md)**: Generate complete Archipelago world packages from JSON rules files
 
 ## Reference Documents
 

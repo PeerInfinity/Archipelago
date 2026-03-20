@@ -11,11 +11,11 @@ This module handles loading, saving, merging, and analyzing test results includi
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List
 
 
-def is_test_passing(template_file: str, test_results: Dict, multiclient: bool = False) -> bool:
+def is_test_passing(template_file: str, test_results: Dict, multiclient: bool = False, multiworld: bool = False) -> bool:
     """
     Check if a template test is passing based on test results.
 
@@ -23,6 +23,7 @@ def is_test_passing(template_file: str, test_results: Dict, multiclient: bool = 
         template_file: Name of the template file
         test_results: The results dictionary loaded from test-results.json
         multiclient: If True, check multiclient test results; otherwise check spoiler test results
+        multiworld: If True, check multiworld test results
 
     Returns:
         True if the test is passing, False otherwise
@@ -46,8 +47,11 @@ def is_test_passing(template_file: str, test_results: Dict, multiclient: bool = 
     if 'summary' in result and 'all_passed' in result['summary']:
         return result['summary']['all_passed']
 
-    # Check individual test result
-    if multiclient:
+    # Check individual test result based on mode
+    if multiworld:
+        multiworld_test = result.get('multiworld_test', {})
+        return multiworld_test.get('success', False)
+    elif multiclient:
         multiclient_test = result.get('multiclient_test', {})
         return multiclient_test.get('success', False)
     else:
@@ -110,7 +114,7 @@ def is_seed_failing(template_file: str, test_results: Dict, seed: int, multiclie
     return False
 
 
-def get_failed_templates(test_results: Dict, multiclient: bool = False, specific_seed: int = None) -> List[str]:
+def get_failed_templates(test_results: Dict, multiclient: bool = False, specific_seed: int = None, multiworld: bool = False) -> List[str]:
     """
     Get a list of template files that have failing tests, sorted alphabetically.
 
@@ -118,26 +122,32 @@ def get_failed_templates(test_results: Dict, multiclient: bool = False, specific
         test_results: The results dictionary loaded from test-results.json
         multiclient: If True, check multiclient test results; otherwise check spoiler test results
         specific_seed: If provided, only return templates that failed on this specific seed
+        multiworld: If True, check multiworld test results
 
     Returns:
-        List of template file names that are failing
+        List of template file names that are failing (excludes skipped templates)
     """
     failed_templates = []
 
     for template_file, result in test_results.items():
+        # Skip templates that were intentionally skipped (not actually failed)
+        if multiworld and isinstance(result, dict):
+            if result.get('multiworld_test', {}).get('skip_reason'):
+                continue
+
         if specific_seed is not None:
             # Check if this specific seed is failing
             if is_seed_failing(template_file, test_results, specific_seed, multiclient):
                 failed_templates.append(template_file)
         else:
             # Check if any test is failing
-            if not is_test_passing(template_file, test_results, multiclient):
+            if not is_test_passing(template_file, test_results, multiclient, multiworld):
                 failed_templates.append(template_file)
 
     return sorted(failed_templates)
 
 
-def get_failing_seed_info(template_file: str, test_results: Dict, multiclient: bool = False) -> Dict:
+def get_failing_seed_info(template_file: str, test_results: Dict, multiclient: bool = False, multiworld: bool = False) -> Dict:
     """
     Get information about which seed is failing for a template.
 
@@ -145,6 +155,7 @@ def get_failing_seed_info(template_file: str, test_results: Dict, multiclient: b
         template_file: Name of the template file
         test_results: The results dictionary loaded from test-results.json
         multiclient: If True, check multiclient test results; otherwise check spoiler test results
+        multiworld: If True, check multiworld test results
 
     Returns:
         Dictionary with keys:
@@ -190,8 +201,10 @@ def get_failing_seed_info(template_file: str, test_results: Dict, multiclient: b
     if result_seed is not None:
         try:
             seed_num = int(result_seed)
-            # Check if this single-seed test failed
-            if multiclient:
+            # Check if this single-seed test failed based on mode
+            if multiworld:
+                test_failed = not result.get('multiworld_test', {}).get('success', False)
+            elif multiclient:
                 test_failed = not result.get('multiclient_test', {}).get('success', False)
             else:
                 test_failed = result.get('spoiler_test', {}).get('pass_fail') != 'passed'
@@ -223,8 +236,8 @@ def load_existing_results(results_file: str) -> Dict:
                     print("Converting old-format results file to new format...")
                     return {
                         'metadata': {
-                            'created': data.get('timestamp', datetime.now().isoformat()),
-                            'last_updated': datetime.now().isoformat(),
+                            'created': data.get('timestamp', datetime.now(timezone.utc).isoformat()),
+                            'last_updated': datetime.now(timezone.utc).isoformat(),
                             'script_version': '1.0.0'
                         },
                         'results': {}
@@ -233,8 +246,8 @@ def load_existing_results(results_file: str) -> Dict:
                 # Check if metadata exists, if not add it
                 if 'metadata' not in data:
                     data['metadata'] = {
-                        'created': datetime.now().isoformat(),
-                        'last_updated': datetime.now().isoformat(),
+                        'created': datetime.now(timezone.utc).isoformat(),
+                        'last_updated': datetime.now(timezone.utc).isoformat(),
                         'script_version': '1.0.0'
                     }
 
@@ -244,8 +257,8 @@ def load_existing_results(results_file: str) -> Dict:
 
     return {
         'metadata': {
-            'created': datetime.now().isoformat(),
-            'last_updated': datetime.now().isoformat(),
+            'created': datetime.now(timezone.utc).isoformat(),
+            'last_updated': datetime.now(timezone.utc).isoformat(),
             'script_version': '1.0.0'
         },
         'results': {}
@@ -461,7 +474,7 @@ def merge_results(existing_results: Dict, new_results: Dict, templates_tested: L
 
 def save_results(results: Dict, results_file: str, batch_processing_time: float = None, timestamped_file: str = None):
     """Save results to JSON file and optionally to a timestamped file."""
-    results['metadata']['last_updated'] = datetime.now().isoformat()
+    results['metadata']['last_updated'] = datetime.now(timezone.utc).isoformat()
 
     # Add batch processing time if provided
     if batch_processing_time is not None:

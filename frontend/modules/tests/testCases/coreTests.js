@@ -26,7 +26,7 @@ export async function simpleEventTest(testController) {
       // Assuming testController.eventBus is the correct eventBus instance
       testController.eventBus.publish('tests:testEventAfterDelay', {
         detail: 'Event Fired!',
-      }, 'tests');
+      });
     }, 1000);
 
     testController.log('Waiting for tests:testEventAfterDelay...');
@@ -99,7 +99,7 @@ export async function rulesReloadTest(testController) {
 
     // Step 1: Activate the Locations panel
     testController.log('Step 1: Activating Locations panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
 
     // Wait for the panel to be ready
     const locationsReady = await testController.pollForCondition(
@@ -174,7 +174,7 @@ export async function rulesReloadTest(testController) {
 
     // Step 4: Activate Inventory panel to check for Rupees (20)
     testController.log('Step 4: Activating Inventory panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'inventoryPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'inventoryPanel' });
     
     // Wait for inventory panel to be ready
     const inventoryReady = await testController.pollForCondition(
@@ -254,7 +254,7 @@ export async function rulesReloadTest(testController) {
 
     // Step 7: Activate the Regions panel  
     testController.log('Step 7: Activating Regions panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
     
     // Wait for the panel to be ready
     const regionsReady = await testController.pollForCondition(

@@ -2,9 +2,10 @@
 
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import commonUI, { debounce } from '../commonUI/index.js';
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus, getCrossPlayerItemSync } from './index.js';
+import { compareSphereIndex } from './crossPlayerItemSync.js';
 import settingsManager from '../../app/core/settingsManager.js';
 
 // Helper function for logging
@@ -26,10 +27,13 @@ export class SpoilerChecklistUI {
     this.showRegionColumn = true;
     this.showItemColumn = true;
     this.showLocationItems = false; // From settings
+    this.simulateReceivedItems = false; // Cross-player item sync checkbox
     this.isInitialized = false;
     this.sphereState = null; // Will be injected via public function
     this.dispatcher = null; // Will get from locations module
     this.currentPlayerId = null; // Current player ID for multiworld support
+    this.syncStatusLine = null; // Status line element for sync info
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     // Create and append root element
     this.getRootElement();
@@ -41,9 +45,9 @@ export class SpoilerChecklistUI {
     const readyHandler = (eventPayload) => {
       log('info', '[SpoilerChecklistUI] Received app:readyForUiDataLoad. Initializing checklist.');
       this.initialize();
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'spoilerChecklist');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       this.dispose();
@@ -121,8 +125,21 @@ export class SpoilerChecklistUI {
           grid-template-columns: auto auto 1fr auto;
         }
         .cross-player-location-row {
-          opacity: 0.7;
+          opacity: 0.5;
           font-style: italic;
+        }
+        .cross-player-location-row.cross-player-received {
+          opacity: 0.8;
+        }
+        .cross-player-location-row.cross-player-gives-to-current {
+          opacity: 1;
+          font-style: normal;
+        }
+        .cross-player-gives-to-current .cross-player-location {
+          color: #fff;
+        }
+        .cross-player-gives-to-current .location-item {
+          color: #4CAF50;
         }
         .cross-player-location {
           cursor: default;
@@ -186,6 +203,28 @@ export class SpoilerChecklistUI {
         .region-inaccessible {
           color: #f44336;
         }
+        .spoiler-checklist-sync-status {
+          padding: 0.25rem 0.5rem;
+          border-bottom: 1px solid #666;
+          font-size: 0.85em;
+          color: #aaa;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .spoiler-checklist-sync-status .sync-btn {
+          padding: 0.15rem 0.5rem;
+          font-size: 0.85em;
+          cursor: pointer;
+          background: #3c3c3c;
+          border: 1px solid #666;
+          color: #e0e0e0;
+          border-radius: 3px;
+        }
+        .spoiler-checklist-sync-status .sync-btn:hover {
+          background: #4c4c4c;
+        }
       `;
       this.rootElement.appendChild(style);
 
@@ -201,8 +240,18 @@ export class SpoilerChecklistUI {
           <input type="checkbox" id="show-item-column" checked />
           Show Item Column
         </label>
+        <label>
+          <input type="checkbox" id="simulate-received-items" />
+          Simulate Received Items
+        </label>
       `;
       this.rootElement.appendChild(controls);
+
+      // Sync status line (hidden until enabled)
+      this.syncStatusLine = document.createElement('div');
+      this.syncStatusLine.className = 'spoiler-checklist-sync-status';
+      this.syncStatusLine.style.display = 'none';
+      this.rootElement.appendChild(this.syncStatusLine);
 
       // Create checklist container
       this.checklistContainer = document.createElement('div');
@@ -218,6 +267,15 @@ export class SpoilerChecklistUI {
       this.rootElement.querySelector('#show-item-column').addEventListener('change', (e) => {
         this.showItemColumn = e.target.checked;
         this.updateDisplay();
+      });
+
+      this.rootElement.querySelector('#simulate-received-items').addEventListener('change', (e) => {
+        this.simulateReceivedItems = e.target.checked;
+        settingsManager.updateSetting('moduleSettings.spoilerChecklist.simulateReceivedItems', e.target.checked);
+        this._updateSyncStatusLine();
+        if (e.target.checked) {
+          this._syncReceivedItems();
+        }
       });
     }
     return this.rootElement;
@@ -238,6 +296,7 @@ export class SpoilerChecklistUI {
       this.sphereState = {
         getSphereData: () => sphereStateInstance.getSphereData(),
         getMultiworldSphereData: () => sphereStateInstance.getMultiworldSphereData(),
+        getPerSphereReceivedItems: () => sphereStateInstance.getPerSphereReceivedItems(),
         getCurrentSphere: () => sphereStateInstance.getCurrentSphere(),
         getCurrentIntegerSphere: () => sphereStateInstance.getCurrentIntegerSphere(),
         getCurrentFractionalSphere: () => sphereStateInstance.getCurrentFractionalSphere(),
@@ -259,6 +318,9 @@ export class SpoilerChecklistUI {
     // Load settings
     try {
       this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
+      this.simulateReceivedItems = await settingsManager.getSetting('moduleSettings.spoilerChecklist.simulateReceivedItems', false);
+      const simCheckbox = this.rootElement.querySelector('#simulate-received-items');
+      if (simCheckbox) simCheckbox.checked = this.simulateReceivedItems;
     } catch (error) {
       log('error', 'Error loading settings:', error);
     }
@@ -267,25 +329,103 @@ export class SpoilerChecklistUI {
     this._updateCurrentPlayerId();
 
     // Subscribe to events
-    eventBus.subscribe('stateManager:snapshotUpdated', debounce(() => this.updateDisplay(), 50), 'spoilerChecklist');
-    eventBus.subscribe('sphereState:dataLoaded', () => this.updateDisplay(), 'spoilerChecklist');
-    eventBus.subscribe('sphereState:currentSphereChanged', () => this.updateDisplay(), 'spoilerChecklist');
-    eventBus.subscribe('stateManager:rulesLoaded', () => {
+    this.eventBus.subscribe('stateManager:snapshotUpdated', debounce(() => {
+      this.updateDisplay();
+      this._maybeSyncReceivedItems();
+    }, 50));
+    this.eventBus.subscribe('sphereState:dataLoaded', () => this.updateDisplay());
+    this.eventBus.subscribe('sphereState:currentSphereChanged', () => this.updateDisplay());
+    this.eventBus.subscribe('stateManager:rulesLoaded', () => {
       this._updateCurrentPlayerId();
       this.updateDisplay();
-    }, 'spoilerChecklist');
-    eventBus.subscribe('settings:changed', async ({ key }) => {
+    });
+    this.eventBus.subscribe('settings:changed', async ({ key }) => {
       if (key === '*' || key.startsWith('moduleSettings.commonUI.showLocationItems')) {
         this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
         this.updateDisplay();
       }
-    }, 'spoilerChecklist');
+    });
 
     this.isInitialized = true;
     log('info', '[SpoilerChecklistUI] Initialization complete.');
 
     // Initial render
     this.updateDisplay();
+  }
+
+  /**
+   * Sync received items if the checkbox is enabled and checked locations changed.
+   */
+  _maybeSyncReceivedItems() {
+    if (!this.simulateReceivedItems) return;
+    if (this._isSyncing) return;
+
+    const snapshot = stateManager.getLatestStateSnapshot();
+    if (!snapshot) return;
+
+    const sync = getCrossPlayerItemSync();
+    const checkedCount = (snapshot.checkedLocations || []).length;
+    if (!sync.hasCheckedLocationsChanged(checkedCount)) return;
+
+    this._syncReceivedItems();
+  }
+
+  /**
+   * Execute a sync and update the status line.
+   * Guarded against concurrent calls.
+   */
+  async _syncReceivedItems() {
+    if (this._isSyncing) return;
+    this._isSyncing = true;
+    const sync = getCrossPlayerItemSync();
+    try {
+      const result = await sync.sync();
+      this._updateSyncStatusLine();
+      this.updateDisplay();
+      if (result.grantedCount > 0) {
+        this.eventBus.publish('spoilerChecklist:itemsSynced', result);
+      }
+    } catch (error) {
+      log('error', 'Sync failed:', error);
+    } finally {
+      this._isSyncing = false;
+    }
+  }
+
+  /**
+   * Update the sync status line display.
+   */
+  _updateSyncStatusLine() {
+    if (!this.syncStatusLine) return;
+
+    if (!this.simulateReceivedItems) {
+      this.syncStatusLine.style.display = 'none';
+      return;
+    }
+
+    const sync = getCrossPlayerItemSync();
+    const result = sync.getLastSyncResult();
+    this.syncStatusLine.style.display = 'flex';
+
+    if (!result) {
+      this.syncStatusLine.innerHTML = `
+        <span>No sync yet</span>
+        <button class="sync-btn" id="sync-now-btn">Sync Now</button>
+      `;
+    } else {
+      const frontierText = result.frontierSphere
+        ? `Frontier: ${result.frontierSphere}`
+        : 'All locations checked';
+      this.syncStatusLine.innerHTML = `
+        <span>${result.totalCrossPlayerItems} cross-player items through frontier | ${frontierText}</span>
+        <button class="sync-btn" id="sync-now-btn">Sync Now</button>
+      `;
+    }
+
+    const syncBtn = this.syncStatusLine.querySelector('#sync-now-btn');
+    if (syncBtn) {
+      syncBtn.addEventListener('click', () => this._syncReceivedItems());
+    }
   }
 
   dispose() {
@@ -351,8 +491,18 @@ export class SpoilerChecklistUI {
     }
 
     // Create snapshot interface for rule evaluation
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     const checkedLocations = new Set(snapshot.checkedLocations || []);
+
+    // Compute frontier for cross-player item visual state
+    let frontierSphere = null;
+    if (this.simulateReceivedItems) {
+      const sync = getCrossPlayerItemSync();
+      frontierSphere = sync.findFrontierSphere(checkedLocations);
+    }
+
+    // Get per-sphere received items for the current player (for cross-player row display)
+    const receivedItemsBySphere = this.sphereState.getPerSphereReceivedItems();
 
     // Clear container
     this.checklistContainer.innerHTML = '';
@@ -368,14 +518,14 @@ export class SpoilerChecklistUI {
 
     // Render each integer sphere
     for (const [intSphere, spheres] of integerSpheres) {
-      const section = this.renderIntegerSphere(intSphere, spheres, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface);
+      const section = this.renderIntegerSphere(intSphere, spheres, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface, frontierSphere, receivedItemsBySphere);
       this.checklistContainer.appendChild(section);
     }
 
     log('info', `[SpoilerChecklistUI] Rendered ${integerSpheres.size} integer spheres`);
   }
 
-  renderIntegerSphere(intSphere, spheres, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface) {
+  renderIntegerSphere(intSphere, spheres, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface, frontierSphere, receivedItemsBySphere) {
     const section = document.createElement('div');
     section.className = 'sphere-section';
 
@@ -395,18 +545,17 @@ export class SpoilerChecklistUI {
     // Heading
     const heading = document.createElement('div');
     heading.className = 'sphere-heading';
-    const checkmark = isAllComplete ? '✓ ' : '□ ';
-    heading.textContent = `${checkmark}Sphere ${intSphere}`;
+    heading.textContent = `Sphere ${intSphere}`;
     section.appendChild(heading);
 
     // Render fractional spheres
     for (const sphere of spheres) {
       if (sphere.fractionalSphere === 0 && spheres.length === 1) {
         // Only fractional sphere, render locations directly
-        this.renderLocations(section, sphere, checkedLocations, snapshot, staticData, snapshotInterface, 1);
+        this.renderLocations(section, sphere, checkedLocations, snapshot, staticData, snapshotInterface, 1, frontierSphere, receivedItemsBySphere);
       } else {
         // Multiple fractional spheres, render with subheading
-        const subsection = this.renderFractionalSphere(sphere, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface);
+        const subsection = this.renderFractionalSphere(sphere, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface, frontierSphere, receivedItemsBySphere);
         section.appendChild(subsection);
       }
     }
@@ -414,7 +563,7 @@ export class SpoilerChecklistUI {
     return section;
   }
 
-  renderFractionalSphere(sphere, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface) {
+  renderFractionalSphere(sphere, currentSphere, checkedLocations, snapshot, staticData, snapshotInterface, frontierSphere, receivedItemsBySphere) {
     const subsection = document.createElement('div');
 
     // Subheading
@@ -425,8 +574,7 @@ export class SpoilerChecklistUI {
       currentSphere.integerSphere === sphere.integerSphere &&
       currentSphere.fractionalSphere === sphere.fractionalSphere;
 
-    const checkmark = isComplete ? '✓ ' : (isCurrent ? '⊡ ' : '□ ');
-    subheading.textContent = `${checkmark}Sphere ${sphere.sphereIndex}`;
+    subheading.textContent = `Sphere ${sphere.sphereIndex}`;
 
     // Apply background color for current fractional
     if (isCurrent && !isComplete) {
@@ -438,12 +586,12 @@ export class SpoilerChecklistUI {
     subsection.appendChild(subheading);
 
     // Render locations
-    this.renderLocations(subsection, sphere, checkedLocations, snapshot, staticData, snapshotInterface, 2);
+    this.renderLocations(subsection, sphere, checkedLocations, snapshot, staticData, snapshotInterface, 2, frontierSphere, receivedItemsBySphere);
 
     return subsection;
   }
 
-  renderLocations(container, sphere, checkedLocations, snapshot, staticData, snapshotInterface, indentLevel) {
+  renderLocations(container, sphere, checkedLocations, snapshot, staticData, snapshotInterface, indentLevel, frontierSphere, receivedItemsBySphere) {
     // Render current player's locations
     for (const locationName of sphere.locations) {
       // Use Map.get() instead of Object.values().find()
@@ -459,6 +607,15 @@ export class SpoilerChecklistUI {
 
     // Render cross-player locations (from other players' worlds)
     if (sphere.allPlayersLocations && this.currentPlayerId) {
+      // Determine if this sphere's cross-player items have been "received"
+      // (i.e., this sphere is before the frontier)
+      const isReceived = frontierSphere != null
+        ? compareSphereIndex(sphere.sphereIndex, frontierSphere) < 0
+        : frontierSphere === null && this.simulateReceivedItems; // null frontier = all checked
+
+      // Get items the current player receives in this sphere
+      const receivedItems = receivedItemsBySphere?.get(sphere.sphereIndex)?.base_items || null;
+
       for (const [playerId, locations] of Object.entries(sphere.allPlayersLocations)) {
         // Skip current player's locations (already rendered above)
         if (playerId === this.currentPlayerId) {
@@ -467,7 +624,7 @@ export class SpoilerChecklistUI {
 
         // Render each cross-player location
         for (const locationName of locations) {
-          const row = this.renderCrossPlayerLocationRow(locationName, playerId, staticData);
+          const row = this.renderCrossPlayerLocationRow(locationName, playerId, staticData, isReceived, receivedItems);
           container.appendChild(row);
         }
       }
@@ -488,9 +645,12 @@ export class SpoilerChecklistUI {
     checkbox.type = 'checkbox';
     checkbox.className = 'location-checkbox';
     checkbox.checked = isChecked;
+    checkbox.disabled = isChecked;
     checkbox.addEventListener('click', (e) => {
       e.stopPropagation();
-      this.handleLocationClick(locationName, locationData.region || locationData.parent_region);
+      if (!isChecked) {
+        this.handleLocationClick(locationName, locationData.region || locationData.parent_region);
+      }
     });
     row.appendChild(checkbox);
 
@@ -518,10 +678,12 @@ export class SpoilerChecklistUI {
       locationSpan.classList.add('location-name-red');
     }
 
-    locationSpan.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.handleLocationClick(locationName, locationData.region || locationData.parent_region);
-    });
+    if (!isChecked) {
+      locationSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleLocationClick(locationName, locationData.region || locationData.parent_region);
+      });
+    }
     row.appendChild(locationSpan);
 
     // Item name (optional)
@@ -558,22 +720,35 @@ export class SpoilerChecklistUI {
    * @param {string} locationName - Name of the location
    * @param {string} playerId - ID of the player who owns this location
    * @param {object} staticData - Static game data
+   * @param {boolean} isReceived - Whether this sphere's items have been "received" (before frontier)
+   * @param {object|null} receivedItems - Items current player receives in this sphere ({itemName: count}), or null
    * @returns {HTMLElement} The row element
    */
-  renderCrossPlayerLocationRow(locationName, playerId, staticData) {
+  renderCrossPlayerLocationRow(locationName, playerId, staticData, isReceived = false, receivedItems = null) {
+    // If the current player receives items in this sphere, show at full brightness
+    const hasItemForCurrentPlayer = receivedItems && Object.keys(receivedItems).length > 0;
+
     const row = document.createElement('div');
     row.className = 'location-row cross-player-location-row';
+    if (hasItemForCurrentPlayer) row.classList.add('cross-player-gives-to-current');
+    if (isReceived) row.classList.add('cross-player-received');
     if (this.showRegionColumn) {
       row.classList.add('with-region');
     }
 
-    // Checkbox (disabled for cross-player locations)
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'location-checkbox';
-    checkbox.disabled = true;
-    checkbox.checked = false;
-    row.appendChild(checkbox);
+    if (hasItemForCurrentPlayer) {
+      // Disabled checkbox showing received state for items destined for current player
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'location-checkbox';
+      checkbox.disabled = true;
+      checkbox.checked = isReceived;
+      row.appendChild(checkbox);
+    } else {
+      // Spacer to keep grid alignment
+      const spacer = document.createElement('span');
+      row.appendChild(spacer);
+    }
 
     // Region/Player name column
     if (this.showRegionColumn) {
@@ -592,17 +767,16 @@ export class SpoilerChecklistUI {
     locationSpan.title = `Location in ${staticData.player_names?.[playerId] || `Player ${playerId}`}'s world`;
     row.appendChild(locationSpan);
 
-    // Item name (if showing items)
+    // Item name — show items the current player receives in this sphere
     if (this.showItemColumn) {
       const itemSpan = document.createElement('span');
       itemSpan.className = 'location-item';
 
-      // Try to get item info if available
-      // Note: We might not have this info since it's from another player's world
-      // But the sphere log might have told us what item is there
-      if (this.showLocationItems) {
-        // For now, leave empty since we don't have item data for other players' locations
-        itemSpan.textContent = '';
+      if (hasItemForCurrentPlayer) {
+        const itemNames = Object.entries(receivedItems)
+          .map(([name, count]) => count > 1 ? `${name} x${count}` : name)
+          .join(', ');
+        itemSpan.textContent = itemNames;
       }
 
       row.appendChild(itemSpan);

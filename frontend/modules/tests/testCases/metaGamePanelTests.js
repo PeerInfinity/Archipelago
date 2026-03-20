@@ -69,7 +69,7 @@ export async function testMetaGameProgressBarIntegration(testController) {
 
     // Step 4: Activate regions panel
     testController.log('Activating regions panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     const regionsReady = await testController.pollForCondition(
       () => {
@@ -115,8 +115,8 @@ export async function testMetaGameProgressBarIntegration(testController) {
       locationCheckEventData = data;
     };
 
-    testController.eventBus.subscribe('metaGame:regionMoveBarComplete', regionMoveHandler, 'tests');
-    testController.eventBus.subscribe('metaGame:locationCheckBarComplete', locationCheckHandler, 'tests');
+    testController.eventBus.subscribe('metaGame:regionMoveBarComplete', regionMoveHandler);
+    testController.eventBus.subscribe('metaGame:locationCheckBarComplete', locationCheckHandler);
     
     progressEventHandlers.push(
       { event: 'metaGame:regionMoveBarComplete', handler: regionMoveHandler },
@@ -217,7 +217,7 @@ export async function testMetaGameProgressBarIntegration(testController) {
     testController.log('Looking for a location to check...');
     
     // First try to activate the locations panel if it's not already active
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
     
     // Wait a moment for the panel to activate
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -328,7 +328,7 @@ export async function testMetaGamePanelUI(testController) {
 
     // Step 1: Activate metaGame panel
     testController.log('Activating metaGame panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'metaGamePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'metaGamePanel' });
 
     const metaGamePanelReady = await testController.pollForCondition(
       () => {
@@ -456,8 +456,8 @@ export async function testMetaGamePanelUI(testController) {
       locationCheckCompleted = true;
     };
 
-    testController.eventBus.subscribe('metaGame:regionMoveBarComplete', regionMoveHandler, 'tests');
-    testController.eventBus.subscribe('metaGame:locationCheckBarComplete', locationCheckHandler, 'tests');
+    testController.eventBus.subscribe('metaGame:regionMoveBarComplete', regionMoveHandler);
+    testController.eventBus.subscribe('metaGame:locationCheckBarComplete', locationCheckHandler);
     
     progressEventHandlers.push(
       { event: 'metaGame:regionMoveBarComplete', handler: regionMoveHandler },
@@ -513,7 +513,7 @@ export async function testMetaGamePanelUI(testController) {
     
     // Activate Regions panel
     testController.log('Activating regions panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     const regionsReady2 = await testController.pollForCondition(
       () => {
@@ -621,7 +621,7 @@ export async function testMetaGamePanelUI(testController) {
     testController.log('Testing location check with completionActions intact...');
     
     // Activate locations panel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
     
     // Wait a moment for the panel to activate
     await new Promise(resolve => setTimeout(resolve, 1000));

@@ -6,12 +6,14 @@ This directory contains JSON Schema files for validating Archipelago rules expor
 
 ### `rules.schema.json`
 The **generic base schema** that defines the structure for all Archipelago games. This includes:
-- Standard fields like `schema_version`, `game_name`, `archipelago_version`, etc.
+- Standard fields like `schema_version`, `game_name`, `archipelago_version`, `seed_name`, etc.
 - Region structure with entrances, exits, and locations
-- Item definitions and groups
+- Item definitions with `classification` string (current) or legacy `advancement`/`useful`/`trap` booleans
 - Dungeon structure with bosses
-- Access rule format
-- Settings framework
+- Access rules in both **Rule Builder** and **AST** formats (see [Rule Formats](#rule-formats))
+- World metadata, exporter settings, and game-specific info
+- Helper function definitions
+- Canonical placements for deterministic seed generation
 
 This schema validates any rules.json file from any supported Archipelago game.
 
@@ -47,18 +49,60 @@ This approach provides:
 - **Easy maintenance**: Update base schema affects all games
 - **Strict validation**: Game schemas can enforce specific values (like `const` for game name)
 
-## Validation
+## Rule Formats
 
-### Install jsonschema (required):
-```bash
-pip install jsonschema
+The schema supports two rule formats via `oneOf` in the `rule` definition. All current exports use Rule Builder format; AST format is retained for compatibility with the AST export option.
+
+### Rule Builder format (current)
+
+Rules have a `rule` field naming the rule type, with optional `args` and `children`:
+
+```json
+{"rule": "True_"}
+{"rule": "Has", "args": {"item_name": "Flippers"}}
+{"rule": "And", "children": [
+  {"rule": "Has", "args": {"item_name": "Hookshot"}},
+  {"rule": "CanReachRegion", "args": {"region_name": "Dark World"}}
+]}
 ```
 
-### Validate against generic schema:
+Built-in rule types include `True_`, `False_`, `Has`, `HasAll`, `HasAny`, `HasGroup`, `HasAllCounts`, `CountItem`, `And`, `Or`, `CanReachRegion`, `CanReachLocation`, `OptionValue`, `Compare`, `Conditional`, `Constant`. Games also define their own helper rules with arbitrary names (e.g., `can_use_hookshot`, `has_sword`).
+
+Rules converted from AST format include metadata fields `_original_ast_type` and `_converted_from_ast`.
+
+### AST format (legacy)
+
+Rules have a `type` field describing the AST node type:
+
+```json
+{"type": "constant", "value": true}
+{"type": "item_check", "item": "Flippers"}
+{"type": "and", "conditions": [
+  {"type": "item_check", "item": "Hookshot"},
+  {"type": "can_reach", "region": "Dark World"}
+]}
+```
+
+See `$defs/astRule` in the schema for the full set of AST properties.
+
+## Validation
+
+### Automated test
+
+The schema is validated against all exported rules.json files by:
+
+```bash
+python -m pytest test/general/test_schema_validation.py -v
+```
+
+This validates every file in `frontend/presets/*/AP_*/AP_*_rules.json` against the schema. The test requires the `jsonschema` package (`pip install jsonschema`) and is skipped if it's not installed.
+
+### Manual validation
+
+Validate a single file against the generic schema:
 ```bash
 python3 -c "
-import json
-import jsonschema
+import json, jsonschema
 
 with open('frontend/schema/rules.schema.json') as f:
     schema = json.load(f)
@@ -68,13 +112,11 @@ jsonschema.validate(instance=data, schema=schema)
 "
 ```
 
-### Validate against game-specific schema:
+Validate against a game-specific schema:
 ```bash
 python3 -c "
-import json
-import jsonschema
+import json, jsonschema, os
 from jsonschema import RefResolver
-import os
 
 schema_dir = 'frontend/schema'
 with open(os.path.join(schema_dir, 'rules-alttp.schema.json')) as f:
@@ -122,14 +164,14 @@ To create a schema for a new game:
           "const": "{game_dir}",
           "description": "Game directory name"
         },
-        "settings": {
+        "world": {
           "type": "object",
           "patternProperties": {
             "^[0-9]+$": {
               "type": "object",
               "properties": {
-                "game": { "const": "{Exact Game Name}" },
-                // Add game-specific settings here with proper types/enums
+                "game": { "const": "{Exact Game Name}" }
+                // Add game-specific world properties here
               },
               "required": ["game"]
             }

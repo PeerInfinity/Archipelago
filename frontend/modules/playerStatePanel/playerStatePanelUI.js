@@ -1,4 +1,4 @@
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 
 /**
@@ -6,6 +6,7 @@ import { centralRegistry } from '../../app/core/centralRegistry.js';
  */
 export class PlayerStatePanelUI {
     constructor(container, componentState) {
+        Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
         this.container = container;
         this.componentState = componentState;
         this.currentRegionElement = null;
@@ -43,15 +44,15 @@ export class PlayerStatePanelUI {
 
     setupEventListeners() {
         // Listen for region changes
-        const handle = eventBus.subscribe('playerState:regionChanged', (data) => {
+        const handle = this.eventBus.subscribe('playerState:regionChanged', (data) => {
             this.updateDisplay();
-        }, 'playerStatePanel');
+        });
         this.unsubscribeHandles.push(handle);
-        
+
         // Also listen for rules loaded to get initial state
-        const rulesHandle = eventBus.subscribe('stateManager:rulesLoaded', () => {
+        const rulesHandle = this.eventBus.subscribe('stateManager:rulesLoaded', () => {
             this.updateDisplay();
-        }, 'playerStatePanel');
+        });
         this.unsubscribeHandles.push(rulesHandle);
     }
 

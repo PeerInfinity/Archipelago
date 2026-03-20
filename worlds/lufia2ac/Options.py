@@ -219,7 +219,7 @@ class Boss(RandomGroupsChoice):
         "random-high": ["venge_ghost", "white_dragon_x3", "fire_dragon", "ghost_ship", "tank"],
         "random-sinistral": ["gades_c", "amon", "erim", "daos"],
     }
-    extra_options = set(random_groups)
+    extra_options = list(random_groups)
 
     @property
     def flag(self) -> int:

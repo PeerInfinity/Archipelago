@@ -1,7 +1,6 @@
 // loopUI.js - UI for the Loop mode
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js'; // <<< Re-added import
 import loopState from './loopStateSingleton.js';
-import eventBus from '../../app/core/eventBus.js';
 import commonUI from '../commonUI/index.js';
 import panelManagerInstance from '../../app/core/panelManager.js'; // Changed from panelManagerSingleton.js
 import discoveryStateSingleton from '../discovery/singleton.js';
@@ -18,8 +17,8 @@ import { ExpansionStateManager } from './expansionStateManager.js';
 import { LoopRenderer } from './loopRenderer.js';
 import { EventCoordinator } from './eventCoordinator.js';
 import { LoopBlockBuilder } from './loopBlockBuilder.js';
-import { getPlayerStateAPI, getLoopsModuleDispatcher } from './index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { getPlayerStateAPI, getLoopsModuleDispatcher, getCostDataManager, getModuleEventBus } from './index.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
 
 // Helper function for logging with fallback
@@ -40,11 +39,24 @@ export class LoopUI {
     this.container = container; // ADDED
     this.componentState = componentState; // ADDED
 
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
+
     // UI state
     this.regionsInQueue = new Set(); // Track which regions have actions in the queue
     this.isLoopModeActive = false;
     this.repeatExploreStates = new Map(); // Map to track repeat explore checkbox states per region
     this.settingsUnsubscribe = null; // Add property
+
+    // Discovery mode state (mirrors RegionUI pattern)
+    this.isDiscoveryModeActive = false;
+    this.discoverySettings = {
+      undiscoveredDisplay: 'hidden',
+      clickDiscoversLocation: true,
+      clickDiscoversRegion: false,
+      disableLocationCheckUI: false,
+      showUndiscoveredDetails: false,
+      showUndiscoveredRegionNames: false
+    };
 
     // Animation state
     this._animationFrameId = null;
@@ -67,11 +79,8 @@ export class LoopUI {
     // --- Create root element ---
     this.rootElement = this.createRootElement(); // Create root element
     this.loopRegionsArea = this.rootElement.querySelector('#loop-regions-area'); // Cache reference
-    this.loopControlsContainer = this.rootElement.querySelector(
-      '.loop-controls-area'
-    ); // Cache controls container
     this.loopTopControlsContainer =
-      this.rootElement.querySelector('.loop-controls'); // Cache TOP controls container
+      this.rootElement.querySelector('.loop-controls'); // Cache controls container
 
     this.container.element.appendChild(this.rootElement); // ADDED: Append to GL container
 
@@ -88,7 +97,7 @@ export class LoopUI {
     );
 
     // Initialize EventCoordinator
-    this.eventCoordinator = new EventCoordinator(eventBus, this);
+    this.eventCoordinator = new EventCoordinator(this.eventBus, this);
 
     // --- Moved Listener Attachment ---
     // Event listener attachment is now deferred to attachInternalListeners()
@@ -107,9 +116,9 @@ export class LoopUI {
         '[LoopUI] Received app:readyForUiDataLoad. Initializing panel.'
       );
       this.initialize(); // This will call buildInitialStructure and attachInternalListeners
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'loops');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -122,7 +131,7 @@ export class LoopUI {
     if (this.settingsUnsubscribe) {
       this.settingsUnsubscribe();
     }
-    this.settingsUnsubscribe = eventBus.subscribe(
+    this.settingsUnsubscribe = this.eventBus.subscribe(
       'settings:changed',
       ({ key, value }) => {
         // Delegate to DisplaySettingsManager
@@ -132,7 +141,39 @@ export class LoopUI {
           this.renderLoopPanel(); // Re-render panel when setting changes
         }
       }
-    , 'loops');
+    );
+  }
+
+  /**
+   * Load discovery settings from settingsManager
+   */
+  async loadDiscoverySettings() {
+    try {
+      this.discoverySettings.undiscoveredDisplay = await settingsManager.getSetting(
+        'moduleSettings.discovery.undiscoveredDisplay', 'hidden'
+      );
+      this.discoverySettings.clickDiscoversLocation = await settingsManager.getSetting(
+        'moduleSettings.discovery.clickDiscoversLocation', true
+      );
+      this.discoverySettings.clickDiscoversRegion = await settingsManager.getSetting(
+        'moduleSettings.discovery.clickDiscoversRegion', false
+      );
+      this.discoverySettings.disableLocationCheckUI = await settingsManager.getSetting(
+        'moduleSettings.discovery.disableLocationCheckUI', false
+      );
+      this.discoverySettings.showUndiscoveredDetails = await settingsManager.getSetting(
+        'moduleSettings.discovery.showUndiscoveredDetails', false
+      );
+      this.discoverySettings.showUndiscoveredRegionNames = await settingsManager.getSetting(
+        'moduleSettings.discovery.showUndiscoveredRegionNames', false
+      );
+      this.isDiscoveryModeActive = await settingsManager.getSetting(
+        'moduleSettings.discovery.enableDiscoveryMode', false
+      );
+      log('info', '[LoopUI] Discovery settings loaded');
+    } catch (error) {
+      log('error', '[LoopUI] Error loading discovery settings:', error);
+    }
   }
 
   createRootElement() {
@@ -146,43 +187,48 @@ export class LoopUI {
     // IMPORTANT: Ensure unique IDs if these controls exist elsewhere
     element.innerHTML = `
         <div class="control-group loop-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
-            <button id="loop-ui-toggle-loop-mode" class="button"> <!-- Changed ID -->
-              Enter Loop Mode
-            </button>
-            <button id="loop-ui-toggle-pause" class="button" disabled>Pause</button> <!-- Changed ID -->
-            <button id="loop-ui-toggle-restart" class="button" disabled>Restart</button> <!-- Changed ID -->
-            <button id="loop-ui-toggle-auto-restart" class="button"> <!-- Changed ID -->
-              Pause when queue complete
-            </button>
-            <button id="loop-ui-expand-collapse-all" class="button"> <!-- Changed ID -->
-              Expand All
-            </button>
-            <div class="speed-controls">
-              <label for="loop-ui-game-speed">Speed:</label> <!-- Changed ID -->
-              <input
-                type="range"
-                id="loop-ui-game-speed"
-                min="0.5"
-                max="100"
-                step="0.5"
-                value="1"
-              />
-              <span id="loop-ui-speed-value">1.0x</span> <!-- Changed ID -->
+            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">
+              <div class="controls-header" style="cursor: pointer; user-select: none; display: flex; align-items: center; padding: 5px 10px; border: 1px solid #555; border-radius: 4px; margin-right: 6px;">
+                <span class="collapse-indicator" style="margin-right: 5px; transition: transform 0.3s; transform: rotate(-90deg);">▼</span>
+                <span style="font-weight: bold;">Controls</span>
+              </div>
+              <button id="loop-ui-toggle-pause" class="button" disabled>Pause</button>
+              <button id="loop-ui-clear-queue" class="button" disabled>Clear Queue</button>
+              <button id="loop-ui-expand-collapse-all" class="button">Expand All</button>
+              <button id="loop-ui-compact-view" class="button">Compact View</button>
+            </div>
+            <div class="controls-content" style="display: none; margin-top: 8px;">
+              <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;">
+                <div class="speed-controls">
+                  <label for="loop-ui-game-speed">Speed:</label>
+                  <input type="range" id="loop-ui-game-speed" min="0.5" max="1000" step="0.5" value="100" />
+                  <span id="loop-ui-speed-value">1.0x</span>
+                </div>
+                <label class="instant-mode-label"><input type="checkbox" id="loop-ui-toggle-instant" /> Instant</label>
+                <label class="auto-restart-label"><input type="checkbox" id="loop-ui-toggle-auto-restart" /> Auto-restart when queue complete</label>
+                <label class="auto-resume-label"><input type="checkbox" id="loop-ui-toggle-auto-resume" /> Auto-resume on new action</label>
+                <label class="auto-remove-label"><input type="checkbox" id="loop-ui-toggle-auto-remove" /> Auto-remove completed actions</label>
+              </div>
+              <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;">
+                <button id="loop-ui-save-state" class="button">Save Game</button>
+                <button id="loop-ui-load-state" class="button">Load Game</button>
+                <button id="loop-ui-export-state" class="button">Export</button>
+                <label for="loop-ui-state-import" class="button">Import</label>
+                <input type="file" id="loop-ui-state-import" class="hidden" accept=".json" />
+                <button id="loop-ui-hard-reset" class="button">Hard Reset</button>
+                <button id="loop-ui-toggle-loop-mode" class="button">Enter Loop Mode</button>
+              </div>
+              <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">
+                <button id="loop-ui-toggle-restart" class="button" disabled>Restart</button>
+                <button id="loop-ui-clear-explore" class="button">Clear Explore Actions</button>
+              </div>
             </div>
         </div>
         <div id="loop-fixed-area" class="loop-fixed-area" style="flex-shrink: 0;">
             <!-- Mana bar and current action display will go here -->
         </div>
-        <div id="loop-regions-area" class="loop-regions-area" style="flex-grow: 1; overflow-y: auto; min-height: 0;"> <!-- Added min-height: 0 -->
+        <div id="loop-regions-area" class="loop-regions-area" style="flex-grow: 1; overflow-y: auto; min-height: 0;">
             <!-- Scrollable region/action list -->
-        </div>
-        <div class="loop-controls-area control-group" style="padding: 0.5rem; border-top: 1px solid #666; flex-shrink: 0;">
-            <button id="loop-ui-clear-queue" class="button">Clear Queue</button> <!-- Changed ID -->
-            <button id="loop-ui-save-state" class="button">Save Game</button> <!-- Changed ID -->
-            <button id="loop-ui-export-state" class="button">Export</button> <!-- Changed ID -->
-            <label for="loop-ui-state-import" class="button">Import</label> <!-- Changed ID -->
-            <input type="file" id="loop-ui-state-import" class="hidden" accept=".json" /> <!-- Changed ID -->
-            <button id="loop-ui-hard-reset" class="button">Hard Reset</button> <!-- Changed ID -->
         </div>
     `;
     return element;
@@ -220,32 +266,78 @@ export class LoopUI {
       return null;
     };
 
+    // Collapsible controls header
+    const controlsHeader = querySelector('.controls-header');
+    const controlsContent = querySelector('.controls-content');
+    const collapseIndicator = querySelector('.collapse-indicator');
+    if (controlsHeader && controlsContent && collapseIndicator) {
+      controlsHeader.addEventListener('click', () => {
+        const isCollapsed = controlsContent.style.display === 'none';
+        controlsContent.style.display = isCollapsed ? '' : 'none';
+        collapseIndicator.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+      });
+    }
+
     // --- Attach Listeners using NEW IDs ---
     attachButtonHandler('loop-ui-toggle-loop-mode', () => {
       // Always use the event for consistency
-      eventBus.publish('loops:setLoopMode', { action: 'toggle' }, 'loops');
+      this.eventBus.publish('loops:setLoopMode', { action: 'toggle' });
     });
 
     attachButtonHandler('loop-ui-toggle-pause', function () {
-      const newPauseState = !loopState.isPaused;
-      loopState.setPaused(newPauseState);
-      this._updatePauseButtonState(newPauseState); // Update button state locally
+      const state = loopState.getProcessingState();
+      if (state === 'running') {
+        loopState.setPaused(true);   // Pause → paused
+      } else {
+        loopState.setPaused(false);  // Start or Resume → running
+      }
+      // Button update is handled by the loopState:pauseStateChanged event
     });
 
     attachButtonHandler('loop-ui-toggle-restart', this._handleRestartClick);
 
-    attachButtonHandler('loop-ui-toggle-auto-restart', async function () {
-      const newState = !loopState.autoRestartQueue;
-      loopState.setAutoRestartQueue(newState);
-      const button = querySelector('#loop-ui-toggle-auto-restart');
-      if (button) {
-        button.textContent = newState
-          ? 'Restart when queue complete'
-          : 'Pause when queue complete';
-      }
-      // Persist auto-restart setting via DisplaySettingsManager
-      await this.displaySettings.setSetting('autoRestart', newState, true);
-    });
+    const autoRestartCheckbox = querySelector('#loop-ui-toggle-auto-restart');
+    const autoResumeCheckbox = querySelector('#loop-ui-toggle-auto-resume');
+
+    if (autoRestartCheckbox) {
+      autoRestartCheckbox.checked = loopState.autoRestartQueue;
+      autoRestartCheckbox.addEventListener('change', async () => {
+        const newState = autoRestartCheckbox.checked;
+        loopState.setAutoRestartQueue(newState);
+        await this.displaySettings.setSetting('autoRestart', newState, true);
+        // Mutually exclusive: disable auto-resume when auto-restart is enabled
+        if (newState && loopState.autoResumeOnNewAction) {
+          loopState.setAutoResumeOnNewAction(false);
+          await this.displaySettings.setSetting('autoResumeOnNewAction', false, true);
+          if (autoResumeCheckbox) autoResumeCheckbox.checked = false;
+        }
+      });
+    }
+
+    if (autoResumeCheckbox) {
+      autoResumeCheckbox.checked = loopState.autoResumeOnNewAction;
+      autoResumeCheckbox.addEventListener('change', async () => {
+        const newState = autoResumeCheckbox.checked;
+        loopState.setAutoResumeOnNewAction(newState);
+        await this.displaySettings.setSetting('autoResumeOnNewAction', newState, true);
+        // Mutually exclusive: disable auto-restart when auto-resume is enabled
+        if (newState && loopState.autoRestartQueue) {
+          loopState.setAutoRestartQueue(false);
+          await this.displaySettings.setSetting('autoRestart', false, true);
+          if (autoRestartCheckbox) autoRestartCheckbox.checked = false;
+        }
+      });
+    }
+
+    const autoRemoveCheckbox = querySelector('#loop-ui-toggle-auto-remove');
+    if (autoRemoveCheckbox) {
+      autoRemoveCheckbox.checked = loopState.autoRemoveCompleted;
+      autoRemoveCheckbox.addEventListener('change', async () => {
+        const newState = autoRemoveCheckbox.checked;
+        loopState.setAutoRemoveCompleted(newState);
+        await this.displaySettings.setSetting('autoRemoveCompleted', newState, true);
+      });
+    }
 
     attachButtonHandler('loop-ui-expand-collapse-all', function () {
       const button = querySelector('#loop-ui-expand-collapse-all');
@@ -257,13 +349,27 @@ export class LoopUI {
       }
     });
 
+    attachButtonHandler('loop-ui-compact-view', function () {
+      if (!this.loopRenderer) return;
+      const isCompact = this.loopRenderer.toggleCompactView();
+      const button = querySelector('#loop-ui-compact-view');
+      if (button) {
+        button.textContent = isCompact ? 'Normal View' : 'Compact View';
+      }
+      this.renderLoopPanel();
+    });
+
     attachButtonHandler('loop-ui-clear-queue', this._handleClearQueueClick);
 
     attachButtonHandler('loop-ui-save-state', this._handleSaveStateClick);
 
+    attachButtonHandler('loop-ui-load-state', this._handleLoadStateClick);
+
     attachButtonHandler('loop-ui-export-state', this._exportState);
 
     attachButtonHandler('loop-ui-hard-reset', this._handleHardResetClick);
+
+    attachButtonHandler('loop-ui-clear-explore', this._handleClearExploreClick);
 
     // Import button and file input
     // Use querySelector to find the label acting as a button
@@ -318,6 +424,25 @@ export class LoopUI {
       log('warn', 'LoopUI: Speed slider or value span not found.');
     }
 
+    // Instant mode checkbox
+    const instantCheckbox = querySelector('#loop-ui-toggle-instant');
+    if (instantCheckbox) {
+      const currentSpeedSlider = querySelector('#loop-ui-game-speed');
+      instantCheckbox.checked = loopState.instantMode;
+      if (currentSpeedSlider) {
+        currentSpeedSlider.disabled = loopState.instantMode;
+      }
+      instantCheckbox.addEventListener('change', async () => {
+        const enabled = instantCheckbox.checked;
+        loopState.setInstantMode(enabled);
+        const slider = querySelector('#loop-ui-game-speed');
+        if (slider) {
+          slider.disabled = enabled;
+        }
+        await this.displaySettings.setSetting('instantMode', enabled, true);
+      });
+    }
+
     log('info', 'LoopUI: Internal listeners attached.');
   }
 
@@ -325,15 +450,16 @@ export class LoopUI {
   _handleRestartClick() {
     try {
       loopState._resetLoop();
-      document.querySelectorAll('.action-progress-bar').forEach((bar) => {
+      const restartRoot = this.rootElement || document;
+      restartRoot.querySelectorAll('.action-progress-bar').forEach((bar) => {
         bar.style.width = '0%';
       });
-      document.querySelectorAll('.action-status').forEach((status) => {
+      restartRoot.querySelectorAll('.action-status').forEach((status) => {
         status.textContent = 'Pending';
         status.className = 'action-status pending';
       });
       loopState.restartQueueFromBeginning();
-      document.querySelectorAll('.action-progress-value').forEach((value) => {
+      restartRoot.querySelectorAll('.action-progress-value').forEach((value) => {
         const actionItem = value.closest('.action-item');
         if (actionItem) {
           const actionId = actionItem.id.replace('action-', '');
@@ -341,12 +467,12 @@ export class LoopUI {
           const action = actionQueue.find((a) => a.id === actionId);
           if (action) {
             const actionCost = this._estimateActionCost(action);
-            const actionQueue = this.getActionQueue();
-            const actionIndex = actionQueue.findIndex(
+            const currentQueue = this.getActionQueue();
+            const actionIndex = currentQueue.findIndex(
               (a) => a.id === actionId
             );
             const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
-            value.textContent = `0/${actionCost}, Action ${displayIndex} of ${actionQueue.length}`;
+            value.textContent = `0/${actionCost}, Action ${displayIndex} of ${currentQueue.length}`;
           }
         }
       });
@@ -363,32 +489,39 @@ export class LoopUI {
   }
 
   _handleClearQueueClick() {
-    // Use playerState API to trim the path to just the initial Menu
-    if (this.playerStateAPI?.trimPath) {
-      this.playerStateAPI.trimPath(1); // Keep only the first entry (Menu)
-    }
-    loopState.currentAction = null;
-    loopState.currentActionIndex = 0;
-    loopState.isProcessing = false;
+    // Use resetQueue which handles stopping processing, clearing path,
+    // clearing tracking, and publishing queueUpdated
+    loopState.resetQueue();
+
+    // Reset to idle state
+    loopState.isPaused = false;
+    loopState._queueCompleted = false;
     loopState.currentMana = loopState.maxMana;
+
     this.regionsInQueue.clear();
-    // Use rootElement to find the container
-    const actionContainer = this.rootElement.querySelector(
-      '#current-action-container'
-    );
-    if (actionContainer)
-      actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
     this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
-    eventBus.publish('loopState:queueUpdated', {
-      queue: this.getActionQueue(),
-    }, 'loops');
+
+    // Publish state change so button updates to "Start"
+    this.eventBus.publish('loopState:pauseStateChanged', {
+      isPaused: false,
+      processingState: loopState.getProcessingState(),
+    });
     this.renderLoopPanel();
   }
 
   _handleSaveStateClick() {
     loopState.saveToStorage();
-    // Use console.info instead of window.consoleManager
     console.info('Game saved!');
+  }
+
+  _handleLoadStateClick() {
+    const loaded = loopState.loadFromStorage();
+    if (loaded) {
+      console.info('Game loaded!');
+      this.renderLoopPanel();
+    } else {
+      console.info('No saved game found.');
+    }
   }
 
   _handleHardResetClick() {
@@ -416,13 +549,143 @@ export class LoopUI {
 
       // Clear UI specific states
       this.expansionState.clear();
-      this.expansionState.setRegionExpanded('Menu', true); // Keep menu expanded
+      const startRegion = this.getPrimaryStartRegion();
+      if (startRegion) this.expansionState.setRegionExpanded(startRegion, true);
       this.regionsInQueue.clear();
       // REMOVED: this.repeatExploreStates.clear(); - Now handled by LoopState
       // Render the panel
       this.renderLoopPanel();
       // Use console.warn instead of window.consoleManager
       log('warn', 'Game has been hard reset!');
+    }
+  }
+
+  /**
+   * Handle Generate Costs from the inline "no cost data" prompt.
+   * Uses the CostPlanner from the loopsCostDebugger module.
+   */
+  async _handleGenerateCostsInline() {
+    const costDataManager = getCostDataManager();
+    if (!costDataManager) {
+      log('error', 'CostDataManager not available');
+      return;
+    }
+
+    // Get CostPlanner via centralRegistry
+    const getCostPlannerFn = centralRegistry.getPublicFunction('loopsCostDebugger', 'getCostPlanner');
+    const costPlanner = getCostPlannerFn?.();
+    if (!costPlanner) {
+      log('error', 'CostPlanner not available. Is the loopsCostDebugger module loaded?');
+      alert('Cost planner not available. Ensure the Loops Cost Debugger module is loaded.');
+      return;
+    }
+
+    // Get sphere log
+    const getSphereLogFn = centralRegistry.getPublicFunction('loopsCostDebugger', 'getSphereLog');
+    const sphereLog = getSphereLogFn?.();
+    if (!sphereLog || sphereLog.length === 0) {
+      alert('No sphere log available. Load a game with sphere data first.');
+      return;
+    }
+
+    // Show progress UI
+    const progressContainer = this.rootElement.querySelector('#loop-ui-cost-progress');
+    const progressLabel = this.rootElement.querySelector('#loop-ui-cost-progress-label');
+    const progressBar = this.rootElement.querySelector('#loop-ui-cost-progress-bar');
+    const generateBtn = this.rootElement.querySelector('#loop-ui-generate-costs-inline');
+    const acceptBtn = this.rootElement.querySelector('#loop-ui-accept-defaults');
+
+    if (progressContainer) progressContainer.style.display = 'block';
+    if (generateBtn) generateBtn.disabled = true;
+    if (acceptBtn) acceptBtn.disabled = true;
+
+    try {
+      // Load sphere log into planner
+      costPlanner.reset();
+      const loadResult = costPlanner.loadSphereLog(sphereLog);
+      log('info', `Loaded sphere log: ${loadResult.entryCount} entries`);
+
+      // Plan all steps, updating progress by sphere
+      const totalEntries = costPlanner.getTotalEntries();
+      let lastSphere = -1;
+
+      while (!costPlanner.isComplete()) {
+        const step = costPlanner.planNextStep();
+        if (!step) break;
+
+        // Update progress bar based on entry progress
+        if (step.sphereIndex !== lastSphere) {
+          lastSphere = step.sphereIndex;
+          const entryIdx = step.sphereEntryIndex ?? 0;
+          const percent = Math.round((entryIdx / totalEntries) * 100);
+          if (progressLabel) progressLabel.textContent = `Sphere ${step.sphereIndex}... (${entryIdx}/${totalEntries} entries)`;
+          if (progressBar) progressBar.style.width = `${percent}%`;
+        }
+
+        // Yield to let the UI update periodically
+        if (step.stepIndex % 20 === 0) {
+          await new Promise(r => setTimeout(r, 0));
+        }
+      }
+
+      // Get generated cost data and load it into costDataManager
+      const costData = costPlanner.getCostData();
+      if (costData) {
+        costDataManager.setCostData(costData, 'costPlanner');
+        log('info', `Costs generated: ${Object.keys(costData.regions).length} regions, ${Object.keys(costData.locations).length} locations`);
+      }
+
+      // Re-render (will now show region blocks since costs are loaded)
+      this.renderLoopPanel();
+
+      // Auto-enter loop mode
+      if (!this.isLoopModeActive) {
+        this.eventBus.publish('loops:setLoopMode', { action: 'enable' });
+      }
+    } catch (error) {
+      log('error', 'Cost generation failed:', error);
+      alert(`Cost generation failed: ${error.message}`);
+      if (generateBtn) generateBtn.disabled = false;
+      if (acceptBtn) acceptBtn.disabled = false;
+      if (progressContainer) progressContainer.style.display = 'none';
+    }
+  }
+
+  /**
+   * Handle Accept Defaults - set default costs without generation.
+   * Start region = 0, all other regions = 50, all locations = 100.
+   */
+  _handleAcceptDefaults() {
+    const costDataManager = getCostDataManager();
+    if (!costDataManager) {
+      log('error', 'CostDataManager not available');
+      return;
+    }
+
+    // Build minimal cost data with just the start region at cost 0
+    const startRegion = this.getPrimaryStartRegion();
+    const regions = {};
+    if (startRegion) {
+      regions[startRegion] = { moveCost: 0 };
+    }
+
+    const costData = {
+      version: '1.0',
+      generatedAt: new Date().toISOString(),
+      generatedFrom: 'defaults',
+      regions,
+      locations: {},
+      defaultRegionCost: 50,
+      defaultLocationCost: 100,
+    };
+
+    costDataManager.setCostData(costData, 'defaults');
+    log('info', 'Accepted default costs');
+    this.renderLoopPanel();
+
+    // Auto-enter loop mode
+    if (!this.isLoopModeActive) {
+      this.eventBus.publish('loops:setLoopMode', { action: 'enable' });
     }
   }
 
@@ -468,6 +731,9 @@ export class LoopUI {
     await this.displaySettings.initialize();
     log('info', '[LoopUI] DisplaySettingsManager initialized');
 
+    // Load discovery settings
+    await this.loadDiscoverySettings();
+
     // Sync persisted settings to loopState
     const defaultSpeed = this.displaySettings.getSetting('defaultSpeed');
     const autoRestart = this.displaySettings.getSetting('autoRestart');
@@ -476,6 +742,18 @@ export class LoopUI {
     }
     if (autoRestart !== undefined) {
       loopState.setAutoRestartQueue(autoRestart);
+    }
+    const instantMode = this.displaySettings.getSetting('instantMode');
+    if (instantMode !== undefined) {
+      loopState.setInstantMode(instantMode);
+    }
+    const autoResumeOnNewAction = this.displaySettings.getSetting('autoResumeOnNewAction');
+    if (autoResumeOnNewAction !== undefined) {
+      loopState.setAutoResumeOnNewAction(autoResumeOnNewAction);
+    }
+    const autoRemoveCompleted = this.displaySettings.getSetting('autoRemoveCompleted');
+    if (autoRemoveCompleted !== undefined) {
+      loopState.autoRemoveCompleted = autoRemoveCompleted; // Don't call setter here to avoid premature removal
     }
 
     // Get and set the playerState API
@@ -495,12 +773,17 @@ export class LoopUI {
     this.buildInitialStructure();
     this.attachInternalListeners(); // Attach listeners for the newly built structure
 
-    // Check if we should automatically enter loop mode based on settings
+    // Check if we should automatically enter loop mode based on settings or URL
     const loopModeEnabled = this.displaySettings.getSetting('loopModeEnabled');
-    log('info', `[LoopUI] loopModeEnabled setting value: ${loopModeEnabled}, isLoopModeActive: ${this.isLoopModeActive}`);
-    if (loopModeEnabled && !this.isLoopModeActive) {
-      log('info', '[LoopUI] Auto-entering loop mode based on loopModeEnabled setting');
-      eventBus.publish('loops:setLoopMode', { action: 'enable' }, 'loops');
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlModeIsLoops = urlParams.get('mode') === 'loops';
+    log('info', `[LoopUI] loopModeEnabled setting: ${loopModeEnabled}, URL mode=loops: ${urlModeIsLoops}, isLoopModeActive: ${this.isLoopModeActive}`);
+
+    if ((loopModeEnabled || urlModeIsLoops) && !this.isLoopModeActive) {
+      // Cost generation and loop mode entry are handled by _handleSetLoopMode
+      // in the EventCoordinator, which checks for cost data and auto-generates if needed.
+      log('info', '[LoopUI] Auto-entering loop mode via event');
+      this.eventBus.publish('loops:setLoopMode', { action: 'enable' });
     }
   }
 
@@ -526,9 +809,6 @@ export class LoopUI {
     if (!container.querySelector('#loop-regions-area')) {
       log('error', 'LoopUI: #loop-regions-area missing in rootElement');
     }
-    if (!container.querySelector('.loop-controls-area')) {
-      log('error', 'LoopUI: .loop-controls-area missing in rootElement');
-    }
     if (!container.querySelector('.loop-controls')) {
       log('error', 'LoopUI: .loop-controls (top) missing in rootElement');
     }
@@ -546,11 +826,9 @@ export class LoopUI {
     this._updatePauseButtonState(loopState.isPaused);
 
     // Update auto-restart button state
-    const autoRestartBtn = this.rootElement.querySelector('#loop-ui-toggle-auto-restart');
-    if (autoRestartBtn) {
-      autoRestartBtn.textContent = loopState.autoRestartQueue
-        ? 'Auto-restart enabled'
-        : 'Pause when queue complete';
+    const autoRestartCheckbox = this.rootElement.querySelector('#loop-ui-toggle-auto-restart');
+    if (autoRestartCheckbox) {
+      autoRestartCheckbox.checked = loopState.autoRestartQueue;
     }
 
     // Mark structure as built
@@ -571,25 +849,11 @@ export class LoopUI {
     // Only add content if it's not already there
     if (!fixedArea.querySelector('.mana-container')) {
       fixedArea.innerHTML = `
-      <div class="loop-stats-container" style="padding: 10px; background: #2a2a2a; border-bottom: 1px solid #444;">
-        <div class="loop-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-          <div class="stat-item">
-            <span class="stat-label">Loop #:</span>
-            <span id="loop-number" class="stat-value">1</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Total XP:</span>
-            <span id="total-xp" class="stat-value">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Actions Completed:</span>
-            <span id="actions-completed" class="stat-value">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Queue Length:</span>
-            <span id="queue-length" class="stat-value">0</span>
-          </div>
-        </div>
+      <div class="loop-stats-container" style="display: none; flex-wrap: wrap; justify-content: space-evenly; padding: 0 10px 10px;">
+          <span class="stat-item"><span class="stat-label">Loop #:</span> <span id="loop-number" class="stat-value">1</span></span>
+          <span class="stat-item"><span class="stat-label">Total XP:</span> <span id="total-xp" class="stat-value">0</span></span>
+          <span class="stat-item"><span class="stat-label">Actions Completed:</span> <span id="actions-completed" class="stat-value">0</span></span>
+          <span class="stat-item"><span class="stat-label">Queue Length:</span> <span id="queue-length" class="stat-value">0</span></span>
       </div>
       <div class="loop-resources">
         <div class="mana-container">
@@ -599,12 +863,8 @@ export class LoopUI {
             <span class="mana-text">0/0</span>
           </div>
         </div>
-        <div class="loop-control-buttons" style="padding: 5px 0;">
-          <button id="loop-clear-queue" class="button">Clear Queue</button>
-          <button id="loop-clear-explore" class="button">Clear Explore Actions</button>
-        </div>
         <div class="current-action-container" id="current-action-container">
-          <div class="no-action-message">No action in progress</div>
+          <div class="no-action-message">Queue ready</div>
         </div>
       </div>
     `;
@@ -617,16 +877,6 @@ export class LoopUI {
       this.actionsCompletedElement = fixedArea.querySelector('#actions-completed');
       this.queueLengthElement = fixedArea.querySelector('#queue-length');
 
-      // Attach listeners to the new buttons
-      const clearQueueBtn = fixedArea.querySelector('#loop-clear-queue');
-      if (clearQueueBtn) {
-        clearQueueBtn.addEventListener('click', () => this._handleClearQueueClick());
-      }
-      
-      const clearExploreBtn = fixedArea.querySelector('#loop-clear-explore');
-      if (clearExploreBtn) {
-        clearExploreBtn.addEventListener('click', () => this._handleClearExploreClick());
-      }
 
       // Update display with current state
       this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
@@ -659,7 +909,7 @@ export class LoopUI {
     
     // Update actions completed count
     if (this.actionsCompletedElement) {
-      const completedCount = loopState.actionCompleted?.size || 0;
+      const completedCount = loopState.actionQueueManager?.actionCompleted?.size || 0;
       this.actionsCompletedElement.textContent = completedCount;
     }
     
@@ -717,23 +967,35 @@ export class LoopUI {
   }
 
   /**
+   * Gets the primary start region name from stateManager static data.
+   * @returns {string|null} The start region name, or null if unavailable
+   */
+  getPrimaryStartRegion() {
+    const staticData = stateManager.getStaticData();
+    let startRegions = staticData?.startRegions;
+    if (startRegions && !Array.isArray(startRegions) && typeof startRegions === 'object' && Array.isArray(startRegions.default)) {
+      startRegions = startRegions.default;
+    }
+    if (Array.isArray(startRegions) && startRegions.length > 0) {
+      return startRegions[0];
+    }
+    // Fallback: first region in static data
+    if (staticData?.regions?.size > 0) {
+      return staticData.regions.keys().next().value;
+    }
+    return null;
+  }
+
+  /**
    * Gets the current action queue from playerState
    * @returns {Array} The current path/action queue
    */
   getActionQueue() {
-    if (!this.playerStateAPI || !this.playerStateAPI.getPath) {
-      // Only log warning if structure is built (meaning this is happening after init)
-      // During initialization, this is expected and not a problem
-      if (this.structureBuilt) {
-        log('warn', 'LoopUI: PlayerState API not available after initialization');
-      } else {
-        log('debug', 'LoopUI: PlayerState API not yet available during initialization');
-      }
-      return [];
-    }
-    const path = this.playerStateAPI.getPath() || [];
-    log('info', `LoopUI: Got path from playerState with ${path.length} entries`, path);
-    return path;
+    // Use loopState's ActionQueueManager which maps raw path entries to action objects
+    // (e.g., regionMove → moveToRegion, locationCheck → checkLocation, customAction → explore)
+    const queue = loopState.getActionQueue();
+    log('info', `LoopUI: Got action queue with ${queue.length} entries`, queue);
+    return queue;
   }
 
   /**
@@ -759,13 +1021,13 @@ export class LoopUI {
       if (entry.type === 'locationCheck' && this.playerStateAPI?.removeLocationCheckAt) {
         this.playerStateAPI.removeLocationCheckAt(
           entry.locationName,
-          entry.region,
+          entry.sourceRegion,
           entry.instanceNumber
         );
       } else if (entry.type === 'customAction' && this.playerStateAPI?.removeCustomActionAt) {
         this.playerStateAPI.removeCustomActionAt(
           entry.actionName,
-          entry.region,
+          entry.sourceRegion,
           entry.instanceNumber
         );
       }
@@ -823,13 +1085,12 @@ export class LoopUI {
 
     // Add all unique regions that have actions in the queue
     for (const action of queue) {
-      if (action.type === 'moveToRegion') {
-        // For move actions, add the destination region
-        this.regionsInQueue.add(action.destinationRegion);
-      }
-      // Always add the region where the action is performed
-      if (action.regionName) {
-        this.regionsInQueue.add(action.regionName);
+      if (action.type === 'regionMove') {
+        // Add both source and destination for move actions
+        if (action.sourceRegion) this.regionsInQueue.add(action.sourceRegion);
+        if (action.destinationRegion) this.regionsInQueue.add(action.destinationRegion);
+      } else if (action.sourceRegion) {
+        this.regionsInQueue.add(action.sourceRegion);
       }
     }
 
@@ -842,7 +1103,7 @@ export class LoopUI {
    */
   _handleLoopReset(data = {}) {
     // Flash the mana bar to indicate reset
-    const manaBar = document.getElementById('mana-bar');
+    const manaBar = this.rootElement?.querySelector('.mana-bar-fill');
     if (manaBar) {
       manaBar.classList.add('reset-flash');
       setTimeout(() => {
@@ -863,7 +1124,7 @@ export class LoopUI {
 
     // Update pause button if we're paused
     if (isPaused) {
-      const pauseBtn = document.getElementById('toggle-pause');
+      const pauseBtn = this.rootElement?.querySelector('#loop-ui-toggle-pause');
       if (pauseBtn) {
         pauseBtn.textContent = 'Resume';
       }
@@ -871,13 +1132,17 @@ export class LoopUI {
     }
 
     // If it's a full reset (not a pause), reset all progress displays
-    // Reset progress on all action displays
-    document.querySelectorAll('.action-progress-bar').forEach((bar) => {
+    // Reset progress on all action displays (scoped to this panel)
+    const root = this.rootElement || document;
+    root.querySelectorAll('.action-progress-bar').forEach((bar) => {
+      bar.style.width = '0%';
+    });
+    root.querySelectorAll('.loop-action-progress-bar').forEach((bar) => {
       bar.style.width = '0%';
     });
 
     // Update all action status indicators
-    document.querySelectorAll('.action-status').forEach((status) => {
+    root.querySelectorAll('.action-status').forEach((status) => {
       // Get the action element containing this status
       const actionItem = status.closest('.action-item');
       if (actionItem) {
@@ -918,16 +1183,38 @@ export class LoopUI {
    * @param {number} max - Maximum mana
    */
   /**
-   * Update the pause button text to reflect the current state
-   * @param {boolean} isPaused - Whether the system is currently paused
+   * Update the pause button text and status line to reflect the current state
+   * @param {boolean} isPaused - Whether the system is currently paused (legacy, used as fallback)
+   * @param {string} [processingState] - 'idle', 'running', 'paused', or 'completed'
    */
-  _updatePauseButtonState(isPaused) {
-    // Update the button text within this panel's scope
-    const pauseBtn = this.rootElement?.querySelector('#loop-ui-toggle-pause'); // Use optional chaining
+  _updatePauseButtonState(isPaused, processingState) {
+    // Derive state from loopState if not provided explicitly
+    if (!processingState) {
+      processingState = loopState.getProcessingState();
+    }
+
+    const pauseBtn = this.rootElement?.querySelector('#loop-ui-toggle-pause');
     if (pauseBtn) {
-      pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
-      // Also disable/enable based on loop mode activity
-      pauseBtn.disabled = !this.isLoopModeActive;
+      const labels = { idle: 'Start', running: 'Pause', paused: 'Resume', completed: 'Restart', waiting: 'Waiting' };
+      pauseBtn.textContent = labels[processingState] || 'Start';
+      pauseBtn.disabled = !this.isLoopModeActive || processingState === 'waiting';
+    }
+
+    // Update the status line in the action container
+    if (processingState !== 'running') {
+      const actionContainer = this.rootElement?.querySelector('#current-action-container');
+      if (actionContainer) {
+        const statusMessages = {
+          idle: 'Queue ready',
+          paused: 'Paused',
+          completed: 'Queue complete',
+          waiting: 'Waiting for new actions...',
+        };
+        const msg = statusMessages[processingState];
+        if (msg) {
+          actionContainer.innerHTML = `<div class="no-action-message">${msg}</div>`;
+        }
+      }
     }
     // Ensure restart button state is also updated
     const restartBtn = this.rootElement?.querySelector(
@@ -943,6 +1230,20 @@ export class LoopUI {
     if (autoRestartBtn) {
       autoRestartBtn.disabled = !this.isLoopModeActive;
     }
+    // And auto-resume button
+    const autoResumeBtn = this.rootElement?.querySelector(
+      '#loop-ui-toggle-auto-resume'
+    );
+    if (autoResumeBtn) {
+      autoResumeBtn.disabled = !this.isLoopModeActive;
+    }
+    // And clear queue button
+    const clearQueueBtn = this.rootElement?.querySelector(
+      '#loop-ui-clear-queue'
+    );
+    if (clearQueueBtn) {
+      clearQueueBtn.disabled = !this.isLoopModeActive;
+    }
   }
 
   /**
@@ -954,63 +1255,54 @@ export class LoopUI {
 
     requestAnimationFrame(() => {
       try {
-        // Find by valid ID selector within rootElement
+        // Find by action index in the new entry format
+        const actionIndex = loopState.currentActionIndex;
         const actionElement = this.rootElement.querySelector(
+          `.loop-action-entry[data-action-index="${actionIndex}"]`
+        );
+
+        // Also try the old format (for backwards compatibility during transition)
+        const legacyElement = !actionElement ? this.rootElement.querySelector(
           `#action-${action.id}`
-        );
+        ) : null;
 
-        // Update individual action item within the panel
-        if (!actionElement) return; // Skip if element not found in panel
+        const element = actionElement || legacyElement;
+        if (!element) return;
 
-        const progressBar = actionElement.querySelector('.action-progress-bar');
-        const progressValue = actionElement.querySelector(
-          '.action-progress-value'
-        );
-        const statusElement = actionElement.querySelector('.action-status');
+        // Update new format entry
+        if (actionElement) {
+          const progressBar = actionElement.querySelector('.loop-action-progress-bar');
+          const statusEl = actionElement.querySelector('.loop-action-status');
 
-        if (progressBar) {
-          progressBar.style.transition = 'none';
-          void progressBar.offsetWidth;
-          progressBar.style.transition = 'width 0.1s linear';
-          progressBar.style.width = `${action.progress}%`;
-        }
-
-        if (progressValue) {
-          const actionCost = this._estimateActionCost(action);
-          const manaCostSoFar = Math.floor(
-            (action.progress / 100) * actionCost
-          );
-          let displayIndex;
-          if (action === loopState.currentAction) {
-            displayIndex = loopState.currentActionIndex + 1;
-          } else {
-            const actionQueue = this.getActionQueue();
-            const actionIndex = actionQueue.findIndex(
-              (a) => a.id === action.id
-            );
-            displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+          if (progressBar) {
+            progressBar.style.transition = 'none';
+            void progressBar.offsetWidth;
+            progressBar.style.transition = 'width 0.3s ease';
+            progressBar.style.width = `${action.progress}%`;
           }
-          progressValue.textContent = `Action ${displayIndex} of ${actionQueue.length}, Progress: ${manaCostSoFar} of ${actionCost} mana`;
+
+          // Update status
+          if (statusEl) {
+            const isActive = action === loopState.currentAction;
+            const isCompleted = action.completed;
+            let status = 'pending';
+            if (isCompleted) status = 'completed';
+            else if (isActive) status = 'active';
+
+            statusEl.textContent = status;
+            statusEl.className = `loop-action-status status-${status}`;
+
+            // Update entry state class
+            actionElement.classList.remove('state-pending', 'state-active', 'state-completed');
+            actionElement.classList.add(`state-${status}`);
+          }
         }
 
-        if (statusElement) {
-          if (
-            action === loopState.currentAction &&
-            !statusElement.classList.contains('active')
-          ) {
-            statusElement.textContent = 'Active';
-            statusElement.className = 'action-status active';
-          } else if (
-            action !== loopState.currentAction &&
-            statusElement.classList.contains('active')
-          ) {
-            if (action.completed) {
-              statusElement.textContent = 'Completed';
-              statusElement.className = 'action-status completed';
-            } else {
-              statusElement.textContent = 'Pending';
-              statusElement.className = 'action-status pending';
-            }
+        // Update legacy format entry
+        if (legacyElement) {
+          const progressBar = legacyElement.querySelector('.action-progress-bar');
+          if (progressBar) {
+            progressBar.style.width = `${action.progress}%`;
           }
         }
       } catch (error) {
@@ -1024,7 +1316,7 @@ export class LoopUI {
    * @param {string} regionName - Name of the region
    */
   _updateRegionXPDisplay(regionName) {
-    const regionBlock = document.querySelector(
+    const regionBlock = this.rootElement?.querySelector(
       `.loop-region-block[data-region="${regionName}"]`
     );
     if (!regionBlock) return;
@@ -1032,44 +1324,59 @@ export class LoopUI {
     const xpData = loopState.getRegionXP(regionName);
     const xpDisplay = regionBlock.querySelector('.region-xp-display');
 
-    if (xpDisplay && xpData) {
+    if (xpData) {
       // Calculate percentage to next level
       const percentage = (xpData.xp / xpData.xpForNextLevel) * 100;
 
       // Calculate the action speed/efficiency bonus (5% per level)
       const speedBonus = xpData.level * 5;
 
-      // Animate XP bar by removing transition first
-      const xpBar = xpDisplay.querySelector('.xp-bar');
-      if (xpBar) {
-        // Remove transition temporarily
-        xpBar.style.transition = 'none';
-        // Force a reflow
-        void xpBar.offsetWidth;
-        // Restore transition
-        xpBar.style.transition = 'width 0.3s ease';
-        // Update width
-        xpBar.style.width = `${percentage}%`;
+      // Update the header XP bar (always visible)
+      const headerXpBar = regionBlock.querySelector('.region-header-xp-bar');
+      const headerXpText = regionBlock.querySelector('.region-header-xp-text');
+      const headerLevel = regionBlock.querySelector('.region-xp-level');
+      const headerEfficiency = regionBlock.querySelector('.region-xp-efficiency');
+
+      if (headerXpBar) {
+        headerXpBar.style.width = `${percentage}%`;
+      }
+      if (headerXpText) {
+        headerXpText.textContent = `${Math.floor(xpData.xp)} / ${xpData.xpForNextLevel} XP`;
+      }
+      if (headerLevel) {
+        headerLevel.textContent = `Level ${xpData.level}`;
+      }
+      if (headerEfficiency) {
+        headerEfficiency.textContent = `+${speedBonus}%`;
       }
 
-      // Update XP text
-      const xpText = xpDisplay.querySelector('.xp-text');
-      if (xpText) {
-        xpText.innerHTML = `Level ${xpData.level} (${Math.floor(xpData.xp)}/${
-          xpData.xpForNextLevel
-        } XP) <span class="discount-text">+${speedBonus}% action efficiency</span>`;
-      } else {
-        // Re-create the entire display if needed
-        xpDisplay.innerHTML = `
-          <div class="xp-text">Level ${xpData.level} (${Math.floor(
-          xpData.xp
-        )}/${
-          xpData.xpForNextLevel
-        } XP) <span class="discount-text">+${speedBonus}% action efficiency</span></div>
-          <div class="xp-bar-container">
-            <div class="xp-bar" style="width: ${percentage}%"></div>
-          </div>
-        `;
+      // Update the expanded details XP display (if present)
+      if (xpDisplay) {
+        const xpBar = xpDisplay.querySelector('.xp-bar');
+        if (xpBar) {
+          xpBar.style.transition = 'none';
+          void xpBar.offsetWidth;
+          xpBar.style.transition = 'width 0.3s ease';
+          xpBar.style.width = `${percentage}%`;
+        }
+
+        const xpText = xpDisplay.querySelector('.xp-text');
+        if (xpText) {
+          xpText.innerHTML = `Level ${xpData.level} (${Math.floor(xpData.xp)}/${
+            xpData.xpForNextLevel
+          } XP) <span class="discount-text">+${speedBonus}% action efficiency</span>`;
+        } else {
+          xpDisplay.innerHTML = `
+            <div class="xp-text">Level ${xpData.level} (${Math.floor(
+            xpData.xp
+          )}/${
+            xpData.xpForNextLevel
+          } XP) <span class="discount-text">+${speedBonus}% action efficiency</span></div>
+            <div class="xp-bar-container">
+              <div class="xp-bar" style="width: ${percentage}%"></div>
+            </div>
+          `;
+        }
       }
     }
   }
@@ -1088,8 +1395,8 @@ export class LoopUI {
 
     const action = {
       id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
-      type: 'checkLocation',
-      regionName,
+      type: 'locationCheck',
+      region: regionName,
       locationName,
       progress: 0,
       completed: false,
@@ -1117,18 +1424,18 @@ export class LoopUI {
     const actionQueue = this.getActionQueue();
     const existingMoveAction = actionQueue.find(
       (action) =>
-        action.type === 'moveToRegion' && action.regionName === regionName
+        action.type === 'regionMove' && action.sourceRegion === regionName
     );
 
     // Check if there's already a move action TO the destination region
     const existingDestinationAction = actionQueue.find(
       (action) =>
-        action.type === 'moveToRegion' &&
+        action.type === 'regionMove' &&
         action.destinationRegion === destinationRegion
     );
 
     if (existingMoveAction) {
-      log('info', 
+      log('info',
         `There's already a move action from ${regionName} to ${existingMoveAction.destinationRegion}`
       );
 
@@ -1180,12 +1487,12 @@ export class LoopUI {
 
     // If there's already a move action TO the destination region, show warning
     if (existingDestinationAction) {
-      log('info', 
-        `There's already a move action to ${destinationRegion} from ${existingDestinationAction.regionName}`
+      log('info',
+        `There's already a move action to ${destinationRegion} from ${existingDestinationAction.sourceRegion}`
       );
 
       // Create a modal message with don't show again checkbox
-      const message = `You already have a move action to ${destinationRegion} from ${existingDestinationAction.regionName}. Remove it first to add a new move action to this region.`;
+      const message = `You already have a move action to ${destinationRegion} from ${existingDestinationAction.sourceRegion}. Remove it first to add a new move action to this region.`;
 
       // Check if the user has chosen to hide this message
       if (localStorage.getItem('hideDoubleDestinationWarning') !== 'true') {
@@ -1241,10 +1548,10 @@ export class LoopUI {
 
     const action = {
       id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
-      type: 'moveToRegion',
-      regionName,
-      exitName,
-      destinationRegion,
+      type: 'regionMove',
+      region: destinationRegion,
+      sourceRegion: regionName,
+      exitUsed: exitName,
       progress: 0,
       completed: false,
     };
@@ -1283,7 +1590,7 @@ export class LoopUI {
       expandCollapseBtn.textContent = 'Collapse All';
     }
     // Also update the potentially existing global header button
-    const headerExpandCollapseBtn = document.querySelector(
+    const headerExpandCollapseBtn = this.rootElement?.querySelector(
       '.loop-controls #loop-expand-collapse-all'
     );
     if (headerExpandCollapseBtn) {
@@ -1309,7 +1616,7 @@ export class LoopUI {
       expandCollapseBtn.textContent = 'Expand All';
     }
     // Also update the potentially existing global header button
-    const headerExpandCollapseBtn = document.querySelector(
+    const headerExpandCollapseBtn = this.rootElement?.querySelector(
       '.loop-controls #loop-expand-collapse-all'
     );
     if (headerExpandCollapseBtn) {
@@ -1325,6 +1632,30 @@ export class LoopUI {
   toggleRegionExpanded(regionName) {
     this.expansionState.toggleRegion(regionName);
     this.renderLoopPanel();
+  }
+
+  /**
+   * Navigate to a region: expand it, re-render, and scroll to it with a highlight
+   * Called when the user clicks an exit or entrance to move to a new region
+   * @param {string} regionName - The target region to navigate to
+   */
+  navigateToRegion(regionName) {
+    // Collapse all other regions when navigating to a new one
+    this.expansionState.collapseAll();
+    this.expansionState.setRegionExpanded(regionName, true);
+    this.renderLoopPanel();
+
+    // Scroll to the new region block after the DOM updates
+    requestAnimationFrame(() => {
+      const regionBlock = this.rootElement?.querySelector(
+        `.loop-region-block[data-region="${CSS.escape(regionName)}"]`
+      );
+      if (regionBlock) {
+        regionBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        regionBlock.classList.add('highlight-region');
+        setTimeout(() => regionBlock.classList.remove('highlight-region'), 2000);
+      }
+    });
   }
 
   /**
@@ -1346,16 +1677,33 @@ export class LoopUI {
    * @param {number} index - The index to remove
    */
   _removeActionAtIndex(index) {
-    // We need to get the action queue to find the proper path index
     const actionQueue = this.getActionQueue();
-    if (index >= 0 && index < actionQueue.length) {
-      // Use playerState API to trim the path at this point
-      const entry = actionQueue[index];
-      if (this.playerStateAPI?.trimPath) {
-        // Trim path at the action's region and instance
-        this.playerStateAPI.trimPath(entry.region, entry.instanceNumber);
+    if (index < 0 || index >= actionQueue.length) return;
+
+    const entry = actionQueue[index];
+
+    if (entry.type === 'regionMove') {
+      // For regionMove: trim path so this move and everything after it is removed.
+      // Find the previous regionMove entry and trim to that point.
+      let prevMoveRegion = null;
+      let prevMoveInstance = null;
+      for (let i = index - 1; i >= 0; i--) {
+        if (actionQueue[i].type === 'regionMove') {
+          prevMoveRegion = actionQueue[i].destinationRegion;
+          prevMoveInstance = actionQueue[i].instanceNumber;
+          break;
+        }
+      }
+      if (prevMoveRegion && this.playerStateAPI?.trimPath) {
+        this.playerStateAPI.trimPath(prevMoveRegion, prevMoveInstance);
         this.renderLoopPanel();
       }
+    } else if (entry.type === 'locationCheck' && this.playerStateAPI?.removeLocationCheckAt) {
+      this.playerStateAPI.removeLocationCheckAt(entry.locationName, entry.sourceRegion, entry.instanceNumber);
+      this.renderLoopPanel();
+    } else if (entry.type === 'customAction' && this.playerStateAPI?.removeCustomActionAt) {
+      this.playerStateAPI.removeCustomActionAt(entry.actionName, entry.sourceRegion, entry.instanceNumber);
+      this.renderLoopPanel();
     }
   }
 
@@ -1375,13 +1723,13 @@ export class LoopUI {
     // Determine action name and display
     let actionName = '';
     switch (action.type) {
-      case 'explore':
-        actionName = `Explore ${action.regionName}`;
+      case 'customAction':
+        actionName = `Explore ${action.sourceRegion}`;
         break;
-      case 'checkLocation':
+      case 'locationCheck':
         actionName = `Check ${action.locationName}`;
         break;
-      case 'moveToRegion':
+      case 'regionMove':
         actionName = `Move to ${action.destinationRegion}`;
         break;
       default:
@@ -1432,7 +1780,7 @@ export class LoopUI {
             actionIndex + 1 // Now always display the actual queue position
           } of ${actionQueue.length}, Progress: ${Math.floor(
       manaCostSoFar
-    )} of ${actionCost} mana</span>
+    )} of ${parseFloat(actionCost.toFixed(1))} mana</span>
         </div>
         <button class="remove-action-btn">✖</button>
       </div>
@@ -1449,7 +1797,7 @@ export class LoopUI {
         );
         if (index !== -1) {
           // If this is a move action, we need to handle dependent actions
-          if (action.type === 'moveToRegion') {
+          if (action.type === 'regionMove') {
             const destinationRegion = action.destinationRegion;
 
             // First collect all regions that will be affected
@@ -1465,8 +1813,8 @@ export class LoopUI {
               // Look through all actions to find moves from any region in our set
               actionQueue.forEach((a) => {
                 if (
-                  a.type === 'moveToRegion' &&
-                  regionsToRemove.has(a.regionName) &&
+                  a.type === 'regionMove' &&
+                  regionsToRemove.has(a.sourceRegion) &&
                   !regionsToRemove.has(a.destinationRegion)
                 ) {
                   // Found a move from one of our affected regions to a new region
@@ -1482,11 +1830,10 @@ export class LoopUI {
 
             // Remove this action and all actions in or leading to the affected regions
             const actionsToRemove = actionQueue.slice(index).filter(
-              (a) =>
-                a.id === action.id || // This action
-                regionsToRemove.has(a.regionName) || // Actions in any affected region
-                (a.type === 'moveToRegion' &&
-                  regionsToRemove.has(a.destinationRegion)) // Move actions to any affected region
+              (a) => {
+                if (a.id === action.id) return true; // This action
+                return regionsToRemove.has(a.sourceRegion); // Actions in any affected region
+              }
             );
 
             // Remove each action individually
@@ -1530,29 +1877,43 @@ export class LoopUI {
   _estimateActionCost(action) {
     if (!action) return 0;
 
-    // Use similar logic to loopState._calculateActionCost
+    const costDataManager = getCostDataManager();
     let baseCost;
 
-    // Determine base cost by action type
-    switch (action.type) {
-      case 'explore':
-        baseCost = 50; // Changed from 100 to 50
-        break;
-      case 'checkLocation':
-        baseCost = 100;
-        break;
-      case 'moveToRegion':
-        baseCost = 10;
-        break;
-      default:
-        baseCost = 50;
+    if (costDataManager?.isLoaded()) {
+      switch (action.type) {
+        case 'regionMove':
+          baseCost = costDataManager.getRegionCost(action.sourceRegion);
+          break;
+        case 'locationCheck':
+          baseCost = costDataManager.getLocationCost(action.locationName);
+          break;
+        case 'customAction':
+          baseCost = costDataManager.getRegionCost(action.sourceRegion) * 2;
+          break;
+        default:
+          baseCost = 50;
+      }
+    } else {
+      switch (action.type) {
+        case 'customAction':
+          baseCost = 50;
+          break;
+        case 'locationCheck':
+          baseCost = 100;
+          break;
+        case 'regionMove':
+          baseCost = 50;
+          break;
+        default:
+          baseCost = 50;
+      }
     }
 
     // Apply region XP reduction if applicable
-    if (action.regionName) {
-      const xpData = loopState.getRegionXP(action.regionName);
-      // Use proposedLinearFinalCost formula to match loopState._calculateActionCost
-      return Math.floor(proposedLinearFinalCost(baseCost, xpData.level));
+    if (action.sourceRegion) {
+      const xpData = loopState.getRegionXP(action.sourceRegion);
+      return proposedLinearFinalCost(baseCost, xpData.level);
     }
 
     return baseCost;
@@ -1634,9 +1995,17 @@ export class LoopUI {
       }
     }
     
-    // If entering loop mode, expand the Menu region by default
+    // If entering loop mode, expand the first region block by default
     if (this.isLoopModeActive) {
-      this.expansionState.setRegionExpanded('Menu', true);
+      const actionQueue = this.getActionQueue();
+      const firstRegion = actionQueue.length > 0 ? actionQueue[0].sourceRegion : null;
+      if (firstRegion) {
+        this.expansionState.setRegionExpanded(firstRegion, true);
+      } else {
+        // Fallback to start region if queue is empty
+        const startRegion = this.getPrimaryStartRegion();
+        if (startRegion) this.expansionState.setRegionExpanded(startRegion, true);
+      }
     }
 
     // --- Update THIS panel's UI elements ---
@@ -1656,7 +2025,7 @@ export class LoopUI {
     this.renderLoopPanel(); // Re-render to show/hide appropriate content
 
     // --- Emit event for other components ---
-    eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive }, 'loops');
+    this.eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
 
     log('info', `LoopUI: Loop mode toggled. Active: ${this.isLoopModeActive}`);
   }
@@ -1679,8 +2048,9 @@ export class LoopUI {
     // Reset current action display
     this._updateCurrentActionDisplay(null); // Pass null to show 'No action'
 
-    // Add Menu back to expanded regions
-    this.expansionState.setRegionExpanded('Menu', true);
+    // Add start region back to expanded regions
+    const startRegion = this.getPrimaryStartRegion();
+    if (startRegion) this.expansionState.setRegionExpanded(startRegion, true);
 
     // Re-render the panel in its cleared state
     this.renderLoopPanel();
@@ -1707,11 +2077,11 @@ export class LoopUI {
   _getActionDisplayName(action) {
     if (!action) return '';
     switch (action.type) {
-      case 'explore':
-        return `Explore ${action.regionName}`;
-      case 'checkLocation':
+      case 'customAction':
+        return `Explore ${action.sourceRegion}`;
+      case 'locationCheck':
         return `Check ${action.locationName}`;
-      case 'moveToRegion':
+      case 'regionMove':
         return `Move to ${action.destinationRegion}`;
       default:
         return `${action.type}`;

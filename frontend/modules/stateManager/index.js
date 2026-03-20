@@ -83,11 +83,12 @@
 
 // Import the singleton proxy instance
 import stateManagerProxySingleton from './stateManagerProxySingleton.js';
-// REMOVE: import { createStateSnapshotInterface } from './stateManagerProxy.js';
-import eventBus from '../../app/core/eventBus.js';
+// REMOVE: import { createSnapshotInterface } from './stateManagerProxy.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
+import { resolveFirstPresetPath } from '../../utils/presetResolver.js';
+import { FALLBACK_RULES } from '../../data/fallbackRules.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -132,6 +133,7 @@ function register(registrationApi) {
 
   // Register events published by the StateManagerProxy on the EventBus
   registrationApi.registerEventBusPublisher('stateManager:rulesLoaded'); // Confirms worker loaded initial rules and sent snapshot
+  registrationApi.registerEventBusPublisher('stateManager:rawJsonDataLoaded'); // Raw JSON data loaded and available for other modules
   registrationApi.registerEventBusPublisher('stateManager:ready'); // Confirms worker is ready
   registrationApi.registerEventBusPublisher('stateManager:snapshotUpdated'); // Indicates a new state snapshot is available in the proxy cache
   registrationApi.registerEventBusPublisher('stateManager:computationProgress'); // Progress updates during long computations
@@ -170,7 +172,7 @@ function register(registrationApi) {
     'stateManagerRuntime', // Data Key
     {
       displayName: 'Game State (Inv/Checks)', // Checkbox Label
-      defaultChecked: true, // Checkbox default state
+      defaultChecked: false, // Snapshot is a superset; use that instead
       requiresReload: false, // Can this data be applied live?
       getSaveDataFunction: async () => {
         // Assumes stateManagerProxySingleton is the proxy instance
@@ -179,6 +181,24 @@ function register(registrationApi) {
       applyLoadedDataFunction: (loadedData) => {
         // Assumes stateManagerProxySingleton is the proxy instance
         stateManagerProxySingleton.applyRuntimeStateData(loadedData);
+      },
+    }
+  );
+
+  registrationApi.registerJsonDataHandler(
+    'stateManagerSnapshot', // Data Key
+    {
+      displayName: 'Snapshot (Full State)', // Checkbox Label
+      defaultChecked: false, // Superset of Game State (Inv/Checks)
+      requiresReload: false,
+      getSaveDataFunction: () => {
+        return stateManagerProxySingleton.getLatestStateSnapshot();
+      },
+      applyLoadedDataFunction: (loadedData) => {
+        const runtimeStateData = {};
+        if (loadedData.inventory) runtimeStateData.inventory = loadedData.inventory;
+        if (loadedData.checkedLocations) runtimeStateData.checkedLocations = loadedData.checkedLocations;
+        stateManagerProxySingleton.applyRuntimeStateData(runtimeStateData);
       },
     }
   );
@@ -207,8 +227,12 @@ async function initialize(moduleId, priorityIndex, initializationApi) {
   // Subscribe to settings changes to update worker logging configuration
   const eventBus = initializationApi.getEventBus();
   if (eventBus) {
-    eventBus.subscribe('settings:changed', handleSettingsChanged, moduleId);
+    eventBus.subscribe('settings:changed', handleSettingsChanged);
     log('info', '[StateManager Module] Subscribed to settings:changed events');
+
+    // Subscribe to editor snapshot Apply events
+    eventBus.subscribe('editor:snapshotApply', handleEditorSnapshotApply);
+    log('info', '[StateManager Module] Subscribed to editor:snapshotApply events');
   }
 
   log(
@@ -243,7 +267,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
 
   let jsonData = null; // This will hold rules fetched if moduleSpecificConfig doesn't have them
   let playerInfo = {}; // Default empty, to be populated
-  let gameName = moduleSpecificConfig.gameName || 'A Link to the Past';
+  let gameName = moduleSpecificConfig.gameName || 'Unknown Game';
 
   try {
     let rulesConfigToUse = moduleSpecificConfig.rulesConfig;
@@ -257,24 +281,48 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
     if (!rulesConfigToUse) {
       logger.info(
         moduleInfo.name,
-        '[StateManager Module] rulesConfig not in moduleSpecificConfig, fetching ./presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json...'
+        '[StateManager Module] rulesConfig not in moduleSpecificConfig, resolving from preset_files.json...'
       );
-      const response = await fetch(
-        './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-      );
-      if (!response.ok) {
-        throw new Error(
-          `HTTP error fetching ./presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json! status: ${response.status}`
+      try {
+        const presetResponse = await fetch('./presets/preset_files.json');
+        if (!presetResponse.ok) {
+          throw new Error(
+            `HTTP error fetching preset_files.json! status: ${presetResponse.status}`
+          );
+        }
+        const presetFilesData = await presetResponse.json();
+        const resolvedPreset = resolveFirstPresetPath(presetFilesData);
+        if (!resolvedPreset) {
+          throw new Error('No valid preset found in preset_files.json');
+        }
+        const rulesPath = resolvedPreset.path;
+        logger.info(
+          moduleInfo.name,
+          `[StateManager Module] Resolved first available preset: ${rulesPath} (game: ${resolvedPreset.gameName})`
         );
+        const response = await fetch(rulesPath);
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error fetching ${rulesPath}! status: ${response.status}`
+          );
+        }
+        jsonData = await response.json();
+        rulesConfigToUse = jsonData;
+        sourceNameForTheseRules = rulesPath;
+        gameName = resolvedPreset.gameName;
+        logger.info(
+          moduleInfo.name,
+          `[StateManager Module] Successfully fetched and parsed ${rulesPath}`
+        );
+      } catch (presetError) {
+        logger.warn(
+          moduleInfo.name,
+          `[StateManager Module] Could not load presets (${presetError.message}). Using hardcoded APQuest fallback rules.`
+        );
+        rulesConfigToUse = FALLBACK_RULES;
+        sourceNameForTheseRules = 'hardcodedFallback:apquest';
+        gameName = 'APQuest';
       }
-      jsonData = await response.json(); // jsonData is used later for a direct comparison
-      rulesConfigToUse = jsonData;
-      sourceNameForTheseRules =
-        './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json'; // If we fetch it, this is the definitive source
-      logger.info(
-        moduleInfo.name,
-        '[StateManager Module] Successfully fetched and parsed ./presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-      );
     } else {
       // rulesConfigToUse was provided directly by moduleSpecificConfig
       if (!sourceNameForTheseRules) {
@@ -345,11 +393,12 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
     const proxyInitConfig = {
       rulesConfig: rulesConfigToUse,
       playerId: playerInfo.playerId,
+      // Check world first (current), then settings (deprecated) for backwards compatibility
       settings:
         settingsToUse ||
-        (rulesConfigToUse.settings
-          ? rulesConfigToUse.settings[playerInfo.playerId]
-          : {}),
+        rulesConfigToUse.world?.[playerInfo.playerId] ||
+        rulesConfigToUse.settings?.[playerInfo.playerId] ||
+        {},
     };
     await stateManagerProxySingleton.initialize(proxyInitConfig);
     logger.info(
@@ -383,7 +432,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
         source: sourceNameForTheseRules, // MODIFIED: Use the same accurately determined source
         rawJsonData: rulesConfigToUse,
         selectedPlayerInfo: playerInfo,
-      }, 'stateManager');
+      });
       logger.info(
         moduleInfo.name,
         '[StateManager Module] Published stateManager:rawJsonDataLoaded.'
@@ -404,7 +453,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
       eventBus.publish('stateManager:error', {
         message: `Failed to initialize proxy or load rules: ${error.message}`,
         isCritical: true,
-      }, 'stateManager');
+      });
     } else {
       logger.error(
         moduleInfo.name,
@@ -428,7 +477,11 @@ async function handleUserLocationCheckForStateManager(eventData) {
   if (eventData.locationName) {
     // Pass addItems parameter from event data (defaults to true for backward compatibility)
     const addItems = eventData.addItems !== undefined ? eventData.addItems : true;
-    await stateManagerProxySingleton.checkLocation(eventData.locationName, addItems); // Command worker
+    try {
+      await stateManagerProxySingleton.checkLocation(eventData.locationName, addItems); // Command worker
+    } catch (err) {
+      log('warn', `[StateManagerModule] checkLocation failed for "${eventData.locationName}": ${err.message}`);
+    }
   } else {
     // Handle "check next available" locally.
     // This requires StateManagerProxySingleton to expose a method that commands the worker
@@ -446,7 +499,7 @@ async function handleUserLocationCheckForStateManager(eventData) {
         const snapshot = await stateManagerProxySingleton.getLatestStateSnapshot();
         const staticData = stateManagerProxySingleton.getStaticData();
         if (snapshot && staticData && staticData.locations) {
-            const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+            const snapshotInterface = createSnapshotInterface(snapshot, staticData);
             const allLocations = Array.from(staticData.locations.values());
             let nextLocationToCheck = null;
 
@@ -528,7 +581,7 @@ function handleSettingsChanged(eventData) {
   // Check if the change involves logging settings
   if (eventData.key && (eventData.key.startsWith('logging') || eventData.key === '*')) {
     log('info', '[StateManagerModule] Logging settings changed, updating worker configuration');
-    
+
     // Get the current logging configuration from the logger
     if (typeof window !== 'undefined' && window.logger) {
       const newLoggingConfig = window.logger.getConfig();
@@ -537,4 +590,46 @@ function handleSettingsChanged(eventData) {
       log('warn', '[StateManagerModule] Window logger not available for worker config update');
     }
   }
+}
+
+/**
+ * Handle editor snapshot Apply events
+ * Allows users to edit the snapshot in the editor and apply changes to the state manager
+ * @param {Object} eventData - Event data containing the edited snapshot
+ */
+function handleEditorSnapshotApply(eventData) {
+  log('info', '[StateManagerModule] Editor snapshot Apply requested', eventData);
+
+  if (!eventData || !eventData.snapshot) {
+    log('warn', '[StateManagerModule] No snapshot data in editor:snapshotApply event');
+    return;
+  }
+
+  const snapshot = eventData.snapshot;
+
+  // Build the runtime state data from the edited snapshot
+  // Only include fields that can be safely applied
+  const runtimeStateData = {};
+
+  // Apply inventory if present
+  if (snapshot.inventory && typeof snapshot.inventory === 'object') {
+    runtimeStateData.inventory = snapshot.inventory;
+    log('info', '[StateManagerModule] Applying inventory from edited snapshot');
+  }
+
+  // Apply checked locations if present
+  if (snapshot.checkedLocations && Array.isArray(snapshot.checkedLocations)) {
+    runtimeStateData.checkedLocations = snapshot.checkedLocations;
+    log('info', '[StateManagerModule] Applying checkedLocations from edited snapshot');
+  }
+
+  // Only proceed if we have something to apply
+  if (Object.keys(runtimeStateData).length === 0) {
+    log('warn', '[StateManagerModule] No applicable data found in edited snapshot (need inventory or checkedLocations)');
+    return;
+  }
+
+  // Apply the runtime state via the proxy
+  stateManagerProxySingleton.applyRuntimeStateData(runtimeStateData);
+  log('info', '[StateManagerModule] Applied edited snapshot data to state manager');
 }

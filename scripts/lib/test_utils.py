@@ -14,13 +14,14 @@ This module provides common utility functions used across testing scripts includ
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import urllib.request
 import urllib.error
 import yaml
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple, overload
 
 
 def read_host_yaml_config(project_root: str) -> Dict:
@@ -35,14 +36,36 @@ def read_host_yaml_config(project_root: str) -> Dict:
         return {}
 
 
-def load_template_exclude_list(project_root: str = None, include_reasons: bool = False):
+@overload
+def load_template_exclude_list(project_root: Optional[str] = ..., include_reasons: Literal[False] = ..., test_type: str = ..., skip_worldgen_variants: bool = ...) -> List[str]: ...
+@overload
+def load_template_exclude_list(project_root: Optional[str] = ..., *, include_reasons: Literal[True], test_type: str = ..., skip_worldgen_variants: bool = ...) -> List[Dict[str, str]]: ...
+def load_template_exclude_list(project_root: Optional[str] = None, include_reasons: bool = False, test_type: str = 'all', skip_worldgen_variants: bool = False):
     """
-    Load the default template exclude list from scripts/data/template-exclude-list.json.
+    Load the template exclude list from scripts/data/template-exclude-list.json.
+
+    The exclude list file contains several arrays:
+    - 'exclude_list': Permanent exclusions that apply to all tests
+    - 'main_test_exclude_list': Games excluded from spoiler-minimal and multiclient tests
+    - 'worldgen_test_exclude_list': Games excluded from world-generator tests
+    - 'ut_fuzz_apworld_exclude_list': APWorlds excluded from UT fuzz testing
+
+    By default, automatically includes WorldGen versions of each excluded template.
+    For example, if "Blasphemous.yaml" is excluded, "Blasphemous WorldGen.yaml"
+    will also be excluded. Set skip_worldgen_variants=True to disable this.
 
     Args:
         project_root: Optional project root path. If not provided, will be inferred.
         include_reasons: If True, returns list of dicts with 'name' and 'reason' keys.
                         If False, returns list of template filenames only.
+        test_type: Which exclude list(s) to load:
+                  - 'all': Combine all exclude lists (permanent + main + worldgen) - default
+                  - 'main': Permanent exclusions + main test exclusions
+                  - 'worldgen': Permanent exclusions + worldgen test exclusions
+                  - 'ut_fuzz': Permanent exclusions + UT fuzz exclusions (games that hang/timeout)
+                  - 'permanent': Only permanent exclusions (exclude_list)
+                  - 'ut_fuzz_apworld': Only UT fuzz apworld exclusions (no WorldGen variants added)
+        skip_worldgen_variants: If True, don't add WorldGen variants (useful for display purposes)
 
     Returns:
         List[str] if include_reasons=False: List of template filenames to exclude
@@ -58,31 +81,94 @@ def load_template_exclude_list(project_root: str = None, include_reasons: bool =
     # Default fallback list (old format)
     default_exclude_list = ['Archipelago.yaml', 'Universal Tracker.yaml', 'Final Fantasy.yaml', 'Sudoku.yaml']
 
+    def add_worldgen_variants(items, with_reasons=False):
+        """Add WorldGen variants for each item in the list."""
+        result = []
+        for item in items:
+            if with_reasons:
+                name = item['name']
+                reason = item['reason']
+                result.append(item)
+                # Add WorldGen variant if the template ends in .yaml and doesn't already have WorldGen
+                if name.endswith('.yaml') and 'WorldGen' not in name:
+                    worldgen_name = name[:-5] + ' WorldGen.yaml'
+                    result.append({'name': worldgen_name, 'reason': reason})
+            else:
+                result.append(item)
+                # Add WorldGen variant if the template ends in .yaml and doesn't already have WorldGen
+                if item.endswith('.yaml') and 'WorldGen' not in item:
+                    worldgen_name = item[:-5] + ' WorldGen.yaml'
+                    result.append(worldgen_name)
+        return result
+
+    def normalize_list(lst):
+        """Normalize a list to the new format (list of dicts with 'name' and 'reason')."""
+        if not lst:
+            return []
+        if isinstance(lst[0], dict):
+            return lst
+        else:
+            # Old format: list of strings - convert to new format
+            return [{'name': name, 'reason': ''} for name in lst]
+
     try:
         with open(exclude_list_file, 'r') as f:
             data = json.load(f)
-            exclude_list = data.get('exclude_list', default_exclude_list)
 
-            # Check if the list contains dictionaries (new format) or strings (old format)
-            if exclude_list and isinstance(exclude_list[0], dict):
-                # New format: list of objects with 'name' and 'reason'
+            # Load the permanent exclude list
+            permanent_list = normalize_list(data.get('exclude_list', default_exclude_list))
+
+            # Load the test-type specific lists (may not exist in old format files)
+            main_list = normalize_list(data.get('main_test_exclude_list', []))
+            worldgen_list = normalize_list(data.get('worldgen_test_exclude_list', []))
+            ut_fuzz_list = normalize_list(data.get('ut_fuzz_exclude_list', []))
+            ut_fuzz_apworld_list = normalize_list(data.get('ut_fuzz_apworld_exclude_list', []))
+
+            # Combine lists based on test_type
+            if test_type == 'permanent':
+                combined_list = permanent_list
+            elif test_type == 'main':
+                combined_list = permanent_list + main_list
+            elif test_type == 'worldgen':
+                combined_list = permanent_list + worldgen_list
+            elif test_type == 'ut_fuzz':
+                combined_list = permanent_list + ut_fuzz_list
+            elif test_type == 'ut_fuzz_apworld':
+                # Return UT fuzz apworld list without adding WorldGen variants
+                # (apworlds don't have WorldGen variants like templates do)
                 if include_reasons:
-                    return exclude_list
+                    return ut_fuzz_apworld_list
                 else:
-                    return [item['name'] for item in exclude_list]
+                    return [item['name'] for item in ut_fuzz_apworld_list]
+            else:  # 'all' or any other value
+                combined_list = permanent_list + main_list + worldgen_list
+
+            # Return with or without reasons
+            if skip_worldgen_variants:
+                if include_reasons:
+                    return combined_list
+                else:
+                    return [item['name'] for item in combined_list]
             else:
-                # Old format: list of strings
                 if include_reasons:
-                    # Convert to new format with empty reasons
-                    return [{'name': name, 'reason': ''} for name in exclude_list]
+                    return add_worldgen_variants(combined_list, with_reasons=True)
                 else:
-                    return exclude_list
+                    names = [item['name'] for item in combined_list]
+                    return add_worldgen_variants(names, with_reasons=False)
+
     except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
         # If file doesn't exist or is malformed, return default list
-        if include_reasons:
-            return [{'name': name, 'reason': ''} for name in default_exclude_list]
+        if skip_worldgen_variants:
+            if include_reasons:
+                return [{'name': name, 'reason': ''} for name in default_exclude_list]
+            else:
+                return default_exclude_list
         else:
-            return default_exclude_list
+            if include_reasons:
+                items_with_reasons = [{'name': name, 'reason': ''} for name in default_exclude_list]
+                return add_worldgen_variants(items_with_reasons, with_reasons=True)
+            else:
+                return add_worldgen_variants(default_exclude_list, with_reasons=False)
 
 
 def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
@@ -113,89 +199,70 @@ def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
         return {}
 
 
+def cleanup_empty_worldgen_dirs(project_root: Optional[str] = None) -> None:
+    """Remove empty worldgen temp directories from worlds/.
+
+    These are leftover directories from interrupted fuzz/worldgen runs that
+    don't have an __init__.py, causing warnings when worlds are loaded.
+    They typically have names like 'adventure_worldgen_86998726363870010506'.
+    """
+    if project_root is None:
+        project_root = str(Path(__file__).parent.parent.parent)
+    worlds_dir = Path(project_root) / "worlds"
+    if not worlds_dir.exists():
+        return
+
+    removed_count = 0
+    for entry in worlds_dir.iterdir():
+        if not entry.is_dir():
+            continue
+        name = entry.name
+        if name.endswith(("_worldgen", "_worldgen2")) or "_worldgen_" in name or (name.split("_")[-1].isdigit() and len(name.split("_")[-1]) > 10):
+            if not (entry / "__init__.py").exists():
+                try:
+                    shutil.rmtree(entry)
+                    removed_count += 1
+                except OSError:
+                    pass
+
+    if removed_count > 0:
+        print(f"Cleaned up {removed_count} empty worldgen directories")
+
+
 def extract_game_name_from_template(template_path: str) -> Optional[str]:
     """Extract the game name from a template YAML file."""
     try:
-        import yaml
         with open(template_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
             return data.get('game')
-    except (ImportError, yaml.YAMLError, FileNotFoundError, UnicodeDecodeError):
+    except (yaml.YAMLError, FileNotFoundError, UnicodeDecodeError):
         # Fall back to normalized template name if YAML parsing fails
         return None
 
 
 def get_world_directory_name_from_game_name(game_name: str) -> str:
     """
-    Get the world directory name for a given game name by scanning worlds directory.
-    This replicates the logic from build-world-mapping.py and exporter.py.
+    Get the world directory name for a given game name.
+
+    Uses world-mapping.json as the primary source, which is generated by
+    scripts/build/build-world-mapping.py and handles all edge cases including
+    worlds that use constants for their game name.
     """
     try:
-        # Get path to worlds directory relative to this file (scripts/lib/test_utils.py)
+        # Get path to world-mapping.json relative to this file (scripts/lib/test_utils.py)
         project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        worlds_dir = os.path.join(project_root, 'worlds')
+        mapping_file = os.path.join(project_root, 'scripts', 'data', 'world-mapping.json')
 
-        if not os.path.exists(worlds_dir):
-            print(f"Warning: Worlds directory not found: {worlds_dir}")
-            return game_name.lower().replace(' ', '_').replace(':', '_')
+        if os.path.exists(mapping_file):
+            with open(mapping_file, 'r') as f:
+                mapping = json.load(f)
 
-        # Scan each world directory
-        for world_dir_name in os.listdir(worlds_dir):
-            world_path = os.path.join(worlds_dir, world_dir_name)
+            if game_name in mapping:
+                world_dir = mapping[game_name].get('world_directory')
+                if world_dir:
+                    return world_dir
 
-            # Skip non-directories and hidden/private directories
-            if not os.path.isdir(world_path) or world_dir_name.startswith('.') or world_dir_name.startswith('_'):
-                continue
-
-            init_file = os.path.join(world_path, '__init__.py')
-            if not os.path.exists(init_file):
-                continue
-
-            # Extract game name from __init__.py
-            try:
-                with open(init_file, 'r', encoding='utf-8') as f:
-                    content = f.read()
-
-                # Look for pattern: game: ClassVar[str] = "Game Name"
-                pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
-                match = re.search(pattern, content, re.MULTILINE)
-
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-
-                # Fallback pattern for single quotes
-                pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
-                match = re.search(pattern, content, re.MULTILINE)
-
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-
-                # Fallback: look for simpler pattern: game = "Game Name"
-                pattern = r'game\s*=\s*"([^"]*)"'
-                match = re.search(pattern, content, re.MULTILINE)
-
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-
-                # Fallback pattern for single quotes
-                pattern = r'game\s*=\s*\'([^\']*)\''
-                match = re.search(pattern, content, re.MULTILINE)
-
-                if match:
-                    found_game_name = match.group(1)
-                    if found_game_name == game_name:
-                        return world_dir_name
-
-            except (IOError, UnicodeDecodeError):
-                continue
-
-        # If no matching world found, fall back to old logic
+        # Fallback: convert game name to directory format
         return game_name.lower().replace(' ', '_').replace(':', '_')
 
     except Exception as e:
@@ -258,7 +325,7 @@ def check_virtual_environment() -> bool:
             sys.path.insert(0, project_root)
 
         # Try to import a dependency that should be available
-        import BaseClasses
+        __import__('BaseClasses')
 
         # If import works but no VIRTUAL_ENV, warn but allow to continue
         return True
@@ -341,7 +408,7 @@ def classify_generation_error(output: str) -> Optional[str]:
     return None
 
 
-def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict = None) -> Tuple[int, str, str]:
+def run_command(cmd: List[str], cwd: Optional[str] = None, timeout: int = 300, env: Optional[Dict] = None) -> Tuple[int, str, str]:
     """
     Run a command and return (return_code, stdout, stderr).
     Closes stdin to prevent the subprocess from waiting for user input.
@@ -372,7 +439,7 @@ def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict =
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP  # type: ignore[attr-defined]
             )
 
         try:
@@ -410,13 +477,13 @@ def run_command(cmd: List[str], cwd: str = None, timeout: int = 300, env: Dict =
         return -1, "", str(e)
 
 
-def count_total_spheres(spheres_log_path: str, player_num: int = None) -> float:
+def count_total_spheres(sphere_log_path: str, player_num: Optional[int] = None) -> float:
     """
-    Get the highest sphere_index from spheres_log.jsonl file.
+    Get the highest sphere_index from sphere_log.jsonl file.
     Returns the sphere_index value from the last line in the file.
 
     Args:
-        spheres_log_path: Path to the spheres_log.jsonl file
+        sphere_log_path: Path to the sphere_log.jsonl file
         player_num: Optional player number for multiworld games. If specified,
                    only counts spheres where the player had activity (new items,
                    locations, or regions)
@@ -425,10 +492,10 @@ def count_total_spheres(spheres_log_path: str, player_num: int = None) -> float:
         The highest sphere index found
     """
     try:
-        if not os.path.exists(spheres_log_path):
+        if not os.path.exists(sphere_log_path):
             return 0
 
-        with open(spheres_log_path, 'r') as f:
+        with open(sphere_log_path, 'r') as f:
             last_sphere = 0
             for line in f:
                 line = line.strip()
@@ -710,3 +777,136 @@ def parse_playwright_analysis(analysis_text: str) -> Dict:
                     pass
 
     return result
+
+
+def load_tracking_mode_config(project_root: Optional[str] = None) -> Dict:
+    """
+    Load the tracking mode configuration from exporter/tracking-mode-config.json.
+
+    Args:
+        project_root: Optional project root path. If not provided, will be inferred.
+
+    Returns:
+        Dict containing the tracking mode config, or empty dict if not found.
+    """
+    if project_root is None:
+        # Infer project root from this file's location (scripts/lib/test_utils.py)
+        project_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+    config_path = os.path.join(project_root, 'exporter', 'tracking-mode-config.json')
+
+    try:
+        with open(config_path, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Warning: Could not load tracking mode config: {e}")
+        return {}
+
+
+def get_expected_failures_for_mode(
+    ut_mode: str,
+    category: str = 'bundled',
+    project_root: Optional[str] = None,
+    include_reasons: bool = False
+) -> List:
+    """
+    Get the list of games expected to fail for a given UT mode.
+
+    For regular modes (worldgen, pickle, original):
+        A game is expected to fail if that mode is NOT in its list of passing modes.
+
+    For hybrid mode:
+        A game is expected to fail only if it has NO passing modes (empty list).
+        If a game passes ANY mode, it's expected to pass hybrid.
+
+    Args:
+        ut_mode: The UT mode to check ('worldgen', 'pickle', 'original', 'hybrid')
+        category: Which category to check ('bundled' or 'apworlds')
+        project_root: Optional project root path
+        include_reasons: If True, returns list of dicts with 'name' and 'reason'.
+                        If False, returns list of template filenames only.
+
+    Returns:
+        List of template filenames (if include_reasons=False) or
+        List of dicts with 'name' and 'reason' keys (if include_reasons=True)
+    """
+    config = load_tracking_mode_config(project_root)
+
+    if not config:
+        return []
+
+    game_results = config.get('game_results', {})
+    category_results = game_results.get(category, {})
+
+    expected_failures = []
+
+    for game_name, passing_modes in category_results.items():
+        # Determine if this game is expected to fail
+        if ut_mode == 'hybrid':
+            # For hybrid mode, expect failure only if NO modes pass
+            is_expected_failure = len(passing_modes) == 0
+        else:
+            # For specific modes, expect failure if that mode is not in passing list
+            is_expected_failure = ut_mode not in passing_modes
+
+        if is_expected_failure:
+            template_name = f"{game_name}.yaml"
+
+            if include_reasons:
+                # Build a reason string from the passing modes
+                if passing_modes:
+                    reason = f"Only passes: {', '.join(passing_modes)}"
+                else:
+                    reason = "No passing modes"
+                expected_failures.append({'name': template_name, 'reason': reason})
+            else:
+                expected_failures.append(template_name)
+
+    return expected_failures
+
+
+def get_games_passing_mode(
+    ut_mode: str,
+    category: str = 'bundled',
+    project_root: Optional[str] = None
+) -> List[str]:
+    """
+    Get the list of games that pass a given UT mode.
+
+    For regular modes (worldgen, pickle, original):
+        A game passes if that mode is in its list of passing modes.
+
+    For hybrid mode:
+        A game passes if it has ANY passing mode (non-empty list).
+
+    Args:
+        ut_mode: The UT mode to check ('worldgen', 'pickle', 'original', 'hybrid')
+        category: Which category to check ('bundled' or 'apworlds')
+        project_root: Optional project root path
+
+    Returns:
+        List of game names that pass the requested mode.
+    """
+    config = load_tracking_mode_config(project_root)
+
+    if not config:
+        return []
+
+    game_results = config.get('game_results', {})
+    category_results = game_results.get(category, {})
+
+    passing_games = []
+
+    for game_name, passing_modes in category_results.items():
+        # Determine if this game passes
+        if ut_mode == 'hybrid':
+            # For hybrid mode, pass if ANY mode passes
+            is_passing = len(passing_modes) > 0
+        else:
+            # For specific modes, pass if that mode is in the list
+            is_passing = ut_mode in passing_modes
+
+        if is_passing:
+            passing_games.append(game_name)
+
+    return passing_games

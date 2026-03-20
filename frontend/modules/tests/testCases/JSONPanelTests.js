@@ -13,6 +13,68 @@ function log(level, message, ...data) {
 }
 
 /**
+ * Helper: Activate the Options panel and navigate to the Settings (JSON) sub-view.
+ * Returns { optionsPanelElement, textAreaElement, applyButton }.
+ * Handles the case where the panel may already be showing the settings sub-view.
+ */
+async function activateSettingsJsonView(testController) {
+  testController.eventBus.publish('ui:activatePanel', { panelId: 'optionsPanel' });
+
+  let optionsPanelElement = null;
+  if (!(await testController.pollForCondition(
+    () => {
+      optionsPanelElement = document.querySelector('.options-panel-root');
+      return optionsPanelElement !== null;
+    },
+    'Options panel DOM element',
+    5000,
+    250
+  ))) {
+    throw new Error('Options panel not found in DOM');
+  }
+
+  // If the textarea is already visible (panel still on settings sub-view), skip nav card click
+  let textAreaElement = optionsPanelElement.querySelector('.options-json-textarea');
+  if (!textAreaElement) {
+    // Navigate from home view: wait for nav card, then click it
+    let settingsCard = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        settingsCard = Array.from(optionsPanelElement.querySelectorAll('.options-nav-card'))
+          .find(el => el.textContent.includes('Settings (JSON)'));
+        return !!settingsCard;
+      },
+      'Settings (JSON) nav card',
+      5000,
+      250
+    ))) {
+      throw new Error('Settings (JSON) nav card not found in Options panel');
+    }
+    settingsCard.click();
+
+    // Wait for the textarea to appear after clicking the card
+    if (!(await testController.pollForCondition(
+      () => {
+        textAreaElement = optionsPanelElement.querySelector('.options-json-textarea');
+        return textAreaElement !== null;
+      },
+      'Settings textarea to initialize',
+      3000,
+      250
+    ))) {
+      throw new Error('Settings textarea not found');
+    }
+  }
+
+  const applyButton = optionsPanelElement.querySelector('.options-json-apply-btn');
+  if (!applyButton) {
+    throw new Error('Apply button not found in Settings panel');
+  }
+
+  return { optionsPanelElement, textAreaElement, applyButton };
+}
+
+/**
  * Test that verifies the JSON panel's Import from Text functionality works correctly.
  * This test:
  * 1. Enables colorblind mode via Settings panel
@@ -31,41 +93,10 @@ export async function testJSONPanelImportFromText(testController) {
     testController.log(`[${testRunId}] Starting JSON panel Import from Text test...`);
     testController.reportCondition('Test started', true);
 
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
 
-    // Step 1: Activate the Settings panel
-    testController.log(`[${testRunId}] Step 1: Activating Settings panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
-
-    // Wait for the settings panel to appear in DOM
-    let settingsPanelElement = null;
-    if (!(await testController.pollForCondition(
-      () => {
-        settingsPanelElement = document.querySelector('.settings-panel-content');
-        return settingsPanelElement !== null;
-      },
-      'Settings panel DOM element',
-      5000,
-      250
-    ))) {
-      throw new Error('Settings panel not found in DOM');
-    }
-    testController.reportCondition('Settings panel found in DOM', true);
-    
-    // Wait for settings textarea to initialize
-    let textAreaElement = null;
-    if (!(await testController.pollForCondition(
-      () => {
-        textAreaElement = settingsPanelElement.querySelector('.settings-textarea');
-        return textAreaElement !== null;
-      },
-      'Settings textarea to initialize',
-      3000,
-      250
-    ))) {
-      throw new Error('Settings textarea not found');
-    }
+    // Step 1: Activate the Options panel and navigate to Settings (JSON) sub-view
+    testController.log(`[${testRunId}] Step 1: Activating Options panel...`);
+    let { optionsPanelElement, textAreaElement, applyButton } = await activateSettingsJsonView(testController);
     testController.reportCondition('Settings textarea found', true);
 
     // Step 2: Enable colorblind mode for regions
@@ -86,12 +117,6 @@ export async function testJSONPanelImportFromText(testController) {
     textAreaElement.value = updatedSettings;
     testController.reportCondition('Colorblind regions setting updated to true', true);
     
-    // Apply the settings
-    const applyButton = settingsPanelElement.querySelector('button');
-    if (!applyButton) {
-      throw new Error('Apply button not found in Settings panel');
-    }
-    
     applyButton.click();
     
     // Wait for the settings to be applied
@@ -110,7 +135,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 3: Verify colorblind mode is active in Regions panel
     testController.log(`[${testRunId}] Step 3: Verifying colorblind mode active in Regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     let regionsPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -148,7 +173,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 4: Activate the JSON panel
     testController.log(`[${testRunId}] Step 4: Activating JSON panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
     let jsonPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -208,25 +233,21 @@ export async function testJSONPanelImportFromText(testController) {
       throw new Error('Editor panel not found in DOM after export');
     }
 
-    // Wait for textarea and dropdown to be ready
+    // Wait for textarea and dropdown to be ready with correct value
     let editorTextarea = null;
     let editorDropdown = null;
     if (!(await testController.pollForCondition(
       () => {
         editorTextarea = editorPanelElement.querySelector('textarea');
         editorDropdown = editorPanelElement.querySelector('select');
-        return editorTextarea !== null && editorDropdown !== null;
+        return editorTextarea !== null && editorDropdown !== null && editorDropdown.value === 'dataForExport';
       },
-      'Editor textarea and dropdown',
-      3000,
+      'Editor textarea and dropdown set to dataForExport',
+      5000,
       250
     ))) {
-      throw new Error('Editor textarea or dropdown not found');
-    }
-
-    // Verify dropdown is set to "Data for Export"
-    if (editorDropdown.value !== 'dataForExport') {
-      throw new Error(`Editor dropdown not set to dataForExport, current value: ${editorDropdown.value}`);
+      const currentValue = editorDropdown ? editorDropdown.value : 'not found';
+      throw new Error(`Editor textarea or dropdown not ready for export data (dropdown value: ${currentValue})`);
     }
     testController.reportCondition('Editor dropdown set to Data for Export', true);
 
@@ -244,7 +265,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 8: Disable colorblind mode via Settings panel
     testController.log(`[${testRunId}] Step 8: Disabling colorblind mode via Settings panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'optionsPanel' });
 
     const disabledSettings = textAreaElement.value.replace(/"regions":\s*true/g, '"regions": false');
     
@@ -272,7 +293,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 9: Verify colorblind mode is disabled in Regions panel
     testController.log(`[${testRunId}] Step 9: Verifying colorblind mode disabled in Regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     if (!(await testController.pollForCondition(
       () => {
@@ -296,7 +317,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 10: Activate JSON panel again
     testController.log(`[${testRunId}] Step 10: Re-activating JSON panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
     // Step 11: Configure checkboxes again (disable all except settings)
     testController.log(`[${testRunId}] Step 11: Re-configuring JSON panel checkboxes...`);
@@ -315,7 +336,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 12: Activate Editor panel and verify content
     testController.log(`[${testRunId}] Step 12: Activating Editor panel to verify content...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' });
 
     // Step 13: Select "Data for Export" from dropdown
     testController.log(`[${testRunId}] Step 13: Selecting Data for Export from dropdown...`);
@@ -367,7 +388,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     try {
       // Activate JSON panel
-      eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+      testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
       // Click Import from Text button
       const importTextButton = jsonPanelElement.querySelector('#json-btn-import-text');
@@ -396,7 +417,7 @@ export async function testJSONPanelImportFromText(testController) {
 
     // Step 16: Verify colorblind mode is restored in Regions panel
     testController.log(`[${testRunId}] Step 16: Verifying colorblind mode restored in Regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     if (!(await testController.pollForCondition(
       () => {
@@ -431,25 +452,33 @@ export async function testJSONPanelImportFromText(testController) {
     if (settingsApplied) {
       try {
         testController.log(`[${testRunId}] Finally block: Ensuring colorblind mode is disabled...`);
-        const eventBusModule = await import('../../../app/core/eventBus.js');
-        const eventBus = eventBusModule.default;
-        eventBus.publish('ui:activatePanel', { panelId: 'settingsPanel' }, 'tests');
+        testController.eventBus.publish('ui:activatePanel', { panelId: 'optionsPanel' });
 
         // Wait a moment for panel to be ready
         await new Promise(resolve => setTimeout(resolve, 100));
 
-        const settingsPanelElement = document.querySelector('.settings-panel');
-        if (settingsPanelElement) {
-          const textAreaElement = settingsPanelElement.querySelector('textarea');
-          const applyButton = settingsPanelElement.querySelector('button');
+        const cleanupPanelElement = document.querySelector('.options-panel-root');
+        if (cleanupPanelElement) {
+          // Navigate to settings sub-view if not already there
+          let cleanupTextArea = cleanupPanelElement.querySelector('.options-json-textarea');
+          if (!cleanupTextArea) {
+            const card = Array.from(cleanupPanelElement.querySelectorAll('.options-nav-card'))
+              .find(el => el.textContent.includes('Settings (JSON)'));
+            if (card) {
+              card.click();
+              await new Promise(resolve => setTimeout(resolve, 200));
+              cleanupTextArea = cleanupPanelElement.querySelector('.options-json-textarea');
+            }
+          }
+          const cleanupApplyBtn = cleanupPanelElement.querySelector('.options-json-apply-btn');
 
-          if (textAreaElement && applyButton) {
-            const currentSettings = textAreaElement.value;
+          if (cleanupTextArea && cleanupApplyBtn) {
+            const currentSettings = cleanupTextArea.value;
             const disabledSettings = currentSettings.replace(/"regions":\s*true/g, '"regions": false');
 
             if (disabledSettings !== currentSettings) {
-              textAreaElement.value = disabledSettings;
-              applyButton.click();
+              cleanupTextArea.value = disabledSettings;
+              cleanupApplyBtn.click();
               testController.log(`[${testRunId}] Finally block: Colorblind mode disabled`);
               // Wait for settings to be applied
               await new Promise(resolve => setTimeout(resolve, 100));
@@ -481,12 +510,10 @@ export async function testJSONPanelLayoutImportExport(testController) {
     testController.log(`[${testRunId}] Starting JSON panel Layout Import/Export test...`);
     testController.reportCondition('Test started', true);
 
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
 
     // Step 1: Activate JSON panel and export layout
     testController.log(`[${testRunId}] Step 1: Activating JSON panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
     let jsonPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -576,7 +603,7 @@ export async function testJSONPanelLayoutImportExport(testController) {
 
     try {
       // Activate JSON panel again
-      eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+      testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
       // Click Import from Text button
       const importTextButton = jsonPanelElement.querySelector('#json-btn-import-text');
@@ -638,12 +665,10 @@ export async function testJSONPanelGameStateImportExport(testController) {
     await testController.loadALTTPRules();
     testController.reportCondition('ALTTP rules loaded for test', true);
 
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
 
     // Step 1: Activate the Locations panel
     testController.log(`[${testRunId}] Step 1: Activating Locations panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
     
     let locationsPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -718,9 +743,30 @@ export async function testJSONPanelGameStateImportExport(testController) {
     }
     testController.reportCondition('Mushroom location status changed to checked', true);
 
+    // Step 3b: Wait for state manager to persist the checked location
+    // (UI updates faster than state persistence, causing race condition in CI)
+    testController.log(`[${testRunId}] Step 3b: Waiting for state manager to persist checked location...`);
+    const stateManagerProxyModule = await import('../../stateManager/index.js');
+    const stateManagerProxy = stateManagerProxyModule.stateManagerProxySingleton;
+
+    const stateUpdated = await testController.pollForCondition(
+      () => {
+        const stateData = stateManagerProxy.getSavableStateData();
+        return stateData && stateData.checkedLocations && stateData.checkedLocations.includes('Mushroom');
+      },
+      'State manager has Mushroom in checkedLocations',
+      5000,
+      100
+    );
+
+    if (!stateUpdated) {
+      throw new Error('State manager did not persist Mushroom to checkedLocations');
+    }
+    testController.reportCondition('State manager persisted Mushroom location', true);
+
     // Step 4: Activate the JSON panel
     testController.log(`[${testRunId}] Step 4: Activating JSON panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
     
     let jsonPanelElement = null;
     if (!(await testController.pollForCondition(
@@ -851,7 +897,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
 
     // Step 9: Activate the Locations panel
     testController.log(`[${testRunId}] Step 9: Re-activating Locations panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
 
     // Step 10: In the Locations panel, find the location card for "Bottle Merchant" and click it
     testController.log(`[${testRunId}] Step 10: Finding and clicking Bottle Merchant location...`);
@@ -905,7 +951,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
 
     // Step 12: Activate the JSON panel
     testController.log(`[${testRunId}] Step 12: Re-activating JSON panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
     // Step 13: Disable all of the checkboxes in the JSON panel except for the Game State
     testController.log(`[${testRunId}] Step 13: Re-configuring JSON panel checkboxes...`);
@@ -934,7 +980,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
 
     // Step 14: Activate the Editor panel
     testController.log(`[${testRunId}] Step 14: Activating Editor panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' });
 
     // Step 15: Select "Data for Export" from the dropdown
     testController.log(`[${testRunId}] Step 15: Selecting Data for Export from dropdown...`);
@@ -967,7 +1013,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
     
     try {
       // Activate JSON panel
-      eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' }, 'tests');
+      testController.eventBus.publish('ui:activatePanel', { panelId: 'jsonPanel' });
 
       // Click Import from Text button
       const importTextButton = jsonPanelElement.querySelector('#json-btn-import-text');
@@ -1009,7 +1055,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
 
     // Step 18: Confirm that in the Locations panel, "Mushroom" is checked, but "Bottle Merchant" isn't
     testController.log(`[${testRunId}] Step 18: Verifying location states after import...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'locationsPanel' });
 
     // Check Mushroom is still checked
     const mushroomStillChecked = await testController.pollForCondition(
@@ -1056,7 +1102,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
 
     // Step 19: Confirm that in the Inventory panel, "Rupees (20)" appears, but "Piece of Heart" doesn't
     testController.log(`[${testRunId}] Step 19: Verifying inventory state after import...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'inventoryPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'inventoryPanel' });
 
     let inventoryPanelElement = null;
     if (!(await testController.pollForCondition(

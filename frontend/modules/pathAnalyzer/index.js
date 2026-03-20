@@ -1,6 +1,23 @@
+import eventBus from '../../app/core/eventBus.js';
 // Directly export the core classes for other modules to import
 export { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
 export { PathAnalyzerUI } from './pathAnalyzerUI.js';
+
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'pathAnalyzer'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'pathAnalyzer'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'pathAnalyzer'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -75,8 +92,8 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
     'info',
     `[PathAnalyzer Module] Initializing (ID: ${moduleId}, Priority: ${priorityIndex})...`
   );
+  _moduleEventBus = initializationApi.getEventBus();
   // const settings = initializationApi.getModuleSettings(); // Get module-specific settings
-  // const eventBus = initializationApi.getEventBus();
   // const dispatcher = initializationApi.getDispatcher();
 
   // Perform any module-level setup here that doesn't require class instances.

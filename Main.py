@@ -19,7 +19,6 @@ from Utils import __version__, output_path, restricted_dumps, version_tuple
 from settings import get_settings
 from worlds import AutoWorld
 from worlds.generic.Rules import exclusion_rules, locality_rules
-from exporter import export_game_rules
 
 __all__ = ["main"]
 
@@ -35,9 +34,6 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
     start = time.perf_counter()
     # initialize the multiworld
     multiworld = MultiWorld(args.multi)
-
-    # Set output directory for sphere logging
-    multiworld.temp_dir_for_spheres_log = args.outputpath
 
     logger = logging.getLogger()
     multiworld.set_seed(seed, args.race, str(args.outputname) if args.outputname else None)
@@ -206,18 +202,6 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
 
     AutoWorld.call_all(multiworld, 'post_fill')
 
-    # Apply vanilla item placement overrides if requested
-    import os as os_module
-    if os_module.environ.get('VANILLA_PLACEMENT') == '1':
-        print("\n!!! Applying Vanilla Item Placement Overrides !!!")
-        from worlds.alttp.VanillaPlacement import overwrite_with_vanilla_items
-        for world in multiworld.get_game_worlds("A Link to the Past"):
-            overwrite_with_vanilla_items(world)
-        # Mark that we're using vanilla placement for later checks
-        multiworld.vanilla_placement = True
-    else:
-        multiworld.vanilla_placement = False
-
     if multiworld.players > 1 and not args.skip_prog_balancing:
         balance_multiworld_progression(multiworld)
     else:
@@ -247,12 +231,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
         output_players = [player for player in multiworld.player_ids if AutoWorld.World.generate_output.__code__
                           is not multiworld.worlds[player].generate_output.__code__]
         with concurrent.futures.ThreadPoolExecutor(len(output_players) + 2) as pool:
-            # Skip accessibility check if using vanilla placement
-            if getattr(multiworld, 'vanilla_placement', False):
-                print("Skipping accessibility check for vanilla placement")
-                check_accessibility_task = pool.submit(lambda: True)  # Always return True
-            else:
-                check_accessibility_task = pool.submit(multiworld.fulfills_accessibility)
+            check_accessibility_task = pool.submit(multiworld.fulfills_accessibility)
 
             output_file_futures = [pool.submit(AutoWorld.call_stage, multiworld, "generate_output", temp_dir)]
             for player in output_players:
@@ -390,21 +369,12 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
                     logger.info(f'Generating output files ({i}/{len(output_file_futures)}).')
                 future.result()
 
-        # Make temp_dir available for spheres_log.jsonl in Spoiler.create_playthrough
-        if hasattr(multiworld, 'spoiler'): # Ensure spoiler object exists
-            multiworld.temp_dir_for_spheres_log = temp_dir
-
         if args.spoiler > 1:
             logger.info('Calculating playthrough.')
             multiworld.spoiler.create_playthrough(create_paths=args.spoiler > 2)
 
         if args.spoiler:
             multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
-
-        # New: export the rules data to a json file
-        settings = get_settings()
-        if settings.general_options.save_rules_json:
-            export_game_rules(multiworld, temp_dir, outfilebase, settings.general_options.update_frontend_presets, settings.general_options.skip_preset_copy_if_rules_identical)
 
         zipfilename = output_path(f"AP_{multiworld.seed_name}.zip")
         logger.info(f"Creating final archive at {zipfilename}")

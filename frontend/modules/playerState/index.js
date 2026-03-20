@@ -20,7 +20,7 @@ function log(level, message, ...data) {
 
 // Store module-level references
 let moduleDispatcher = null;
-const moduleId = 'playerState';
+let moduleId = 'playerState';
 
 export async function register(registrationApi) {
     // Register dispatcher receivers for events
@@ -131,11 +131,32 @@ export async function register(registrationApi) {
         const playerState = getPlayerStateSingleton();
         return playerState.removeAllActionsOfType(actionType, specificName);
     });
+
+    registrationApi.registerPublicFunction(moduleId, 'setStartRegions', (regions) => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.setStartRegions(regions);
+    });
+
+    registrationApi.registerPublicFunction(moduleId, 'isStartRegion', (regionName) => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.isStartRegion(regionName);
+    });
+
+    registrationApi.registerPublicFunction(moduleId, 'setPath', (pathArray, startRegion) => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.setPath(pathArray, startRegion);
+    });
+
+    registrationApi.registerPublicFunction(moduleId, 'reset', () => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.reset();
+    });
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store the dispatcher reference
     moduleDispatcher = initializationApi.getDispatcher();
     
@@ -145,12 +166,12 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     
     // Subscribe to stateManager:rulesLoaded via eventBus (not dispatcher)
     if (eventBus) {
-        eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded, moduleId);
+        eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded);
         log('info', `[${moduleId} Module] Subscribed to stateManager:rulesLoaded via eventBus`);
 
         // Subscribe to iframe/window app ready events to send initial state
-        eventBus.subscribe('iframe:appReady', handleRemoteAppReady, moduleId);
-        eventBus.subscribe('window:appReady', handleRemoteAppReady, moduleId);
+        eventBus.subscribe('iframe:appReady', handleRemoteAppReady);
+        eventBus.subscribe('window:appReady', handleRemoteAppReady);
         log('info', `[${moduleId} Module] Subscribed to remote app ready events`);
     }
 
@@ -172,7 +193,7 @@ function handleRemoteAppReady(data, propagationOptions) {
                 newRegion: currentRegion,
                 oldRegion: null,
                 source: 'playerState-init'
-            }, moduleId);
+            });
             log('info', `[${moduleId} Module] Published initial region: ${currentRegion}`);
         }
     }
@@ -182,6 +203,14 @@ function handleRulesLoaded(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received stateManager:rulesLoaded event`);
 
     const playerState = getPlayerStateSingleton();
+
+    // Set start regions from static data BEFORE reset
+    const staticData = stateManagerProxySingleton.getStaticData();
+    if (staticData?.startRegions) {
+        playerState.setStartRegions(staticData.startRegions);
+        log('info', `[${moduleId} Module] Set start regions:`, staticData.startRegions);
+    }
+
     playerState.reset();
     
     // Propagate event to the next module (up direction)
@@ -238,11 +267,12 @@ function handleRegionMove(data, propagationOptions) {
 
 function handleTrimPath(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received playerState:trimPath event`, data);
-    
+
     const playerState = getPlayerStateSingleton();
-    const regionName = data?.regionName || 'Menu';
+    // Use null to let trimPath use its default (first start region)
+    const regionName = data?.regionName || null;
     const instanceNumber = data?.instanceNumber || 1;
-    
+
     playerState.trimPath(regionName, instanceNumber);
     
     // Propagate event to the next module (up direction)
@@ -263,11 +293,15 @@ function handleLocationCheck(data, propagationOptions) {
 
     const playerState = getPlayerStateSingleton();
     if (data && data.locationName) {
-        // Get staticData for region lookup
-        const staticData = stateManagerProxySingleton.getStaticData();
-        playerState.addLocationCheck(data.locationName, data.regionName, staticData);
+        // Skip adding to path when the event comes from the loops module's
+        // action queue completion — the path entry was already added when
+        // the loop queue was initially built.
+        if (!data.fromLoop) {
+            const staticData = stateManagerProxySingleton.getStaticData();
+            playerState.addLocationCheck(data.locationName, data.regionName, staticData);
+        }
     }
-    
+
     // Propagate event to the next module (up direction)
     if (moduleDispatcher) {
         moduleDispatcher.publishToNextModule(

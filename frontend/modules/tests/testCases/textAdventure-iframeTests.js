@@ -29,7 +29,7 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
     jsonData: rulesData,
     selectedPlayerId: '1',
     sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-  }, 'tests');
+  });
 
   await rulesLoadedPromise;
   testController.reportCondition('Adventure rules loaded in main app', true);
@@ -52,7 +52,7 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
   testController.eventBus.publish('ui:activatePanel', { 
     panelId: 'iframePanel',
     config: { iframeName: 'textAdventure' }
-  }, 'tests');
+  });
   
   const iframePanelReady = await testController.pollForCondition(
     () => {
@@ -78,7 +78,7 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
 
   testController.eventBus.publish('iframe:loadUrl', {
     url: './modules/textAdventure-remote/index-iframe.html'
-  }, 'tests');
+  });
   
   const iframeLoaded = await iframeLoadedPromise;
   testController.reportCondition('Iframe loaded successfully', !!iframeLoaded);
@@ -330,7 +330,7 @@ export async function textAdventureIframeLocationCheckCommandTest(testController
         stateChangeReceived = true;
       };
       
-      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler, 'test-iframe');
+      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler);
       
       const commandSent = sendCommandToIframe('check Blue Labyrinth 0');
       testController.reportCondition('Location check command sent to iframe', commandSent);
@@ -506,7 +506,7 @@ export async function textAdventureIframeConnectionTest(testController) {
     testController.reportCondition('IframeAdapter core available', typeof window.iframeAdapterCore !== 'undefined');
     
     // Create iframe panel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' });
     
     const iframePanelCreated = await testController.pollForCondition(
       () => {
@@ -525,7 +525,7 @@ export async function textAdventureIframeConnectionTest(testController) {
 
     testController.eventBus.publish('iframe:loadUrl', {
       url: './modules/textAdventure-remote/index-iframe.html'
-    }, 'tests');
+    });
     
     const iframeLoaded = await iframeLoadedPromise;
     testController.reportCondition('Iframe loaded event received', !!iframeLoaded);
@@ -543,7 +543,7 @@ export async function textAdventureIframeConnectionTest(testController) {
 
     // Test iframe manager panel
     testController.log('Testing iframe manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' });
     
     const iframeManagerCreated = await testController.pollForCondition(
       () => {
@@ -591,7 +591,7 @@ export async function textAdventureIframeManagerUITest(testController) {
       jsonData: rulesData,
       selectedPlayerId: '1',
       sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-    }, 'tests');
+    });
     
     await rulesLoadedPromise;
     testController.reportCondition('Adventure rules loaded in main app', true);
@@ -621,7 +621,7 @@ export async function textAdventureIframeManagerUITest(testController) {
 
     // Step 3: Create iframe manager panel
     testController.log('Creating iframe manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' });
     
     const managerPanelReady = await testController.pollForCondition(
       () => {
@@ -636,7 +636,7 @@ export async function textAdventureIframeManagerUITest(testController) {
 
     // Step 4: Create iframe panel
     testController.log('Creating iframe panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' });
     
     const iframePanelReady = await testController.pollForCondition(
       () => {

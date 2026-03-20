@@ -12,25 +12,9 @@ import time
 import signal
 from pathlib import Path
 
-
-def get_seed_id(seed):
-    """
-    Compute seed ID from seed number (matches Archipelago's logic).
-    This is a simplified version - matches the JavaScript implementation.
-    """
-    seed_str = str(seed)
-    seeddigits = 20
-
-    # Predefined seed IDs for common seeds
-    seed_ids = {
-        '1': 'AP_14089154938208861744',
-        '2': 'AP_01043188731678011336',
-        '3': 'AP_84719271504320872445',
-        '4': 'AP_04075275976995164868',
-        '5': 'AP_98560778217298494071'
-    }
-
-    return seed_ids.get(seed_str, f"AP_{seed_str.zfill(seeddigits)}")
+# Add scripts directory to path so we can import from lib
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from lib.seed_utils import get_seed_id
 
 
 def stop_server(port):
@@ -232,9 +216,9 @@ Examples:
 
     args = parser.parse_args()
 
-    # Determine project root (one level up from scripts directory)
+    # Determine project root (two levels up: scripts/setup/ -> scripts/ -> project root)
     script_dir = Path(__file__).resolve().parent
-    project_root = script_dir.parent
+    project_root = script_dir.parent.parent
 
     # Always stop existing server first
     stop_server(args.port)

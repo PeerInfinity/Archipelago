@@ -13,9 +13,7 @@ DIRECTORIES = [
     "output/spoiler-minimal",
     "output/spoiler-full",
     "output/multiclient",
-    "output/multiworld",
-    "output/multitemplate-minimal",
-    "output/multitemplate-full"
+    "output/multiworld"
 ]
 
 # File to keep

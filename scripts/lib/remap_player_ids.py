@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to remap player IDs in a rules.json file and associated spheres_log.jsonl file.
+Script to remap player IDs in a rules.json file and associated sphere_log.jsonl file.
 This is useful for testing if the frontend works correctly with non-1 player IDs.
 """
 
@@ -52,24 +52,24 @@ def _remap_rule_player_ids(rule: dict, target_player_id: int) -> None:
                     _remap_rule_player_ids(item, target_player_id)
 
 
-def remap_spheres_log(spheres_log_file: str, target_player_id: int = 2) -> bool:
+def remap_sphere_log(sphere_log_file: str, target_player_id: int = 2) -> bool:
     """
-    Remap player IDs in a spheres_log.jsonl file.
+    Remap player IDs in a sphere_log.jsonl file.
 
     Args:
-        spheres_log_file: Path to the spheres_log.jsonl file
+        sphere_log_file: Path to the sphere_log.jsonl file
         target_player_id: The player ID to remap to (default: 2)
 
     Returns:
         True if successful, False otherwise
     """
     try:
-        if not os.path.exists(spheres_log_file):
+        if not os.path.exists(sphere_log_file):
             # File doesn't exist, that's okay
             return True
 
         # Read all lines from the JSONL file
-        with open(spheres_log_file, 'r') as f:
+        with open(sphere_log_file, 'r') as f:
             lines = f.readlines()
 
         # Process each line
@@ -90,14 +90,14 @@ def remap_spheres_log(spheres_log_file: str, target_player_id: int = 2) -> bool:
             updated_lines.append(json.dumps(data))
 
         # Write back to file
-        with open(spheres_log_file, 'w') as f:
+        with open(sphere_log_file, 'w') as f:
             for line in updated_lines:
                 f.write(line + '\n')
 
         return True
 
     except Exception as e:
-        print(f"Error remapping player IDs in spheres log {spheres_log_file}: {e}", file=sys.stderr)
+        print(f"Error remapping player IDs in sphere log {sphere_log_file}: {e}", file=sys.stderr)
         return False
 
 
@@ -234,14 +234,14 @@ def remap_player_ids(rules_file: str, target_player_id: int = 2) -> bool:
         with open(rules_file, 'w') as f:
             json.dump(data, f, indent=2)
 
-        # Also remap the spheres_log.jsonl file if it exists
+        # Also remap the sphere_log.jsonl file if it exists
         rules_dir = os.path.dirname(rules_file)
         rules_basename = os.path.basename(rules_file)
         seed_id = rules_basename.replace('_rules.json', '')
-        spheres_log_file = os.path.join(rules_dir, f'{seed_id}_spheres_log.jsonl')
+        sphere_log_file = os.path.join(rules_dir, f'{seed_id}_sphere_log.jsonl')
 
-        if not remap_spheres_log(spheres_log_file, target_player_id):
-            print(f"Warning: Failed to remap spheres log file", file=sys.stderr)
+        if not remap_sphere_log(sphere_log_file, target_player_id):
+            print(f"Warning: Failed to remap sphere log file", file=sys.stderr)
 
         return True
 

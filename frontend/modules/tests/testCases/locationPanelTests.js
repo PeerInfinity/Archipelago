@@ -32,9 +32,7 @@ export async function testLibraryLocationAccessibility(testController) {
 
     // 2. Activate the Locations panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
     // 3. Wait for the locations panel to appear in DOM
@@ -223,9 +221,7 @@ export async function testLocationPanelBasicFunctionality(testController) {
     testController.reportCondition('Test started', true);
 
     // 1. Activate the Locations panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 2. Wait for panel to appear and check it exists
     const locationsPanelElement = await testController.pollForValue(

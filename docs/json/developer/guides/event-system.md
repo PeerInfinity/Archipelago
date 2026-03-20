@@ -74,7 +74,7 @@ Use the Event Dispatcher for user actions or system commands that require a **si
     1.  Should the `Loops` module handle it and queue an action?
     2.  If not, should the `Client` module handle it and send the check to the server?
     3.  If not, should the `StateManager` handle it locally for offline tracking?
--   The dispatcher ensures that only one of these modules acts on the event, based on their `loadPriority` defined in `modules.json`.
+-   The dispatcher ensures that only one of these modules acts on the event, based on their `loadPriority` defined in `module-configs/modules.json`.
 
 ### How to Use the Event Dispatcher
 

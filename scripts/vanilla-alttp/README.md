@@ -7,14 +7,16 @@ This directory contains data and scripts for placing items in their vanilla (ori
 To generate an Archipelago game with vanilla item placements:
 
 ```bash
-# Enable vanilla placement
-export VANILLA_PLACEMENT=1
+# 1. Generate the vanilla-full YAML template (if not already generated)
+python3 scripts/vanilla-alttp/generate_incremental_yamls.py
 
-# Generate the game (spoiler must be disabled)
-python3 Generate.py --player_files_path Players --spoiler 0
+# 2. Generate with vanilla placement using monkey patches
+python3 scripts/vanilla-alttp/test_vanilla_patches.py --seeds 1
 ```
 
-This places all items in their original ALTTP locations while maintaining Archipelago's multiworld capabilities.
+The monkey patches approach (`vanilla_patches.py`) uses YAML plando with `--plando items` enabled,
+along with temporary patches to ALTTP's item pool and dungeon fill, to place all 226 items in their
+vanilla locations through the normal generation pipeline.
 
 ## Files
 
@@ -74,10 +76,22 @@ Analyzes matches between sahasrahbot and Archipelago names.
 python3 analyze_name_matches.py
 ```
 
+#### `analyze_pool_match.py`
+Analyze vanilla item placements vs the ALTTP item pool to identify mismatches.
+```bash
+python3 analyze_pool_match.py
+```
+
 #### `validate_mappings.py`
 Validates that mapped item names exist in Archipelago.
 ```bash
 python3 validate_mappings.py
+```
+
+#### `generate_vanilla_alttp.py`
+Generate a vanilla ALTTP seed with monkey patches applied (produces actual output files unlike test_vanilla_patches.py).
+```bash
+python3 generate_vanilla_alttp.py
 ```
 
 #### `generate_vanilla_plando.py`
@@ -89,34 +103,36 @@ python3 generate_vanilla_plando.py
 
 ## How It Works
 
-1. **Normal Generation**: Archipelago generates and places items normally
-2. **Vanilla Overwrite**: The system overwrites these placements with vanilla item locations
-3. **Medallion Requirements**: Sets to vanilla (Ether for Misery Mire, Quake for Turtle Rock)
-4. **Key Placement**: Places small keys and pot keys in their appropriate locations
-5. **Bottle Consolidation**: Shows only 4 plain bottles in item pool counts (no variants)
+The current approach uses **monkey patches + YAML plando** (`vanilla_patches.py`):
+
+1. **YAML Plando**: `A Link to the Past - vanilla-full.yaml` specifies all 226 vanilla item placements
+2. **Monkey Patches**: `vanilla_patches.py` temporarily patches ALTTP's `get_pool_core` and `fill_dungeons_restrictive` to handle:
+   - Bottles: Replace random bottle types with plando-specified types
+   - Uncle weapon: Pre-place a non-conflicting weapon to avoid random selection issues
+   - Pool counts: Swap surplus filler for deficit items needed by plando
+   - Dungeon items: Skip already-placed dungeon items during dungeon fill
+3. **Normal Fill Pipeline**: Items are placed through the standard generation pipeline, passing accessibility checks
 
 ## Implementation Details
 
 The vanilla placement system is implemented in:
-- `scripts/vanilla-alttp/VanillaPlacement.py` - Core vanilla placement logic (must be moved to `worlds/alttp/` to use)
-- `Main.py` - Triggers vanilla overwrite when `VANILLA_PLACEMENT=1`
+- `scripts/vanilla-alttp/vanilla_patches.py` - Monkey patches for item pool and dungeon fill
+- `scripts/vanilla-alttp/test_vanilla_patches.py` - Test harness verifying 226/226 placements across multiple seeds
+- `scripts/vanilla-alttp/generate_incremental_yamls.py` - Generates the vanilla-full YAML template
 - `exporter/games/alttp.py` - Consolidates bottle counts in exported data
 
-**Note:** `VanillaPlacement.py` is stored here for organizational purposes but must be copied/moved to `worlds/alttp/VanillaPlacement.py` in order to function. See the file header for detailed requirements.
-
 ### Key Features
-- Places 226 items in vanilla locations
-- Places 33 additional keys in key drop/pot locations
-- Skips accessibility checks (vanilla placement may not satisfy randomizer logic)
-- Excludes 2 medallion requirement "locations" that aren't actual item locations
+- Places 226 items in vanilla locations via YAML plando
+- Works through the normal fill pipeline (no post-fill overwrite)
+- Passes accessibility checks (no need to skip them)
+- Install/uninstall API for clean monkey patching
 
 ## Testing
 
 To verify vanilla placement is working:
 ```bash
-export VANILLA_PLACEMENT=1
-python3 Generate.py --player_files_path Players --spoiler 0 2>&1 | grep "Overwrote.*locations"
-# Should show: "=== Overwrote 226 locations with vanilla items ==="
+python3 scripts/vanilla-alttp/test_vanilla_patches.py --seeds 1,2,3
+# Should show: "ALL 3 SEEDS PASSED" with 226/226 correct per seed
 ```
 
 ## Additional Files (Development Artifacts)

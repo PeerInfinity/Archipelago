@@ -66,11 +66,12 @@ export class EventBus {
       const knownModuleNames = [
         'stateManager', 'modules', 'events', 'client', 'timer', 'timerPanel', 'inventory', 'editor', 'settings',
         'commonUI', 'locations', 'exits', 'regions', 'loops', 'tests', 'json', 'pathAnalyzer',
-        'pathAnalyzerPanel', 'discovery', 'presets', 'testCases', 'dungeons',
+        'pathAnalyzerPanel', 'discovery', 'presets', 'testCases', 'dungeons', 'helpers',
         'textAdventure', 'textAdventureUI', 'iframePanel', 'panelManager', 'messageHandler',
-        'locationManager', 'playerState', 'playerStatePanel', 'testSpoilers', 'progressBarPanel',
+        'locationManager', 'playerState', 'playerStatePanel', 'spoilerTest', 'progressBarPanel',
         'progressBar', 'ProgressBar', 'iframeAdapter', 'core', 'metaGame', 'metaGamePanel',
-        'iframeManagerPanel'
+        'iframeManagerPanel', 'editorCore', 'editorCodeMirror6',
+        'proofQueue', 'proofGraph'
       ];
       const isKnownModule = knownModuleNames.includes(moduleName);
       

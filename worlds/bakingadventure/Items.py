@@ -11,8 +11,8 @@ class ItemData(NamedTuple):
 base_item_id = 300100000
 
 
-class ChocolateChipCookiesItem(Item):
-    game = "ChocolateChipCookies"
+class BakingAdventureItem(Item):
+    game = "Baking Adventure"
     
 
 # All items from the JSON file

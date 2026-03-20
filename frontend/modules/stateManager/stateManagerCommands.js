@@ -31,4 +31,6 @@ export const STATE_MANAGER_COMMANDS = {
   SET_AUTO_COLLECT_EVENTS_CONFIG: 'setAutoCollectEventsConfig',
   SET_SPOILER_TEST_MODE: 'setSpoilerTestMode',
   RECALCULATE_ACCESSIBILITY: 'recalculateAccessibility',
+  SET_PROG_ITEM: 'setProgItem',
+  ANALYZE_PATH_TO_REGION: 'analyzePathToRegion',
 };

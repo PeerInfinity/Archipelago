@@ -40,6 +40,9 @@ class TestBase(unittest.TestCase):
             "Ceres",
             "Gauntlet Top",
             "Mama Turtle"
+        },
+        "shapez": {
+            "Achievements needing a MAM",  # unreachable with default settings
         }
     }
 
@@ -47,6 +50,10 @@ class TestBase(unittest.TestCase):
         """Ensure all state can reach everything and complete the game with the defined options"""
         for game_name, world_type in AutoWorldRegister.world_types.items():
             unreachable_regions = self.default_settings_unreachable_regions.get(game_name, set())
+            # Apply unreachable regions from base game to WorldGen variants
+            for base_name, base_regions in self.default_settings_unreachable_regions.items():
+                if game_name.startswith(base_name) and game_name != base_name:
+                    unreachable_regions = unreachable_regions | base_regions
             with self.subTest("Game", game=game_name):
                 multiworld = setup_solo_multiworld(world_type)
                 state = multiworld.get_all_state(False)

@@ -1,0 +1,419 @@
+{
+    "$comment": "Annotations for files and directories that differ from upstream. Keys are file paths (or directory paths with trailing slash). Each entry has a description and optional links (paths relative to project root).",
+    "entries": {
+
+        "_section: New Directories - Core Project": "",
+
+        "CC/": {
+            "description": "Claude Code scripts, plans, and utilities for AI-assisted development.",
+            "links": [
+                {"title": "CC README", "path": "CC/README.md"}
+            ]
+        },
+        "apworlds/": {
+            "description": "Pre-built APWorld packages (.apworld files) for distribution."
+        },
+        "docs/json/": {
+            "description": "Documentation portal for the JSON Export Tools project: user guides, developer docs, architecture, and test results.",
+            "links": [
+                {"title": "Documentation Portal", "path": "docs/json/README.md"}
+            ]
+        },
+        "exporter/": {
+            "description": "Python module that exports game logic (items, locations, regions, rules) to JSON format after seed generation.",
+            "links": [
+                {"title": "Exporter README", "path": "exporter/README.md"}
+            ]
+        },
+        "frontend/": {
+            "description": "Web client application for browsing exported game data, viewing rules, and running spoiler tests.",
+            "links": [
+                {"title": "Frontend README", "path": "frontend/README.md"}
+            ]
+        },
+        "json_tools_patches/": {
+            "description": "Versioned patches for ROM-less generation and other core file modifications, organized by Archipelago version."
+        },
+        "scripts/": {
+            "description": "Build, test, setup, and documentation generation scripts.",
+            "links": [
+                {"title": "Scripts README", "path": "scripts/README.md"}
+            ]
+        },
+        "test_json/": {
+            "description": "Test suite for fork-specific modules: exporter, rule builder, world generator, and E2E spoiler tests."
+        },
+        "world_generator/": {
+            "description": "Converts JSON rules files back into functional Archipelago world packages (Python code).",
+            "links": [
+                {"title": "World Generator README", "path": "world_generator/README.md"},
+                {"title": "World Generator Guide", "path": "docs/json/developer/guides/world-generator.md"}
+            ]
+        },
+
+        "_section: New Directories - Worlds": "",
+
+        "worlds/apworld_manager/": {
+            "description": "Third-party meta-world (hidden) for installing and managing APWorlds from repositories. Unmodified from upstream source.",
+            "links": [
+                {"title": "Repository Changes", "path": "docs/json/developer/diffs/repository-changes.md"}
+            ]
+        },
+        "worlds/bakingadventure/": {
+            "description": "Original demo world: a baking-themed game with progression-based locations."
+        },
+        "worlds/codingadventure/": {
+            "description": "Original demo world: an educational web development game with progression items."
+        },
+        "worlds/depgraph/": {
+            "description": "Original world that turns any directed acyclic graph (DAG) into a playable Archipelago world."
+        },
+        "iframe_games/": {
+            "description": "Iframe-hosted game content for frontend integration modules."
+        },
+        "worlds/jta/": {
+            "description": "Journey to Ascension: a demo world with cost-based progression and planner integration."
+        },
+        "worlds/json_tools_installer/": {
+            "description": "Utility APWorld (hidden) that downloads and installs JSON Tools components on vanilla Archipelago.",
+            "links": [
+                {"title": "Installer README", "path": "worlds/json_tools_installer/README.md"}
+            ]
+        },
+        "worlds/metamath/": {
+            "description": "Original demo world that turns MetaMath formal proofs into playable Archipelago worlds."
+        },
+        "worlds/toem_original/": {
+            "description": "Original TOEM world implementation (non-Rule Builder version, used as a comparison benchmark)."
+        },
+        "worlds/toem_rule_builder/": {
+            "description": "TOEM world implemented using Rule Builder syntax (benchmark for comparing against the original implementation)."
+        },
+        "worlds/tracker/": {
+            "description": "Universal Tracker meta-world (hidden) for in-game location tracking and logic visualization. Modified from FarisTheAncient's version.",
+            "links": [
+                {"title": "UT Modifications", "path": "docs/json/developer/diffs/universal-tracker-modifications.md"}
+            ]
+        },
+
+        "_section: New Directories - WorldGen2 (second-generation)": "",
+
+        "worlds/adventure_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/ahit_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/alttp_vanilla_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/alttp_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/bakingadventure_vanilla_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/codingadventure_vanilla_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+        "worlds/shorthike_worldgen2/": {
+            "description": "Second-generation world: generated from a worldgen world to test cross-generation compatibility."
+        },
+
+        "_section: Changed Files - Root": "",
+
+        ".gitattributes": {
+            "description": "Added `merge=ours` strategy for `.gitignore` and `README.md` to preserve fork versions during upstream merges.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
+            ]
+        },
+        ".gitignore": {
+            "description": "Added patterns for fork-specific files: JSDoc output, frontend presets, test results, node_modules, worldgen output, and disabled worlds.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
+            ]
+        },
+        "README.md": {
+            "description": "Replaced upstream README with fork-specific documentation describing the JSON Export Tools project and web client demo.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
+            ]
+        },
+        "pytest.ini": {
+            "description": "Added `test_json` to pytest test discovery paths for fork-specific test modules."
+        },
+        "settings.py": {
+            "description": "Added `skip_required_files` global, `Group.__getattribute__` bypass for missing ROM paths, and early extraction from host.yaml `json_tools` section.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/core-files.diff"},
+                {"title": "Skip Required Files Proposal", "path": "docs/json/developer/proposals/skip-required-files-proposal.md"}
+            ]
+        },
+
+        "_section: Changed Files - GitHub Config": "",
+
+        ".github/pyright-config.json": {
+            "description": "Removed 3 entries from pyright exclude list (`cached_world.py`, `options.py`, `test_rule_builder.py`) because the fork consolidates `cached_world.py` into `rules.py`.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
+            ]
+        },
+        ".github/workflows/codeql-analysis.yml": {
+            "description": "Added explicit `security-events`, `actions`, and `contents` permissions for safer fork operation.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
+            ]
+        },
+
+        "_section: Changed Files - Rule Builder": "",
+
+        "rule_builder/__init__.py": {
+            "description": "Full API exports for all rule types, AST format support, pathfinding tools, and documentation. Upstream file is empty.",
+            "links": [
+                {"title": "Rule Builder README", "path": "rule_builder/README.md"},
+                {"title": "Fork vs Upstream Comparison", "path": "docs/json/developer/diffs/rule-builder/fork-vs-upstream-rule-builder.md"}
+            ]
+        },
+        "rule_builder/rules.py": {
+            "description": "Extended from 1,822 to 4,224 lines. Adds RuleWorldMixin, RuleBuilderLogicMixin, and 15 new rule types for AST format support.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"},
+                {"title": "Fork vs Upstream Comparison", "path": "docs/json/developer/diffs/rule-builder/fork-vs-upstream-rule-builder.md"}
+            ]
+        },
+
+        "_section: Changed Files - Tests": "",
+
+        "test/general/test_implemented.py": {
+            "description": "Added 'The Messenger' and 'Overcooked! 2' to excluded_games in test_slot_data to prevent flaky fill failures caused by upstream worlds with tight access rules at certain random seeds."
+        },
+        "test/general/test_items.py": {
+            "description": "Added DLCQuest coin exclusion and logic to propagate item exclusions from base games to WorldGen variant worlds."
+        },
+        "test/general/test_reachability.py": {
+            "description": "Added shapez unreachable region and logic to propagate unreachable regions from base games to WorldGen variant worlds."
+        },
+        "test/general/test_rule_builder.py": {
+            "description": "Added ~600 lines of evaluation tests for fork-only Rule Builder rule types: CountItem, CountFromList, Compare, Arithmetic, MinValue, MaxValue, WeightedSum, and more.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"}
+            ]
+        },
+
+        "_section: Changed Files - World Bug Fixes": "",
+
+        "worlds/alttp/Rules.py": {
+            "description": "Fixed Python late binding bug in superbunny path lambdas that caused rules to always evaluate to True.",
+            "links": [
+                {"title": "ALttP Bunny Rules Bug", "path": "docs/json/upstream-bugs/alttp/bunny-rules.md"},
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/alttp-bunny-rules.diff"}
+            ]
+        },
+        "worlds/landstalker/Hints.py": {
+            "description": "Changed `list(set(...))` to `sorted(set(...))` for deterministic hint ordering before seeded shuffle.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-minor-fixes.diff"}
+            ]
+        },
+        "worlds/lufia2ac/Options.py": {
+            "description": "Changed `set(random_groups)` to `list(random_groups)` so `enumerate()` assigns stable integer keys for deterministic JSON export.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-minor-fixes.diff"}
+            ]
+        },
+
+        "_section: Changed Files - World Init (skip_required_files)": "",
+
+        "worlds/alttp/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"},
+                {"title": "Skip Required Files Proposal", "path": "docs/json/developer/proposals/skip-required-files-proposal.md"}
+            ]
+        },
+        "worlds/apsudoku/__init__.py": {
+            "description": "Added skip_required_files support to bypass generation prerequisites.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/dkc3/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/ff1/__init__.py": {
+            "description": "Added skip_required_files support to allow generation without key items.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/lufia2ac/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/mmbn3/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/oot/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/smw/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/soe/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/tloz/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+        "worlds/yoshisisland/__init__.py": {
+            "description": "Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
+            ]
+        },
+
+        "_section: New Files in Existing Dirs - Root": "",
+
+        "CLAUDE.md": {
+            "description": "Quick reference for Claude Code with common commands, key concepts, and project conventions."
+        },
+        "fuzz.py": {
+            "description": "Archipelago fuzzer for random YAML generation testing, adapted from Eijebong's Archipelago-fuzzer.",
+            "links": [
+                {"title": "Fuzzer Modifications", "path": "docs/json/developer/diffs/fuzzer-modifications.md"}
+            ]
+        },
+        "jsdoc.json": {
+            "description": "JSDoc configuration for generating API documentation from frontend module source code."
+        },
+        "json_tools_config.json": {
+            "description": "JSON Tools Installer configuration tracking installation state, sources, patches, and export settings."
+        },
+        "json_tools_installer_requirements.json": {
+            "description": "Version check manifest for JSON Tools Installer dependency compatibility."
+        },
+        "package.json": {
+            "description": "Node.js project manifest with scripts for spoiler testing, E2E tests, dev server, and documentation generation."
+        },
+        "package-lock.json": {
+            "description": "Node.js dependency lock file for reproducible installations."
+        },
+        "playwright.config.js": {
+            "description": "Playwright E2E test configuration targeting frontend spoiler and regression tests."
+        },
+        "vitest.config.js": {
+            "description": "Vitest unit test configuration for frontend JavaScript testing with coverage reporting."
+        },
+
+        "_section: New Files in Existing Dirs - Rule Builder": "",
+
+        "rule_builder/README.md": {
+            "description": "Documentation for the Rule Builder module: declarative rule definitions with JSON serialization support.",
+            "links": [
+                {"title": "Rule Builder README", "path": "rule_builder/README.md"}
+            ]
+        },
+        "rule_builder/_ast_utils.py": {
+            "description": "Shared AST parsing utilities for converting between AST constant wrappers and primitive values.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"}
+            ]
+        },
+        "rule_builder/ast_explain.py": {
+            "description": "Generates human-readable explanations of AST format rules, compatible with Archipelago's printJSON system.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"}
+            ]
+        },
+        "rule_builder/ast_format.py": {
+            "description": "Native AST format parser that converts exported JSON rules directly to Rule Builder objects.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"}
+            ]
+        },
+        "rule_builder/pathfinding.py": {
+            "description": "Pathfinding tools for region accessibility analysis via entrance chains and hypothetical item checks.",
+            "links": [
+                {"title": "Rule Builder Modifications", "path": "docs/json/developer/diffs/rule-builder/rule-builder-modifications.md"}
+            ]
+        },
+
+        "_section: New Files in Existing Dirs - Tests and Utilities": "",
+
+        "worlds/RomlessUtils.py": {
+            "description": "Helper module providing `check_rom_available()` for skip_required_files support.",
+            "links": [
+                {"title": "Skip Required Files Proposal", "path": "docs/json/developer/proposals/skip-required-files-proposal.md"}
+            ]
+        },
+        "test/general/test_schema_validation.py": {
+            "description": "Tests that validate all exported rules.json files against the JSON schema.",
+            "links": [
+                {"title": "Rules Schema", "path": "frontend/schema/rules.schema.json"}
+            ]
+        },
+
+        "_section: New Files in Existing Dirs - GitHub Workflows": "",
+
+        ".github/workflows/README.md": {
+            "description": "Documentation index for all CI/CD workflows in the fork."
+        },
+        ".github/workflows/deploy-gh-pages.yml": {
+            "description": "Deploys generated documentation and frontend to GitHub Pages."
+        },
+        ".github/workflows/generate-presets.yml": {
+            "description": "Exports rules JSON from all game templates via seed generation."
+        },
+        ".github/workflows/test-all-sequential.yml": {
+            "description": "Runs all seed generation tests sequentially."
+        },
+        ".github/workflows/test-multiworld-ut-fuzz.yml": {
+            "description": "Fuzz tests for multiworld Universal Tracker scenarios."
+        },
+        ".github/workflows/test-spoiler-fuzz-single-game.yml": {
+            "description": "Spoiler fuzz testing for a single specified game."
+        },
+        ".github/workflows/test-spoiler-fuzz.yml": {
+            "description": "Full spoiler fuzz testing across all games."
+        },
+        ".github/workflows/test-templates.yml": {
+            "description": "Tests all game template seed generations."
+        },
+        ".github/workflows/test-ut-fuzz-single-game.yml": {
+            "description": "Universal Tracker fuzz testing for a single specified game."
+        },
+        ".github/workflows/test-ut-fuzz.yml": {
+            "description": "Full Universal Tracker fuzz testing across all games."
+        },
+        ".github/workflows/test-world-generator-single.yml": {
+            "description": "Tests world generator on a single specified game."
+        },
+        ".github/workflows/test-world-generator.yml": {
+            "description": "Tests world generator across all games."
+        },
+        ".github/workflows/unittests_json.yml": {
+            "description": "Runs JSON-related unit tests via npm/Vitest."
+        }
+    }
+}

@@ -1,5 +1,21 @@
 import { PresetUI } from './presetUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'presets'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'presets'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'presets'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -20,11 +36,6 @@ export const moduleInfo = {
   column: 2, // Middle column
   description: 'Provides UI for loading preset game rules.',
 };
-
-// --- Module Scope Variables ---
-// Store instances or API references if needed, e.g.,
-// let presetUIInstance = null;
-// let moduleEventBus = null;
 
 /**
  * Registration function for the Presets module.
@@ -58,14 +69,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     `[Presets Module] Initializing with priority ${priorityIndex}...`
   );
 
-  // Store API references if needed later
-  // moduleEventBus = initializationApi.getEventBus();
-
-  // If PresetUI needed the event bus injected:
-  // 1. We'd need a way to get the instance created by PanelManager.
-  // 2. Or modify PanelManager to pass the API during construction.
-  // 3. Or make PresetUI fetch the bus itself via a static method or singleton.
-  // For now, PresetUI will likely continue importing the core eventBus directly internally.
+  _moduleEventBus = initializationApi.getEventBus();
 
   log('info', '[Presets Module] Initialization complete.');
 

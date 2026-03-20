@@ -105,6 +105,7 @@ export function checkLocation(sm, locationName, addItems = true, forceCheck = fa
     } else {
       // Validate that the location is accessible before checking (unless forceCheck is true)
       const isAccessible = sm.isLocationAccessible(location);
+
       if (!isAccessible && !forceCheck) {
         sm._logDebug(`[StateManager Class] Location ${locationName} is not accessible, cannot check.`);
         rejectionReason = 'not_accessible';
@@ -143,7 +144,7 @@ export function checkLocation(sm, locationName, addItems = true, forceCheck = fa
             // Most games: only add advancement items (Python's state.count() behavior)
             // Some games (e.g., Super Metroid): need non-advancement items for logic (Missiles open red doors)
             // Check game setting 'count_non_advancement_items' to determine behavior
-            const countNonAdvancement = sm.rules?.settings?.[currentPlayerId]?.count_non_advancement_items ?? false;
+            const countNonAdvancement = sm.rules?.world?.[currentPlayerId]?.count_non_advancement_items ?? false;
             const shouldAddItem = !sm.spoilerTestMode || location.item.advancement !== false || countNonAdvancement;
 
             if (shouldAddItem) {

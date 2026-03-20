@@ -1,0 +1,30 @@
+digraph "Skill Tree" {
+    basic_combat [label="Basic Combat"];
+    strength [label="Strength"];
+    agility [label="Agility"];
+    sword_mastery [label="Sword Mastery"];
+    shield_mastery [label="Shield Mastery"];
+    dual_wield [label="Dual Wield"];
+    parry [label="Parry"];
+    battle_cry [label="Battle Cry"];
+    whirlwind [label="Whirlwind"];
+    counter [label="Counter"];
+    warrior_stance [label="Warrior Stance"];
+    legendary_hero [label="Legendary Hero"];
+
+    basic_combat -> strength;
+    basic_combat -> agility;
+    strength -> sword_mastery;
+    strength -> shield_mastery;
+    strength -> battle_cry;
+    sword_mastery -> dual_wield;
+    agility -> dual_wield;
+    shield_mastery -> parry;
+    agility -> parry;
+    dual_wield -> whirlwind;
+    battle_cry -> whirlwind;
+    parry -> counter;
+    whirlwind -> warrior_stance;
+    counter -> warrior_stance;
+    warrior_stance -> legendary_hero;
+}

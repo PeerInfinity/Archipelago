@@ -1,8 +1,10 @@
 // UI Class for this module
 import { InventoryUI } from './inventoryUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // Store dispatcher instance
 let moduleDispatcher = null;
+let _moduleEventBus = null;
 
 
 // Helper function for logging with fallback
@@ -79,6 +81,7 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   
   // Store dispatcher for use by UI components
   moduleDispatcher = initializationApi.getDispatcher();
+  _moduleEventBus = initializationApi.getEventBus();
   
   // Store API if needed by UI class (passed via constructor or method)
   // Currently, UI class imports singletons directly.
@@ -92,6 +95,20 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
  */
 export function getDispatcher() {
   return moduleDispatcher;
+}
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'inventory'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'inventory'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'inventory'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
 }
 
 // REMOVED: postInitialize function. Logic moved to InventoryUI class.

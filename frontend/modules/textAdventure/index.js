@@ -1,5 +1,6 @@
 // textAdventure module entry point
 import { TextAdventureUI } from './textAdventureUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -25,7 +26,7 @@ function log(level, message, ...data) {
 // Store module-level references
 let moduleDispatcher = null;
 let moduleEventBus = null;
-const moduleId = 'textAdventure';
+let moduleId = 'textAdventure';
 
 // Module instances are now managed directly by their classes
 
@@ -80,8 +81,10 @@ export async function register(registrationApi) {
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    // Use the system-assigned module ID (may differ from 'textAdventure' when loaded externally)
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store API references
     moduleDispatcher = initializationApi.getDispatcher();
     moduleEventBus = initializationApi.getEventBus();
@@ -121,3 +124,17 @@ function handleLocationCheck(data, propagationOptions) {
 
 // Export dispatcher for use by UI components
 export { moduleDispatcher };
+
+export function getModuleEventBus() {
+  if (moduleEventBus) return moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'textAdventure'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'textAdventure'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'textAdventure'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}

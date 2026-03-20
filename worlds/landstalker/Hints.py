@@ -128,7 +128,7 @@ def generate_random_hints(world: "LandstalkerWorld"):
     hint_texts.append(f"Did you know that your world contains {int(percent)} percent of all progression items?")
 
     # Shuffle hint texts and hint source names, and pair the two of those together
-    hint_texts = list(set(hint_texts))
+    hint_texts = sorted(set(hint_texts))
     random.shuffle(hint_texts)
 
     hint_count = min(world.options.hint_count.value, len(hint_texts))

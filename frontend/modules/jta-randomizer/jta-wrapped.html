@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Journey to Ascension (Wrapped)</title>
+    <!-- Inject our wrapper BEFORE the game loads -->
+    <script src="./jta-instant-mode-wrapper.js"></script>
+</head>
+<body>
+    <!-- Load the original game in an iframe -->
+    <iframe id="game-frame" style="width: 100%; height: 100vh; border: none;"></iframe>
+
+    <script>
+        // Configuration
+        const GAME_PATH = '../../../journey-to-ascension/index.html';
+
+        // When the iframe loads, inject our wrapper into it
+        const frame = document.getElementById('game-frame');
+
+        frame.onload = function() {
+            const win = frame.contentWindow;
+            const doc = frame.contentDocument;
+
+            // Wait a bit for the game to initialize
+            setTimeout(() => {
+                // Check if the game exposed its APIs
+                if (win.getGamestate) {
+                    console.log('Game loaded, GAMESTATE available');
+
+                    // Inject our wrapper into the iframe's context
+                    const script = doc.createElement('script');
+                    script.src = './jta-instant-mode-wrapper.js';
+                    doc.head.appendChild(script);
+
+                    script.onload = () => {
+                        console.log('Wrapper injected into game frame');
+
+                        // Expose frame's jta APIs on parent window for easy access
+                        window.game = {
+                            setInstantMode: (v) => win.jta?.setInstantMode(v) ?? win.setInstantMode?.(v),
+                            isInstantMode: () => win.jta?.isInstantMode() ?? win.isInstantMode?.(),
+                            stepTick: () => win.jta?.stepTick() ?? win.stepTick?.(),
+                            performTask: (id) => win.jta?.performTask(id) ?? win.performTask?.(id),
+                            getFullState: () => win.jta?.getFullState() ?? win.getFullState?.(),
+                            getAvailableTasks: () => win.jta?.getAvailableTasks() ?? win.getAvailableTasks?.(),
+                            setEnergy: (c, m) => win.jta?.setEnergy(c, m) ?? win.setEnergy?.(c, m),
+                            pauseGameLoop: () => win.jta?.pauseGameLoop() ?? win.pauseGameLoop?.(),
+                            resumeGameLoop: () => win.jta?.resumeGameLoop() ?? win.resumeGameLoop?.(),
+                            initializeHeadless: () => win.jta?.initializeHeadless() ?? win.initializeHeadless?.(),
+                            // Direct access to game window
+                            window: win
+                        };
+
+                        console.log('Game APIs available via window.game.*');
+                    };
+                } else {
+                    console.warn('Game APIs not found, retrying...');
+                    setTimeout(arguments.callee.bind(this), 500);
+                }
+            }, 500);
+        };
+
+        // Load the game
+        frame.src = GAME_PATH;
+    </script>
+</body>
+</html>

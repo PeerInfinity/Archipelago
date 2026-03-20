@@ -1,0 +1,3 @@
+# Metamath
+
+Generated world package.

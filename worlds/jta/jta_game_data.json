@@ -1,0 +1,4315 @@
+{
+  "version": "0.5.0",
+  "skills": [
+    {
+      "id": 0,
+      "name": "Charisma",
+      "xpMult": 1,
+      "icon": "🎭"
+    },
+    {
+      "id": 1,
+      "name": "Study",
+      "xpMult": 1,
+      "icon": "🧠"
+    },
+    {
+      "id": 2,
+      "name": "Combat",
+      "xpMult": 5,
+      "icon": "⚔️"
+    },
+    {
+      "id": 3,
+      "name": "Search",
+      "xpMult": 1,
+      "icon": "🔎"
+    },
+    {
+      "id": 4,
+      "name": "Subterfuge",
+      "xpMult": 1,
+      "icon": "🗡️"
+    },
+    {
+      "id": 5,
+      "name": "Crafting",
+      "xpMult": 1,
+      "icon": "🔨"
+    },
+    {
+      "id": 7,
+      "name": "Travel",
+      "xpMult": 1,
+      "icon": "🗺️"
+    },
+    {
+      "id": 8,
+      "name": "Magic",
+      "xpMult": 3,
+      "icon": "🔮"
+    },
+    {
+      "id": 9,
+      "name": "Fortitude",
+      "xpMult": 5,
+      "icon": "🛡️"
+    },
+    {
+      "id": 11,
+      "name": "Ascension",
+      "xpMult": 200,
+      "icon": "🙏"
+    }
+  ],
+  "perks": {
+    "0": {
+      "name": "How to Read",
+      "skillModifiers": {
+        "1": 0.5
+      },
+      "special": null,
+      "icon": "📖"
+    },
+    "1": {
+      "name": "How to Write",
+      "skillModifiers": {},
+      "special": "xp_bonus_50",
+      "icon": "📝"
+    },
+    "2": {
+      "name": "Villager Gratitude",
+      "skillModifiers": {
+        "0": 0.5
+      },
+      "special": null,
+      "icon": "❤️"
+    },
+    "3": {
+      "name": "Mysterious Amulet",
+      "skillModifiers": {
+        "8": 0.5
+      },
+      "special": "automation",
+      "icon": "📿"
+    },
+    "4": {
+      "name": "Energetic Spell",
+      "skillModifiers": {},
+      "special": "max_energy_50",
+      "icon": "⚡️"
+    },
+    "5": {
+      "name": "Experienced Traveler",
+      "skillModifiers": {
+        "7": 0.5
+      },
+      "special": null,
+      "icon": "🦶"
+    },
+    "6": {
+      "name": "Underground Connection",
+      "skillModifiers": {
+        "4": 0.4,
+        "0": 0.2
+      },
+      "special": null,
+      "icon": "🎲"
+    },
+    "7": {
+      "name": "Minor Time Compression",
+      "skillModifiers": {},
+      "special": "minor_time_compression",
+      "icon": "⌚"
+    },
+    "8": {
+      "name": "High Altitude Climbing",
+      "skillModifiers": {},
+      "special": "energy_reduction_20",
+      "icon": "🗻"
+    },
+    "10": {
+      "name": "Village Hero",
+      "skillModifiers": {
+        "0": 0.4,
+        "2": 0.2
+      },
+      "special": null,
+      "icon": "🎖️"
+    },
+    "11": {
+      "name": "Attunement",
+      "skillModifiers": {},
+      "special": "attunement",
+      "icon": "🌀"
+    },
+    "12": {
+      "name": "Goblin Scourge",
+      "skillModifiers": {
+        "2": 0.3,
+        "9": 0.3
+      },
+      "special": null,
+      "icon": "💀"
+    },
+    "13": {
+      "name": "Sunken Treasure",
+      "skillModifiers": {
+        "3": 0.3,
+        "9": 0.3
+      },
+      "special": null,
+      "icon": "⚓"
+    },
+    "14": {
+      "name": "Found Lost Temple",
+      "skillModifiers": {
+        "8": 0.5
+      },
+      "special": null,
+      "icon": "🏯"
+    },
+    "15": {
+      "name": "Walk Without Rhythm",
+      "skillModifiers": {
+        "4": 0.4,
+        "7": 0.2
+      },
+      "special": null,
+      "icon": "👣"
+    },
+    "16": {
+      "name": "Reflections on the Journey",
+      "skillModifiers": {},
+      "special": "reflections",
+      "icon": "🕰️"
+    },
+    "17": {
+      "name": "Purged Bureaucracy",
+      "skillModifiers": {
+        "0": 0.3,
+        "5": 0.3
+      },
+      "special": null,
+      "icon": "⚖️"
+    },
+    "18": {
+      "name": "Deep Sea Diving",
+      "skillModifiers": {
+        "3": 0.3,
+        "8": 0.3
+      },
+      "special": null,
+      "icon": "🤿"
+    },
+    "19": {
+      "name": "Energetic Memory",
+      "skillModifiers": {},
+      "special": "energetic_memory",
+      "icon": "💭"
+    },
+    "20": {
+      "name": "The Worm",
+      "skillModifiers": {
+        "0": 0.5
+      },
+      "special": null,
+      "icon": "💃"
+    },
+    "21": {
+      "name": "Tower of Babel",
+      "skillModifiers": {
+        "0": 0.3,
+        "11": 0.3
+      },
+      "special": null,
+      "icon": "🧱"
+    },
+    "22": {
+      "name": "Awakening",
+      "skillModifiers": {},
+      "special": "divine_spark_bonus",
+      "icon": "💤"
+    },
+    "23": {
+      "name": "Major Time Compression",
+      "skillModifiers": {},
+      "special": "major_time_compression",
+      "icon": "⏰"
+    },
+    "24": {
+      "name": "Hide in Plain Sight",
+      "skillModifiers": {
+        "4": 0.5
+      },
+      "special": null,
+      "icon": "👥"
+    },
+    "25": {
+      "name": "Dream Prism",
+      "skillModifiers": {
+        "8": 0.3,
+        "7": 0.3
+      },
+      "special": null,
+      "icon": "🔷"
+    },
+    "26": {
+      "name": "Dragon Killing Plan",
+      "skillModifiers": {
+        "2": 0.5
+      },
+      "special": null,
+      "icon": "🏔️"
+    },
+    "27": {
+      "name": "Unified Theory of Magic",
+      "skillModifiers": {},
+      "special": "unified_theory",
+      "icon": "📜"
+    },
+    "28": {
+      "name": "Headmaster",
+      "skillModifiers": {
+        "8": 0.3,
+        "1": 0.3
+      },
+      "special": null,
+      "icon": "🧙‍♂️"
+    },
+    "29": {
+      "name": "Dragon Slayer",
+      "skillModifiers": {
+        "2": 0.3,
+        "0": 0.3
+      },
+      "special": null,
+      "icon": "🐉"
+    },
+    "30": {
+      "name": "Understanding of the Reset",
+      "skillModifiers": {},
+      "special": "understanding_reset",
+      "icon": "🔁"
+    },
+    "31": {
+      "name": "Overcame Fear of Skydiving",
+      "skillModifiers": {
+        "2": 0.3,
+        "9": 0.3
+      },
+      "special": null,
+      "icon": "🪂"
+    },
+    "32": {
+      "name": "Destroyed the Ring",
+      "skillModifiers": {
+        "11": 1.0,
+        "0": 0.5
+      },
+      "special": null,
+      "icon": "💍"
+    },
+    "33": {
+      "name": "Gazed Beyond the Veil",
+      "skillModifiers": {},
+      "special": "xp_bonus_100",
+      "icon": "👀"
+    },
+    "34": {
+      "name": "Studied Underground Forge",
+      "skillModifiers": {
+        "5": 0.5
+      },
+      "special": null,
+      "icon": "⛏️"
+    },
+    "35": {
+      "name": "Understanding Leviathan",
+      "skillModifiers": {
+        "1": 0.3,
+        "2": 0.3
+      },
+      "special": null,
+      "icon": "🐋"
+    },
+    "36": {
+      "name": "Purged Demonic Influences",
+      "skillModifiers": {
+        "0": 0.3,
+        "9": 0.3
+      },
+      "special": null,
+      "icon": "👹"
+    },
+    "37": {
+      "name": "Defied the Gods",
+      "skillModifiers": {
+        "11": 1.0
+      },
+      "special": "divine_spark_bonus_25",
+      "icon": "🚫"
+    },
+    "38": {
+      "name": "Survived the Void",
+      "skillModifiers": {
+        "11": 0.3,
+        "9": 0.3
+      },
+      "special": null,
+      "icon": "⚫"
+    },
+    "39": {
+      "name": "Communed with Damned Souls",
+      "skillModifiers": {},
+      "special": "double_attunement",
+      "icon": "👻"
+    },
+    "40": {
+      "name": "Divine Power",
+      "skillModifiers": {
+        "11": 0.25,
+        "2": 0.25,
+        "8": 0.25,
+        "1": 0.25
+      },
+      "special": null,
+      "icon": "☀️"
+    }
+  },
+  "items": {
+    "0": {
+      "name": "Food",
+      "energy": 5,
+      "skillModifiers": {},
+      "icon": "🍲",
+      "namePlural": "Food"
+    },
+    "1": {
+      "name": "Arrow",
+      "skillModifiers": {
+        "2": 0.15
+      },
+      "icon": "🏹",
+      "namePlural": "Arrows"
+    },
+    "2": {
+      "name": "Coin",
+      "skillModifiers": {
+        "0": 0.2
+      },
+      "icon": "💰",
+      "namePlural": "Coins"
+    },
+    "3": {
+      "name": "Mushroom",
+      "skillModifiers": {
+        "8": 0.2,
+        "3": 0.2
+      },
+      "icon": "🍄",
+      "namePlural": "Mushrooms"
+    },
+    "4": {
+      "name": "GoblinSupplies",
+      "skillModifiers": {
+        "4": 0.15,
+        "2": 0.1,
+        "9": 0.1
+      },
+      "icon": "📦",
+      "namePlural": "Goblin Supplies"
+    },
+    "5": {
+      "name": "TravelEquipment",
+      "skillModifiers": {
+        "7": 0.1,
+        "9": 0.1
+      },
+      "icon": "🎒",
+      "namePlural": "Travel Equipment"
+    },
+    "6": {
+      "name": "Book",
+      "skillModifiers": {
+        "1": 0.1,
+        "8": 0.1
+      },
+      "icon": "📚",
+      "namePlural": "Books"
+    },
+    "7": {
+      "name": "ScrollOfHaste",
+      "artifact": true,
+      "skillModifiers": {},
+      "icon": "🐇",
+      "namePlural": "Scrolls of Haste"
+    },
+    "8": {
+      "name": "GoblinWaraxe",
+      "skillModifiers": {
+        "2": 1
+      },
+      "icon": "🪓",
+      "namePlural": "Goblin Waraxes"
+    },
+    "9": {
+      "name": "CampingEquipment",
+      "skillModifiers": {
+        "9": 0.15
+      },
+      "icon": "⛺",
+      "namePlural": "Camping Equipment"
+    },
+    "10": {
+      "name": "Reagents",
+      "skillModifiers": {
+        "8": 0.2,
+        "5": 0.1
+      },
+      "icon": "🌿",
+      "namePlural": "Reagents"
+    },
+    "11": {
+      "name": "MagicalRoots",
+      "skillModifiers": {
+        "9": 0.2,
+        "8": 0.1
+      },
+      "icon": "🌲",
+      "namePlural": "Magical Roots"
+    },
+    "12": {
+      "name": "GoblinTreasure",
+      "skillModifiers": {
+        "4": 0.5,
+        "8": 0.5
+      },
+      "icon": "💎",
+      "namePlural": "Goblin Treasures"
+    },
+    "13": {
+      "name": "Fish",
+      "energy": 10,
+      "skillModifiers": {},
+      "icon": "🐟",
+      "namePlural": "Fish"
+    },
+    "14": {
+      "name": "BanditWeapons",
+      "skillModifiers": {
+        "4": 0.1,
+        "2": 0.2
+      },
+      "icon": "🔪",
+      "namePlural": "Bandit Weapons"
+    },
+    "15": {
+      "name": "Cactus",
+      "skillModifiers": {
+        "9": 0.15
+      },
+      "icon": "🌵",
+      "namePlural": "Cactuses"
+    },
+    "16": {
+      "name": "CityChain",
+      "skillModifiers": {
+        "0": 0.5,
+        "4": 0.5
+      },
+      "icon": "🔗",
+      "namePlural": "City Chains"
+    },
+    "17": {
+      "name": "WerewolfFur",
+      "skillModifiers": {
+        "0": 0.2,
+        "9": 0.2
+      },
+      "icon": "🐺",
+      "namePlural": "Werewolf Furs"
+    },
+    "18": {
+      "name": "OasisWater",
+      "skillModifiers": {
+        "8": 0.2,
+        "9": 0.1
+      },
+      "icon": "💧",
+      "namePlural": "Oasis Water"
+    },
+    "19": {
+      "name": "Calamari",
+      "energy": 50,
+      "skillModifiers": {},
+      "icon": "🦑",
+      "namePlural": "Calamari"
+    },
+    "20": {
+      "name": "MysticIncense",
+      "skillModifiers": {
+        "11": 0.1
+      },
+      "icon": "🕯️",
+      "namePlural": "Mystic Incense"
+    },
+    "21": {
+      "name": "OracleBones",
+      "skillModifiers": {
+        "3": 0.2,
+        "8": 0.2,
+        "11": 0.1,
+        "7": 0.1
+      },
+      "icon": "🦴",
+      "namePlural": "Oracle Bones"
+    },
+    "22": {
+      "name": "WormHideCoat",
+      "skillModifiers": {
+        "9": 1
+      },
+      "icon": "🧥",
+      "namePlural": "Worm Hide Coats"
+    },
+    "23": {
+      "name": "DjinnLamp",
+      "skillModifiers": {
+        "11": 0.3,
+        "8": 0.3
+      },
+      "icon": "🧞",
+      "namePlural": "Djinn Lamps"
+    },
+    "24": {
+      "name": "Dreamcatcher",
+      "artifact": true,
+      "skillModifiers": {},
+      "icon": "🕸️",
+      "namePlural": "Dreamcatchers"
+    },
+    "25": {
+      "name": "MagicEssence",
+      "skillModifiers": {
+        "8": 4
+      },
+      "icon": "🌠",
+      "namePlural": "Magical Essences"
+    },
+    "26": {
+      "name": "CraftingRecipe",
+      "skillModifiers": {
+        "5": 0.3
+      },
+      "icon": "🛠️",
+      "namePlural": "Crafting Recipes"
+    },
+    "27": {
+      "name": "KnightlyBoots",
+      "skillModifiers": {
+        "2": 0.2,
+        "9": 0.2
+      },
+      "icon": "👢",
+      "namePlural": "Knightly Boots"
+    },
+    "28": {
+      "name": "DragonScale",
+      "skillModifiers": {
+        "2": 0.5,
+        "9": 0.5
+      },
+      "icon": "🐲",
+      "namePlural": "Dragon Scales"
+    },
+    "29": {
+      "name": "CaveInsects",
+      "energy": 5,
+      "skillModifiers": {},
+      "icon": "🦟",
+      "namePlural": "Cave Insects"
+    },
+    "30": {
+      "name": "MagicalVessel",
+      "skillModifiers": {
+        "11": 0.3
+      },
+      "icon": "🏺",
+      "namePlural": "Magical Vessels"
+    },
+    "31": {
+      "name": "MagicRing",
+      "artifact": true,
+      "skillModifiers": {},
+      "icon": "💍",
+      "namePlural": "Magic Rings"
+    },
+    "32": {
+      "name": "BottledLightning",
+      "artifact": true,
+      "skillModifiers": {},
+      "icon": "⚡",
+      "namePlural": "Bottled Lightning"
+    },
+    "33": {
+      "name": "HeatEssence",
+      "skillModifiers": {
+        "0": 1.0
+      },
+      "icon": "🔥",
+      "namePlural": "Heat Essence"
+    },
+    "34": {
+      "name": "DivineNotes",
+      "skillModifiers": {
+        "1": 0.3,
+        "3": 0.3,
+        "7": 0.1
+      },
+      "icon": "📜",
+      "namePlural": "Divine Notes"
+    },
+    "35": {
+      "name": "GriffinQuill",
+      "skillModifiers": {
+        "1": 1.0
+      },
+      "icon": "🕊️",
+      "namePlural": "Griffin Quills"
+    },
+    "36": {
+      "name": "WingsOfShadow",
+      "skillModifiers": {
+        "11": 5.0,
+        "7": 1.0
+      },
+      "icon": "🦇",
+      "namePlural": "Wings of Shadow"
+    },
+    "37": {
+      "name": "RitualSymbol",
+      "skillModifiers": {
+        "11": 1.0
+      },
+      "icon": "☯️",
+      "namePlural": "Ritual Symbols"
+    },
+    "38": {
+      "name": "Glasses",
+      "skillModifiers": {
+        "3": 1.0
+      },
+      "icon": "👓",
+      "namePlural": "Glasses"
+    },
+    "39": {
+      "name": "Light",
+      "skillModifiers": {
+        "3": 0.5,
+        "7": 0.5,
+        "9": 0.5
+      },
+      "icon": "💡",
+      "namePlural": "Light"
+    },
+    "40": {
+      "name": "MadContraption",
+      "skillModifiers": {
+        "1": 1,
+        "5": 1,
+        "2": 1
+      },
+      "icon": "🤪",
+      "namePlural": "Mad Contraptions"
+    }
+  },
+  "zones": [
+    {
+      "id": 0,
+      "name": "The Village",
+      "tasks": [
+        {
+          "id": 10,
+          "name": "Join the Watch",
+          "type": 1,
+          "costMult": 4.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 11,
+          "name": "Read Noticeboard",
+          "type": 2,
+          "costMult": 3.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 12,
+          "name": "Train with Weapons",
+          "type": 2,
+          "costMult": 1.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 13,
+          "name": "Learn How to Read",
+          "type": 0,
+          "costMult": 8.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": 0,
+          "item": null
+        },
+        {
+          "id": 14,
+          "name": "Beg for Food",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 2.0,
+          "maxReps": 10,
+          "perk": null,
+          "item": 0
+        },
+        {
+          "id": 15,
+          "name": "Hide and Seek",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            3,
+            4
+          ],
+          "xpMult": 1.5,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 16,
+          "name": "Observe Surroundings",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 3.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "The Village Watch",
+      "tasks": [
+        {
+          "id": 20,
+          "name": "Notice Smoke in the Distance",
+          "type": 1,
+          "costMult": 3.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 21,
+          "name": "Learn Routines",
+          "type": 2,
+          "costMult": 1.3,
+          "skills": [
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 22,
+          "name": "Deal with Drunkards",
+          "type": 2,
+          "costMult": 1.6,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 2,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 25,
+          "name": "Fletch Arrows",
+          "type": 0,
+          "costMult": 0.4,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 1
+        },
+        {
+          "id": 27,
+          "name": "Learn How to Write",
+          "type": 0,
+          "costMult": 16.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.2,
+          "maxReps": 1,
+          "perk": 1,
+          "item": null
+        },
+        {
+          "id": 23,
+          "name": "Chit-chat",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 24,
+          "name": "Sparring",
+          "type": 0,
+          "costMult": 1.5,
+          "skills": [
+            2
+          ],
+          "xpMult": 5.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 26,
+          "name": "Daydream About Leaving",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            7,
+            3
+          ],
+          "xpMult": 3.0,
+          "maxReps": 6,
+          "perk": null,
+          "item": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "The Raid",
+      "tasks": [
+        {
+          "id": 30,
+          "name": "Enter the Wilderness",
+          "type": 1,
+          "costMult": 2.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 31,
+          "name": "Fight a Goblin",
+          "type": 2,
+          "costMult": 3.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 3.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 32,
+          "name": "Warn Villagers",
+          "type": 2,
+          "costMult": 3.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 33,
+          "name": "Loot the Fallen",
+          "type": 0,
+          "costMult": 0.4,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 2
+        },
+        {
+          "id": 34,
+          "name": "Rescue Villager",
+          "type": 0,
+          "costMult": 1.2,
+          "skills": [
+            4,
+            3
+          ],
+          "xpMult": 1.5,
+          "maxReps": 3,
+          "perk": 2,
+          "item": null
+        },
+        {
+          "id": 35,
+          "name": "Treat Villager Wounds",
+          "type": 0,
+          "costMult": 1.5,
+          "skills": [
+            5
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 36,
+          "name": "Goblin Warlord",
+          "type": 4,
+          "costMult": 400.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 8
+        },
+        {
+          "id": 37,
+          "name": "Save the Village",
+          "type": 0,
+          "costMult": 1300.0,
+          "skills": [
+            2,
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": 10,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "The Wilderness",
+      "tasks": [
+        {
+          "id": 40,
+          "name": "Find Cave Entrance",
+          "type": 1,
+          "costMult": 2.0,
+          "skills": [
+            7,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 41,
+          "name": "Look for Tracks",
+          "type": 2,
+          "costMult": 0.5,
+          "skills": [
+            3,
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 42,
+          "name": "Survive the Night",
+          "type": 2,
+          "costMult": 1.0,
+          "skills": [
+            9,
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 43,
+          "name": "Find an Amulet",
+          "type": 2,
+          "costMult": 2.5,
+          "skills": [
+            3,
+            8
+          ],
+          "xpMult": 0.1,
+          "maxReps": 1,
+          "perk": 3,
+          "item": null
+        },
+        {
+          "id": 45,
+          "name": "Forage for Mushrooms",
+          "type": 0,
+          "costMult": 0.25,
+          "skills": [
+            3,
+            9
+          ],
+          "xpMult": 2.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 3
+        },
+        {
+          "id": 44,
+          "name": "Build a Fire",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 46,
+          "name": "Befriend a Deer",
+          "type": 0,
+          "costMult": 10.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 3.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 47,
+          "name": "Angry Ent",
+          "type": 4,
+          "costMult": 1000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 11
+        },
+        {
+          "id": 48,
+          "name": "Gather Magical Roots",
+          "type": 0,
+          "costMult": 15.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 11,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "The Cave System",
+      "tasks": [
+        {
+          "id": 50,
+          "name": "Leave Via Back Entrance",
+          "type": 1,
+          "costMult": 2.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 51,
+          "name": "Find a Way Through",
+          "type": 2,
+          "costMult": 2.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 52,
+          "name": "Rescue Captives",
+          "type": 2,
+          "costMult": 1.5,
+          "skills": [
+            0,
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 53,
+          "name": "Steal Supplies",
+          "type": 0,
+          "costMult": 0.3,
+          "skills": [
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 4
+        },
+        {
+          "id": 54,
+          "name": "Try Casting a Spell",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            8,
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 6,
+          "perk": 4,
+          "item": null
+        },
+        {
+          "id": 55,
+          "name": "Inspect Wall Paintings",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 4.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 56,
+          "name": "Scout the Cave",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            3
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 57,
+          "name": "Goblin Chieftain",
+          "type": 4,
+          "costMult": 1000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 12
+        },
+        {
+          "id": 58,
+          "name": "Wipe Out Goblins",
+          "type": 0,
+          "costMult": 10000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.3,
+          "maxReps": 1,
+          "perk": 12,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "The Road to the City",
+      "tasks": [
+        {
+          "id": 60,
+          "name": "Get to the City",
+          "type": 1,
+          "costMult": 3.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 61,
+          "name": "Join a Caravan",
+          "type": 2,
+          "costMult": 4.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 62,
+          "name": "Scout the Road Ahead",
+          "type": 2,
+          "costMult": 1.3,
+          "skills": [
+            1,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 63,
+          "name": "Make Travel Equipment",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 5
+        },
+        {
+          "id": 64,
+          "name": "Get Used to Traveling",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            7,
+            9
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": 5,
+          "item": null
+        },
+        {
+          "id": 69,
+          "name": "Study the Amulet",
+          "type": 0,
+          "costMult": 5.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": 30,
+          "item": null
+        },
+        {
+          "id": 65,
+          "name": "Chat with Travelers",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 3.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 66,
+          "name": "Practice Traveling Unnoticed",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 67,
+          "name": "Bandits",
+          "type": 4,
+          "costMult": 500.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 14
+        },
+        {
+          "id": 68,
+          "name": "Loot Bandit Camp",
+          "type": 0,
+          "costMult": 35.0,
+          "skills": [
+            4,
+            3
+          ],
+          "xpMult": 3.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 14,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "The City Outskirts",
+      "tasks": [
+        {
+          "id": 70,
+          "name": "Enter the City",
+          "type": 1,
+          "costMult": 1.5,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 71,
+          "name": "Bribe the City Guards",
+          "type": 2,
+          "costMult": 4.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 72,
+          "name": "Survive a Mugging",
+          "type": 2,
+          "costMult": 2.5,
+          "skills": [
+            2,
+            9
+          ],
+          "xpMult": 0.75,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 73,
+          "name": "Buy a Book",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 6
+        },
+        {
+          "id": 74,
+          "name": "Negotiate with a Rogue Guard",
+          "type": 0,
+          "costMult": 12.0,
+          "skills": [
+            0,
+            4
+          ],
+          "xpMult": 0.3,
+          "maxReps": 1,
+          "perk": 6,
+          "item": null
+        },
+        {
+          "id": 75,
+          "name": "Spar with the Guards",
+          "type": 0,
+          "costMult": 0.75,
+          "skills": [
+            2
+          ],
+          "xpMult": 2.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 76,
+          "name": "Fend for Yourself",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            9
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 77,
+          "name": "Skulk About",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "The City",
+      "tasks": [
+        {
+          "id": 80,
+          "name": "Embark on a Quest",
+          "type": 1,
+          "costMult": 4.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 81,
+          "name": "Investigate Rumors of a Magician",
+          "type": 2,
+          "costMult": 1.5,
+          "skills": [
+            0,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 82,
+          "name": "Search the Archives for Magic",
+          "type": 2,
+          "costMult": 1.2,
+          "skills": [
+            1,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 83,
+          "name": "Scribe Scroll of Haste",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            5,
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 7
+        },
+        {
+          "id": 84,
+          "name": "Cast a Spell",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.2,
+          "maxReps": 6,
+          "perk": 7,
+          "item": null
+        },
+        {
+          "id": 85,
+          "name": "Study at the Mage's Guild",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            1,
+            8
+          ],
+          "xpMult": 2.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 86,
+          "name": "Train for Your Quest",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            3,
+            9
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 87,
+          "name": "Corrupt Mayor",
+          "type": 4,
+          "costMult": 150.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 16
+        },
+        {
+          "id": 89,
+          "name": "Purge Corrupt Bureaucracy",
+          "type": 0,
+          "costMult": 100000.0,
+          "skills": [
+            1,
+            4
+          ],
+          "xpMult": 0.02,
+          "maxReps": 1,
+          "perk": 17,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "The Forest",
+      "tasks": [
+        {
+          "id": 90,
+          "name": "Scale the Mountain",
+          "type": 1,
+          "costMult": 6.0,
+          "skills": [
+            7,
+            9
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": 8,
+          "item": null
+        },
+        {
+          "id": 91,
+          "name": "Locate the Mountain",
+          "type": 2,
+          "costMult": 2.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 92,
+          "name": "Make Climbing Gear",
+          "type": 2,
+          "costMult": 0.3,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 93,
+          "name": "Make Camping Equipment",
+          "type": 0,
+          "costMult": 0.15,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 9
+        },
+        {
+          "id": 94,
+          "name": "Prepare to Scale the Mountain",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            1,
+            9
+          ],
+          "xpMult": 4.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 95,
+          "name": "Build a Hut",
+          "type": 0,
+          "costMult": 0.3,
+          "skills": [
+            5
+          ],
+          "xpMult": 3.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 96,
+          "name": "Go Sightseeing",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            3,
+            7
+          ],
+          "xpMult": 3.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 97,
+          "name": "Meet a Magical Creature",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            8,
+            0
+          ],
+          "xpMult": 3.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 98,
+          "name": "Werewolf",
+          "type": 4,
+          "costMult": 170.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": 17
+        },
+        {
+          "id": 99,
+          "name": "Gather Shed Fur from Lair",
+          "type": 0,
+          "costMult": 8.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 17,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "The Magician",
+      "tasks": [
+        {
+          "id": 100,
+          "name": "Hunt for the First Reagent",
+          "type": 1,
+          "costMult": 5.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 101,
+          "name": "Convince the Magician",
+          "type": 2,
+          "costMult": 6.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 102,
+          "name": "Do a Favor",
+          "type": 2,
+          "costMult": 1.0,
+          "skills": [
+            5,
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 103,
+          "name": "Steal Some Reagents",
+          "type": 0,
+          "costMult": 0.15,
+          "skills": [
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 10
+        },
+        {
+          "id": 104,
+          "name": "Figure Out How to Attune",
+          "type": 0,
+          "costMult": 60.0,
+          "skills": [
+            1,
+            8
+          ],
+          "xpMult": 0.1,
+          "maxReps": 1,
+          "perk": 11,
+          "item": null
+        },
+        {
+          "id": 105,
+          "name": "Give Yourself a Pep Talk",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 4.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 106,
+          "name": "Try to Transform Into an Eagle",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 10.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 107,
+          "name": "Low-oxygen Exercise",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            9
+          ],
+          "xpMult": 4.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "The Ocean",
+      "tasks": [
+        {
+          "id": 110,
+          "name": "Land on Island",
+          "type": 1,
+          "costMult": 3.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 111,
+          "name": "Weather a Storm",
+          "type": 2,
+          "costMult": 2.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 112,
+          "name": "Find the Island",
+          "type": 2,
+          "costMult": 2.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 113,
+          "name": "Catch Fish",
+          "type": 0,
+          "costMult": 0.4,
+          "skills": [
+            5,
+            3
+          ],
+          "xpMult": 4.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 13
+        },
+        {
+          "id": 114,
+          "name": "Dive as a Squid",
+          "type": 0,
+          "costMult": 8.0,
+          "skills": [
+            8,
+            3
+          ],
+          "xpMult": 0.5,
+          "maxReps": 3,
+          "perk": 13,
+          "item": null
+        },
+        {
+          "id": 115,
+          "name": "Look for Land",
+          "type": 0,
+          "costMult": 0.5,
+          "skills": [
+            3
+          ],
+          "xpMult": 8.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 116,
+          "name": "Practice Transforming",
+          "type": 0,
+          "costMult": 3.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 117,
+          "name": "Kraken",
+          "type": 4,
+          "costMult": 40.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": null,
+          "item": 19
+        },
+        {
+          "id": 118,
+          "name": "Explore Kraken's Lair",
+          "type": 0,
+          "costMult": 15000.0,
+          "skills": [
+            3,
+            8
+          ],
+          "xpMult": 0.6,
+          "maxReps": 1,
+          "perk": 18,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "The Island",
+      "tasks": [
+        {
+          "id": 120,
+          "name": "Hunt for the Second Reagent",
+          "type": 1,
+          "costMult": 8.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 121,
+          "name": "Gather Reagent",
+          "type": 2,
+          "costMult": 4.0,
+          "skills": [
+            3,
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 122,
+          "name": "Repair Ship",
+          "type": 2,
+          "costMult": 1.4,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 123,
+          "name": "Catch More Fish",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            5,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 13
+        },
+        {
+          "id": 124,
+          "name": "Explore the Jungle",
+          "type": 0,
+          "costMult": 6.0,
+          "skills": [
+            3,
+            7,
+            9
+          ],
+          "xpMult": 1.0,
+          "maxReps": 6,
+          "perk": 14,
+          "item": null
+        },
+        {
+          "id": 125,
+          "name": "Build Another Hut",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 5.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 126,
+          "name": "Talk to the Local Wildlife",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            8,
+            0
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 127,
+          "name": "Horde of Lizardfolk",
+          "type": 4,
+          "costMult": 210.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.5,
+          "maxReps": 1,
+          "perk": null,
+          "item": 21
+        },
+        {
+          "id": 128,
+          "name": "Steal Their Oracle Bones",
+          "type": 0,
+          "costMult": 8.0,
+          "skills": [
+            4,
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 21,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "The Desert",
+      "tasks": [
+        {
+          "id": 130,
+          "name": "Enter the Oasis",
+          "type": 1,
+          "costMult": 7.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 131,
+          "name": "Overcome Mirage",
+          "type": 2,
+          "costMult": 6.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 132,
+          "name": "Find the Oasis",
+          "type": 2,
+          "costMult": 1.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 133,
+          "name": "Harvest Cactus",
+          "type": 0,
+          "costMult": 0.2,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 15
+        },
+        {
+          "id": 134,
+          "name": "Avoid Notice by the Sandworm",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": 15,
+          "item": null
+        },
+        {
+          "id": 135,
+          "name": "Work on Your Tan",
+          "type": 0,
+          "costMult": 1.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 15.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 136,
+          "name": "Comb the Desert",
+          "type": 0,
+          "costMult": 2.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 10.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 137,
+          "name": "Giant Sandworm",
+          "type": 4,
+          "costMult": 460.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.4,
+          "maxReps": 1,
+          "perk": null,
+          "item": 22
+        },
+        {
+          "id": 138,
+          "name": "Learn to Dance the Worm",
+          "type": 0,
+          "costMult": 600000.0,
+          "skills": [
+            1,
+            0
+          ],
+          "xpMult": 0.1,
+          "maxReps": 1,
+          "perk": 20,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "The Oasis",
+      "tasks": [
+        {
+          "id": 140,
+          "name": "Return to the Magician",
+          "type": 1,
+          "costMult": 8.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 141,
+          "name": "Banish Evil Spirit",
+          "type": 2,
+          "costMult": 100.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 142,
+          "name": "Gather Second Reagent",
+          "type": 2,
+          "costMult": 0.75,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 143,
+          "name": "Bottle Oasis Water",
+          "type": 0,
+          "costMult": 0.2,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": 18
+        },
+        {
+          "id": 144,
+          "name": "Reflect on the Journey",
+          "type": 0,
+          "costMult": 25.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 4,
+          "perk": 16,
+          "item": null
+        },
+        {
+          "id": 145,
+          "name": "Prepare for the Journey Ahead",
+          "type": 0,
+          "costMult": 2.5,
+          "skills": [
+            7,
+            2
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 146,
+          "name": "Talk to the Djinn",
+          "type": 0,
+          "costMult": 30.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 20.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 147,
+          "name": "Sleepy Djinn",
+          "type": 4,
+          "costMult": 840.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.3,
+          "maxReps": 1,
+          "perk": null,
+          "item": 23
+        },
+        {
+          "id": 148,
+          "name": "Find More Lamps",
+          "type": 0,
+          "costMult": 30.0,
+          "skills": [
+            3,
+            4
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 23,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "The Ritual",
+      "tasks": [
+        {
+          "id": 150,
+          "name": "Begin Search for the Next Ritual",
+          "type": 1,
+          "costMult": 50.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 151,
+          "name": "Apologize for Stealing Reagents",
+          "type": 2,
+          "costMult": 40.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 0.25,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 152,
+          "name": "Rest for a While",
+          "type": 2,
+          "costMult": 1000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 1.25,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 153,
+          "name": "Touch the Divine",
+          "type": 3,
+          "costMult": 0.025,
+          "skills": [
+            11
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null,
+          "prestige": true
+        },
+        {
+          "id": 154,
+          "name": "Infuse Mystic Incense",
+          "type": 0,
+          "costMult": 75.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 9,
+          "perk": null,
+          "item": 20
+        },
+        {
+          "id": 155,
+          "name": "Practice Memorization",
+          "type": 0,
+          "costMult": 1200.0,
+          "skills": [
+            1,
+            8
+          ],
+          "xpMult": 0.5,
+          "maxReps": 4,
+          "perk": 19,
+          "item": null
+        },
+        {
+          "id": 156,
+          "name": "Guided Spellcasting",
+          "type": 0,
+          "costMult": 100.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 10.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 157,
+          "name": "Go for a Walk",
+          "type": 0,
+          "costMult": 4.0,
+          "skills": [
+            3,
+            7
+          ],
+          "xpMult": 8.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 158,
+          "name": "Write Down Some Learnings",
+          "type": 0,
+          "costMult": 500000.0,
+          "skills": [
+            8,
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 34,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "The Dream",
+      "tasks": [
+        {
+          "id": 160,
+          "name": "Wake Up",
+          "type": 1,
+          "costMult": 350000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.25,
+          "maxReps": 1,
+          "perk": 22,
+          "item": null
+        },
+        {
+          "id": 161,
+          "name": "Notice Signs You're in a Dream",
+          "type": 2,
+          "costMult": 2000.0,
+          "skills": [
+            1,
+            3
+          ],
+          "xpMult": 0.2,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 162,
+          "name": "Placate the Voices in Your Head",
+          "type": 2,
+          "costMult": 1500.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 163,
+          "name": "Gather Essence",
+          "type": 0,
+          "costMult": 20000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 1.0,
+          "maxReps": 2,
+          "perk": null,
+          "item": 25
+        },
+        {
+          "id": 164,
+          "name": "Build Giant Tower",
+          "type": 0,
+          "costMult": 60.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 0.25,
+          "maxReps": 2,
+          "perk": 21,
+          "item": null
+        },
+        {
+          "id": 165,
+          "name": "Talk to Mysterious Being",
+          "type": 0,
+          "costMult": 100.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 10.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 166,
+          "name": "Travel the Plains",
+          "type": 0,
+          "costMult": 200.0,
+          "skills": [
+            7,
+            9
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 167,
+          "name": "The Weaver of Dreams",
+          "type": 4,
+          "costMult": 13000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.15,
+          "maxReps": 1,
+          "perk": null,
+          "item": 24
+        },
+        {
+          "id": 168,
+          "name": "Contain the Dream",
+          "type": 0,
+          "costMult": 200000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.05,
+          "maxReps": 1,
+          "perk": 25,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "The Metropolis",
+      "tasks": [
+        {
+          "id": 170,
+          "name": "Search for the Dragon's Hoard",
+          "type": 1,
+          "costMult": 100.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": 22,
+          "item": null
+        },
+        {
+          "id": 171,
+          "name": "Figure Out the Next Ritual",
+          "type": 2,
+          "costMult": 1000000.0,
+          "skills": [
+            8,
+            0
+          ],
+          "xpMult": 0.05,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 172,
+          "name": "Figure Out Where to Go Next",
+          "type": 2,
+          "costMult": 100000.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.2,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 173,
+          "name": "Write Down Crafting Recipes",
+          "type": 0,
+          "costMult": 5.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": 26
+        },
+        {
+          "id": 174,
+          "name": "Improve Your Time Compression",
+          "type": 0,
+          "costMult": 1000000.0,
+          "skills": [
+            8,
+            1
+          ],
+          "xpMult": 0.03,
+          "maxReps": 3,
+          "perk": 23,
+          "item": null
+        },
+        {
+          "id": 175,
+          "name": "Study at the Artificer Guild",
+          "type": 0,
+          "costMult": 10000.0,
+          "skills": [
+            1,
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 176,
+          "name": "Practice in the Fighting Pits",
+          "type": 0,
+          "costMult": 250000.0,
+          "skills": [
+            2,
+            4
+          ],
+          "xpMult": 0.02,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 177,
+          "name": "Mage's Guild Headmaster",
+          "type": 4,
+          "costMult": 750000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.125,
+          "maxReps": 1,
+          "perk": null,
+          "item": 31
+        },
+        {
+          "id": 178,
+          "name": "Become Honorary Headmaster",
+          "type": 0,
+          "costMult": 65000000000.0,
+          "skills": [
+            8,
+            0
+          ],
+          "xpMult": 0.01,
+          "maxReps": 5,
+          "perk": 28,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "The Foothills",
+      "tasks": [
+        {
+          "id": 180,
+          "name": "Enter the Dragon's Lair",
+          "type": 1,
+          "costMult": 100.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 181,
+          "name": "Find the Hidden Entrance",
+          "type": 2,
+          "costMult": 30000.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 0.05,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 182,
+          "name": "Evade the Dragon",
+          "type": 2,
+          "costMult": 100.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 0.2,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 183,
+          "name": "Loot Dragon's Victims",
+          "type": 0,
+          "costMult": 700.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 0.5,
+          "maxReps": 4,
+          "perk": null,
+          "item": 27
+        },
+        {
+          "id": 184,
+          "name": "Hide from the Dragon",
+          "type": 0,
+          "costMult": 1000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 0.1,
+          "maxReps": 3,
+          "perk": 24,
+          "item": null
+        },
+        {
+          "id": 185,
+          "name": "Go on a Long Trek",
+          "type": 0,
+          "costMult": 20000.0,
+          "skills": [
+            7,
+            9
+          ],
+          "xpMult": 0.01,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 186,
+          "name": "Try to Turn into a Dragon",
+          "type": 0,
+          "costMult": 10000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 187,
+          "name": "Dragon Spawn",
+          "type": 4,
+          "costMult": 2000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.05,
+          "maxReps": 1,
+          "perk": null,
+          "item": 28
+        },
+        {
+          "id": 188,
+          "name": "Gather Dragon Scales",
+          "type": 0,
+          "costMult": 1000000.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 0.1,
+          "maxReps": 3,
+          "perk": null,
+          "item": 28,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "The Dragon's Lair",
+      "tasks": [
+        {
+          "id": 190,
+          "name": "Go to a Place of Power",
+          "type": 1,
+          "costMult": 300.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 191,
+          "name": "Grab the Reagent You Need",
+          "type": 2,
+          "costMult": 2750000.0,
+          "skills": [
+            3,
+            4
+          ],
+          "xpMult": 0.001,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 192,
+          "name": "Build a Hang Glider",
+          "type": 2,
+          "costMult": 1000.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 0.2,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 193,
+          "name": "Catch Some Insects for Later",
+          "type": 0,
+          "costMult": 2000.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 1.0,
+          "maxReps": 9,
+          "perk": null,
+          "item": 29
+        },
+        {
+          "id": 194,
+          "name": "Plan How to Kill the Dragon",
+          "type": 0,
+          "costMult": 1000000.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.1,
+          "maxReps": 3,
+          "perk": 26,
+          "item": null
+        },
+        {
+          "id": 195,
+          "name": "Hide from the Dragon Some More",
+          "type": 0,
+          "costMult": 5000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 5.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 196,
+          "name": "Practice Magic Under Pressure",
+          "type": 0,
+          "costMult": 5000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 1.5,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 197,
+          "name": "Dragon",
+          "type": 4,
+          "costMult": 21000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.01,
+          "maxReps": 1,
+          "perk": null,
+          "item": 28
+        },
+        {
+          "id": 198,
+          "name": "Hunt Down the Dragon's Spawn",
+          "type": 0,
+          "costMult": 300000000000000.0,
+          "skills": [
+            2,
+            3
+          ],
+          "xpMult": 1e-06,
+          "maxReps": 1,
+          "perk": 29,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "The Place of Power",
+      "tasks": [
+        {
+          "id": 200,
+          "name": "Venture Forth",
+          "type": 1,
+          "costMult": 10000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 201,
+          "name": "Design Next Ritual",
+          "type": 2,
+          "costMult": 5000000.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.01,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 202,
+          "name": "Apotheosize",
+          "type": 2,
+          "costMult": 20000000.0,
+          "skills": [
+            11,
+            9
+          ],
+          "xpMult": 0.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 208,
+          "name": "Build Airship",
+          "type": 2,
+          "costMult": 20000.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 203,
+          "name": "Transcend Humanity",
+          "type": 3,
+          "costMult": 2.0,
+          "skills": [
+            11
+          ],
+          "xpMult": 0.25,
+          "maxReps": 3,
+          "perk": null,
+          "item": null,
+          "prestige": true
+        },
+        {
+          "id": 204,
+          "name": "Imbue Magical Vessel",
+          "type": 0,
+          "costMult": 10000000.0,
+          "skills": [
+            8,
+            5
+          ],
+          "xpMult": 0.001,
+          "maxReps": 9,
+          "perk": null,
+          "item": 30
+        },
+        {
+          "id": 205,
+          "name": "Invent a New Spell",
+          "type": 0,
+          "costMult": 300000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.01,
+          "maxReps": 3,
+          "perk": 27,
+          "item": null
+        },
+        {
+          "id": 206,
+          "name": "Reflect on Past Obstacles",
+          "type": 0,
+          "costMult": 300000.0,
+          "skills": [
+            4,
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 207,
+          "name": "Prepare for a Greater Journey",
+          "type": 0,
+          "costMult": 1000000.0,
+          "skills": [
+            7,
+            9
+          ],
+          "xpMult": 0.01,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 209,
+          "name": "Gaze Beyond the Veil",
+          "type": 0,
+          "costMult": 200.0,
+          "skills": [
+            11
+          ],
+          "xpMult": 0.02,
+          "maxReps": 3,
+          "perk": 33,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "The Sky",
+      "tasks": [
+        {
+          "id": 210,
+          "name": "Fly to the Volcano",
+          "type": 1,
+          "costMult": 5000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 211,
+          "name": "Plot the Course",
+          "type": 2,
+          "costMult": 500000000.0,
+          "skills": [
+            3,
+            1
+          ],
+          "xpMult": 0.02,
+          "maxReps": 2,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 212,
+          "name": "Conduct Emergency Repairs",
+          "type": 2,
+          "costMult": 1200.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 213,
+          "name": "Harness Lightning",
+          "type": 0,
+          "costMult": 5000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.01,
+          "maxReps": 1,
+          "perk": null,
+          "item": 32
+        },
+        {
+          "id": 214,
+          "name": "Go Skydiving",
+          "type": 0,
+          "costMult": 3000000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 2e-05,
+          "maxReps": 3,
+          "perk": 31,
+          "item": null
+        },
+        {
+          "id": 215,
+          "name": "Watch the Clouds Go By",
+          "type": 0,
+          "costMult": 10000000.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 1.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 216,
+          "name": "Chat with the Crew",
+          "type": 0,
+          "costMult": 100000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 200.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 217,
+          "name": "Griffin",
+          "type": 4,
+          "costMult": 130000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.001,
+          "maxReps": 1,
+          "perk": null,
+          "item": 35
+        },
+        {
+          "id": 218,
+          "name": "Collect Quills",
+          "type": 0,
+          "costMult": 50000000.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 0.1,
+          "maxReps": 3,
+          "perk": null,
+          "item": 35,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "The Volcano",
+      "tasks": [
+        {
+          "id": 220,
+          "name": "Enter Crevice",
+          "type": 1,
+          "costMult": 5000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 221,
+          "name": "Bottle Lava for the Ritual",
+          "type": 2,
+          "costMult": 2500000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 222,
+          "name": "Sneak Past Beings of Pure Heat",
+          "type": 2,
+          "costMult": 500000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 3.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 223,
+          "name": "Harness Heat",
+          "type": 0,
+          "costMult": 1000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.01,
+          "maxReps": 3,
+          "perk": null,
+          "item": 33
+        },
+        {
+          "id": 224,
+          "name": "Cast the Ring into the Fire",
+          "type": 0,
+          "costMult": 3000000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 0.002,
+          "maxReps": 1,
+          "perk": 32,
+          "item": null,
+          "useItem": 31
+        },
+        {
+          "id": 225,
+          "name": "Get Used to the Heat",
+          "type": 0,
+          "costMult": 500000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 0.002,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 226,
+          "name": "Try to Use Lava for Forging",
+          "type": 0,
+          "costMult": 10000.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 20.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 227,
+          "name": "Winged Demon",
+          "type": 4,
+          "costMult": 5000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.0002,
+          "maxReps": 1,
+          "perk": null,
+          "item": 36
+        },
+        {
+          "id": 228,
+          "name": "Purge Demonic Influence",
+          "type": 0,
+          "costMult": 3000000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": 36,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "The Underworld",
+      "tasks": [
+        {
+          "id": 230,
+          "name": "Exit Through a Moonpool",
+          "type": 1,
+          "costMult": 5000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 231,
+          "name": "Cast underwater Breathing Spell",
+          "type": 2,
+          "costMult": 10000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.005,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 232,
+          "name": "Find Rare Mushroom Reagent",
+          "type": 2,
+          "costMult": 1000000000.0,
+          "skills": [
+            3
+          ],
+          "xpMult": 0.05,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 233,
+          "name": "Steal Farmed Cave Insects",
+          "type": 0,
+          "costMult": 4000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 100.0,
+          "maxReps": 7,
+          "perk": null,
+          "item": 29
+        },
+        {
+          "id": 234,
+          "name": "Study Underground Forge",
+          "type": 0,
+          "costMult": 1000000000.0,
+          "skills": [
+            1,
+            5
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 2,
+          "perk": 34,
+          "item": null
+        },
+        {
+          "id": 235,
+          "name": "Practice the Local Dialect",
+          "type": 0,
+          "costMult": 5000000000.0,
+          "skills": [
+            1,
+            0
+          ],
+          "xpMult": 0.005,
+          "maxReps": 8,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 236,
+          "name": "Join Underground Fight Club",
+          "type": 0,
+          "costMult": 10000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.005,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 237,
+          "name": "Floating Ball of Eyes",
+          "type": 4,
+          "costMult": 50000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": null,
+          "item": 38
+        },
+        {
+          "id": 238,
+          "name": "Steal Glasses",
+          "type": 0,
+          "costMult": 250000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 20.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": 38,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "The Depths of the Sea",
+      "tasks": [
+        {
+          "id": 240,
+          "name": "Journey Into the Depths",
+          "type": 1,
+          "costMult": 40000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 241,
+          "name": "Determine Deepest Point",
+          "type": 2,
+          "costMult": 200000000000.0,
+          "skills": [
+            3,
+            1
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 242,
+          "name": "Prepare for the Pressure",
+          "type": 2,
+          "costMult": 100000000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 1e-06,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 243,
+          "name": "Catch Passing Fish",
+          "type": 0,
+          "costMult": 200000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 0.002,
+          "maxReps": 5,
+          "perk": null,
+          "item": 13
+        },
+        {
+          "id": 244,
+          "name": "Inspect Leviathan",
+          "type": 0,
+          "costMult": 100000000000.0,
+          "skills": [
+            4,
+            1
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": 35,
+          "item": null
+        },
+        {
+          "id": 245,
+          "name": "Deep-water Swimming",
+          "type": 0,
+          "costMult": 50000000000.0,
+          "skills": [
+            9,
+            7
+          ],
+          "xpMult": 1e-06,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 246,
+          "name": "Go to Crab Rave",
+          "type": 0,
+          "costMult": 1000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 50.0,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 247,
+          "name": "Half-Kraken",
+          "type": 4,
+          "costMult": 1000000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1e-05,
+          "maxReps": 1,
+          "perk": null,
+          "item": 19
+        },
+        {
+          "id": 248,
+          "name": "Commune with Damned Souls",
+          "type": 0,
+          "costMult": 20000000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 0.1,
+          "maxReps": 1,
+          "perk": 39,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "The Deepest Deep",
+      "tasks": [
+        {
+          "id": 250,
+          "name": "Attempt to Enter Hell",
+          "type": 1,
+          "costMult": 300000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 251,
+          "name": "Dare the Gods to Intervene",
+          "type": 2,
+          "costMult": 800000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 0.15,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 252,
+          "name": "Dig a Tunnel",
+          "type": 2,
+          "costMult": 20000000.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 0.002,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 253,
+          "name": "Embrace Divinity",
+          "type": 3,
+          "costMult": 27000.0,
+          "skills": [
+            11
+          ],
+          "xpMult": 0.015,
+          "maxReps": 4,
+          "perk": null,
+          "item": null,
+          "prestige": true
+        },
+        {
+          "id": 254,
+          "name": "Etch Ritual Symbols",
+          "type": 0,
+          "costMult": 30000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.03,
+          "maxReps": 7,
+          "perk": null,
+          "item": 37
+        },
+        {
+          "id": 255,
+          "name": "Defy the Gods",
+          "type": 0,
+          "costMult": 25000000000000.0,
+          "skills": [
+            9,
+            11
+          ],
+          "xpMult": 0.0,
+          "maxReps": 1,
+          "perk": 37,
+          "item": null
+        },
+        {
+          "id": 256,
+          "name": "Study Divinity",
+          "type": 0,
+          "costMult": 20000000000.0,
+          "skills": [
+            1
+          ],
+          "xpMult": 0.05,
+          "maxReps": 8,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 257,
+          "name": "Prepare to Face the Gods",
+          "type": 0,
+          "costMult": 1000000000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 5e-05,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "The Void",
+      "tasks": [
+        {
+          "id": 260,
+          "name": "Exit the Void",
+          "type": 1,
+          "costMult": 500000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 261,
+          "name": "Avoid Alerting the Gods",
+          "type": 2,
+          "costMult": 8000000.0,
+          "skills": [
+            4
+          ],
+          "xpMult": 0.3,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 262,
+          "name": "Figure Out How to Leave",
+          "type": 2,
+          "costMult": 2000000000000.0,
+          "skills": [
+            1,
+            3
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 2,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 263,
+          "name": "Create Light",
+          "type": 0,
+          "costMult": 20000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.05,
+          "maxReps": 6,
+          "perk": null,
+          "item": 39
+        },
+        {
+          "id": 264,
+          "name": "Avoid Going Insane",
+          "type": 0,
+          "costMult": 5000000000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 2e-07,
+          "maxReps": 2,
+          "perk": 38,
+          "item": null
+        },
+        {
+          "id": 265,
+          "name": "Talk to Yourself",
+          "type": 0,
+          "costMult": 200000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 266,
+          "name": "Search the Void",
+          "type": 0,
+          "costMult": 50000000000.0,
+          "skills": [
+            7,
+            3
+          ],
+          "xpMult": 1e-05,
+          "maxReps": 5,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 267,
+          "name": "PLACEHOLDER",
+          "type": 4,
+          "costMult": 1000000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1e-05,
+          "maxReps": 1,
+          "perk": null,
+          "item": 19
+        },
+        {
+          "id": 268,
+          "name": "PLACEHOLDER",
+          "type": 0,
+          "costMult": 3000000000000.0,
+          "skills": [
+            2,
+            3
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": 29,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "The Return",
+      "tasks": [
+        {
+          "id": 270,
+          "name": "Go Spread Your Word",
+          "type": 1,
+          "costMult": 600000.0,
+          "skills": [
+            7
+          ],
+          "xpMult": 1.0,
+          "maxReps": 1,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 271,
+          "name": "Lick Your Wounds",
+          "type": 2,
+          "costMult": 5000000000000.0,
+          "skills": [
+            9
+          ],
+          "xpMult": 1e-06,
+          "maxReps": 8,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 272,
+          "name": "Plot Your Revenge",
+          "type": 2,
+          "costMult": 40000000000000.0,
+          "skills": [
+            1,
+            4
+          ],
+          "xpMult": 1e-05,
+          "maxReps": 4,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 273,
+          "name": "Build Void-inspired Contraption",
+          "type": 0,
+          "costMult": 200000000.0,
+          "skills": [
+            5
+          ],
+          "xpMult": 0.01,
+          "maxReps": 4,
+          "perk": null,
+          "item": 40
+        },
+        {
+          "id": 274,
+          "name": "Demonstrate New Powers",
+          "type": 0,
+          "costMult": 7000000000000.0,
+          "skills": [
+            8
+          ],
+          "xpMult": 0.001,
+          "maxReps": 5,
+          "perk": 40,
+          "item": null
+        },
+        {
+          "id": 275,
+          "name": "Whine About the Void",
+          "type": 0,
+          "costMult": 200000000.0,
+          "skills": [
+            0
+          ],
+          "xpMult": 2.0,
+          "maxReps": 3,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 276,
+          "name": "Ponder Your Exile",
+          "type": 0,
+          "costMult": 60000000000000.0,
+          "skills": [
+            1,
+            8
+          ],
+          "xpMult": 0.0002,
+          "maxReps": 9,
+          "perk": null,
+          "item": null
+        },
+        {
+          "id": 277,
+          "name": "PLACEHOLDER",
+          "type": 4,
+          "costMult": 1000000000000.0,
+          "skills": [
+            2
+          ],
+          "xpMult": 1e-05,
+          "maxReps": 1,
+          "perk": null,
+          "item": 19
+        },
+        {
+          "id": 278,
+          "name": "PLACEHOLDER",
+          "type": 0,
+          "costMult": 3000000000000.0,
+          "skills": [
+            2,
+            3
+          ],
+          "xpMult": 0.0001,
+          "maxReps": 1,
+          "perk": 29,
+          "item": null,
+          "hidden": true
+        }
+      ]
+    }
+  ],
+  "bossUnlocks": {
+    "36": 37,
+    "47": 48,
+    "57": 58,
+    "67": 68,
+    "87": 89,
+    "98": 99,
+    "117": 118,
+    "127": 128,
+    "137": 138,
+    "147": 148,
+    "167": 168,
+    "177": 178,
+    "187": 188,
+    "197": 198,
+    "217": 218,
+    "227": 228,
+    "237": 238,
+    "247": 248,
+    "267": 268,
+    "277": 278
+  },
+  "prestige": {
+    "unlocks": [
+      {
+        "type": 0,
+        "layer": 0,
+        "name": "Permanent Automation",
+        "cost": 10
+      },
+      {
+        "type": 1,
+        "layer": 0,
+        "name": "Divine Inspiration",
+        "cost": 10
+      },
+      {
+        "type": 2,
+        "layer": 0,
+        "name": "Look in the Mirror",
+        "cost": 101
+      },
+      {
+        "type": 3,
+        "layer": 0,
+        "name": "Fully Attuned",
+        "cost": 800
+      },
+      {
+        "type": 4,
+        "layer": 1,
+        "name": "Transcendant Memory",
+        "cost": 100
+      },
+      {
+        "type": 5,
+        "layer": 1,
+        "name": "Divine Speed",
+        "cost": 500
+      },
+      {
+        "type": 6,
+        "layer": 1,
+        "name": "Mastery of Time",
+        "cost": 40000
+      },
+      {
+        "type": 7,
+        "layer": 1,
+        "name": "See Beyond the Veil",
+        "cost": 100000
+      },
+      {
+        "type": 8,
+        "layer": 2,
+        "name": "Perky",
+        "cost": 100000
+      },
+      {
+        "type": 9,
+        "layer": 2,
+        "name": "Compulsive Notetaking",
+        "cost": 1000000
+      },
+      {
+        "type": 10,
+        "layer": 2,
+        "name": "Crafting Breakthrough",
+        "cost": 3000000
+      },
+      {
+        "type": 11,
+        "layer": 2,
+        "name": "PLACEHOLDER",
+        "cost": 100000000000
+      }
+    ],
+    "repeatables": [
+      {
+        "type": 0,
+        "layer": 0,
+        "name": "Divine Knowledge",
+        "initialCost": 10,
+        "scalingExponent": 1.25
+      },
+      {
+        "type": 1,
+        "layer": 0,
+        "name": "Unlimited Power",
+        "initialCost": 10,
+        "scalingExponent": 2.5
+      },
+      {
+        "type": 2,
+        "layer": 0,
+        "name": "Divine Appetite",
+        "initialCost": 30,
+        "scalingExponent": 2.5
+      },
+      {
+        "type": 3,
+        "layer": 0,
+        "name": "Gotta Go Fast",
+        "initialCost": 20,
+        "scalingExponent": 1.75
+      },
+      {
+        "type": 4,
+        "layer": 1,
+        "name": "Divine Lightning",
+        "initialCost": 1000,
+        "scalingExponent": 4
+      },
+      {
+        "type": 5,
+        "layer": 1,
+        "name": "Transcendant Aptitude",
+        "initialCost": 100,
+        "scalingExponent": 3
+      },
+      {
+        "type": 6,
+        "layer": 1,
+        "name": "Energized",
+        "initialCost": 1500,
+        "scalingExponent": 1.75
+      },
+      {
+        "type": 7,
+        "layer": 1,
+        "name": "Deenergized",
+        "initialCost": 10000,
+        "scalingExponent": 2.5
+      },
+      {
+        "type": 8,
+        "layer": 2,
+        "name": "Mandatory Schmandatory",
+        "initialCost": 500000,
+        "scalingExponent": 1.5
+      },
+      {
+        "type": 9,
+        "layer": 2,
+        "name": "Divine Attunement",
+        "initialCost": 1000000,
+        "scalingExponent": 2
+      },
+      {
+        "type": 10,
+        "layer": 2,
+        "name": "Spite the Gods",
+        "initialCost": 200000,
+        "scalingExponent": 1.4
+      },
+      {
+        "type": 11,
+        "layer": 2,
+        "name": "Diviner Knowledge",
+        "initialCost": 5000000,
+        "scalingExponent": 3
+      }
+    ]
+  },
+  "constants": {
+    "baseCost": 10,
+    "zoneCostExponent": 2.2,
+    "bossCostExponent": 4,
+    "zoneSpeedupBase": 1.05,
+    "skillLevelExponent": 1.01,
+    "skillXpExponent": 1.02,
+    "startingEnergy": 100,
+    "hasteMult": 5,
+    "magicRingMult": 5,
+    "bottledLightningMult": 2,
+    "gottaGoFastBase": 1.1,
+    "perkyBase": 1.01,
+    "mandatorySchmandatoryMult": 0.2,
+    "spiteTheGodsMult": 0.25,
+    "divineKnowledgeMult": 0.5,
+    "divinerKnowledgeMult": 1,
+    "deenergizedBase": 0.9
+  },
+  "renderingConstants": {
+    "ENERGY_EMOJI": "🔋",
+    "ENERGY_TEXT": "🔋Energy",
+    "XP_EMOJI": "♟️",
+    "XP_TEXT": "♟️XP",
+    "DIVINE_SPARK_EMOJI": "✨",
+    "DIVINE_SPARK_TEXT": "✨Divine Spark",
+    "ATTUNEMENT_EMOJI": "🌀",
+    "ATTUNEMENT_TEXT": "🌀Attunement",
+    "POWER_EMOJI": "💪",
+    "POWER_TEXT": "💪Power",
+    "HASTE_EMOJI": "🐇",
+    "HASTE_TEXT": "🐇Haste",
+    "TRAVEL_EMOJI": "🗺️",
+    "MINOR_TIME_COMPRESSION_EMOJI": "⌚",
+    "BOTTLED_LIGHTNING_EMOJI": "⚡",
+    "BOTTLED_LIGHTNING_TEXT": "⚡Bottled Lightning"
+  }
+}

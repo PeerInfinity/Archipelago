@@ -222,7 +222,7 @@ The static data object contains the following properties:
 #### `itemsByPlayer`
 
 - **Type**: `Object`
-- **Description**: Items indexed by player slot for stateInterface. Format: `{ "{playerSlot}": itemData }`
+- **Description**: Items indexed by player slot for snapshotInterface. Format: `{ "{playerSlot}": itemData }`
 - **Source**: `{ [String(sm.playerSlot)]: sm.itemData }`
 
 #### `groups` / `groupData`
@@ -236,7 +236,7 @@ The static data object contains the following properties:
 #### `item_groups`
 
 - **Type**: `Object`
-- **Description**: Item groups indexed by player slot for stateInterface. Format: `{ "{playerSlot}": groupData }`
+- **Description**: Item groups indexed by player slot for snapshotInterface. Format: `{ "{playerSlot}": groupData }`
 - **Source**: `{ [String(sm.playerSlot)]: sm.groupData }`
 
 #### `progressionMapping`

@@ -13,7 +13,7 @@ Before creating a module, it's important to understand the project's naming conv
 When a module represents a collection or capability with a single-word name, use the **plural** form:
 
 - **Module directory**: `regions/`, `locations/`, `exits/`, `dungeons/`, `modules/`, `presets/`, `tests/`
-- **Module name** (in `modules.json`): `"regions"`, `"locations"`, `"exits"`, `"dungeons"`
+- **Module name** (in `module-configs/modules.json`): `"regions"`, `"locations"`, `"exits"`, `"dungeons"`
 - **Component type**: `"regionsPanel"`, `"locationsPanel"`, `"exitsPanel"`, `"dungeonsPanel"`
 
 ### Compound Names → Singular Noun
@@ -157,11 +157,11 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
 }
 ```
 
-## Step 4: Add the Module to the Manifest (`modules.json`)
+## Step 4: Add the Module to the Manifest (`module-configs/modules.json`)
 
 Now, we need to tell the application about our new module.
 
-1.  Open `frontend/modules.json`.
+1.  Open `frontend/module-configs/modules.json`.
 2.  Add an entry for `greeter` to the `moduleDefinitions` object.
 
     ```json
@@ -192,11 +192,11 @@ Now, we need to tell the application about our new module.
     }
     ```
 
-## Step 5: Add the Panel to the Layout (`layout_presets.json`)
+## Step 5: Add the Panel to the Layout (`layout-configs/layout_presets.json`)
 
 Finally, we need to tell Golden Layout where to put our new panel.
 
-1.  Open `frontend/layout_presets.json`.
+1.  Open `frontend/layout-configs/layout_presets.json`.
 2.  Find the layout you want to modify (e.g., `"default"`).
 3.  Add a new component object to the `content` array of a `stack`. The `componentType` must match what you used in `registerPanelComponent`.
 

@@ -98,7 +98,7 @@ export async function testPlayerStateEventPublishing(testController) {
   const unsubscribe = testController.eventBus.subscribe('playerState:regionChanged', (data) => {
     eventReceived = true;
     eventData = data;
-  }, 'tests');
+  });
   
   // Trigger a region change
   testController.eventDispatcher.dispatch('user:regionMove', {

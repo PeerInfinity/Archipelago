@@ -1,0 +1,4866 @@
+{
+  "schema_version": 3,
+  "game_name": "Donkey Kong Country 3 WorldGen",
+  "game_directory": "dkc3_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Overworld 1",
+            "connected_region": "Overworld 1",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 1": {
+        "name": "Overworld 1",
+        "exits": [
+          {
+            "name": "Overworld 2",
+            "connected_region": "Overworld 2",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive Boat Upgrade"
+              }
+            }
+          },
+          {
+            "name": "Overworld 4",
+            "connected_region": "Overworld 4",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "DK Coin",
+                    "count": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "dk_coins_for_gyrocopter"
+                      }
+                    }
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Boat Upgrade",
+                    "count": 3
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Lake Orangatanga",
+            "connected_region": "Lake Orangatanga",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Kremwood Forest",
+            "connected_region": "Kremwood Forest",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bounty Beach Region",
+            "connected_region": "Bounty Beach Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bazaar's General Store Region",
+            "connected_region": "Bazaar's General Store Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 2": {
+        "name": "Overworld 2",
+        "exits": [
+          {
+            "name": "Overworld 3",
+            "connected_region": "Overworld 3",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Progressive Boat Upgrade",
+                "count": 3
+              }
+            }
+          },
+          {
+            "name": "Cotton-Top Cove",
+            "connected_region": "Cotton-Top Cove",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Mekanos",
+            "connected_region": "Mekanos",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Kong Cave Region",
+            "connected_region": "Kong Cave Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bramble's Bungalow Region",
+            "connected_region": "Bramble's Bungalow Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 3": {
+        "name": "Overworld 3",
+        "exits": [
+          {
+            "name": "K3",
+            "connected_region": "K3",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Razor Ridge",
+            "connected_region": "Razor Ridge",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "KAOS Kore",
+            "connected_region": "KAOS Kore",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Krematoa",
+            "connected_region": "Krematoa",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Undercover Cove Region",
+            "connected_region": "Undercover Cove Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Flower Spot Region",
+            "connected_region": "Flower Spot Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Barter's Swap Shop Region",
+            "connected_region": "Barter's Swap Shop Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Overworld 4": {
+        "name": "Overworld 4",
+        "exits": [
+          {
+            "name": "Belcha's Burrow Region",
+            "connected_region": "Belcha's Burrow Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "K's Cache Region",
+            "connected_region": "K's Cache Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Hill-Top Hoard Region",
+            "connected_region": "Hill-Top Hoard Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Lake Orangatanga": {
+        "name": "Lake Orangatanga",
+        "exits": [
+          {
+            "name": "Lakeside Limbo",
+            "connected_region": "Lakeside Limbo",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Doorstop Dash",
+            "connected_region": "Doorstop Dash",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Tidal Trouble",
+            "connected_region": "Tidal Trouble",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Skidda's Row",
+            "connected_region": "Skidda's Row",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Murky Mill",
+            "connected_region": "Murky Mill",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Belcha's Barn Region",
+            "connected_region": "Belcha's Barn Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Barnacle's Island Region",
+            "connected_region": "Barnacle's Island Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Smuggler's Cove Region",
+            "connected_region": "Smuggler's Cove Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Kremwood Forest": {
+        "name": "Kremwood Forest",
+        "exits": [
+          {
+            "name": "Barrel Shield Bust-Up",
+            "connected_region": "Barrel Shield Bust-Up",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Riverside Race",
+            "connected_region": "Riverside Race",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Squeals On Wheels",
+            "connected_region": "Squeals On Wheels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Springin' Spiders",
+            "connected_region": "Springin' Spiders",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl",
+            "connected_region": "Bobbing Barrel Brawl",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Arich's Ambush Region",
+            "connected_region": "Arich's Ambush Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Arich's Hoard Region",
+            "connected_region": "Arich's Hoard Region",
+            "access_rule": {
+              "rule": "CanReachLocation",
+              "args": {
+                "location_name": "Riverside Race - Flag"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Cotton-Top Cove": {
+        "name": "Cotton-Top Cove",
+        "exits": [
+          {
+            "name": "Blue's Beach Hut Region",
+            "connected_region": "Blue's Beach Hut Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bazza's Blockade",
+            "connected_region": "Bazza's Blockade",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride",
+            "connected_region": "Rocket Barrel Ride",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Kreeping Klasps",
+            "connected_region": "Kreeping Klasps",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek",
+            "connected_region": "Tracker Barrel Trek",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy",
+            "connected_region": "Fish Food Frenzy",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Squirt's Showdown Region",
+            "connected_region": "Squirt's Showdown Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bounty Bay Region",
+            "connected_region": "Bounty Bay Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Mekanos": {
+        "name": "Mekanos",
+        "exits": [
+          {
+            "name": "Fire-Ball Frenzy",
+            "connected_region": "Fire-Ball Frenzy",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe",
+            "connected_region": "Demolition Drain-Pipe",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Ripsaw Rage",
+            "connected_region": "Ripsaw Rage",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Blazing Bazukas",
+            "connected_region": "Blazing Bazukas",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth",
+            "connected_region": "Low-G Labyrinth",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "KAOS Karnage Region",
+            "connected_region": "KAOS Karnage Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Sky-High Secret Region",
+            "connected_region": "Sky-High Secret Region",
+            "access_rule": {
+              "rule": "CanReachLocation",
+              "args": {
+                "location_name": "Bleak's House"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "K3": {
+        "name": "K3",
+        "exits": [
+          {
+            "name": "Krevice Kreepers",
+            "connected_region": "Krevice Kreepers",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan",
+            "connected_region": "Tearaway Toboggan",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce",
+            "connected_region": "Barrel Drop Bounce",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc",
+            "connected_region": "Krack-Shot Kroc",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Lemguin Lunge",
+            "connected_region": "Lemguin Lunge",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bleak's House Region",
+            "connected_region": "Bleak's House Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Bizzard's Basecamp Region",
+            "connected_region": "Bizzard's Basecamp Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Glacial Grotto Region",
+            "connected_region": "Glacial Grotto Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Razor Ridge": {
+        "name": "Razor Ridge",
+        "exits": [
+          {
+            "name": "Buzzer Barrage",
+            "connected_region": "Buzzer Barrage",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs",
+            "connected_region": "Kong-Fused Cliffs",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Floodlit Fish",
+            "connected_region": "Floodlit Fish",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Pothole Panic",
+            "connected_region": "Pothole Panic",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Ropey Rumpus",
+            "connected_region": "Ropey Rumpus",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Barbos's Barrier Region",
+            "connected_region": "Barbos's Barrier Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Clifftop Cache Region",
+            "connected_region": "Clifftop Cache Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "KAOS Kore": {
+        "name": "KAOS Kore",
+        "exits": [
+          {
+            "name": "Konveyor Rope Klash",
+            "connected_region": "Konveyor Rope Klash",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Creepy Caverns",
+            "connected_region": "Creepy Caverns",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Lightning Lookout",
+            "connected_region": "Lightning Lookout",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Koindozer Klamber",
+            "connected_region": "Koindozer Klamber",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline",
+            "connected_region": "Poisonous Pipeline",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Sewer Stockpile Region",
+            "connected_region": "Sewer Stockpile Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Knautilus Region",
+            "connected_region": "Knautilus Region",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Krematoa": {
+        "name": "Krematoa",
+        "exits": [
+          {
+            "name": "Stampede Sprint",
+            "connected_region": "Stampede Sprint",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Bonus Coin",
+                "count": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "krematoa_bonus_coin_cost"
+                      }
+                    },
+                    "op": "*",
+                    "right": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": 0,
+                        "op": "+",
+                        "right": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs",
+            "connected_region": "Criss Kross Cliffs",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Bonus Coin",
+                "count": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "krematoa_bonus_coin_cost"
+                      }
+                    },
+                    "op": "*",
+                    "right": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": 1,
+                        "op": "+",
+                        "right": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle",
+            "connected_region": "Tyrant Twin Tussle",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Bonus Coin",
+                "count": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "krematoa_bonus_coin_cost"
+                      }
+                    },
+                    "op": "*",
+                    "right": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": 2,
+                        "op": "+",
+                        "right": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Swoopy Salvo",
+            "connected_region": "Swoopy Salvo",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Bonus Coin",
+                "count": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "krematoa_bonus_coin_cost"
+                      }
+                    },
+                    "op": "*",
+                    "right": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": 3,
+                        "op": "+",
+                        "right": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Rocket Rush",
+            "connected_region": "Rocket Rush",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Bonus Coin",
+                "count": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "krematoa_bonus_coin_cost"
+                      }
+                    },
+                    "op": "*",
+                    "right": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": 4,
+                        "op": "+",
+                        "right": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Kastle KAOS Region",
+            "connected_region": "Kastle KAOS Region",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Krematoa Cog",
+                "count": 5
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Lakeside Limbo": {
+        "name": "Lakeside Limbo",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lakeside Limbo - Flag",
+            "id": 14430208,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 1",
+            "id": 14430209,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 2",
+            "id": 14430210,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Lakeside Limbo - DK Coin",
+            "id": 14430211,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1623
+          }
+        ]
+      },
+      "Doorstop Dash": {
+        "name": "Doorstop Dash",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doorstop Dash - Flag",
+            "id": 14430212,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1626
+          },
+          {
+            "name": "Doorstop Dash - Bonus 1",
+            "id": 14430213,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1626
+          },
+          {
+            "name": "Doorstop Dash - Bonus 2",
+            "id": 14430214,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1626
+          },
+          {
+            "name": "Doorstop Dash - DK Coin",
+            "id": 14430215,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1626
+          }
+        ]
+      },
+      "Tidal Trouble": {
+        "name": "Tidal Trouble",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tidal Trouble - Flag",
+            "id": 14430216,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1625
+          },
+          {
+            "name": "Tidal Trouble - Bonus 1",
+            "id": 14430217,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1625
+          },
+          {
+            "name": "Tidal Trouble - Bonus 2",
+            "id": 14430218,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1625
+          },
+          {
+            "name": "Tidal Trouble - DK Coin",
+            "id": 14430219,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1625
+          }
+        ]
+      },
+      "Skidda's Row": {
+        "name": "Skidda's Row",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Skidda's Row - Flag",
+            "id": 14430220,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1629
+          },
+          {
+            "name": "Skidda's Row - Bonus 1",
+            "id": 14430221,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1629
+          },
+          {
+            "name": "Skidda's Row - Bonus 2",
+            "id": 14430222,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1629
+          },
+          {
+            "name": "Skidda's Row - DK Coin",
+            "id": 14430223,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1629
+          }
+        ]
+      },
+      "Murky Mill": {
+        "name": "Murky Mill",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Murky Mill - Flag",
+            "id": 14430224,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1628
+          },
+          {
+            "name": "Murky Mill - Bonus 1",
+            "id": 14430225,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1628
+          },
+          {
+            "name": "Murky Mill - Bonus 2",
+            "id": 14430226,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1628
+          },
+          {
+            "name": "Murky Mill - DK Coin",
+            "id": 14430227,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1628
+          }
+        ]
+      },
+      "Barrel Shield Bust-Up": {
+        "name": "Barrel Shield Bust-Up",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Shield Bust-Up - Flag",
+            "id": 14430228,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1634
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 1",
+            "id": 14430229,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1634
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 2",
+            "id": 14430230,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1634
+          },
+          {
+            "name": "Barrel Shield Bust-Up - DK Coin",
+            "id": 14430231,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1634
+          }
+        ]
+      },
+      "Riverside Race": {
+        "name": "Riverside Race",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Riverside Race - Flag",
+            "id": 14430232,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1636
+          },
+          {
+            "name": "Riverside Race - Bonus 1",
+            "id": 14430233,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1636
+          },
+          {
+            "name": "Riverside Race - Bonus 2",
+            "id": 14430234,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1636
+          },
+          {
+            "name": "Riverside Race - DK Coin",
+            "id": 14430235,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1636
+          }
+        ]
+      },
+      "Squeals On Wheels": {
+        "name": "Squeals On Wheels",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squeals On Wheels - Flag",
+            "id": 14430236,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1627
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 1",
+            "id": 14430237,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1627
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 2",
+            "id": 14430238,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1627
+          },
+          {
+            "name": "Squeals On Wheels - DK Coin",
+            "id": 14430239,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1627
+          }
+        ]
+      },
+      "Springin' Spiders": {
+        "name": "Springin' Spiders",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Springin' Spiders - Flag",
+            "id": 14430240,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1633
+          },
+          {
+            "name": "Springin' Spiders - Bonus 1",
+            "id": 14430241,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1633
+          },
+          {
+            "name": "Springin' Spiders - Bonus 2",
+            "id": 14430242,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1633
+          },
+          {
+            "name": "Springin' Spiders - DK Coin",
+            "id": 14430243,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1633
+          }
+        ]
+      },
+      "Bobbing Barrel Brawl": {
+        "name": "Bobbing Barrel Brawl",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bobbing Barrel Brawl - Flag",
+            "id": 14430244,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1638
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 1",
+            "id": 14430245,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1638
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 2",
+            "id": 14430246,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1638
+          },
+          {
+            "name": "Bobbing Barrel Brawl - DK Coin",
+            "id": 14430247,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1638
+          }
+        ]
+      },
+      "Bazza's Blockade": {
+        "name": "Bazza's Blockade",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bazza's Blockade - Flag",
+            "id": 14430248,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1639
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 1",
+            "id": 14430249,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1639
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 2",
+            "id": 14430250,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1639
+          },
+          {
+            "name": "Bazza's Blockade - DK Coin",
+            "id": 14430251,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1639
+          }
+        ]
+      },
+      "Rocket Barrel Ride": {
+        "name": "Rocket Barrel Ride",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Barrel Ride - Flag",
+            "id": 14430252,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1642
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 1",
+            "id": 14430253,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1642
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 2",
+            "id": 14430254,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1642
+          },
+          {
+            "name": "Rocket Barrel Ride - DK Coin",
+            "id": 14430255,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1642
+          }
+        ]
+      },
+      "Kreeping Klasps": {
+        "name": "Kreeping Klasps",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kreeping Klasps - Flag",
+            "id": 14430256,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1624
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 1",
+            "id": 14430257,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1624
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 2",
+            "id": 14430258,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1624
+          },
+          {
+            "name": "Kreeping Klasps - DK Coin",
+            "id": 14430259,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1624
+          }
+        ]
+      },
+      "Tracker Barrel Trek": {
+        "name": "Tracker Barrel Trek",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tracker Barrel Trek - Flag",
+            "id": 14430260,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1643
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 1",
+            "id": 14430261,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1643
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 2",
+            "id": 14430262,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1643
+          },
+          {
+            "name": "Tracker Barrel Trek - DK Coin",
+            "id": 14430263,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1643
+          }
+        ]
+      },
+      "Fish Food Frenzy": {
+        "name": "Fish Food Frenzy",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fish Food Frenzy - Flag",
+            "id": 14430264,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1640
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 1",
+            "id": 14430265,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1640
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 2",
+            "id": 14430266,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1640
+          },
+          {
+            "name": "Fish Food Frenzy - DK Coin",
+            "id": 14430267,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1640
+          }
+        ]
+      },
+      "Fire-Ball Frenzy": {
+        "name": "Fire-Ball Frenzy",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fire-Ball Frenzy - Flag",
+            "id": 14430268,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1645
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 1",
+            "id": 14430269,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1645
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 2",
+            "id": 14430270,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1645
+          },
+          {
+            "name": "Fire-Ball Frenzy - DK Coin",
+            "id": 14430271,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1645
+          }
+        ]
+      },
+      "Demolition Drain-Pipe": {
+        "name": "Demolition Drain-Pipe",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Demolition Drain-Pipe - Flag",
+            "id": 14430272,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1650
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 1",
+            "id": 14430273,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1650
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 2",
+            "id": 14430274,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1650
+          },
+          {
+            "name": "Demolition Drain-Pipe - DK Coin",
+            "id": 14430275,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1650
+          }
+        ]
+      },
+      "Ripsaw Rage": {
+        "name": "Ripsaw Rage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ripsaw Rage - Flag",
+            "id": 14430276,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1632
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 1",
+            "id": 14430277,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1632
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 2",
+            "id": 14430278,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1632
+          },
+          {
+            "name": "Ripsaw Rage - DK Coin",
+            "id": 14430279,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1632
+          }
+        ]
+      },
+      "Blazing Bazukas": {
+        "name": "Blazing Bazukas",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Blazing Bazukas - Flag",
+            "id": 14430280,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1646
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 1",
+            "id": 14430281,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1646
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 2",
+            "id": 14430282,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1646
+          },
+          {
+            "name": "Blazing Bazukas - DK Coin",
+            "id": 14430283,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1646
+          }
+        ]
+      },
+      "Low-G Labyrinth": {
+        "name": "Low-G Labyrinth",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Low-G Labyrinth - Flag",
+            "id": 14430284,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1648
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 1",
+            "id": 14430285,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1648
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 2",
+            "id": 14430286,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1648
+          },
+          {
+            "name": "Low-G Labyrinth - DK Coin",
+            "id": 14430287,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1648
+          }
+        ]
+      },
+      "Krevice Kreepers": {
+        "name": "Krevice Kreepers",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krevice Kreepers - Flag",
+            "id": 14430288,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1651
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 1",
+            "id": 14430289,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1651
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 2",
+            "id": 14430290,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1651
+          },
+          {
+            "name": "Krevice Kreepers - DK Coin",
+            "id": 14430291,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1651
+          }
+        ]
+      },
+      "Tearaway Toboggan": {
+        "name": "Tearaway Toboggan",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tearaway Toboggan - Flag",
+            "id": 14430292,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1631
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 1",
+            "id": 14430293,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1631
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 2",
+            "id": 14430294,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1631
+          },
+          {
+            "name": "Tearaway Toboggan - DK Coin",
+            "id": 14430295,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1631
+          }
+        ]
+      },
+      "Barrel Drop Bounce": {
+        "name": "Barrel Drop Bounce",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Drop Bounce - Flag",
+            "id": 14430296,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1644
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 1",
+            "id": 14430297,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1644
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 2",
+            "id": 14430298,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1644
+          },
+          {
+            "name": "Barrel Drop Bounce - DK Coin",
+            "id": 14430299,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1644
+          }
+        ]
+      },
+      "Krack-Shot Kroc": {
+        "name": "Krack-Shot Kroc",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krack-Shot Kroc - Flag",
+            "id": 14430300,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1647
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 1",
+            "id": 14430301,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1647
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 2",
+            "id": 14430302,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1647
+          },
+          {
+            "name": "Krack-Shot Kroc - DK Coin",
+            "id": 14430303,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1647
+          }
+        ]
+      },
+      "Lemguin Lunge": {
+        "name": "Lemguin Lunge",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lemguin Lunge - Flag",
+            "id": 14430304,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1630
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 1",
+            "id": 14430305,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1630
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 2",
+            "id": 14430306,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1630
+          },
+          {
+            "name": "Lemguin Lunge - DK Coin",
+            "id": 14430307,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1630
+          }
+        ]
+      },
+      "Buzzer Barrage": {
+        "name": "Buzzer Barrage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Buzzer Barrage - Flag",
+            "id": 14430308,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1654
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 1",
+            "id": 14430309,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1654
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 2",
+            "id": 14430310,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1654
+          },
+          {
+            "name": "Buzzer Barrage - DK Coin",
+            "id": 14430311,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1654
+          }
+        ]
+      },
+      "Kong-Fused Cliffs": {
+        "name": "Kong-Fused Cliffs",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong-Fused Cliffs - Flag",
+            "id": 14430312,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1652
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 1",
+            "id": 14430313,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1652
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 2",
+            "id": 14430314,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1652
+          },
+          {
+            "name": "Kong-Fused Cliffs - DK Coin",
+            "id": 14430315,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1652
+          }
+        ]
+      },
+      "Floodlit Fish": {
+        "name": "Floodlit Fish",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Floodlit Fish - Flag",
+            "id": 14430316,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1641
+          },
+          {
+            "name": "Floodlit Fish - Bonus 1",
+            "id": 14430317,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1641
+          },
+          {
+            "name": "Floodlit Fish - Bonus 2",
+            "id": 14430318,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1641
+          },
+          {
+            "name": "Floodlit Fish - DK Coin",
+            "id": 14430319,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1641
+          }
+        ]
+      },
+      "Pothole Panic": {
+        "name": "Pothole Panic",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Pothole Panic - Flag",
+            "id": 14430320,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1655
+          },
+          {
+            "name": "Pothole Panic - Bonus 1",
+            "id": 14430321,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1655
+          },
+          {
+            "name": "Pothole Panic - Bonus 2",
+            "id": 14430322,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1655
+          },
+          {
+            "name": "Pothole Panic - DK Coin",
+            "id": 14430323,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1655
+          }
+        ]
+      },
+      "Ropey Rumpus": {
+        "name": "Ropey Rumpus",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ropey Rumpus - Flag",
+            "id": 14430324,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1653
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 1",
+            "id": 14430325,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1653
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 2",
+            "id": 14430326,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1653
+          },
+          {
+            "name": "Ropey Rumpus - DK Coin",
+            "id": 14430327,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1653
+          }
+        ]
+      },
+      "Konveyor Rope Klash": {
+        "name": "Konveyor Rope Klash",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Konveyor Rope Klash - Flag",
+            "id": 14430328,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 1",
+            "id": 14430329,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 2",
+            "id": 14430330,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1623
+          },
+          {
+            "name": "Konveyor Rope Klash - DK Coin",
+            "id": 14430331,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1623
+          }
+        ]
+      },
+      "Creepy Caverns": {
+        "name": "Creepy Caverns",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Creepy Caverns - Flag",
+            "id": 14430332,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1656
+          },
+          {
+            "name": "Creepy Caverns - Bonus 1",
+            "id": 14430333,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1656
+          },
+          {
+            "name": "Creepy Caverns - Bonus 2",
+            "id": 14430334,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1656
+          },
+          {
+            "name": "Creepy Caverns - DK Coin",
+            "id": 14430335,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1656
+          }
+        ]
+      },
+      "Lightning Lookout": {
+        "name": "Lightning Lookout",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lightning Lookout - Flag",
+            "id": 14430336,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1637
+          },
+          {
+            "name": "Lightning Lookout - Bonus 1",
+            "id": 14430337,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1637
+          },
+          {
+            "name": "Lightning Lookout - Bonus 2",
+            "id": 14430338,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1637
+          },
+          {
+            "name": "Lightning Lookout - DK Coin",
+            "id": 14430339,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1637
+          }
+        ]
+      },
+      "Koindozer Klamber": {
+        "name": "Koindozer Klamber",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Koindozer Klamber - Flag",
+            "id": 14430340,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1657
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 1",
+            "id": 14430341,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1657
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 2",
+            "id": 14430342,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1657
+          },
+          {
+            "name": "Koindozer Klamber - DK Coin",
+            "id": 14430343,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1657
+          }
+        ]
+      },
+      "Poisonous Pipeline": {
+        "name": "Poisonous Pipeline",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Poisonous Pipeline - Flag",
+            "id": 14430344,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1649
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 1",
+            "id": 14430345,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1649
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 2",
+            "id": 14430346,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1649
+          },
+          {
+            "name": "Poisonous Pipeline - DK Coin",
+            "id": 14430347,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1649
+          }
+        ]
+      },
+      "Stampede Sprint": {
+        "name": "Stampede Sprint",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Stampede Sprint - Flag",
+            "id": 14430348,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1659
+          },
+          {
+            "name": "Stampede Sprint - Bonus 1",
+            "id": 14430349,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1659
+          },
+          {
+            "name": "Stampede Sprint - Bonus 2",
+            "id": 14430350,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1659
+          },
+          {
+            "name": "Stampede Sprint - Bonus 3",
+            "id": 14430351,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 4,
+            "progress_byte": 1659
+          },
+          {
+            "name": "Stampede Sprint - DK Coin",
+            "id": 14430352,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1659
+          }
+        ]
+      },
+      "Criss Kross Cliffs": {
+        "name": "Criss Kross Cliffs",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Criss Kross Cliffs - Flag",
+            "id": 14430353,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1660
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 1",
+            "id": 14430354,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1660
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 2",
+            "id": 14430355,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1660
+          },
+          {
+            "name": "Criss Kross Cliffs - DK Coin",
+            "id": 14430356,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1660
+          }
+        ]
+      },
+      "Tyrant Twin Tussle": {
+        "name": "Tyrant Twin Tussle",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tyrant Twin Tussle - Flag",
+            "id": 14430357,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1661
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 1",
+            "id": 14430358,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1661
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 2",
+            "id": 14430359,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1661
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 3",
+            "id": 14430360,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 4,
+            "progress_byte": 1661
+          },
+          {
+            "name": "Tyrant Twin Tussle - DK Coin",
+            "id": 14430361,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1661
+          }
+        ]
+      },
+      "Swoopy Salvo": {
+        "name": "Swoopy Salvo",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Swoopy Salvo - Flag",
+            "id": 14430362,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1635
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 1",
+            "id": 14430363,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 2,
+            "progress_byte": 1635
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 2",
+            "id": 14430364,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 3,
+            "progress_byte": 1635
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 3",
+            "id": 14430365,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 4,
+            "progress_byte": 1635
+          },
+          {
+            "name": "Swoopy Salvo - DK Coin",
+            "id": 14430366,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1635
+          }
+        ]
+      },
+      "Rocket Rush": {
+        "name": "Rocket Rush",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Rush - Flag",
+            "id": 14430367,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1662
+          },
+          {
+            "name": "Rocket Rush - DK Coin",
+            "id": 14430368,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 5,
+            "progress_byte": 1662
+          }
+        ]
+      },
+      "Belcha's Barn Region": {
+        "name": "Belcha's Barn Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Barn",
+            "id": 14430369,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1615
+          }
+        ]
+      },
+      "Arich's Ambush Region": {
+        "name": "Arich's Ambush Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Ambush",
+            "id": 14430370,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1616
+          }
+        ]
+      },
+      "Squirt's Showdown Region": {
+        "name": "Squirt's Showdown Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squirt's Showdown",
+            "id": 14430371,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1617
+          }
+        ]
+      },
+      "KAOS Karnage Region": {
+        "name": "KAOS Karnage Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "KAOS Karnage",
+            "id": 14430372,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1618
+          }
+        ]
+      },
+      "Bleak's House Region": {
+        "name": "Bleak's House Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bleak's House",
+            "id": 14430373,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1619
+          }
+        ]
+      },
+      "Barbos's Barrier Region": {
+        "name": "Barbos's Barrier Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barbos's Barrier",
+            "id": 14430374,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1620
+          }
+        ]
+      },
+      "Kastle KAOS Region": {
+        "name": "Kastle KAOS Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kastle KAOS",
+            "id": 14430375,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Donkey Kong",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1621
+          }
+        ]
+      },
+      "Knautilus Region": {
+        "name": "Knautilus Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Knautilus",
+            "id": 14430376,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1622
+          }
+        ]
+      },
+      "Belcha's Burrow Region": {
+        "name": "Belcha's Burrow Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Burrow",
+            "id": 14430377,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1607
+          }
+        ]
+      },
+      "Kong Cave Region": {
+        "name": "Kong Cave Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong Cave",
+            "id": 14430378,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1605
+          }
+        ]
+      },
+      "Undercover Cove Region": {
+        "name": "Undercover Cove Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Undercover Cove",
+            "id": 14430379,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1604
+          }
+        ]
+      },
+      "K's Cache Region": {
+        "name": "K's Cache Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "K's Cache",
+            "id": 14430380,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1602
+          }
+        ]
+      },
+      "Hill-Top Hoard Region": {
+        "name": "Hill-Top Hoard Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Hill-Top Hoard",
+            "id": 14430381,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1603
+          }
+        ]
+      },
+      "Bounty Beach Region": {
+        "name": "Bounty Beach Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Beach",
+            "id": 14430382,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1606
+          }
+        ]
+      },
+      "Smuggler's Cove Region": {
+        "name": "Smuggler's Cove Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Smuggler's Cove",
+            "id": 14430383,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1608
+          }
+        ]
+      },
+      "Arich's Hoard Region": {
+        "name": "Arich's Hoard Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Hoard",
+            "id": 14430384,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1609
+          }
+        ]
+      },
+      "Bounty Bay Region": {
+        "name": "Bounty Bay Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Bay",
+            "id": 14430385,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1610
+          }
+        ]
+      },
+      "Sky-High Secret Region": {
+        "name": "Sky-High Secret Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Glacial Grotto Region": {
+        "name": "Glacial Grotto Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Glacial Grotto",
+            "id": 14430387,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1612
+          }
+        ]
+      },
+      "Clifftop Cache Region": {
+        "name": "Clifftop Cache Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Sewer Stockpile Region": {
+        "name": "Sewer Stockpile Region",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sewer Stockpile",
+            "id": 14430389,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "inverted_bit": false,
+            "progress_bit": 1,
+            "progress_byte": 1614
+          }
+        ]
+      },
+      "Bazaar's General Store Region": {
+        "name": "Bazaar's General Store Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Bramble's Bungalow Region": {
+        "name": "Bramble's Bungalow Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Flower Spot Region": {
+        "name": "Flower Spot Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Barter's Swap Shop Region": {
+        "name": "Barter's Swap Shop Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Barnacle's Island Region": {
+        "name": "Barnacle's Island Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Blue's Beach Hut Region": {
+        "name": "Blue's Beach Hut Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      },
+      "Bizzard's Basecamp Region": {
+        "name": "Bizzard's Basecamp Region",
+        "exits": [],
+        "locations": [],
+        "dynamically_added": true
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Donkey Kong": {
+        "name": "Donkey Kong",
+        "id": 14430208,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up Balloon": {
+        "name": "1-Up Balloon",
+        "id": 14430209,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 27,
+        "hint_text": "1 Up Balloon"
+      },
+      "Bear Coin": {
+        "name": "Bear Coin",
+        "id": 14430210,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 18
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 85
+      },
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 41
+      },
+      "Banana Bird": {
+        "name": "Banana Bird",
+        "id": 14430213,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Krematoa Cog": {
+        "name": "Krematoa Cog",
+        "id": 14430214,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 5
+      },
+      "Progressive Boat Upgrade": {
+        "name": "Progressive Boat Upgrade",
+        "id": 14430215,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1-Up Balloon": 27,
+      "Bear Coin": 18,
+      "Bonus Coin": 85,
+      "DK Coin": 41,
+      "Donkey Kong": 1,
+      "Krematoa Cog": 5,
+      "Progressive Boat Upgrade": 3
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Barrel Drop Bounce - Bonus 1": "Bear Coin",
+      "Barrel Shield Bust-Up - Bonus 1": "Bear Coin",
+      "Barrel Shield Bust-Up - Bonus 2": "Bear Coin",
+      "Bounty Beach": "Bear Coin",
+      "Fire-Ball Frenzy - Bonus 1": "Bear Coin",
+      "Fire-Ball Frenzy - Flag": "Bear Coin",
+      "K's Cache": "Bear Coin",
+      "Krack-Shot Kroc - Bonus 1": "Bear Coin",
+      "Lakeside Limbo - Bonus 1": "Bear Coin",
+      "Lakeside Limbo - Flag": "Bear Coin",
+      "Low-G Labyrinth - Bonus 2": "Bear Coin",
+      "Ripsaw Rage - DK Coin": "Bear Coin",
+      "Riverside Race - Bonus 1": "Bear Coin",
+      "Rocket Rush - DK Coin": "Bear Coin",
+      "Stampede Sprint - Bonus 2": "Bear Coin",
+      "Tracker Barrel Trek - Bonus 1": "Bear Coin",
+      "Tracker Barrel Trek - Flag": "Bear Coin",
+      "Tyrant Twin Tussle - DK Coin": "Bear Coin",
+      "Arich's Ambush": "DK Coin",
+      "Arich's Hoard": "DK Coin",
+      "Barbos's Barrier": "DK Coin",
+      "Barrel Drop Bounce - Bonus 2": "DK Coin",
+      "Barrel Drop Bounce - DK Coin": "DK Coin",
+      "Barrel Shield Bust-Up - DK Coin": "DK Coin",
+      "Bazza's Blockade - Bonus 2": "DK Coin",
+      "Blazing Bazukas - Bonus 1": "DK Coin",
+      "Blazing Bazukas - DK Coin": "DK Coin",
+      "Bleak's House": "DK Coin",
+      "Bobbing Barrel Brawl - DK Coin": "DK Coin",
+      "Creepy Caverns - DK Coin": "DK Coin",
+      "Criss Kross Cliffs - Bonus 2": "DK Coin",
+      "Doorstop Dash - Flag": "DK Coin",
+      "Glacial Grotto": "DK Coin",
+      "Hill-Top Hoard": "DK Coin",
+      "KAOS Karnage": "DK Coin",
+      "Knautilus": "DK Coin",
+      "Koindozer Klamber - Bonus 1": "DK Coin",
+      "Koindozer Klamber - Bonus 2": "DK Coin",
+      "Krack-Shot Kroc - Bonus 2": "DK Coin",
+      "Krack-Shot Kroc - DK Coin": "DK Coin",
+      "Kreeping Klasps - Bonus 2": "DK Coin",
+      "Krevice Kreepers - Bonus 2": "DK Coin",
+      "Lakeside Limbo - Bonus 2": "DK Coin",
+      "Lakeside Limbo - DK Coin": "DK Coin",
+      "Lemguin Lunge - Flag": "DK Coin",
+      "Low-G Labyrinth - Flag": "DK Coin",
+      "Poisonous Pipeline - Bonus 1": "DK Coin",
+      "Riverside Race - Bonus 2": "DK Coin",
+      "Ropey Rumpus - Bonus 2": "DK Coin",
+      "Sewer Stockpile": "DK Coin",
+      "Skidda's Row - Bonus 1": "DK Coin",
+      "Springin' Spiders - Bonus 1": "DK Coin",
+      "Squirt's Showdown": "DK Coin",
+      "Stampede Sprint - DK Coin": "DK Coin",
+      "Swoopy Salvo - Bonus 2": "DK Coin",
+      "Tearaway Toboggan - Bonus 2": "DK Coin",
+      "Tidal Trouble - Bonus 1": "DK Coin",
+      "Tyrant Twin Tussle - Bonus 1": "DK Coin",
+      "Undercover Cove": "DK Coin",
+      "Bazza's Blockade - Bonus 1": "1-Up Balloon",
+      "Bobbing Barrel Brawl - Bonus 1": "1-Up Balloon",
+      "Demolition Drain-Pipe - Bonus 2": "1-Up Balloon",
+      "Demolition Drain-Pipe - Flag": "1-Up Balloon",
+      "Doorstop Dash - Bonus 1": "1-Up Balloon",
+      "Floodlit Fish - DK Coin": "1-Up Balloon",
+      "Floodlit Fish - Flag": "1-Up Balloon",
+      "Kong-Fused Cliffs - DK Coin": "1-Up Balloon",
+      "Konveyor Rope Klash - Flag": "1-Up Balloon",
+      "Krevice Kreepers - DK Coin": "1-Up Balloon",
+      "Lemguin Lunge - Bonus 1": "1-Up Balloon",
+      "Lemguin Lunge - Bonus 2": "1-Up Balloon",
+      "Lightning Lookout - DK Coin": "1-Up Balloon",
+      "Murky Mill - Bonus 1": "1-Up Balloon",
+      "Murky Mill - DK Coin": "1-Up Balloon",
+      "Poisonous Pipeline - DK Coin": "1-Up Balloon",
+      "Riverside Race - Flag": "1-Up Balloon",
+      "Rocket Barrel Ride - Bonus 2": "1-Up Balloon",
+      "Rocket Barrel Ride - DK Coin": "1-Up Balloon",
+      "Rocket Barrel Ride - Flag": "1-Up Balloon",
+      "Ropey Rumpus - Bonus 1": "1-Up Balloon",
+      "Ropey Rumpus - DK Coin": "1-Up Balloon",
+      "Smuggler's Cove": "1-Up Balloon",
+      "Springin' Spiders - DK Coin": "1-Up Balloon",
+      "Stampede Sprint - Bonus 1": "1-Up Balloon",
+      "Tearaway Toboggan - Flag": "1-Up Balloon",
+      "Tyrant Twin Tussle - Flag": "1-Up Balloon",
+      "Barrel Drop Bounce - Flag": "Bonus Coin",
+      "Barrel Shield Bust-Up - Flag": "Bonus Coin",
+      "Bazza's Blockade - DK Coin": "Bonus Coin",
+      "Belcha's Barn": "Bonus Coin",
+      "Belcha's Burrow": "Bonus Coin",
+      "Blazing Bazukas - Flag": "Bonus Coin",
+      "Bobbing Barrel Brawl - Bonus 2": "Bonus Coin",
+      "Bobbing Barrel Brawl - Flag": "Bonus Coin",
+      "Bounty Bay": "Bonus Coin",
+      "Buzzer Barrage - Bonus 1": "Bonus Coin",
+      "Buzzer Barrage - Bonus 2": "Bonus Coin",
+      "Buzzer Barrage - DK Coin": "Bonus Coin",
+      "Buzzer Barrage - Flag": "Bonus Coin",
+      "Creepy Caverns - Bonus 1": "Bonus Coin",
+      "Creepy Caverns - Bonus 2": "Bonus Coin",
+      "Creepy Caverns - Flag": "Bonus Coin",
+      "Criss Kross Cliffs - Bonus 1": "Bonus Coin",
+      "Criss Kross Cliffs - DK Coin": "Bonus Coin",
+      "Criss Kross Cliffs - Flag": "Bonus Coin",
+      "Demolition Drain-Pipe - Bonus 1": "Bonus Coin",
+      "Demolition Drain-Pipe - DK Coin": "Bonus Coin",
+      "Doorstop Dash - Bonus 2": "Bonus Coin",
+      "Doorstop Dash - DK Coin": "Bonus Coin",
+      "Fire-Ball Frenzy - Bonus 2": "Bonus Coin",
+      "Fire-Ball Frenzy - DK Coin": "Bonus Coin",
+      "Fish Food Frenzy - Bonus 1": "Bonus Coin",
+      "Fish Food Frenzy - Bonus 2": "Bonus Coin",
+      "Fish Food Frenzy - DK Coin": "Bonus Coin",
+      "Floodlit Fish - Bonus 2": "Bonus Coin",
+      "Koindozer Klamber - DK Coin": "Bonus Coin",
+      "Koindozer Klamber - Flag": "Bonus Coin",
+      "Kong Cave": "Bonus Coin",
+      "Kong-Fused Cliffs - Bonus 1": "Bonus Coin",
+      "Kong-Fused Cliffs - Bonus 2": "Bonus Coin",
+      "Kong-Fused Cliffs - Flag": "Bonus Coin",
+      "Konveyor Rope Klash - Bonus 1": "Bonus Coin",
+      "Konveyor Rope Klash - Bonus 2": "Bonus Coin",
+      "Konveyor Rope Klash - DK Coin": "Bonus Coin",
+      "Krack-Shot Kroc - Flag": "Bonus Coin",
+      "Kreeping Klasps - Bonus 1": "Bonus Coin",
+      "Kreeping Klasps - DK Coin": "Bonus Coin",
+      "Kreeping Klasps - Flag": "Bonus Coin",
+      "Krevice Kreepers - Bonus 1": "Bonus Coin",
+      "Krevice Kreepers - Flag": "Bonus Coin",
+      "Lemguin Lunge - DK Coin": "Bonus Coin",
+      "Lightning Lookout - Bonus 1": "Bonus Coin",
+      "Lightning Lookout - Bonus 2": "Bonus Coin",
+      "Lightning Lookout - Flag": "Bonus Coin",
+      "Low-G Labyrinth - Bonus 1": "Bonus Coin",
+      "Low-G Labyrinth - DK Coin": "Bonus Coin",
+      "Murky Mill - Bonus 2": "Bonus Coin",
+      "Murky Mill - Flag": "Bonus Coin",
+      "Poisonous Pipeline - Bonus 2": "Bonus Coin",
+      "Poisonous Pipeline - Flag": "Bonus Coin",
+      "Pothole Panic - Bonus 1": "Bonus Coin",
+      "Pothole Panic - Bonus 2": "Bonus Coin",
+      "Pothole Panic - DK Coin": "Bonus Coin",
+      "Pothole Panic - Flag": "Bonus Coin",
+      "Ripsaw Rage - Bonus 1": "Bonus Coin",
+      "Ripsaw Rage - Bonus 2": "Bonus Coin",
+      "Ripsaw Rage - Flag": "Bonus Coin",
+      "Riverside Race - DK Coin": "Bonus Coin",
+      "Rocket Barrel Ride - Bonus 1": "Bonus Coin",
+      "Ropey Rumpus - Flag": "Bonus Coin",
+      "Skidda's Row - Bonus 2": "Bonus Coin",
+      "Skidda's Row - DK Coin": "Bonus Coin",
+      "Skidda's Row - Flag": "Bonus Coin",
+      "Springin' Spiders - Bonus 2": "Bonus Coin",
+      "Springin' Spiders - Flag": "Bonus Coin",
+      "Squeals On Wheels - Bonus 1": "Bonus Coin",
+      "Squeals On Wheels - Bonus 2": "Bonus Coin",
+      "Stampede Sprint - Bonus 3": "Bonus Coin",
+      "Stampede Sprint - Flag": "Bonus Coin",
+      "Swoopy Salvo - Bonus 1": "Bonus Coin",
+      "Swoopy Salvo - Bonus 3": "Bonus Coin",
+      "Swoopy Salvo - DK Coin": "Bonus Coin",
+      "Swoopy Salvo - Flag": "Bonus Coin",
+      "Tearaway Toboggan - Bonus 1": "Bonus Coin",
+      "Tearaway Toboggan - DK Coin": "Bonus Coin",
+      "Tidal Trouble - DK Coin": "Bonus Coin",
+      "Tidal Trouble - Flag": "Bonus Coin",
+      "Tracker Barrel Trek - Bonus 2": "Bonus Coin",
+      "Tracker Barrel Trek - DK Coin": "Bonus Coin",
+      "Tyrant Twin Tussle - Bonus 2": "Bonus Coin",
+      "Tyrant Twin Tussle - Bonus 3": "Bonus Coin",
+      "Squeals On Wheels - DK Coin": "Progressive Boat Upgrade",
+      "Squeals On Wheels - Flag": "Progressive Boat Upgrade",
+      "Tidal Trouble - Bonus 2": "Progressive Boat Upgrade",
+      "Bazza's Blockade - Flag": "Krematoa Cog",
+      "Blazing Bazukas - Bonus 2": "Krematoa Cog",
+      "Fish Food Frenzy - Flag": "Krematoa Cog",
+      "Floodlit Fish - Bonus 1": "Krematoa Cog",
+      "Rocket Rush - Flag": "Krematoa Cog",
+      "Kastle KAOS": "Donkey Kong"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Donkey Kong Country 3 WorldGen",
+      "world_class_name": "DKC3World",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "autosave": true,
+        "difficulty": 0,
+        "dk_coins_for_gyrocopter": 30,
+        "exclude_locations": [],
+        "goal": 0,
+        "item_links": [],
+        "kong_palette_swap": 0,
+        "kongsanity": false,
+        "krematoa_bonus_coin_cost": 15,
+        "level_shuffle": false,
+        "local_items": [],
+        "merry": false,
+        "music_shuffle": false,
+        "non_local_items": [],
+        "number_of_banana_birds": 15,
+        "percentage_of_banana_birds": 100,
+        "percentage_of_extra_bonus_coins": 100,
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_life_count": 5,
+        "use_canonical_options": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "autosave": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Autosave"
+        },
+        "difficulty": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "norml",
+            "1": "hardr",
+            "2": "tufst"
+          },
+          "default": 0,
+          "display_name": "Difficulty"
+        },
+        "dk_coins_for_gyrocopter": {
+          "type": "range",
+          "range_start": 10,
+          "range_end": 41,
+          "default": 30,
+          "display_name": "DK Coins for Gyrocopter"
+        },
+        "goal": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "knautilus",
+            "1": "banana_bird_hunt"
+          },
+          "default": 0,
+          "display_name": "Goal"
+        },
+        "kong_palette_swap": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "default",
+            "1": "purple",
+            "2": "spooky",
+            "3": "dark",
+            "4": "chocolate",
+            "5": "shadow",
+            "6": "red_gold",
+            "7": "gbc",
+            "8": "halloween"
+          },
+          "default": 0,
+          "display_name": "Kong Palette Swap"
+        },
+        "kongsanity": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "KONGsanity"
+        },
+        "krematoa_bonus_coin_cost": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 17,
+          "default": 15,
+          "display_name": "Krematoa Bonus Coins Cost"
+        },
+        "level_shuffle": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Level Shuffle"
+        },
+        "merry": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "MERRY"
+        },
+        "music_shuffle": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Music Shuffle"
+        },
+        "number_of_banana_birds": {
+          "type": "range",
+          "range_start": 5,
+          "range_end": 15,
+          "default": 15,
+          "display_name": "Number of Banana Birds"
+        },
+        "percentage_of_banana_birds": {
+          "type": "range",
+          "range_start": 20,
+          "range_end": 100,
+          "default": 100,
+          "display_name": "Percentage of Banana Birds"
+        },
+        "percentage_of_extra_bonus_coins": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 100,
+          "display_name": "Percentage of Extra Bonus Coins"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "starting_life_count": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 99,
+          "default": 5,
+          "display_name": "Starting Life Count"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        }
+      },
+      "active_level_list": [
+        "Lakeside Limbo",
+        "Doorstop Dash",
+        "Tidal Trouble",
+        "Skidda's Row",
+        "Murky Mill",
+        "Barrel Shield Bust-Up",
+        "Riverside Race",
+        "Squeals On Wheels",
+        "Springin' Spiders",
+        "Bobbing Barrel Brawl",
+        "Bazza's Blockade",
+        "Rocket Barrel Ride",
+        "Kreeping Klasps",
+        "Tracker Barrel Trek",
+        "Fish Food Frenzy",
+        "Fire-Ball Frenzy",
+        "Demolition Drain-Pipe",
+        "Ripsaw Rage",
+        "Blazing Bazukas",
+        "Low-G Labyrinth",
+        "Krevice Kreepers",
+        "Tearaway Toboggan",
+        "Barrel Drop Bounce",
+        "Krack-Shot Kroc",
+        "Lemguin Lunge",
+        "Buzzer Barrage",
+        "Kong-Fused Cliffs",
+        "Floodlit Fish",
+        "Pothole Panic",
+        "Ropey Rumpus",
+        "Konveyor Rope Klash",
+        "Creepy Caverns",
+        "Lightning Lookout",
+        "Koindozer Klamber",
+        "Poisonous Pipeline",
+        "Stampede Sprint",
+        "Criss Kross Cliffs",
+        "Tyrant Twin Tussle",
+        "Swoopy Salvo"
+      ],
+      "rom_name": "DKC3_ROM_NOT_GENERATED",
+      "world_description": "Donkey Kong Country 3 is an action platforming game.\nPlay as Dixie Kong and her baby cousin Kiddy as they try to solve the\nmystery of why Donkey Kong and Diddy disappeared while on vacation.",
+      "slot_data": {
+        "active_levels": [
+          "Lakeside Limbo",
+          "Doorstop Dash",
+          "Tidal Trouble",
+          "Skidda's Row",
+          "Murky Mill",
+          "Barrel Shield Bust-Up",
+          "Riverside Race",
+          "Squeals On Wheels",
+          "Springin' Spiders",
+          "Bobbing Barrel Brawl",
+          "Bazza's Blockade",
+          "Rocket Barrel Ride",
+          "Kreeping Klasps",
+          "Tracker Barrel Trek",
+          "Fish Food Frenzy",
+          "Fire-Ball Frenzy",
+          "Demolition Drain-Pipe",
+          "Ripsaw Rage",
+          "Blazing Bazukas",
+          "Low-G Labyrinth",
+          "Krevice Kreepers",
+          "Tearaway Toboggan",
+          "Barrel Drop Bounce",
+          "Krack-Shot Kroc",
+          "Lemguin Lunge",
+          "Buzzer Barrage",
+          "Kong-Fused Cliffs",
+          "Floodlit Fish",
+          "Pothole Panic",
+          "Ropey Rumpus",
+          "Konveyor Rope Klash",
+          "Creepy Caverns",
+          "Lightning Lookout",
+          "Koindozer Klamber",
+          "Poisonous Pipeline",
+          "Stampede Sprint",
+          "Criss Kross Cliffs",
+          "Tyrant Twin Tussle",
+          "Swoopy Salvo"
+        ],
+        "goal": 0,
+        "krematoa_bonus_coin_cost": 15,
+        "percentage_of_extra_bonus_coins": 100,
+        "number_of_banana_birds": 15,
+        "percentage_of_banana_birds": 100,
+        "dk_coins_for_gyrocopter": 30,
+        "kongsanity": 0,
+        "level_shuffle": 0,
+        "difficulty": 0,
+        "autosave": 1,
+        "merry": 0,
+        "music_shuffle": 0,
+        "kong_palette_swap": 0,
+        "starting_life_count": 5
+      },
+      "web": {
+        "theme": "jungle",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up the Donkey Kong Country 3 randomizer connected to an Archipelago Multiworld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "PoryGone"
+            ]
+          }
+        ]
+      },
+      "world_directory": "dkc3_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Donkey Kong"
+      }
+    }
+  },
+  "helpers": {},
+  "is_canonical": true
+}

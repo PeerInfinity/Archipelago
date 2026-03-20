@@ -1,0 +1,3492 @@
+{
+  "schema_version": 3,
+  "game_name": "Metamath",
+  "game_directory": "metamath",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 2,
+  "seed_name": "01043188731678011336",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To eleq2",
+            "connected_region": "Prove Statement 1",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To fofn",
+            "connected_region": "Prove Statement 2",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To forn",
+            "connected_region": "Prove Statement 3",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To fveq2",
+            "connected_region": "Prove Statement 4",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To id",
+            "connected_region": "Prove Statement 5",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To nbbn",
+            "connected_region": "Prove Statement 7",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To vx",
+            "connected_region": "Prove Statement 9",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To vy",
+            "connected_region": "Prove Statement 17",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Prove Statement 1": {
+        "name": "Prove Statement 1",
+        "exits": [
+          {
+            "name": "From eleq2 to nsyl",
+            "connected_region": "Prove Statement 16",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 1",
+                  "Proved Statement 15",
+                  "Statement 1"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Prove Statement 2": {
+        "name": "Prove Statement 2",
+        "exits": [
+          {
+            "name": "From fofn to syl",
+            "connected_region": "Prove Statement 20",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 18",
+                  "Proved Statement 2",
+                  "Statement 2"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 2",
+            "id": 234790002,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 2",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 3": {
+        "name": "Prove Statement 3",
+        "exits": [
+          {
+            "name": "From forn to eleqtrrid",
+            "connected_region": "Prove Statement 14",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 13",
+                  "Proved Statement 3",
+                  "Statement 3"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 3",
+            "id": 234790003,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 3",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 4": {
+        "name": "Prove Statement 4",
+        "exits": [
+          {
+            "name": "From fveq2 to eleq12d",
+            "connected_region": "Prove Statement 6",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 4",
+                  "Proved Statement 5",
+                  "Statement 4"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 4",
+            "id": 234790004,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 4",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 4",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 4",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 5": {
+        "name": "Prove Statement 5",
+        "exits": [
+          {
+            "name": "From id to eleq12d",
+            "connected_region": "Prove Statement 6",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 4",
+                  "Proved Statement 5",
+                  "Statement 5"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 5",
+            "id": 234790005,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 5",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 5",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 5",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 6": {
+        "name": "Prove Statement 6",
+        "exits": [
+          {
+            "name": "From eleq12d to notbid",
+            "connected_region": "Prove Statement 8",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 6",
+                  "Statement 6"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 6",
+            "id": 234790006,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 6",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 6",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 6",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 7": {
+        "name": "Prove Statement 7",
+        "exits": [
+          {
+            "name": "From nbbn to sylib",
+            "connected_region": "Prove Statement 15",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 11",
+                  "Proved Statement 7",
+                  "Statement 7"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 7",
+            "id": 234790007,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 7",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 7",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 7",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 8": {
+        "name": "Prove Statement 8",
+        "exits": [
+          {
+            "name": "From notbid to elrab",
+            "connected_region": "Prove Statement 10",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 8",
+                  "Proved Statement 9",
+                  "Statement 8"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 8",
+            "id": 234790008,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 8",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 8",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 8",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 9": {
+        "name": "Prove Statement 9",
+        "exits": [
+          {
+            "name": "From vx to elrab",
+            "connected_region": "Prove Statement 10",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 8",
+                  "Proved Statement 9",
+                  "Statement 9"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From vx to ssrab2",
+            "connected_region": "Prove Statement 12",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 9",
+                  "Statement 9"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 9",
+            "id": 234790009,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 9",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 9",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 9",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 10": {
+        "name": "Prove Statement 10",
+        "exits": [
+          {
+            "name": "From elrab to baibr",
+            "connected_region": "Prove Statement 11",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 10",
+                  "Statement 10"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 10",
+            "id": 234790010,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 10",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 10",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 10",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 11": {
+        "name": "Prove Statement 11",
+        "exits": [
+          {
+            "name": "From baibr to sylib",
+            "connected_region": "Prove Statement 15",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 11",
+                  "Proved Statement 7",
+                  "Statement 11"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 11",
+            "id": 234790011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 11",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 11",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 11",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 12": {
+        "name": "Prove Statement 12",
+        "exits": [
+          {
+            "name": "From ssrab2 to elpwi2",
+            "connected_region": "Prove Statement 13",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 12",
+                  "Statement 12"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 12",
+            "id": 234790012,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 12",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 12",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 12",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 13": {
+        "name": "Prove Statement 13",
+        "exits": [
+          {
+            "name": "From elpwi2 to eleqtrrid",
+            "connected_region": "Prove Statement 14",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 13",
+                  "Proved Statement 3",
+                  "Statement 13"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 13",
+            "id": 234790013,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 13",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 13",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 13",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 14": {
+        "name": "Prove Statement 14",
+        "exits": [
+          {
+            "name": "From eleqtrrid to pm2.65i",
+            "connected_region": "Prove Statement 22",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 14",
+                  "Proved Statement 21",
+                  "Statement 14"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 14",
+            "id": 234790014,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 14",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 14",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 14",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 15": {
+        "name": "Prove Statement 15",
+        "exits": [
+          {
+            "name": "From sylib to nsyl",
+            "connected_region": "Prove Statement 16",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 1",
+                  "Proved Statement 15",
+                  "Statement 15"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 15",
+            "id": 234790015,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 15",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 15",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 15",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 16": {
+        "name": "Prove Statement 16",
+        "exits": [
+          {
+            "name": "From nsyl to nrex",
+            "connected_region": "Prove Statement 19",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 16",
+                  "Proved Statement 17",
+                  "Statement 16"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 16",
+            "id": 234790016,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 16",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 16",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 16",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 17": {
+        "name": "Prove Statement 17",
+        "exits": [
+          {
+            "name": "From vy to fvelrnb",
+            "connected_region": "Prove Statement 18",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 17",
+                  "Statement 17"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From vy to nrex",
+            "connected_region": "Prove Statement 19",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 16",
+                  "Proved Statement 17",
+                  "Statement 17"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 17",
+            "id": 234790017,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 17",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 17",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 17",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 18": {
+        "name": "Prove Statement 18",
+        "exits": [
+          {
+            "name": "From fvelrnb to syl",
+            "connected_region": "Prove Statement 20",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 18",
+                  "Proved Statement 2",
+                  "Statement 18"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 18",
+            "id": 234790018,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 18",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 18",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 18",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 19": {
+        "name": "Prove Statement 19",
+        "exits": [
+          {
+            "name": "From nrex to mtbiri",
+            "connected_region": "Prove Statement 21",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 19",
+                  "Proved Statement 20",
+                  "Statement 19"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 19",
+            "id": 234790019,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 19",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 19",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 19",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 20": {
+        "name": "Prove Statement 20",
+        "exits": [
+          {
+            "name": "From syl to mtbiri",
+            "connected_region": "Prove Statement 21",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 19",
+                  "Proved Statement 20",
+                  "Statement 20"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 20",
+            "id": 234790020,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 20",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 20",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 20",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 21": {
+        "name": "Prove Statement 21",
+        "exits": [
+          {
+            "name": "From mtbiri to pm2.65i",
+            "connected_region": "Prove Statement 22",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 14",
+                  "Proved Statement 21",
+                  "Statement 21"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 21",
+            "id": 234790021,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 21",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 21",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 21",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Prove Statement 22": {
+        "name": "Prove Statement 22",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Prove Statement 22",
+            "id": 234790022,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Statement 22",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 22",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 22",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Statement 1": {
+        "name": "Statement 1",
+        "id": 234790000,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 2": {
+        "name": "Statement 2",
+        "id": 234790001,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 3": {
+        "name": "Statement 3",
+        "id": 234790002,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 4": {
+        "name": "Statement 4",
+        "id": 234790003,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 5": {
+        "name": "Statement 5",
+        "id": 234790004,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 6": {
+        "name": "Statement 6",
+        "id": 234790005,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 7": {
+        "name": "Statement 7",
+        "id": 234790006,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 8": {
+        "name": "Statement 8",
+        "id": 234790007,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 9": {
+        "name": "Statement 9",
+        "id": 234790008,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 10": {
+        "name": "Statement 10",
+        "id": 234790009,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 11": {
+        "name": "Statement 11",
+        "id": 234790010,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 12": {
+        "name": "Statement 12",
+        "id": 234790011,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 13": {
+        "name": "Statement 13",
+        "id": 234790012,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 14": {
+        "name": "Statement 14",
+        "id": 234790013,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 15": {
+        "name": "Statement 15",
+        "id": 234790014,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 16": {
+        "name": "Statement 16",
+        "id": 234790015,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 17": {
+        "name": "Statement 17",
+        "id": 234790016,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 18": {
+        "name": "Statement 18",
+        "id": 234790017,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 19": {
+        "name": "Statement 19",
+        "id": 234790018,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 20": {
+        "name": "Statement 20",
+        "id": 234790019,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 21": {
+        "name": "Statement 21",
+        "id": 234790020,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 22": {
+        "name": "Statement 22",
+        "id": 234790021,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 23": {
+        "name": "Statement 23",
+        "id": 234790022,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 24": {
+        "name": "Statement 24",
+        "id": 234790023,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 25": {
+        "name": "Statement 25",
+        "id": 234790024,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 26": {
+        "name": "Statement 26",
+        "id": 234790025,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 27": {
+        "name": "Statement 27",
+        "id": 234790026,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 28": {
+        "name": "Statement 28",
+        "id": 234790027,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 29": {
+        "name": "Statement 29",
+        "id": 234790028,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 30": {
+        "name": "Statement 30",
+        "id": 234790029,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 31": {
+        "name": "Statement 31",
+        "id": 234790030,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 32": {
+        "name": "Statement 32",
+        "id": 234790031,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 33": {
+        "name": "Statement 33",
+        "id": 234790032,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 34": {
+        "name": "Statement 34",
+        "id": 234790033,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 35": {
+        "name": "Statement 35",
+        "id": 234790034,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 36": {
+        "name": "Statement 36",
+        "id": 234790035,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 37": {
+        "name": "Statement 37",
+        "id": 234790036,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 38": {
+        "name": "Statement 38",
+        "id": 234790037,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 39": {
+        "name": "Statement 39",
+        "id": 234790038,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 40": {
+        "name": "Statement 40",
+        "id": 234790039,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 41": {
+        "name": "Statement 41",
+        "id": 234790040,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 42": {
+        "name": "Statement 42",
+        "id": 234790041,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 43": {
+        "name": "Statement 43",
+        "id": 234790042,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 44": {
+        "name": "Statement 44",
+        "id": 234790043,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 45": {
+        "name": "Statement 45",
+        "id": 234790044,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 46": {
+        "name": "Statement 46",
+        "id": 234790045,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 47": {
+        "name": "Statement 47",
+        "id": 234790046,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 48": {
+        "name": "Statement 48",
+        "id": 234790047,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 49": {
+        "name": "Statement 49",
+        "id": 234790048,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 50": {
+        "name": "Statement 50",
+        "id": 234790049,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 51": {
+        "name": "Statement 51",
+        "id": 234790050,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 52": {
+        "name": "Statement 52",
+        "id": 234790051,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 53": {
+        "name": "Statement 53",
+        "id": 234790052,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 54": {
+        "name": "Statement 54",
+        "id": 234790053,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 55": {
+        "name": "Statement 55",
+        "id": 234790054,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 56": {
+        "name": "Statement 56",
+        "id": 234790055,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 57": {
+        "name": "Statement 57",
+        "id": 234790056,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 58": {
+        "name": "Statement 58",
+        "id": 234790057,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 59": {
+        "name": "Statement 59",
+        "id": 234790058,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 60": {
+        "name": "Statement 60",
+        "id": 234790059,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 61": {
+        "name": "Statement 61",
+        "id": 234790060,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 62": {
+        "name": "Statement 62",
+        "id": 234790061,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 63": {
+        "name": "Statement 63",
+        "id": 234790062,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 64": {
+        "name": "Statement 64",
+        "id": 234790063,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 65": {
+        "name": "Statement 65",
+        "id": 234790064,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 66": {
+        "name": "Statement 66",
+        "id": 234790065,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 67": {
+        "name": "Statement 67",
+        "id": 234790066,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 68": {
+        "name": "Statement 68",
+        "id": 234790067,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 69": {
+        "name": "Statement 69",
+        "id": 234790068,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 70": {
+        "name": "Statement 70",
+        "id": 234790069,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 71": {
+        "name": "Statement 71",
+        "id": 234790070,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 72": {
+        "name": "Statement 72",
+        "id": 234790071,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 73": {
+        "name": "Statement 73",
+        "id": 234790072,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 74": {
+        "name": "Statement 74",
+        "id": 234790073,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 75": {
+        "name": "Statement 75",
+        "id": 234790074,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 76": {
+        "name": "Statement 76",
+        "id": 234790075,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 77": {
+        "name": "Statement 77",
+        "id": 234790076,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 78": {
+        "name": "Statement 78",
+        "id": 234790077,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 79": {
+        "name": "Statement 79",
+        "id": 234790078,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 80": {
+        "name": "Statement 80",
+        "id": 234790079,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 81": {
+        "name": "Statement 81",
+        "id": 234790080,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 82": {
+        "name": "Statement 82",
+        "id": 234790081,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 83": {
+        "name": "Statement 83",
+        "id": 234790082,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 84": {
+        "name": "Statement 84",
+        "id": 234790083,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 85": {
+        "name": "Statement 85",
+        "id": 234790084,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 86": {
+        "name": "Statement 86",
+        "id": 234790085,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 87": {
+        "name": "Statement 87",
+        "id": 234790086,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 88": {
+        "name": "Statement 88",
+        "id": 234790087,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 89": {
+        "name": "Statement 89",
+        "id": 234790088,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 90": {
+        "name": "Statement 90",
+        "id": 234790089,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 91": {
+        "name": "Statement 91",
+        "id": 234790090,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 92": {
+        "name": "Statement 92",
+        "id": 234790091,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 93": {
+        "name": "Statement 93",
+        "id": 234790092,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 94": {
+        "name": "Statement 94",
+        "id": 234790093,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 95": {
+        "name": "Statement 95",
+        "id": 234790094,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 96": {
+        "name": "Statement 96",
+        "id": 234790095,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 97": {
+        "name": "Statement 97",
+        "id": 234790096,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 98": {
+        "name": "Statement 98",
+        "id": 234790097,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 99": {
+        "name": "Statement 99",
+        "id": 234790098,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 100": {
+        "name": "Statement 100",
+        "id": 234790099,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Proved Statement 2": {
+        "name": "Proved Statement 2",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 3": {
+        "name": "Proved Statement 3",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 4": {
+        "name": "Proved Statement 4",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 5": {
+        "name": "Proved Statement 5",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 6": {
+        "name": "Proved Statement 6",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 7": {
+        "name": "Proved Statement 7",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 8": {
+        "name": "Proved Statement 8",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 9": {
+        "name": "Proved Statement 9",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 10": {
+        "name": "Proved Statement 10",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 11": {
+        "name": "Proved Statement 11",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 12": {
+        "name": "Proved Statement 12",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 13": {
+        "name": "Proved Statement 13",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 14": {
+        "name": "Proved Statement 14",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 15": {
+        "name": "Proved Statement 15",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 16": {
+        "name": "Proved Statement 16",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 17": {
+        "name": "Proved Statement 17",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 18": {
+        "name": "Proved Statement 18",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 19": {
+        "name": "Proved Statement 19",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 20": {
+        "name": "Proved Statement 20",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 21": {
+        "name": "Proved Statement 21",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 22": {
+        "name": "Proved Statement 22",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 1": {
+        "name": "Proved Statement 1",
+        "id": null,
+        "groups": [],
+        "classification": "progression",
+        "event": true,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Statements"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Proved Statement 1": 1,
+      "Proved Statement 10": 1,
+      "Proved Statement 11": 1,
+      "Proved Statement 12": 1,
+      "Proved Statement 13": 1,
+      "Proved Statement 14": 1,
+      "Proved Statement 15": 1,
+      "Proved Statement 16": 1,
+      "Proved Statement 17": 1,
+      "Proved Statement 18": 1,
+      "Proved Statement 19": 1,
+      "Proved Statement 2": 1,
+      "Proved Statement 20": 1,
+      "Proved Statement 21": 1,
+      "Proved Statement 22": 1,
+      "Proved Statement 3": 1,
+      "Proved Statement 4": 1,
+      "Proved Statement 5": 1,
+      "Proved Statement 6": 1,
+      "Proved Statement 7": 1,
+      "Proved Statement 8": 1,
+      "Proved Statement 9": 1,
+      "Statement 1": 1,
+      "Statement 10": 1,
+      "Statement 11": 1,
+      "Statement 12": 1,
+      "Statement 13": 1,
+      "Statement 14": 1,
+      "Statement 15": 1,
+      "Statement 16": 1,
+      "Statement 17": 1,
+      "Statement 18": 1,
+      "Statement 19": 1,
+      "Statement 2": 1,
+      "Statement 20": 1,
+      "Statement 21": 1,
+      "Statement 22": 1,
+      "Statement 3": 1,
+      "Statement 4": 1,
+      "Statement 5": 1,
+      "Statement 6": 1,
+      "Statement 7": 1,
+      "Statement 8": 1,
+      "Statement 9": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Prove Statement 2": "Statement 2",
+      "Prove Statement 3": "Statement 3",
+      "Prove Statement 4": "Statement 4",
+      "Prove Statement 5": "Statement 5",
+      "Prove Statement 6": "Statement 6",
+      "Prove Statement 7": "Statement 7",
+      "Prove Statement 8": "Statement 8",
+      "Prove Statement 9": "Statement 9",
+      "Prove Statement 10": "Statement 10",
+      "Prove Statement 11": "Statement 11",
+      "Prove Statement 12": "Statement 12",
+      "Prove Statement 13": "Statement 13",
+      "Prove Statement 14": "Statement 14",
+      "Prove Statement 15": "Statement 15",
+      "Prove Statement 16": "Statement 16",
+      "Prove Statement 17": "Statement 17",
+      "Prove Statement 18": "Statement 18",
+      "Prove Statement 19": "Statement 19",
+      "Prove Statement 20": "Statement 20",
+      "Prove Statement 21": "Statement 21"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Statement 1",
+      "Proved Statement 1"
+    ]
+  },
+  "world": {
+    "1": {
+      "game": "Metamath",
+      "world_class_name": "MetamathWorld",
+      "options": {
+        "accessibility": 2,
+        "auto_download_database": true,
+        "entrance_rule_mode": 1,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": false,
+        "randomize_starting_statements": true,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_statements": 0,
+        "theorem": 14,
+        "vanilla_placement": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "auto_download_database": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Auto-Download Database"
+        },
+        "entrance_rule_mode": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "strict",
+            "1": "relaxed_items",
+            "2": "relaxed_events",
+            "3": "fully_relaxed"
+          },
+          "default": 1,
+          "display_name": "Entrance Rule Mode"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "randomize_starting_statements": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Starting Statements"
+        },
+        "starting_statements": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 50,
+          "default": 0,
+          "display_name": "Starting Statements %"
+        },
+        "theorem": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "1p1e2",
+            "1": "2p2e4",
+            "2": "3p3e6",
+            "3": "4p4e8",
+            "4": "5p5e10",
+            "5": "2m1e1",
+            "6": "pm2_21",
+            "7": "pm2_43",
+            "8": "pm5_32",
+            "9": "con3i",
+            "10": "syl",
+            "11": "uneq12i",
+            "12": "ineq12i",
+            "13": "pwfi",
+            "14": "canth",
+            "15": "grplid",
+            "16": "grpinveu",
+            "17": "cos0",
+            "18": "sin0",
+            "19": "euclemma",
+            "20": "wilth",
+            "22": "prmunb",
+            "23": "cncmp",
+            "21": "dfac5"
+          },
+          "default": 1,
+          "display_name": "Theorem to Prove"
+        },
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Item Placement"
+        }
+      },
+      "proof_structure": {
+        "label_to_index": {
+          "eleq2": 1,
+          "fofn": 2,
+          "forn": 3,
+          "fveq2": 4,
+          "id": 5,
+          "eleq12d": 6,
+          "nbbn": 7,
+          "notbid": 8,
+          "vx": 9,
+          "elrab": 10,
+          "baibr": 11,
+          "ssrab2": 12,
+          "elpwi2": 13,
+          "eleqtrrid": 14,
+          "sylib": 15,
+          "nsyl": 16,
+          "vy": 17,
+          "fvelrnb": 18,
+          "nrex": 19,
+          "syl": 20,
+          "mtbiri": 21,
+          "pm2.65i": 22
+        }
+      },
+      "num_statements": 22,
+      "is_vanilla": true,
+      "preset_label": "canth v",
+      "name_substitutions": {
+        "items": {
+          "Statement 1": "eleq2: |- ( A = B -> ( C e. A <-> C e. B ) )",
+          "Proved Statement 1": "Given eleq2: |- ( A = B -> ( C e. A <-> C e. B ) )",
+          "Statement 2": "fofn: |- ( F : A -onto-> B -> F Fn A )",
+          "Proved Statement 2": "Given fofn: |- ( F : A -onto-> B -> F Fn A )",
+          "Statement 3": "forn: |- ( F : A -onto-> B -> ran F = B )",
+          "Proved Statement 3": "Given forn: |- ( F : A -onto-> B -> ran F = B )",
+          "Statement 4": "fveq2: |- ( A = B -> ( F ` A ) = ( F ` B ) )",
+          "Proved Statement 4": "Given fveq2: |- ( A = B -> ( F ` A ) = ( F ` B ) )",
+          "Statement 5": "id: |- ( ph -> ph )",
+          "Proved Statement 5": "Given id: |- ( ph -> ph )",
+          "Statement 6": "eleq12d: |- ( ph -> ( A e. C <-> B e. D ) )",
+          "Proved Statement 6": "Proved eleq12d: |- ( ph -> ( A e. C <-> B e. D ) )",
+          "Statement 7": "nbbn: |- ( ( -. ph <-> ps ) <-> -. ( ph <-> ps ) )",
+          "Proved Statement 7": "Given nbbn: |- ( ( -. ph <-> ps ) <-> -. ( ph <-> ps ) )",
+          "Statement 8": "notbid: |- ( ph -> ( -. ps <-> -. ch ) )",
+          "Proved Statement 8": "Proved notbid: |- ( ph -> ( -. ps <-> -. ch ) )",
+          "Statement 9": "vx: setvar x",
+          "Proved Statement 9": "Given vx: setvar x",
+          "Statement 10": "elrab: |- ( A e. { x e. B | ph } <-> ( A e. B /\\ ps ) )",
+          "Proved Statement 10": "Proved elrab: |- ( A e. { x e. B | ph } <-> ( A e. B /\\ ps ) )",
+          "Statement 11": "baibr: |- ( ps -> ( ch <-> ph ) )",
+          "Proved Statement 11": "Proved baibr: |- ( ps -> ( ch <-> ph ) )",
+          "Statement 12": "ssrab2: |- { x e. A | ph } C_ A",
+          "Proved Statement 12": "Proved ssrab2: |- { x e. A | ph } C_ A",
+          "Statement 13": "elpwi2: |- A e. ~P B",
+          "Proved Statement 13": "Proved elpwi2: |- A e. ~P B",
+          "Statement 14": "eleqtrrid: |- ( ph -> A e. C )",
+          "Proved Statement 14": "Proved eleqtrrid: |- ( ph -> A e. C )",
+          "Statement 15": "sylib: |- ( ph -> ch )",
+          "Proved Statement 15": "Proved sylib: |- ( ph -> ch )",
+          "Statement 16": "nsyl: |- ( ph -> -. ch )",
+          "Proved Statement 16": "Proved nsyl: |- ( ph -> -. ch )",
+          "Statement 17": "vy: setvar y",
+          "Proved Statement 17": "Given vy: setvar y",
+          "Statement 18": "fvelrnb: |- ( F Fn A -> ( B e. ran F <-> E. x e. A ( F ` x ) = B ) )",
+          "Proved Statement 18": "Proved fvelrnb: |- ( F Fn A -> ( B e. ran F <-> E. x e. A ( F `...",
+          "Statement 19": "nrex: |- -. E. x e. A ps",
+          "Proved Statement 19": "Proved nrex: |- -. E. x e. A ps",
+          "Statement 20": "syl: |- ( ph -> ch )",
+          "Proved Statement 20": "Proved syl: |- ( ph -> ch )",
+          "Statement 21": "mtbiri: |- ( ph -> -. ps )",
+          "Proved Statement 21": "Proved mtbiri: |- ( ph -> -. ps )",
+          "Statement 22": "pm2.65i: |- -. ph",
+          "Proved Statement 22": "Proved pm2.65i: |- -. ph"
+        },
+        "locations": {
+          "Prove Statement 1": "Given eleq2: |- ( A = B -> ( C e. A <-> C e. B ) )",
+          "Prove Statement 2": "Given fofn: |- ( F : A -onto-> B -> F Fn A )",
+          "Prove Statement 3": "Given forn: |- ( F : A -onto-> B -> ran F = B )",
+          "Prove Statement 4": "Given fveq2: |- ( A = B -> ( F ` A ) = ( F ` B ) )",
+          "Prove Statement 5": "Given id: |- ( ph -> ph )",
+          "Prove Statement 6": "Prove eleq12d: |- ( ph -> ( A e. C <-> B e. D ) )",
+          "Prove Statement 7": "Given nbbn: |- ( ( -. ph <-> ps ) <-> -. ( ph <-> ps ) )",
+          "Prove Statement 8": "Prove notbid: |- ( ph -> ( -. ps <-> -. ch ) )",
+          "Prove Statement 9": "Given vx: setvar x",
+          "Prove Statement 10": "Prove elrab: |- ( A e. { x e. B | ph } <-> ( A e. B /\\ ps ) )",
+          "Prove Statement 11": "Prove baibr: |- ( ps -> ( ch <-> ph ) )",
+          "Prove Statement 12": "Prove ssrab2: |- { x e. A | ph } C_ A",
+          "Prove Statement 13": "Prove elpwi2: |- A e. ~P B",
+          "Prove Statement 14": "Prove eleqtrrid: |- ( ph -> A e. C )",
+          "Prove Statement 15": "Prove sylib: |- ( ph -> ch )",
+          "Prove Statement 16": "Prove nsyl: |- ( ph -> -. ch )",
+          "Prove Statement 17": "Given vy: setvar y",
+          "Prove Statement 18": "Prove fvelrnb: |- ( F Fn A -> ( B e. ran F <-> E. x e. A ( F `...",
+          "Prove Statement 19": "Prove nrex: |- -. E. x e. A ps",
+          "Prove Statement 20": "Prove syl: |- ( ph -> ch )",
+          "Prove Statement 21": "Prove mtbiri: |- ( ph -> -. ps )",
+          "Prove Statement 22": "Prove pm2.65i: |- -. ph"
+        },
+        "regions": {
+          "Prove Statement 1": "Given eleq2: |- ( A = B -> ( C e. A <-> C e. B ) )",
+          "Prove Statement 2": "Given fofn: |- ( F : A -onto-> B -> F Fn A )",
+          "Prove Statement 3": "Given forn: |- ( F : A -onto-> B -> ran F = B )",
+          "Prove Statement 4": "Given fveq2: |- ( A = B -> ( F ` A ) = ( F ` B ) )",
+          "Prove Statement 5": "Given id: |- ( ph -> ph )",
+          "Prove Statement 6": "Prove eleq12d: |- ( ph -> ( A e. C <-> B e. D ) )",
+          "Prove Statement 7": "Given nbbn: |- ( ( -. ph <-> ps ) <-> -. ( ph <-> ps ) )",
+          "Prove Statement 8": "Prove notbid: |- ( ph -> ( -. ps <-> -. ch ) )",
+          "Prove Statement 9": "Given vx: setvar x",
+          "Prove Statement 10": "Prove elrab: |- ( A e. { x e. B | ph } <-> ( A e. B /\\ ps ) )",
+          "Prove Statement 11": "Prove baibr: |- ( ps -> ( ch <-> ph ) )",
+          "Prove Statement 12": "Prove ssrab2: |- { x e. A | ph } C_ A",
+          "Prove Statement 13": "Prove elpwi2: |- A e. ~P B",
+          "Prove Statement 14": "Prove eleqtrrid: |- ( ph -> A e. C )",
+          "Prove Statement 15": "Prove sylib: |- ( ph -> ch )",
+          "Prove Statement 16": "Prove nsyl: |- ( ph -> -. ch )",
+          "Prove Statement 17": "Given vy: setvar y",
+          "Prove Statement 18": "Prove fvelrnb: |- ( F Fn A -> ( B e. ran F <-> E. x e. A ( F `...",
+          "Prove Statement 19": "Prove nrex: |- -. E. x e. A ps",
+          "Prove Statement 20": "Prove syl: |- ( ph -> ch )",
+          "Prove Statement 21": "Prove mtbiri: |- ( ph -> -. ps )",
+          "Prove Statement 22": "Prove pm2.65i: |- -. ph"
+        }
+      },
+      "canonical_placements": {
+        "Prove Statement 2": "Statement 2",
+        "Prove Statement 3": "Statement 3",
+        "Prove Statement 4": "Statement 4",
+        "Prove Statement 5": "Statement 5",
+        "Prove Statement 6": "Statement 6",
+        "Prove Statement 7": "Statement 7",
+        "Prove Statement 8": "Statement 8",
+        "Prove Statement 9": "Statement 9",
+        "Prove Statement 10": "Statement 10",
+        "Prove Statement 11": "Statement 11",
+        "Prove Statement 12": "Statement 12",
+        "Prove Statement 13": "Statement 13",
+        "Prove Statement 14": "Statement 14",
+        "Prove Statement 15": "Statement 15",
+        "Prove Statement 16": "Statement 16",
+        "Prove Statement 17": "Statement 17",
+        "Prove Statement 18": "Statement 18",
+        "Prove Statement 19": "Statement 19",
+        "Prove Statement 20": "Statement 20",
+        "Prove Statement 21": "Statement 21"
+      },
+      "location_dependencies": {
+        "Prove Statement 6": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "Proved Statement 6": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "Prove Statement 8": [
+          "Statement 6",
+          "Proved Statement 6"
+        ],
+        "Proved Statement 8": [
+          "Statement 6",
+          "Proved Statement 6"
+        ],
+        "Prove Statement 10": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "Proved Statement 10": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "Prove Statement 11": [
+          "Statement 10",
+          "Proved Statement 10"
+        ],
+        "Proved Statement 11": [
+          "Statement 10",
+          "Proved Statement 10"
+        ],
+        "Prove Statement 12": [
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "Proved Statement 12": [
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "Prove Statement 13": [
+          "Statement 12",
+          "Proved Statement 12"
+        ],
+        "Proved Statement 13": [
+          "Statement 12",
+          "Proved Statement 12"
+        ],
+        "Prove Statement 14": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "Proved Statement 14": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "Prove Statement 15": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "Proved Statement 15": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "Prove Statement 16": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "Proved Statement 16": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "Prove Statement 18": [
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "Proved Statement 18": [
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "Prove Statement 19": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "Proved Statement 19": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "Prove Statement 20": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "Proved Statement 20": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "Prove Statement 21": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "Proved Statement 21": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "Prove Statement 22": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ],
+        "Proved Statement 22": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ]
+      },
+      "entrance_dependencies": {
+        "From fveq2 to eleq12d": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "From id to eleq12d": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "From eleq12d to notbid": [
+          "Statement 6",
+          "Proved Statement 6"
+        ],
+        "From notbid to elrab": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From vx to elrab": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From elrab to baibr": [
+          "Statement 10",
+          "Proved Statement 10"
+        ],
+        "From vx to ssrab2": [
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From ssrab2 to elpwi2": [
+          "Statement 12",
+          "Proved Statement 12"
+        ],
+        "From forn to eleqtrrid": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "From elpwi2 to eleqtrrid": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "From nbbn to sylib": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "From baibr to sylib": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "From eleq2 to nsyl": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "From sylib to nsyl": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "From vy to fvelrnb": [
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From nsyl to nrex": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From vy to nrex": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From fofn to syl": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "From fvelrnb to syl": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "From nrex to mtbiri": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "From syl to mtbiri": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "From eleqtrrid to pm2.65i": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ],
+        "From mtbiri to pm2.65i": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ]
+      },
+      "exit_dependencies": {
+        "From eleq2 to nsyl": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "From fofn to syl": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "From forn to eleqtrrid": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "From fveq2 to eleq12d": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "From id to eleq12d": [
+          "Statement 4",
+          "Proved Statement 4",
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "From eleq12d to notbid": [
+          "Statement 6",
+          "Proved Statement 6"
+        ],
+        "From nbbn to sylib": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "From notbid to elrab": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From vx to elrab": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From vx to ssrab2": [
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From elrab to baibr": [
+          "Statement 10",
+          "Proved Statement 10"
+        ],
+        "From baibr to sylib": [
+          "Statement 7",
+          "Proved Statement 7",
+          "Statement 11",
+          "Proved Statement 11"
+        ],
+        "From ssrab2 to elpwi2": [
+          "Statement 12",
+          "Proved Statement 12"
+        ],
+        "From elpwi2 to eleqtrrid": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 13",
+          "Proved Statement 13"
+        ],
+        "From eleqtrrid to pm2.65i": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ],
+        "From sylib to nsyl": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 15",
+          "Proved Statement 15"
+        ],
+        "From nsyl to nrex": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From vy to fvelrnb": [
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From vy to nrex": [
+          "Statement 16",
+          "Proved Statement 16",
+          "Statement 17",
+          "Proved Statement 17"
+        ],
+        "From fvelrnb to syl": [
+          "Statement 2",
+          "Proved Statement 2",
+          "Statement 18",
+          "Proved Statement 18"
+        ],
+        "From nrex to mtbiri": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "From syl to mtbiri": [
+          "Statement 19",
+          "Proved Statement 19",
+          "Statement 20",
+          "Proved Statement 20"
+        ],
+        "From mtbiri to pm2.65i": [
+          "Statement 14",
+          "Proved Statement 14",
+          "Statement 21",
+          "Proved Statement 21"
+        ]
+      },
+      "world_description": "Turn MetaMath proofs into Archipelago worlds!\nEach proof step is both a location (proving it) and an item (ability to use it).\nNavigate logical dependencies across the multiworld to complete your proof.",
+      "slot_data": {
+        "proof_structure": {
+          "1": {
+            "label": "eleq2",
+            "expression": "|- ( A = B -> ( C e. A <-> C e. B ) )",
+            "dependencies": [],
+            "full_text": "eleq2: Equality implies equivalence of membership.  (Contributed by NM, 26-May-1993.)  (Proof shortened by Wolf Lammen, 20-Nov-2019.)",
+            "instantiated_expression": "|- ( ( F ` y ) = { x e. A | -. x e. ( F ` x ) } -> ( y e. ( F ` y ) <-> y e. { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "2": {
+            "label": "fofn",
+            "expression": "|- ( F : A -onto-> B -> F Fn A )",
+            "dependencies": [],
+            "full_text": "fofn: An onto mapping is a function on its domain.  (Contributed by NM, 16-Dec-2008.)",
+            "instantiated_expression": "|- ( F : A -onto-> ~P A -> F Fn A )"
+          },
+          "3": {
+            "label": "forn",
+            "expression": "|- ( F : A -onto-> B -> ran F = B )",
+            "dependencies": [],
+            "full_text": "forn: The codomain of an onto function is its range.  (Contributed by NM, 3-Aug-1994.)",
+            "instantiated_expression": "|- ( F : A -onto-> ~P A -> ran F = ~P A )"
+          },
+          "4": {
+            "label": "fveq2",
+            "expression": "|- ( A = B -> ( F ` A ) = ( F ` B ) )",
+            "dependencies": [],
+            "full_text": "fveq2: Equality theorem for function value.  (Contributed by NM, 29-Dec-1996.)",
+            "instantiated_expression": "|- ( x = y -> ( F ` x ) = ( F ` y ) )"
+          },
+          "5": {
+            "label": "id",
+            "expression": "|- ( ph -> ph )",
+            "dependencies": [],
+            "full_text": "id: Principle of identity.  Theorem *2.08 of [WhiteheadRussell] p. 101.  For another version of the proof directly from axioms, see ~ idALT .  Its associated inference, ~ idi , requires no axioms for its proof, contrary to ~ id .  Note that the second occurrences of ` ph ` in Steps 1 and 2 may be simultaneously replaced by any wff ` ps ` , which may ease the understanding of the proof.  (Contributed by NM, 29-Dec-1992.)  (Proof shortened by Stefan Allan, 20-Mar-2006.)",
+            "instantiated_expression": "|- ( x = y -> x = y )"
+          },
+          "6": {
+            "label": "eleq12d",
+            "expression": "|- ( ph -> ( A e. C <-> B e. D ) )",
+            "dependencies": [
+              4,
+              5
+            ],
+            "full_text": "eleq12d: Theorem eleq12i is the congruence law for elementhood. $) $( $j congruence 'eleq12i'; $) $} $} ${ eleq12d.1 $e |- ( ph -> A = B ) $. eleq12d.2 $e |- ( ph -> C = D ) $. $( Deduction from equality to equivalence of membership.  (Contributed by NM, 31-May-1994.)",
+            "instantiated_expression": "|- ( x = y -> ( x e. ( F ` x ) <-> y e. ( F ` y ) ) )"
+          },
+          "7": {
+            "label": "nbbn",
+            "expression": "|- ( ( -. ph <-> ps ) <-> -. ( ph <-> ps ) )",
+            "dependencies": [],
+            "full_text": "nbbn: Move negation outside of biconditional.  Compare Theorem *5.18 of [WhiteheadRussell] p. 124.  (Contributed by NM, 27-Jun-2002.)  (Proof shortened by Wolf Lammen, 20-Sep-2013.)",
+            "instantiated_expression": "|- ( ( -. y e. ( F ` y ) <-> y e. { x e. A | -. x e. ( F ` x ) } ) <-> -. ( y e. ( F ` y ) <-> y e. { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "8": {
+            "label": "notbid",
+            "expression": "|- ( ph -> ( -. ps <-> -. ch ) )",
+            "dependencies": [
+              6
+            ],
+            "full_text": "notbid: Deduction negating both sides of a logical equivalence.  (Contributed by NM, 21-May-1994.)",
+            "instantiated_expression": "|- ( x = y -> ( -. x e. ( F ` x ) <-> -. y e. ( F ` y ) ) )"
+          },
+          "9": {
+            "label": "vx",
+            "expression": "setvar x",
+            "dependencies": [],
+            "full_text": "vx: #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*# Predicate calculus with equality:  Tarski's system S2 (1 rule, 6 schemes) #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*# Here we extend the language of wffs with predicate calculus, which allows to talk about individual objects in a domain of discourse (which for us will be the universe of all sets, so we call them \"setvar variables\") and make true/false statements about predicates, which are relationships between objects, such as whether or not two objects are equal.  In addition, we introduce universal quantification (\"for all\", e.g., ~ ax-4 ) in order to make statements about whether a wff holds for every object in the domain of discourse.  Later we introduce existential quantification (\"there exists\", ~ df-ex ) which is defined in terms of universal quantification. Our axioms are really axiom _schemes_, and our wff and setvar variables are metavariables ranging over expressions in an underlying \"object language\". This is explained here:  ~ mmset.html#axiomnote . Our axiom system starts with the predicate calculus axiom schemes system S2 of Tarski defined in his 1965 paper, \"A Simplified Formalization of Predicate Logic with Identity\" [Tarski].  System S2 is defined in the last paragraph on p. 77, and repeated on p. 81 of [KalishMontague].  We do not include scheme B5 (our ~ sp ) of system S2 since [KalishMontague] shows it to be logically redundant (Lemma 9, p. 87, which we prove as Theorem ~ spw below). Theorem ~ spw can be used to prove any _instance_ of ~ sp having mutually distinct setvar variables and no wff metavariables.  However, it seems that ~ sp in its general form cannot be derived from only Tarski's schemes.  We do not include B5 i.e. ~ sp as part of what we call \"Tarski's system\" because we want it to be the smallest set of axioms that is logically complete with no redundancies.  We later prove ~ sp as Theorem ~ axc5 using the auxiliary axiom schemes that make our system metalogically complete. Our version of Tarski's system S2 consists of propositional calculus ( ~ ax-mp , ~ ax-1 , ~ ax-2 , ~ ax-3 ) plus ~ ax-gen , ~ ax-4 , ~ ax-5 , ~ ax-6 , ~ ax-7 , ~ ax-8 , and ~ ax-9 .  The last three are equality axioms that represent three sub-schemes of Tarski's scheme B8.  Due to its side-condition (\"where ` ph ` is an atomic formula and ` ps ` is obtained by replacing an occurrence of the variable ` x ` by the variable ` y ` \"), we cannot represent his B8 directly without greatly complicating our scheme language, but the simpler schemes ~ ax-7 , ~ ax-8 , and ~ ax-9 are sufficient for set theory and much easier to work with. Tarski's system is exactly equivalent to the traditional axiom system in most logic textbooks but has the advantage of being easy to manipulate with a computer program, and its simpler metalogic (with no built-in notions of \"free variable\" and \"proper substitution\") is arguably easier for a non-logician human to follow step by step in a proof (where \"follow\" means being able to identify the substitutions that were made, without necessarily a higher-level understanding).  In particular, it is logically complete in that it can derive all possible object-language theorems of predicate calculus with equality, i.e., the same theorems as the traditional system can derive. However, for efficiency (and indeed a key feature that makes Metamath successful), our system is designed to derive reusable theorem schemes (rather than object-language theorems) from other schemes.  From this \"metalogical\" point of view, Tarski's S2 is not complete.  For example, we cannot derive scheme ~ sp , even though (using ~ spw ) we can derive all instances of it that do not involve wff metavariables or bundled setvar variables.  (Two setvar variables are \"bundled\" if they can be substituted with the same setvar variable, i.e., do not have a \"$d\" disjoint variable condition.)  Later we will introduce auxiliary axiom schemes ~ ax-10 , ~ ax-11 , ~ ax-12 , and ~ ax-13 that are metatheorems of Tarski's system (i.e. are logically redundant) but which give our system the property of \"scheme completeness\", allowing us to prove directly (instead of, say, by induction on formula length) all possible schemes that can be expressed in our language. $) $( =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Universal quantifier (continued); define \"exists\" and \"not free\" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= The universal quantifier was introduced above in ~ wal for use by ~ df-tru . See the comments in that section.  In this section, we continue with the first \"real\" use of it. $) $( Declare some names for individual variables. $) $v x $. $v y $. $v z $. $v w $. $v v $. $v u $. $v t $. $( Let ` x ` be an individual variable."
+          },
+          "10": {
+            "label": "elrab",
+            "expression": "|- ( A e. { x e. B | ph } <-> ( A e. B /\\ ps ) )",
+            "dependencies": [
+              8,
+              9
+            ],
+            "full_text": "elrab: Membership in a restricted class abstraction, using implicit substitution.  (Contributed by NM, 21-May-1999.)  Remove dependency on ~ ax-13 .  (Revised by Steven Nguyen, 23-Nov-2022.)",
+            "instantiated_expression": "|- ( y e. { x e. A | -. x e. ( F ` x ) } <-> ( y e. A /\\ -. y e. ( F ` y ) ) )"
+          },
+          "11": {
+            "label": "baibr",
+            "expression": "|- ( ps -> ( ch <-> ph ) )",
+            "dependencies": [
+              10
+            ],
+            "full_text": "baibr: Move conjunction outside of biconditional.  (Contributed by NM, 11-Jul-1994.)",
+            "instantiated_expression": "|- ( y e. A -> ( -. y e. ( F ` y ) <-> y e. { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "12": {
+            "label": "ssrab2",
+            "expression": "|- { x e. A | ph } C_ A",
+            "dependencies": [
+              9
+            ],
+            "full_text": "ssrab2: Subclass relation for a restricted class.  (Contributed by NM, 19-Mar-1997.)  (Proof shortened by BJ and SN, 8-Aug-2024.)",
+            "instantiated_expression": "|- { x e. A | -. x e. ( F ` x ) } C_ A"
+          },
+          "13": {
+            "label": "elpwi2",
+            "expression": "|- A e. ~P B",
+            "dependencies": [
+              12
+            ],
+            "full_text": "elpwi2: Membership in a power class.  (Contributed by Glauco Siliprandi, 3-Mar-2021.)  (Proof shortened by Wolf Lammen, 26-May-2024.)",
+            "instantiated_expression": "|- { x e. A | -. x e. ( F ` x ) } e. ~P A"
+          },
+          "14": {
+            "label": "eleqtrrid",
+            "expression": "|- ( ph -> A e. C )",
+            "dependencies": [
+              3,
+              13
+            ],
+            "full_text": "eleqtrrid: A membership and equality inference.  (Contributed by NM, 4-Jan-2006.)",
+            "instantiated_expression": "|- ( F : A -onto-> ~P A -> { x e. A | -. x e. ( F ` x ) } e. ran F )"
+          },
+          "15": {
+            "label": "sylib",
+            "expression": "|- ( ph -> ch )",
+            "dependencies": [
+              7,
+              11
+            ],
+            "full_text": "sylib: A mixed syllogism inference from an implication and a biconditional.",
+            "instantiated_expression": "|- ( y e. A -> -. ( y e. ( F ` y ) <-> y e. { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "16": {
+            "label": "nsyl",
+            "expression": "|- ( ph -> -. ch )",
+            "dependencies": [
+              1,
+              15
+            ],
+            "full_text": "nsyl: A negated syllogism inference.  (Contributed by NM, 31-Dec-1993.) (Proof shortened by Wolf Lammen, 2-Mar-2013.)",
+            "instantiated_expression": "|- ( y e. A -> -. ( F ` y ) = { x e. A | -. x e. ( F ` x ) } )"
+          },
+          "17": {
+            "label": "vy",
+            "expression": "setvar y",
+            "dependencies": [],
+            "full_text": "vy: Let ` y ` be an individual variable."
+          },
+          "18": {
+            "label": "fvelrnb",
+            "expression": "|- ( F Fn A -> ( B e. ran F <-> E. x e. A ( F ` x ) = B ) )",
+            "dependencies": [
+              17
+            ],
+            "full_text": "fvelrnb: A member of a function's range is a value of the function.  (Contributed by NM, 31-Oct-1995.)",
+            "instantiated_expression": "|- ( F Fn A -> ( { x e. A | -. x e. ( F ` x ) } e. ran F <-> E. y e. A ( F ` y ) = { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "19": {
+            "label": "nrex",
+            "expression": "|- -. E. x e. A ps",
+            "dependencies": [
+              16,
+              17
+            ],
+            "full_text": "nrex: Inference adding restricted existential quantifier to negated wff.",
+            "instantiated_expression": "|- -. E. y e. A ( F ` y ) = { x e. A | -. x e. ( F ` x ) }"
+          },
+          "20": {
+            "label": "syl",
+            "expression": "|- ( ph -> ch )",
+            "dependencies": [
+              2,
+              18
+            ],
+            "full_text": "syl: An inference version of the transitive laws for implication ~ imim2 and ~ imim1 (and ~ imim1i and ~ imim2i ), which Russell and Whitehead call \"the principle of the syllogism ... because ... the syllogism in Barbara is derived from [[ ~ syl ]\" (quote after Theorem *2.06 of [WhiteheadRussell] p. 101).  Some authors call this law a \"hypothetical syllogism\".  Its associated inference is ~ mp2b . (A bit of trivia: this is the most commonly referenced assertion in our database (13449 times as of 22-Jul-2021).  In second place is ~ eqid (9597 times), followed by ~ adantr (8861 times), ~ syl2anc (7421 times), ~ adantl (6403 times), and ~ simpr (5829 times).  The Metamath program command 'show usage' shows the number of references.) 20-Oct-2011.)  (Proof shortened by Wolf Lammen, 26-Jul-2012.)",
+            "instantiated_expression": "|- ( F : A -onto-> ~P A -> ( { x e. A | -. x e. ( F ` x ) } e. ran F <-> E. y e. A ( F ` y ) = { x e. A | -. x e. ( F ` x ) } ) )"
+          },
+          "21": {
+            "label": "mtbiri",
+            "expression": "|- ( ph -> -. ps )",
+            "dependencies": [
+              19,
+              20
+            ],
+            "full_text": "mtbiri: An inference from a biconditional, similar to modus tollens.",
+            "instantiated_expression": "|- ( F : A -onto-> ~P A -> -. { x e. A | -. x e. ( F ` x ) } e. ran F )"
+          },
+          "22": {
+            "label": "pm2.65i",
+            "expression": "|- -. ph",
+            "dependencies": [
+              14,
+              21
+            ],
+            "full_text": "pm2.65i: Inference for proof by contradiction.  (Contributed by NM, 18-May-1994.) (Proof shortened by Wolf Lammen, 11-Sep-2013.)",
+            "instantiated_expression": "|- -. F : A -onto-> ~P A"
+          }
+        },
+        "starting_statements": [
+          1
+        ],
+        "theorem": "canth",
+        "randomize_items": false,
+        "vanilla_placement": 1
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Metamath for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "metamath"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Proved Statement 22"
+      }
+    }
+  },
+  "helpers": {},
+  "is_vanilla": true,
+  "preset_label": "canth v"
+}

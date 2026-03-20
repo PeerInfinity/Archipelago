@@ -1,7 +1,8 @@
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 
 export class ProgressBarPanelUI {
   constructor(container, componentState) {
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
     this.container = container;
     this.componentState = componentState;
     this.rootElement = null;
@@ -17,9 +18,9 @@ export class ProgressBarPanelUI {
     // Wait for app ready before full initialization
     const readyHandler = (eventPayload) => {
       this.initialize();
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'progressBarPanel');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
     
     // Handle panel destruction
     this.container.on('destroy', () => {
@@ -100,12 +101,12 @@ export class ProgressBarPanelUI {
     const showUIHandler = () => this.showUIContent();
     const hideUIHandler = () => this.hideUIContent();
     
-    eventBus.subscribe('progressBarPanel:showUIContent', showUIHandler, 'progressBarPanel');
-    eventBus.subscribe('progressBarPanel:hideUIContent', hideUIHandler, 'progressBarPanel');
-    
+    this.eventBus.subscribe('progressBarPanel:showUIContent', showUIHandler);
+    this.eventBus.subscribe('progressBarPanel:hideUIContent', hideUIHandler);
+
     this.unsubscribeHandles.push(
-      () => eventBus.unsubscribe('progressBarPanel:showUIContent', showUIHandler),
-      () => eventBus.unsubscribe('progressBarPanel:hideUIContent', hideUIHandler)
+      () => this.eventBus.unsubscribe('progressBarPanel:showUIContent', showUIHandler),
+      () => this.eventBus.unsubscribe('progressBarPanel:hideUIContent', hideUIHandler)
     );
   }
 
@@ -139,14 +140,14 @@ export class ProgressBarPanelUI {
     // Register dynamic event publishers for this test progress bar
     const startEvent = `test:start-${testId}`;
     const completionEvent = `test:complete-${testId}`;
-    
+
     // Register start event under progressBarPanel (since we publish it)
-    eventBus.registerPublisher(startEvent, 'progressBarPanel');
+    this.eventBus.registerPublisher(startEvent, 'progressBarPanel');
     // Register completion event under progressBar (since the progressBar module publishes it)
-    eventBus.registerPublisher(completionEvent, 'progressBar');
-    
+    this.eventBus.registerPublisher(completionEvent, 'progressBar');
+
     // Send progressBar:create event
-    eventBus.publish('progressBar:create', {
+    this.eventBus.publish('progressBar:create', {
       id: testId,
       targetElement: this.mainAreaElement,
       mode: 'timer',
@@ -156,20 +157,20 @@ export class ProgressBarPanelUI {
       completionEvent: completionEvent,
       completionPayload: `Test completed for ${testId}`,
       autoCleanup: 'none' // Keep visible after completion
-    }, 'progressBarPanel');
-    
+    });
+
     // Start the progress bar after a short delay
     setTimeout(() => {
       this.log('debug', `Starting test progress bar: ${testId}`);
-      eventBus.publish(startEvent, {}, 'progressBarPanel');
+      this.eventBus.publish(startEvent, {});
     }, 500);
-    
+
     // Listen for completion
     const completionHandler = (payload) => {
       this.log('info', `Test progress bar completed: ${testId}`, payload);
-      eventBus.unsubscribe(completionEvent, completionHandler);
+      this.eventBus.unsubscribe(completionEvent, completionHandler);
     };
-    eventBus.subscribe(completionEvent, completionHandler, 'progressBarPanel');
+    this.eventBus.subscribe(completionEvent, completionHandler);
   }
 
   // Clear all progress bars from the main area
@@ -179,7 +180,7 @@ export class ProgressBarPanelUI {
       const progressId = progressBar.getAttribute('data-progress-id');
       if (progressId) {
         this.log('debug', `Destroying progress bar: ${progressId}`);
-        eventBus.publish('progressBar:destroy', { id: progressId }, 'progressBarPanel');
+        this.eventBus.publish('progressBar:destroy', { id: progressId });
       }
     });
     
@@ -194,34 +195,52 @@ export class ProgressBarPanelUI {
   // Show UI content (header, buttons, info text)
   showUIContent() {
     this.log('debug', 'Showing Progress Bar Panel UI content');
-    
+
     if (this.headerElement) {
       this.headerElement.style.display = '';
     }
-    
+
     if (this.buttonContainer) {
       this.buttonContainer.style.display = '';
     }
-    
+
     if (this.infoElement) {
       this.infoElement.style.display = '';
+    }
+
+    // Restore default padding
+    if (this.rootElement) {
+      this.rootElement.style.padding = '';
+    }
+    if (this.mainAreaElement) {
+      this.mainAreaElement.style.padding = '8px';
+      this.mainAreaElement.style.height = 'calc(100% - 50px)';
     }
   }
 
   // Hide UI content (header, buttons, info text) - keep only progress bars visible
   hideUIContent() {
     this.log('debug', 'Hiding Progress Bar Panel UI content');
-    
+
     if (this.headerElement) {
       this.headerElement.style.display = 'none';
     }
-    
+
     if (this.buttonContainer) {
       this.buttonContainer.style.display = 'none';
     }
-    
+
     if (this.infoElement) {
       this.infoElement.style.display = 'none';
+    }
+
+    // Remove padding so progress bars sit flush at top-left
+    if (this.rootElement) {
+      this.rootElement.style.padding = '0';
+    }
+    if (this.mainAreaElement) {
+      this.mainAreaElement.style.padding = '0';
+      this.mainAreaElement.style.height = '100%';
     }
   }
 

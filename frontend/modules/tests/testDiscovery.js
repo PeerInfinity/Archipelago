@@ -43,7 +43,7 @@ const TEST_CASE_FILES = [
   './testCases/window-baseTests.js',
   './testCases/timerTests.js',
   './testCases/multiclientTests.js',
-  './testCases/testSpoilersPanelTests.js',
+  './testCases/spoilerTestPanelTests.js',
   //'./testCases/manualTests.js',
 ];
 
@@ -66,7 +66,20 @@ export async function discoverTests() {
     return discoveryPromise;
   }
 
-  log('info', '[TestDiscovery] Starting test discovery...');
+  // In bundled mode, test cases are pre-imported and self-registered
+  // Just mark discovery complete without dynamic imports
+  const hasBundledTests = typeof window !== 'undefined' && window.__BUNDLED_TEST_CASES__;
+  if (hasBundledTests) {
+    log('info', '[TestDiscovery] Using pre-bundled test cases (already registered)');
+    discoveryComplete = true;
+
+    // Log stats from registry
+    const stats = getRegistryStats();
+    log('info', `[TestDiscovery] Pre-bundled tests: ${stats.testCount} tests in ${stats.categoryCount} categories`);
+    return;
+  }
+
+  log('info', '[TestDiscovery] Starting test discovery (dynamic imports)...');
 
   discoveryPromise = (async () => {
     // Import files sequentially to maintain order from TEST_CASE_FILES array

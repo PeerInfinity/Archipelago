@@ -1,5 +1,5 @@
 from BaseClasses import MultiWorld, Region, Entrance
-from .Locations import location_table, WebDevJourneyLocation
+from .Locations import location_table, CodingAdventureLocation
 
 def create_regions(multiworld: MultiWorld, player: int) -> None:
     regions = {}
@@ -21,7 +21,7 @@ def create_regions(multiworld: MultiWorld, player: int) -> None:
     
     for location_name, location_data in location_table.items():
         region = regions[location_data.region]
-        location = WebDevJourneyLocation(player, location_name, location_data.location_id, region)
+        location = CodingAdventureLocation(player, location_name, location_data.location_id, region)
         
         if location_data.event:
             location.event = True

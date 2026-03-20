@@ -2,30 +2,31 @@
   "schema_version": 3,
   "game_name": "Noita",
   "game_directory": "noita",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "NoitaWorld"
   },
   "regions": {
     "1": {
       "Abyss Orb Room": {
         "name": "Abyss Orb Room",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Ancient Laboratory": {
         "name": "Ancient Laboratory",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Below Lava Lake": {
         "name": "Below Lava Lake",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Coal Pits": {
         "name": "Coal Pits",
@@ -34,24 +35,21 @@
             "name": "Coal Pits -> Fungal Caverns",
             "connected_region": "Fungal Caverns",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Coal Pits -> Snowy Depths Holy Mountain",
             "connected_region": "Snowy Depths Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Coal Pits -> Ancient Laboratory",
             "connected_region": "Ancient Laboratory",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -60,141 +58,142 @@
             "name": "Coal Pits Chest 1",
             "id": 110126,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Chest 2",
             "id": 110127,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Chest 3",
             "id": 110128,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 1",
             "id": 110146,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 2",
             "id": 110147,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 1)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 3",
             "id": 110148,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "S\u00e4dekivi",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 4",
             "id": 110149,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 5",
             "id": 110150,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Pedestal 6",
             "id": 110151,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 2",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 2",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -205,8 +204,7 @@
             "name": "Coal Pits Holy Mountain -> Coal Pits",
             "connected_region": "Coal Pits",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -215,107 +213,111 @@
             "name": "Coal Pits Holy Mountain Shop Item 1",
             "id": 110000,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Holy Mountain Shop Item 2",
             "id": 110001,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Holy Mountain Shop Item 3",
             "id": 110002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Holy Mountain Shop Item 4",
             "id": 110003,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 5)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Holy Mountain Shop Item 5",
             "id": 110004,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Coal Pits Holy Mountain Spell Refresh",
             "id": 110005,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "Collapsed Mines": {
         "name": "Collapsed Mines",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Desert": {
         "name": "Desert",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Dragoncave": {
         "name": "Dragoncave",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Floating Island": {
         "name": "Floating Island",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Forest": {
         "name": "Forest",
@@ -324,32 +326,28 @@
             "name": "Forest -> Mines",
             "connected_region": "Mines",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Forest -> Floating Island",
             "connected_region": "Floating Island",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Forest -> Desert",
             "connected_region": "Desert",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Forest -> Snowy Wasteland",
             "connected_region": "Snowy Wasteland",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -358,7 +356,8 @@
       "Friend Cave": {
         "name": "Friend Cave",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Frozen Vault": {
         "name": "Frozen Vault",
@@ -367,8 +366,7 @@
             "name": "Frozen Vault -> The Vault",
             "connected_region": "The Vault",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -377,7 +375,8 @@
       "Fungal Caverns": {
         "name": "Fungal Caverns",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Hiisi Base": {
         "name": "Hiisi Base",
@@ -386,24 +385,21 @@
             "name": "Hiisi Base -> Secret Shop",
             "connected_region": "Secret Shop",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Hiisi Base -> Pyramid",
             "connected_region": "Pyramid",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Hiisi Base -> Underground Jungle Holy Mountain",
             "connected_region": "Underground Jungle Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -412,141 +408,142 @@
             "name": "Hiisi Base Chest 1",
             "id": 110246,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Chest 2",
             "id": 110247,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Chest 3",
             "id": 110248,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 1",
             "id": 110266,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 2",
             "id": 110267,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Kammi",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 3",
             "id": 110268,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 4",
             "id": 110269,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 5",
             "id": 110270,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Pedestal 6",
             "id": 110271,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 6)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 4",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 4",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -557,8 +554,7 @@
             "name": "Hiisi Base Holy Mountain -> Hiisi Base",
             "connected_region": "Hiisi Base",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -567,85 +563,85 @@
             "name": "Hiisi Base Holy Mountain Shop Item 1",
             "id": 110012,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Holy Mountain Shop Item 2",
             "id": 110013,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Holy Mountain Shop Item 3",
             "id": 110014,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Holy Mountain Shop Item 4",
             "id": 110015,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Holy Mountain Shop Item 5",
             "id": 110016,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Hiisi Base Holy Mountain Spell Refresh",
             "id": 110017,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -656,8 +652,7 @@
             "name": "Laboratory Holy Mountain -> The Laboratory",
             "connected_region": "The Laboratory",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -666,92 +661,93 @@
             "name": "Laboratory Holy Mountain Shop Item 1",
             "id": 110036,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Laboratory Holy Mountain Shop Item 2",
             "id": 110037,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Laboratory Holy Mountain Shop Item 3",
             "id": 110038,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Laboratory Holy Mountain Shop Item 4",
             "id": 110039,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Laboratory Holy Mountain Shop Item 5",
             "id": 110040,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Laboratory Holy Mountain Spell Refresh",
             "id": 110041,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Chaos Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "Lake": {
         "name": "Lake",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Lava Lake": {
         "name": "Lava Lake",
@@ -760,8 +756,7 @@
             "name": "Lava Lake -> Abyss Orb Room",
             "connected_region": "Abyss Orb Room",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -770,17 +765,20 @@
       "Lukki Lair": {
         "name": "Lukki Lair",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Magical Temple": {
         "name": "Magical Temple",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Meat Realm": {
         "name": "Meat Realm",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Menu": {
         "name": "Menu",
@@ -789,8 +787,7 @@
             "name": "Menu -> Forest",
             "connected_region": "Forest",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -803,24 +800,21 @@
             "name": "Mines -> Collapsed Mines",
             "connected_region": "Collapsed Mines",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Mines -> Coal Pits Holy Mountain",
             "connected_region": "Coal Pits Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Mines -> Lava Lake",
             "connected_region": "Lava Lake",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -829,141 +823,142 @@
             "name": "Mines Chest 1",
             "id": 110046,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Chest 2",
             "id": 110047,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Life Perk",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Chest 3",
             "id": 110048,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 4)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 1",
             "id": 110066,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 2",
             "id": 110067,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 3",
             "id": 110068,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 2)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 4",
             "id": 110069,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 5",
             "id": 110070,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Secret Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Mines Pedestal 6",
             "id": 110071,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 1",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 1",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -974,8 +969,7 @@
             "name": "Overgrown Cavern -> Sandcave",
             "connected_region": "Sandcave",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -988,8 +982,7 @@
             "name": "Powerplant -> Meat Realm",
             "connected_region": "Meat Realm",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -998,12 +991,14 @@
       "Pyramid": {
         "name": "Pyramid",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Sandcave": {
         "name": "Sandcave",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Secret Shop": {
         "name": "Secret Shop",
@@ -1013,64 +1008,65 @@
             "name": "Secret Shop Item 1",
             "id": 110042,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Secret Shop Item 2",
             "id": 110043,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 4)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Secret Shop Item 3",
             "id": 110044,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Secret Shop Item 4",
             "id": 110045,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "Snow Chasm": {
         "name": "Snow Chasm",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Snowy Depths": {
         "name": "Snowy Depths",
@@ -1079,24 +1075,21 @@
             "name": "Snowy Depths -> Hiisi Base Holy Mountain",
             "connected_region": "Hiisi Base Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Snowy Depths -> Magical Temple",
             "connected_region": "Magical Temple",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Snowy Depths -> Below Lava Lake",
             "connected_region": "Below Lava Lake",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1105,141 +1098,142 @@
             "name": "Snowy Depths Chest 1",
             "id": 110206,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Chest 2",
             "id": 110207,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Secret Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Chest 3",
             "id": 110208,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 1",
             "id": 110226,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 2",
             "id": 110227,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 3",
             "id": 110228,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 2)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 4",
             "id": 110229,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 5",
             "id": 110230,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Pedestal 6",
             "id": 110231,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Chaos Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 3",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 3",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -1250,8 +1244,7 @@
             "name": "Snowy Depths Holy Mountain -> Snowy Depths",
             "connected_region": "Snowy Depths",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1260,92 +1253,93 @@
             "name": "Snowy Depths Holy Mountain Shop Item 1",
             "id": 110006,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 4)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Holy Mountain Shop Item 2",
             "id": 110007,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 4)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Holy Mountain Shop Item 3",
             "id": 110008,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Holy Mountain Shop Item 4",
             "id": 110009,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Holy Mountain Shop Item 5",
             "id": 110010,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Spell Refresher",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Snowy Depths Holy Mountain Spell Refresh",
             "id": 110011,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "Snowy Wasteland": {
         "name": "Snowy Wasteland",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Temple of the Art": {
         "name": "Temple of the Art",
@@ -1354,24 +1348,21 @@
             "name": "Temple of the Art -> Laboratory Holy Mountain",
             "connected_region": "Laboratory Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Temple of the Art -> The Tower",
             "connected_region": "The Tower",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Temple of the Art -> Wizards' Den",
             "connected_region": "Wizards' Den",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1380,141 +1371,142 @@
             "name": "Temple of the Art Chest 1",
             "id": 110406,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Greed Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Chest 2",
             "id": 110407,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Broken Wand",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Chest 3",
             "id": 110408,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 1)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 1",
             "id": 110426,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 2",
             "id": 110427,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 3",
             "id": 110428,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 4",
             "id": 110429,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 5",
             "id": 110430,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Pedestal 6",
             "id": 110431,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Broken Wand",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 7",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 7",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -1525,8 +1517,7 @@
             "name": "Temple of the Art Holy Mountain -> Temple of the Art",
             "connected_region": "Temple of the Art",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1535,85 +1526,85 @@
             "name": "Temple of the Art Holy Mountain Shop Item 1",
             "id": 110030,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Holy Mountain Shop Item 2",
             "id": 110031,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Holy Mountain Shop Item 3",
             "id": 110032,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Holy Mountain Shop Item 4",
             "id": 110033,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Refreshing Gourd",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Holy Mountain Shop Item 5",
             "id": 110034,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Kammi",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Temple of the Art Holy Mountain Spell Refresh",
             "id": 110035,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 2)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -1624,40 +1615,35 @@
             "name": "The Laboratory -> The Work",
             "connected_region": "The Work",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "The Laboratory -> Friend Cave",
             "connected_region": "Friend Cave",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "The Laboratory -> The Work (Hell)",
             "connected_region": "The Work (Hell)",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "The Laboratory -> Lake",
             "connected_region": "Lake",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "The Laboratory -> The Sky",
             "connected_region": "The Sky",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1666,12 +1652,14 @@
       "The Sky": {
         "name": "The Sky",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "The Tower": {
         "name": "The Tower",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "The Vault": {
         "name": "The Vault",
@@ -1680,16 +1668,14 @@
             "name": "The Vault -> Frozen Vault",
             "connected_region": "Frozen Vault",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "The Vault -> Temple of the Art Holy Mountain",
             "connected_region": "Temple of the Art Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1698,141 +1684,142 @@
             "name": "The Vault Chest 1",
             "id": 110366,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Chest 2",
             "id": 110367,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Chaos Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Chest 3",
             "id": 110368,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Random Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 1",
             "id": 110386,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 2",
             "id": 110387,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 3",
             "id": 110388,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 4",
             "id": 110389,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Random Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 5",
             "id": 110390,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "The Vault Pedestal 6",
             "id": 110391,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 6",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 6",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -1844,22 +1831,24 @@
             "name": "Victory",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
       "The Work (Hell)": {
         "name": "The Work (Hell)",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Underground Jungle": {
         "name": "Underground Jungle",
@@ -1868,48 +1857,42 @@
             "name": "Underground Jungle -> Dragoncave",
             "connected_region": "Dragoncave",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Underground Jungle -> Overgrown Cavern",
             "connected_region": "Overgrown Cavern",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Underground Jungle -> Vault Holy Mountain",
             "connected_region": "Vault Holy Mountain",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Underground Jungle -> Lukki Lair",
             "connected_region": "Lukki Lair",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Underground Jungle -> Snow Chasm",
             "connected_region": "Snow Chasm",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "Underground Jungle -> West Meat Realm",
             "connected_region": "West Meat Realm",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -1918,141 +1901,142 @@
             "name": "Underground Jungle Chest 1",
             "id": 110286,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 3)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Chest 2",
             "id": 110287,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Greed Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Chest 3",
             "id": 110288,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Powder Pouch",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 1",
             "id": 110306,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Chaos Die",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 2",
             "id": 110307,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 3",
             "id": 110308,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (1000)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 4",
             "id": 110309,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Gold (200)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 5",
             "id": 110310,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Secret Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Pedestal 6",
             "id": 110311,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Secret Potion",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Portal to Holy Mountain 5",
             "id": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Portal to Holy Mountain 5",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -2063,8 +2047,7 @@
             "name": "Underground Jungle Holy Mountain -> Underground Jungle",
             "connected_region": "Underground Jungle",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -2073,85 +2056,85 @@
             "name": "Underground Jungle Holy Mountain Shop Item 1",
             "id": 110018,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Life Perk",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Holy Mountain Shop Item 2",
             "id": 110019,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "All-Seeing Eye Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Holy Mountain Shop Item 3",
             "id": 110020,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Tinker with Wands Everywhere Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Holy Mountain Shop Item 4",
             "id": 110021,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Electricity Immunity Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Holy Mountain Shop Item 5",
             "id": 110022,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Melee Immunity Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Underground Jungle Holy Mountain Spell Refresh",
             "id": 110023,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Trap",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -2162,8 +2145,7 @@
             "name": "Vault Holy Mountain -> The Vault",
             "connected_region": "The Vault",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -2172,92 +2154,93 @@
             "name": "Vault Holy Mountain Shop Item 1",
             "id": 110024,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Explosion Immunity Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Vault Holy Mountain Shop Item 2",
             "id": 110025,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Toxic Immunity Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Vault Holy Mountain Shop Item 3",
             "id": 110026,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Fire Immunity Perk",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Vault Holy Mountain Shop Item 4",
             "id": 110027,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 6)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Vault Holy Mountain Shop Item 5",
             "id": 110028,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Wand (Tier 5)",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Vault Holy Mountain Spell Refresh",
             "id": 110029,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Extra Max HP",
               "player": 1,
               "advancement": false,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
       "West Meat Realm": {
         "name": "West Meat Realm",
         "exits": [],
-        "locations": []
+        "locations": [],
+        "dynamically_added": true
       },
       "Wizards' Den": {
         "name": "Wizards' Den",
@@ -2266,8 +2249,7 @@
             "name": "Wizards' Den -> Powerplant",
             "connected_region": "Powerplant",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -2292,12 +2274,9 @@
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true,
-        "event": false,
+        "classification": "trap",
         "type": null,
-        "max_count": 15
+        "max_count": 10
       },
       "Extra Max HP": {
         "name": "Extra Max HP",
@@ -2306,12 +2285,9 @@
           "Everything",
           "Pickups"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 29
+        "max_count": 20
       },
       "Spell Refresher": {
         "name": "Spell Refresher",
@@ -2320,12 +2296,9 @@
           "Everything",
           "Pickups"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 8
+        "max_count": 6
       },
       "Potion": {
         "name": "Potion",
@@ -2333,12 +2306,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 26
+        "max_count": 13
       },
       "Gold (200)": {
         "name": "Gold (200)",
@@ -2347,12 +2317,9 @@
           "Everything",
           "Gold"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 14
+        "max_count": 7
       },
       "Gold (1000)": {
         "name": "Gold (1000)",
@@ -2361,12 +2328,9 @@
           "Everything",
           "Gold"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Wand (Tier 1)": {
         "name": "Wand (Tier 1)",
@@ -2375,12 +2339,9 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Wand (Tier 2)": {
         "name": "Wand (Tier 2)",
@@ -2389,12 +2350,9 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 6
+        "max_count": 3
       },
       "Wand (Tier 3)": {
         "name": "Wand (Tier 3)",
@@ -2403,12 +2361,9 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 9
+        "max_count": 6
       },
       "Wand (Tier 4)": {
         "name": "Wand (Tier 4)",
@@ -2417,12 +2372,9 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 5
+        "max_count": 4
       },
       "Wand (Tier 5)": {
         "name": "Wand (Tier 5)",
@@ -2431,10 +2383,7 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
         "max_count": 2
       },
@@ -2445,12 +2394,9 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 3
+        "max_count": 2
       },
       "Kantele": {
         "name": "Kantele",
@@ -2459,10 +2405,7 @@
           "Everything",
           "Wands"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2473,10 +2416,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2487,10 +2427,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2501,10 +2438,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2515,10 +2449,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2529,10 +2460,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2543,24 +2471,19 @@
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
       "All-Seeing Eye Perk": {
         "name": "All-Seeing Eye Perk",
+        "hint_text": "All Seeing Eye Perk",
         "id": 110019,
         "groups": [
           "Everything",
           "Perks"
         ],
-        "advancement": true,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
         "max_count": 1
       },
@@ -2571,10 +2494,7 @@
           "Everything",
           "Perks"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2585,12 +2505,9 @@
           "Everything",
           "Repeatable Perks"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false,
-        "event": false,
+        "classification": "useful",
         "type": null,
-        "max_count": 3
+        "max_count": 2
       },
       "Orb": {
         "name": "Orb",
@@ -2599,10 +2516,7 @@
           "Everything",
           "Orbs"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2613,12 +2527,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Secret Potion": {
         "name": "Secret Potion",
@@ -2627,12 +2538,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 8
+        "max_count": 4
       },
       "Powder Pouch": {
         "name": "Powder Pouch",
@@ -2641,12 +2549,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 12
+        "max_count": 6
       },
       "Chaos Die": {
         "name": "Chaos Die",
@@ -2655,12 +2560,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 8
+        "max_count": 4
       },
       "Greed Die": {
         "name": "Greed Die",
@@ -2669,12 +2571,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true,
-        "event": false,
+        "classification": "trap",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Kammi": {
         "name": "Kammi",
@@ -2683,12 +2582,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 3
+        "max_count": 2
       },
       "Refreshing Gourd": {
         "name": "Refreshing Gourd",
@@ -2697,10 +2593,7 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2711,12 +2604,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Broken Wand": {
         "name": "Broken Wand",
@@ -2725,12 +2615,9 @@
           "Everything",
           "Items"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
-        "max_count": 4
+        "max_count": 2
       },
       "Victory": {
         "name": "Victory",
@@ -2738,9 +2625,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2751,9 +2636,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2764,9 +2647,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2777,9 +2658,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2790,9 +2669,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2803,9 +2680,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2816,9 +2691,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2829,9 +2702,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -2854,17 +2725,17 @@
   "itempool_counts": {
     "1": {
       "All-Seeing Eye Perk": 1,
-      "Broken Wand": 4,
-      "Chaos Die": 8,
+      "Broken Wand": 2,
+      "Chaos Die": 4,
       "Electricity Immunity Perk": 1,
       "Explosion Immunity Perk": 1,
-      "Extra Life Perk": 3,
-      "Extra Max HP": 29,
+      "Extra Life Perk": 2,
+      "Extra Max HP": 20,
       "Fire Immunity Perk": 1,
-      "Gold (1000)": 2,
-      "Gold (200)": 14,
-      "Greed Die": 4,
-      "Kammi": 3,
+      "Gold (1000)": 1,
+      "Gold (200)": 7,
+      "Greed Die": 2,
+      "Kammi": 2,
       "Melee Immunity Perk": 1,
       "Portal to Holy Mountain 1": 1,
       "Portal to Holy Mountain 2": 1,
@@ -2873,24 +2744,27 @@
       "Portal to Holy Mountain 5": 1,
       "Portal to Holy Mountain 6": 1,
       "Portal to Holy Mountain 7": 1,
-      "Potion": 26,
-      "Powder Pouch": 12,
-      "Random Potion": 4,
+      "Potion": 13,
+      "Powder Pouch": 6,
+      "Random Potion": 2,
       "Refreshing Gourd": 1,
-      "Secret Potion": 8,
-      "Spell Refresher": 8,
-      "S\u00e4dekivi": 2,
+      "Secret Potion": 4,
+      "Spell Refresher": 6,
+      "S\u00e4dekivi": 1,
       "Tinker with Wands Everywhere Perk": 1,
       "Toxic Immunity Perk": 1,
-      "Trap": 15,
+      "Trap": 10,
       "Victory": 1,
-      "Wand (Tier 1)": 4,
-      "Wand (Tier 2)": 6,
-      "Wand (Tier 3)": 9,
-      "Wand (Tier 4)": 5,
+      "Wand (Tier 1)": 2,
+      "Wand (Tier 2)": 3,
+      "Wand (Tier 3)": 6,
+      "Wand (Tier 4)": 4,
       "Wand (Tier 5)": 2,
-      "Wand (Tier 6)": 3
+      "Wand (Tier 6)": 2
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -2898,19 +2772,181 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Noita",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "NoitaWorld",
+      "options": {
+        "accessibility": 0,
+        "bad_effects": true,
+        "bosses_as_checks": 0,
+        "death_link": false,
+        "exclude_locations": [],
+        "extra_orbs": 0,
+        "hidden_chests": 3,
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "orbs_as_checks": 0,
+        "path_option": 1,
+        "pedestal_checks": 6,
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "shop_price": 100,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_inventory_from_pool": {},
+        "start_location_hints": [],
+        "victory_condition": 0
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "bad_effects": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Traps"
+        },
+        "bosses_as_checks": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "no_bosses",
+            "1": "main_path",
+            "2": "side_path",
+            "3": "all_bosses"
+          },
+          "default": 0,
+          "display_name": "Bosses as Location Checks"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "extra_orbs": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 10,
+          "default": 0,
+          "display_name": "Extra Orbs"
+        },
+        "hidden_chests": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 20,
+          "default": 3,
+          "display_name": "Hidden Chests per Biome"
+        },
+        "orbs_as_checks": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "no_orbs",
+            "1": "main_path",
+            "2": "side_path",
+            "3": "main_world"
+          },
+          "default": 0,
+          "display_name": "Orbs as Location Checks"
+        },
+        "path_option": {
+          "type": "choice",
+          "name_lookup": {
+            "1": "main_path",
+            "2": "side_path",
+            "3": "main_world"
+          },
+          "default": 1,
+          "display_name": "Path Option"
+        },
+        "pedestal_checks": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 20,
+          "default": 6,
+          "display_name": "Pedestal Checks per Biome"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "shop_price": {
+          "type": "choice",
+          "name_lookup": {
+            "100": "full_price",
+            "75": "25_percent_off",
+            "50": "50_percent_off",
+            "25": "75_percent_off"
+          },
+          "default": 100,
+          "display_name": "Shop Price Reduction"
+        },
+        "start_inventory_from_pool": {
+          "type": "start_inventory_pool",
+          "default": {},
+          "display_name": "Start Inventory from Pool"
+        },
+        "victory_condition": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "greed_ending",
+            "1": "pure_ending",
+            "2": "peaceful_ending"
+          },
+          "default": 0,
+          "display_name": "Victory Condition"
+        }
+      },
+      "world_description": "Noita is a magical action roguelite set in a world where every pixel is physically simulated. Fight, explore, melt,\nburn, freeze, and evaporate your way through the procedurally generated world using wands you've created yourself.",
+      "slot_data": {
+        "death_link": 0,
+        "victory_condition": 0,
+        "path_option": 1,
+        "hidden_chests": 3,
+        "pedestal_checks": 6,
+        "orbs_as_checks": 0,
+        "bosses_as_checks": 0,
+        "extra_orbs": 0,
+        "shop_price": 100
+      },
+      "web": {
+        "theme": "partyTime",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up the Noita integration for Archipelago multiworld games.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Heinermann",
+              "ScipioWright",
+              "DaftBrit"
+            ]
+          }
+        ]
+      },
+      "world_directory": "noita"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "Noita",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
       }
     }
-  }
+  },
+  "helpers": {}
 }

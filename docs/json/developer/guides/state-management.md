@@ -31,6 +31,35 @@ The system is built on a **proxy pattern** that separates the main UI thread fro
 - **`StateManagerProxy` (`stateManagerProxy.js`):** The public-facing interface on the main UI thread. All other modules interact with this proxy. It sends commands to the worker and caches the latest state **snapshot** it receives back.
 - **`stateManagerProxySingleton.js`**: Ensures only one instance of the proxy exists, providing a global access point for all modules.
 - **`stateManagerWorker.js`**: The script that bootstraps the worker, instantiates the `StateManager`, and handles the `postMessage` communication bridge.
+- **`CommandQueue` (`core/commandQueue.js`):** Manages command queuing in the worker. Commands are enqueued immediately upon arrival and processed in FIFO order, providing debugging visibility and controlled execution flow.
+
+### CommandQueue System
+
+The CommandQueue is an infrastructure component that manages the flow of commands to the StateManager:
+
+```
+Incoming Commands          CommandQueue              StateManager
+    │                      ┌──────────┐              ┌──────────┐
+    ├───postMessage────────► enqueue  │              │          │
+    │                      ├──────────┤              │ process  │
+    ├───postMessage────────► enqueue  ├───dequeue───►│ command  │
+    │                      ├──────────┤              │          │
+    └───postMessage────────► enqueue  │              └──────────┘
+                           └──────────┘
+```
+
+**Key Features:**
+- FIFO command processing
+- Debug mode for command flow visibility
+- Success/failure history tracking
+- Command metrics (counts by type, peak queue depth)
+- Foundation for future command batching
+
+**Debugging:** Enable debug mode to log command flow:
+```javascript
+// In worker initialization
+const queue = new CommandQueue({ debugMode: true });
+```
 
 ## The Data Flow: Commands and Snapshots
 
@@ -63,7 +92,7 @@ For a full breakdown, see the [State Snapshots Documentation](./reference/state-
 
 While the worker handles the primary state computation, UI components often need to evaluate simple rules for display purposes (e.g., showing the logic tree for a location). To do this without asking the worker and waiting for a response, they use a **State Snapshot Interface**.
 
--   **`createStateSnapshotInterface()`**: A function in `frontend/modules/shared/stateInterface.js` that takes the latest snapshot and static data to create a temporary interface object.
+-   **`createSnapshotInterface()`**: A function in `frontend/modules/shared/snapshotInterface.js` that takes the latest snapshot and static data to create a temporary interface object.
 -   This interface has methods similar to the real `StateManager` (e.g., `hasItem`, `countGroup`, `executeHelper`) but operates _synchronously_ on the cached snapshot data.
 -   This allows `commonUI.renderLogicTree()` to instantly evaluate and display a rule's status on the main thread.
 

@@ -65,13 +65,13 @@ export class LocationManager {
 
     log('info', '[LocationManager] Subscribing to events...');
     const subscribe = (eventName, handler) => {
-      const unsub = this.eventBus.subscribe(eventName, handler, 'locationManager');
+      const unsub = this.eventBus.subscribe(eventName, handler);
       this.unsubscribeHandles.push(unsub);
     };
 
     subscribe('game:connected', () => {
       // Use injected eventBus
-      this.eventBus?.publish('locations:updated', {}, 'client');
+      this.eventBus?.publish('locations:updated', {});
     });
     // Add other subscriptions if needed
   }

@@ -1,0 +1,30 @@
+{
+  "comment": "Per-game fuzzer option configurations. Use 'default_options' to specify options that should remain at their default values during fuzz testing (avoids invalid randomized configurations). Use 'disallow_options' to exclude specific option values. Use 'max_item_dict_value' to cap OptionCounter values (e.g., start_inventory) to prevent huge rules.json files. Format matches fuzz.py command-line arguments.",
+  "game_options": {
+    "DLCQuest.yaml": {
+      "default_options": "coinsanity",
+      "reason": "With coinsanity=coin, DLCQuest creates 1700+ individual coin locations causing spoiler test timeouts (3+ min vs 2 min limit). Keeping coinsanity at default (none) ensures reasonable test times."
+    },
+    "Shivers.yaml": {
+      "max_item_dict_value": 5,
+      "reason": "Shivers start_inventory can generate up to 1000 copies per item when option.max is None, creating 9+ MB rules.json files that cause frontend spoiler test timeouts."
+    },
+    "shapez.yaml": {
+      "default_options": "lock_belt_and_extractor",
+      "reason": "When lock_belt_and_extractor=true, include_achievements must also be true (constraint in generate_early). Keeping lock_belt_and_extractor at default (false) avoids this constraint."
+    },
+    "Subnautica.yaml": {
+      "default_options": "filler_items_distribution",
+      "reason": "Empty filler_items_distribution ({}) causes IndexError in generate_early() when accessing weights_pair[1][-1] on empty list"
+    },
+    "Final Fantasy Mystic Quest.yaml": {
+      "default_options": "map_shuffle,crest_shuffle,shuffle_battlefield_rewards,companions_locations",
+      "disallow_options": "enemies_density=none",
+      "reason": "map_shuffle/crest_shuffle/shuffle_battlefield_rewards/companions_locations require external API calls (ffmqrando.net) that fail in CI/cloud. enemies_density=none with brown_boxes!=include and accessibility!=minimal causes 'Not enough filler/trap items' generation error."
+    },
+    "Super Mario Land 2.yaml": {
+      "default_options": "coinsanity",
+      "reason": "With coinsanity=true, Super Mario Land 2 creates 1500+ individual coin locations causing spoiler test timeouts (2+ min vs 2 min limit). Keeping coinsanity at default (false) ensures reasonable test times."
+    }
+  }
+}

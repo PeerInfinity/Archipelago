@@ -1,7 +1,9 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
+import { getRegionMovesFromPath } from '../shared/pathUtils.js';
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
+import discoveryStateSingleton from '../discovery/singleton.js';
 
 const logger = createUniversalLogger('regionGraph');
 
@@ -13,13 +15,40 @@ export class NavigationManager {
     this.ui = ui;
   }
 
+  /**
+   * Get the primary start region from stateManager, with fallback
+   * @returns {string} The primary start region name
+   */
+  getPrimaryStartRegion() {
+    const startRegions = stateManager.getStartRegions?.();
+    if (Array.isArray(startRegions) && startRegions.length > 0) {
+      return startRegions[0];
+    }
+    // Fallback: use the first region from static data
+    const staticData = stateManager.getStaticData?.();
+    if (staticData && staticData.regions && staticData.regions.size > 0) {
+      return staticData.regions.keys().next().value;
+    }
+    return null;
+  }
+
+  /**
+   * Check if a region is a start region
+   * @param {string} regionName - The region to check
+   * @returns {boolean} Whether the region is a start region
+   */
+  isStartRegion(regionName) {
+    const startRegions = stateManager.getStartRegions?.() || [];
+    return startRegions.includes(regionName);
+  }
+
   onPathUpdate(data) {
     if (!data || !data.path) return;
 
     logger.debug(`Path updated with ${data.path.length} entries`);
 
     // Store the path data (filter for only regionMove entries)
-    this.ui.currentPath = data.path.filter(entry => entry.type === 'regionMove');
+    this.ui.currentPath = getRegionMovesFromPath(data.path);
     this.ui.regionPathCounts = data.regionCounts || new Map();
     logger.debug(`Filtered to ${this.ui.currentPath.length} region moves`);
 
@@ -34,26 +63,40 @@ export class NavigationManager {
         const regionName = node.id();
         const count = this.ui.regionPathCounts.get(regionName) || 0;
 
-        // Update the label to include count if region is in path
-        const staticData = stateManager.getStaticData();
-        const regionData = staticData?.regions?.[regionName];
-        const baseText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
-
-        if (count > 0) {
-          node.data('label', `${baseText} (${count})`);
-          node.addClass('in-path');
-
-          // Add different classes based on count for visual distinction
-          if (count === 1) {
-            node.removeClass('path-multiple');
-            node.addClass('path-single');
+        // In discovery mode, undiscovered regions show ??? or name depending on setting
+        const isDiscoveryModeActive = this.ui.isDiscoveryModeActive || false;
+        const showUndiscoveredNames = this.ui.discoverySettings?.showUndiscoveredRegionNames || false;
+        if (isDiscoveryModeActive && !discoveryStateSingleton.isRegionDiscovered(regionName)) {
+          if (showUndiscoveredNames && !node.hasClass('discovery-hidden')) {
+            const staticData = stateManager.getStaticData();
+            const regionData = staticData?.regions?.get(regionName);
+            node.data('label', regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' '));
           } else {
-            node.removeClass('path-single');
-            node.addClass('path-multiple');
+            node.data('label', '???');
           }
-        } else {
-          node.data('label', baseText);
           node.removeClass('in-path path-single path-multiple');
+        } else {
+          // Update the label to include count if region is in path
+          const staticData = stateManager.getStaticData();
+          const regionData = staticData?.regions?.get(regionName);
+          const baseText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+
+          if (count > 0) {
+            node.data('label', `${baseText} (${count})`);
+            node.addClass('in-path');
+
+            // Add different classes based on count for visual distinction
+            if (count === 1) {
+              node.removeClass('path-multiple');
+              node.addClass('path-single');
+            } else {
+              node.removeClass('path-single');
+              node.addClass('path-multiple');
+            }
+          } else {
+            node.data('label', baseText);
+            node.removeClass('in-path path-single path-multiple');
+          }
         }
       });
 
@@ -86,7 +129,11 @@ export class NavigationManager {
     // Find the target region node
     const regionNode = this.ui.cy.getElementById(regionName);
     if (!regionNode || regionNode.length === 0) {
-      logger.warn(`Region node not found: ${regionName}`);
+      // Region may not exist yet (e.g. placeholder before rules load) or in this graph
+      const staticData = stateManager.getStaticData?.();
+      const existsInStaticData = staticData?.regions?.has(regionName);
+      const logLevel = (!existsInStaticData || !this.ui.graphInitialized || this.isStartRegion(regionName)) ? 'debug' : 'warn';
+      logger[logLevel](`Region node not found: ${regionName}`);
       return;
     }
 
@@ -97,16 +144,16 @@ export class NavigationManager {
     logger.verbose('Default player position', { playerPos });
 
     // Check if player is at the end of the path and should be positioned at exit edge
-    // Always use default positioning for Menu region
-    if (regionName !== 'Menu' && this.ui.currentPath && this.ui.currentPath.length > 0) {
+    // Always use default positioning for start regions
+    if (!this.isStartRegion(regionName) && this.ui.currentPath && this.ui.currentPath.length > 0) {
       const lastPathEntry = this.ui.currentPath[this.ui.currentPath.length - 1];
       logger.verbose('Last path entry', { lastPathEntry });
 
       // If player's current region is the last region in path AND we have exit info
-      if (lastPathEntry.region === regionName && lastPathEntry.exitUsed) {
+      if (lastPathEntry.destinationRegion === regionName && lastPathEntry.exitUsed) {
         // Find the previous region in the path to determine the incoming edge
         const previousRegion = this.ui.currentPath.length > 1 ?
-          this.ui.currentPath[this.ui.currentPath.length - 2].region : null;
+          this.ui.currentPath[this.ui.currentPath.length - 2].destinationRegion : null;
 
         logger.verbose(`Previous region in path: ${previousRegion}`);
 
@@ -301,7 +348,7 @@ export class NavigationManager {
     // Get the adjacency map to find the final exit name
     const staticData = this.ui.pathFinder.stateManager.getStaticData();
     const snapshot = this.ui.pathFinder.stateManager.getLatestStateSnapshot();
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     const adjacencyMap = this.ui.pathFinder.buildAccessibilityMap(staticData, snapshot, snapshotInterface);
 
     const finalExitName = this.ui.pathFinder.findExitBetweenRegions(
@@ -354,7 +401,7 @@ export class NavigationManager {
     }
 
     // Start from the last region in the current path
-    const startRegion = currentPath[currentPath.length - 1].region;
+    const startRegion = currentPath[currentPath.length - 1].destinationRegion;
 
     if (startRegion === targetRegion) {
       logger.debug(`Target region ${targetRegion} is already at end of path`);
@@ -383,7 +430,7 @@ export class NavigationManager {
     // Build adjacency map for finding exits
     const staticData = stateManager.getStaticData();
     const snapshot = stateManager.getLatestStateSnapshot();
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     const adjacencyMap = this.ui.pathFinder.buildAccessibilityMap(staticData, snapshot, snapshotInterface);
 
     stepsToExecute.forEach((stepRegion, index) => {
@@ -417,24 +464,24 @@ export class NavigationManager {
   }
 
   overwritePath(targetRegion, moveOnlyOneStep = false) {
-    // First, set player to Menu and reset the path
-    logger.debug('Resetting player to Menu and clearing path');
+    // Get the start region from stateManager
+    const startRegion = this.getPrimaryStartRegion();
+
+    // First, set player to start region and reset the path
+    logger.debug(`Resetting player to ${startRegion} and clearing path`);
     const playerState = getPlayerStateSingleton();
 
-    // Set current region to Menu first
-    playerState.setCurrentRegion('Menu');
+    // Set current region to start region first
+    playerState.setCurrentRegion(startRegion);
 
-    // Then trim the path (this will reset path to just Menu)
-    playerState.trimPath('Menu', 1);
+    // Then trim the path (this will reset path to just start region)
+    playerState.trimPath(startRegion, 1);
 
     // Disable "Show All Regions" before executing moves
     this.setShowAllRegions(false);
 
-    // Find path from Menu to target
-    const startRegion = 'Menu';
-
     if (startRegion === targetRegion) {
-      logger.debug('Target region is Menu, path already reset');
+      logger.debug(`Target region is ${startRegion}, path already reset`);
       return;
     }
 
@@ -443,20 +490,20 @@ export class NavigationManager {
 
     if (!path || path.length === 0) {
       logger.warn(`No accessible path found from ${startRegion} to ${targetRegion}`);
-      this.ui.updateStatus(`No path from Menu to ${targetRegion}`);
+      this.ui.updateStatus(`No path from ${startRegion} to ${targetRegion}`);
       return;
     }
 
     // Execute the path by sending user:regionMove events
-    // Skip the first region in the path (Menu)
+    // Skip the first region in the path (start region)
     const stepsToExecute = moveOnlyOneStep ? [path.steps[1]] : path.steps.slice(1);
 
-    logger.info(`Creating new path: Menu → ${stepsToExecute.join(' → ')}`);
+    logger.info(`Creating new path: ${startRegion} → ${stepsToExecute.join(' → ')}`);
 
     // Build adjacency map for finding exits
     const staticData = stateManager.getStaticData();
     const snapshot = stateManager.getLatestStateSnapshot();
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     const adjacencyMap = this.ui.pathFinder.buildAccessibilityMap(staticData, snapshot, snapshotInterface);
 
     stepsToExecute.forEach((stepRegion, index) => {
@@ -486,7 +533,7 @@ export class NavigationManager {
       });
     });
 
-    this.ui.updateStatus(`Created path: Menu → ${targetRegion} (${stepsToExecute.length} steps)`);
+    this.ui.updateStatus(`Created path: ${startRegion} → ${targetRegion} (${stepsToExecute.length} steps)`);
   }
 
   setShowAllRegions(enabled) {

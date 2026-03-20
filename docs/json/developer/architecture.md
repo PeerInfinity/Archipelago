@@ -39,7 +39,7 @@ The frontend is a highly modular, single-page application designed for performan
 1.  **Modularity:** Every distinct feature or UI panel is a self-contained **Module**. This allows features to be enabled, disabled, or even loaded dynamically.
 2.  **Performance via Web Workers:** All heavy computation, primarily game rule evaluation and accessibility analysis (BFS), is offloaded to a **Web Worker**. This keeps the main UI thread responsive and prevents freezing during complex state updates.
 3.  **Event-Driven Communication:** Modules are decoupled and communicate through an **Event Bus** and a prioritized **Event Dispatcher**. This prevents direct dependencies and allows for flexible interaction patterns.
-4.  **Configuration over Code:** The application's behavior, including which modules are loaded and how the UI is arranged, is controlled by a set of JSON configuration files (`modes.json`, `modules.json`, `settings.json`).
+4.  **Configuration over Code:** The application's behavior, including which modules are loaded and how the UI is arranged, is controlled by a set of JSON configuration files (`modes.json`, `module-configs/modules.json`, `settings/settings.json`).
 5.  **Structured Logging:** A centralized **Logger Service** provides consistent, filterable, and category-based logging across all modules and contexts (including Web Workers and iframes), replacing scattered `console.log` statements with a powerful debugging tool.
 
 ### Core Architectural Layers
@@ -49,8 +49,8 @@ The frontend is a highly modular, single-page application designed for performan
 `init.js` is the main entry point for the frontend. It orchestrates the entire application startup process in a well-defined sequence:
 
 1.  **Mode Detection:** Determines the active mode (e.g., `default`, `test`) from URL parameters or `localStorage`.
-2.  **Configuration Loading:** Loads `modes.json`, `modules.json`, `settings.json`, and `layout_presets.json` based on the active mode.
-3.  **Module Loading & Registration:** Dynamically imports all JavaScript modules defined in `modules.json`. Each module's `register()` function is called, allowing it to declare its capabilities (e.g., panel components, event handlers) to the `centralRegistry`.
+2.  **Configuration Loading:** Loads `modes.json`, `module-configs/modules.json`, `settings/settings.json`, and `layout-configs/layout_presets.json` based on the active mode.
+3.  **Module Loading & Registration:** Dynamically imports all JavaScript modules defined in `module-configs/modules.json`. Each module's `register()` function is called, allowing it to declare its capabilities (e.g., panel components, event handlers) to the `centralRegistry`.
 4.  **UI Setup:** Initializes Golden Layout and registers all panel components provided by the modules.
 5.  **Module Initialization:** Calls the `initialize()` and `postInitialize()` functions on each enabled module in a defined priority order, providing them with necessary APIs to interact with the system.
 

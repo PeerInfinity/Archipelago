@@ -2,15 +2,15 @@ from dataclasses import dataclass
 from Options import Toggle, PerGameCommonOptions
 
 
-class RandomizeItems(Toggle):
+class VanillaPlacement(Toggle):
     """
-    If enabled, items will be shuffled randomly across all locations.
-    If disabled, items will be placed in their canonical locations following the original baking process.
+    If enabled, items will be placed in their original locations following the vanilla baking process.
+    If disabled, items will be shuffled randomly across all locations.
     """
-    display_name = "Randomize Items"
-    default = True
+    display_name = "Vanilla Item Placement"
+    default = False
 
 
 @dataclass
-class ChocolateChipCookiesOptions(PerGameCommonOptions):
-    randomize_items: RandomizeItems
+class BakingAdventureOptions(PerGameCommonOptions):
+    vanilla_placement: VanillaPlacement

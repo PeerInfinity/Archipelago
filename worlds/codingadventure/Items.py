@@ -3,7 +3,9 @@ from BaseClasses import ItemClassification, Item
 
 base_item_id = 400100000
 
-class WebDevJourneyItem(Item):
+class CodingAdventureItem(Item):
+    game = "Coding Adventure"
+
     def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int):
         super().__init__(name, classification, code, player)
 

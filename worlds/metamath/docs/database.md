@@ -229,11 +229,10 @@ When selecting a theorem for your Archipelago world, consider:
 ### For Advanced Players
 - `canth` (~20 steps): Famous theorem with interesting dependencies
 - `wilth` (~40 steps): Number theory challenge
-- `cncmp` (~55 steps): Topology with complex dependencies
 
 ### For Extreme Challenge
 - `dfac5` (~65 steps): Axiom of choice with deep dependencies
-- `fourierdlem42` (~340 steps): Marathon proof
-- `fourierdlem103` (~461 steps): The ultimate challenge
+
+**Note**: Some theorems listed in the tables above (e.g., Fourier lemmas) are not available as preset options, but may be entered as custom theorem names if the database is available.
 
 Remember that the difficulty isn't just about the number of steps, but also how the dependencies are structured. Some shorter proofs may have more complex dependency graphs than longer ones!

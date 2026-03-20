@@ -416,6 +416,102 @@ class LoggerService {
   }
 
   /**
+   * Apply logging configuration from URL parameters
+   * Supports the following URL parameters:
+   *   ?log=LEVEL           - Set global default level (e.g., ?log=DEBUG)
+   *   ?logcat=Cat:LEVEL,.. - Set category-specific levels (e.g., ?logcat=StateManager:DEBUG,Client:VERBOSE)
+   *   ?logOverride=LEVEL   - Enable temporary override for all categories (e.g., ?logOverride=DEBUG)
+   *   ?logInclude=a,b      - Add include keyword filters (e.g., ?logInclude=location,sphere)
+   *   ?logExclude=a,b      - Add exclude keyword filters (e.g., ?logExclude=worker)
+   *
+   * @returns {boolean} True if any URL parameters were applied
+   */
+  applyUrlParameters() {
+    if (typeof window === 'undefined') return false;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let appliedAny = false;
+
+    // ?log=LEVEL - Set global default level
+    const logLevel = urlParams.get('log');
+    if (logLevel) {
+      const upperLevel = logLevel.toUpperCase();
+      if (this.logLevels[upperLevel] !== undefined) {
+        this.config.defaultLevel = upperLevel;
+        console.log(`[LoggerService] URL param: default level set to ${upperLevel}`);
+        appliedAny = true;
+      } else {
+        console.warn(`[LoggerService] URL param: invalid log level "${logLevel}"`);
+      }
+    }
+
+    // ?logcat=Category1:LEVEL,Category2:LEVEL - Set category-specific levels
+    const logCategories = urlParams.get('logcat');
+    if (logCategories) {
+      const pairs = logCategories.split(',');
+      for (const pair of pairs) {
+        const [category, level] = pair.split(':');
+        if (category && level) {
+          const upperLevel = level.toUpperCase();
+          if (this.logLevels[upperLevel] !== undefined) {
+            this.config.categoryLevels[category] = upperLevel;
+            console.log(`[LoggerService] URL param: ${category} level set to ${upperLevel}`);
+            appliedAny = true;
+          } else {
+            console.warn(`[LoggerService] URL param: invalid level "${level}" for category "${category}"`);
+          }
+        }
+      }
+    }
+
+    // ?logOverride=LEVEL - Enable temporary override
+    const logOverride = urlParams.get('logOverride');
+    if (logOverride) {
+      const upperLevel = logOverride.toUpperCase();
+      if (this.logLevels[upperLevel] !== undefined) {
+        this.config.temporaryOverride.enabled = true;
+        this.config.temporaryOverride.level = upperLevel;
+        console.log(`[LoggerService] URL param: temporary override enabled at ${upperLevel}`);
+        appliedAny = true;
+      } else {
+        console.warn(`[LoggerService] URL param: invalid logOverride level "${logOverride}"`);
+      }
+    }
+
+    // ?logInclude=keyword1,keyword2 - Add include filters
+    const logInclude = urlParams.get('logInclude');
+    if (logInclude) {
+      const keywords = logInclude.split(',').map(k => k.trim()).filter(k => k);
+      for (const keyword of keywords) {
+        if (!this.config.filters.includeKeywords.includes(keyword)) {
+          this.config.filters.includeKeywords.push(keyword);
+        }
+      }
+      if (keywords.length > 0) {
+        console.log(`[LoggerService] URL param: include filters set to [${keywords.join(', ')}]`);
+        appliedAny = true;
+      }
+    }
+
+    // ?logExclude=keyword1,keyword2 - Add exclude filters
+    const logExclude = urlParams.get('logExclude');
+    if (logExclude) {
+      const keywords = logExclude.split(',').map(k => k.trim()).filter(k => k);
+      for (const keyword of keywords) {
+        if (!this.config.filters.excludeKeywords.includes(keyword)) {
+          this.config.filters.excludeKeywords.push(keyword);
+        }
+      }
+      if (keywords.length > 0) {
+        console.log(`[LoggerService] URL param: exclude filters set to [${keywords.join(', ')}]`);
+        appliedAny = true;
+      }
+    }
+
+    return appliedAny;
+  }
+
+  /**
    * Create a category-specific logger that automatically includes the category name
    * @param {string} categoryName - The category name for this logger
    * @returns {object} Category-specific logger with error, warn, info, debug, verbose methods

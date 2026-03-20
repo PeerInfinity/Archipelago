@@ -41,7 +41,7 @@ export class EventCoordinator {
 
     const subscribe = (eventName, handler) => {
       logger.info(`Subscribing to ${eventName}`);
-      const unsubscribe = this.eventBus.subscribe(eventName, handler, 'regions');
+      const unsubscribe = this.eventBus.subscribe(eventName, handler);
       this.unsubscribeHandles.push(unsubscribe);
     };
 
@@ -72,6 +72,26 @@ export class EventCoordinator {
       if (data && typeof data.active === 'boolean') {
         this.regionUI.isDiscoveryModeActive = data.active;
         logger.info(`Discovery mode changed: ${this.regionUI.isDiscoveryModeActive}`);
+        // Show/hide discovery-specific controls
+        this.updateDiscoveryControlsVisibility();
+        debouncedUpdate();
+      }
+    });
+
+    // --- discovery:settingsChanged handler ---
+    subscribe('discovery:settingsChanged', (data) => {
+      if (data && data.settings) {
+        this.regionUI.discoverySettings.undiscoveredDisplay = data.settings.undiscoveredDisplay ?? 'hidden';
+        this.regionUI.discoverySettings.clickDiscoversLocation = data.settings.clickDiscoversLocation ?? true;
+        this.regionUI.discoverySettings.clickDiscoversRegion = data.settings.clickDiscoversRegion ?? false;
+        this.regionUI.discoverySettings.disableLocationCheckUI = data.settings.disableLocationCheckUI ?? false;
+        this.regionUI.discoverySettings.showUndiscoveredDetails = data.settings.showUndiscoveredDetails ?? false;
+        this.regionUI.discoverySettings.showUndiscoveredRegionNames = data.settings.showUndiscoveredRegionNames ?? false;
+        // Also update discovery mode active state if included
+        if (typeof data.settings.enableDiscoveryMode === 'boolean') {
+          this.regionUI.isDiscoveryModeActive = data.settings.enableDiscoveryMode;
+        }
+        logger.info('Discovery settings updated:', this.regionUI.discoverySettings);
         debouncedUpdate();
       }
     });
@@ -146,10 +166,15 @@ export class EventCoordinator {
       }
     }
 
-    // Initialize visitedRegions with Menu if showAll is false
+    // Initialize visitedRegions with the actual start region if showAll is false
     if (!this.regionUI.showAll && this.regionUI.visitedRegions.length === 0) {
-      logger.info("Show All is off and visitedRegions is empty, setting start region to 'Menu'");
-      this.regionUI.showStartRegion('Menu');
+      const startRegion = this.regionUI.getPrimaryStartRegion();
+      if (startRegion) {
+        logger.info(`Show All is off and visitedRegions is empty, setting start region to '${startRegion}'`);
+        this.regionUI.showStartRegion(startRegion);
+      } else {
+        logger.warn('Show All is off and visitedRegions is empty, but no start region available');
+      }
     } else if (this.regionUI.showAll) {
       logger.info('Show All is on, visitedRegions will be based on all regions');
     }
@@ -193,8 +218,13 @@ export class EventCoordinator {
 
     // Re-initialize with start region
     if (!this.regionUI.showAll) {
-      logger.info("Show All is off, resetting to start region 'Menu'");
-      this.regionUI.showStartRegion('Menu');
+      const startRegion = this.regionUI.getPrimaryStartRegion();
+      if (startRegion) {
+        logger.info(`Show All is off, resetting to start region '${startRegion}'`);
+        this.regionUI.showStartRegion(startRegion);
+      } else {
+        logger.warn('Show All is off but no start region available');
+      }
     } else {
       logger.info('Triggering full display update after state reset');
       this.regionUI.update();
@@ -239,6 +269,21 @@ export class EventCoordinator {
       }, 300); // Wait for region expansion animation
     } else {
       logger.warn('Received ui:navigateToLocation with missing data', eventPayload);
+    }
+  }
+
+  /**
+   * Update visibility of discovery-specific controls
+   */
+  updateDiscoveryControlsVisibility() {
+    const rootElement = this.regionUI.rootElement;
+    if (!rootElement) return;
+
+    const undiscoveredCheckbox = rootElement.querySelector('#region-show-undiscovered');
+    if (undiscoveredCheckbox?.parentElement) {
+      undiscoveredCheckbox.parentElement.style.display = this.regionUI.isDiscoveryModeActive
+        ? 'inline-block'
+        : 'none';
     }
   }
 

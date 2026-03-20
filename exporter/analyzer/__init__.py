@@ -54,8 +54,8 @@ For backward compatibility, all public APIs are also available via:
 This works through a compatibility shim at exporter/analyzer.py
 """
 
-from .analysis import analyze_rule
+from .analysis import analyze_rule, reset_analyze_rule_counter
 from .cache import clear_caches
 from .utils import make_json_serializable
 
-__all__ = ['analyze_rule', 'clear_caches', 'make_json_serializable']
+__all__ = ['analyze_rule', 'reset_analyze_rule_counter', 'clear_caches', 'make_json_serializable']

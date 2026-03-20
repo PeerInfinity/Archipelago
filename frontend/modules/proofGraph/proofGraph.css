@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════════════════════════
+   Proof Graph Panel — MetaMath Medium Mode
+   Graph construction puzzle with Cytoscape + edgehandles
+   ═══════════════════════════════════════════════════════════ */
+
+.proof-graph-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  color: #e0e0e0;
+  background: #1e1e2e;
+}
+
+/* ─── Header ────────────────────────────────────────────── */
+
+.pg-header {
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #cdd6f4;
+  background: #181825;
+  border-bottom: 1px solid #313244;
+  flex-shrink: 0;
+}
+
+/* ─── Toolbar ───────────────────────────────────────────── */
+
+.pg-toolbar {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #1e1e2e;
+  border-bottom: 1px solid #313244;
+  flex-shrink: 0;
+}
+
+.pg-btn {
+  padding: 4px 10px;
+  border: 1px solid #45475a;
+  border-radius: 4px;
+  background: #313244;
+  color: #cdd6f4;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.pg-btn:hover {
+  background: #45475a;
+  border-color: #585b70;
+}
+
+.pg-btn:active {
+  background: #585b70;
+}
+
+.pg-btn-check {
+  margin-left: auto;
+  background: #1e6640;
+  border-color: #2b8a54;
+}
+
+.pg-btn-check:hover {
+  background: #2b8a54;
+}
+
+/* ─── Graph Container ───────────────────────────────────── */
+
+.pg-graph-container {
+  flex: 1;
+  min-height: 200px;
+  background: #11111b;
+  position: relative;
+}
+
+/* ─── Status Bar ────────────────────────────────────────── */
+
+.pg-status {
+  padding: 6px 12px;
+  font-size: 11px;
+  color: #6c7086;
+  background: #181825;
+  border-top: 1px solid #313244;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.pg-status.pg-status-complete {
+  color: #a6e3a1;
+  font-weight: 600;
+}
+
+/* ─── Edgehandles Draw Mode Cursor ──────────────────────── */
+
+.pg-graph-container .eh-drawon {
+  cursor: crosshair;
+}

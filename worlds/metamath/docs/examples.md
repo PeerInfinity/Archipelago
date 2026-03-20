@@ -26,7 +26,7 @@ requires:
 Metamath:
   randomize_items: true
   theorem: 2p2e4
-  complexity: moderate
+  randomize_starting_statements: true
   starting_statements: 10
   auto_download_database: true
 ```
@@ -50,10 +50,9 @@ Metamath:
     pm5.32: 10   # Weight 10 (10% probability)
     pm2.21: 10   # Weight 10 (10% probability)
 
-  complexity:
-    simple: 25
-    moderate: 50
-    complex: 25
+  randomize_starting_statements:
+    false: 25
+    true: 75
 
   starting_statements:
     random: 50
@@ -72,7 +71,7 @@ game: Metamath
 Metamath:
   randomize_items: true
   theorem: pm5.32
-  complexity: complex
+  randomize_starting_statements: true
   starting_statements: 0
 ```
 
@@ -87,7 +86,7 @@ game: Metamath
 Metamath:
   randomize_items: true
   theorem: 1p1e2
-  complexity: simple
+  randomize_starting_statements: false
   starting_statements: 50
 ```
 
@@ -110,7 +109,7 @@ Metamath:
     1p1e2: 2    # Weight 2
     pm5.32: 2   # Weight 2
 
-  complexity: moderate
+  randomize_starting_statements: true
   starting_statements: 10
 ```
 

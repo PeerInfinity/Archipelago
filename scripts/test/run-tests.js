@@ -52,7 +52,7 @@ const env = {
 };
 
 // Build Playwright command
-const playwrightArgs = ['test', 'tests/e2e/app.spec.js'];
+const playwrightArgs = ['test', 'test_json/e2e/app.spec.js'];
 
 // Add Playwright-specific flags if present
 if (values.headed) playwrightArgs.push('--headed');

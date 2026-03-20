@@ -1,0 +1,988 @@
+{
+  "metadata": {
+    "created": "2026-01-25T04:56:06.693744",
+    "last_updated": "2026-01-25T04:56:06.693751",
+    "script_version": "1.0.0",
+    "combined_from": 10,
+    "test_type": "spoiler_fuzz",
+    "seed_mode": "fixed",
+    "seed": 1,
+    "runs_per_game": 10,
+    "generation_timeout": 300,
+    "test_timeout": 120,
+    "total_templates": 49
+  },
+  "results": {
+    "A Dance of Fire and Ice.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "A Dance of Fire and Ice",
+        "world_directory": "adofai"
+      },
+      "timestamp": "2026-01-25T04:21:25.087584"
+    },
+    "Diddy Kong Racing.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Diddy Kong Racing",
+        "world_directory": "diddy_kong_racing"
+      },
+      "timestamp": "2026-01-25T04:26:23.797590"
+    },
+    "Kingdom Hearts Chain of Memories.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts Chain of Memories",
+        "world_directory": "khcom"
+      },
+      "timestamp": "2026-01-25T04:31:12.429107"
+    },
+    "Ratchet & Clank 2.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Ratchet & Clank 2",
+        "world_directory": "rac2"
+      },
+      "timestamp": "2026-01-25T04:36:09.298381"
+    },
+    "TOEM A Photo Adventure.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "TOEM: A Photo Adventure",
+        "world_directory": "toem"
+      },
+      "timestamp": "2026-01-25T04:40:54.711283"
+    },
+    "DORONKO WANKO.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "DORONKO WANKO",
+        "world_directory": "doronko_wanko"
+      },
+      "timestamp": "2026-01-25T04:23:15.333097"
+    },
+    "Kingdom Hearts Birth by Sleep.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts Birth by Sleep",
+        "world_directory": "khbbs"
+      },
+      "timestamp": "2026-01-25T04:28:17.901220"
+    },
+    "Rain World.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 7,
+        "test_failure": 3,
+        "timeout": 0,
+        "errors": [
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: The Watcher cannot be enabled with a game version before 1.10.0.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7f4a3fa86990>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: unner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: Rivulet's campaign cannot be selected without More Slugcats Expansion enabled.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7fe72b579ca0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: The Watcher cannot be enabled with a game version before 1.10.0.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7f20a3c8f530>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: The Watcher cannot be enabled with a game version before 1.10.0.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7f63434eca70>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: y\", line 69, in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/game_data/shelters.py\", line 105, in get_starts\nOptions.OptionError: Cannot start in Looks to the Moon with MSC disabled\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7fafb62af050>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: The Watcher cannot be enabled with a game version before 1.10.0.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7f5e18d51f10>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Spoiler test failed",
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/rain_world.apworld/rain_world/__init__.py\", line 65, in generate_early\nOptions.OptionError: Invalid YAML for Player1: The Watcher cannot be enabled with a game version before 1.10.0.\nException in <bound method RainWorldWorld.generate_early of <worlds.rain_world.RainWorldWorld object at 0x7f171022b140>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Rain World",
+        "world_directory": "rain_world"
+      },
+      "timestamp": "2026-01-25T04:33:05.450331"
+    },
+    "Symphony of the Night.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Symphony of the Night",
+        "world_directory": "sotn"
+      },
+      "timestamp": "2026-01-25T04:38:17.232735"
+    },
+    "A Difficult Game About Climbing.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "generation_failure": 1,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: , Metal, Concrete, Foliage, Wet, Bone, Plank, RunningWater, MetalStiff\nAll Placements:\n[(Rock, Grip Strength), (Wood, Grip Strength), (Foliage, Metal Beam Angle Increase), (Plank, Metal Beam Angle Increase), (Wet, Metal Beam Angle Increase), (MetalStiff, Metal Beam Angle Increase), (Metal, Grip Strength), (Bone, Grip Strength), (Concrete, Grip Strength), (RunningWater, Grip Strength), (Goal, Goal)]\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "A Difficult Game About Climbing",
+        "world_directory": "difficult_climbing"
+      },
+      "timestamp": "2026-01-25T04:21:08.694253"
+    },
+    "Dome Keeper.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Dome Keeper",
+        "world_directory": "dome_keeper"
+      },
+      "timestamp": "2026-01-25T04:26:02.419425"
+    },
+    "Kingdom Hearts RE Chain of Memories.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts RE Chain of Memories",
+        "world_directory": "khrecom"
+      },
+      "timestamp": "2026-01-25T04:31:05.638108"
+    },
+    "Rift Wizard.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Rift Wizard",
+        "world_directory": "riftwizard"
+      },
+      "timestamp": "2026-01-25T04:35:55.608695"
+    },
+    "Tevi.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Tevi",
+        "world_directory": "tevi"
+      },
+      "timestamp": "2026-01-25T04:43:40.726549"
+    },
+    "Actraiser.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Actraiser",
+        "world_directory": "actraiser"
+      },
+      "timestamp": "2026-01-25T04:21:39.564946"
+    },
+    "Golden Sun The Lost Age.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Golden Sun The Lost Age",
+        "world_directory": "gstla"
+      },
+      "timestamp": "2026-01-25T04:27:36.932168"
+    },
+    "Kirby Super Star.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 10,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_y079x719.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_stp42k1t.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_35wtk8mq.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_3060ktta.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_eofvxtel.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_b24toiuy.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_u27uf6rx.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_7km7724k.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_lce06nk0.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: CC/Archipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_kss_adpx2vs9.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Kirby Super Star",
+        "world_directory": "kss"
+      },
+      "timestamp": "2026-01-25T04:31:16.642868"
+    },
+    "Simon Tatham's Portable Puzzle Collection.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 8,
+        "generation_failure": 0,
+        "test_failure": 2,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test timed out after 120s",
+          "Spoiler test timed out after 120s"
+        ]
+      },
+      "world_info": {
+        "game_name": "Simon Tatham's Portable Puzzle Collection",
+        "world_directory": "sgtpuzzles"
+      },
+      "timestamp": "2026-01-25T04:45:35.781526"
+    },
+    "TurnipBoy.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "TurnipBoy",
+        "world_directory": "turnipboy"
+      },
+      "timestamp": "2026-01-25T04:50:24.996662"
+    },
+    "An Untitled Story.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "An Untitled Story",
+        "world_directory": "aus"
+      },
+      "timestamp": "2026-01-25T04:21:28.475496"
+    },
+    "Hatsune Miku Project Diva Mega Mix+.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Hatsune Miku Project Diva Mega Mix+",
+        "world_directory": "megamix"
+      },
+      "timestamp": "2026-01-25T04:27:09.865030"
+    },
+    "League of Legends.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "League of Legends",
+        "world_directory": "lol"
+      },
+      "timestamp": "2026-01-25T04:39:40.725357"
+    },
+    "Sonic Heroes.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 10,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: it__.py\", line 167, in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 563, in check_invalid_options\nOptions.OptionError: Rose ObjSanity Requires Rose Act B\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7ff7c6ae1d00>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed:  in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 641, in check_invalid_options\nOptions.OptionError: Team Dark has a Sanity option enabled while disabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7f0b50a37410>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: n generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 568, in check_invalid_options\nOptions.OptionError: Super Hard Mode and Sonic Act B cannot both be enabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7fd8db791ca0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: it__.py\", line 167, in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 563, in check_invalid_options\nOptions.OptionError: Rose ObjSanity Requires Rose Act B\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7fd9566dcf50>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: it__.py\", line 167, in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 560, in check_invalid_options\nOptions.OptionError: Dark ObjSanity Requires Dark Act B\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7f08c6d42330>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed:  in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 641, in check_invalid_options\nOptions.OptionError: Team Rose has a Sanity option enabled while disabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7fabf2c1d850>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: n generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 568, in check_invalid_options\nOptions.OptionError: Super Hard Mode and Sonic Act B cannot both be enabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7f8ea41dbe90>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: it__.py\", line 167, in generate_early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 560, in check_invalid_options\nOptions.OptionError: Dark ObjSanity Requires Dark Act B\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7fc49daa6030>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed:  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 636, in check_invalid_options\nOptions.OptionError: Team Sonic has CheckpointSanity set to both acts with only 1 Act Enabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7f8cdee40a70>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: _early\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/sonic_heroes.apworld/sonic_heroes/options.py\", line 633, in check_invalid_options\nOptions.OptionError: Team Dark has KeySanity set to both acts with only 1 Act Enabled.\nException in <bound method SonicHeroesWorld.generate_early of <worlds.sonic_heroes.SonicHeroesWorld object at 0x7f4c91eaf3b0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Sonic Heroes",
+        "world_directory": "sonic_heroes"
+      },
+      "timestamp": "2026-01-25T04:43:26.147058"
+    },
+    "Vampire Survivors.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 4,
+        "generation_failure": 6,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7f6775ddbf80>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7f8f75d91c40>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7f615fb9e0c0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7f81a5392b40>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7faef1e30fb0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ^^^^^^^^^^^^^\nOptions.OptionError: \n\n=== Vampire Survivors YAML ERROR ===\nVampire Survivors: Player1 `allow_unfair_characters` can not be enabled unless the host,yaml setting 'allow_unfair_characters' is also enabled, PLEASE FIX YOUR YAML\n\n\nException in <bound method VampireSurvivors.generate_early of <worlds.vampire_survivors.VampireSurvivors object at 0x7f41534c3dd0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Vampire Survivors",
+        "world_directory": "vampire_survivors"
+      },
+      "timestamp": "2026-01-25T04:47:43.396463"
+    },
+    "Another Crabs Treasure.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Another Crabs Treasure",
+        "world_directory": "another_crab"
+      },
+      "timestamp": "2026-01-25T04:22:26.816752"
+    },
+    "Here Comes Niko!.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Here Comes Niko!",
+        "world_directory": "hcniko"
+      },
+      "timestamp": "2026-01-25T04:29:10.701953"
+    },
+    "Lil Gator Game.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Lil Gator Game",
+        "world_directory": "lil_gator_game"
+      },
+      "timestamp": "2026-01-25T04:35:06.044342"
+    },
+    "Sonic the Hedgehog 1.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 7,
+        "generation_failure": 0,
+        "test_failure": 3,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test timed out after 120s",
+          "Spoiler test timed out after 120s"
+        ]
+      },
+      "world_info": {
+        "game_name": "Sonic the Hedgehog 1",
+        "world_directory": "sonic1"
+      },
+      "timestamp": "2026-01-25T04:49:43.093727"
+    },
+    "Watery Words.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Watery Words",
+        "world_directory": "waterywords"
+      },
+      "timestamp": "2026-01-25T04:55:45.169724"
+    },
+    "Autopelago.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Autopelago",
+        "world_directory": "autopelago"
+      },
+      "timestamp": "2026-01-25T04:21:32.409508"
+    },
+    "Isles Of Sea And Sky.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Isles Of Sea And Sky",
+        "world_directory": "isles_of_sea_and_sky"
+      },
+      "timestamp": "2026-01-25T04:27:25.595200"
+    },
+    "Little Witch Nobeta.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Little Witch Nobeta",
+        "world_directory": "little_witch_nobeta"
+      },
+      "timestamp": "2026-01-25T04:33:45.329572"
+    },
+    "Spinball.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Spinball",
+        "world_directory": "spinball"
+      },
+      "timestamp": "2026-01-25T04:38:28.475036"
+    },
+    "Wordipelago.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 2,
+        "test_failure": 8,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Generation failed: d(*args)\n          ^^^^^^^^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/wordipelago.apworld/wordipelago/__init__.py\", line 82, in generate_early\nOptions.OptionError: No way to reach word checks: Not enough locations\nException in <bound method WordipelagoWorld.generate_early of <worlds.wordipelago.WordipelagoWorld object at 0x7f6d0777a0c0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Spoiler test failed",
+          "Generation failed: d(*args)\n          ^^^^^^^^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/custom_worlds/wordipelago.apworld/wordipelago/__init__.py\", line 82, in generate_early\nOptions.OptionError: No way to reach word checks: Not enough locations\nException in <bound method WordipelagoWorld.generate_early of <worlds.wordipelago.WordipelagoWorld object at 0x7f9f73d81640>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Wordipelago",
+        "world_directory": "wordipelago"
+      },
+      "timestamp": "2026-01-25T04:44:19.141507"
+    },
+    "Brotato.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 7,
+        "generation_failure": 3,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: k/Archipelago-CC/Archipelago-CC/custom_worlds/brotato.apworld/brotato/characters.py\", line 117, in get_starting_characters_for_option\nOptions.OptionError: Starting option set to StartingCharacters(Random Abyssal Terrors), but Abyssal Terrors DLC is disabled.\nException in <bound method BrotatoWorld.generate_early of <worlds.brotato.BrotatoWorld object at 0x7ff6d7695190>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: /Archipelago-CC/Archipelago-CC/custom_worlds/brotato.apworld/brotato/characters.py\", line 111, in get_starting_characters_for_option\nOptions.OptionError: Starting option set to StartingCharacters(Default Abyssal Terrors), but Abyssal Terrors DLC is disabled.\nException in <bound method BrotatoWorld.generate_early of <worlds.brotato.BrotatoWorld object at 0x7fe6aeeacb90>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: k/Archipelago-CC/Archipelago-CC/custom_worlds/brotato.apworld/brotato/characters.py\", line 117, in get_starting_characters_for_option\nOptions.OptionError: Starting option set to StartingCharacters(Random Abyssal Terrors), but Abyssal Terrors DLC is disabled.\nException in <bound method BrotatoWorld.generate_early of <worlds.brotato.BrotatoWorld object at 0x7f634906fb30>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Brotato",
+        "world_directory": "brotato"
+      },
+      "timestamp": "2026-01-25T04:20:47.978874"
+    },
+    "Ittle Dew 2.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "generation_failure": 1,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: ! Need space for 15 more items. Player1, try reducing the number of items in your world. Try reducing the number of crayons and lockpicks, using keyrings or keysey, the number of shards required, or turning on Remove Cards From Pool.\nPlayer1, please fix your yaml.\nException in <bound method ID2World.create_items of <worlds.ittle_dew_2.ID2World object at 0x7fd6d95e5430>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Ittle Dew 2",
+        "world_directory": "ittle_dew_2"
+      },
+      "timestamp": "2026-01-25T04:26:00.881214"
+    },
+    "Luigi's Mansion.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 7,
+        "generation_failure": 3,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: _worlds/luigismansion.apworld/luigismansion/__init__.py\", line 452, in generate_early\nOptions.OptionError: When Boo Radar is excluded, neither Boosanity nor Boo Gates can be active.\nThis error was found in Player1's Luigi's Mansion world.Their YAML must be fixed\nException in <bound method LMWorld.generate_early of <worlds.luigismansion.LMWorld object at 0x7f8ab551d910>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: _worlds/luigismansion.apworld/luigismansion/__init__.py\", line 452, in generate_early\nOptions.OptionError: When Boo Radar is excluded, neither Boosanity nor Boo Gates can be active.\nThis error was found in Player1's Luigi's Mansion world.Their YAML must be fixed\nException in <bound method LMWorld.generate_early of <worlds.luigismansion.LMWorld object at 0x7f1e0ca28fb0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: ustom_worlds/luigismansion.apworld/luigismansion/__init__.py\", line 447, in generate_early\nOptions.OptionError: In Luigi's Mansion, both energy_link and ring_link cannot be enabled.\nThis error was found in Player1's Luigi's Mansion world.Their YAML must be fixed\nException in <bound method LMWorld.generate_early of <worlds.luigismansion.LMWorld object at 0x7fcbc8419ca0>> for player 1, named Player1.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Luigi's Mansion",
+        "world_directory": "luigismansion"
+      },
+      "timestamp": "2026-01-25T04:31:06.777395"
+    },
+    "Star Fox 64.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Star Fox 64",
+        "world_directory": "star_fox_64"
+      },
+      "timestamp": "2026-01-25T04:37:06.520672"
+    },
+    "Yu-Gi-Oh! Dungeon Dice Monsters.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 6,
+        "generation_failure": 0,
+        "test_failure": 4,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "world_directory": "yugiohddm"
+      },
+      "timestamp": "2026-01-25T04:42:14.029963"
+    },
+    "Castlevania Dawn of Sorrow.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Castlevania: Dawn of Sorrow",
+        "world_directory": "cv_dos"
+      },
+      "timestamp": "2026-01-25T04:22:00.160725"
+    },
+    "Jigsaw.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Jigsaw",
+        "world_directory": "jigsaw"
+      },
+      "timestamp": "2026-01-25T04:27:22.610732"
+    },
+    "MetroCUBEvania.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "MetroCUBEvania",
+        "world_directory": "metrocubevania"
+      },
+      "timestamp": "2026-01-25T04:32:17.571776"
+    },
+    "Star Wars Episode I Racer.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "generation_failure": 1,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: 14 races), Mark V Air Brake), (Watto's Shop - Air Brake 5 (14 races), Quad 32PCX Injector), (Watto's Shop - Cooling 5 (14 races), Dual Coolant Pump), (Watto's Shop - Turning 5 (16 races), 1000 Truguts), (Watto's Shop - Top Speed 5 (16 races), 2800 Truguts), (Pit Droid Shop - 1st Droid, Quadrijet Air Brake), (Pit Droid Shop - 2nd Droid, 1000 Truguts), (Pit Droid Shop - 3rd Droid, Rotary Power Plug)]\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Star Wars Episode I Racer",
+        "world_directory": "swr"
+      },
+      "timestamp": "2026-01-25T04:37:15.130132"
+    },
+    "Zelda II The Adventure of Link.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "Zelda II: The Adventure of Link",
+        "world_directory": "zelda2"
+      },
+      "timestamp": "2026-01-25T04:42:20.213053"
+    },
+    "Cuphead.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 10,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": [
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_q4fl_i43.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_hmia6azl.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_3c5y0nwt.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_rvpfnf_7.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_eq_kkvvz.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_ghqdfzbz.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_lt3i0b27.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_32o078oe.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_rw9y8wgo.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Generation failed: rchipelago-CC/Generate.py\", line 602, in <module>\n    erargs, seed = main()\n                   ^^^^^^\n  File \"/home/runner/work/Archipelago-CC/Archipelago-CC/Generate.py\", line 235, in main\n    raise ValueError(f\"File {path} is invalid. Please fix your yaml.\") from e\nValueError: File /home/runner/work/Archipelago-CC/Archipelago-CC/Players/fuzz_cuphead_z6m9blry.yaml is invalid. Please fix your yaml.\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n"
+        ]
+      },
+      "world_info": {
+        "game_name": "Cuphead",
+        "world_directory": "cuphead"
+      },
+      "timestamp": "2026-01-25T04:19:46.323438"
+    },
+    "K-On! After School Live!!.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test timed out after 120s",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "K-On! After School Live!!",
+        "world_directory": "kon"
+      },
+      "timestamp": "2026-01-25T04:31:15.468027"
+    },
+    "Metroid Fusion.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 1,
+        "test_failure": 9,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Generation failed:  Super Missile), (Sector 5 (ARC) -- Gerubus Gully, Infant Metroid), (Sector 5 (ARC) -- Transmutation Trial, Gravity Suit), (Sector 5 (ARC) -- Crow's Nest, Infant Metroid), (Sector 6 (NOC) -- Catacombs, Diffusion Missile), (Sector 6 (NOC) -- Spaceboost Alley -- Lower Item, Level 3 Keycard), (Sector 6 (NOC) -- Zozoro Wine Cellar, Bomb Data), (Victory, Victory), (Pump Control, Pump Control Activated)]\nException ignored in atexit callback: <built-in function input>\nEOFError: EOF when reading a line\n",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Metroid Fusion",
+        "world_directory": "metroidfusion"
+      },
+      "timestamp": "2026-01-25T04:37:09.844244"
+    },
+    "Super Cat Planet.yaml": {
+      "spoiler_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "generation_failure": 0,
+        "test_failure": 10,
+        "timeout": 0,
+        "errors": [
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed",
+          "Spoiler test failed"
+        ]
+      },
+      "world_info": {
+        "game_name": "Super Cat Planet",
+        "world_directory": "scp"
+      },
+      "timestamp": "2026-01-25T04:43:06.955742"
+    },
+    "osu!.yaml": {
+      "spoiler_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "generation_failure": 0,
+        "test_failure": 0,
+        "timeout": 0,
+        "errors": []
+      },
+      "world_info": {
+        "game_name": "osu!",
+        "world_directory": "osu"
+      },
+      "timestamp": "2026-01-25T04:51:04.863731"
+    }
+  }
+}

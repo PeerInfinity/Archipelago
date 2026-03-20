@@ -1,0 +1,55 @@
+{
+    "title": "Tech Tree",
+    "nodes": {
+        "basic_tools": {
+            "label": "Basic Tools",
+            "description": "Craft primitive tools from stone and wood",
+            "depends_on": []
+        },
+        "mining": {
+            "label": "Mining",
+            "description": "Extract ores from the earth",
+            "depends_on": ["basic_tools"]
+        },
+        "logging": {
+            "label": "Logging",
+            "description": "Harvest timber from forests",
+            "depends_on": ["basic_tools"]
+        },
+        "smelting": {
+            "label": "Smelting",
+            "description": "Smelt ores into metal ingots",
+            "depends_on": ["mining"]
+        },
+        "carpentry": {
+            "label": "Carpentry",
+            "description": "Shape wood into useful structures",
+            "depends_on": ["logging"]
+        },
+        "metalworking": {
+            "label": "Metalworking",
+            "description": "Forge metal into advanced components",
+            "depends_on": ["smelting", "carpentry"]
+        },
+        "architecture": {
+            "label": "Architecture",
+            "description": "Design and construct buildings",
+            "depends_on": ["metalworking"]
+        },
+        "engineering": {
+            "label": "Engineering",
+            "description": "Apply scientific principles to construction",
+            "depends_on": ["metalworking"]
+        },
+        "steam_power": {
+            "label": "Steam Power",
+            "description": "Harness the power of steam engines",
+            "depends_on": ["architecture", "engineering"]
+        },
+        "industrial_age": {
+            "label": "Industrial Age",
+            "description": "Enter the era of mass production",
+            "depends_on": ["steam_power"]
+        }
+    }
+}

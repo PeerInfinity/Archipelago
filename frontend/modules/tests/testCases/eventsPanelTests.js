@@ -25,9 +25,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
 
     // 1. Activate the Events panel
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID });
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -240,9 +238,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
 
     // 1. First activate the Regions panel to trigger subscription to ui:navigateToRegion
     testController.log(`[${testRunId}] Activating regions panel to trigger event subscriptions...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
     
     // Wait for regions panel to initialize using polling
     await testController.pollForValue(
@@ -254,7 +250,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     
     // 2. Now activate the Events panel  
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID });
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -361,7 +357,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
 
     // 6. Activate the Regions panel to test the functionality
     testController.log(`[${testRunId}] Activating regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
 
     // 7. Wait for regions panel to show Menu region
     let regionsPanel = null;
@@ -515,13 +511,13 @@ export async function testEventsPanelAdditionalParticipants(testController) {
 
     // 5. Activate the Events panel
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID });
     
     // 5.5. Trigger a refresh of the Events panel data to pick up our newly registered participants
     testController.log(`[${testRunId}] Triggering Events panel refresh...`);
     // First register as publisher for the refresh event, then publish it
     eventBus.registerPublisher('module:stateChanged', 'tests');
-    eventBus.publish('module:stateChanged', { moduleId: 'tests' }, 'tests');
+    testController.eventBus.publish('module:stateChanged', { moduleId: 'tests' });
 
     // 6. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;

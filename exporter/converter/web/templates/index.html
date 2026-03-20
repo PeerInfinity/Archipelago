@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Format Converter</title>
+
+    <!-- CodeMirror 6 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hide header when embedded in iframe */
+        body.iframe-embedded header {
+            display: none;
+        }
+
+        header {
+            background: #16213e;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #0f3460;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #e94560;
+        }
+
+        /* Connection status bar for iframe mode */
+        .connection-status {
+            background: #2d2d2d;
+            border-bottom: 1px solid #555;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #cecece;
+            display: none;
+        }
+
+        body.iframe-embedded .connection-status {
+            display: block;
+        }
+
+        body.iframe-embedded.iframe-connected .connection-status {
+            display: none;
+        }
+
+        .connection-status.connected {
+            background: #0a3318;
+            border-bottom-color: #3c7a3c;
+            color: #c8f7c8;
+        }
+
+        .connection-status.error {
+            background: #5d2a2a;
+            border-bottom-color: #8c3c3c;
+            color: #f7c8c8;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-controls select {
+            background: #0f3460;
+            color: #eee;
+            border: 1px solid #e94560;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .editor-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #0f3460;
+        }
+
+        .editor-pane:last-child {
+            border-right: none;
+        }
+
+        .pane-header {
+            background: #16213e;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #0f3460;
+        }
+
+        .pane-header .title {
+            color: #ccc;
+        }
+
+        .pane-header .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pane-header button {
+            background: #0f3460;
+            color: #eee;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .pane-header button:hover {
+            background: #e94560;
+        }
+
+        .editor-wrapper {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .CodeMirror {
+            height: 100%;
+            font-size: 14px;
+            font-family: 'Fira Code', 'Monaco', 'Menlo', monospace;
+        }
+
+        .status-bar {
+            background: #16213e;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #0f3460;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+        }
+
+        .status-dot.success {
+            background: #4ade80;
+        }
+
+        .status-dot.error {
+            background: #f87171;
+        }
+
+        .status-dot.warning {
+            background: #fbbf24;
+        }
+
+        .status-message {
+            color: #888;
+        }
+
+        .error-panel {
+            background: #2d1b1b;
+            border-top: 1px solid #5c2828;
+            padding: 12px 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .error-panel.visible {
+            display: block;
+        }
+
+        .error-panel .error-title {
+            color: #f87171;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .error-panel .error-content {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #fca5a5;
+            white-space: pre-wrap;
+        }
+
+        .warnings-panel {
+            background: #2d2a1b;
+            border-top: 1px solid #5c5028;
+            padding: 12px 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .warnings-panel.visible {
+            display: block;
+        }
+
+        .warnings-panel .warning-title {
+            color: #fbbf24;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .warnings-panel .warning-item {
+            font-size: 0.85rem;
+            color: #fcd34d;
+            margin-bottom: 4px;
+        }
+
+        /* Direction indicator */
+        .direction-indicator {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e94560;
+            font-size: 1.2rem;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .direction-indicator.visible {
+            opacity: 1;
+        }
+
+        .main-content {
+            position: relative;
+        }
+
+        /* Loading spinner */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #0f3460;
+            border-top-color: #e94560;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status" id="connectionStatus">
+        Connecting to main application...
+    </div>
+
+    <header>
+        <h1>Rule Format Converter</h1>
+        <div class="header-controls">
+            <label>
+                Python format:
+                <select id="python-format">
+                    <option value="expression">Expression</option>
+                    <option value="lambda">Lambda</option>
+                    <option value="function">Function</option>
+                </select>
+            </label>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="editor-pane" id="python-pane">
+            <div class="pane-header">
+                <span class="title">Python</span>
+                <div class="actions">
+                    <button onclick="copyPython()">Copy</button>
+                    <button onclick="formatPython()">Format</button>
+                    <button onclick="clearPython()">Clear</button>
+                </div>
+            </div>
+            <div class="editor-wrapper">
+                <textarea id="python-editor"></textarea>
+            </div>
+        </div>
+
+        <div class="direction-indicator" id="direction">→</div>
+
+        <div class="editor-pane" id="json-pane">
+            <div class="pane-header">
+                <span class="title">JSON</span>
+                <div class="actions">
+                    <button onclick="copyJson()">Copy</button>
+                    <button onclick="formatJson()">Format</button>
+                    <button onclick="clearJson()">Clear</button>
+                </div>
+            </div>
+            <div class="editor-wrapper">
+                <textarea id="json-editor"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="warnings-panel" id="warnings-panel">
+        <div class="warning-title">Warnings</div>
+        <div class="warnings-list" id="warnings-list"></div>
+    </div>
+
+    <div class="error-panel" id="error-panel">
+        <div class="error-title">Error</div>
+        <div class="error-content" id="error-content"></div>
+    </div>
+
+    <div class="status-bar">
+        <div class="status-left">
+            <div class="status-indicator">
+                <div class="status-dot" id="status-dot"></div>
+                <span class="status-message" id="status-message">Ready</span>
+            </div>
+        </div>
+        <div class="status-right">
+            <span id="timing"></span>
+        </div>
+    </div>
+
+    <script>
+        // Initialize CodeMirror editors
+        const pythonEditor = CodeMirror.fromTextArea(document.getElementById('python-editor'), {
+            mode: 'python',
+            theme: 'dracula',
+            lineNumbers: true,
+            indentUnit: 4,
+            tabSize: 4,
+            indentWithTabs: false,
+            lineWrapping: true,
+            autofocus: true
+        });
+
+        const jsonEditor = CodeMirror.fromTextArea(document.getElementById('json-editor'), {
+            mode: { name: 'javascript', json: true },
+            theme: 'dracula',
+            lineNumbers: true,
+            indentUnit: 2,
+            tabSize: 2,
+            indentWithTabs: false,
+            lineWrapping: true
+        });
+
+        // State
+        let debounceTimer = null;
+        let lastEditedPane = null;
+        let isConverting = false;
+
+        // UI Elements
+        const statusDot = document.getElementById('status-dot');
+        const statusMessage = document.getElementById('status-message');
+        const timing = document.getElementById('timing');
+        const errorPanel = document.getElementById('error-panel');
+        const errorContent = document.getElementById('error-content');
+        const warningsPanel = document.getElementById('warnings-panel');
+        const warningsList = document.getElementById('warnings-list');
+        const directionIndicator = document.getElementById('direction');
+        const pythonFormatSelect = document.getElementById('python-format');
+
+        // Utility functions
+        function setStatus(type, message) {
+            statusDot.className = 'status-dot ' + type;
+            statusMessage.textContent = message;
+        }
+
+        function showError(error) {
+            errorPanel.classList.add('visible');
+            errorContent.textContent = error;
+            setStatus('error', 'Error');
+        }
+
+        function hideError() {
+            errorPanel.classList.remove('visible');
+        }
+
+        function showWarnings(warnings) {
+            if (warnings && warnings.length > 0) {
+                warningsPanel.classList.add('visible');
+                warningsList.innerHTML = warnings.map(w =>
+                    `<div class="warning-item">• ${escapeHtml(w)}</div>`
+                ).join('');
+            } else {
+                warningsPanel.classList.remove('visible');
+            }
+        }
+
+        function hideWarnings() {
+            warningsPanel.classList.remove('visible');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showDirection(dir) {
+            directionIndicator.textContent = dir;
+            directionIndicator.classList.add('visible');
+            setTimeout(() => directionIndicator.classList.remove('visible'), 500);
+        }
+
+        // Conversion functions
+        async function convertPythonToJson(code) {
+            if (isConverting) return;
+            isConverting = true;
+
+            try {
+                const response = await fetch('/api/python-to-json', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    hideError();
+                    showWarnings(data.warnings);
+
+                    if (data.result !== null) {
+                        const jsonStr = JSON.stringify(data.result, null, 2);
+                        jsonEditor.setValue(jsonStr);
+                    } else {
+                        jsonEditor.setValue('');
+                    }
+
+                    timing.textContent = `${data.elapsed_ms}ms`;
+                    setStatus('success', 'Converted');
+                } else {
+                    showError(data.error);
+                }
+            } catch (e) {
+                showError('Network error: ' + e.message);
+            } finally {
+                isConverting = false;
+            }
+        }
+
+        async function convertJsonToPython(jsonStr) {
+            if (isConverting) return;
+            isConverting = true;
+
+            try {
+                // First validate JSON
+                let rule;
+                try {
+                    rule = JSON.parse(jsonStr);
+                } catch (e) {
+                    showError('Invalid JSON: ' + e.message);
+                    isConverting = false;
+                    return;
+                }
+
+                const format = pythonFormatSelect.value;
+
+                const response = await fetch('/api/json-to-python', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rule, format })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    hideError();
+                    showWarnings(data.warnings);
+                    pythonEditor.setValue(data.result || '');
+                    timing.textContent = `${data.elapsed_ms}ms`;
+                    setStatus('success', 'Converted');
+                } else {
+                    showError(data.error);
+                }
+            } catch (e) {
+                showError('Network error: ' + e.message);
+            } finally {
+                isConverting = false;
+            }
+        }
+
+        // Debounced conversion
+        function scheduleConversion(source) {
+            if (debounceTimer) {
+                clearTimeout(debounceTimer);
+            }
+
+            setStatus('', 'Typing...');
+            hideError();
+            hideWarnings();
+
+            debounceTimer = setTimeout(() => {
+                if (source === 'python') {
+                    const code = pythonEditor.getValue();
+                    if (code.trim()) {
+                        showDirection('→');
+                        convertPythonToJson(code);
+                    } else {
+                        jsonEditor.setValue('');
+                        setStatus('', 'Ready');
+                    }
+                } else if (source === 'json') {
+                    const json = jsonEditor.getValue();
+                    if (json.trim()) {
+                        showDirection('←');
+                        convertJsonToPython(json);
+                    } else {
+                        pythonEditor.setValue('');
+                        setStatus('', 'Ready');
+                    }
+                }
+            }, 500);
+        }
+
+        // Event listeners
+        pythonEditor.on('change', (cm, change) => {
+            if (change.origin !== 'setValue') {
+                lastEditedPane = 'python';
+                scheduleConversion('python');
+            }
+        });
+
+        jsonEditor.on('change', (cm, change) => {
+            if (change.origin !== 'setValue') {
+                lastEditedPane = 'json';
+                scheduleConversion('json');
+            }
+        });
+
+        pythonFormatSelect.addEventListener('change', () => {
+            if (jsonEditor.getValue().trim()) {
+                convertJsonToPython(jsonEditor.getValue());
+            }
+        });
+
+        // Button actions
+        function copyPython() {
+            navigator.clipboard.writeText(pythonEditor.getValue());
+            setStatus('success', 'Copied Python');
+        }
+
+        function copyJson() {
+            navigator.clipboard.writeText(jsonEditor.getValue());
+            setStatus('success', 'Copied JSON');
+        }
+
+        function formatPython() {
+            // Python formatting would require a backend call
+            // For now, just trim whitespace
+            pythonEditor.setValue(pythonEditor.getValue().trim());
+        }
+
+        function formatJson() {
+            try {
+                const json = JSON.parse(jsonEditor.getValue());
+                jsonEditor.setValue(JSON.stringify(json, null, 2));
+                setStatus('success', 'Formatted');
+            } catch (e) {
+                showError('Cannot format: Invalid JSON');
+            }
+        }
+
+        function clearPython() {
+            pythonEditor.setValue('');
+            hideError();
+            hideWarnings();
+            setStatus('', 'Ready');
+        }
+
+        function clearJson() {
+            jsonEditor.setValue('');
+            hideError();
+            hideWarnings();
+            setStatus('', 'Ready');
+        }
+
+        // Set initial example (only in standalone mode)
+        if (!window.parent || window.parent === window) {
+            pythonEditor.setValue("state.has('Sword') and state.has('Shield')");
+            scheduleConversion('python');
+        }
+
+        // ============================================================
+        // PostMessage Communication Support for iframe integration
+        // ============================================================
+
+        // Message types compatible with frontend/modules/iframeAdapter/communicationProtocol.js
+        const MessageTypes = {
+            // Handshake messages
+            IFRAME_READY: 'IFRAME_READY',
+            ADAPTER_READY: 'ADAPTER_READY',
+            IFRAME_APP_READY: 'IFRAME_APP_READY',
+            HEARTBEAT: 'HEARTBEAT',
+            HEARTBEAT_RESPONSE: 'HEARTBEAT_RESPONSE',
+
+            // Subscription messages
+            SUBSCRIBE_EVENT_BUS: 'SUBSCRIBE_EVENT_BUS',
+            SUBSCRIBE_EVENT_DISPATCHER: 'SUBSCRIBE_EVENT_DISPATCHER',
+            UNSUBSCRIBE_EVENT_BUS: 'UNSUBSCRIBE_EVENT_BUS',
+            UNSUBSCRIBE_EVENT_DISPATCHER: 'UNSUBSCRIBE_EVENT_DISPATCHER',
+
+            // Event messages
+            EVENT_BUS_MESSAGE: 'EVENT_BUS_MESSAGE',
+            EVENT_DISPATCHER_MESSAGE: 'EVENT_DISPATCHER_MESSAGE',
+            PUBLISH_EVENT_BUS: 'PUBLISH_EVENT_BUS',
+            PUBLISH_EVENT_DISPATCHER: 'PUBLISH_EVENT_DISPATCHER',
+
+            // State messages
+            STATE_SNAPSHOT: 'STATE_SNAPSHOT',
+            REQUEST_STATIC_DATA: 'REQUEST_STATIC_DATA',
+            STATIC_DATA_RESPONSE: 'STATIC_DATA_RESPONSE',
+            REQUEST_STATE_SNAPSHOT: 'REQUEST_STATE_SNAPSHOT',
+
+            // Configuration messages
+            LOG_CONFIG_UPDATE: 'LOG_CONFIG_UPDATE',
+            REQUEST_LOG_CONFIG: 'REQUEST_LOG_CONFIG',
+            LOG_CONFIG_RESPONSE: 'LOG_CONFIG_RESPONSE',
+
+            // Error messages
+            CONNECTION_ERROR: 'CONNECTION_ERROR',
+            SUBSCRIPTION_ERROR: 'SUBSCRIPTION_ERROR',
+            INVALID_MESSAGE: 'INVALID_MESSAGE'
+        };
+
+        // Converter-specific message types (custom extension)
+        const ConverterMessageTypes = {
+            // Commands from parent
+            SET_PYTHON: 'CONVERTER_SET_PYTHON',
+            SET_JSON: 'CONVERTER_SET_JSON',
+            GET_STATE: 'CONVERTER_GET_STATE',
+            SET_FORMAT: 'CONVERTER_SET_FORMAT',
+            CONVERT_PYTHON: 'CONVERTER_CONVERT_PYTHON',
+            CONVERT_JSON: 'CONVERTER_CONVERT_JSON',
+            CLEAR: 'CONVERTER_CLEAR',
+
+            // Events to parent
+            STATE_CHANGED: 'CONVERTER_STATE_CHANGED',
+            CONVERSION_COMPLETE: 'CONVERTER_CONVERSION_COMPLETE',
+            CONVERSION_ERROR: 'CONVERTER_CONVERSION_ERROR'
+        };
+
+        // Iframe client state
+        const iframeState = {
+            iframeId: null,
+            isConnected: false,
+            heartbeatInterval: null,
+            connectionTimeout: null,
+            retryCount: 0,
+            maxRetries: 3
+        };
+
+        // Generate iframe ID from URL params or create one
+        function generateIframeId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const customId = urlParams.get('iframeId');
+            const customName = urlParams.get('iframeName') || 'rule-converter';
+            if (customId) return customId;
+            return `${customName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        }
+
+        // Create a standardized message
+        function createMessage(type, data = null) {
+            return {
+                type,
+                iframeId: iframeState.iframeId,
+                timestamp: Date.now(),
+                data
+            };
+        }
+
+        // Validate incoming message
+        function validateMessage(message) {
+            if (!message || typeof message !== 'object') return false;
+            const { type, iframeId, timestamp } = message;
+            if (!type || !iframeId || !timestamp) return false;
+            if (typeof timestamp !== 'number') return false;
+            return true;
+        }
+
+        // Send message to parent window
+        function sendToParent(type, data) {
+            if (!window.parent || window.parent === window) return;
+
+            const message = createMessage(type, data);
+            try {
+                window.parent.postMessage(message, window.location.origin);
+            } catch (e) {
+                try {
+                    window.parent.postMessage(message, '*');
+                } catch (err) {
+                    console.error('Failed to send postMessage:', err);
+                }
+            }
+        }
+
+        // Handle incoming messages from parent
+        function handlePostMessage(event) {
+            const message = event.data;
+
+            // Validate message structure
+            if (!validateMessage(message)) return;
+
+            // Check if message is for us (or broadcast)
+            if (message.iframeId !== iframeState.iframeId && message.iframeId !== '*') return;
+
+            // Handle standard protocol messages
+            switch (message.type) {
+                case MessageTypes.ADAPTER_READY:
+                    handleAdapterReady(message);
+                    break;
+
+                case MessageTypes.HEARTBEAT:
+                    sendToParent(MessageTypes.HEARTBEAT_RESPONSE, { timestamp: Date.now() });
+                    break;
+
+                case MessageTypes.EVENT_BUS_MESSAGE:
+                    handleEventBusMessage(message);
+                    break;
+
+                case MessageTypes.STATE_SNAPSHOT:
+                    handleStateSnapshot(message);
+                    break;
+
+                // Handle converter-specific messages
+                case ConverterMessageTypes.SET_PYTHON:
+                    handleSetPython(message);
+                    break;
+
+                case ConverterMessageTypes.SET_JSON:
+                    handleSetJson(message);
+                    break;
+
+                case ConverterMessageTypes.GET_STATE:
+                    handleGetState(message);
+                    break;
+
+                case ConverterMessageTypes.SET_FORMAT:
+                    handleSetFormat(message);
+                    break;
+
+                case ConverterMessageTypes.CONVERT_PYTHON:
+                    handleConvertPython(message);
+                    break;
+
+                case ConverterMessageTypes.CONVERT_JSON:
+                    handleConvertJson(message);
+                    break;
+
+                case ConverterMessageTypes.CLEAR:
+                    handleClear(message);
+                    break;
+            }
+        }
+
+        // Handle adapter ready (connection established)
+        function handleAdapterReady(message) {
+            iframeState.isConnected = true;
+
+            // Clear connection timeout
+            if (iframeState.connectionTimeout) {
+                clearTimeout(iframeState.connectionTimeout);
+                iframeState.connectionTimeout = null;
+            }
+
+            // Update UI
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.textContent = 'Connected to main application';
+            statusEl.classList.add('connected');
+            document.body.classList.add('iframe-connected');
+
+            // Start heartbeat
+            startHeartbeat();
+
+            // Notify app is ready
+            sendToParent(MessageTypes.IFRAME_APP_READY, {
+                capabilities: ['rule-converter', 'python-to-json', 'json-to-python']
+            });
+
+            // Send initial state
+            sendConverterState();
+        }
+
+        // Start heartbeat interval
+        function startHeartbeat() {
+            if (iframeState.heartbeatInterval) {
+                clearInterval(iframeState.heartbeatInterval);
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const interval = parseInt(urlParams.get('heartbeatInterval')) || 30000;
+
+            iframeState.heartbeatInterval = setInterval(() => {
+                sendToParent(MessageTypes.HEARTBEAT, { timestamp: Date.now() });
+            }, interval);
+        }
+
+        // Handle event bus messages from parent
+        function handleEventBusMessage(message) {
+            const { eventName, eventData } = message.data || {};
+
+            // Handle specific events the converter cares about
+            if (eventName === 'stateManager:rulesLoaded' && eventData && eventData.rule) {
+                // If main app loads a rule, show it in the JSON editor
+                jsonEditor.setValue(JSON.stringify(eventData.rule, null, 2));
+                scheduleConversion('json');
+            }
+        }
+
+        // Handle state snapshot from parent
+        function handleStateSnapshot(message) {
+            // Could use this to sync with main app state if needed
+        }
+
+        // Converter-specific handlers
+        function handleSetPython(message) {
+            const { code, convert = true } = message.data || {};
+            if (typeof code === 'string') {
+                pythonEditor.setValue(code);
+                if (convert && code.trim()) {
+                    scheduleConversion('python');
+                }
+            }
+        }
+
+        function handleSetJson(message) {
+            const { rule, convert = true } = message.data || {};
+            if (rule !== undefined) {
+                const jsonStr = typeof rule === 'string' ? rule : JSON.stringify(rule, null, 2);
+                jsonEditor.setValue(jsonStr);
+                if (convert && jsonStr.trim()) {
+                    scheduleConversion('json');
+                }
+            }
+        }
+
+        function handleGetState(message) {
+            sendConverterState();
+        }
+
+        function handleSetFormat(message) {
+            const { format } = message.data || {};
+            if (['expression', 'lambda', 'function'].includes(format)) {
+                pythonFormatSelect.value = format;
+                // Re-convert if there's JSON content
+                if (jsonEditor.getValue().trim()) {
+                    convertJsonToPython(jsonEditor.getValue());
+                }
+            }
+        }
+
+        function handleConvertPython(message) {
+            const code = message.data?.code || pythonEditor.getValue();
+            if (code.trim()) {
+                convertPythonToJson(code).then(() => {
+                    sendConversionResult('python-to-json');
+                });
+            }
+        }
+
+        function handleConvertJson(message) {
+            const rule = message.data?.rule;
+            const jsonStr = rule
+                ? (typeof rule === 'string' ? rule : JSON.stringify(rule, null, 2))
+                : jsonEditor.getValue();
+            if (jsonStr.trim()) {
+                convertJsonToPython(jsonStr).then(() => {
+                    sendConversionResult('json-to-python');
+                });
+            }
+        }
+
+        function handleClear(message) {
+            const { target = 'both' } = message.data || {};
+            if (target === 'python' || target === 'both') {
+                pythonEditor.setValue('');
+            }
+            if (target === 'json' || target === 'both') {
+                jsonEditor.setValue('');
+            }
+            hideError();
+            hideWarnings();
+            setStatus('', 'Ready');
+            sendConverterState();
+        }
+
+        // Send current converter state to parent
+        function sendConverterState() {
+            sendToParent(ConverterMessageTypes.STATE_CHANGED, {
+                python: pythonEditor.getValue(),
+                json: jsonEditor.getValue(),
+                format: pythonFormatSelect.value,
+                hasError: errorPanel.classList.contains('visible'),
+                error: errorContent.textContent || null
+            });
+        }
+
+        // Send conversion result to parent
+        function sendConversionResult(direction) {
+            const hasError = errorPanel.classList.contains('visible');
+            if (hasError) {
+                sendToParent(ConverterMessageTypes.CONVERSION_ERROR, {
+                    direction,
+                    error: errorContent.textContent,
+                    python: pythonEditor.getValue(),
+                    json: jsonEditor.getValue()
+                });
+            } else {
+                sendToParent(ConverterMessageTypes.CONVERSION_COMPLETE, {
+                    direction,
+                    python: pythonEditor.getValue(),
+                    json: jsonEditor.getValue(),
+                    format: pythonFormatSelect.value
+                });
+            }
+        }
+
+        // Publish to parent event bus
+        function publishToParentEventBus(eventName, eventData) {
+            sendToParent(MessageTypes.PUBLISH_EVENT_BUS, { eventName, eventData });
+        }
+
+        // Connection timeout handler
+        function handleConnectionTimeout() {
+            iframeState.retryCount++;
+
+            if (iframeState.retryCount <= iframeState.maxRetries) {
+                // Retry connection
+                setTimeout(() => {
+                    sendToParent(MessageTypes.IFRAME_READY, {
+                        iframeId: iframeState.iframeId,
+                        version: '1.0.0',
+                        capabilities: ['rule-converter', 'python-to-json', 'json-to-python']
+                    });
+
+                    iframeState.connectionTimeout = setTimeout(handleConnectionTimeout, 5000);
+                }, 1000);
+            } else {
+                // Connection failed - update UI
+                const statusEl = document.getElementById('connectionStatus');
+                statusEl.textContent = 'Connection failed - running in standalone mode';
+                statusEl.classList.add('error');
+            }
+        }
+
+        // Initialize iframe communication
+        function initIframeCommunication() {
+            // Check if we're in an iframe
+            const isInIframe = window.parent && window.parent !== window;
+
+            if (isInIframe) {
+                document.body.classList.add('iframe-embedded');
+
+                // Generate iframe ID
+                iframeState.iframeId = generateIframeId();
+
+                // Setup message listener
+                window.addEventListener('message', handlePostMessage);
+
+                // Set connection timeout
+                iframeState.connectionTimeout = setTimeout(handleConnectionTimeout, 10000);
+
+                // Send ready message to parent
+                sendToParent(MessageTypes.IFRAME_READY, {
+                    iframeId: iframeState.iframeId,
+                    version: '1.0.0',
+                    capabilities: ['rule-converter', 'python-to-json', 'json-to-python']
+                });
+            } else {
+                // Standalone mode - set initial example
+                pythonEditor.setValue("state.has('Sword') and state.has('Shield')");
+                scheduleConversion('python');
+            }
+        }
+
+        // Notify parent on state changes
+        const originalScheduleConversion = scheduleConversion;
+        scheduleConversion = function(source) {
+            originalScheduleConversion(source);
+
+            // Send state update after debounce completes
+            if (iframeState.isConnected) {
+                setTimeout(() => sendConverterState(), 600);
+            }
+        };
+
+        // Initialize communication when page loads
+        initIframeCommunication();
+
+        // Expose API for external access (e.g., from parent window via iframe.contentWindow)
+        window.converterAPI = {
+            setPython: (code, convert = true) => {
+                pythonEditor.setValue(code);
+                if (convert && code.trim()) scheduleConversion('python');
+            },
+            setJson: (rule, convert = true) => {
+                const jsonStr = typeof rule === 'string' ? rule : JSON.stringify(rule, null, 2);
+                jsonEditor.setValue(jsonStr);
+                if (convert && jsonStr.trim()) scheduleConversion('json');
+            },
+            getPython: () => pythonEditor.getValue(),
+            getJson: () => {
+                try {
+                    return JSON.parse(jsonEditor.getValue());
+                } catch {
+                    return null;
+                }
+            },
+            getJsonString: () => jsonEditor.getValue(),
+            getFormat: () => pythonFormatSelect.value,
+            setFormat: (format) => {
+                if (['expression', 'lambda', 'function'].includes(format)) {
+                    pythonFormatSelect.value = format;
+                }
+            },
+            convert: (direction) => {
+                if (direction === 'python-to-json') {
+                    return convertPythonToJson(pythonEditor.getValue());
+                } else {
+                    return convertJsonToPython(jsonEditor.getValue());
+                }
+            },
+            clear: (target = 'both') => {
+                if (target === 'python' || target === 'both') pythonEditor.setValue('');
+                if (target === 'json' || target === 'both') jsonEditor.setValue('');
+                hideError();
+                hideWarnings();
+                setStatus('', 'Ready');
+            },
+            getState: () => ({
+                python: pythonEditor.getValue(),
+                json: jsonEditor.getValue(),
+                format: pythonFormatSelect.value,
+                hasError: errorPanel.classList.contains('visible'),
+                error: errorContent.textContent || null
+            }),
+            // For parent app to subscribe to changes
+            onStateChange: null,
+            onConversionComplete: null,
+            onConversionError: null
+        };
+    </script>
+</body>
+</html>

@@ -8,8 +8,6 @@ from typing import TYPE_CHECKING, Iterable, Optional, cast
 
 from WebHostLib import to_python
 
-from WebHostLib import to_python
-
 if TYPE_CHECKING:
     from flask import Flask
     from werkzeug.test import Client as FlaskClient

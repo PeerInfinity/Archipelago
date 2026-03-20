@@ -1,14 +1,12 @@
 {
   "schema_version": 3,
-  "game_name": "ChocolateChipCookies",
+  "game_name": "Baking Adventure",
   "game_directory": "bakingadventure",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 2,
+  "seed_name": "01043188731678011336",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "ChocolateChipCookiesWorld"
   },
   "regions": {
     "1": {
@@ -19,8 +17,7 @@
             "name": "StartBaking",
             "connected_region": "Kitchen",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -33,32 +30,28 @@
             "name": "BackToMenu",
             "connected_region": "Menu",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToPreparation",
             "connected_region": "Preparation",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToWetIngredients",
             "connected_region": "WetIngredients",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToDryIngredients",
             "connected_region": "DryIngredients",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -67,43 +60,43 @@
             "name": "Gather Mixing Bowls",
             "id": 300000001,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Egg Mixture",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Get Electric Mixer",
             "id": 300000002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Shaped Cookies",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Find Measuring Tools",
             "id": 300000003,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Creamed Mixture",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -114,8 +107,7 @@
             "name": "BackToKitchenFromPrep",
             "connected_region": "Kitchen",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -124,43 +116,43 @@
             "name": "Preheat Oven to 375F",
             "id": 300000004,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Prepared Sheets",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Line Baking Sheets",
             "id": 300000005,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Measuring Tools",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Soften Butter",
             "id": 300000006,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Mixing Bowls",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -171,25 +163,20 @@
             "name": "BackToKitchenFromWet",
             "connected_region": "Kitchen",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToCombining",
             "connected_region": "Combining",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Creamed Mixture"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Flour Mixture"
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Creamed Mixture",
+                  "Flour Mixture"
+                ]
+              }
             }
           }
         ],
@@ -198,56 +185,56 @@
             "name": "Cream Butter and Sugars",
             "id": 300000007,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Electric Mixer"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Mixing Bowls"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Softened Butter"
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Electric Mixer",
+                  "Mixing Bowls",
+                  "Softened Butter"
+                ]
+              }
             },
             "item": {
               "name": "Butter Sugar Base",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Add Eggs",
             "id": 300000008,
             "access_rule": {
-              "type": "item_check",
-              "item": "Butter Sugar Base"
+              "rule": "Has",
+              "args": {
+                "item_name": "Butter Sugar Base"
+              }
             },
             "item": {
               "name": "Basic Dough",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Add Vanilla",
             "id": 300000009,
             "access_rule": {
-              "type": "item_check",
-              "item": "Egg Mixture"
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg Mixture"
+              }
             },
             "item": {
               "name": "Flour Mixture",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -258,8 +245,7 @@
             "name": "BackToKitchenFromDry",
             "connected_region": "Kitchen",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -268,29 +254,35 @@
             "name": "Measure Flour",
             "id": 300000010,
             "access_rule": {
-              "type": "item_check",
-              "item": "Measuring Tools"
+              "rule": "Has",
+              "args": {
+                "item_name": "Measuring Tools"
+              }
             },
             "item": {
               "name": "Preheated Oven",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Add Baking Soda and Salt",
             "id": 300000011,
             "access_rule": {
-              "type": "item_check",
-              "item": "Measured Flour"
+              "rule": "Has",
+              "args": {
+                "item_name": "Measured Flour"
+              }
             },
             "item": {
               "name": "Baked Cookies",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -301,16 +293,17 @@
             "name": "BackToWetIngredients",
             "connected_region": "WetIngredients",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToFinishing",
             "connected_region": "Finishing",
             "access_rule": {
-              "type": "item_check",
-              "item": "Cookie Dough"
+              "rule": "Has",
+              "args": {
+                "item_name": "Cookie Dough"
+              }
             }
           }
         ],
@@ -319,29 +312,32 @@
             "name": "Gradually Mix Dry into Wet",
             "id": 300000012,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Cookie Dough",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Fold in Chocolate Chips",
             "id": 300000013,
             "access_rule": {
-              "type": "item_check",
-              "item": "Basic Dough"
+              "rule": "Has",
+              "args": {
+                "item_name": "Basic Dough"
+              }
             },
             "item": {
               "name": "Measured Flour",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -352,16 +348,17 @@
             "name": "BackToCombining",
             "connected_region": "Combining",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
             "name": "ToBaking",
             "connected_region": "Baking",
             "access_rule": {
-              "type": "item_check",
-              "item": "Shaped Cookies"
+              "rule": "Has",
+              "args": {
+                "item_name": "Shaped Cookies"
+              }
             }
           }
         ],
@@ -370,24 +367,21 @@
             "name": "Scoop Dough onto Sheets",
             "id": 300000014,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Cookie Dough"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Prepared Sheets"
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Cookie Dough",
+                  "Prepared Sheets"
+                ]
+              }
             },
             "item": {
               "name": "Electric Mixer",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -398,8 +392,7 @@
             "name": "BackToFinishing",
             "connected_region": "Finishing",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -408,38 +401,39 @@
             "name": "Bake for 9-11 Minutes",
             "id": 300000015,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Preheated Oven"
-                },
-                {
-                  "type": "item_check",
-                  "item": "Shaped Cookies"
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Preheated Oven",
+                  "Shaped Cookies"
+                ]
+              }
             },
             "item": {
               "name": "Softened Butter",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Cool on Wire Rack",
             "id": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Baked Cookies"
+              "rule": "Has",
+              "args": {
+                "item_name": "Baked Cookies"
+              }
             },
             "item": {
               "name": "Victory",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": true,
+            "event": true
           }
         ]
       }
@@ -461,12 +455,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Electric Mixer": {
         "name": "Electric Mixer",
@@ -474,12 +465,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Measuring Tools": {
         "name": "Measuring Tools",
@@ -487,12 +475,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Preheated Oven": {
         "name": "Preheated Oven",
@@ -500,12 +485,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Prepared Sheets": {
         "name": "Prepared Sheets",
@@ -513,12 +495,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Softened Butter": {
         "name": "Softened Butter",
@@ -526,12 +505,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Butter Sugar Base": {
         "name": "Butter Sugar Base",
@@ -539,12 +515,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Egg Mixture": {
         "name": "Egg Mixture",
@@ -552,12 +525,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Creamed Mixture": {
         "name": "Creamed Mixture",
@@ -565,12 +535,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Measured Flour": {
         "name": "Measured Flour",
@@ -578,12 +545,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Flour Mixture": {
         "name": "Flour Mixture",
@@ -591,12 +555,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Basic Dough": {
         "name": "Basic Dough",
@@ -604,12 +565,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Cookie Dough": {
         "name": "Cookie Dough",
@@ -617,12 +575,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Shaped Cookies": {
         "name": "Shaped Cookies",
@@ -630,12 +585,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Baked Cookies": {
         "name": "Baked Cookies",
@@ -643,12 +595,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2
+        "max_count": 1
       },
       "Victory": {
         "name": "Victory",
@@ -656,9 +605,7 @@
         "groups": [
           "Event"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
+        "classification": "progression",
         "event": true,
         "type": "Event",
         "max_count": 1
@@ -672,22 +619,41 @@
   },
   "itempool_counts": {
     "1": {
-      "Baked Cookies": 2,
-      "Basic Dough": 2,
-      "Butter Sugar Base": 2,
-      "Cookie Dough": 2,
-      "Creamed Mixture": 2,
-      "Egg Mixture": 2,
-      "Electric Mixer": 2,
-      "Flour Mixture": 2,
-      "Measured Flour": 2,
-      "Measuring Tools": 2,
-      "Mixing Bowls": 2,
-      "Preheated Oven": 2,
-      "Prepared Sheets": 2,
-      "Shaped Cookies": 2,
-      "Softened Butter": 2,
+      "Baked Cookies": 1,
+      "Basic Dough": 1,
+      "Butter Sugar Base": 1,
+      "Cookie Dough": 1,
+      "Creamed Mixture": 1,
+      "Egg Mixture": 1,
+      "Electric Mixer": 1,
+      "Flour Mixture": 1,
+      "Measured Flour": 1,
+      "Measuring Tools": 1,
+      "Mixing Bowls": 1,
+      "Preheated Oven": 1,
+      "Prepared Sheets": 1,
+      "Shaped Cookies": 1,
+      "Softened Butter": 1,
       "Victory": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Gather Mixing Bowls": "Mixing Bowls",
+      "Get Electric Mixer": "Electric Mixer",
+      "Find Measuring Tools": "Measuring Tools",
+      "Preheat Oven to 375F": "Preheated Oven",
+      "Line Baking Sheets": "Prepared Sheets",
+      "Soften Butter": "Softened Butter",
+      "Cream Butter and Sugars": "Butter Sugar Base",
+      "Add Eggs": "Egg Mixture",
+      "Add Vanilla": "Creamed Mixture",
+      "Measure Flour": "Measured Flour",
+      "Add Baking Soda and Salt": "Flour Mixture",
+      "Gradually Mix Dry into Wet": "Basic Dough",
+      "Fold in Chocolate Chips": "Cookie Dough",
+      "Scoop Dough onto Sheets": "Shaped Cookies",
+      "Bake for 9-11 Minutes": "Baked Cookies"
     }
   },
   "progression_mapping": {
@@ -696,19 +662,78 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
-      "game": "ChocolateChipCookies",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "game": "Baking Adventure",
+      "world_class_name": "BakingAdventureWorld",
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "vanilla_placement": false
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Item Placement"
+        }
+      },
+      "base_id": 300000000,
+      "world_description": "Baking Adventure is a game about baking the perfect chocolate chip cookies.\nNavigate through the kitchen regions, gather ingredients and tools, and follow the\nbaking process step by step to create delicious cookies!",
+      "slot_data": {
+        "vanilla_placement": 0
+      },
+      "web": {
+        "theme": "partyTime",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up the Archipelago Baking Adventure randomizer on your computer.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "bakingadventure"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "ChocolateChipCookies",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
       }
     }
-  }
+  },
+  "helpers": {}
 }

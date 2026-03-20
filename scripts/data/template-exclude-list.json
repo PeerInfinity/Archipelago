@@ -1,33 +1,641 @@
 {
-  "comment": "Default list of template files to exclude from testing and prompt generation. To modify the default exclude list, edit the 'exclude_list' array below. This list is loaded by scripts/test/test-all-templates.py and CC/scripts/prompt-all-templates.py",
+  "comment": "Template exclusion lists for different test types. 'exclude_list' contains permanent exclusions that apply to all tests. 'main_test_exclude_list' contains games excluded from spoiler-minimal and multiclient tests. 'worldgen_test_exclude_list' contains games excluded from world-generator tests. 'ut_fuzz_exclude_list' contains games excluded from UT fuzz testing (hangs or timeouts). 'ut_fuzz_apworld_exclude_list' contains community apworlds excluded from UT fuzz testing due to incompatible rule patterns or apworld bugs. 'requires_javascript_helpers_list' contains games that require JavaScript helpers (excluded from new-rule-types prompts). 'exporter_fully_simplified_list' contains games whose exporters are fully simplified (excluded from helper-export and exporter-simplify prompts). This file is loaded by scripts/lib/test_utils.py.",
   "exclude_list": [
     {
       "name": "Archipelago.yaml",
-      "reason": "Not a game"
+      "reason": "Not a game."
     },
     {
-      "name": "Final Fantasy.yaml",
-      "reason": "Requires manual configuration and is not compatible with automated testing"
+      "name": "APWorld Manager.yaml",
+      "reason": "Not a game."
     },
     {
-      "name": "Hollow Knight.yaml",
-      "reason": "The spoiler test currently freezes"
-    },
-    {
-      "name": "Ocarina of Time.yaml",
-      "reason": "The default yaml file fails to generate"
-    },
-    {
-      "name": "Sudoku.yaml",
-      "reason": "Cannot be used for generating worlds"
+      "name": "JSON Tools Installer.yaml",
+      "reason": "Not a game."
     },
     {
       "name": "Universal Tracker.yaml",
-      "reason": "Not a game"
+      "reason": "Not a game."
+    }
+  ],
+  "ut_fuzz_exclude_list": [
+    {
+      "name": "Tevi.yaml",
+      "reason": "Confirmed culprit in split 8 hang pattern: when Tevi runs before another game in the same split, the subsequent game hangs for the full 900s timeout. Multiple games were affected (XCOM 2, Yu-Gi-Oh! DDM, Yu-Gi-Oh! FM, Zelda II, osu!, PlateUp) before this was isolated. Likely causes orphaned processes that block the next game's fuzz.py startup."
+    }
+  ],
+  "main_test_exclude_list": [
+    {
+      "name": "Blasphemous.yaml",
+      "reason": "The spoiler test currently freezes."
+    },
+    {
+      "name": "Final Fantasy.yaml",
+      "reason": "Requires manual configuration and is not compatible with the spoiler test."
+    },
+    {
+      "name": "Hollow Knight.yaml",
+      "reason": "The spoiler test currently freezes."
+    },
+    {
+      "name": "Ocarina of Time.yaml",
+      "reason": "The default yaml file fails to generate."
+    },
+    {
+      "name": "Sudoku.yaml",
+      "reason": "Cannot be used for generating worlds."
     },
     {
       "name": "Zillion.yaml",
-      "reason": "Uses the external zilliandomizer tool for its logic, which is not compatible with this system"
+      "reason": "Uses the external zilliandomizer tool for its logic, which is not compatible with this system."
+    },
+    {
+      "name": "Jak and Daxter The Precursor Legacy.yaml",
+      "reason": "Temporarily excluded. It takes too long to process. 200 seconds for the spoiler test."
+    },
+    {
+      "name": "Pokemon Emerald.yaml",
+      "reason": "Temporarily excluded. It takes too long to process. 120 seconds for the spoiler test."
+    },
+    {
+      "name": "Pokemon Red and Blue.yaml",
+      "reason": "Temporarily excluded. It takes too long to process. 408 seconds for the multiclient test."
+    },
+    {
+      "name": "SMZ3.yaml",
+      "reason": "Temporarily excluded. It takes too long to process. 186 seconds for the multiclient test, which also fails because of self-locking items."
+    },
+    {
+      "name": "Yacht Dice.yaml",
+      "reason": "Temporarily excluded. It currently times out the multiworld test."
+    },
+    {
+      "name": "Yu-Gi-Oh! 2006.yaml",
+      "reason": "Temporarily excluded. It takes too long to process. 161 seconds for the spoiler test."
+    }
+  ],
+  "worldgen_test_exclude_list": [
+    {
+      "name": "Bomb Rush Cyberfunk.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Celeste (Open World).yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Kingdom Hearts 2.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Kingdom Hearts.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Kirby's Dream Land 3.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Lingo.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Raft.yaml",
+      "reason": "Temporarily excluded. The WorldGen spoiler test times out at 300 seconds."
+    },
+    {
+      "name": "Secret of Evermore.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Starcraft 2.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Stardew Valley.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Super Metroid.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "The Witness.yaml",
+      "reason": "Temporarily excluded. The WorldGen spoiler test takes 261 seconds."
+    },
+    {
+      "name": "TUNIC.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "Yacht Dice.yaml",
+      "reason": "Temporarily excluded. Supporting this game through WorldGen might not be possible."
+    },
+    {
+      "name": "DOOM 1993.yaml",
+      "reason": "Temporarily excluded. Helper references original module data (Maps.map_names, self.all_boss_levels, self.included_episodes, Locations.location_table) causing NameError."
+    },
+    {
+      "name": "DOOM II.yaml",
+      "reason": "Temporarily excluded. Same pattern as DOOM 1993 — helper references original module data (Maps.map_names) causing NameError."
+    },
+    {
+      "name": "Heretic.yaml",
+      "reason": "Temporarily excluded. Same pattern as DOOM 1993 — helper references original module data (Maps.map_names) causing NameError."
+    },
+    {
+      "name": "Journey to Ascension.yaml",
+      "reason": "JtA is not compatible with WorldGen."
+    },
+    {
+      "name": "Muse Dash.yaml",
+      "reason": "Temporarily excluded. Block-bodied helper inlined into expression context causes SyntaxError."
+    },
+    {
+      "name": "Paint.yaml",
+      "reason": "Temporarily excluded. Helper paint_percent_available not in JSON helpers dict causing NameError (calculate_paint_percent_available is present but referenced under wrong name)."
+    },
+    {
+      "name": "Satisfactory.yaml",
+      "reason": "Temporarily excluded. Calls self.state_logic.can_produce_all() which resolves to state.has_all() but is not exported, causing AttributeError."
+    }
+  ],
+  "ut_fuzz_apworld_exclude_list": [
+    {
+      "name": "A Link Between Worlds.yaml",
+      "reason": "Uses compiled Rust extension (albwrandomizer) for game logic. Rules reference self.seed_info.can_traverse() and self.seed_info.can_reach() which evaluate dynamically randomized crack/portal connections (Cracksanity). These methods live in the external library and cannot be exported to static rules - worldgen generates lambdas with 'self' references that fail with NameError."
+    },
+    {
+      "name": "Air Delivery.yaml",
+      "reason": "Python closure bug in apworld causes OR rules to only check the last condition. APWorld bug, not exporter issue."
+    },
+    {
+      "name": "Ape Escape 3.yaml",
+      "reason": "Uses Rulesets class with condense() method that returns closure (lambda state: self.check(state, player)). Exporter cannot trace through closure to extract actual rules stored in self.critical/self.rules lists. Rules export as unknown 'check' helper which defaults to True."
+    },
+    {
+      "name": "Astalon.yaml",
+      "reason": "Uses custom RuleInstance pattern with caching that serializes incorrectly. Exporter captures caching logic instead of actual rules."
+    },
+    {
+      "name": "Axiom Verge.yaml",
+      "reason": "Uses non-standard (state, context) helper signature where context is a LogicContext object containing player and options. Lambda rules use (s, c) parameters mapping to (state, context). Exporter misidentifies these as separate params, creating helpers with inconsistent signatures. Generated worldgen calls like has_trenchcoat(state, player, s, c) pass 4 args to functions expecting 3, causing TypeError."
+    },
+    {
+      "name": "Cavern of Dreams.yaml",
+      "reason": "Uses custom carryable system with CavernOfDreamsLocation/CavernOfDreamsEntrance classes. Rules stored in carryable_access_rules, inverse_carryable_access_rules, and dont_care_access_rule dictionaries instead of standard access_rule lambdas. Fixed @final class method dispatches to check_any_access() which evaluates carryable-specific rules. Exporter gets IndentationError parsing class method and exports null rules."
+    },
+    {
+      "name": "ChecksMate.yaml",
+      "reason": "Uses custom Material accumulator system. Items add numeric material values to state.prog_items[player]['Material'], and rules use meets_material_expectations() to check accumulated totals. Rule Builder cannot track computed properties."
+    },
+    {
+      "name": "Chrono Trigger Jets of Time.yaml",
+      "reason": "Requires YAML generated from external web tool (multiworld.ctjot.com). World validates seed_share_link and raises InvalidYamlException for standard YAML configurations."
+    },
+    {
+      "name": "ClusterTruck.yaml",
+      "reason": "APWorld bug: Unconditional filler item addition in create_items() causes item/location imbalance when start_level is also in skipped_levels. Results in FillError with ~30-60% of randomized configurations."
+    },
+    {
+      "name": "Corn Kidz 64.yaml",
+      "reason": "Uses custom CK64Rule enum system with data-driven rule evaluation. Incompatible with rule exporter architecture."
+    },
+    {
+      "name": "CrossCode.yaml",
+      "reason": "Uses custom Condition class system (ItemCondition, QuestCondition, etc.) with c.satisfied() method calls. Exporter serializes condition objects as string representations instead of extracting item requirements. Progressive item replacements in cond_args dict are not processed."
+    },
+    {
+      "name": "Crystal Project.yaml",
+      "reason": "Uses class-level helper methods (can_fight_gran, can_push_ice_block_and_goat, is_area_in_level_range) that combine item checks with game-specific level calculations. Exporter converts these to AST_capability/AST_generic_helper rules, but worldgen generates function calls without defining the functions, causing NameError at runtime."
+    },
+    {
+      "name": "Deep Rock Galactic.yaml",
+      "reason": "APWorld bug: remove_locations() uses random.sample() with locations_to_remove option (0-150 range), but for goal_mode 2/3 only ~64 locations are available, causing ValueError. Also has logic mismatches from has_from_list rules that don't export correctly."
+    },
+    {
+      "name": "Digimon World.yaml",
+      "reason": "Uses iterative calculate_prosperity helper that accumulates prosperity by simulating digimon recruitment. Cannot export recursive state-tracking logic to Rule Builder format."
+    },
+    {
+      "name": "Duke Nukem 3D.yaml",
+      "reason": "Uses dynamic location/region creation in interpret_slot_data() instead of static definitions. Locations are created when level.create_region() is called based on slot_data['levels']. Rules use nested classes (HasRule, LambdaRule) defined inside Rules.__init__() that cannot be serialized. Exporter captures 0 locations and null rules. Tracker fails with 'location already exists' assertion when interpret_slot_data tries to create locations that already exist."
+    },
+    {
+      "name": "Final Fantasy Tactics A2.yaml",
+      "reason": "APWorld bug: StartingUnits option allows selecting more than 5 non-special units, but rom.py raises exception during output generation. Fails before UT tracking phase with randomized options."
+    },
+    {
+      "name": "Final Fantasy Tactics Advance.yaml",
+      "reason": "APWorld bug: In create_gates() when last_gate=True with gate_paths>1 and gate_items=dispatch_gate, the dispatch_gate region is never added to multiworld.regions. Dispatch locations are orphaned, causing ~50% logic mismatch failures."
+    },
+    {
+      "name": "Frogmonster.yaml",
+      "reason": "Uses functools.partial wrapping lambdas (unexportable) and has bug where 40 bug regions are not registered with multiworld."
+    },
+    {
+      "name": "Garfield Kart - Furious Racing.yaml",
+      "reason": "APWorld bug: Compares Choice options against invalid string 'on' (e.g., randomize_spoilers in ['on', 'progressive']). Valid option keys are 'off', 'progressive', 'combine_tiers'. Archipelago's option __eq__ asserts valid comparisons, causing AssertionError during seed generation."
+    },
+    {
+      "name": "GZDoom.yaml",
+      "reason": "Base framework apworld with hidden=True. Not a standalone game - requires WAD-specific apworlds (e.g., zdoom_doom_2.apworld) that extend GZDoomWorld and provide wad_logic. Accessing wad_logic on base class raises AttributeError because the attribute is only declared, not initialized."
+    },
+    {
+      "name": "Iji.yaml",
+      "reason": "Uses module-level constant lists (EventNames.Levels, ItemNames.Sector_Access) with subscript access in rules. Exporter captures AST instead of resolved values. Chained helper functions cause rule expansion to hit size limits, falling back to True_()."
+    },
+    {
+      "name": "Keep Talking and Nobody Explodes.yaml",
+      "reason": "Uses custom getModuleCounts() helper function with nested list counting logic. Exporter cannot translate this to Rule Builder - falls back to True_() making UT think all locations are accessible."
+    },
+    {
+      "name": "Lingo 2.yaml",
+      "reason": "Uses closure-captured AccessRequirements objects in make_location_lambda(). Exporter captures variable name 'new_reqs' but cannot serialize the object, resulting in None passed to lingo2_can_satisfy_requirements helper causing AttributeError. Would need custom handler like original Lingo."
+    },
+    {
+      "name": "Majora's Mask Recompiled.yaml",
+      "reason": "Shop price randomization incompatible with tracker: (1) Rules.json path discovery fails due to apostrophe in directory name. (2) Randomized prices not exported to game_info. (3) Prices are non-deterministic - regenerating world creates different prices causing wallet requirement mismatches."
+    },
+    {
+      "name": "Monster Sanctuary.yaml",
+      "reason": "Uses custom AccessCondition class with data-driven rule evaluation. Exporter sees lambda calling rules.has_access() but cannot introspect the AccessCondition tree structure."
+    },
+    {
+      "name": "Ori and the Blind Forest.yaml",
+      "reason": "Uses oribf_has helper with special keywords ('Free', 'Lure', 'DoubleBash', etc.) and item tuples. Exporter hits infinite loop analyzing helper. Custom exporter improves to 30-60% success but glitched logic settings still fail due to complex option-dependent rules in RulesData.py."
+    },
+    {
+      "name": "Ori and the Will of the Wisps.yaml",
+      "reason": "Uses LogicMixin with dynamic resource/combat calculations (wotw_max_resources, wotw_enemies). Exporter hits infinite loop analyzing complex cached state patterns."
+    },
+    {
+      "name": "Oxygen Not Included.yaml",
+      "reason": "APWorld bug: Duplicate location names created when bionic=true with base-game-only clusters (spaced_out=false). Four Bionic DLC items have empty tech_base values, causing locations named ' - 1' to collide in the global location cache."
+    },
+    {
+      "name": "Pokemon Mystery Dungeon Explorers of Sky.yaml",
+      "reason": "APWorld bug: 'Team Name' classification not handled in create_regions(), causing KeyError when subx_rules() tries to access 'Team Name Location'. Also has logic mismatches from complex rule patterns."
+    },
+    {
+      "name": "Pseudoregalia.yaml",
+      "reason": "Uses virtual items ('Kick Count', 'Cling Count') managed through custom collect/remove hooks. Collecting physical items like 'Air Kick' adds virtual counters via state.add_item(). Rules check virtual item counts but worldgen can't replicate collect hooks, so virtual items are never in collection state."
+    },
+    {
+      "name": "Rabi-Ribi.yaml",
+      "reason": "Helper complexity exceeds rule analyzer limits (30+ interdependent helpers). Analyzer hits 10000 call limit before full analysis."
+    },
+    {
+      "name": "Rift of the Necrodancer.yaml",
+      "reason": "APWorld bugs: (1) Option validation allows empty song pool causing ValueError in randrange(). (2) Duplicate item IDs - Medium and Hard variants share same ID (e.g., both 'Take a Breather (Medium)' and 'Take a Breather (Hard)' use ID 2013), causing item_id_to_name mismatches and logic errors."
+    },
+    {
+      "name": "Sentinels of the Multiverse.yaml",
+      "reason": "APWorld issue: Option combinations create more items than locations (required_scions can be 10000+, location_density.hero can be 0). Fails with FillError during seed generation before UT tracking runs. Not a UT compatibility issue."
+    },
+    {
+      "name": "Ship of Harkinian.yaml",
+      "reason": "Uses rule_wrapper class pattern that wraps lambda rules in closures. Access rules are wrapped via rule_wrapper.wrap(parent_region, rule, world).evaluate, where 'rule' is a Callable[[tuple[state, region, world]], bool]. Exporter extracts AST from evaluate() method which only shows wrapper call, not the actual rule logic stored in the closure. APWorld has native UT support (ut_can_gen_without_yaml=True) but the fuzzer's sphere comparison validation has minor edge-case mismatches with Fire Temple locations."
+    },
+    {
+      "name": "Sly 2 Band of Thieves.yaml",
+      "reason": "APWorld bug: uses generation_is_fake to apply different rules during tracking vs generation. ThiefNet locations skip Episode requirements and Pickpocket locations get wrong region assignments during tracking."
+    },
+    {
+      "name": "Soul Blazer.yaml",
+      "reason": "Uses closure-based data-driven rule pattern with RuleFlag enum dispatch. Cannot reconstruct rules without original closure context."
+    },
+    {
+      "name": "Spyro 3.yaml",
+      "reason": "All 40+ helper functions nested inside set_rules() cause RecursionError during AST parsing. Complex gem counting logic (has_all_gems, get_gems_accessible_in_level) cannot be serialized. 4329 locations cause export timeout even with custom handler."
+    },
+    {
+      "name": "Stacklands.yaml",
+      "reason": "Uses custom StacklandsLogic mixin with sl_* helper methods (sl_has_pack, sl_has_idea, sl_has_all_packs, etc.) that exporter cannot analyze. 98% of rules export as null. Board capacity methods use complex option-dependent logic with captured closure variables."
+    },
+    {
+      "name": "System Shock 2.yaml",
+      "reason": "Uses custom cyb_mod_count helper that calculates weighted sums of multiple Cyber Module item types. Also uses walrus operator (:=) in lambdas which cannot be analyzed. Would require WeightedSum rule support in worldgen."
+    },
+    {
+      "name": "The Legend of Zelda - Phantom Hourglass.yaml",
+      "reason": "Entrance randomization fails frequently with complex option combinations. GER algorithm fails after 10 attempts with mixed pool settings."
+    },
+    {
+      "name": "The Legend of Zelda - Oracle of Seasons.yaml",
+      "reason": "Uses parameterized helper functions with extra parameters beyond (state, player) such as oos_can_jump_1_wide_liquid(state, player, can_summon_companion), oos_self_locking_item(state, player, region_name, item_name). Exporter hits infinite loop limit (10000+ calls) analyzing these helpers due to complex interdependencies and runtime option access. Results in undefined helpers in worldgen Rules.py causing NameError."
+    },
+    {
+      "name": "The Sims 4.yaml",
+      "reason": "APWorld bug: fill_slot_data() returns keys like 'goal' but generate_early() expects 'goal_value'. Key mismatch causes KeyError during worldgen regeneration."
+    },
+    {
+      "name": "ToeJam and Earl.yaml",
+      "reason": "Uses custom collect method with point-based rank progression. Rules check pseudo-item 'ranks' which only exists via custom state tracking, not exportable."
+    },
+    {
+      "name": "Tyrian.yaml",
+      "reason": "Uses DPS dataclass objects captured in lambda closures via default parameters (lambda state, dps1=dps_active: can_deal_damage(state, player, dps1)). Exporter captures variable name 'dps1' but cannot serialize the DPS dataclass value, resulting in None passed to helpers. get_front_weapon_state() fails with AttributeError: 'NoneType' object has no attribute '_type_piercing'. DamageTables system requires complex runtime calculations that cannot be exported to static rules."
+    },
+    {
+      "name": "Wario Land.yaml",
+      "reason": "Requires ROM file (Wario Land - Super Mario Land 3 (World).gb) for seed generation. APWorld doesn't check skip_required_files setting, causing FileNotFoundError in headless testing environments."
+    },
+    {
+      "name": "XCOM 2 War of the Chosen.yaml",
+      "reason": "Uses custom RuleManager class with power-based access rules. Pattern incompatible with exporter/worldgen pipeline."
+    },
+    {
+      "name": "Yu-Gi-Oh! Forbidden Memories.yaml",
+      "reason": "Uses instance-level state (duelist_unlock_order, final_6_order) set randomly in generate_early() based on options. Access rules call is_card_location_accessible() which depends on this state and cannot be exported to static rules."
+    },
+    {
+      "name": "Against the Storm.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "ANIMAL WELL.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Anodyne.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Ape Escape.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Balatro.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Crystalis.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Fire Emblem Sacred Stones.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Grim Dawn.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Hammerwatch.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Into the Breach.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Lego Star Wars The Complete Saga.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Lunacid.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Mario Kart Double Dash.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Metroid Zero Mission.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Minishoot Adventures.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Minit.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Nine Sols.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Pizza Tower.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "plateup.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Pokemon FireRed and LeafGreen.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Reventure.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Rusted Moss.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Shadow The Hedgehog.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Sly Cooper and the Thievius Raccoonus.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Sonic Adventure DX.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Sonic Rush.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "TCG Card Shop Simulator.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    },
+    {
+      "name": "Tetris Attack.yaml",
+      "reason": "Temporarily excluded. Fixing this is currently not a priority."
+    }
+  ],
+  "requires_javascript_helpers_list": [
+    {
+      "name": "Bomb Rush Cyberfunk.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    },
+    {
+      "name": "Lingo.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    },
+    {
+      "name": "Secret of Evermore.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    },
+    {
+      "name": "Starcraft 2.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    },
+    {
+      "name": "Stardew Valley.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    },
+    {
+      "name": "Super Metroid.yaml",
+      "reason": "Game logic requires JavaScript helpers that cannot be removed."
+    }
+  ],
+  "exporter_fully_simplified_list": [
+    {
+      "name": "A Hat in Time.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "A Link to the Past.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Aquaria.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Bomb Rush Cyberfunk.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Castlevania - Circle of the Moon.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Celeste 64.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "DLCQuest.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Factorio.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Final Fantasy Mystic Quest.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Inscryption.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Kingdom Hearts 2.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Kirby's Dream Land 3.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Landstalker - The Treasures of King Nole.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Lingo.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Links Awakening DX.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Old School Runescape.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Overcooked! 2.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Paint.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Raft.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Satisfactory.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Secret of Evermore.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Starcraft 2.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Stardew Valley.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Subnautica.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Super Mario 64.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Super Mario Land 2.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Super Metroid.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "TOEM original.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "TOEM rule builder.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "TUNIC.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Terraria.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "The Messenger.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "The Wind Waker.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "The Witness.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Timespinner.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "VVVVVV.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
+    },
+    {
+      "name": "Yoshi's Island.yaml",
+      "reason": "Simplifying this exporter is currently not a priority."
     }
   ]
 }

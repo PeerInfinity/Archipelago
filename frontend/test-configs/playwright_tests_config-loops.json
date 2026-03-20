@@ -1,0 +1,90 @@
+{
+  "autoStartTestsOnLoad": true,
+  "hideDisabledTests": true,
+  "randomizeOrder": false,
+  "defaultEnabledState": false,
+  "enabledCategories": ["loops"],
+  "tests": [
+    {
+      "id": "loops-initial-menu-not-processed",
+      "name": "Initial Menu Not Processed as Action",
+      "description": "Verifies that the initial Menu position is displayed correctly and not executed as an action when Resume is clicked",
+      "functionName": "testInitialMenuNotProcessed",
+      "enabled": true,
+      "order": 0,
+      "category": "loops"
+    },
+    {
+      "id": "loops-real-actions-processed",
+      "name": "Real Actions Are Processed",
+      "description": "Verifies that real actions in the queue are processed when Resume is clicked",
+      "functionName": "testRealActionsProcessed",
+      "enabled": true,
+      "order": 1,
+      "category": "loops"
+    },
+    {
+      "id": "loops-mana-consumption",
+      "name": "Mana Consumption",
+      "description": "Verifies that mana is consumed correctly during action processing",
+      "functionName": "testManaConsumption",
+      "enabled": true,
+      "order": 2,
+      "category": "loops"
+    },
+    {
+      "id": "loops-xp-awarding",
+      "name": "XP Awarding",
+      "description": "Verifies that XP is awarded correctly per action",
+      "functionName": "testXPAwarding",
+      "enabled": true,
+      "order": 3,
+      "category": "loops"
+    },
+    {
+      "id": "loops-level-up-mechanics",
+      "name": "Level Up Mechanics",
+      "description": "Verifies that level thresholds work correctly and provide cost reduction",
+      "functionName": "testLevelUpMechanics",
+      "enabled": true,
+      "order": 4,
+      "category": "loops"
+    },
+    {
+      "id": "loops-speed-adjustment",
+      "name": "Speed Adjustment",
+      "description": "Verifies that speed slider affects action processing rate",
+      "functionName": "testSpeedAdjustment",
+      "enabled": true,
+      "order": 5,
+      "category": "loops"
+    },
+    {
+      "id": "loops-pause-resume",
+      "name": "Pause/Resume Functionality",
+      "description": "Verifies that pause/resume controls work correctly",
+      "functionName": "testPauseResume",
+      "enabled": true,
+      "order": 6,
+      "category": "loops"
+    },
+    {
+      "id": "loops-auto-restart",
+      "name": "Auto Restart",
+      "description": "Verifies that auto-restart works when mana is depleted",
+      "functionName": "testAutoRestart",
+      "enabled": true,
+      "order": 7,
+      "category": "loops"
+    },
+    {
+      "id": "loops-enter-exit-mode",
+      "name": "Enter/Exit Loop Mode",
+      "description": "Verifies that entering and exiting loop mode works correctly",
+      "functionName": "testEnterExitLoopMode",
+      "enabled": true,
+      "order": 8,
+      "category": "loops"
+    }
+  ]
+}

@@ -63,7 +63,10 @@ Output Logs/
 /installdelete.iss
 /data/user.kv
 /datapackage
+/datapackage_export.json
 /custom_worlds
+# stubgen output
+/out/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -210,7 +213,6 @@ ContextList.txt
 ContextList2.txt
 missingFiles.txt
 FixedContextList.txt
-CLAUDE.md
 generate_output.txt
 pytest_output.txt
 pytest-list.txt
@@ -235,22 +237,58 @@ trash/*
 node_modules/*
 test-results/*
 set.mm
+*.pkl.gz
+*_pickle_meta.json
 
 !scripts/build/
 !scripts/lib/
+!scripts/test/lib/
+!frontend/modules/spoilerTest/lib/
 
 scripts/output/spoiler-minimal/test-results-*
 scripts/output/spoiler-minimal/test-results_*
+scripts/output/spoiler-minimal-worldgen/test-results-*
+scripts/output/spoiler-minimal-worldgen/test-results_*
+scripts/output/spoiler-minimal-apworld/test-results-*
+scripts/output/spoiler-minimal-apworld/test-results_*
 scripts/output/spoiler-full/test-results-*
 scripts/output/spoiler-full/test-results_*
+scripts/output/spoiler-full-worldgen/test-results-*
+scripts/output/spoiler-full-worldgen/test-results_*
+scripts/output/spoiler-full-apworld/test-results-*
+scripts/output/spoiler-full-apworld/test-results_*
 scripts/output/multiclient/test-results-*
 scripts/output/multiclient/test-results_*
+scripts/output/multiclient-worldgen/test-results-*
+scripts/output/multiclient-worldgen/test-results_*
+scripts/output/multiclient-apworld/test-results-*
+scripts/output/multiclient-apworld/test-results_*
 scripts/output/multiworld/test-results-*
 scripts/output/multiworld/test-results_*
-scripts/output/multitemplate-minimal/test-results-*
-scripts/output/multitemplate-minimal/test-results_*
-scripts/output/multitemplate-full/test-results-*
-scripts/output/multitemplate-full/test-results_*
+scripts/output/multiworld-worldgen/test-results-*
+scripts/output/multiworld-worldgen/test-results_*
+scripts/output/multiworld-apworld/test-results-*
+scripts/output/multiworld-apworld/test-results_*
+scripts/output/ut-fuzz/test-results-*
+scripts/output/ut-fuzz/test-results_*
+# Track specific UT fuzz result files
+!scripts/output/ut-fuzz/test-results-original-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-original_seeded-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-worldgen-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-pickle-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-hybrid-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-apworlds-original-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-apworlds-original_seeded-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-apworlds-worldgen-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-apworlds-pickle-fixed-seed.json
+!scripts/output/ut-fuzz/test-results-apworlds-hybrid-fixed-seed.json
+
+*_from_pickle_rules.json
+
+!CC/scripts/prompts/gen-errors.txt
+
+coverage/
+benchmark-results.json
 
 test1/
 test2/
@@ -258,4 +296,13 @@ test3/
 test4/
 frontend/modules/mazeGame-iframe/
 .git.disabled/
+worlds/apworld_manager/
+worlds_disabled/
+custom_worlds_disabled/
+iframe_games/journey-to-ascension-backup/
+iframe_games/journey-to-ascension-modified/
+iframe_games/omsi-loops/
+iframe_games/journey-to-ascension/build/
+iframe_games/journey-to-ascension/node_modules/
+fuzz_output/
 CC/

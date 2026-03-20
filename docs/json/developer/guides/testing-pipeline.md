@@ -13,7 +13,7 @@ The testing process involves several stages, moving data from the original game 
 ```
 ┌──────────────────┐   1. Generates   ┌────────────────────────┐
 │ Generate.py      ├───────────────►│   Spoiler Log & Rules  │
-│ (Python Backend) │                  │ (..._spheres_log.jsonl)│
+│ (Python Backend) │                  │ (..._sphere_log.jsonl) │
 └──────────────────┘                  │ (..._rules.json)       │
                                       └───────────┬────────────┘
                                                   │ 2. Consumes
@@ -27,7 +27,7 @@ The testing process involves several stages, moving data from the original game 
 ### Stage 1: Python Source & Spoiler Log Generation
 
 -   **Source of Truth:** The game generation process, orchestrated by `Generate.py`, is the source of truth. When run with a spoiler level of 2 or higher (`--spoiler 2`), it produces a detailed log of the game's logical progression.
--   **Spoiler Log (`_spheres_log.jsonl`):** This file is the ground truth for our testing. It contains a sequence of "spheres," where each sphere lists the locations that become accessible after collecting all the items from the previous spheres.
+-   **Spoiler Log (`_sphere_log.jsonl`):** This file is the ground truth for our testing. It contains a sequence of "spheres," where each sphere lists the locations that become accessible after collecting all the items from the previous spheres.
 
 ### Stage 2: The Exporter (`exporter/`)
 
@@ -40,13 +40,13 @@ The testing process involves several stages, moving data from the original game 
 The generation and export process creates two critical JSON files for each seed:
 
 1.  **`..._rules.json`**: A complete dump of the entire game's logic, including all region data, location rules, item definitions, and game settings, translated into the JSON format that our frontend understands. This is the logic that will be **under test**. The structure of this file follows the schema defined in `frontend/schema/rules.schema.json`.
-2.  **`..._spheres_log.jsonl`**: The list of progression spheres, which serves as the **expected result**. Each sphere contains the set of locations that should become accessible at that stage.
+2.  **`..._sphere_log.jsonl`**: The list of progression spheres, which serves as the **expected result**. Each sphere contains the set of locations that should become accessible at that stage.
 
-### Stage 4: Frontend Test Execution (`frontend/modules/testSpoilers/`)
+### Stage 4: Frontend Test Execution (`frontend/modules/spoilerTest/`)
 
-The **Test Spoilers** panel in the web client is the user interface for this pipeline.
+The **Spoiler Test** panel in the web client is the user interface for this pipeline.
 
--   **Loading:** The test automatically loads the `_rules.json` file into the `StateManager` worker, configuring it with the specific logic for that seed. It then loads the corresponding `_spheres_log.jsonl` file.
+-   **Loading:** The test automatically loads the `_rules.json` file into the `StateManager` worker, configuring it with the specific logic for that seed. It then loads the corresponding `_sphere_log.jsonl` file.
 -   **Execution & Validation:** When you click "Run Full Test," the `testSpoilerUI.js` module simulates a full playthrough sphere by sphere:
     1.  It starts with an empty inventory.
     2.  It gets the list of accessible locations from the frontend `StateManager`.
@@ -68,7 +68,7 @@ The entire pipeline can be run automatically from the command line using Playwri
 -   **Test Mode:** Running `npm test` launches the web client with URL parameters. You can specify `--mode`, `--game`, `--seed`, and `--rules` parameters to customize the test configuration.
 -   **Auto-Execution:** In "test" mode, the application automatically loads a predefined test configuration (`playwright_tests_config.json`).
 -   **Window Property Bridge:** Upon completion, the in-browser test writes a summary of the results to `window.__playwrightTestResults__`.
--   **Validation:** The Playwright script (`tests/e2e/app.spec.js`) waits for the `window.__playwrightTestsComplete__` flag, reads the results, and asserts that all tests passed, reporting the final outcome to the command line.
+-   **Validation:** The Playwright script (`test_json/e2e/app.spec.js`) waits for the `window.__playwrightTestsComplete__` flag, reads the results, and asserts that all tests passed, reporting the final outcome to the command line.
 
 This end-to-end pipeline ensures a high degree of confidence that the frontend client is a faithful and accurate implementation of Archipelago's game progression logic.
 
@@ -78,35 +78,35 @@ The project includes end-to-end multiclient tests that verify client-server comm
 
 **Test Configurations:**
 
-The multiclient tests (`tests/e2e/multiclient.spec.js`) support two configurations:
+The multiclient tests (`test_json/e2e/multiclient.spec.js`) support two configurations:
 
 1. **Multi-Client Test (Default)**: Tests both clients simultaneously
    - Client 1: Sends location checks via automatic timer
    - Client 2: Receives location checks from the server
    - Verifies that both clients stay synchronized
-   - Run with: `npx playwright test tests/e2e/multiclient.spec.js`
+   - Run with: `npx playwright test test_json/e2e/multiclient.spec.js`
 
 2. **Single-Client Test**: Tests only one client
    - Useful for debugging client connection and timer functionality
-   - Run with: `ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js`
+   - Run with: `ENABLE_SINGLE_CLIENT=true npx playwright test test_json/e2e/multiclient.spec.js`
 
 **Running Multiclient Tests:**
 
 ```bash
 # Run multi-client test (default)
-npx playwright test tests/e2e/multiclient.spec.js
+npx playwright test test_json/e2e/multiclient.spec.js
 
 # Run multi-client test in headed mode (visible browser)
-npx playwright test tests/e2e/multiclient.spec.js --headed
+npx playwright test test_json/e2e/multiclient.spec.js --headed
 
 # Run single-client test
-ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js
+ENABLE_SINGLE_CLIENT=true npx playwright test test_json/e2e/multiclient.spec.js
 
 # Run single-client test in headed mode
-ENABLE_SINGLE_CLIENT=true npx playwright test tests/e2e/multiclient.spec.js --headed
+ENABLE_SINGLE_CLIENT=true npx playwright test test_json/e2e/multiclient.spec.js --headed
 
 # Run specific test by name
-npx playwright test tests/e2e/multiclient.spec.js -g "multiclient timer test"
+npx playwright test test_json/e2e/multiclient.spec.js -g "multiclient timer test"
 ```
 
 **What the Tests Verify:**
@@ -173,7 +173,7 @@ python scripts/test/test-all-templates.py --include-list "Adventure.yaml"
 python scripts/test/test-all-templates.py --export-only
 
 # Only run spoiler tests, skip generation (requires existing rules files)
-python scripts/test/test-all-templates.py --spoiler-only
+python scripts/test/test-all-templates.py --test-only
 
 # Start processing from a specific template file (alphabetically ordered)
 python scripts/test/test-all-templates.py --start-from "Adventure.yaml"
@@ -193,7 +193,7 @@ The script now supports partial execution and resumption options for more flexib
 - **No HTTP server required**: Can run without the development server
 - **Fast bulk processing**: Ideal for generating data files for later analysis
 
-**`--spoiler-only`**: Only runs spoiler tests, skipping the generation step  
+**`--test-only`**: Only runs spoiler tests, skipping the generation step
 - **Use case**: Re-test games after fixing JavaScript rule engine issues without regenerating data
 - **Requires existing files**: Rules and sphere log files must already exist from a previous run
 - **Efficient debugging**: Test logic fixes without waiting for generation
@@ -206,7 +206,7 @@ The script now supports partial execution and resumption options for more flexib
 The automation script (`scripts/test/test-all-templates.py`) provides:
 
 - **Complete Pipeline Automation**: Runs Generate.py, spoiler tests, and analysis for each template
-- **Partial Execution Modes**: Use `--export-only` or `--spoiler-only` to run specific pipeline stages
+- **Partial Execution Modes**: Use `--export-only` or `--test-only` to run specific pipeline stages
 - **Resume from Point**: Use `--start-from` to continue processing from a specific template file  
 - **Comprehensive Metrics**: Captures error/warning counts, sphere progression, and pass/fail status
 - **Smart Filtering**: Automatically skips non-game templates by default, with options for custom skip/include lists
@@ -215,7 +215,7 @@ The automation script (`scripts/test/test-all-templates.py`) provides:
 - **Detailed JSON Output**: Structured results with timestamps and diagnostic information
 - **Progress Tracking**: Real-time feedback and summary statistics
 
-**Output Location**: Results are saved to `scripts/output/template-test-results.json` with complete metrics for each game including:
+**Output Location**: Results are saved to `scripts/output/spoiler-minimal/test-results.json` (or the appropriate subdirectory based on test type) with complete metrics for each game including:
 - Generation success/failure with error and warning counts
 - Spoiler test results with sphere progression details  
 - First error/warning lines for quick debugging
@@ -228,14 +228,17 @@ This automated approach is ideal for regression testing, validating multiple gam
 After running the automation script, generate a visual chart of the test results:
 
 ```bash
-# Generate chart with default settings (outputs to docs/json/developer/guides/test-results.md)
+# Generate all charts (processes all test types and generates summary)
 python scripts/docs/generate-test-chart.py
 
-# Use custom input/output locations
-python scripts/docs/generate-test-chart.py --input-file custom-results.json --output-file custom-chart.md
+# Generate a single chart for a specific test type (all three options required)
+python scripts/docs/generate-test-chart.py \
+    --input-file scripts/output/spoiler-minimal/test-results.json \
+    --output-file docs/json/developer/guides/test-results-minimal.md \
+    --test-type minimal
 ```
 
-The chart generation script (`scripts/docs/generate-test-chart.py`) creates a comprehensive markdown table showing:
+The chart generation script (`scripts/docs/generate-test-chart.py`) creates comprehensive markdown tables showing:
 
 - **Game Name**: Human-readable game names
 - **Test Result**: Pass/fail status with visual indicators (✅ ❌ ❓)
@@ -290,11 +293,11 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    python scripts/setup/update_host_settings.py normal
    ```
 
-4. **Understand Spoiler Levels:** The `spheres_log.jsonl` file is only generated when spoiler level is 2 or higher. Since the default is level 3, sphere logs are generated by default. Command line options:
+4. **Understand Spoiler Levels:** The `sphere_log.jsonl` file is only generated when spoiler level is 2 or higher. Since the default is level 3, sphere logs are generated by default. Command line options:
    - `--spoiler 0` (NONE): No spoiler files generated
    - `--spoiler 1` (BASIC): Only Spoiler.txt without playthrough or paths
-   - `--spoiler 2` (PLAYTHROUGH): Spoiler.txt with playthrough + spheres_log.jsonl
-   - `--spoiler 3` (FULL): Spoiler.txt with playthrough and paths + spheres_log.jsonl
+   - `--spoiler 2` (PLAYTHROUGH): Spoiler.txt with playthrough + sphere_log.jsonl
+   - `--spoiler 3` (FULL): Spoiler.txt with playthrough and paths + sphere_log.jsonl
 
 ### Step-by-Step Process
 
@@ -302,7 +305,12 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    - Template file name (e.g., "A Hat in Time.yaml")
    - Python directory (e.g., "worlds/ahit")
 
-2. **Create Game-Specific Exporter (if needed):** In `exporter/games/`, create a new file for your game if it doesn't exist (e.g., `exporter/games/ahit.py`). Base it on `exporter/games/generic.py`.
+2. **Create Game-Specific Exporter (if needed):** In `exporter/games/`, create a new file for your game if it doesn't exist. The exporter uses a tiered structure:
+   - `exporter/games/base/generic.py` - Base generic handler (use as template)
+   - `exporter/games/official/` - Official Archipelago games (e.g., `ahit.py`)
+   - `exporter/games/unofficial/` - Unofficial/community games
+
+   Create your game handler in the appropriate subdirectory based on whether it's an official or unofficial world.
 
 3. **Generate Test Data:** Run Generate.py for your chosen game:
    ```bash
@@ -332,13 +340,13 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    **Important:** Use `"Templates/[GameName].yaml"` as the path, **not** `"Players/Templates/[GameName].yaml"`. The `--weights_file_path` is relative to the `player_files_path` setting in `host.yaml` (which defaults to "Players"), so the full path becomes `Players/Templates/[GameName].yaml` automatically.
    
    **Check for Export Errors:** Examine `generate_output.txt` for error messages or parsing failures. If errors exist:
-   - Fix game-specific issues in your `exporter/games/[game].py` file
+   - Fix game-specific issues in your game's exporter file (e.g., `exporter/games/official/[game].py`)
    - Fix general exporter bugs in the main exporter code
    
    This creates files in `frontend/presets/[game]/AP_[seed]/`:
    - `AP_[seed].archipelago`
    - `AP_[seed]_rules.json` (the logic under test)
-   - `AP_[seed]_spheres_log.jsonl` (the expected progression)
+   - `AP_[seed]_sphere_log.jsonl` (the expected progression)
    - `AP_[seed]_Spoiler.txt`
 
 4. **Run the Test:** Execute the spoiler validation using URL parameters to specify your test configuration.
@@ -557,7 +565,7 @@ This indicates you're systematically resolving issues from major to minor.
 |------------|---------------|--------------|
 | 8+ locations failing | Variable resolution | `exporter/analyzer.py` |
 | 1-2 locations failing | Rule engine logic | `frontend/modules/shared/ruleEngine.js` |
-| Helper function errors | Missing game helpers | `exporter/games/[game].py` |
+| Helper function errors | Missing game helpers | `exporter/games/{official,unofficial}/[game].py` |
 | Region mismatches | Area access logic | Game-specific helpers |
 
 ### Common Anti-Patterns to Avoid

@@ -28,9 +28,10 @@ if (!isWorkerContext && window.logger) {
 
 // Legacy imports removed - now using agnostic helpers
 import { evaluateRule } from '../shared/ruleEngine.js';
+import { detectBidirectionalMode } from '../shared/bidirectionalDetector.js';
 // Legacy GameSnapshotHelpers import removed - using agnostic helpers directly
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js'; // Import shared commands
-import { helperFunctions as alttpLogic } from '../shared/gameLogic/alttp/alttpLogic.js';
+// alttpLogic import removed - helpers now exported to rules.json
 import { helperFunctions as genericLogic } from '../shared/gameLogic/generic/genericLogic.js';
 import { DEFAULT_PLAYER_ID } from '../shared/playerIdUtils.js';
 
@@ -199,10 +200,18 @@ export class StateManagerProxy {
   initializeWorker() {
     log('info', '[stateManagerProxy] Creating Worker...');
     try {
-      this.worker = new Worker(
-        new URL('./stateManagerWorker.js', import.meta.url),
-        { type: 'module' }
-      );
+      // Determine worker URL based on bundled vs unbundled mode.
+      // In bundled mode, import.meta.url points to dist/bundle.js, so we resolve
+      // relative to the page location instead (works for any deployment path).
+      // In unbundled mode, import.meta.url points to this module's actual location.
+      const isBundled = import.meta.url.includes('/dist/');
+      const workerUrl = isBundled
+        ? new URL('./modules/stateManager/stateManagerWorker.js', window.location.href)
+        : new URL('./stateManagerWorker.js', import.meta.url);
+
+      log('info', `[stateManagerProxy] Worker URL: ${workerUrl.href} (bundled: ${!!isBundled})`);
+
+      this.worker = new Worker(workerUrl, { type: 'module' });
 
       this.worker.onmessage = (event) => {
         // console.debug('[stateManagerProxy] Received message from worker:', event.data); // Use debug for less noise
@@ -210,10 +219,15 @@ export class StateManagerProxy {
       };
 
       this.worker.onerror = (error) => {
-        log('error', '[stateManagerProxy] Worker global error:', error);
-        const errorMessage = `Worker error: ${
-          error.message || 'Unknown worker error'
-        }`;
+        // ErrorEvent has filename, lineno, colno, message properties
+        const errorDetails = {
+          message: error.message || 'Unknown',
+          filename: error.filename || 'Unknown',
+          lineno: error.lineno || 0,
+          colno: error.colno || 0,
+        };
+        log('error', '[stateManagerProxy] Worker global error:', errorDetails);
+        const errorMessage = `Worker error: ${errorDetails.message} at ${errorDetails.filename}:${errorDetails.lineno}:${errorDetails.colno}`;
 
         // Reject all pending queries with tracking
         const pendingQueryIds = Array.from(this.pendingQueries.keys());
@@ -422,6 +436,9 @@ export class StateManagerProxy {
           }
 
           this.staticDataCache = newCache;
+          this.staticDataIsSet = true; // Mark so loadRules() can reset isReadyPublished on next reload
+          // Clear bidirectional detection cache when new rules are loaded
+          this._bidirectionalDetectionCache = null;
         } else {
           log(
             'error',
@@ -444,6 +461,9 @@ export class StateManagerProxy {
 
         // Store game_name from the confirmation message
         this.gameNameFromWorker = message.gameName;
+
+        // New rules are confirmed — stale snapshot window is over
+        this.isPotentialStaleSnapshot = false;
 
         // Resolve the initial load promise ONLY IF IT'S THE VERY FIRST LOAD
         if (this.initialLoadResolver) {
@@ -480,11 +500,14 @@ export class StateManagerProxy {
       case 'stateSnapshot':
         if (message.snapshot) {
           this.uiCache = message.snapshot;
-          this.isPotentialStaleSnapshot = false; // <<< ADDED: Reset flag on snapshot arrival
-          // Publish a generic event indicating the cache is updated
-          this.eventBus.publish('stateManager:snapshotUpdated', {
-            snapshot: this.uiCache,
-          }, 'stateManager');
+          // Only publish snapshot updates when not in a stale window (between loadRules and rulesLoadedConfirmation)
+          if (!this.isPotentialStaleSnapshot) {
+            this.eventBus.publish('stateManager:snapshotUpdated', {
+              snapshot: this.uiCache,
+            }, 'stateManager');
+          } else {
+            log('info', '[stateManagerProxy] Suppressing stale snapshot publish during rules reload.');
+          }
         } else {
           log(
             'error',
@@ -496,8 +519,9 @@ export class StateManagerProxy {
         // console.debug('[stateManagerProxy] Progress update received:', message.detail); // Debug level
         this.eventBus.publish(
           'stateManager:computationProgress',
-          message.detail
-        , 'stateManager');
+          message.detail,
+          'stateManager'
+        );
         break;
       case 'event': // For granular events forwarded from worker
         log(
@@ -616,8 +640,9 @@ export class StateManagerProxy {
       case 'computationProgress':
         this.eventBus.publish(
           'stateManager:computationProgress',
-          message.detail
-        , 'stateManager');
+          message.detail,
+          'stateManager'
+        );
         break;
       case 'eventPublish': // New case for event republishing from worker
         this._handleEventPublish(message);
@@ -666,6 +691,33 @@ export class StateManagerProxy {
           stack: message.stack,
           correlationId: message.correlationId
         });
+        break;
+      case 'spoilerTestProgress':
+        // Forward progress updates to eventBus for UI consumption
+        this.eventBus.publish('spoilerTest:progress', {
+          eventIndex: message.eventIndex,
+          totalEvents: message.totalEvents,
+          sphereIndex: message.sphereIndex,
+          passed: message.passed,
+          locationsChecked: message.locationsChecked,
+          itemsAdded: message.itemsAdded
+        }, 'stateManager');
+        break;
+      case 'spoilerTestMismatch':
+        // Forward mismatch details to eventBus for analysis
+        this.eventBus.publish('spoilerTest:mismatch', {
+          eventIndex: message.eventIndex,
+          sphereIndex: message.sphereIndex,
+          mismatches: message.mismatches,
+          awaitingAnalysis: message.awaitingAnalysis
+        }, 'stateManager');
+        break;
+      case 'spoilerTestComplete':
+        // Forward completion event to eventBus
+        // Note: The promise is resolved separately via queryResponse
+        this.eventBus.publish('spoilerTest:complete', {
+          result: message.result
+        }, 'stateManager');
         break;
       default:
         log(
@@ -851,7 +903,7 @@ export class StateManagerProxy {
         message.payload
       );
       // Potentially publish an event if generic pongs are useful
-      // this.eventBus.publish('stateManager:pongReceived', { payload: message.payload }, 'stateManager');
+      // this.eventBus.publish('stateManager:pongReceived', { payload: message.payload });
     }
   }
 
@@ -1298,6 +1350,8 @@ export class StateManagerProxy {
       this._setupInitialLoadPromise(); // Reset the promise for this new load sequence
       this.staticDataIsSet = false; // Mark static data as not set until new confirmation
       this.isReadyPublished = false; // Allow ready event to be published again
+      this.uiCache = null; // Clear stale cache to prevent stale display during reload
+      this.isPotentialStaleSnapshot = true; // Suppress stale snapshots until new rules confirmed
     }
 
     log('info', '[StateManagerProxy] Sending loadRules command to worker...');
@@ -1324,7 +1378,7 @@ export class StateManagerProxy {
    */
   async ensureReady(timeoutMs = 15000) {
     // Check if already ready to avoid re-subscribing or re-promising
-    if (this._isReadyPublished) {
+    if (this.isReadyPublished) {
       this._logDebug('[StateManagerProxy ensureReady] Already ready.');
       return true;
     }
@@ -1371,13 +1425,13 @@ export class StateManagerProxy {
       this.staticDataCache &&
       Object.keys(this.staticDataCache).length > 0
     ) {
-      if (!this._isReadyPublished) {
+      if (!this.isReadyPublished) {
         this._logDebug(
           '[StateManagerProxy ensureReady] Conditions met, but _isReadyPublished is false. Calling _checkAndPublishReady.'
         );
         this._checkAndPublishReady(); // Attempt to publish if conditions are met
       }
-      return this._isReadyPublished; // Return the current status
+      return this.isReadyPublished; // Return the current status
     }
 
     // If still not ready, it means something is off or it's a genuine timeout from a previous state.
@@ -1385,7 +1439,7 @@ export class StateManagerProxy {
       'error',
       '[StateManagerProxy ensureReady] Fell through all checks, returning current (likely false) ready state.'
     );
-    return false; // Or this._isReadyPublished which would be false
+    return false; // Or this.isReadyPublished which would be false
   }
 
   /**
@@ -1497,6 +1551,70 @@ export class StateManagerProxy {
       ? this.staticDataCache.originalRegionOrder
       : null;
   }
+
+  /**
+   * Gets the effective bidirectional exits setting.
+   * If explicitly set in the game's world settings, returns that value.
+   * Otherwise, auto-detects based on region connection patterns.
+   *
+   * @returns {Object} Result with:
+   *   - assumeBidirectional: boolean - effective value to use
+   *   - source: 'explicit' | 'auto-detected' | 'default' - where the value came from
+   *   - detection: Object | null - full detection result if auto-detected
+   */
+  getEffectiveBidirectionalSetting() {
+    if (!this.staticDataCache) {
+      return { assumeBidirectional: false, source: 'default', detection: null };
+    }
+
+    // Check for explicit setting in exporter settings (where assume_bidirectional_exits is stored)
+    const exporterSettings = this.staticDataCache.exporter
+      ? Object.values(this.staticDataCache.exporter)[0]
+      : null;
+    const explicitSetting = exporterSettings?.assume_bidirectional_exits;
+
+    if (explicitSetting !== undefined && explicitSetting !== null) {
+      return {
+        assumeBidirectional: explicitSetting === true,
+        source: 'explicit',
+        detection: null
+      };
+    }
+
+    // Auto-detect based on region connections
+    const regions = this.staticDataCache.regions;
+    if (!regions || regions.size === 0) {
+      return { assumeBidirectional: false, source: 'default', detection: null };
+    }
+
+    // Use cached detection result if available
+    if (this._bidirectionalDetectionCache) {
+      return this._bidirectionalDetectionCache;
+    }
+
+    // Run detection
+    const detection = detectBidirectionalMode(regions);
+    const result = {
+      assumeBidirectional: detection.assumeBidirectional,
+      source: 'auto-detected',
+      detection
+    };
+
+    // Cache the result
+    this._bidirectionalDetectionCache = result;
+
+    log('info', `[StateManagerProxy] Auto-detected bidirectional setting: ${result.assumeBidirectional} (mode: ${detection.mode})`);
+
+    return result;
+  }
+
+  /**
+   * Convenience method to just get the boolean value for assumeBidirectional.
+   * @returns {boolean}
+   */
+  shouldAssumeBidirectionalExits() {
+    return this.getEffectiveBidirectionalSetting().assumeBidirectional;
+  }
   // --- End of specific static data getters ---
 
   async addItemToInventory(item, quantity = 1) {
@@ -1514,6 +1632,23 @@ export class StateManagerProxy {
       StateManagerProxy.COMMANDS.REMOVE_ITEM_FROM_INVENTORY,
       { item, quantity },
       false // Match addItemToInventory - no response expected, snapshot update provides confirmation
+    );
+  }
+
+  /**
+   * Sets a prog_item value directly.
+   * Used by spoiler tests to set accumulator values (e.g., RUPEES) from sphere log data.
+   *
+   * @param {string} itemName - Name of the prog_item (e.g., "RUPEES")
+   * @param {number} value - Value to set
+   * @param {number|string} playerId - Optional player ID (defaults to current player)
+   * @returns {Promise<void>}
+   */
+  async setProgItem(itemName, value, playerId = undefined) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.SET_PROG_ITEM,
+      { itemName, value, playerId },
+      false // No response expected, snapshot update provides confirmation
     );
   }
 
@@ -1619,7 +1754,7 @@ export class StateManagerProxy {
       uiCacheNotNull: !!this.uiCache,
       staticDataIsSet:
         !!this.staticDataCache && Object.keys(this.staticDataCache).length > 0,
-      isReadyPublished: this.isReadyPublished, // Renamed from this._isReadyPublished for consistency
+      isReadyPublished: this.isReadyPublished,
     };
     // Use logger for this critical path
     if (!isWorkerContext && window.logger) {
@@ -2379,6 +2514,116 @@ export class StateManagerProxy {
       null, // No payload needed
       false // Fire-and-forget, snapshot update will arrive via normal flow
     );
+  }
+
+  /**
+   * Enable or disable worker-side profiling
+   *
+   * When enabled, the worker will track timing data for key operations:
+   * - computeReachableRegions
+   * - runBFSPass
+   * - isLocationAccessible
+   *
+   * @param {boolean} enabled - Whether to enable profiling
+   * @returns {Promise<Object>} Result with { success: boolean, enabled: boolean }
+   */
+  async setWorkerProfiling(enabled) {
+    log('info', `[StateManagerProxy] Setting worker profiling to ${enabled}`);
+    return this.sendQueryToWorker({
+      command: 'setWorkerProfiling',
+      payload: { enabled }
+    });
+  }
+
+  /**
+   * Get the worker-side profiling report
+   *
+   * Returns timing statistics for profiled operations in the worker.
+   *
+   * @returns {Promise<Object>} Object with { report: string, data: Object }
+   *   - report: Human-readable formatted report
+   *   - data: Machine-readable profiling data with stats per section
+   */
+  async getWorkerProfilingReport() {
+    log('info', '[StateManagerProxy] Getting worker profiling report');
+    return this.sendQueryToWorker({
+      command: 'getWorkerProfilingReport',
+      payload: {}
+    });
+  }
+
+  /**
+   * Run spoiler test entirely in worker
+   *
+   * Sends all sphere data to the worker and lets it process the entire test
+   * internally, eliminating round-trip communication overhead.
+   *
+   * Progress updates are sent via 'spoilerTestProgress' messages.
+   * Mismatch details are sent via 'spoilerTestMismatch' messages.
+   *
+   * @param {Array} sphereData - Pre-processed sphere data from sphereState
+   * @param {Object} config - Test configuration
+   * @param {number} config.playerId - Player ID
+   * @param {boolean} config.stopOnFirstError - Halt on first mismatch (default: true)
+   * @param {boolean} config.waitForMainThreadAnalysis - Wait for main thread analysis (default: false)
+   * @param {boolean} config.verboseMode - Enable verbose logging
+   * @param {boolean} config.focusedMode - Focused regression test mode
+   * @param {Array} config.focusLocations - Locations to focus on in focused mode
+   * @returns {Promise<Object>} Test results
+   */
+  async runSpoilerTest(sphereData, config) {
+    log('info', `[StateManagerProxy] Running worker-side spoiler test with ${sphereData.length} spheres`);
+    // Use 5 minute timeout for spoiler tests - they can take a long time for complex games
+    const SPOILER_TEST_TIMEOUT = 300000;
+    return this.sendQueryToWorker({
+      command: 'runSpoilerTest',
+      payload: { sphereData, config }
+    }, SPOILER_TEST_TIMEOUT);
+  }
+
+  /**
+   * Run path analysis for a region in the worker thread.
+   *
+   * Offloads DFS path finding and rule analysis to the worker, keeping the main thread responsive.
+   * Returns pre-computed paths, transitions, and node categorizations.
+   *
+   * @param {string} regionName - The region to analyze paths to
+   * @param {Object} settings - Analysis settings (maxPaths, maxAnalysisTimeMs)
+   * @returns {Promise<Object>} Analysis result with paths, pathDetails, allNodes, accessiblePathCount, etc.
+   */
+  async analyzePathToRegion(regionName, settings = {}) {
+    const timeoutMs = (settings.maxAnalysisTimeMs || 10000) + 5000;
+    return this.sendQueryToWorker({
+      command: 'analyzePathToRegion',
+      payload: { regionName, settings },
+    }, timeoutMs);
+  }
+
+  /**
+   * Abort a running spoiler test
+   *
+   * Signals the worker to stop processing the current spoiler test.
+   * The test will complete with aborted=true in the results.
+   *
+   * @returns {Promise<Object>} Result with { aborted: boolean }
+   */
+  async abortSpoilerTest() {
+    log('info', '[StateManagerProxy] Aborting spoiler test');
+    return this.sendQueryToWorker({
+      command: 'abortSpoilerTest',
+      payload: {}
+    });
+  }
+
+  /**
+   * Signal that main thread analysis is complete
+   *
+   * Used when waitForMainThreadAnalysis is enabled. Signals the worker
+   * to continue processing after main thread has completed its analysis.
+   */
+  signalAnalysisComplete() {
+    log('debug', '[StateManagerProxy] Signaling analysis complete');
+    this._sendCommand('signalAnalysisComplete', {}, false);
   }
 }
 

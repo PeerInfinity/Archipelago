@@ -1,0 +1,1849 @@
+{
+  "$schema": "./rule_type_tests.schema.json",
+  "version": 1,
+  "description": "Shared test fixtures for rule type evaluation. Used by both Python and JavaScript test suites.",
+  "test_suites": {
+    "constant": {
+      "description": "Constant value tests",
+      "tests": [
+        {
+          "name": "true_constant",
+          "rule": {"type": "constant", "value": true},
+          "expected": true
+        },
+        {
+          "name": "false_constant",
+          "rule": {"type": "constant", "value": false},
+          "expected": false
+        },
+        {
+          "name": "integer_constant",
+          "rule": {"type": "constant", "value": 42},
+          "expected": 42
+        },
+        {
+          "name": "negative_constant",
+          "rule": {"type": "constant", "value": -5},
+          "expected": -5
+        },
+        {
+          "name": "float_constant",
+          "rule": {"type": "constant", "value": 3.14},
+          "expected": 3.14
+        },
+        {
+          "name": "string_constant",
+          "rule": {"type": "constant", "value": "hello"},
+          "expected": "hello"
+        },
+        {
+          "name": "null_constant",
+          "rule": {"type": "constant", "value": null},
+          "expected": null
+        }
+      ]
+    },
+    "negate": {
+      "description": "Unary minus operation tests",
+      "tests": [
+        {
+          "name": "negate_positive",
+          "rule": {"type": "negate", "operand": {"type": "constant", "value": 5}},
+          "expected": -5
+        },
+        {
+          "name": "negate_negative",
+          "rule": {"type": "negate", "operand": {"type": "constant", "value": -3}},
+          "expected": 3
+        },
+        {
+          "name": "negate_zero",
+          "rule": {"type": "negate", "operand": {"type": "constant", "value": 0}},
+          "expected": 0
+        },
+        {
+          "name": "negate_float",
+          "rule": {"type": "negate", "operand": {"type": "constant", "value": 2.5}},
+          "expected": -2.5
+        },
+        {
+          "name": "negate_inventory_count",
+          "rule": {"type": "negate", "operand": {"type": "count_item", "item": "Key"}},
+          "context": {"inventory": {"Key": 3}},
+          "expected": -3
+        }
+      ]
+    },
+    "player_id": {
+      "description": "Player ID reference tests",
+      "tests": [
+        {
+          "name": "returns_player_1_default",
+          "rule": {"type": "player_id"},
+          "expected": 1
+        },
+        {
+          "name": "returns_player_2",
+          "rule": {"type": "player_id"},
+          "context": {"playerId": 2},
+          "expected": 2
+        },
+        {
+          "name": "returns_player_3",
+          "rule": {"type": "player_id"},
+          "context": {"playerId": 3},
+          "expected": 3
+        }
+      ]
+    },
+    "binary_op": {
+      "description": "Binary arithmetic operation tests",
+      "tests": [
+        {
+          "name": "addition",
+          "rule": {"type": "binary_op", "op": "+", "left": {"type": "constant", "value": 2}, "right": {"type": "constant", "value": 3}},
+          "expected": 5
+        },
+        {
+          "name": "subtraction",
+          "rule": {"type": "binary_op", "op": "-", "left": {"type": "constant", "value": 10}, "right": {"type": "constant", "value": 4}},
+          "expected": 6
+        },
+        {
+          "name": "multiplication",
+          "rule": {"type": "binary_op", "op": "*", "left": {"type": "constant", "value": 6}, "right": {"type": "constant", "value": 7}},
+          "expected": 42
+        },
+        {
+          "name": "division",
+          "rule": {"type": "binary_op", "op": "/", "left": {"type": "constant", "value": 15}, "right": {"type": "constant", "value": 3}},
+          "expected": 5
+        },
+        {
+          "name": "floor_division",
+          "rule": {"type": "binary_op", "op": "//", "left": {"type": "constant", "value": 7}, "right": {"type": "constant", "value": 2}},
+          "expected": 3
+        },
+        {
+          "name": "modulo",
+          "rule": {"type": "binary_op", "op": "%", "left": {"type": "constant", "value": 10}, "right": {"type": "constant", "value": 3}},
+          "expected": 1
+        },
+        {
+          "name": "power",
+          "rule": {"type": "binary_op", "op": "**", "left": {"type": "constant", "value": 2}, "right": {"type": "constant", "value": 8}},
+          "expected": 256
+        },
+        {
+          "name": "nested_operations",
+          "rule": {
+            "type": "binary_op",
+            "op": "+",
+            "left": {"type": "binary_op", "op": "*", "left": {"type": "constant", "value": 2}, "right": {"type": "constant", "value": 3}},
+            "right": {"type": "constant", "value": 4}
+          },
+          "expected": 10
+        }
+      ]
+    },
+    "compare": {
+      "description": "Comparison operation tests",
+      "tests": [
+        {
+          "name": "equal_true",
+          "rule": {"type": "compare", "op": "==", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 5}},
+          "expected": true
+        },
+        {
+          "name": "equal_false",
+          "rule": {"type": "compare", "op": "==", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 3}},
+          "expected": false
+        },
+        {
+          "name": "not_equal_true",
+          "rule": {"type": "compare", "op": "!=", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 3}},
+          "expected": true
+        },
+        {
+          "name": "less_than_true",
+          "rule": {"type": "compare", "op": "<", "left": {"type": "constant", "value": 3}, "right": {"type": "constant", "value": 5}},
+          "expected": true
+        },
+        {
+          "name": "less_than_false",
+          "rule": {"type": "compare", "op": "<", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 3}},
+          "expected": false
+        },
+        {
+          "name": "greater_than_true",
+          "rule": {"type": "compare", "op": ">", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 3}},
+          "expected": true
+        },
+        {
+          "name": "less_than_or_equal_equal",
+          "rule": {"type": "compare", "op": "<=", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 5}},
+          "expected": true
+        },
+        {
+          "name": "greater_than_or_equal_equal",
+          "rule": {"type": "compare", "op": ">=", "left": {"type": "constant", "value": 5}, "right": {"type": "constant", "value": 5}},
+          "expected": true
+        },
+        {
+          "name": "in_list_true",
+          "rule": {"type": "compare", "op": "in", "left": {"type": "constant", "value": 2}, "right": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}},
+          "expected": true
+        },
+        {
+          "name": "in_list_false",
+          "rule": {"type": "compare", "op": "in", "left": {"type": "constant", "value": 5}, "right": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}},
+          "expected": false
+        }
+      ]
+    },
+    "and": {
+      "description": "Logical AND operation tests",
+      "tests": [
+        {
+          "name": "all_true",
+          "rule": {"type": "and", "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]},
+          "expected": true
+        },
+        {
+          "name": "one_false",
+          "rule": {"type": "and", "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": false}]},
+          "expected": false
+        },
+        {
+          "name": "all_false",
+          "rule": {"type": "and", "conditions": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]},
+          "expected": false
+        },
+        {
+          "name": "three_conditions_all_true",
+          "rule": {"type": "and", "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": true}, {"type": "constant", "value": true}]},
+          "expected": true
+        },
+        {
+          "name": "empty_conditions",
+          "rule": {"type": "and", "conditions": []},
+          "expected": true,
+          "note": "Empty AND is vacuously true"
+        }
+      ]
+    },
+    "or": {
+      "description": "Logical OR operation tests",
+      "tests": [
+        {
+          "name": "all_false",
+          "rule": {"type": "or", "conditions": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]},
+          "expected": false
+        },
+        {
+          "name": "one_true",
+          "rule": {"type": "or", "conditions": [{"type": "constant", "value": false}, {"type": "constant", "value": true}]},
+          "expected": true
+        },
+        {
+          "name": "all_true",
+          "rule": {"type": "or", "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]},
+          "expected": true
+        },
+        {
+          "name": "empty_conditions",
+          "rule": {"type": "or", "conditions": []},
+          "expected": false,
+          "note": "Empty OR is vacuously false"
+        }
+      ]
+    },
+    "not": {
+      "description": "Logical NOT operation tests",
+      "tests": [
+        {
+          "name": "not_true",
+          "rule": {"type": "not", "operand": {"type": "constant", "value": true}},
+          "expected": false
+        },
+        {
+          "name": "not_false",
+          "rule": {"type": "not", "operand": {"type": "constant", "value": false}},
+          "expected": true
+        },
+        {
+          "name": "not_with_condition_field",
+          "rule": {"type": "not", "condition": {"type": "constant", "value": true}},
+          "expected": false,
+          "note": "Some rules use 'condition' instead of 'operand'"
+        }
+      ]
+    },
+    "conditional": {
+      "description": "Ternary conditional tests",
+      "tests": [
+        {
+          "name": "condition_true",
+          "rule": {"type": "conditional", "test": {"type": "constant", "value": true}, "if_true": {"type": "constant", "value": "yes"}, "if_false": {"type": "constant", "value": "no"}},
+          "expected": "yes"
+        },
+        {
+          "name": "condition_false",
+          "rule": {"type": "conditional", "test": {"type": "constant", "value": false}, "if_true": {"type": "constant", "value": "yes"}, "if_false": {"type": "constant", "value": "no"}},
+          "expected": "no"
+        },
+        {
+          "name": "nested_conditional",
+          "rule": {
+            "type": "conditional",
+            "test": {"type": "constant", "value": true},
+            "if_true": {"type": "conditional", "test": {"type": "constant", "value": false}, "if_true": {"type": "constant", "value": 1}, "if_false": {"type": "constant", "value": 2}},
+            "if_false": {"type": "constant", "value": 3}
+          },
+          "expected": 2
+        }
+      ]
+    },
+    "min": {
+      "description": "Minimum value tests",
+      "tests": [
+        {
+          "name": "min_two_values",
+          "rule": {"type": "min", "args": [{"type": "constant", "value": 5}, {"type": "constant", "value": 3}]},
+          "expected": 3
+        },
+        {
+          "name": "min_three_values",
+          "rule": {"type": "min", "args": [{"type": "constant", "value": 10}, {"type": "constant", "value": 5}, {"type": "constant", "value": 8}]},
+          "expected": 5
+        },
+        {
+          "name": "min_with_negative",
+          "rule": {"type": "min", "args": [{"type": "constant", "value": -2}, {"type": "constant", "value": 3}]},
+          "expected": -2
+        }
+      ]
+    },
+    "max": {
+      "description": "Maximum value tests",
+      "tests": [
+        {
+          "name": "max_two_values",
+          "rule": {"type": "max", "args": [{"type": "constant", "value": 5}, {"type": "constant", "value": 3}]},
+          "expected": 5
+        },
+        {
+          "name": "max_three_values",
+          "rule": {"type": "max", "args": [{"type": "constant", "value": 10}, {"type": "constant", "value": 5}, {"type": "constant", "value": 8}]},
+          "expected": 10
+        },
+        {
+          "name": "max_with_negative",
+          "rule": {"type": "max", "args": [{"type": "constant", "value": -2}, {"type": "constant", "value": -5}]},
+          "expected": -2
+        }
+      ]
+    },
+    "item_check": {
+      "description": "Item check tests",
+      "tests": [
+        {
+          "name": "has_item_true",
+          "rule": {"type": "item_check", "item": "Sword"},
+          "context": {"inventory": {"Sword": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_item_false",
+          "rule": {"type": "item_check", "item": "Sword"},
+          "context": {"inventory": {}},
+          "expected": false
+        },
+        {
+          "name": "has_item_with_count_satisfied",
+          "rule": {"type": "item_check", "item": "Key", "count": {"type": "constant", "value": 3}},
+          "context": {"inventory": {"Key": 5}},
+          "expected": true
+        },
+        {
+          "name": "has_item_with_count_not_satisfied",
+          "rule": {"type": "item_check", "item": "Key", "count": {"type": "constant", "value": 3}},
+          "context": {"inventory": {"Key": 2}},
+          "expected": false
+        }
+      ]
+    },
+    "count_item": {
+      "description": "Count item tests",
+      "tests": [
+        {
+          "name": "count_existing_item",
+          "rule": {"type": "count_item", "item": "Rupee"},
+          "context": {"inventory": {"Rupee": 50}},
+          "expected": 50
+        },
+        {
+          "name": "count_missing_item",
+          "rule": {"type": "count_item", "item": "Rupee"},
+          "context": {"inventory": {}},
+          "expected": 0
+        }
+      ]
+    },
+    "group_check": {
+      "description": "Group check tests",
+      "tests": [
+        {
+          "name": "has_group_true",
+          "rule": {"type": "group_check", "group": "swords"},
+          "context": {"groups": {"swords": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_group_false",
+          "rule": {"type": "group_check", "group": "swords"},
+          "context": {"groups": {}},
+          "expected": false
+        },
+        {
+          "name": "has_group_with_count",
+          "rule": {"type": "group_check", "group": "keys", "count": 3},
+          "context": {"groups": {"keys": 5}},
+          "expected": true
+        }
+      ]
+    },
+    "group_count": {
+      "description": "Group count tests",
+      "tests": [
+        {
+          "name": "count_existing_group",
+          "rule": {"type": "group_count", "group": "keys"},
+          "context": {"groups": {"keys": 7}},
+          "expected": 7
+        },
+        {
+          "name": "count_missing_group",
+          "rule": {"type": "group_count", "group": "keys"},
+          "context": {"groups": {}},
+          "expected": 0
+        }
+      ]
+    },
+    "list": {
+      "description": "List literal tests",
+      "tests": [
+        {
+          "name": "empty_list",
+          "rule": {"type": "list", "value": []},
+          "expected": []
+        },
+        {
+          "name": "list_of_constants",
+          "rule": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]},
+          "expected": [1, 2, 3]
+        }
+      ]
+    },
+    "block": {
+      "description": "Block execution tests",
+      "tests": [
+        {
+          "name": "simple_return",
+          "rule": {"type": "block", "statements": [{"type": "return", "value": {"type": "constant", "value": 42}}]},
+          "expected": 42
+        },
+        {
+          "name": "assign_and_return",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "x", "value": {"type": "constant", "value": 10}},
+              {"type": "return", "value": {"type": "name", "name": "x"}}
+            ]
+          },
+          "expected": 10
+        },
+        {
+          "name": "multiple_assigns",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "a", "value": {"type": "constant", "value": 5}},
+              {"type": "assign", "var": "b", "value": {"type": "constant", "value": 3}},
+              {"type": "return", "value": {"type": "binary_op", "op": "+", "left": {"type": "name", "name": "a"}, "right": {"type": "name", "name": "b"}}}
+            ]
+          },
+          "expected": 8
+        }
+      ]
+    },
+    "for_range": {
+      "description": "For range loop tests",
+      "tests": [
+        {
+          "name": "sum_range_5",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "total", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "for_range",
+                "var": "i",
+                "start": {"type": "constant", "value": 0},
+                "end": {"type": "constant", "value": 5},
+                "body": [
+                  {"type": "assign", "var": "total", "op": "+=", "value": {"type": "name", "name": "i"}}
+                ]
+              },
+              {"type": "return", "value": {"type": "name", "name": "total"}}
+            ]
+          },
+          "expected": 10,
+          "note": "0+1+2+3+4 = 10"
+        }
+      ]
+    },
+    "setting_value": {
+      "description": "Setting value lookup tests",
+      "tests": [
+        {
+          "name": "get_existing_setting",
+          "rule": {"type": "setting_value", "setting": "difficulty"},
+          "context": {"settings": {"difficulty": "hard"}},
+          "expected": "hard"
+        },
+        {
+          "name": "get_boolean_setting",
+          "rule": {"type": "setting_value", "setting": "enable_glitches"},
+          "context": {"settings": {"enable_glitches": true}},
+          "expected": true
+        },
+        {
+          "name": "get_numeric_setting",
+          "rule": {"type": "setting_value", "setting": "starting_hearts"},
+          "context": {"settings": {"starting_hearts": 3}},
+          "expected": 3
+        }
+      ]
+    },
+    "helper": {
+      "description": "Helper function call tests",
+      "tests": [
+        {
+          "name": "has_helper_true",
+          "rule": {"type": "helper", "name": "has", "args": [{"type": "constant", "value": "Sword"}]},
+          "context": {"inventory": {"Sword": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_helper_false",
+          "rule": {"type": "helper", "name": "has", "args": [{"type": "constant", "value": "Sword"}]},
+          "context": {"inventory": {}},
+          "expected": false
+        },
+        {
+          "name": "count_helper",
+          "rule": {"type": "helper", "name": "count", "args": [{"type": "constant", "value": "Arrow"}]},
+          "context": {"inventory": {"Arrow": 30}},
+          "expected": 30
+        },
+        {
+          "name": "custom_helper_result",
+          "rule": {"type": "helper", "name": "can_lift_rocks", "args": []},
+          "context": {"helpers": {"can_lift_rocks": true}},
+          "expected": true,
+          "note": "Tests pre-configured helper result"
+        }
+      ]
+    },
+    "state_method": {
+      "description": "State method call tests",
+      "tests": [
+        {
+          "name": "can_reach_true",
+          "rule": {"type": "state_method", "method": "can_reach", "args": [{"type": "constant", "value": "Castle"}]},
+          "context": {"regions": ["Castle", "Town"]},
+          "expected": true
+        },
+        {
+          "name": "can_reach_false",
+          "rule": {"type": "state_method", "method": "can_reach", "args": [{"type": "constant", "value": "Dungeon"}]},
+          "context": {"regions": ["Castle", "Town"]},
+          "expected": false
+        },
+        {
+          "name": "has_any_true",
+          "rule": {"type": "state_method", "method": "has_any", "args": [{"type": "list", "value": [{"type": "constant", "value": "Sword"}, {"type": "constant", "value": "Axe"}]}]},
+          "context": {"inventory": {"Axe": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_any_false",
+          "rule": {"type": "state_method", "method": "has_any", "args": [{"type": "list", "value": [{"type": "constant", "value": "Sword"}, {"type": "constant", "value": "Axe"}]}]},
+          "context": {"inventory": {}},
+          "expected": false
+        },
+        {
+          "name": "has_all_true",
+          "rule": {"type": "state_method", "method": "has_all", "args": [{"type": "list", "value": [{"type": "constant", "value": "Key"}, {"type": "constant", "value": "Compass"}]}]},
+          "context": {"inventory": {"Key": 1, "Compass": 1, "Map": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_all_false",
+          "rule": {"type": "state_method", "method": "has_all", "args": [{"type": "list", "value": [{"type": "constant", "value": "Key"}, {"type": "constant", "value": "Compass"}]}]},
+          "context": {"inventory": {"Key": 1}},
+          "expected": false
+        }
+      ]
+    },
+    "can_reach": {
+      "description": "Region reachability tests",
+      "tests": [
+        {
+          "name": "can_reach_region_true",
+          "rule": {"type": "can_reach", "region": "Forest"},
+          "context": {"regions": ["Forest", "Village"]},
+          "expected": true
+        },
+        {
+          "name": "can_reach_region_false",
+          "rule": {"type": "can_reach", "region": "Mountain"},
+          "context": {"regions": ["Forest", "Village"]},
+          "expected": false
+        },
+        {
+          "name": "can_reach_empty_regions",
+          "rule": {"type": "can_reach", "region": "Anywhere"},
+          "context": {"regions": []},
+          "expected": false
+        }
+      ]
+    },
+    "tuple": {
+      "description": "Tuple literal tests",
+      "tests": [
+        {
+          "name": "empty_tuple",
+          "rule": {"type": "tuple", "elements": []},
+          "expected": []
+        },
+        {
+          "name": "tuple_of_constants",
+          "rule": {"type": "tuple", "elements": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}]},
+          "expected": [1, 2]
+        },
+        {
+          "name": "tuple_mixed_types",
+          "rule": {"type": "tuple", "elements": [{"type": "constant", "value": "door"}, {"type": "constant", "value": 42}]},
+          "expected": ["door", 42]
+        }
+      ]
+    },
+    "set": {
+      "description": "Set literal tests",
+      "tests": [
+        {
+          "name": "empty_set",
+          "rule": {"type": "set", "elements": []},
+          "expected": []
+        },
+        {
+          "name": "set_of_constants",
+          "rule": {"type": "set", "elements": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]},
+          "expected": [1, 2, 3]
+        }
+      ]
+    },
+    "attribute": {
+      "description": "Attribute access tests",
+      "tests": [
+        {
+          "name": "access_object_attribute",
+          "rule": {"type": "attribute", "object": {"type": "constant", "value": {"name": "sword", "damage": 10}}, "attr": "damage"},
+          "expected": 10
+        },
+        {
+          "name": "access_string_attribute",
+          "rule": {"type": "attribute", "object": {"type": "constant", "value": {"type": "weapon"}}, "attr": "type"},
+          "expected": "weapon"
+        }
+      ]
+    },
+    "subscript": {
+      "description": "Subscript/index access tests",
+      "tests": [
+        {
+          "name": "array_index",
+          "rule": {"type": "subscript", "value": {"type": "list", "value": [{"type": "constant", "value": 10}, {"type": "constant", "value": 20}, {"type": "constant", "value": 30}]}, "index": {"type": "constant", "value": 1}},
+          "expected": 20
+        },
+        {
+          "name": "array_first_element",
+          "rule": {"type": "subscript", "value": {"type": "list", "value": [{"type": "constant", "value": "a"}, {"type": "constant", "value": "b"}]}, "index": {"type": "constant", "value": 0}},
+          "expected": "a"
+        },
+        {
+          "name": "array_negative_index",
+          "rule": {"type": "subscript", "value": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}, "index": {"type": "constant", "value": -1}},
+          "expected": 3,
+          "note": "Negative indices count from end like Python"
+        }
+      ]
+    },
+    "option_value": {
+      "description": "Option value lookup tests",
+      "tests": [
+        {
+          "name": "get_option_value",
+          "rule": {"type": "option_value", "setting": "goal"},
+          "context": {"settings": {"goal": "ganon"}},
+          "expected": "ganon"
+        },
+        {
+          "name": "get_numeric_option",
+          "rule": {"type": "option_value", "setting": "triforce_pieces"},
+          "context": {"settings": {"triforce_pieces": 30}},
+          "expected": 30
+        }
+      ]
+    },
+    "setting_check": {
+      "description": "Setting comparison tests",
+      "tests": [
+        {
+          "name": "setting_equals_true",
+          "rule": {"type": "setting_check", "setting": "difficulty", "value": "hard"},
+          "context": {"settings": {"difficulty": "hard"}},
+          "expected": true
+        },
+        {
+          "name": "setting_equals_false",
+          "rule": {"type": "setting_check", "setting": "difficulty", "value": "hard"},
+          "context": {"settings": {"difficulty": "easy"}},
+          "expected": false
+        }
+      ]
+    },
+    "counts": {
+      "description": "Count total items from list tests",
+      "tests": [
+        {
+          "name": "counts_sufficient",
+          "rule": {"type": "counts", "items": ["Instrument1", "Instrument2", "Instrument3"], "count": {"type": "constant", "value": 2}},
+          "context": {"inventory": {"Instrument1": 1, "Instrument3": 1}},
+          "expected": true
+        },
+        {
+          "name": "counts_insufficient",
+          "rule": {"type": "counts", "items": ["Instrument1", "Instrument2", "Instrument3"], "count": {"type": "constant", "value": 3}},
+          "context": {"inventory": {"Instrument1": 1}},
+          "expected": false
+        }
+      ]
+    },
+    "total_items_count": {
+      "description": "Total items count check tests",
+      "tests": [
+        {
+          "name": "has_enough_total_items",
+          "rule": {"type": "total_items_count", "count": {"type": "constant", "value": 5}},
+          "context": {"inventory": {"Sword": 1, "Shield": 1, "Key": 3}},
+          "expected": true
+        },
+        {
+          "name": "not_enough_total_items",
+          "rule": {"type": "total_items_count", "count": {"type": "constant", "value": 10}},
+          "context": {"inventory": {"Sword": 1, "Shield": 1}},
+          "expected": false
+        }
+      ]
+    },
+    "prog_item_count": {
+      "description": "Progression item count tests",
+      "tests": [
+        {
+          "name": "get_prog_item_count",
+          "rule": {"type": "prog_item_count", "key": "coins"},
+          "context": {"progItems": {"coins": 150}},
+          "expected": 150
+        },
+        {
+          "name": "missing_prog_item",
+          "rule": {"type": "prog_item_count", "key": "rupees"},
+          "context": {"progItems": {}},
+          "expected": 0
+        }
+      ]
+    },
+    "HasAllCounts": {
+      "description": "Has all items with counts tests",
+      "tests": [
+        {
+          "name": "has_all_counts_true",
+          "rule": {"rule": "HasAllCounts", "args": {"items": {"Key": 3, "Heart": 5}}},
+          "context": {"inventory": {"Key": 3, "Heart": 5}},
+          "expected": true
+        },
+        {
+          "name": "has_all_counts_partial",
+          "rule": {"rule": "HasAllCounts", "args": {"items": {"Key": 3, "Heart": 5}}},
+          "context": {"inventory": {"Key": 5, "Heart": 3}},
+          "expected": false
+        }
+      ]
+    },
+    "HasAnyCount": {
+      "description": "Has any item with count tests",
+      "tests": [
+        {
+          "name": "has_any_count_true",
+          "rule": {"rule": "HasAnyCount", "args": {"items": {"Key": 5, "Heart": 3}}},
+          "context": {"inventory": {"Heart": 4}},
+          "expected": true
+        },
+        {
+          "name": "has_any_count_false",
+          "rule": {"rule": "HasAnyCount", "args": {"items": {"Key": 5, "Heart": 3}}},
+          "context": {"inventory": {"Key": 2, "Heart": 1}},
+          "expected": false
+        }
+      ]
+    },
+    "HasFromList": {
+      "description": "Has items from list tests",
+      "tests": [
+        {
+          "name": "has_from_list_true",
+          "rule": {"rule": "HasFromList", "args": {"items": ["Sword", "Axe", "Spear"], "count": 2}},
+          "context": {"inventory": {"Sword": 1, "Spear": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_from_list_false",
+          "rule": {"rule": "HasFromList", "args": {"items": ["Sword", "Axe", "Spear"], "count": 2}},
+          "context": {"inventory": {"Sword": 1}},
+          "expected": false
+        },
+        {
+          "name": "has_from_list_with_counts",
+          "rule": {"rule": "HasFromList", "args": {"items": ["Key", "Rupee"], "count": 3}},
+          "context": {"inventory": {"Key": 2, "Rupee": 2}},
+          "expected": true,
+          "note": "Counts total across all items in list"
+        }
+      ]
+    },
+    "HasFromListUnique": {
+      "description": "Has unique items from list tests",
+      "tests": [
+        {
+          "name": "has_from_list_unique_true",
+          "rule": {"rule": "HasFromListUnique", "args": {"items": ["Pendant1", "Pendant2", "Pendant3"], "count": 2}},
+          "context": {"inventory": {"Pendant1": 1, "Pendant3": 1}},
+          "expected": true
+        },
+        {
+          "name": "has_from_list_unique_false",
+          "rule": {"rule": "HasFromListUnique", "args": {"items": ["Crystal1", "Crystal2", "Crystal3"], "count": 2}},
+          "context": {"inventory": {"Crystal1": 5}},
+          "expected": false,
+          "note": "Multiple copies of same item only count as 1 unique"
+        }
+      ]
+    },
+    "CountGroupUnique": {
+      "description": "Count unique items in group tests",
+      "tests": [
+        {
+          "name": "count_unique_in_group",
+          "rule": {"rule": "CountGroupUnique", "args": {"group": "crystals"}},
+          "context": {"groups": {"crystals": 5}},
+          "expected": 5
+        }
+      ]
+    },
+    "unique_count": {
+      "description": "Unique count check tests",
+      "tests": [
+        {
+          "name": "unique_count_check",
+          "rule": {"type": "unique_count", "args": [{"type": "constant", "value": 3}, {"type": "list", "value": [{"type": "constant", "value": "Item1"}, {"type": "constant", "value": "Item2"}, {"type": "constant", "value": "Item3"}]}]},
+          "context": {"inventory": {"Item1": 1, "Item2": 1, "Item3": 1}},
+          "expected": true
+        }
+      ]
+    },
+    "count_true": {
+      "description": "Count true conditions tests",
+      "tests": [
+        {
+          "name": "count_true_satisfied",
+          "rule": {"type": "count_true", "count": 2, "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": false}, {"type": "constant", "value": true}]},
+          "expected": true,
+          "note": "2 out of 3 are true, need 2"
+        },
+        {
+          "name": "count_true_not_satisfied",
+          "rule": {"type": "count_true", "count": 3, "conditions": [{"type": "constant", "value": true}, {"type": "constant", "value": false}, {"type": "constant", "value": true}]},
+          "expected": false,
+          "note": "2 out of 3 are true, need 3"
+        },
+        {
+          "name": "count_true_zero_required",
+          "rule": {"type": "count_true", "count": 0, "conditions": [{"type": "constant", "value": false}]},
+          "expected": true,
+          "note": "Zero conditions required always passes"
+        }
+      ]
+    },
+    "weighted_count_true": {
+      "description": "Weighted count true tests",
+      "tests": [
+        {
+          "name": "weighted_count_satisfied",
+          "rule": {"type": "weighted_count_true", "count": 5, "weighted_conditions": [[{"type": "constant", "value": true}, 3], [{"type": "constant", "value": true}, 2]]},
+          "expected": true,
+          "note": "Weight 3 + 2 = 5, need 5"
+        },
+        {
+          "name": "weighted_count_not_satisfied",
+          "rule": {"type": "weighted_count_true", "count": 10, "weighted_conditions": [[{"type": "constant", "value": true}, 3], [{"type": "constant", "value": false}, 5], [{"type": "constant", "value": true}, 2]]},
+          "expected": false,
+          "note": "Weight 3 + 2 = 5, need 10"
+        }
+      ]
+    },
+    "world_attribute": {
+      "description": "World attribute access tests",
+      "tests": [
+        {
+          "name": "get_world_attribute",
+          "rule": {"type": "world_attribute", "setting": "difficulty"},
+          "context": {"settings": {"difficulty": "normal"}},
+          "expected": "normal",
+          "note": "world_attribute behaves like setting_value"
+        }
+      ]
+    },
+    "world_reference": {
+      "description": "World reference tests",
+      "tests": [
+        {
+          "name": "world_reference_returns_null",
+          "rule": {"type": "world_reference"},
+          "expected": null,
+          "note": "Returns null as placeholder for world object"
+        }
+      ]
+    },
+    "for_iter": {
+      "description": "For iteration loop tests",
+      "tests": [
+        {
+          "name": "for_iter_sum",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "total", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "for_iter",
+                "var": "x",
+                "iterable": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]},
+                "body": [
+                  {"type": "assign", "var": "total", "op": "+=", "value": {"type": "name", "name": "x"}}
+                ]
+              },
+              {"type": "return", "value": {"type": "name", "name": "total"}}
+            ]
+          },
+          "expected": 6,
+          "note": "1 + 2 + 3 = 6"
+        }
+      ]
+    },
+    "generator_expression": {
+      "description": "Generator expression tests",
+      "tests": [
+        {
+          "name": "generator_sum",
+          "rule": {
+            "type": "sum",
+            "iterable": {
+              "type": "generator_expression",
+              "element": {"type": "constant", "value": 1},
+              "comprehension": {
+                "target": {"type": "name", "name": "x"},
+                "iterator": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}
+              }
+            }
+          },
+          "expected": 3,
+          "note": "sum(1 for x in [1,2,3]) = 3"
+        }
+      ]
+    },
+    "all_of": {
+      "description": "All of iteration tests",
+      "tests": [
+        {
+          "name": "all_of_true",
+          "rule": {
+            "type": "all_of",
+            "iterator_info": {
+              "target": {"type": "name", "name": "item"},
+              "iterator": {"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]}
+            },
+            "element_rule": {"type": "name", "name": "item"}
+          },
+          "expected": true
+        },
+        {
+          "name": "all_of_false",
+          "rule": {
+            "type": "all_of",
+            "iterator_info": {
+              "target": {"type": "name", "name": "item"},
+              "iterator": {"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": false}]}
+            },
+            "element_rule": {"type": "name", "name": "item"}
+          },
+          "expected": false
+        }
+      ]
+    },
+    "any_of": {
+      "description": "Any of iteration tests",
+      "tests": [
+        {
+          "name": "any_of_true",
+          "rule": {
+            "type": "any_of",
+            "iterator_info": {
+              "target": {"type": "name", "name": "item"},
+              "iterator": {"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": true}]}
+            },
+            "element_rule": {"type": "name", "name": "item"}
+          },
+          "expected": true
+        },
+        {
+          "name": "any_of_false",
+          "rule": {
+            "type": "any_of",
+            "iterator_info": {
+              "target": {"type": "name", "name": "item"},
+              "iterator": {"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]}
+            },
+            "element_rule": {"type": "name", "name": "item"}
+          },
+          "expected": false
+        }
+      ]
+    },
+    "sum_of": {
+      "description": "Sum of iteration tests",
+      "tests": [
+        {
+          "name": "sum_of_values",
+          "rule": {
+            "type": "sum_of",
+            "iterator_info": {
+              "target": {"type": "name", "name": "n"},
+              "iterator": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}
+            },
+            "element_rule": {"type": "name", "name": "n"}
+          },
+          "expected": 6,
+          "note": "1 + 2 + 3 = 6"
+        }
+      ]
+    },
+    "call": {
+      "description": "Function call tests",
+      "tests": [
+        {
+          "name": "call_len",
+          "rule": {"type": "call", "func": "len", "args": [{"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}]},
+          "expected": 3
+        },
+        {
+          "name": "call_sum",
+          "rule": {"type": "call", "func": "sum", "args": [{"type": "list", "value": [{"type": "constant", "value": 5}, {"type": "constant", "value": 10}, {"type": "constant", "value": 15}]}]},
+          "expected": 30
+        },
+        {
+          "name": "call_int",
+          "rule": {"type": "call", "func": "int", "args": [{"type": "constant", "value": 3.7}]},
+          "expected": 3
+        },
+        {
+          "name": "call_bool_true",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": 1}]},
+          "expected": true
+        },
+        {
+          "name": "call_bool_false",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": 0}]},
+          "expected": false
+        },
+        {
+          "name": "call_any_true",
+          "rule": {"type": "call", "func": "any", "args": [{"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": true}]}]},
+          "expected": true
+        },
+        {
+          "name": "call_any_false",
+          "rule": {"type": "call", "func": "any", "args": [{"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]}]},
+          "expected": false
+        },
+        {
+          "name": "call_all_true",
+          "rule": {"type": "call", "func": "all", "args": [{"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]}]},
+          "expected": true
+        },
+        {
+          "name": "call_all_false",
+          "rule": {"type": "call", "func": "all", "args": [{"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": false}]}]},
+          "expected": false
+        }
+      ]
+    },
+    "sum": {
+      "description": "Sum builtin tests",
+      "tests": [
+        {
+          "name": "sum_array",
+          "rule": {"type": "sum", "iterable": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}},
+          "expected": 6
+        },
+        {
+          "name": "sum_with_start",
+          "rule": {"type": "sum", "iterable": {"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}]}, "start": {"type": "constant", "value": 10}},
+          "expected": 13
+        }
+      ]
+    },
+    "method_call": {
+      "description": "Method call tests",
+      "tests": [
+        {
+          "name": "list_append",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "arr", "value": {"type": "list", "value": [{"type": "constant", "value": 1}]}},
+              {"type": "method_call", "object": {"type": "name", "name": "arr"}, "method": "append", "args": [{"type": "constant", "value": 2}]},
+              {"type": "return", "value": {"type": "name", "name": "arr"}}
+            ]
+          },
+          "expected": [1, 2]
+        }
+      ]
+    },
+    "function_call": {
+      "description": "Function call with attribute tests",
+      "tests": [
+        {
+          "name": "state_method_via_function_call",
+          "rule": {
+            "type": "function_call",
+            "function": {"type": "attribute", "object": {"type": "constant", "value": true}, "attr": "has"},
+            "args": [{"type": "constant", "value": "Sword"}]
+          },
+          "context": {"inventory": {"Sword": 1}},
+          "expected": true,
+          "note": "State methods use constant true as placeholder for state object"
+        }
+      ]
+    },
+    "generic_helper": {
+      "description": "Generic helper function tests",
+      "tests": [
+        {
+          "name": "generic_helper_call",
+          "rule": {"type": "generic_helper", "name": "can_swim", "args": []},
+          "context": {"helpers": {"can_swim": true}},
+          "expected": true
+        },
+        {
+          "name": "generic_helper_false",
+          "rule": {"type": "generic_helper", "name": "can_fly", "args": []},
+          "context": {"helpers": {"can_fly": false}},
+          "expected": false
+        }
+      ]
+    },
+    "if_statement": {
+      "description": "If statement tests",
+      "tests": [
+        {
+          "name": "if_true_branch",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "x", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "if_statement",
+                "test": {"type": "constant", "value": true},
+                "body": [{"type": "assign", "var": "x", "value": {"type": "constant", "value": 1}}],
+                "orelse": [{"type": "assign", "var": "x", "value": {"type": "constant", "value": 2}}]
+              },
+              {"type": "return", "value": {"type": "name", "name": "x"}}
+            ]
+          },
+          "expected": 1
+        },
+        {
+          "name": "if_false_branch",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "x", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "if_statement",
+                "test": {"type": "constant", "value": false},
+                "body": [{"type": "assign", "var": "x", "value": {"type": "constant", "value": 1}}],
+                "orelse": [{"type": "assign", "var": "x", "value": {"type": "constant", "value": 2}}]
+              },
+              {"type": "return", "value": {"type": "name", "name": "x"}}
+            ]
+          },
+          "expected": 2
+        }
+      ]
+    },
+    "while_loop": {
+      "description": "While loop tests",
+      "tests": [
+        {
+          "name": "while_countdown",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "n", "value": {"type": "constant", "value": 3}},
+              {"type": "assign", "var": "result", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "while_loop",
+                "test": {"type": "compare", "op": ">", "left": {"type": "name", "name": "n"}, "right": {"type": "constant", "value": 0}},
+                "body": [
+                  {"type": "assign", "var": "result", "op": "+=", "value": {"type": "name", "name": "n"}},
+                  {"type": "assign", "var": "n", "op": "-=", "value": {"type": "constant", "value": 1}}
+                ]
+              },
+              {"type": "return", "value": {"type": "name", "name": "result"}}
+            ]
+          },
+          "expected": 6,
+          "note": "3 + 2 + 1 = 6"
+        }
+      ]
+    },
+    "aug_assign": {
+      "description": "Augmented assignment tests",
+      "tests": [
+        {
+          "name": "aug_assign_add",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "x", "value": {"type": "constant", "value": 5}},
+              {"type": "aug_assign", "target": "x", "op": "+", "value": {"type": "constant", "value": 3}},
+              {"type": "return", "value": {"type": "name", "name": "x"}}
+            ]
+          },
+          "expected": 8
+        },
+        {
+          "name": "aug_assign_multiply",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "x", "value": {"type": "constant", "value": 4}},
+              {"type": "aug_assign", "target": "x", "op": "*", "value": {"type": "constant", "value": 2}},
+              {"type": "return", "value": {"type": "name", "name": "x"}}
+            ]
+          },
+          "expected": 8
+        }
+      ]
+    },
+    "break": {
+      "description": "Break statement tests",
+      "tests": [
+        {
+          "name": "break_in_loop",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "result", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "for_range",
+                "var": "i",
+                "start": {"type": "constant", "value": 0},
+                "end": {"type": "constant", "value": 10},
+                "body": [
+                  {
+                    "type": "if_statement",
+                    "test": {"type": "compare", "op": "==", "left": {"type": "name", "name": "i"}, "right": {"type": "constant", "value": 3}},
+                    "body": [{"type": "break"}],
+                    "orelse": []
+                  },
+                  {"type": "assign", "var": "result", "op": "+=", "value": {"type": "constant", "value": 1}}
+                ]
+              },
+              {"type": "return", "value": {"type": "name", "name": "result"}}
+            ]
+          },
+          "expected": 3,
+          "note": "Loop breaks at i=3, so result is 0+1+1+1=3 (iterations 0,1,2)"
+        }
+      ]
+    },
+    "continue": {
+      "description": "Continue statement tests",
+      "tests": [
+        {
+          "name": "continue_in_loop",
+          "rule": {
+            "type": "block",
+            "statements": [
+              {"type": "assign", "var": "result", "value": {"type": "constant", "value": 0}},
+              {
+                "type": "for_range",
+                "var": "i",
+                "start": {"type": "constant", "value": 0},
+                "end": {"type": "constant", "value": 5},
+                "body": [
+                  {
+                    "type": "if_statement",
+                    "test": {"type": "compare", "op": "==", "left": {"type": "name", "name": "i"}, "right": {"type": "constant", "value": 2}},
+                    "body": [{"type": "continue"}],
+                    "orelse": []
+                  },
+                  {"type": "assign", "var": "result", "op": "+=", "value": {"type": "constant", "value": 1}}
+                ]
+              },
+              {"type": "return", "value": {"type": "name", "name": "result"}}
+            ]
+          },
+          "expected": 4,
+          "note": "Loop skips i=2, so result is 4 (iterations 0,1,3,4)"
+        }
+      ]
+    },
+    "slice": {
+      "description": "Slice operation tests",
+      "tests": [
+        {
+          "name": "slice_start_to_end",
+          "rule": {"type": "slice", "value": {"type": "list", "value": [{"type": "constant", "value": 0}, {"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}, {"type": "constant", "value": 4}]}, "lower": {"type": "constant", "value": 1}, "upper": {"type": "constant", "value": 3}},
+          "expected": [1, 2]
+        },
+        {
+          "name": "slice_from_start",
+          "rule": {"type": "slice", "value": {"type": "list", "value": [{"type": "constant", "value": 0}, {"type": "constant", "value": 1}, {"type": "constant", "value": 2}]}, "upper": {"type": "constant", "value": 2}},
+          "expected": [0, 1]
+        }
+      ]
+    },
+    "f_string": {
+      "description": "F-string formatting tests",
+      "tests": [
+        {
+          "name": "f_string_simple",
+          "rule": {"type": "f_string", "parts": [{"type": "constant", "value": "Hello "}, {"type": "constant", "value": "World"}]},
+          "expected": "Hello World"
+        },
+        {
+          "name": "f_string_with_number",
+          "rule": {"type": "f_string", "parts": [{"type": "constant", "value": "Count: "}, {"type": "constant", "value": 42}]},
+          "expected": "Count: 42"
+        }
+      ]
+    },
+    "dict_lambda_lookup": {
+      "description": "Dict lambda lookup tests",
+      "tests": [
+        {
+          "name": "dict_lookup_found",
+          "rule": {"type": "dict_lambda_lookup", "key": {"type": "constant", "value": "easy"}, "cases": {"easy": {"type": "constant", "value": true}, "hard": {"type": "constant", "value": false}}, "default": {"type": "constant", "value": false}},
+          "expected": true
+        },
+        {
+          "name": "dict_lookup_default",
+          "rule": {"type": "dict_lambda_lookup", "key": {"type": "constant", "value": "unknown"}, "cases": {"easy": {"type": "constant", "value": true}}, "default": {"type": "constant", "value": false}},
+          "expected": false
+        }
+      ]
+    },
+    "capability": {
+      "description": "Capability check tests",
+      "tests": [
+        {
+          "name": "capability_available",
+          "rule": {"type": "capability", "capability": "swim"},
+          "context": {"helpers": {"can_swim": true}},
+          "expected": true,
+          "note": "Capability 'swim' checks helper 'can_swim'"
+        },
+        {
+          "name": "capability_unavailable",
+          "rule": {"type": "capability", "capability": "fly"},
+          "context": {"helpers": {"can_fly": false}},
+          "expected": false
+        }
+      ]
+    },
+    "region_reference": {
+      "description": "Region reference tests",
+      "tests": [
+        {
+          "name": "region_reference_object",
+          "rule": {"type": "region_reference", "region": "Castle"},
+          "expected": {"__regionRef": true, "regionName": "Castle"}
+        }
+      ]
+    },
+    "region_attribute": {
+      "description": "Region attribute access tests",
+      "tests": [
+        {
+          "name": "region_attribute_access",
+          "rule": {"type": "region_attribute", "region": {"type": "region_reference", "region": "LightWorld"}, "attr": "is_light_world"},
+          "context": {"regionAttributes": {"LightWorld": {"is_light_world": true}}},
+          "expected": true
+        }
+      ]
+    },
+    "locations_checked": {
+      "description": "Locations checked count tests",
+      "tests": [
+        {
+          "name": "enough_locations_checked",
+          "rule": {"type": "locations_checked", "count": {"type": "constant", "value": 5}},
+          "context": {"checkedLocations": 10},
+          "expected": true
+        },
+        {
+          "name": "not_enough_locations_checked",
+          "rule": {"type": "locations_checked", "count": {"type": "constant", "value": 20}},
+          "context": {"checkedLocations": 10},
+          "expected": false
+        }
+      ]
+    },
+    "location_rule_ref": {
+      "description": "Location rule reference tests",
+      "tests": [
+        {
+          "name": "location_rule_ref_accessible",
+          "rule": {"type": "location_rule_ref", "location": "Chest in Cave"},
+          "context": {"locationRules": {"Chest in Cave": true}},
+          "expected": true
+        },
+        {
+          "name": "location_rule_ref_inaccessible",
+          "rule": {"type": "location_rule_ref", "location": "Boss Room"},
+          "context": {"locationRules": {"Boss Room": false}},
+          "expected": false
+        }
+      ]
+    },
+    "placement_lookup": {
+      "description": "Placement lookup tests",
+      "tests": [
+        {
+          "name": "placement_lookup_found",
+          "rule": {"type": "placement_lookup", "location": {"type": "constant", "value": "Chest A"}},
+          "context": {"placements": {"Chest A": ["Sword", 1]}},
+          "expected": ["Sword", 1],
+          "note": "Returns [item_name, player] tuple"
+        },
+        {
+          "name": "placement_lookup_not_found",
+          "rule": {"type": "placement_lookup", "location": {"type": "constant", "value": "Empty Chest"}},
+          "context": {"placements": {}},
+          "expected": null
+        }
+      ]
+    },
+    "placement_search": {
+      "description": "Placement search tests",
+      "tests": [
+        {
+          "name": "placement_search_found",
+          "rule": {"type": "placement_search", "item": {"type": "constant", "value": "Key"}, "player": {"type": "constant", "value": 1}, "locations": {"type": "list", "value": [{"type": "constant", "value": "Loc1"}, {"type": "constant", "value": "Loc2"}]}},
+          "context": {"placements": {"Loc2": ["Key", 1]}},
+          "expected": true
+        },
+        {
+          "name": "placement_search_not_found",
+          "rule": {"type": "placement_search", "item": {"type": "constant", "value": "Key"}, "player": {"type": "constant", "value": 1}, "locations": {"type": "list", "value": [{"type": "constant", "value": "Loc1"}, {"type": "constant", "value": "Loc2"}]}},
+          "context": {"placements": {}},
+          "expected": false
+        }
+      ]
+    },
+    "EntranceAccessRule": {
+      "description": "Entrance access rule tests",
+      "tests": [
+        {
+          "name": "entrance_accessible",
+          "rule": {"rule": "EntranceAccessRule", "args": {"entrance": "Cave Entrance"}},
+          "context": {"entrances": {"Cave Entrance": true}},
+          "expected": true
+        },
+        {
+          "name": "entrance_blocked",
+          "rule": {"rule": "EntranceAccessRule", "args": {"entrance": "Locked Door"}},
+          "context": {"entrances": {"Locked Door": false}},
+          "expected": false
+        }
+      ]
+    },
+    "WeightedSum": {
+      "description": "Weighted sum tests (Rule Builder format)",
+      "tests": [
+        {
+          "name": "weighted_sum_calculation",
+          "rule": {
+            "rule": "weighted_sum",
+            "args": [
+              {"type": "constant", "value": 25},
+              {"type": "list", "value": [
+                {"type": "list", "value": [{"type": "constant", "value": "Sword"}, {"type": "constant", "value": 10}]},
+                {"type": "list", "value": [{"type": "constant", "value": "Shield"}, {"type": "constant", "value": 5}]}
+              ]}
+            ]
+          },
+          "context": {"inventory": {"Sword": 2, "Shield": 1}},
+          "expected": true,
+          "note": "2*10 + 1*5 = 25, which meets threshold of 25"
+        }
+      ]
+    },
+    "weighted_sum": {
+      "description": "Weighted sum tests (checks if weighted sum meets threshold)",
+      "tests": [
+        {
+          "name": "weighted_sum_ast",
+          "rule": {
+            "rule": "weighted_sum",
+            "args": [
+              {"type": "constant", "value": 5},
+              {"type": "list", "value": [
+                {"type": "list", "value": [{"type": "constant", "value": "Key"}, {"type": "constant", "value": 1}]},
+                {"type": "list", "value": [{"type": "constant", "value": "BossKey"}, {"type": "constant", "value": 5}]}
+              ]}
+            ]
+          },
+          "context": {"inventory": {"Key": 3, "BossKey": 1}},
+          "expected": true,
+          "note": "3*1 + 1*5 = 8, which meets threshold of 5"
+        }
+      ]
+    },
+    "Constant": {
+      "description": "Rule Builder Constant tests",
+      "tests": [
+        {
+          "name": "constant_number",
+          "rule": {"rule": "Constant", "args": {"value": 42}},
+          "expected": 42
+        },
+        {
+          "name": "constant_string",
+          "rule": {"rule": "Constant", "args": {"value": "hello"}},
+          "expected": "hello"
+        }
+      ]
+    },
+    "CountCheck": {
+      "description": "Count check tests",
+      "tests": [
+        {
+          "name": "count_check_true",
+          "rule": {"rule": "CountCheck", "args": {"item": "Key", "count": 3}},
+          "context": {"inventory": {"Key": 5}},
+          "expected": true
+        },
+        {
+          "name": "count_check_false",
+          "rule": {"rule": "CountCheck", "args": {"item": "Key", "count": 10}},
+          "context": {"inventory": {"Key": 5}},
+          "expected": false
+        }
+      ]
+    },
+    "Attribute": {
+      "description": "Rule Builder Attribute tests",
+      "tests": [
+        {
+          "name": "attribute_access",
+          "rule": {"rule": "Attribute", "args": {"object": {"type": "constant", "value": {"name": "item"}}, "attr": "name"}},
+          "expected": "item"
+        }
+      ]
+    },
+    "Tuple": {
+      "description": "Rule Builder Tuple tests",
+      "tests": [
+        {
+          "name": "tuple_values",
+          "rule": {"rule": "Tuple", "args": {"value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}]}},
+          "expected": [1, 2]
+        }
+      ]
+    },
+    "OptionValue": {
+      "description": "Rule Builder OptionValue tests",
+      "tests": [
+        {
+          "name": "option_value_lookup",
+          "rule": {"rule": "OptionValue", "args": {"option": "mode"}},
+          "context": {"settings": {"mode": "standard"}},
+          "expected": "standard"
+        }
+      ]
+    },
+    "WorldAttribute": {
+      "description": "Rule Builder WorldAttribute tests",
+      "tests": [
+        {
+          "name": "world_attribute_lookup",
+          "rule": {"rule": "WorldAttribute", "args": {"attribute": "difficulty"}},
+          "context": {"settings": {"difficulty": "hard"}},
+          "expected": "hard"
+        }
+      ]
+    },
+    "AST_all_of": {
+      "description": "AST all_of tests via Rule Builder format",
+      "tests": [
+        {
+          "name": "ast_all_of_true",
+          "rule": {
+            "rule": "AST_all_of",
+            "args": {
+              "element_rule": {"type": "name", "name": "item"},
+              "iterator_info": {
+                "target": {"type": "name", "name": "item"},
+                "iterator": {"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]}
+              }
+            }
+          },
+          "expected": true
+        },
+        {
+          "name": "ast_all_of_false",
+          "rule": {
+            "rule": "AST_all_of",
+            "args": {
+              "element_rule": {"type": "name", "name": "item"},
+              "iterator_info": {
+                "target": {"type": "name", "name": "item"},
+                "iterator": {"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": false}]}
+              }
+            }
+          },
+          "expected": false
+        }
+      ]
+    },
+    "AST_any_of": {
+      "description": "AST any_of tests via Rule Builder format",
+      "tests": [
+        {
+          "name": "ast_any_of_true",
+          "rule": {
+            "rule": "AST_any_of",
+            "args": {
+              "element_rule": {"type": "name", "name": "item"},
+              "iterator_info": {
+                "target": {"type": "name", "name": "item"},
+                "iterator": {"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": true}]}
+              }
+            }
+          },
+          "expected": true
+        },
+        {
+          "name": "ast_any_of_false",
+          "rule": {
+            "rule": "AST_any_of",
+            "args": {
+              "element_rule": {"type": "name", "name": "item"},
+              "iterator_info": {
+                "target": {"type": "name", "name": "item"},
+                "iterator": {"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]}
+              }
+            }
+          },
+          "expected": false
+        }
+      ]
+    },
+    "AST_dict_lambda_lookup": {
+      "description": "AST dict lambda lookup tests",
+      "tests": [
+        {
+          "name": "ast_dict_lookup",
+          "rule": {"rule": "AST_dict_lambda_lookup", "args": {"key": "option1", "cases": {"option1": true, "option2": false}}},
+          "expected": true
+        }
+      ]
+    },
+    "CountFromList": {
+      "description": "Count from list tests (cumulative item count)",
+      "tests": [
+        {
+          "name": "count_from_list_basic",
+          "rule": {"rule": "CountFromList", "args": {"item_names": ["Key", "Door"]}},
+          "context": {"inventory": {"Key": 2, "Door": 1}},
+          "expected": 3,
+          "note": "Returns cumulative count: 2 Keys + 1 Door = 3"
+        },
+        {
+          "name": "count_from_list_duplicates",
+          "rule": {"rule": "CountFromList", "args": {"item_names": ["Key", "Key", "Door"]}},
+          "context": {"inventory": {"Key": 2, "Door": 1}},
+          "expected": 5,
+          "note": "Key counted twice in list: 2*2 + 1 = 5"
+        }
+      ]
+    },
+    "UniqueCount": {
+      "description": "Unique count tests (count unique item types)",
+      "tests": [
+        {
+          "name": "unique_count_all_present",
+          "rule": {"rule": "UniqueCount", "args": {"threshold": 3, "items": [["ItemA", 1.0], ["ItemB", 1.0], ["ItemC", 1.0]]}},
+          "context": {"inventory": {"ItemA": 5, "ItemB": 1, "ItemC": 2}},
+          "expected": true,
+          "note": "3 unique items >= threshold of 3"
+        },
+        {
+          "name": "unique_count_below_threshold",
+          "rule": {"rule": "UniqueCount", "args": {"threshold": 3, "items": [["ItemA", 1.0], ["ItemB", 1.0], ["ItemC", 1.0]]}},
+          "context": {"inventory": {"ItemA": 10}},
+          "expected": false,
+          "note": "Only 1 unique item type, even with count of 10"
+        }
+      ]
+    },
+    "len": {
+      "description": "Length function tests",
+      "tests": [
+        {
+          "name": "len_of_list",
+          "rule": {"type": "call", "func": "len", "args": [{"type": "list", "value": [{"type": "constant", "value": 1}, {"type": "constant", "value": 2}, {"type": "constant", "value": 3}]}]},
+          "expected": 3
+        },
+        {
+          "name": "len_of_string",
+          "rule": {"type": "call", "func": "len", "args": [{"type": "constant", "value": "hello"}]},
+          "expected": 5
+        },
+        {
+          "name": "len_of_empty_list",
+          "rule": {"type": "call", "func": "len", "args": [{"type": "list", "value": []}]},
+          "expected": 0
+        }
+      ]
+    },
+    "int": {
+      "description": "Integer conversion tests",
+      "tests": [
+        {
+          "name": "int_from_float",
+          "rule": {"type": "call", "func": "int", "args": [{"type": "constant", "value": 3.9}]},
+          "expected": 3,
+          "note": "Truncates toward zero"
+        },
+        {
+          "name": "int_from_string",
+          "rule": {"type": "call", "func": "int", "args": [{"type": "constant", "value": "42"}]},
+          "expected": 42
+        },
+        {
+          "name": "int_from_bool_true",
+          "rule": {"type": "call", "func": "int", "args": [{"type": "constant", "value": true}]},
+          "expected": 1
+        },
+        {
+          "name": "int_from_bool_false",
+          "rule": {"type": "call", "func": "int", "args": [{"type": "constant", "value": false}]},
+          "expected": 0
+        }
+      ]
+    },
+    "bool": {
+      "description": "Boolean conversion tests",
+      "tests": [
+        {
+          "name": "bool_from_nonzero",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": 5}]},
+          "expected": true
+        },
+        {
+          "name": "bool_from_zero",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": 0}]},
+          "expected": false
+        },
+        {
+          "name": "bool_from_nonempty_string",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": "hello"}]},
+          "expected": true
+        },
+        {
+          "name": "bool_from_empty_string",
+          "rule": {"type": "call", "func": "bool", "args": [{"type": "constant", "value": ""}]},
+          "expected": false
+        }
+      ]
+    },
+    "any": {
+      "description": "Any function tests",
+      "tests": [
+        {
+          "name": "any_with_true",
+          "rule": {"type": "call", "func": "any", "args": [{"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": true}, {"type": "constant", "value": false}]}]},
+          "expected": true
+        },
+        {
+          "name": "any_all_false",
+          "rule": {"type": "call", "func": "any", "args": [{"type": "list", "value": [{"type": "constant", "value": false}, {"type": "constant", "value": false}]}]},
+          "expected": false
+        },
+        {
+          "name": "any_empty_list",
+          "rule": {"type": "call", "func": "any", "args": [{"type": "list", "value": []}]},
+          "expected": false
+        }
+      ]
+    },
+    "all": {
+      "description": "All function tests",
+      "tests": [
+        {
+          "name": "all_true",
+          "rule": {"type": "call", "func": "all", "args": [{"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": true}]}]},
+          "expected": true
+        },
+        {
+          "name": "all_with_false",
+          "rule": {"type": "call", "func": "all", "args": [{"type": "list", "value": [{"type": "constant", "value": true}, {"type": "constant", "value": false}]}]},
+          "expected": false
+        },
+        {
+          "name": "all_empty_list",
+          "rule": {"type": "call", "func": "all", "args": [{"type": "list", "value": []}]},
+          "expected": true,
+          "note": "Empty list is vacuously true for all()"
+        }
+      ]
+    }
+  }
+}

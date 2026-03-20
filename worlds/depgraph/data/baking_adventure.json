@@ -1,0 +1,80 @@
+{
+    "title": "Baking Adventure",
+    "nodes": {
+        "mixing_bowls": {
+            "label": "Mixing Bowls",
+            "description": "Gather mixing bowls from the kitchen",
+            "depends_on": []
+        },
+        "electric_mixer": {
+            "label": "Electric Mixer",
+            "description": "Get the electric mixer ready",
+            "depends_on": []
+        },
+        "measuring_tools": {
+            "label": "Measuring Tools",
+            "description": "Find measuring cups and spoons",
+            "depends_on": []
+        },
+        "preheated_oven": {
+            "label": "Preheated Oven",
+            "description": "Preheat the oven to 375F",
+            "depends_on": []
+        },
+        "prepared_sheets": {
+            "label": "Prepared Sheets",
+            "description": "Line baking sheets with parchment paper",
+            "depends_on": []
+        },
+        "softened_butter": {
+            "label": "Softened Butter",
+            "description": "Soften butter to room temperature",
+            "depends_on": []
+        },
+        "butter_sugar_base": {
+            "label": "Butter Sugar Base",
+            "description": "Cream butter and sugars until fluffy",
+            "depends_on": ["softened_butter", "electric_mixer", "mixing_bowls"]
+        },
+        "egg_mixture": {
+            "label": "Egg Mixture",
+            "description": "Beat in eggs one at a time",
+            "depends_on": ["butter_sugar_base"]
+        },
+        "creamed_mixture": {
+            "label": "Creamed Mixture",
+            "description": "Add vanilla extract and mix well",
+            "depends_on": ["egg_mixture"]
+        },
+        "measured_flour": {
+            "label": "Measured Flour",
+            "description": "Measure out the flour",
+            "depends_on": ["measuring_tools"]
+        },
+        "flour_mixture": {
+            "label": "Flour Mixture",
+            "description": "Combine flour with baking soda and salt",
+            "depends_on": ["measured_flour"]
+        },
+        "basic_dough": {
+            "label": "Basic Dough",
+            "description": "Gradually mix dry ingredients into wet",
+            "depends_on": ["creamed_mixture", "flour_mixture"]
+        },
+        "cookie_dough": {
+            "label": "Cookie Dough",
+            "description": "Fold in chocolate chips",
+            "depends_on": ["basic_dough"]
+        },
+        "shaped_cookies": {
+            "label": "Shaped Cookies",
+            "description": "Scoop dough onto prepared baking sheets",
+            "depends_on": ["cookie_dough", "prepared_sheets"]
+        },
+        "baked_cookies": {
+            "label": "Baked Cookies",
+            "description": "Bake for 9-11 minutes until golden brown",
+            "depends_on": ["shaped_cookies", "preheated_oven"]
+        }
+    }
+}

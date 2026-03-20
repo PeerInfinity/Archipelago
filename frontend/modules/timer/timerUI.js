@@ -198,7 +198,7 @@ export class TimerUI {
 
   _subscribeToEvents() {
     const subscribe = (eventName, handler) => {
-      const unsub = this.eventBus.subscribe(eventName, handler.bind(this), 'timer');
+      const unsub = this.eventBus.subscribe(eventName, handler.bind(this));
       this.unsubscribeHandles.push(unsub);
     };
 

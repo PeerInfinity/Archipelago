@@ -1,4 +1,5 @@
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
+import { knownMetaGames } from '../../app/config/knownMetaGames.js';
 
 export class MetaGamePanelUI {
   constructor(container, componentState, componentType) {
@@ -12,18 +13,16 @@ export class MetaGamePanelUI {
     
     this.currentConfiguration = '';
     this.currentJSFileContent = '';
+    this.isLoading = false;
     this.configurationDropdown = null;
     this.jsonDataTextarea = null;
     this.statusElement = null;
     
-    // Available preset configurations
-    this.presetConfigurations = [
-      {
-        name: 'Progress Bar Test',
-        path: './configs/progressBarTest.js'
-      }
-      // Future configurations can be added here
-    ];
+    // Available preset configurations (from shared config)
+    this.presetConfigurations = knownMetaGames.map(({ name, path, shortName }) => ({ name, path, shortName }));
+
+    // Pending load request from URL parameter (queued until APIs are ready)
+    this.pendingLoadPath = null;
     
     this.createUI();
     
@@ -51,17 +50,15 @@ export class MetaGamePanelUI {
         
         .metagame-header {
           margin-bottom: 10px;
-          padding-bottom: 10px;
-          border-bottom: 1px solid #ccc;
         }
-        
+
         .metagame-header h3 {
-          margin: 0 0 10px 0;
+          margin: 0;
           color: #333;
         }
-        
+
         .metagame-dropdown-section {
-          margin-bottom: 15px;
+          margin-bottom: 20px;
         }
         
         .metagame-dropdown-section label {
@@ -93,9 +90,14 @@ export class MetaGamePanelUI {
           background-color: #545b62;
         }
         
-        .metagame-view-js-btn:disabled {
+        .metagame-view-js-btn:disabled,
+        .metagame-load-btn:disabled {
           background-color: #ccc;
           cursor: not-allowed;
+        }
+
+        .metagame-load-btn:hover:not(:disabled) {
+          background-color: #45a049;
         }
         
         .metagame-config-section {
@@ -207,18 +209,21 @@ export class MetaGamePanelUI {
     this.rootElement.innerHTML = styles + `
       <div class="metagame-header">
         <h3>MetaGame Configuration</h3>
-        <p>Select and configure metaGame module behavior</p>
       </div>
       
       <div class="metagame-dropdown-section">
         <label for="metagame-config-dropdown">Select Configuration:</label>
         <select id="metagame-config-dropdown" class="metagame-dropdown">
           <option value="">-- Select a configuration --</option>
-          ${this.presetConfigurations.map(config => 
-            `<option value="${config.path}">${config.name}</option>`
+          ${this.presetConfigurations.map(config =>
+            `<option value="${config.path}">${config.name}${config.shortName ? ` [${config.shortName}]` : ''}</option>`
           ).join('')}
         </select>
-        <button class="metagame-view-js-btn" id="metagame-view-js-btn" disabled>View js file contents</button>
+        <div style="margin-top: 10px;">
+          <button class="metagame-load-btn" id="metagame-load-btn" disabled
+                  style="padding: 5px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">Load Configuration</button>
+          <button class="metagame-view-js-btn" id="metagame-view-js-btn" disabled>View js file contents</button>
+        </div>
       </div>
       
       <div class="metagame-config-section">
@@ -248,13 +253,23 @@ export class MetaGamePanelUI {
   }
   
   setupEventListeners() {
+    const loadBtn = this.rootElement.querySelector('#metagame-load-btn');
     const viewJsBtn = this.rootElement.querySelector('#metagame-view-js-btn');
     const applyBtn = this.rootElement.querySelector('#metagame-apply-btn');
     const clearBtn = this.rootElement.querySelector('#metagame-clear-btn');
-    
-    // Configuration dropdown change handler
-    this.configurationDropdown.addEventListener('change', () => this.handleConfigurationSelection());
-    
+
+    // Dropdown change enables/disables the Load button
+    this.configurationDropdown.addEventListener('change', () => {
+      const hasSelection = !!this.configurationDropdown.value;
+      loadBtn.disabled = !hasSelection;
+      if (!hasSelection) {
+        this.handleClearConfiguration();
+      }
+    });
+
+    // Load button triggers configuration loading
+    loadBtn.addEventListener('click', () => this.handleConfigurationSelection());
+
     // Button event handlers
     viewJsBtn.addEventListener('click', () => this.handleViewJSFile());
     applyBtn.addEventListener('click', () => this.handleApplyJSONConfiguration());
@@ -262,25 +277,19 @@ export class MetaGamePanelUI {
   }
   
   async handleConfigurationSelection() {
-    const selectedPath = this.configurationDropdown.value;
-    
-    
-    if (!selectedPath) {
-      // No configuration selected - reset everything
-      this.currentConfiguration = '';
-      this.currentJSFileContent = '';
-      this.jsonDataTextarea.value = '';
-      this.jsonDataTextarea.placeholder = 'Select a configuration above to load JSON data for editing...';
-      
-      // Disable buttons
-      const viewJsBtn = this.rootElement.querySelector('#metagame-view-js-btn');
-      const applyBtn = this.rootElement.querySelector('#metagame-apply-btn');
-      viewJsBtn.disabled = true;
-      applyBtn.disabled = true;
-      
-      this.hideStatus();
+    if (this.isLoading) {
+      this.logger.debug('Already loading, ignoring duplicate call');
       return;
     }
+
+    const selectedPath = this.configurationDropdown.value;
+
+    if (!selectedPath) {
+      this.showStatus('No configuration selected', 'error');
+      return;
+    }
+
+    this.isLoading = true;
     
     try {
       this.showStatus('Loading configuration...', 'info');
@@ -342,6 +351,8 @@ export class MetaGamePanelUI {
       applyBtn.disabled = true;
       
       this.logger.error('Failed to load configuration:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
   
@@ -486,7 +497,46 @@ export class MetaGamePanelUI {
   setAPIs(eventBus, metaGameAPI) {
     this.eventBus = eventBus;
     this.metaGameAPI = metaGameAPI;
-    
+
+    // Subscribe to URL-parameter-driven load requests
+    this.eventBus.subscribe('metaGame:loadFromUrl', (data) => {
+      if (data && data.path) {
+        this.loadConfigurationByPath(data.path);
+      }
+    });
+
     this.logger.debug('APIs set for MetaGamePanel UI');
+
+    // Process any pending load request queued before APIs were ready
+    if (this.pendingLoadPath) {
+      const path = this.pendingLoadPath;
+      this.pendingLoadPath = null;
+      this.loadConfigurationByPath(path);
+    }
+  }
+
+  /**
+   * Programmatically load a configuration by path.
+   * Sets the dropdown value and triggers the load flow.
+   * @param {string} path - Config path (e.g., "./configs/progressBarTest.js")
+   */
+  loadConfigurationByPath(path) {
+    if (!this.metaGameAPI) {
+      // Queue for when APIs become available
+      this.pendingLoadPath = path;
+      this.logger.debug(`Queued metagame load for: ${path}`);
+      return;
+    }
+
+    // Set the dropdown to match the requested path
+    if (this.configurationDropdown) {
+      this.configurationDropdown.value = path;
+      // Enable the load button
+      const loadBtn = this.rootElement.querySelector('#metagame-load-btn');
+      if (loadBtn) loadBtn.disabled = false;
+    }
+
+    // Trigger the same flow as clicking "Load Configuration"
+    this.handleConfigurationSelection();
   }
 }

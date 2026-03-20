@@ -207,9 +207,7 @@ function loadPlayerData(sm, jsonData, selectedPlayerId) {
   if (!sm.prog_items) {
     sm.prog_items = {};
   }
-  if (!sm.prog_items[selectedPlayerId]) {
-    sm.prog_items[selectedPlayerId] = {};
-  }
+  sm.prog_items[selectedPlayerId] = {}; // Always reset for new rules to prevent stale data
 
   // Initialize accumulators from game_info metadata (generic for all games)
   const gameInfo = jsonData.game_info?.[selectedPlayerId];
@@ -271,6 +269,7 @@ function loadLocations(sm, selectedPlayerId) {
   sm.locations.clear(); // Clear the Map initialized in constructor
   sm.locationNameToId = {};
   sm.eventLocations.clear();
+  sm.localItemLocations.clear();
 
   for (const regionName of sm.originalRegionOrder) {
     const region = sm.regions.get(regionName); // Use Map.get() instead of bracket notation
@@ -393,8 +392,9 @@ function loadExits(sm, selectedPlayerId) {
  * @param {string} selectedPlayerId - The player ID
  */
 function initializeGameLogic(sm, jsonData, selectedPlayerId) {
-  const gameSettingsFromFile = jsonData.settings?.[selectedPlayerId] || {};
-  const gameName = gameSettingsFromFile.game || sm.rules?.game_name || 'UnknownGame';
+  // Check both 'world' (new structure) and 'settings' (legacy) for backwards compatibility
+  const gameWorldFromFile = jsonData.world?.[selectedPlayerId] || jsonData.settings?.[selectedPlayerId] || {};
+  const gameName = gameWorldFromFile.game || sm.rules?.game_name || 'UnknownGame';
 
   sm._logDebug(
     `[Initialization] Selecting logic module for game: "${gameName}"`
@@ -408,10 +408,13 @@ function initializeGameLogic(sm, jsonData, selectedPlayerId) {
 
   // Initialize state
   sm.gameStateModule = sm.logicModule.initializeState();
-  sm.gameStateModule = sm.logicModule.loadSettings(sm.gameStateModule, gameSettingsFromFile);
+  sm.gameStateModule = sm.logicModule.loadSettings(sm.gameStateModule, gameWorldFromFile);
 
-  // Set settings
-  sm.settings = gameSettingsFromFile;
+  // Set world data (contains game, options, and runtime attributes)
+  // Also exposed as 'settings' for backwards compatibility
+  sm.world = gameWorldFromFile;
+  sm.settings = gameWorldFromFile; // Backwards compatibility alias
+  sm.world.game = gameName;
   sm.settings.game = gameName;
 
   sm.logger.info('StateManager', `Loaded logic module for: "${gameName}"`);

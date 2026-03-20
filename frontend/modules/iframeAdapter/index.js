@@ -23,7 +23,7 @@ let moduleEventBus = null;
 let moduleDispatcher = null;
 let adapterCore = null;
 let moduleRegistrationApi = null;
-const moduleId = 'iframeAdapter';
+let moduleId = 'iframeAdapter';
 
 export async function register(registrationApi) {
     log('info', `[${moduleId} Module] Registering...`);
@@ -37,6 +37,7 @@ export async function register(registrationApi) {
     registrationApi.registerEventBusPublisher('iframe:appReady');
     registrationApi.registerEventBusPublisher('iframe:error');
     registrationApi.registerEventBusPublisher('iframe:messageReceived');
+    registrationApi.registerEventBusPublisher('playerState:regionChanged');
 
     // Register EventBus subscribers - we need to listen to all events to bridge them
     registrationApi.registerEventBusSubscriberIntent(moduleId, '*'); // Listen to all events
@@ -91,8 +92,9 @@ function registerDynamicPublisher(publisherId, eventName) {
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store API references
     moduleEventBus = initializationApi.getEventBus();
     moduleDispatcher = initializationApi.getDispatcher();
@@ -109,7 +111,7 @@ export async function initialize(mId, priorityIndex, initializationApi) {
                 if (adapterCore) {
                     adapterCore.handleEventBusEvent(eventName, eventData);
                 }
-            }, moduleId);
+            });
             log('debug', 'Subscribed to all EventBus events for iframe forwarding');
 
             // Subscribe to logger configuration updates to sync with iframes

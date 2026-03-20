@@ -1,5 +1,5 @@
 import settingsManager from '../../app/core/settingsManager.js';
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -16,6 +16,7 @@ class SettingsUI {
     log('info', 'SettingsUI instance created');
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('settings-panel-content', 'panel-container');
@@ -39,9 +40,9 @@ class SettingsUI {
     const readyHandler = (eventPayload) => {
       log('info', '[SettingsUI] Received app:readyForUiDataLoad. Initializing editor.');
       this.initialize();
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'settings');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
@@ -146,7 +147,7 @@ class SettingsUI {
     };
 
     this.unsubscribeHandles.push(
-      eventBus.subscribe('settings:changed', settingsChangedHandler, 'settings')
+      this.eventBus.subscribe('settings:changed', settingsChangedHandler)
     );
   }
 

@@ -1,0 +1,432 @@
+/* JTA Cost Debugger Panel Styles */
+
+.jta-cd-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: #1e1e1e;
+    color: #e0e0e0;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+/* Controls bar */
+.jta-cd-controls {
+    display: flex;
+    gap: 4px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.jta-cd-controls button {
+    background: #3a3a3a;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 3px;
+    padding: 3px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.jta-cd-controls button:hover {
+    background: #4a4a4a;
+    border-color: #777;
+}
+
+.jta-cd-controls button:active {
+    background: #333;
+}
+
+.jta-cd-controls button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* Collapsible settings */
+.jta-cd-settings-details {
+    border-bottom: 1px solid #444;
+    flex-shrink: 0;
+}
+
+.jta-cd-settings-summary {
+    padding: 4px 8px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.85em;
+    color: #999;
+    list-style: none;
+}
+
+.jta-cd-settings-summary::-webkit-details-marker {
+    display: none;
+}
+
+.jta-cd-settings-summary::before {
+    content: '\25B6';
+    font-size: 0.8em;
+    color: #61afef;
+    margin-right: 6px;
+}
+
+.jta-cd-settings-details[open] > .jta-cd-settings-summary::before {
+    content: '\25BC';
+}
+
+.jta-cd-settings-summary:hover {
+    color: #ccc;
+}
+
+/* Settings row */
+.jta-cd-settings {
+    display: flex;
+    gap: 12px;
+    padding: 4px 8px;
+    flex-shrink: 0;
+    font-size: 0.85em;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.jta-cd-settings label {
+    color: #999;
+}
+
+.jta-cd-settings input[type="number"] {
+    width: 36px;
+    background: #333;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* Status bar */
+.jta-cd-status-bar {
+    padding: 2px 8px;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0;
+}
+
+.jta-cd-status {
+    opacity: 0.7;
+    font-size: 0.85em;
+}
+
+/* Step list */
+.jta-cd-step-list-container {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.jta-cd-step-list-empty {
+    padding: 1rem;
+    text-align: center;
+    opacity: 0.5;
+    font-style: italic;
+}
+
+.jta-cd-step-row {
+    display: grid;
+    grid-template-columns: 30px 42px 1fr 50px 24px 30px 55px 40px;
+    gap: 4px;
+    padding: 4px 8px;
+    border-bottom: 1px solid #2a2a2a;
+    cursor: pointer;
+    align-items: center;
+    font-size: 0.85em;
+}
+
+.jta-cd-step-row:hover {
+    background: #2a2a3a;
+}
+
+/* Substep rows (solver iteration inner simulation) */
+.jta-cd-substep-row {
+    padding-left: 24px;
+    background: #1a2a1a;
+    border-left: 2px solid #4a7a4a;
+    font-size: 0.8em;
+}
+
+.jta-cd-substep-row:hover {
+    background: #1a2a2a;
+}
+
+/* Expand iteration button in solver debug tables */
+.jta-cd-btn-expand-iter {
+    background: none;
+    border: 1px solid #555;
+    color: #8ab4f8;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 0.85em;
+    border-radius: 2px;
+    line-height: 1;
+}
+
+.jta-cd-btn-expand-iter:hover {
+    background: #3a4a5a;
+    border-color: #8ab4f8;
+}
+
+.jta-cd-step-selected {
+    background: #2a3a4a !important;
+    border-left: 3px solid #4a8aff;
+}
+
+.jta-cd-step-num {
+    color: #888;
+    text-align: right;
+}
+
+.jta-cd-step-badge {
+    font-size: 0.75em;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.jta-cd-badge-perk {
+    background: #5a3a7a;
+    color: #d4a0ff;
+}
+
+.jta-cd-badge-boss {
+    background: #7a3a3a;
+    color: #ffa0a0;
+}
+
+.jta-cd-badge-trav {
+    background: #3a5a3a;
+    color: #a0d0a0;
+}
+
+.jta-cd-badge-norm {
+    background: #3a4a5a;
+    color: #a0c0d0;
+}
+
+.jta-cd-step-target {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jta-cd-step-attempt {
+    color: #888;
+    text-align: center;
+    font-size: 0.85em;
+}
+
+.jta-cd-step-status {
+    text-align: center;
+}
+
+.jta-cd-step-sphere {
+    color: #888;
+    font-size: 0.85em;
+}
+
+.jta-cd-step-cost {
+    color: #8ab4f8;
+    font-size: 0.8em;
+}
+
+.jta-cd-completed {
+    color: #6cba6c;
+}
+
+.jta-cd-incomplete {
+    color: #d4a050;
+}
+
+.jta-cd-cannot-afford {
+    color: #d07070;
+}
+
+.jta-cd-skipped {
+    color: #888;
+}
+
+/* Resize handle */
+.jta-cd-resize-handle {
+    height: 4px;
+    background: #444;
+    cursor: ns-resize;
+    flex-shrink: 0;
+}
+
+.jta-cd-resize-handle:hover {
+    background: #666;
+}
+
+/* Detail container */
+.jta-cd-detail-container {
+    overflow-y: auto;
+    flex-shrink: 0;
+    border-top: 1px solid #444;
+}
+
+.jta-cd-detail-empty {
+    padding: 1rem;
+    text-align: center;
+    opacity: 0.5;
+    font-style: italic;
+}
+
+.jta-cd-detail {
+    padding: 8px;
+    font-size: 0.85em;
+}
+
+.jta-cd-detail-header {
+    padding-bottom: 6px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 6px;
+}
+
+.jta-cd-detail-energy {
+    color: #8ab4f8;
+    margin-bottom: 8px;
+}
+
+.jta-cd-detail-section {
+    margin-bottom: 10px;
+}
+
+.jta-cd-detail-section-title {
+    font-weight: bold;
+    color: #aaa;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+/* Solver debug collapsible within step detail */
+.jta-cd-solver-debug-details {
+    margin-bottom: 6px;
+}
+
+.jta-cd-solver-debug-details > summary {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+.jta-cd-solver-debug-details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.jta-cd-solver-debug-details > summary::before {
+    content: '\25B6';
+    font-size: 0.7em;
+    color: #61afef;
+    margin-right: 6px;
+}
+
+.jta-cd-solver-debug-details[open] > summary::before {
+    content: '\25BC';
+}
+
+/* Tables */
+.jta-cd-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.jta-cd-table td {
+    padding: 2px 6px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.jta-cd-table td:first-child {
+    color: #999;
+    white-space: nowrap;
+    width: 120px;
+}
+
+.jta-cd-queue-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.jta-cd-queue-table th {
+    background: #2a2a2a;
+    padding: 3px 6px;
+    text-align: left;
+    font-weight: normal;
+    color: #999;
+    border-bottom: 1px solid #444;
+}
+
+.jta-cd-queue-table td {
+    padding: 2px 6px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.jta-cd-queue-table tr.jta-cd-completed td {
+    color: #e0e0e0;
+}
+
+.jta-cd-queue-table tr.jta-cd-cannot-afford td {
+    color: #d07070;
+}
+
+.jta-cd-queue-table tr.jta-cd-skipped td {
+    color: #888;
+    font-style: italic;
+}
+
+/* State comparison */
+.jta-cd-state-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.jta-cd-state-col {
+    font-size: 0.9em;
+}
+
+.jta-cd-state-col div {
+    padding: 1px 0;
+}
+
+/* Notes */
+.jta-cd-notes {
+    margin: 0;
+    padding-left: 16px;
+}
+
+.jta-cd-notes li {
+    padding: 1px 0;
+    color: #bbb;
+}
+
+/* Summary bar */
+.jta-cd-summary {
+    display: flex;
+    gap: 16px;
+    padding: 4px 8px;
+    border-top: 1px solid #444;
+    flex-shrink: 0;
+    font-size: 0.85em;
+}
+
+.jta-cd-summary-label {
+    color: #888;
+}
+
+.jta-cd-summary-value {
+    color: #8ab4f8;
+    margin-left: 4px;
+}

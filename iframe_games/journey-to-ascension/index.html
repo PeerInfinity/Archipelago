@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey to Ascension</title>
+    <meta name="author" content="Magne 'Meneth' Skjæran">
+    <meta name="theme-color" content="#8c386d">
+    <meta name="description" content="Learn, die, repeat; an active incremental game to Journey to Ascension - made by Magne 'Meneth' Skjæran">
+
+    <link rel="icon" type="image/svg+xml" href="./favicon.png">
+    <link rel="apple-touch-icon" href="./apple.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="canonical" href="https://meneth.github.io/journey-to-ascension/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meneth.github.io/journey-to-ascension/">
+    <meta property="og:title" content="Journey to Ascension">
+    <meta property="og:description" content="Learn, die, repeat; an active incremental game to Journey to Ascension - made by Magne 'Meneth' Skjæran">
+    <meta property="og:image" content="https://meneth.github.io/journey-to-ascension/social.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Journey to Ascension">
+    <meta name="twitter:description" content="Learn, die, repeat; an active incremental game to Journey to Ascension - made by Magne 'Meneth' Skjæran">
+    <meta name="twitter:image" content="https://meneth.github.io/journey-to-ascension/social.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <link rel="preload" href="./style.css" as="style">
+    <link rel="preload" href="./build/game.js" as="script" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="background"></div>
+    <!-- Hidden until game's ready to render -->
+    <main>
+        <div id="game-area" class="hidden">
+            <div id="left-sidebar" class="sidebar">
+                <div id="settings-area">
+                    <button id="open-settings" class="sidebar-button">⚙</button>
+                    <button id="open-energy-reset" class="sidebar-button">♻</button>
+                </div>
+                <button id="open-prestige" class="hidden"><h2>Prestige: 1337<br />(+42)</h2></button>
+                <button id="open-stats" class="sidebar-button"><span>📈Stats</span></button>
+                <div id="attunement" class="sidebar-section sidebar-item-text hidden">🌀Attunement: 1337</div>
+                <div id="power" class="sidebar-section sidebar-item-text hidden">💪Power: 1337</div>
+                <div id="skills"></div>
+            </div>
+            <div id="main-area">
+                <div id="play-area">
+                    <div id="left-column">
+                        <div id="zone" class="sidebar-section">
+                            <h2 id="zone-name">Lorem Ipsum</h2>
+                        </div>
+                        <div id="tasks"></div>
+                    </div>
+                    <div id="right-column" class="sidebar">
+                        <div id="controls" class="sidebar-section">
+                            <h3 class="section-name">Controls</h3>
+                            <div id="controls-list" class="elements-list"></div>
+                        </div>
+                        <div id="artifacts" class="sidebar-section hidden">
+                            <h3 class="section-name">Artifacts</h3>
+                            <button id="artifact-undo">Undo</button>
+                            <h3 class="section-info">ℹ</h3>
+                            <div id="artifacts-list" class="elements-list"></div>
+                        </div>
+                        <div id="items" class="sidebar-section">
+                            <h3 class="section-name">Items</h3>
+                            <button id="item-undo">Undo</button>
+                            <h3 class="section-info">ℹ</h3>
+                            <div id="items-list" class="elements-list"></div>
+                        </div>
+                        <div id="perks" class="sidebar-section">
+                            <h3 class="section-name">Perks</h3>
+                            <h3 class="section-info">ℹ</h3>
+                            <div id="perks-list" class="elements-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Down here so it'll be on-top without messing with the z-index -->
+                <div id="top-area">
+                    <div id="energy">
+                        <span class="label"></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                            <span class="progress-value">100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-over-overlay" class="full-screen-overlay hidden"></div>
+
+        <div id="end-of-content-overlay" class="full-screen-overlay hidden">
+            <div id="end-of-content-box">
+                <h2 id=>End of Content</h2>
+                <p>You've reached the end of all content that exists!</p>
+                <p>Congrats on winning the game. Fow now.</p>
+                <h3 id="end-of-content-reset-count"></h3>
+                <button id="end-of-content-reset">Do Energy Reset</button>
+                <button id="end-of-content-prestige">Prestige</button>
+            </div>
+        </div>
+
+        <div id="prestige-overlay" class="full-screen-overlay hidden">
+            <div id="prestige-box" class="overlay-box"></div>
+        </div>
+
+        <div id="settings-overlay" class="full-screen-overlay hidden">
+            <div id="settings" class="overlay-box">
+                <button class="close">X</button>
+                <h1>Settings</h1>
+                <button id="manual-tooltips"></button>
+                <div>
+                    <button id="save">Save</button>
+                    <button id="load">Load</button>
+                </div>
+                <button id="reset-save">Reset Save</button>
+                <div>
+                    <button id="changelog">Changelog</button>
+                    <button id="credits">Credits</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="changelog-overlay" class="full-screen-overlay hidden">
+            <div id="changelog-box" class="overlay-box"></div>
+        </div>
+
+        <div id="credits-overlay" class="full-screen-overlay hidden">
+            <div id="credits-box" class="overlay-box"></div>
+        </div>
+
+        <div id="confirmation-overlay" class="full-screen-overlay hidden"></div>
+        <div id="stats-overlay" class="full-screen-overlay hidden">
+            <div id="stats-box" class="overlay-box"></div>
+        </div>
+
+        <div id="hints-overlay" class="full-screen-overlay hidden"></div>
+    </main>
+
+    <footer>
+        <div id="messages"></div>
+    </footer>
+
+    <div id="tooltip" class="tooltip hidden"></div>
+
+    <script type="module" src="./build/game.js"></script>
+</body>

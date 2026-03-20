@@ -1,0 +1,3273 @@
+{
+  "metadata": {
+    "created": "2026-02-04T21:03:09.652326",
+    "last_updated": "2026-02-04T21:03:09.652333",
+    "script_version": "1.0.0",
+    "combined_from": 10,
+    "ut_version": "hybrid",
+    "world_source": "apworlds",
+    "seed_mode": "fixed",
+    "seed": 1,
+    "runs_per_game": 10,
+    "jobs": 4,
+    "timeout": 60,
+    "default_options": null,
+    "disallow_options": null,
+    "total_templates": 122
+  },
+  "results": {
+    "A Dance of Fire and Ice.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.9
+      },
+      "world_info": {
+        "game_name": "A Dance of Fire and Ice",
+        "world_directory": "adofai"
+      },
+      "timestamp": "2026-02-04T20:43:06.471737",
+      "explain_stats": {
+        "game": "A Dance of Fire and Ice WorldGen_79645483297583998146",
+        "total_locations": 142,
+        "locations_with_explain": 135,
+        "locations_default_rule": 7,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 34,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 34,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Ape Escape 3.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 4,
+        "failure": 6,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            6,
+            7
+          ],
+          "('AE3 > GoalTarget: There are no goal locations available to check. They might have been explicitly excluded. Please reduce the excluded locations.', 'Actual: Specter, ', 'Excluded: Seaside Resort - Break Room, Hide-n-Seek Forest - Break Room, Saru-Mon\\'s Castle - Break Room, The Big City - Break Room, Specter TV Studio - Break Room, Bootown - Break Room, Wild West Town - Break Room, The Hot Springs - Break Room, Winterville - Break Room, The Emperor\\'s Castle - Break Room, Mount Amazing - Break Room, Toytown - Break Room, Arctic Wonderland - Break Room, Mirage Town - Break Room, Eversummer Island - Break Room, Airplane Squadron - Break Room, Kung-Fu Alley - Break Room, Midnight Bay - Break Room, Tomoki City - Break Room, Space-TV Fortress - Break Room, Seaside Resort - Break Room, Hide-n-Seek Forest - Break Room, Saru-Mon\\'s Castle - Break Room, The Big City - Break Room, Specter TV Studio - Break Room, Bootown - Break Room, Wild West Town - Break Room, The Hot Springs - Break Room, Winterville - Break Room, The Emperor\\'s Castle - Break Room, Mount Amazing - Break Room, Toytown - Break Room, Arctic Wonderland - Break Room, Mirage Town - Break Room, Eversummer Island - Break Room, Airplane Squadron - Break Room, Kung-Fu Alley - Break Room, Midnight Bay - Break Room, Tomoki City - Break Room, Space-TV Fortress - Break Room, Spork - Hide-n-Seek Forest | SAL-1000 - Saru-mon\\'s Castle | Shimmy - Winterville | Pipotron Yellow - Winterville | Piptron Red - Toytown | Pipotron Blue - Airplane Squadron | Dark Master - Kung-Fu Alley | SAL-3000 - Space-TV Fortress | Monkichiro - Bootown | Leomon - Bootown | Uikkun - Bootown | Take Ukita - Bootown | Bonbon - Bootown | ChiChi - Bootown | Ukkisuke - Bootown | Chibi Sally - Bootown | Ukkison - Bootown | Saruhotep - Bootown | Ukkito - Bootown | Monzally - Bootown | Ukkiami - Bootown | Monjan - Bootown | Nattchan - Bootown | Kabochin - Bootown | Ukki Mon - Bootown | Mumpkin - Bootown | Pipo Camera - Bootown | Blue Cellphone \"Morph Energy Tutorial - Racking Up Duration\" - Bootown | Red Cellphone \"Water Net Reminder\" - Bootown | Blue Cellphone \"Morph Gauge and Water Tutorial\" - Bootown | Red Cellphone \"Climbing Tutorial\" - Bootown | Scorpi-mon - Mirage Town | Minimon - Mirage Town | Moontero - Mirage Town | Ukki Son - Mirage Town | Ukki Jeff - Mirage Town | Ukki Saru Maru - Mirage Town | Genghis Mon - Mirage Town | Cup-o-mon - Mirage Town | Nijal - Mirage Town | Apey Jones - Mirage Town | Golden Mon - Mirage Town | Ukki Mamba - Mirage Town | Crazy \\'ol Mon - Mirage Town | Shamila - Mirage Town | Tamiyanya - Mirage Town | Salteenz - Mirage Town | Dancing Mia - Mirage Town | Miccho - Mirage Town | Kisha - Mirage Town | Gimuccho - Mirage Town | Wojin - Mirage Town | Princess Judy - Mirage Town | Pipo Camera - Mirage Town | Red Cellphone \"Genie Dancer Reminder\" - Mirage Town | Blue Cellphone \"Genie Dancer Reminder - Special Ability\" - Mirage Town | Blue Cellphone \"Long Horizontal Rods Tutorial\" - Mirage Town | Blue Cellphone \"Jars that only the Genie can enter\" - Mirage Town | Pincher-mon - Eversummer Island | Salumani - Eversummer Island | Salulu - Eversummer Island | Baku - Eversummer Island | Ukki Mat - Eversummer Island | Salunch - Eversummer Island | Mong Popo - Eversummer Island | Mohcha - Eversummer Island | Kamcha - Eversummer Island | Bimocha - Eversummer Island | Gimchin - Eversummer Island | Kamaccha - Eversummer Island | Gyamu - Eversummer Island | Tartan - Eversummer Island | Takumon - Eversummer Island | Ukki Ether - Eversummer Island | Molzone - Eversummer Island | Chappio - Eversummer Island | Pomoah - Eversummer Island | Gucchai - Eversummer Island | Makaccho - Eversummer Island | Gamaran - Eversummer Island | Larry - Eversummer Island | Pipo Camera - Eversummer Island | Blue Cellphone \"Gadget Fetch and Spinning Air Attack Tutorial\" - Eversummer Island | Blue Cellphone \"Water Net Reminder - Redux\" - Eversummer Island | Nak Nayo - Kung-Fu Alley | Donto Koi - Kung-Fu Alley | Po Kin Ki - Kung-Fu Alley | Dally - Kung-Fu Alley | Shinchi - Kung-Fu Alley | Doh Tsuitaro - Kung-Fu Alley | Ukki Chan - Kung-Fu Alley | Uki Uki - Kung-Fu Alley | Muki Muki - Kung-Fu Alley | Hi Uchi Ishi - Kung-Fu Alley | Bassili Ukki - Kung-Fu Alley | Pikon - Kung-Fu Alley | Bankan - Kung-Fu Alley | Sukei - Kung-Fu Alley | Giyan - Kung-Fu Alley | Danchi - Kung-Fu Alley | Gala Waruo - Kung-Fu Alley | Muchaki - Kung-Fu Alley | Yoh Kitana - Kung-Fu Alley | Goshi Andos - Kung-Fu Alley | Pukuman - Kung-Fu Alley | Block Master - Kung-Fu Alley | Tompo - Kung-Fu Alley | Wootan - Kung-Fu Alley | Chechin - Kung-Fu Alley | Hapcho - Kung-Fu Alley | Bonmos - Kung-Fu Alley | Dark Master - Kung-Fu Alley | Teh Isu - Kung-Fu Alley | Ponja - Kung-Fu Alley | Pipo Camera - Kung-Fu Alley | Red Cellphone \"Dragon Kung-Fu Fighter Reminder\" - Kung-Fu Alley | Blue Cellphone \"Finding the Way Forward\" - Kung-Fu Alley | Blue Cellphone \"The Dragon Mark\" - Kung-Fu Alley | Blue Cellphone \"Long Horizontal Rods Tutorial - Redux\" - Kung-Fu Alley | Nadamon - Midnight Bay | Patoya - Midnight Bay | Gumbo - Midnight Bay | Pehyan - Midnight Bay | Mokito - Midnight Bay | Pipo Kate - Midnight Bay | Samtan - Midnight Bay | Pokkine - Midnight Bay | Daban - Midnight Bay | Keiichi - Midnight Bay | McBreezy - Midnight Bay | Shiny Pete - Midnight Bay | Landon - Midnight Bay | Ronson - Midnight Bay | Gimo - Midnight Bay | Hiroshi - Midnight Bay | Mibon - Midnight Bay | Bololon - Midnight Bay | Nakabi - Midnight Bay | Doemos - Midnight Bay | Kazuo - Midnight Bay | Gimi Gimi - Midnight Bay | Pokkini - Midnight Bay | Bokino - Midnight Bay | Jimo - Midnight Bay | Makidon - Midnight Bay | Dogy - Midnight Bay | Gibdon - Midnight Bay | Buligie - Midnight Bay | Pipo Camera - Midnight Bay | Blue Cellphone \"Laser Sensors Tutorial\" - Midnight Bay | Specter |  | Nessal - Seaside Resort | Ukki Pia - Seaside Resort | Sarubo - Seaside Resort | Salurin - Seaside Resort | Ukkitan - Seaside Resort | Morella - Seaside Resort | Ukki Ben - Seaside Resort | Kankichi - Seaside Resort | Tomezo - Seaside Resort | Kamayan - Seaside Resort | Taizo - Seaside Resort | Pipo Camera - Seaside Resort | Red Cellphone \"Cellphones and Gadgets Tutorials\" - Seaside Resort | Blue Cellphone \"Cookies Tutorial\" - Seaside Resort | Red Cellphone \"Switches Tutorial\" - Seaside Resort | Blue Cellphone \"Pipo Camera Tutorial\" - Seaside Resort | Dr. Tomoki |  | Kankichi - Seaside Resort | Tomezo - Seaside Resort | Kamayan - Seaside Resort | Taizo - Seaside Resort | King Goat - Hide-n-Seek Forest | Marukichi - Hide-n-Seek Forest | Kikimon - Hide-n-Seek Forest | Kominato - Hide-n-Seek Forest | King\\'s Double - Saru-mon\\'s Castle | Mattsun - Saru-mon\\'s Castle | Miya - Saru-mon\\'s Castle | Mon San - Saru-mon\\'s Castle | Sally Kokoroe - The Big City | Monkey Manager - The Big City | Supervisor Chimp - The Big City | Boss Ape - The Big City | Ukki Paul - Specter TV Studio | Sally Mon - Specter TV Studio | Bonly - Specter TV Studio | Monly - Specter TV Studio | Monjan - Bootown | Nattchan - Bootown | Kabochin - Bootown | Ukki Mon - Bootown | Lucky Woo - Wild West Town | Pamela - Wild West Town | Ukki Monber - Wild West Town | Gaukichi - Wild West Town | Sam-san - The Hot Springs | Donkichi - The Hot Springs | Minokichi - The Hot Springs | Tatabo - The Hot Springs | Kimi-chan - Winterville | Sae-chan - Winterville | Tassan - Winterville | Tomokun - Winterville | Monchin Chi - The Emperor\\'s Castle | Masachi - The Emperor\\'s Castle | Golota - The Emperor\\'s Castle | Kinsuke - The Emperor\\'s Castle | Pisuke - Mount Amazing | Kansuke - Mount Amazing | Pohta - Mount Amazing | Keisuke - Mount Amazing | Tam Konta - Toytown | Tam Mimiko - Toytown | Tam Papa - Toytown | Tam Mama - Toytown | Monkino - Arctic Wonderland | Kyam - Arctic Wonderland | Kappino - Arctic Wonderland | Kris Krimon - Arctic Wonderland | Miccho - Mirage Town | Kisha - Mirage Town | Gimuccho - Mirage Town | Wojin - Mirage Town | Gucchai - Eversummer Island | Makaccho - Eversummer Island | Gamaran - Eversummer Island | Larry - Eversummer Island | Samuel - Airplane Squadron | Coril - Airplane Squadron | Bont - Airplane Squadron | Delly - Airplane Squadron | Tompo - Kung-Fu Alley | Wootan - Kung-Fu Alley | Chechin - Kung-Fu Alley | Hapcho - Kung-Fu Alley | Makidon - Midnight Bay | Dogy - Midnight Bay | Gibdon - Midnight Bay | Buligie - Midnight Bay | Tomu - Tomoki City | Breadacus - Tomoki City | Ukkigoro - Tomoki City | Ukiji - Tomoki City | Upis - Space-TV Fortress | Mondatta - Space-TV Fortress | Gicchom - Space-TV Fortress | Barire - Space-TV Fortress | Kankichi - Seaside Resort | Tomezo - Seaside Resort | Kamayan - Seaside Resort | Taizo - Seaside Resort | King Goat - Hide-n-Seek Forest | Marukichi - Hide-n-Seek Forest | Kikimon - Hide-n-Seek Forest | Kominato - Hide-n-Seek Forest | King\\'s Double - Saru-mon\\'s Castle | Mattsun - Saru-mon\\'s Castle | Miya - Saru-mon\\'s Castle | Mon San - Saru-mon\\'s Castle | Sally Kokoroe - The Big City | Monkey Manager - The Big City | Supervisor Chimp - The Big City | Boss Ape - The Big City | Ukki Paul - Specter TV Studio | Sally Mon - Specter TV Studio | Bonly - Specter TV Studio | Monly - Specter TV Studio | Monjan - Bootown | Nattchan - Bootown | Kabochin - Bootown | Ukki Mon - Bootown | Lucky Woo - Wild West Town | Pamela - Wild West Town | Ukki Monber - Wild West Town | Gaukichi - Wild West Town | Sam-san - The Hot Springs | Donkichi - The Hot Springs | Minokichi - The Hot Springs | Tatabo - The Hot Springs | Kimi-chan - Winterville | Sae-chan - Winterville | Tassan - Winterville | Tomokun - Winterville | Monchin Chi - The Emperor\\'s Castle | Masachi - The Emperor\\'s Castle | Golota - The Emperor\\'s Castle | Kinsuke - The Emperor\\'s Castle | Pisuke - Mount Amazing | Kansuke - Mount Amazing | Pohta - Mount Amazing | Keisuke - Mount Amazing | Tam Konta - Toytown | Tam Mimiko - Toytown | Tam Papa - Toytown | Tam Mama - Toytown | Monkino - Arctic Wonderland | Kyam - Arctic Wonderland | Kappino - Arctic Wonderland | Kris Krimon - Arctic Wonderland | Miccho - Mirage Town | Kisha - Mirage Town | Gimuccho - Mirage Town | Wojin - Mirage Town | Gucchai - Eversummer Island | Makaccho - Eversummer Island | Gamaran - Eversummer Island | Larry - Eversummer Island | Samuel - Airplane Squadron | Coril - Airplane Squadron | Bont - Airplane Squadron | Delly - Airplane Squadron | Tompo - Kung-Fu Alley | Wootan - Kung-Fu Alley | Chechin - Kung-Fu Alley | Hapcho - Kung-Fu Alley | Makidon - Midnight Bay | Dogy - Midnight Bay | Gibdon - Midnight Bay | Buligie - Midnight Bay | Tomu - Tomoki City | Breadacus - Tomoki City | Ukkigoro - Tomoki City | Ukiji - Tomoki City | Upis - Space-TV Fortress | Mondatta - Space-TV Fortress | Gicchom - Space-TV Fortress | Barire - Space-TV Fortress | ')": [
+            5
+          ],
+          "('AE3 > GoalTarget: There are no goal locations available to check. They might have been explicitly excluded. Please reduce the excluded locations.', 'Actual: Specter, ', 'Excluded: Spork - Hide-n-Seek Forest | SAL-1000 - Saru-mon\\'s Castle | Shimmy - Winterville | Pipotron Yellow - Winterville | Piptron Red - Toytown | Pipotron Blue - Airplane Squadron | Dark Master - Kung-Fu Alley | SAL-3000 - Space-TV Fortress | Ukkichi - Mount Amazing | Chomon - Mount Amazing | Ukkido - Mount Amazing | Kyamio - Mount Amazing | Talupon - Mount Amazing | Bokitan - Mount Amazing | Tami - Mount Amazing | Micchino - Mount Amazing | Talurin - Mount Amazing | Occhimon - Mount Amazing | Mikkurin - Mount Amazing | Kicchino - Mount Amazing | Kimurin - Mount Amazing | Sakkano - Mount Amazing | Camino - Mount Amazing | Valuccha - Mount Amazing | Pisuke - Mount Amazing | Kansuke - Mount Amazing | Pohta - Mount Amazing | Keisuke - Mount Amazing | Pipo Camera - Mount Amazing | Red Cellphone \"Sky Flyer Reminder\" - Mount Amazing | Ukkido - Saru-mon\\'s Castle | Pipo Guard - Saru-mon\\'s Castle | Ukkinee - Saru-mon\\'s Castle | Monderella - Saru-mon\\'s Castle | Ukki-ichi - Saru-mon\\'s Castle | Saru-mon - Saru-mon\\'s Castle | Monga - Saru-mon\\'s Castle | Ukkiton - Saru-mon\\'s Castle | King Leo - Saru-mon\\'s Castle | Ukkii - Saru-mon\\'s Castle | Saluto - Saru-mon\\'s Castle | King\\'s Double - Saru-mon\\'s Castle | Mattsun - Saru-mon\\'s Castle | Miya - Saru-mon\\'s Castle | Mon San - Saru-mon\\'s Castle | SAL-1000 - Saru-mon\\'s Castle | Pipo Camera - Saru-mon\\'s Castle | Blue Cellphone \"Block Shoving Tutorial\" - Saru-mon\\'s Castle | Red Cellphone \"Morph Energy Tutorial\" - Saru-mon\\'s Castle | Blue Cellphone \"Morph Jumping Reminder\" - Saru-mon\\'s Castle | Blue Cellphone \"How can we avoid the flames?\" - Saru-mon\\'s Castle | Monkey Yellow |  | Monkichiro - Bootown | Leomon - Bootown | Uikkun - Bootown | Take Ukita - Bootown | Bonbon - Bootown | ChiChi - Bootown | Ukkisuke - Bootown | Chibi Sally - Bootown | Ukkison - Bootown | Saruhotep - Bootown | Ukkito - Bootown | Monzally - Bootown | Ukkiami - Bootown | Monjan - Bootown | Nattchan - Bootown | Kabochin - Bootown | Ukki Mon - Bootown | Mumpkin - Bootown | Pipo Camera - Bootown | Blue Cellphone \"Morph Energy Tutorial - Racking Up Duration\" - Bootown | Red Cellphone \"Water Net Reminder\" - Bootown | Blue Cellphone \"Morph Gauge and Water Tutorial\" - Bootown | Red Cellphone \"Climbing Tutorial\" - Bootown | Nak Nayo - Kung-Fu Alley | Donto Koi - Kung-Fu Alley | Po Kin Ki - Kung-Fu Alley | Dally - Kung-Fu Alley | Shinchi - Kung-Fu Alley | Doh Tsuitaro - Kung-Fu Alley | Ukki Chan - Kung-Fu Alley | Uki Uki - Kung-Fu Alley | Muki Muki - Kung-Fu Alley | Hi Uchi Ishi - Kung-Fu Alley | Bassili Ukki - Kung-Fu Alley | Pikon - Kung-Fu Alley | Bankan - Kung-Fu Alley | Sukei - Kung-Fu Alley | Giyan - Kung-Fu Alley | Danchi - Kung-Fu Alley | Gala Waruo - Kung-Fu Alley | Muchaki - Kung-Fu Alley | Yoh Kitana - Kung-Fu Alley | Goshi Andos - Kung-Fu Alley | Pukuman - Kung-Fu Alley | Block Master - Kung-Fu Alley | Tompo - Kung-Fu Alley | Wootan - Kung-Fu Alley | Chechin - Kung-Fu Alley | Hapcho - Kung-Fu Alley | Bonmos - Kung-Fu Alley | Dark Master - Kung-Fu Alley | Teh Isu - Kung-Fu Alley | Ponja - Kung-Fu Alley | Pipo Camera - Kung-Fu Alley | Red Cellphone \"Dragon Kung-Fu Fighter Reminder\" - Kung-Fu Alley | Blue Cellphone \"Finding the Way Forward\" - Kung-Fu Alley | Blue Cellphone \"The Dragon Mark\" - Kung-Fu Alley | Blue Cellphone \"Long Horizontal Rods Tutorial - Redux\" - Kung-Fu Alley | Specter |  | ')": [
+            8
+          ],
+          "('AE3 > GoalTarget: There are no goal locations available to check. They might have been explicitly excluded. Please reduce the excluded locations.', 'Actual: Specter Finale, ', 'Excluded: Spork - Hide-n-Seek Forest | SAL-1000 - Saru-mon\\'s Castle | Shimmy - Winterville | Pipotron Yellow - Winterville | Piptron Red - Toytown | Pipotron Blue - Airplane Squadron | Dark Master - Kung-Fu Alley | SAL-3000 - Space-TV Fortress | Specter Finale |  | Morrey - Wild West Town | Jomi - Wild West Town | Tammy - Wild West Town | Ukki Gigolo - Wild West Town | Monboron - Wild West Town | West Ukki - Wild West Town | Lucky Woo - Wild West Town | Pamela - Wild West Town | Ukki Monber - Wild West Town | Gaukichi - Wild West Town | Shaluron - Wild West Town | Jay Mohn - Wild West Town | Monkee Joe - Wild West Town | Saru Chison - Wild West Town | Jaja Jamo - Wild West Town | Chammy Mo - Wild West Town | Golozo - Wild West Town | Golon Moe - Wild West Town | Ukkia Munbo - Wild West Town | Mon Johny - Wild West Town | Pipo Camera - Wild West Town | Red Cellphone \"Wild West Kid Reminder\" - Wild West Town | Blue Cellphone \"Quick Morph Tutorial\" - Wild West Town | Blue Cellphone \"Rotating Handle Tutorial - Ranged Activation\" - Wild West Town | Pikkori - Toytown | TalUkki - Toytown | Pinkino - Toytown | Bon Mota - Toytown | Bon Verna - Toytown | Bon Papa - Toytown | Bon Mama - Toytown | Kalkin - Toytown | Pakun - Toytown | Ukki X - Toytown | Mon Gareji - Toytown | Shouji - Toytown | Woo Makka - Toytown | Monto - Toytown | Mokitani - Toytown | Namigo - Toytown | Piptron Red - Toytown | Master Loafy - Toytown | Golonero - Toytown | Kocho - Toytown | Tam Konta - Toytown | Tam Mimiko - Toytown | Tam Papa - Toytown | Tam Mama - Toytown | Pipo Camera - Toytown | Blue Cellphone \"Sports Car Tutorial - Redux\" - Toytown | Blue Cellphone \"Robot Tutorial - Redux\" - Toytown | Romo - Airplane Squadron | Temko - Airplane Squadron | Ukkigawa - Airplane Squadron | Mokkido - Airplane Squadron | Pont - Airplane Squadron | Gamish - Airplane Squadron | Takmon - Airplane Squadron | Mukita - Airplane Squadron | Prince Bertus - Airplane Squadron | Chai Bunny - Airplane Squadron | Tamrai - Airplane Squadron | Pipotron Blue - Airplane Squadron | Kemunpa - Airplane Squadron | Mabaras - Airplane Squadron | Tamoos - Airplane Squadron | Kimoto - Airplane Squadron | Octavian - Airplane Squadron | Samuel - Airplane Squadron | Coril - Airplane Squadron | Bont - Airplane Squadron | Delly - Airplane Squadron | Jeloh - Airplane Squadron | Bongo - Airplane Squadron | Pipo Camera - Airplane Squadron | Blue Cellphone \"Tank Tutorial - Redux\" - Airplane Squadron | Monkey Yellow |  | Ukki Pon - Hide-n-Seek Forest | Ukkian - Hide-n-Seek Forest | Ukki Red - Hide-n-Seek Forest | Rosalin - Hide-n-Seek Forest | Salubon - Hide-n-Seek Forest | Wolfmon - Hide-n-Seek Forest | Ukiko - Hide-n-Seek Forest | Lambymon - Hide-n-Seek Forest | Kreemon - Hide-n-Seek Forest | Ukkilei - Hide-n-Seek Forest | Spork - Hide-n-Seek Forest | King Goat - Hide-n-Seek Forest | Marukichi - Hide-n-Seek Forest | Kikimon - Hide-n-Seek Forest | Kominato - Hide-n-Seek Forest | Pipo Camera - Hide-n-Seek Forest | Red Cellphone \"Jump Tutorial\" - Hide-n-Seek Forest | Red Cellphone \"Assigning Gadgets and Monkey Radar Reminder\" - Hide-n-Seek Forest | Blue Cellphone \"Double-Jump Tutorial\" - Hide-n-Seek Forest | Blue Cellphone \"Pipo Camera Tutorial - Redux\" - Hide-n-Seek Forest | Blue Cellphone \"Jacket Tutorial\" - Hide-n-Seek Forest | Pincher-mon - Eversummer Island | Salumani - Eversummer Island | Salulu - Eversummer Island | Baku - Eversummer Island | Ukki Mat - Eversummer Island | Salunch - Eversummer Island | Mong Popo - Eversummer Island | Mohcha - Eversummer Island | Kamcha - Eversummer Island | Bimocha - Eversummer Island | Gimchin - Eversummer Island | Kamaccha - Eversummer Island | Gyamu - Eversummer Island | Tartan - Eversummer Island | Takumon - Eversummer Island | Ukki Ether - Eversummer Island | Molzone - Eversummer Island | Chappio - Eversummer Island | Pomoah - Eversummer Island | Gucchai - Eversummer Island | Makaccho - Eversummer Island | Gamaran - Eversummer Island | Larry - Eversummer Island | Pipo Camera - Eversummer Island | Blue Cellphone \"Gadget Fetch and Spinning Air Attack Tutorial\" - Eversummer Island | Blue Cellphone \"Water Net Reminder - Redux\" - Eversummer Island | Nessal - Seaside Resort | Ukki Pia - Seaside Resort | Sarubo - Seaside Resort | Salurin - Seaside Resort | Ukkitan - Seaside Resort | Morella - Seaside Resort | Ukki Ben - Seaside Resort | Kankichi - Seaside Resort | Tomezo - Seaside Resort | Kamayan - Seaside Resort | Taizo - Seaside Resort | Pipo Camera - Seaside Resort | Red Cellphone \"Cellphones and Gadgets Tutorials\" - Seaside Resort | Blue Cellphone \"Cookies Tutorial\" - Seaside Resort | Red Cellphone \"Switches Tutorial\" - Seaside Resort | Blue Cellphone \"Pipo Camera Tutorial\" - Seaside Resort | ')": [
+            9
+          ]
+        },
+        "elapsed_seconds": 23.67
+      },
+      "world_info": {
+        "game_name": "Ape Escape 3",
+        "world_directory": "ape_escape_3"
+      },
+      "timestamp": "2026-02-04T20:43:30.156495"
+    },
+    "Chrono Trigger Jets of Time.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "CTJoT YAML files must be generated from https://www.multiworld.ctjot.com": [
+            0,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            3,
+            2,
+            1
+          ]
+        },
+        "elapsed_seconds": 22.34
+      },
+      "world_info": {
+        "game_name": "Chrono Trigger Jets of Time",
+        "world_directory": "ctjot"
+      },
+      "timestamp": "2026-02-04T20:43:52.499384"
+    },
+    "Digimon World.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 6,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 4,
+        "errors": {},
+        "elapsed_seconds": 25.03
+      },
+      "world_info": {
+        "game_name": "Digimon World",
+        "world_directory": "dw1"
+      },
+      "timestamp": "2026-02-04T20:44:17.537049"
+    },
+    "Grim Dawn.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 7,
+        "failure": 2,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          "list index out of range": [
+            7,
+            9
+          ]
+        },
+        "elapsed_seconds": 23.5
+      },
+      "world_info": {
+        "game_name": "Grim Dawn",
+        "world_directory": "grim_dawn"
+      },
+      "timestamp": "2026-02-04T20:44:41.052921"
+    },
+    "Keep Talking and Nobody Explodes.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 7,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 3,
+        "errors": {},
+        "elapsed_seconds": 23.21
+      },
+      "world_info": {
+        "game_name": "Keep Talking and Nobody Explodes",
+        "world_directory": "ktane"
+      },
+      "timestamp": "2026-02-04T20:45:04.266251"
+    },
+    "Luigi's Mansion.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 7,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 3,
+        "errors": {},
+        "elapsed_seconds": 31.65
+      },
+      "world_info": {
+        "game_name": "Luigi's Mansion",
+        "world_directory": "luigismansion"
+      },
+      "timestamp": "2026-02-04T20:45:35.950585",
+      "explain_stats": {
+        "game": "Luigi's Mansion WorldGen_11408892729106005028",
+        "total_locations": 744,
+        "locations_with_explain": 436,
+        "locations_default_rule": 308,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 117,
+        "entrances_with_explain": 74,
+        "entrances_default_rule": 43,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Nine Sols.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 5,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {
+          "None": [
+            4,
+            1,
+            2,
+            6,
+            8
+          ]
+        },
+        "elapsed_seconds": 24.0
+      },
+      "world_info": {
+        "game_name": "Nine Sols",
+        "world_directory": "nine_sols"
+      },
+      "timestamp": "2026-02-04T20:45:59.963265"
+    },
+    "Ratchet & Clank 2.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 28.21
+      },
+      "world_info": {
+        "game_name": "Ratchet & Clank 2",
+        "world_directory": "rac2"
+      },
+      "timestamp": "2026-02-04T20:46:28.186699",
+      "explain_stats": {
+        "game": "Ratchet & Clank 2 WorldGen_79645483297583998146",
+        "total_locations": 123,
+        "locations_with_explain": 74,
+        "locations_default_rule": 49,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 20,
+        "entrances_with_explain": 20,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Sly Cooper and the Thievius Raccoonus.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 8,
+        "failure": 2,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "FillError": [
+            2,
+            7
+          ]
+        },
+        "elapsed_seconds": 23.64
+      },
+      "world_info": {
+        "game_name": "Sly Cooper and the Thievius Raccoonus",
+        "world_directory": "sly1"
+      },
+      "timestamp": "2026-02-04T20:46:51.840069"
+    },
+    "Star Wars Episode I Racer.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 25.84
+      },
+      "world_info": {
+        "game_name": "Star Wars Episode I Racer",
+        "world_directory": "swr"
+      },
+      "timestamp": "2026-02-04T20:47:17.693281",
+      "explain_stats": {
+        "game": "Star Wars Episode I Racer WorldGen_11408892729106005028",
+        "total_locations": 101,
+        "locations_with_explain": 91,
+        "locations_default_rule": 10,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 14,
+        "entrances_with_explain": 12,
+        "entrances_default_rule": 2,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "The Sims 4.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.87
+      },
+      "world_info": {
+        "game_name": "The Sims 4",
+        "world_directory": "sims4"
+      },
+      "timestamp": "2026-02-04T20:47:45.573636",
+      "explain_stats": {
+        "game": "The Sims 4 WorldGen_55977854110148887761",
+        "total_locations": 706,
+        "locations_with_explain": 396,
+        "locations_default_rule": 310,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 0,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "osu!.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 51.87
+      },
+      "world_info": {
+        "game_name": "osu!",
+        "world_directory": "osu"
+      },
+      "timestamp": "2026-02-04T20:48:37.463864",
+      "explain_stats": {
+        "game": "osu! WorldGen_11408892729106005028",
+        "total_locations": 594,
+        "locations_with_explain": 0,
+        "locations_default_rule": 594,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 331,
+        "entrances_with_explain": 330,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Another Crabs Treasure.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.9
+      },
+      "world_info": {
+        "game_name": "Another Crabs Treasure",
+        "world_directory": "another_crab"
+      },
+      "timestamp": "2026-02-04T20:43:23.629662",
+      "explain_stats": {
+        "game": "Another Crabs Treasure WorldGen_79645483297583998146",
+        "total_locations": 614,
+        "locations_with_explain": 181,
+        "locations_default_rule": 433,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 89,
+        "entrances_with_explain": 7,
+        "entrances_default_rule": 82,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "ChecksMate.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            6
+          ]
+        },
+        "elapsed_seconds": 23.24
+      },
+      "world_info": {
+        "game_name": "ChecksMate",
+        "world_directory": "checksmate"
+      },
+      "timestamp": "2026-02-04T20:43:46.890498"
+    },
+    "Diddy Kong Racing.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.15
+      },
+      "world_info": {
+        "game_name": "Diddy Kong Racing",
+        "world_directory": "diddy_kong_racing"
+      },
+      "timestamp": "2026-02-04T20:44:14.055419",
+      "explain_stats": {
+        "game": "Diddy Kong Racing WorldGen_79645483297583998146",
+        "total_locations": 59,
+        "locations_with_explain": 11,
+        "locations_default_rule": 28,
+        "locations_without_explain": 20,
+        "explain_coverage_percent": 35.48,
+        "locations_without_explain_list": [
+          {
+            "name": "DD: Ancient Lake 2",
+            "region": "DD: Ancient Lake"
+          },
+          {
+            "name": "DD: Fire Mountain Key",
+            "region": "DD: Ancient Lake"
+          },
+          {
+            "name": "DD: Fossil Canyon 2",
+            "region": "DD: Fossil Canyon"
+          },
+          {
+            "name": "DD: Jungle Falls 2",
+            "region": "DD: Jungle Falls"
+          },
+          {
+            "name": "DD: Hot Top Volcano 2",
+            "region": "DD: Hot Top Volcano"
+          },
+          {
+            "name": "SM: Everfrost Peak 2",
+            "region": "SM: Everfrost Peak"
+          },
+          {
+            "name": "SM: Walrus Cove 2",
+            "region": "SM: Walrus Cove"
+          },
+          {
+            "name": "SM: Snowball Valley 2",
+            "region": "SM: Snowball Valley"
+          },
+          {
+            "name": "SM: Icicle Pyramid Key",
+            "region": "SM: Snowball Valley"
+          },
+          {
+            "name": "SM: Frosty Village 2",
+            "region": "SM: Frosty Village"
+          },
+          {
+            "name": "SI: Whale Bay 2",
+            "region": "SI: Whale Bay"
+          },
+          {
+            "name": "SI: Crescent Island 2",
+            "region": "SI: Crescent Island"
+          },
+          {
+            "name": "SI: Darkwater Beach Key",
+            "region": "SI: Crescent Island"
+          },
+          {
+            "name": "SI: Pirate Lagoon 2",
+            "region": "SI: Pirate Lagoon"
+          },
+          {
+            "name": "SI: Treasure Caves 2",
+            "region": "SI: Treasure Caves"
+          },
+          {
+            "name": "DF: Windmill Plains 2",
+            "region": "DF: Windmill Plains"
+          },
+          {
+            "name": "DF: Greenwood Village 2",
+            "region": "DF: Greenwood Village"
+          },
+          {
+            "name": "DF: Boulder Canyon 2",
+            "region": "DF: Boulder Canyon"
+          },
+          {
+            "name": "DF: Smokey Castle Key",
+            "region": "DF: Boulder Canyon"
+          },
+          {
+            "name": "DF: Haunted Woods 2",
+            "region": "DF: Haunted Woods"
+          }
+        ],
+        "total_entrances": 34,
+        "entrances_with_explain": 28,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 6,
+        "entrance_explain_coverage_percent": 82.35,
+        "entrances_without_explain_list": [
+          {
+            "name": "Dino Domain Door",
+            "from_region": "Timber's Island",
+            "to_region": "Dino Domain"
+          },
+          {
+            "name": "Snowflake Mountain Door",
+            "from_region": "Timber's Island",
+            "to_region": "Snowflake Mountain"
+          },
+          {
+            "name": "Sherbet Island Door",
+            "from_region": "Timber's Island",
+            "to_region": "Sherbet Island"
+          },
+          {
+            "name": "Dragon Forest Door",
+            "from_region": "Timber's Island",
+            "to_region": "Dragon Forest"
+          },
+          {
+            "name": "TI: Wizpig 1 Door",
+            "from_region": "Timber's Island",
+            "to_region": "TI: Wizpig 1"
+          },
+          {
+            "name": "Future Fun Land Door",
+            "from_region": "Timber's Island",
+            "to_region": "Future Fun Land"
+          }
+        ]
+      }
+    },
+    "Golden Sun The Lost Age.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 37.2
+      },
+      "world_info": {
+        "game_name": "Golden Sun The Lost Age",
+        "world_directory": "gstla"
+      },
+      "timestamp": "2026-02-04T20:44:51.285189",
+      "explain_stats": {
+        "game": "Golden Sun The Lost Age WorldGen_79645483297583998146",
+        "total_locations": 319,
+        "locations_with_explain": 216,
+        "locations_default_rule": 103,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 76,
+        "entrances_with_explain": 31,
+        "entrances_default_rule": 45,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "K-On! After School Live!!.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 29.36
+      },
+      "world_info": {
+        "game_name": "K-On! After School Live!!",
+        "world_directory": "kon"
+      },
+      "timestamp": "2026-02-04T20:45:20.658558",
+      "explain_stats": {
+        "game": "K-On! After School Live!! WorldGen_55977854110148887761",
+        "total_locations": 181,
+        "locations_with_explain": 178,
+        "locations_default_rule": 3,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 20,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 20,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Little Witch Nobeta.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.7
+      },
+      "world_info": {
+        "game_name": "Little Witch Nobeta",
+        "world_directory": "little_witch_nobeta"
+      },
+      "timestamp": "2026-02-04T20:45:48.364828",
+      "explain_stats": {
+        "game": "Little Witch Nobeta WorldGen_55977854110148887761",
+        "total_locations": 55,
+        "locations_with_explain": 15,
+        "locations_default_rule": 40,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 109,
+        "entrances_with_explain": 60,
+        "entrances_default_rule": 49,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Monster Sanctuary.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            4,
+            2,
+            1,
+            5,
+            6,
+            7,
+            9
+          ]
+        },
+        "elapsed_seconds": 45.36
+      },
+      "world_info": {
+        "game_name": "Monster Sanctuary",
+        "world_directory": "monster_sanctuary"
+      },
+      "timestamp": "2026-02-04T20:46:33.755847"
+    },
+    "Rain World.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 3,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 7,
+        "errors": {},
+        "elapsed_seconds": 30.1
+      },
+      "world_info": {
+        "game_name": "Rain World",
+        "world_directory": "rain_world"
+      },
+      "timestamp": "2026-02-04T20:47:03.886056"
+    },
+    "Sly 2 Band of Thieves.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 6,
+        "timeout": 0,
+        "ignored": 4,
+        "errors": {
+          "None": [
+            0,
+            5,
+            9,
+            2,
+            1,
+            3
+          ]
+        },
+        "elapsed_seconds": 24.71
+      },
+      "world_info": {
+        "game_name": "Sly 2: Band of Thieves",
+        "world_directory": "sly2"
+      },
+      "timestamp": "2026-02-04T20:47:28.611020"
+    },
+    "Star Fox 64.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 29.44
+      },
+      "world_info": {
+        "game_name": "Star Fox 64",
+        "world_directory": "star_fox_64"
+      },
+      "timestamp": "2026-02-04T20:47:58.063799"
+    },
+    "The Legend of Zelda - Phantom Hourglass.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "Phantom Hourglass: failed GER after 10 attempts.": [
+            2,
+            5
+          ],
+          "None": [
+            4,
+            3,
+            6,
+            0,
+            1,
+            7,
+            8,
+            9
+          ]
+        },
+        "elapsed_seconds": 35.93
+      },
+      "world_info": {
+        "game_name": "The Legend of Zelda - Phantom Hourglass",
+        "world_directory": "tloz_ph"
+      },
+      "timestamp": "2026-02-04T20:48:34.023965"
+    },
+    "Zelda II The Adventure of Link.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 28.22
+      },
+      "world_info": {
+        "game_name": "Zelda II: The Adventure of Link",
+        "world_directory": "zelda2"
+      },
+      "timestamp": "2026-02-04T20:49:02.255752",
+      "explain_stats": {
+        "game": "Zelda II: The Adventure of Link WorldGen_79645483297583998146",
+        "total_locations": 106,
+        "locations_with_explain": 80,
+        "locations_default_rule": 26,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 22,
+        "entrances_with_explain": 14,
+        "entrances_default_rule": 7,
+        "entrances_without_explain": 1,
+        "entrance_explain_coverage_percent": 93.33,
+        "entrances_without_explain_list": [
+          {
+            "name": "Southeastern Hyrule -> Great Palace",
+            "from_region": "Southeastern Hyrule",
+            "to_region": "Great Palace"
+          }
+        ]
+      }
+    },
+    "A Difficult Game About Climbing.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 24.34
+      },
+      "world_info": {
+        "game_name": "A Difficult Game About Climbing",
+        "world_directory": "difficult_climbing"
+      },
+      "timestamp": "2026-02-04T20:43:11.354825",
+      "explain_stats": {
+        "game": "A Difficult Game About Climbing WorldGen_55977854110148887761",
+        "total_locations": 16,
+        "locations_with_explain": 0,
+        "locations_default_rule": 16,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 5,
+        "entrances_with_explain": 5,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Ape Escape.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 24.04
+      },
+      "world_info": {
+        "game_name": "Ape Escape",
+        "world_directory": "apeescape"
+      },
+      "timestamp": "2026-02-04T20:43:35.419295"
+    },
+    "ClusterTruck.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "FillError": [
+            0,
+            4,
+            7,
+            8,
+            1,
+            3,
+            2
+          ]
+        },
+        "elapsed_seconds": 22.94
+      },
+      "world_info": {
+        "game_name": "ClusterTruck",
+        "world_directory": "cluster_truck"
+      },
+      "timestamp": "2026-02-04T20:43:58.373059"
+    },
+    "Dome Keeper.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.18
+      },
+      "world_info": {
+        "game_name": "Dome Keeper",
+        "world_directory": "dome_keeper"
+      },
+      "timestamp": "2026-02-04T20:44:25.569807",
+      "explain_stats": {
+        "game": "Dome Keeper WorldGen_79645483297583998146",
+        "total_locations": 94,
+        "locations_with_explain": 0,
+        "locations_default_rule": 94,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 3,
+        "entrances_with_explain": 2,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Hammerwatch.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 4,
+        "failure": 5,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          "None": [
+            4,
+            6,
+            7,
+            9,
+            3
+          ]
+        },
+        "elapsed_seconds": 25.1
+      },
+      "world_info": {
+        "game_name": "Hammerwatch",
+        "world_directory": "hammerwatch"
+      },
+      "timestamp": "2026-02-04T20:44:50.692521"
+    },
+    "Kingdom Hearts Birth by Sleep.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 28.01
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts Birth by Sleep",
+        "world_directory": "khbbs"
+      },
+      "timestamp": "2026-02-04T20:45:18.710034",
+      "explain_stats": {
+        "game": "Kingdom Hearts Birth by Sleep WorldGen_79645483297583998146",
+        "total_locations": 223,
+        "locations_with_explain": 56,
+        "locations_default_rule": 167,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 14,
+        "entrances_with_explain": 11,
+        "entrances_default_rule": 3,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Lunacid.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 1,
+        "failure": 9,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            3,
+            5,
+            2,
+            6,
+            7,
+            8,
+            1,
+            9
+          ]
+        },
+        "elapsed_seconds": 23.91
+      },
+      "world_info": {
+        "game_name": "Lunacid",
+        "world_directory": "lunacid"
+      },
+      "timestamp": "2026-02-04T20:45:42.639253"
+    },
+    "Ori and the Blind Forest.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.29
+      },
+      "world_info": {
+        "game_name": "Ori and the Blind Forest",
+        "world_directory": "oribf"
+      },
+      "timestamp": "2026-02-04T20:46:07.945514"
+    },
+    "Reventure.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.26
+      },
+      "world_info": {
+        "game_name": "Reventure",
+        "world_directory": "reventure"
+      },
+      "timestamp": "2026-02-04T20:46:31.211668"
+    },
+    "Sonic Adventure DX.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 5,
+        "timeout": 0,
+        "ignored": 5,
+        "errors": {
+          "None": [
+            0,
+            4,
+            6,
+            3,
+            2
+          ]
+        },
+        "elapsed_seconds": 24.94
+      },
+      "world_info": {
+        "game_name": "Sonic Adventure DX",
+        "world_directory": "sadx"
+      },
+      "timestamp": "2026-02-04T20:46:56.182413"
+    },
+    "Super Cat Planet.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 27.21
+      },
+      "world_info": {
+        "game_name": "Super Cat Planet",
+        "world_directory": "scp"
+      },
+      "timestamp": "2026-02-04T20:47:23.405773",
+      "explain_stats": {
+        "game": "Super Cat Planet WorldGen_11408892729106005028",
+        "total_locations": 244,
+        "locations_with_explain": 51,
+        "locations_default_rule": 193,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 33,
+        "entrances_with_explain": 29,
+        "entrances_default_rule": 4,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "TurnipBoy.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.3
+      },
+      "world_info": {
+        "game_name": "TurnipBoy",
+        "world_directory": "turnipboy"
+      },
+      "timestamp": "2026-02-04T20:47:48.709908",
+      "explain_stats": {
+        "game": "TurnipBoy WorldGen_55977854110148887761",
+        "total_locations": 45,
+        "locations_with_explain": 22,
+        "locations_default_rule": 23,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 44,
+        "entrances_with_explain": 38,
+        "entrances_default_rule": 6,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "plateup.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          "None": [
+            1,
+            2,
+            0,
+            6,
+            5,
+            7,
+            3
+          ]
+        },
+        "elapsed_seconds": 81.13
+      },
+      "world_info": {
+        "game_name": "plateup",
+        "world_directory": "plateup"
+      },
+      "timestamp": "2026-02-04T20:49:09.853982"
+    },
+    "A Link Between Worlds.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 8,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            3,
+            2,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "elapsed_seconds": 30.02
+      },
+      "world_info": {
+        "game_name": "A Link Between Worlds",
+        "world_directory": "albw"
+      },
+      "timestamp": "2026-02-04T20:43:12.059110"
+    },
+    "Astalon.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 5,
+        "failure": 3,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {
+          "None": [
+            4,
+            7,
+            8
+          ]
+        },
+        "elapsed_seconds": 24.96
+      },
+      "world_info": {
+        "game_name": "Astalon",
+        "world_directory": "astalon"
+      },
+      "timestamp": "2026-02-04T20:43:37.030611"
+    },
+    "Corn Kidz 64.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.96
+      },
+      "world_info": {
+        "game_name": "Corn Kidz 64",
+        "world_directory": "cornkidz64"
+      },
+      "timestamp": "2026-02-04T20:44:00.999557"
+    },
+    "Duke Nukem 3D.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 1,
+        "failure": 8,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          "None": [
+            0,
+            2,
+            4,
+            6,
+            1,
+            5,
+            7,
+            9
+          ]
+        },
+        "elapsed_seconds": 24.02
+      },
+      "world_info": {
+        "game_name": "Duke Nukem 3D",
+        "world_directory": "duke3d"
+      },
+      "timestamp": "2026-02-04T20:44:25.036923"
+    },
+    "Hatsune Miku Project Diva Mega Mix+.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 29.21
+      },
+      "world_info": {
+        "game_name": "Hatsune Miku Project Diva Mega Mix+",
+        "world_directory": "megamix"
+      },
+      "timestamp": "2026-02-04T20:44:54.266179",
+      "explain_stats": {
+        "game": "Hatsune Miku Project Diva Mega Mix+ WorldGen_79645483297583998146",
+        "total_locations": 500,
+        "locations_with_explain": 500,
+        "locations_default_rule": 0,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 0,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Kingdom Hearts Chain of Memories.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.89
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts Chain of Memories",
+        "world_directory": "khcom"
+      },
+      "timestamp": "2026-02-04T20:45:20.161538",
+      "explain_stats": {
+        "game": "Kingdom Hearts Chain of Memories WorldGen_79645483297583998146",
+        "total_locations": 151,
+        "locations_with_explain": 29,
+        "locations_default_rule": 122,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 15,
+        "entrances_with_explain": 12,
+        "entrances_default_rule": 3,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Majora's Mask Recompiled.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.9
+      },
+      "world_info": {
+        "game_name": "Majora's Mask Recompiled",
+        "world_directory": "mm_recomp"
+      },
+      "timestamp": "2026-02-04T20:45:44.079997"
+    },
+    "Ori and the Will of the Wisps.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 5,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {
+          "None": [
+            2,
+            4,
+            7,
+            8
+          ],
+          "None of the available entrances are valid targets for the available exits.\nRandomization stage is placing dead ends and requires new region/exit access by default\nPlaceable entrances: {0: [GladesTown.MotayHutInside (Door) (Player 1), GladesTown.StorageHut (Door) (Player 1)]}\nPlaceable exits: []\nAll unplaced entrances: [GladesTown.MotayHutInside (Door) (Player 1), GladesTown.StorageHut (Door) (Player 1)]\nAll unplaced exits: [GladesTown.MotayHutInside (Door), GladesTown.StorageHut (Door)]": [
+            5
+          ]
+        },
+        "elapsed_seconds": 30.65
+      },
+      "world_info": {
+        "game_name": "Ori and the Will of the Wisps",
+        "world_directory": "ori_wotw"
+      },
+      "timestamp": "2026-02-04T20:46:14.743109"
+    },
+    "Rift Wizard.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.39
+      },
+      "world_info": {
+        "game_name": "Rift Wizard",
+        "world_directory": "riftwizard"
+      },
+      "timestamp": "2026-02-04T20:46:40.142005",
+      "explain_stats": {
+        "game": "Rift Wizard WorldGen_11408892729106005028",
+        "total_locations": 92,
+        "locations_with_explain": 89,
+        "locations_default_rule": 3,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Sonic Heroes.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 0,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 10,
+        "errors": {},
+        "elapsed_seconds": 23.43
+      },
+      "world_info": {
+        "game_name": "Sonic Heroes",
+        "world_directory": "sonic_heroes"
+      },
+      "timestamp": "2026-02-04T20:47:03.591345"
+    },
+    "Symphony of the Night.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 30.87
+      },
+      "world_info": {
+        "game_name": "Symphony of the Night",
+        "world_directory": "sotn"
+      },
+      "timestamp": "2026-02-04T20:47:34.474403",
+      "explain_stats": {
+        "game": "Symphony of the Night WorldGen_22708164196567875238",
+        "total_locations": 187,
+        "locations_with_explain": 20,
+        "locations_default_rule": 167,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 42,
+        "entrances_with_explain": 12,
+        "entrances_default_rule": 30,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Tyrian.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 5,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 4,
+        "errors": {
+          "None": [
+            8
+          ]
+        },
+        "elapsed_seconds": 25.17
+      },
+      "world_info": {
+        "game_name": "Tyrian",
+        "world_directory": "tyrian"
+      },
+      "timestamp": "2026-02-04T20:47:59.663345"
+    },
+    "ANIMAL WELL.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 24.28
+      },
+      "world_info": {
+        "game_name": "ANIMAL WELL",
+        "world_directory": "animal_well"
+      },
+      "timestamp": "2026-02-04T20:43:05.639777"
+    },
+    "Autopelago.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 26.9
+      },
+      "world_info": {
+        "game_name": "Autopelago",
+        "world_directory": "autopelago"
+      },
+      "timestamp": "2026-02-04T20:43:32.553373",
+      "explain_stats": {
+        "game": "Autopelago WorldGen_79645483297583998146",
+        "total_locations": 246,
+        "locations_with_explain": 21,
+        "locations_default_rule": 225,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 46,
+        "entrances_with_explain": 23,
+        "entrances_default_rule": 23,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "CrossCode.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.56
+      },
+      "world_info": {
+        "game_name": "CrossCode",
+        "world_directory": "crosscode"
+      },
+      "timestamp": "2026-02-04T20:43:58.128998"
+    },
+    "Final Fantasy Tactics A2.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 3,
+        "errors": {
+          "Too many non-special starting units to randomize": [
+            0,
+            3,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "elapsed_seconds": 27.05
+      },
+      "world_info": {
+        "game_name": "Final Fantasy Tactics A2",
+        "world_directory": "ffta2"
+      },
+      "timestamp": "2026-02-04T20:44:25.187700"
+    },
+    "Here Comes Niko!.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 38.21
+      },
+      "world_info": {
+        "game_name": "Here Comes Niko!",
+        "world_directory": "hcniko"
+      },
+      "timestamp": "2026-02-04T20:45:03.422714",
+      "explain_stats": {
+        "game": "Here Comes Niko! WorldGen_11408892729106005028",
+        "total_locations": 979,
+        "locations_with_explain": 319,
+        "locations_default_rule": 660,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 31,
+        "entrances_with_explain": 24,
+        "entrances_default_rule": 7,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Kingdom Hearts RE Chain of Memories.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 29.61
+      },
+      "world_info": {
+        "game_name": "Kingdom Hearts RE Chain of Memories",
+        "world_directory": "khrecom"
+      },
+      "timestamp": "2026-02-04T20:45:33.053645"
+    },
+    "Mario Kart Double Dash.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 26.0
+      },
+      "world_info": {
+        "game_name": "Mario Kart Double Dash",
+        "world_directory": "mario_kart_double_dash"
+      },
+      "timestamp": "2026-02-04T20:45:59.064123"
+    },
+    "Oxygen Not Included.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 8,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          " - 1 already exists in the location cache.": [
+            0
+          ]
+        },
+        "elapsed_seconds": 24.08
+      },
+      "world_info": {
+        "game_name": "Oxygen Not Included",
+        "world_directory": "oni"
+      },
+      "timestamp": "2026-02-04T20:46:23.157452"
+    },
+    "Rift of the Necrodancer.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 3,
+        "timeout": 0,
+        "ignored": 4,
+        "errors": {
+          "None": [
+            0,
+            3,
+            8
+          ]
+        },
+        "elapsed_seconds": 24.04
+      },
+      "world_info": {
+        "game_name": "Rift of the Necrodancer",
+        "world_directory": "rotn"
+      },
+      "timestamp": "2026-02-04T20:46:47.204487"
+    },
+    "Sonic Rush.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.76
+      },
+      "world_info": {
+        "game_name": "Sonic Rush",
+        "world_directory": "sonic_rush"
+      },
+      "timestamp": "2026-02-04T20:47:10.971675"
+    },
+    "System Shock 2.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 6,
+        "failure": 3,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {
+          "FillError": [
+            5,
+            7,
+            9
+          ]
+        },
+        "elapsed_seconds": 25.11
+      },
+      "world_info": {
+        "game_name": "System Shock 2",
+        "world_directory": "ss2"
+      },
+      "timestamp": "2026-02-04T20:47:36.094471"
+    },
+    "Vampire Survivors.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 4,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 6,
+        "errors": {},
+        "elapsed_seconds": 25.92
+      },
+      "world_info": {
+        "game_name": "Vampire Survivors",
+        "world_directory": "vampire_survivors"
+      },
+      "timestamp": "2026-02-04T20:48:02.022991",
+      "explain_stats": {
+        "game": "Vampire Survivors WorldGen_91109154915326795643",
+        "total_locations": 170,
+        "locations_with_explain": 64,
+        "locations_default_rule": 106,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 17,
+        "entrances_with_explain": 16,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Actraiser.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 24.29
+      },
+      "world_info": {
+        "game_name": "Actraiser",
+        "world_directory": "actraiser"
+      },
+      "timestamp": "2026-02-04T20:43:07.320345",
+      "explain_stats": {
+        "game": "Actraiser WorldGen_55977854110148887761",
+        "total_locations": 173,
+        "locations_with_explain": 55,
+        "locations_default_rule": 118,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 20,
+        "entrances_with_explain": 14,
+        "entrances_default_rule": 6,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Axiom Verge.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 21.03
+      },
+      "world_info": {
+        "game_name": "Axiom Verge",
+        "world_directory": "axiomverge"
+      },
+      "timestamp": "2026-02-04T20:43:28.360662"
+    },
+    "Crystal Project.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            2,
+            7,
+            1,
+            5
+          ],
+          "For player 4-0: YAML settings were contradictory. Regionsanity Starter Level Min Value 60 is higher than Regionsanity Starter Level Max Value 31. Change settings and regenerate.": [
+            4
+          ],
+          "For player 9-0: YAML settings were contradictory. Regionsanity Starter Level Min Value 41 is higher than Regionsanity Starter Level Max Value 9. Change settings and regenerate.": [
+            9
+          ]
+        },
+        "elapsed_seconds": 23.41
+      },
+      "world_info": {
+        "game_name": "Crystal Project",
+        "world_directory": "crystal_project"
+      },
+      "timestamp": "2026-02-04T20:43:51.796612"
+    },
+    "Final Fantasy Tactics Advance.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 22.17
+      },
+      "world_info": {
+        "game_name": "Final Fantasy Tactics Advance",
+        "world_directory": "ffta"
+      },
+      "timestamp": "2026-02-04T20:44:13.991164"
+    },
+    "Iji.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 22.13
+      },
+      "world_info": {
+        "game_name": "Iji",
+        "world_directory": "iji"
+      },
+      "timestamp": "2026-02-04T20:44:36.134778"
+    },
+    "Kirby Super Star.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 0,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 10,
+        "errors": {},
+        "elapsed_seconds": 20.19
+      },
+      "world_info": {
+        "game_name": "Kirby Super Star",
+        "world_directory": "kss"
+      },
+      "timestamp": "2026-02-04T20:44:56.332580"
+    },
+    "MetroCUBEvania.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 22.36
+      },
+      "world_info": {
+        "game_name": "MetroCUBEvania",
+        "world_directory": "metrocubevania"
+      },
+      "timestamp": "2026-02-04T20:45:18.694334",
+      "explain_stats": {
+        "game": "MetroCUBEvania WorldGen_79645483297583998146",
+        "total_locations": 9,
+        "locations_with_explain": 2,
+        "locations_default_rule": 7,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 5,
+        "entrances_with_explain": 4,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Pizza Tower.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 6,
+        "failure": 4,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            5,
+            7,
+            2
+          ]
+        },
+        "elapsed_seconds": 22.08
+      },
+      "world_info": {
+        "game_name": "Pizza Tower",
+        "world_directory": "pizza_tower"
+      },
+      "timestamp": "2026-02-04T20:45:40.786793"
+    },
+    "Rusted Moss.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 6,
+        "failure": 4,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "Rusted Moss character Ameli is not available with this AP World. Valid options are `fern` or `gimmick`.": [
+            1,
+            5
+          ],
+          "Rusted Moss character Maya is not available with this AP World. Valid options are `fern` or `gimmick`.": [
+            7,
+            8
+          ]
+        },
+        "elapsed_seconds": 23.19
+      },
+      "world_info": {
+        "game_name": "Rusted Moss",
+        "world_directory": "rusted_moss"
+      },
+      "timestamp": "2026-02-04T20:46:03.980642"
+    },
+    "Sonic the Hedgehog 1.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 40.52
+      },
+      "world_info": {
+        "game_name": "Sonic the Hedgehog 1",
+        "world_directory": "sonic1"
+      },
+      "timestamp": "2026-02-04T20:46:44.515654",
+      "explain_stats": {
+        "game": "Sonic the Hedgehog 1 WorldGen_79645483297583998146",
+        "total_locations": 208,
+        "locations_with_explain": 0,
+        "locations_default_rule": 208,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 31,
+        "entrances_with_explain": 13,
+        "entrances_default_rule": 18,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "TCG Card Shop Simulator.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            4,
+            1,
+            3,
+            2,
+            6,
+            7,
+            8,
+            5,
+            9
+          ]
+        },
+        "elapsed_seconds": 23.0
+      },
+      "world_info": {
+        "game_name": "TCG Card Shop Simulator",
+        "world_directory": "tcg_card_shop_simulator"
+      },
+      "timestamp": "2026-02-04T20:47:07.537296"
+    },
+    "Wario Land.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "/home/runner/work/Archipelago-CC/Archipelago-CC/Wario Land - Super Mario Land 3 (World).gb": [
+            0,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            1,
+            3,
+            2
+          ]
+        },
+        "elapsed_seconds": 20.67
+      },
+      "world_info": {
+        "game_name": "Wario Land",
+        "world_directory": "wl"
+      },
+      "timestamp": "2026-02-04T20:47:28.222619"
+    },
+    "Against the Storm.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "FillError": [
+            1,
+            6,
+            9,
+            0
+          ],
+          "None": [
+            2,
+            5,
+            7,
+            8,
+            4,
+            3
+          ]
+        },
+        "elapsed_seconds": 27.24
+      },
+      "world_info": {
+        "game_name": "Against the Storm",
+        "world_directory": "against_the_storm"
+      },
+      "timestamp": "2026-02-04T20:43:24.801267"
+    },
+    "Balatro.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 6,
+        "timeout": 0,
+        "ignored": 4,
+        "errors": {
+          "list index out of range": [
+            0,
+            2,
+            4
+          ],
+          "None": [
+            3,
+            9,
+            6
+          ]
+        },
+        "elapsed_seconds": 28.08
+      },
+      "world_info": {
+        "game_name": "Balatro",
+        "world_directory": "balatro"
+      },
+      "timestamp": "2026-02-04T20:43:52.902318"
+    },
+    "Crystalis.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 7,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 3,
+        "errors": {},
+        "elapsed_seconds": 25.56
+      },
+      "world_info": {
+        "game_name": "Crystalis",
+        "world_directory": "crystalis"
+      },
+      "timestamp": "2026-02-04T20:44:18.481231"
+    },
+    "Fire Emblem Sacred Stones.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 7,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            1,
+            3,
+            2,
+            9,
+            6,
+            7
+          ]
+        },
+        "elapsed_seconds": 24.52
+      },
+      "world_info": {
+        "game_name": "Fire Emblem Sacred Stones",
+        "world_directory": "fe8"
+      },
+      "timestamp": "2026-02-04T20:44:43.018035"
+    },
+    "Into the Breach.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 8,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "No module named 'pysat'": [
+            0,
+            4,
+            5,
+            6,
+            7,
+            8,
+            2,
+            9
+          ]
+        },
+        "elapsed_seconds": 23.99
+      },
+      "world_info": {
+        "game_name": "Into the Breach",
+        "world_directory": "into_the_breach"
+      },
+      "timestamp": "2026-02-04T20:45:07.013267"
+    },
+    "League of Legends.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 34.85
+      },
+      "world_info": {
+        "game_name": "League of Legends",
+        "world_directory": "lol"
+      },
+      "timestamp": "2026-02-04T20:45:41.877270",
+      "explain_stats": {
+        "game": "League of Legends WorldGen_11408892729106005028",
+        "total_locations": 668,
+        "locations_with_explain": 663,
+        "locations_default_rule": 5,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Metroid Fusion.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 33.27
+      },
+      "world_info": {
+        "game_name": "Metroid Fusion",
+        "world_directory": "metroidfusion"
+      },
+      "timestamp": "2026-02-04T20:46:15.166062"
+    },
+    "Pokemon FireRed and LeafGreen.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            7
+          ]
+        },
+        "elapsed_seconds": 37.49
+      },
+      "world_info": {
+        "game_name": "Pokemon FireRed and LeafGreen",
+        "world_directory": "pokemon_frlg"
+      },
+      "timestamp": "2026-02-04T20:46:52.710812"
+    },
+    "Sentinels of the Multiverse.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 8,
+        "timeout": 2,
+        "ignored": 0,
+        "errors": {
+          "FillError": [
+            1,
+            0,
+            4,
+            2,
+            6,
+            7,
+            8,
+            3
+          ],
+          "<class 'TimeoutError'>": [
+            5,
+            9
+          ]
+        },
+        "elapsed_seconds": 102.71
+      },
+      "world_info": {
+        "game_name": "Sentinels of the Multiverse",
+        "world_directory": "sotm"
+      },
+      "timestamp": "2026-02-04T20:48:35.437117"
+    },
+    "Soul Blazer.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.52
+      },
+      "world_info": {
+        "game_name": "Soul Blazer",
+        "world_directory": "soulblazer"
+      },
+      "timestamp": "2026-02-04T20:48:58.968675"
+    },
+    "TOEM A Photo Adventure.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 25.01
+      },
+      "world_info": {
+        "game_name": "TOEM: A Photo Adventure",
+        "world_directory": "toem"
+      },
+      "timestamp": "2026-02-04T20:49:23.985321",
+      "explain_stats": {
+        "game": "TOEM original WorldGen_11408892729106005028",
+        "total_locations": 214,
+        "locations_with_explain": 4,
+        "locations_default_rule": 210,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 6,
+        "entrances_with_explain": 5,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Watery Words.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 57.75
+      },
+      "world_info": {
+        "game_name": "Watery Words",
+        "world_directory": "waterywords"
+      },
+      "timestamp": "2026-02-04T20:50:21.742412",
+      "explain_stats": {
+        "game": "Watery Words WorldGen_79645483297583998146",
+        "total_locations": 150,
+        "locations_with_explain": 150,
+        "locations_default_rule": 0,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Air Delivery.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 20.94
+      },
+      "world_info": {
+        "game_name": "Air Delivery",
+        "world_directory": "air_delivery"
+      },
+      "timestamp": "2026-02-04T20:43:07.400231"
+    },
+    "Brotato.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 7,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 3,
+        "errors": {},
+        "elapsed_seconds": 24.27
+      },
+      "world_info": {
+        "game_name": "Brotato",
+        "world_directory": "brotato"
+      },
+      "timestamp": "2026-02-04T20:43:31.691700",
+      "explain_stats": {
+        "game": "Brotato WorldGen_79645483297583998146",
+        "total_locations": 153,
+        "locations_with_explain": 0,
+        "locations_default_rule": 153,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 83,
+        "entrances_with_explain": 83,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Cuphead.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 0,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 10,
+        "errors": {},
+        "elapsed_seconds": 21.08
+      },
+      "world_info": {
+        "game_name": "Cuphead",
+        "world_directory": "cuphead"
+      },
+      "timestamp": "2026-02-04T20:43:52.791135"
+    },
+    "Frogmonster.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 22.22
+      },
+      "world_info": {
+        "game_name": "Frogmonster",
+        "world_directory": "frogmonster"
+      },
+      "timestamp": "2026-02-04T20:44:15.015651"
+    },
+    "Isles Of Sea And Sky.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 30.68
+      },
+      "world_info": {
+        "game_name": "Isles Of Sea And Sky",
+        "world_directory": "isles_of_sea_and_sky"
+      },
+      "timestamp": "2026-02-04T20:44:45.706670",
+      "explain_stats": {
+        "game": "Isles Of Sea And Sky WorldGen_22708164196567875238",
+        "total_locations": 610,
+        "locations_with_explain": 361,
+        "locations_default_rule": 249,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 87,
+        "entrances_with_explain": 44,
+        "entrances_default_rule": 43,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Lego Star Wars The Complete Saga.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 22.06
+      },
+      "world_info": {
+        "game_name": "Lego Star Wars: The Complete Saga",
+        "world_directory": "lego_star_wars_tcs"
+      },
+      "timestamp": "2026-02-04T20:45:07.812153"
+    },
+    "Metroid Zero Mission.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 21.38
+      },
+      "world_info": {
+        "game_name": "Metroid Zero Mission",
+        "world_directory": "mzm"
+      },
+      "timestamp": "2026-02-04T20:45:29.206928"
+    },
+    "Pokemon Mystery Dungeon Explorers of Sky.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 8,
+        "failure": 2,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "'Team Name Location'": [
+            3,
+            2
+          ]
+        },
+        "elapsed_seconds": 22.58
+      },
+      "world_info": {
+        "game_name": "Pokemon Mystery Dungeon Explorers of Sky",
+        "world_directory": "pmd_eos"
+      },
+      "timestamp": "2026-02-04T20:45:51.807083"
+    },
+    "Shadow The Hedgehog.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 2,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 8,
+        "errors": {},
+        "elapsed_seconds": 27.67
+      },
+      "world_info": {
+        "game_name": "Shadow The Hedgehog",
+        "world_directory": "shadow_the_hedgehog"
+      },
+      "timestamp": "2026-02-04T20:46:19.517407"
+    },
+    "Spinball.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 21.72
+      },
+      "world_info": {
+        "game_name": "Spinball",
+        "world_directory": "spinball"
+      },
+      "timestamp": "2026-02-04T20:46:41.245086",
+      "explain_stats": {
+        "game": "Spinball WorldGen_11408892729106005028",
+        "total_locations": 2,
+        "locations_with_explain": 1,
+        "locations_default_rule": 1,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Tetris Attack.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 8,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {},
+        "elapsed_seconds": 27.9
+      },
+      "world_info": {
+        "game_name": "Tetris Attack",
+        "world_directory": "tetrisattack"
+      },
+      "timestamp": "2026-02-04T20:47:09.161166"
+    },
+    "Wordipelago.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 8,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {},
+        "elapsed_seconds": 25.18
+      },
+      "world_info": {
+        "game_name": "Wordipelago",
+        "world_directory": "wordipelago"
+      },
+      "timestamp": "2026-02-04T20:47:34.356522",
+      "explain_stats": {
+        "game": "Wordipelago WorldGen_81209627519868761947",
+        "total_locations": 160,
+        "locations_with_explain": 6,
+        "locations_default_rule": 154,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 27,
+        "entrances_with_explain": 19,
+        "entrances_default_rule": 8,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "An Untitled Story.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 24.11
+      },
+      "world_info": {
+        "game_name": "An Untitled Story",
+        "world_directory": "aus"
+      },
+      "timestamp": "2026-02-04T20:43:03.441540",
+      "explain_stats": {
+        "game": "An Untitled Story WorldGen_55977854110148887761",
+        "total_locations": 166,
+        "locations_with_explain": 101,
+        "locations_default_rule": 65,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 16,
+        "entrances_with_explain": 13,
+        "entrances_default_rule": 3,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Castlevania Dawn of Sorrow.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 26.81
+      },
+      "world_info": {
+        "game_name": "Castlevania: Dawn of Sorrow",
+        "world_directory": "cv_dos"
+      },
+      "timestamp": "2026-02-04T20:43:30.258958",
+      "explain_stats": {
+        "game": "Castlevania: Dawn of Sorrow WorldGen_79645483297583998146",
+        "total_locations": 226,
+        "locations_with_explain": 90,
+        "locations_default_rule": 136,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 371,
+        "entrances_with_explain": 81,
+        "entrances_default_rule": 290,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "DORONKO WANKO.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 23.67
+      },
+      "world_info": {
+        "game_name": "DORONKO WANKO",
+        "world_directory": "doronko_wanko"
+      },
+      "timestamp": "2026-02-04T20:43:53.935482",
+      "explain_stats": {
+        "game": "DORONKO WANKO WorldGen_79645483297583998146",
+        "total_locations": 95,
+        "locations_with_explain": 4,
+        "locations_default_rule": 91,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 6,
+        "entrances_with_explain": 5,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "GZDoom.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "<class 'AttributeError'>": [
+            0,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            1,
+            2,
+            3
+          ]
+        },
+        "elapsed_seconds": 21.67
+      },
+      "world_info": {
+        "game_name": "GZDoom",
+        "world_directory": "gzdoom"
+      },
+      "timestamp": "2026-02-04T20:44:15.618422"
+    },
+    "Ittle Dew 2.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 1,
+        "errors": {},
+        "elapsed_seconds": 33.63
+      },
+      "world_info": {
+        "game_name": "Ittle Dew 2",
+        "world_directory": "ittle_dew_2"
+      },
+      "timestamp": "2026-02-04T20:44:49.271988",
+      "explain_stats": {
+        "game": "Ittle Dew 2 WorldGen_55977854110148887761",
+        "total_locations": 235,
+        "locations_with_explain": 235,
+        "locations_default_rule": 0,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1317,
+        "entrances_with_explain": 1317,
+        "entrances_default_rule": 0,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Lil Gator Game.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 24.01
+      },
+      "world_info": {
+        "game_name": "Lil Gator Game",
+        "world_directory": "lil_gator_game"
+      },
+      "timestamp": "2026-02-04T20:45:13.291899",
+      "explain_stats": {
+        "game": "Lil Gator Game WorldGen_79645483297583998146",
+        "total_locations": 219,
+        "locations_with_explain": 178,
+        "locations_default_rule": 41,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 12,
+        "entrances_with_explain": 8,
+        "entrances_default_rule": 4,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Minishoot Adventures.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            4,
+            1,
+            3,
+            2,
+            7,
+            5,
+            8,
+            6,
+            9
+          ]
+        },
+        "elapsed_seconds": 23.09
+      },
+      "world_info": {
+        "game_name": "Minishoot Adventures",
+        "world_directory": "minishoot"
+      },
+      "timestamp": "2026-02-04T20:45:36.388990"
+    },
+    "Pseudoregalia.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 21.85
+      },
+      "world_info": {
+        "game_name": "Pseudoregalia",
+        "world_directory": "pseudoregalia"
+      },
+      "timestamp": "2026-02-04T20:45:58.251699"
+    },
+    "Ship of Harkinian.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 8,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            3,
+            2,
+            4,
+            6,
+            5,
+            7,
+            9,
+            8
+          ]
+        },
+        "elapsed_seconds": 35.14
+      },
+      "world_info": {
+        "game_name": "Ship of Harkinian",
+        "world_directory": "oot_soh"
+      },
+      "timestamp": "2026-02-04T20:46:33.436623"
+    },
+    "Spyro 3.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 5,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {
+          "None": [
+            3,
+            8,
+            6,
+            9,
+            2
+          ]
+        },
+        "elapsed_seconds": 24.83
+      },
+      "world_info": {
+        "game_name": "Spyro 3",
+        "world_directory": "spyro3"
+      },
+      "timestamp": "2026-02-04T20:46:58.293900"
+    },
+    "Tevi.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 50.35
+      },
+      "world_info": {
+        "game_name": "Tevi",
+        "world_directory": "tevi"
+      },
+      "timestamp": "2026-02-04T20:47:48.659425"
+    },
+    "Yu-Gi-Oh! Dungeon Dice Monsters.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 900.0
+      },
+      "world_info": {
+        "game_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "world_directory": "yugiohddm"
+      },
+      "timestamp": "2026-02-04T21:02:48.672162",
+      "error": "Process timed out after 900 seconds"
+    },
+    "Anodyne.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 24.79
+      },
+      "world_info": {
+        "game_name": "Anodyne",
+        "world_directory": "anodyne"
+      },
+      "timestamp": "2026-02-04T20:43:11.453806"
+    },
+    "Cavern of Dreams.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 6,
+        "timeout": 0,
+        "ignored": 2,
+        "errors": {
+          "None": [
+            2,
+            3,
+            5,
+            0,
+            8,
+            9
+          ]
+        },
+        "elapsed_seconds": 44.84
+      },
+      "world_info": {
+        "game_name": "Cavern of Dreams",
+        "world_directory": "cavern_of_dreams"
+      },
+      "timestamp": "2026-02-04T20:43:56.307769"
+    },
+    "Deep Rock Galactic.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "EOF when reading a line": [
+            0,
+            4,
+            5,
+            6,
+            7,
+            1,
+            2,
+            3,
+            9,
+            8
+          ]
+        },
+        "elapsed_seconds": 22.57
+      },
+      "world_info": {
+        "game_name": "Deep Rock Galactic",
+        "world_directory": "deep_rock_galactic"
+      },
+      "timestamp": "2026-02-04T20:44:18.895374"
+    },
+    "Garfield Kart - Furious Racing.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "compared against a str that could never be equal. RandomizeSpoilers(Off) == on": [
+            0,
+            5,
+            1,
+            3,
+            7,
+            9,
+            8
+          ],
+          "compared against a str that could never be equal. RandomizeSpoilers(Progressive) == on": [
+            4,
+            2,
+            6
+          ]
+        },
+        "elapsed_seconds": 22.37
+      },
+      "world_info": {
+        "game_name": "Garfield Kart - Furious Racing",
+        "world_directory": "garfkart"
+      },
+      "timestamp": "2026-02-04T20:44:41.275289"
+    },
+    "Jigsaw.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 29.57
+      },
+      "world_info": {
+        "game_name": "Jigsaw",
+        "world_directory": "jigsaw"
+      },
+      "timestamp": "2026-02-04T20:45:10.864133",
+      "explain_stats": {
+        "game": "Jigsaw WorldGen_11408892729106005028",
+        "total_locations": 759,
+        "locations_with_explain": 759,
+        "locations_default_rule": 0,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Lingo 2.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "failure": 0,
+        "timeout": 1,
+        "ignored": 0,
+        "errors": {
+          "<class 'TimeoutError'>": [
+            8
+          ]
+        },
+        "elapsed_seconds": 87.82
+      },
+      "world_info": {
+        "game_name": "Lingo 2",
+        "world_directory": "lingo2"
+      },
+      "timestamp": "2026-02-04T20:46:38.695065"
+    },
+    "Minit.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 22.57
+      },
+      "world_info": {
+        "game_name": "Minit",
+        "world_directory": "minit"
+      },
+      "timestamp": "2026-02-04T20:47:01.271638"
+    },
+    "Rabi-Ribi.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 3,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 6,
+        "errors": {
+          "None": [
+            1
+          ]
+        },
+        "elapsed_seconds": 23.92
+      },
+      "world_info": {
+        "game_name": "Rabi-Ribi",
+        "world_directory": "rabi_ribi"
+      },
+      "timestamp": "2026-02-04T20:47:25.211693"
+    },
+    "Simon Tatham's Portable Puzzle Collection.yaml": {
+      "ut_fuzz": {
+        "passed": true,
+        "total": 10,
+        "success": 10,
+        "failure": 0,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {},
+        "elapsed_seconds": 63.29
+      },
+      "world_info": {
+        "game_name": "Simon Tatham's Portable Puzzle Collection",
+        "world_directory": "sgtpuzzles"
+      },
+      "timestamp": "2026-02-04T20:48:28.511134",
+      "explain_stats": {
+        "game": "Simon Tatham's Portable Puzzle Collection WorldGen_11408892729106005028",
+        "total_locations": 758,
+        "locations_with_explain": 758,
+        "locations_default_rule": 0,
+        "locations_without_explain": 0,
+        "explain_coverage_percent": 100.0,
+        "locations_without_explain_list": [],
+        "total_entrances": 1,
+        "entrances_with_explain": 0,
+        "entrances_default_rule": 1,
+        "entrances_without_explain": 0,
+        "entrance_explain_coverage_percent": 100.0,
+        "entrances_without_explain_list": []
+      }
+    },
+    "Stacklands.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 9,
+        "failure": 1,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            5
+          ]
+        },
+        "elapsed_seconds": 23.19
+      },
+      "world_info": {
+        "game_name": "Stacklands",
+        "world_directory": "stacklands"
+      },
+      "timestamp": "2026-02-04T20:48:51.719435"
+    },
+    "The Legend of Zelda - Oracle of Seasons.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 2,
+        "failure": 8,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9
+          ]
+        },
+        "elapsed_seconds": 26.67
+      },
+      "world_info": {
+        "game_name": "The Legend of Zelda - Oracle of Seasons",
+        "world_directory": "tloz_oos"
+      },
+      "timestamp": "2026-02-04T20:49:18.410693"
+    },
+    "Yu-Gi-Oh! Forbidden Memories.yaml": {
+      "ut_fuzz": {
+        "passed": false,
+        "total": 10,
+        "success": 0,
+        "failure": 10,
+        "timeout": 0,
+        "ignored": 0,
+        "errors": {
+          "None": [
+            0,
+            4,
+            5,
+            2,
+            1,
+            3,
+            6,
+            7,
+            9,
+            8
+          ]
+        },
+        "elapsed_seconds": 22.95
+      },
+      "world_info": {
+        "game_name": "Yu-Gi-Oh! Forbidden Memories",
+        "world_directory": "fm"
+      },
+      "timestamp": "2026-02-04T20:49:41.373046"
+    }
+  }
+}

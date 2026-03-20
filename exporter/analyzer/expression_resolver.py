@@ -31,7 +31,7 @@ class ExpressionResolver:
         self.rule_func = rule_func
         self.player_context = player_context
 
-    def resolve_variable(self, var_name: str) -> Any:
+    def resolve_variable(self, var_name: Optional[str]) -> Any:
         """
         Resolve variable name using function defaults, closure variables, or module globals.
 
@@ -71,7 +71,7 @@ class ExpressionResolver:
         logging.debug(f"Could not resolve variable '{var_name}'")
         return None
 
-    def resolve_expression(self, expr_result: Dict) -> Any:
+    def resolve_expression(self, expr_result: Optional[Dict]) -> Any:
         """
         Resolve a complex expression to its value.
         Handles subscripts, attributes, and simple names.
@@ -126,6 +126,13 @@ class ExpressionResolver:
                     try:
                         # Try to get the attribute
                         resolved = getattr(obj_value, attr_name)
+
+                        # Note: Previously, Option class attributes like Goal.option_vanilla were
+                        # converted to string names (e.g., "vanilla") to match settings exported as strings.
+                        # However, this broke ordered comparisons (e.g., ice_grappling < difficulty).
+                        # Now, both settings and option_* constants are exported as numeric values,
+                        # ensuring consistent comparison behavior matching Python's semantics.
+
                         logging.debug(f"Resolved attribute {attr_name} to value: {resolved}")
                         return resolved
                     except AttributeError as e:
@@ -164,8 +171,96 @@ class ExpressionResolver:
                     return None
             return None
 
-        logging.debug(f"Could not resolve expression of type '{expr_type}'")
+        # Handle function call expressions like Items.coord_for_planet(1)
+        if expr_type == 'function_call' or expr_type == 'AST_function_call':
+            result = self._resolve_function_call(expr_result)
+            if result is not None:
+                return result
+
+        # Also check for "rule" key format (used in JSON rules)
+        rule_type = expr_result.get('rule')
+        if rule_type == 'AST_function_call':
+            result = self._resolve_function_call(expr_result)
+            if result is not None:
+                return result
+        elif rule_type == 'Attribute':
+            # Handle Attribute rule format
+            args = expr_result.get('args', {})
+            obj_result = args.get('object')
+            attr_name = args.get('attr')
+            if obj_result and attr_name:
+                obj_value = self.resolve_expression(obj_result)
+                if obj_value is not None:
+                    try:
+                        resolved = getattr(obj_value, attr_name)
+                        logging.debug(f"Resolved Attribute rule {attr_name} to value: {resolved}")
+                        return resolved
+                    except AttributeError:
+                        pass
+
+        logging.debug(f"Could not resolve expression of type '{expr_type}' / rule '{rule_type}'")
         return None
+
+    def _resolve_function_call(self, expr_result: Dict) -> Any:
+        """
+        Resolve a function call expression to its value.
+
+        Handles patterns like Items.coord_for_planet(1) where:
+        - Items is a module available in function globals
+        - coord_for_planet is a function in that module
+        - 1 is a constant argument
+
+        Args:
+            expr_result: The result dict containing function call info
+
+        Returns:
+            The result of calling the function, or None if it cannot be resolved
+        """
+        try:
+            # Handle two formats:
+            # 1. {'type': 'function_call', 'function': {...}, 'args': [...]}
+            # 2. {'rule': 'AST_function_call', 'args': {'function': {...}, 'args': [...]}}
+            args_val = expr_result.get('args', {})
+            if isinstance(args_val, dict):
+                # Format 2: args is a nested dict
+                func_info = args_val.get('function', expr_result.get('function'))
+                call_args = args_val.get('args', [])
+            else:
+                # Format 1: args is a list of call arguments
+                func_info = expr_result.get('function')
+                call_args = args_val if isinstance(args_val, list) else []
+
+            if func_info is None:
+                return None
+
+            # Resolve the function object
+            func_obj = self.resolve_expression(func_info)
+            if func_obj is None or not callable(func_obj):
+                logging.debug(f"Could not resolve function to callable: {func_info}")
+                return None
+
+            # Resolve all arguments
+            resolved_args = []
+            for arg in call_args:
+                if isinstance(arg, dict):
+                    resolved = self.resolve_expression(arg)
+                    if resolved is None:
+                        # Could not resolve argument - cannot call function
+                        logging.debug(f"Could not resolve function argument: {arg}")
+                        return None
+                    resolved_args.append(resolved)
+                else:
+                    # Already a resolved value
+                    resolved_args.append(arg)
+
+            # Call the function with resolved arguments
+            result = func_obj(*resolved_args)
+            logging.debug(f"Resolved function call to value: {result}")
+            return result
+
+        except Exception as e:
+            logging.debug(f"Could not resolve function call: {e}")
+            return None
 
     def _get_current_player_number(self) -> Optional[int]:
         """

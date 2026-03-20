@@ -1,0 +1,310 @@
+{
+    "title": "Coding Adventure",
+    "nodes": {
+        "html": {
+            "label": "HTML",
+            "description": "Learn the structure of web pages",
+            "depends_on": []
+        },
+        "javascript": {
+            "label": "JavaScript Basics",
+            "description": "Learn programming fundamentals",
+            "depends_on": []
+        },
+        "server_basics": {
+            "label": "Server Basics",
+            "description": "Choose and learn a server language",
+            "depends_on": []
+        },
+        "git": {
+            "label": "Git",
+            "description": "Learn version control",
+            "depends_on": []
+        },
+        "command_line": {
+            "label": "Command Line",
+            "description": "Learn terminal basics",
+            "depends_on": []
+        },
+        "css": {
+            "label": "CSS",
+            "description": "Learn to style web pages",
+            "depends_on": ["html"]
+        },
+        "design_systems": {
+            "label": "Design Systems",
+            "description": "Learn component-based design patterns",
+            "depends_on": ["css"]
+        },
+        "dom_manipulation": {
+            "label": "DOM Manipulation",
+            "description": "Learn to interact with page elements",
+            "depends_on": ["javascript"]
+        },
+        "algorithms": {
+            "label": "Algorithms",
+            "description": "Learn data structures and algorithms",
+            "depends_on": ["javascript"]
+        },
+        "http_basics": {
+            "label": "HTTP Basics",
+            "description": "Learn how the web communicates",
+            "depends_on": ["server_basics"]
+        },
+        "package_managers": {
+            "label": "Package Managers",
+            "description": "Learn to manage project dependencies",
+            "depends_on": ["command_line"]
+        },
+        "static_website": {
+            "label": "Static Website Complete",
+            "description": "Build your first static website",
+            "depends_on": ["css", "javascript", "server_basics", "git", "command_line"]
+        },
+        "react": {
+            "label": "React",
+            "description": "Learn the React framework",
+            "depends_on": ["static_website", "dom_manipulation"]
+        },
+        "react_mastery": {
+            "label": "React Mastery",
+            "description": "Build components with React",
+            "depends_on": ["react"]
+        },
+        "redux": {
+            "label": "Redux",
+            "description": "Manage application state with Redux",
+            "depends_on": ["react_mastery"]
+        },
+        "vue": {
+            "label": "Vue",
+            "description": "Learn the Vue framework",
+            "depends_on": ["static_website"]
+        },
+        "vue_mastery": {
+            "label": "Vue Mastery",
+            "description": "Build components with Vue",
+            "depends_on": ["vue"]
+        },
+        "vuex": {
+            "label": "Vuex",
+            "description": "Manage application state with Vuex",
+            "depends_on": ["vue_mastery"]
+        },
+        "vanilla_js": {
+            "label": "Vanilla JS Mastery",
+            "description": "Master advanced vanilla JavaScript",
+            "depends_on": ["static_website", "algorithms"]
+        },
+        "custom_state": {
+            "label": "Custom State System",
+            "description": "Build a custom state management system",
+            "depends_on": ["vanilla_js"]
+        },
+        "express": {
+            "label": "Express",
+            "description": "Learn the Express.js framework",
+            "depends_on": ["static_website"]
+        },
+        "express_apis": {
+            "label": "Express APIs",
+            "description": "Build REST APIs with Express",
+            "depends_on": ["express"]
+        },
+        "express_db": {
+            "label": "Express DB Integration",
+            "description": "Integrate MongoDB with Express",
+            "depends_on": ["express_apis"]
+        },
+        "django": {
+            "label": "Django",
+            "description": "Learn the Django framework",
+            "depends_on": ["static_website"]
+        },
+        "django_rest": {
+            "label": "Django APIs",
+            "description": "Build REST APIs with Django",
+            "depends_on": ["django"]
+        },
+        "django_db": {
+            "label": "Django ORM",
+            "description": "Use Django ORM for database operations",
+            "depends_on": ["django_rest"]
+        },
+        "flask": {
+            "label": "Flask",
+            "description": "Learn the Flask framework",
+            "depends_on": ["static_website"]
+        },
+        "flask_restful": {
+            "label": "Flask APIs",
+            "description": "Build REST APIs with Flask",
+            "depends_on": ["flask"]
+        },
+        "flask_db": {
+            "label": "SQLAlchemy",
+            "description": "Use SQLAlchemy for database operations",
+            "depends_on": ["flask_restful"]
+        },
+        "ui_ux": {
+            "label": "UI/UX",
+            "description": "Learn user interface and experience principles",
+            "depends_on": ["static_website", "design_systems"]
+        },
+        "responsive_design": {
+            "label": "Responsive Design",
+            "description": "Make websites work on all devices",
+            "depends_on": ["ui_ux"]
+        },
+        "accessibility": {
+            "label": "Accessibility",
+            "description": "Make websites accessible to everyone",
+            "depends_on": ["responsive_design"]
+        },
+        "sql": {
+            "label": "SQL",
+            "description": "Learn structured query language",
+            "depends_on": ["static_website"]
+        },
+        "postgresql": {
+            "label": "PostgreSQL",
+            "description": "Master PostgreSQL database",
+            "depends_on": ["sql"]
+        },
+        "sql_optimization": {
+            "label": "SQL Optimization",
+            "description": "Optimize SQL queries for performance",
+            "depends_on": ["postgresql"]
+        },
+        "nosql": {
+            "label": "NoSQL",
+            "description": "Learn NoSQL database concepts",
+            "depends_on": ["static_website"]
+        },
+        "mongodb_basics": {
+            "label": "MongoDB Basics",
+            "description": "Master MongoDB database",
+            "depends_on": ["nosql"]
+        },
+        "nosql_indexing": {
+            "label": "NoSQL Indexing",
+            "description": "Optimize NoSQL queries with indexing strategies",
+            "depends_on": ["mongodb_basics"]
+        },
+        "interactive_app": {
+            "label": "Interactive App Complete",
+            "description": "Build a full interactive application",
+            "depends_on": ["redux", "vuex", "custom_state", "express_db", "django_db", "flask_db", "accessibility", "sql_optimization", "nosql_indexing"]
+        },
+        "sessions": {
+            "label": "Sessions",
+            "description": "Implement user sessions",
+            "depends_on": ["interactive_app", "http_basics"]
+        },
+        "jwt": {
+            "label": "JWT",
+            "description": "Implement JSON Web Tokens",
+            "depends_on": ["sessions"]
+        },
+        "oauth": {
+            "label": "Authentication",
+            "description": "Implement OAuth authentication",
+            "depends_on": ["jwt"]
+        },
+        "caching": {
+            "label": "Caching",
+            "description": "Implement caching strategies",
+            "depends_on": ["interactive_app"]
+        },
+        "cdn": {
+            "label": "CDN",
+            "description": "Configure content delivery networks",
+            "depends_on": ["caching"]
+        },
+        "load_balancing": {
+            "label": "Performance",
+            "description": "Implement load balancing for performance",
+            "depends_on": ["cdn"]
+        },
+        "unit_tests": {
+            "label": "Unit Tests",
+            "description": "Write unit tests",
+            "depends_on": ["interactive_app"]
+        },
+        "integration_tests": {
+            "label": "Integration Tests",
+            "description": "Write integration tests",
+            "depends_on": ["unit_tests"]
+        },
+        "e2e_tests": {
+            "label": "Testing",
+            "description": "Write end-to-end tests",
+            "depends_on": ["integration_tests"]
+        },
+        "docker": {
+            "label": "Docker",
+            "description": "Containerize applications with Docker",
+            "depends_on": ["interactive_app"]
+        },
+        "ci_cd": {
+            "label": "CI/CD",
+            "description": "Set up continuous integration and deployment",
+            "depends_on": ["docker"]
+        },
+        "monitoring": {
+            "label": "DevOps",
+            "description": "Set up monitoring and observability",
+            "depends_on": ["ci_cd"]
+        },
+        "fullstack": {
+            "label": "Full-Stack Complete",
+            "description": "Complete full-stack integration",
+            "depends_on": ["oauth", "load_balancing", "e2e_tests", "monitoring"]
+        },
+        "https": {
+            "label": "HTTPS",
+            "description": "Implement HTTPS security",
+            "depends_on": ["fullstack"]
+        },
+        "cors": {
+            "label": "CORS",
+            "description": "Configure cross-origin resource sharing",
+            "depends_on": ["https"]
+        },
+        "input_validation": {
+            "label": "Security Complete",
+            "description": "Implement input validation and security",
+            "depends_on": ["cors"]
+        },
+        "horizontal_scaling": {
+            "label": "Horizontal Scaling",
+            "description": "Scale applications horizontally",
+            "depends_on": ["fullstack"]
+        },
+        "microservices": {
+            "label": "Scaling Complete",
+            "description": "Implement microservices architecture",
+            "depends_on": ["horizontal_scaling"]
+        },
+        "cloud_provider": {
+            "label": "Cloud Provider",
+            "description": "Set up cloud infrastructure",
+            "depends_on": ["fullstack"]
+        },
+        "domain_setup": {
+            "label": "Domain",
+            "description": "Configure domain and DNS",
+            "depends_on": ["cloud_provider"]
+        },
+        "ssl_certificate": {
+            "label": "Deployment Complete",
+            "description": "Install SSL certificate and complete deployment",
+            "depends_on": ["domain_setup", "https"]
+        },
+        "production": {
+            "label": "Production Deployment",
+            "description": "Deploy to production",
+            "depends_on": ["input_validation", "microservices", "ssl_certificate"]
+        }
+    }
+}

@@ -10,8 +10,8 @@ class LocationData(NamedTuple):
 base_location_id = 300000000
 
 
-class ChocolateChipCookiesLocation(Location):
-    game = "ChocolateChipCookies"
+class BakingAdventureLocation(Location):
+    game = "Baking Adventure"
     
 
 # All locations from the JSON file with their regions

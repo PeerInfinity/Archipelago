@@ -1,7 +1,7 @@
 import json
 import os
 import logging
-from typing import Set, List, Dict, Optional, Union, TYPE_CHECKING
+from typing import Any, Set, List, Dict, Optional, Union, TYPE_CHECKING
 from itertools import chain
 
 if TYPE_CHECKING:
@@ -41,7 +41,8 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                        current_sphere_locations: Set["Location"],
                        current_collection_state: "CollectionState",
                        verbose_mode: bool = True,
-                       extend_sphere_log_to_all_locations: bool = False) -> None:
+                       extend_sphere_log_to_all_locations: bool = False,
+                       filter_event_items: bool = False) -> None:
     """Logs details of the current sphere to the provided file handler."""
     global _previous_fractional_state, _previous_integer_state
 
@@ -81,8 +82,21 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                     # When extend_sphere_log_to_all_locations is enabled, count ALL items
                     # Otherwise, only count advancement items (same filter as prog_items)
                     if extend_sphere_log_to_all_locations or location.item.advancement:
+                        # Filter out items from event locations (address is None or list) if filter_event_items is enabled
+                        if filter_event_items and (location.address is None or isinstance(location.address, list)):
+                            continue
                         item_name = location.item.name
                         base_items[item_name] = base_items.get(item_name, 0) + 1
+
+            # Also include precollected items (starting items) in base_items
+            # These are items the player starts with (e.g., Compass Badge in A Hat in Time)
+            # This ensures base_items matches the starting_items field in rules.json
+            # and is consistent with how UT TrackerClient reports inventory
+            if player_id in multiworld.precollected_items:
+                for item in multiworld.precollected_items[player_id]:
+                    # Include all precollected items (same as starting_items in rules.json)
+                    item_name = item.name
+                    base_items[item_name] = base_items.get(item_name, 0) + 1
 
             inventory_details = {
                 "base_items": base_items,
@@ -94,6 +108,7 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                 accessible_locations = sorted([
                     loc.name for loc in multiworld.get_locations(player_id)
                     if loc.can_reach(current_collection_state)
+                    and (not filter_event_items or (loc.address is not None and not isinstance(loc.address, list)))  # Filter event locations if enabled
                 ])
 
             accessible_regions = []
@@ -193,7 +208,7 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
 
         log_entry = {
             "type": "state_update",
-            "sphere_index": sphere_index,
+            "sphere_index": str(sphere_index),
             "player_data": player_specific_data,
         }
 
@@ -204,6 +219,43 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
         logging.error(f"Error during spoiler sphere logging for sphere {sphere_index}: {e}")
 
 
+def _collect_event_metadata(multiworld: "MultiWorld") -> Dict[str, Any]:
+    """Collect event items and locations from the multiworld for all players.
+
+    Events are detected by:
+    1. location.event == True (explicit event flag)
+    2. location.address is None (common indicator of event locations)
+
+    Returns a dict with:
+        - event_locations: List of location names that are events (per player)
+        - event_items: List of item names that are events (per player)
+    """
+    metadata = {
+        "event_locations": {},
+        "event_items": {}
+    }
+
+    for player_id in multiworld.player_ids:
+        player_event_locations = []
+        player_event_items = set()
+
+        for location in multiworld.get_locations(player_id):
+            # Locations with event=True or address=None are event locations
+            is_event = getattr(location, 'event', False) or getattr(location, 'address', 'not_none') is None
+            if is_event:
+                player_event_locations.append(location.name)
+                # If the location has an item, that item is an event item
+                if location.item:
+                    player_event_items.add(location.item.name)
+
+        if player_event_locations:
+            metadata["event_locations"][str(player_id)] = sorted(player_event_locations)
+        if player_event_items:
+            metadata["event_items"][str(player_id)] = sorted(player_event_items)
+
+    return metadata
+
+
 def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = True) -> None:
     """
     Enhanced version of create_playthrough that adds sphere logging.
@@ -211,16 +263,18 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
     """
     global _previous_fractional_state, _previous_integer_state
 
-    from settings import get_settings
     from BaseClasses import CollectionState
+    from worlds.json_tools_installer.json_tools_settings import get_json_tools_settings
 
-    settings = get_settings()
+    jt = get_json_tools_settings()
 
     # Set up logging options
-    log_fractional_sphere_details = settings.general_options.log_fractional_sphere_details
-    log_integer_sphere_details = settings.general_options.log_integer_sphere_details
-    verbose_sphere_log = settings.general_options.verbose_sphere_log
-    extend_sphere_log_to_all_locations = settings.general_options.extend_sphere_log_to_all_locations
+    log_fractional_sphere_details = jt.log_fractional_sphere_details
+    log_integer_sphere_details = jt.log_integer_sphere_details
+    verbose_sphere_log = jt.verbose_sphere_log
+    extend_sphere_log_to_all_locations = jt.extend_sphere_log_to_all_locations
+    auto_collect_events = jt.auto_collect_events
+    filter_event_items = jt.filter_event_items
 
     # Reset state trackers at the start
     _previous_fractional_state = None
@@ -230,15 +284,15 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
     log_file_path = ""
 
     try:
-        # Use temp_dir from multiworld if available for spheres_log.jsonl, otherwise fallback to output_path
-        log_output_directory = getattr(spoiler.multiworld, 'temp_dir_for_spheres_log', None)
+        # Use temp_dir from multiworld if available for sphere_log.jsonl, otherwise fallback to output_path
+        log_output_directory = getattr(spoiler.multiworld, 'temp_dir_for_sphere_log', None)
 
         if log_output_directory is None:
             log_output_directory = getattr(spoiler.multiworld, 'output_path', 'output')
             if not os.path.exists(log_output_directory):
                 os.makedirs(log_output_directory, exist_ok=True)
         
-        log_filename = f"AP_{spoiler.multiworld.seed_name}_spheres_log.jsonl"
+        log_filename = f"AP_{spoiler.multiworld.seed_name}_sphere_log.jsonl"
         log_file_path = os.path.join(log_output_directory, log_filename)
         
         logging.info(f"Attempting to open spoiler log file for sphere data at: {log_file_path}")
@@ -248,22 +302,47 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         logging.error(f"Failed to open spoiler log file {log_file_path}: {e}")
         spoiler_log_file_handler = None
     
+    multiworld = spoiler.multiworld
+    restore_later: Dict["Location", Optional["Item"]] = {}
+    removed_precollected: List["Item"] = []
+
     try:
         # Main implementation with logging
-        multiworld = spoiler.multiworld
+
+        # Call postprocess_regions for games that need to add missing regions
+        # This ensures regions like Aquaria's "Home Waters, behind rock" are available
+        # before sphere calculation begins
+        from exporter.games import get_game_export_handler
+        for player_id in multiworld.player_ids:
+            world = multiworld.worlds[player_id]
+            game_name = world.game
+            game_handler = get_game_export_handler(game_name, world)
+            if hasattr(game_handler, 'postprocess_regions'):
+                game_handler.postprocess_regions(multiworld, player_id)
+
+        # Write metadata header as first entry (before any sphere data)
+        if spoiler_log_file_handler:
+            event_metadata = _collect_event_metadata(multiworld)
+            metadata_entry = {
+                "type": "metadata",
+                "seed": multiworld.seed,  # Input seed (e.g., 1)
+                "seed_name": str(multiworld.seed_name),  # Generated seed name (e.g., "14089154938208861744")
+                "event_locations": event_metadata["event_locations"],
+                "event_items": event_metadata["event_items"]
+            }
+            spoiler_log_file_handler.write(json.dumps(metadata_entry) + "\n")
+            spoiler_log_file_handler.flush()
+            logging.debug(f"Wrote sphere log metadata with {sum(len(v) for v in event_metadata['event_locations'].values())} event locations and {sum(len(v) for v in event_metadata['event_items'].values())} event items")
+
         if extend_sphere_log_to_all_locations:
             prog_locations = set(multiworld.get_filled_locations())
         else:
-            prog_locations = {location for location in multiworld.get_filled_locations() if location.item.advancement}
+            prog_locations = {location for location in multiworld.get_filled_locations() if location.item and location.item.advancement}
         state_cache: List[Optional[CollectionState]] = [None]
         # collection_spheres will be redefined later for the final pass
         initial_collection_spheres: List[Set["Location"]] = []
         state = CollectionState(multiworld)
         sphere_candidates = set(prog_locations)
-
-        # Initialize variables that are used in the finally block to avoid UnboundLocalError
-        restore_later: Dict["Location", "Item"] = {}
-        removed_precollected: List["Item"] = []
 
         logging.debug('Building up initial collection spheres for pruning.')
         while sphere_candidates:
@@ -281,13 +360,13 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 if extend_sphere_log_to_all_locations:
                     unreachable_advancement = [loc for loc in sphere_candidates if loc.item and loc.item.advancement]
                     if unreachable_advancement:
-                        if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in unreachable_advancement]):
+                        if any([location.item and multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in unreachable_advancement]):
                             raise RuntimeError(f'Not all progression items reachable ({unreachable_advancement}). Something went wrong.')
                     # Non-advancement items are OK to be unreachable in full spoilers mode
                     spoiler.unreachables = sphere_candidates
                     break
                 else:
-                    if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
+                    if any([location.item and multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
                         raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). Something went wrong.')
                     else:
                         spoiler.unreachables = sphere_candidates
@@ -338,8 +417,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         current_playthrough_state = CollectionState(multiworld)
         for p_id in current_playthrough_state.prog_items:
             current_playthrough_state.prog_items[p_id].clear()
-        current_playthrough_state.advancements.clear()
-        current_playthrough_state.locations_checked.clear()
+        current_playthrough_state.advancements.clear()  # type: ignore[union-attr]
+        current_playthrough_state.locations_checked.clear()  # type: ignore[union-attr]
 
         if spoiler_log_file_handler:
             # Collect ALL precollected items into the state (not just advancement items)
@@ -355,8 +434,16 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
             for item in precollected_items:
                 current_playthrough_state.collect(item, True)  # Collect into the accumulating state, prevent sweep
 
-            # Log the final "sphere 0" state (contains all precollected items)
-            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log, extend_sphere_log_to_all_locations)
+            # Auto-collect events that are accessible at sphere 0
+            # This matches how Universal Tracker handles events - they are automatically
+            # collected when their location becomes accessible, unlocking downstream locations
+            if auto_collect_events:
+                current_playthrough_state.sweep_for_advancements(
+                    locations=[loc for loc in multiworld.get_locations() if loc.address is None]
+                )
+
+            # Log the final "sphere 0" state (contains all precollected items + auto-collected events)
+            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log, extend_sphere_log_to_all_locations, filter_event_items)
         
         if not spoiler_log_file_handler:
             # If not logging, ensure state includes precollected items for main loop
@@ -378,10 +465,18 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
 
             item_sub_index = 0
             for location in sorted_locations_in_sphere:
-                # Collect one item
+                # Collect one item (location.item is always set for filled locations)
+                assert location.item is not None
                 current_playthrough_state.collect(location.item, True, location)
+
+                # Auto-collect any events that become accessible after this item
+                if auto_collect_events:
+                    current_playthrough_state.sweep_for_advancements(
+                        locations=[loc for loc in multiworld.get_locations() if loc.address is None]
+                    )
+
                 item_sub_index += 1
-                
+
                 # Log after this single item
                 if spoiler_log_file_handler and log_fractional_sphere_details:
                     sub_sphere_label = f"{main_sphere_index_counter - 1}.{item_sub_index}"
@@ -390,7 +485,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                                      {location},  # The single location collected in this sub-step
                                      current_playthrough_state.copy(),
                                      verbose_sphere_log,
-                                     extend_sphere_log_to_all_locations)
+                                     extend_sphere_log_to_all_locations,
+                                     filter_event_items)
 
             # After all items in the current_full_sphere_locations are processed individually:
             final_collection_spheres.append(current_full_sphere_locations)
@@ -402,7 +498,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                                  current_full_sphere_locations,  # All locations making up this sphere
                                  current_playthrough_state.copy(),  # State AFTER all items in this sphere are collected
                                  verbose_sphere_log,
-                                 extend_sphere_log_to_all_locations)
+                                 extend_sphere_log_to_all_locations,
+                                 filter_event_items)
             
             logging.debug('Calculated final sphere %i, containing %i of %i progress items.', 
                           main_sphere_index_counter, len(current_full_sphere_locations), len(required_locations))
@@ -417,7 +514,7 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 str(location): str(location.item) for location in sorted(list(sphere_content))}
 
         if create_paths:
-            spoiler.create_paths(current_playthrough_state, final_collection_spheres)
+            spoiler.create_paths(current_playthrough_state, final_collection_spheres)  # type: ignore[arg-type]
 
     finally:
         if spoiler_log_file_handler:

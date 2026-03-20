@@ -116,27 +116,35 @@ Main world class that orchestrates generation:
 ```python
 class MetamathWorld(World):
     def generate_early(self):
-        # Parse theorem from config
+        # Handle vanilla_placement (forces randomize_items=False, marks world as vanilla)
+        # Parse theorem from config (supports URL extraction)
         # Extract proof structure
+        # Build name mappings and name_substitutions
         # Determine starting statements
+        # Build canonical_placements dict (excludes final statement — always locked)
 
     def create_regions(self):
-        # Create locations for each proof step
-        # Skip pre-given starting statements
+        # Create locations for each proof step (skip starting statements)
+        # Add "Proved Statement N" event locations for non-starting statements
+        # Event items fire when a region is reachable, tracking proof completion
 
     def create_items(self):
-        # Create items for non-starting statements
-        # Add filler items to match number of locations
+        # Create statement items for non-starting, non-final statements
+        # (only if randomization enabled; final statement is always locked at its location)
+
+    def generate_basic(self):
+        # Pre-collect starting statement items AND "Proved Statement K" events
 ```
 
 **Key Methods**:
-- `generate_early()`: Parse theorem and build proof structure, handle seed=1 special case
-- `create_regions()`: Create proof locations with complex connection logic
-- `create_items()`: Generate statement items (only if randomization enabled)
-- `pre_fill()`: Place items in original locations if randomization disabled
-- `_place_original_items()`: Helper to place each statement at its corresponding location
-- `set_rules()`: Apply logical dependencies as access rules and store dependency mappings
-- `fill_slot_data()`: Export proof structure data for the world
+- `generate_early()`: Parse theorem and build proof structure, handle vanilla placement, build name substitutions. Excludes the final statement from `canonical_placements` (it's always locked).
+- `create_regions()`: Create proof locations with connection logic. Each non-starting statement gets an event location "Proved Statement N" with a locked event item that fires when the region is reachable.
+- `create_items()`: Generate statement items (only if randomization enabled; skipped entirely when disabled). Excludes the final statement — its item is always locked at its location.
+- `generate_basic()`: Pre-collect starting statement items AND their "Proved Statement K" events so downstream entrance rules are satisfied from the start.
+- `pre_fill()`: Always lock the final statement's item at its location. Also place all other items at original locations if randomization is disabled.
+- `_place_original_items()`: Helper to place each non-starting, non-final statement at its corresponding location
+- `set_rules()`: Apply logical dependencies as access rules, set completion condition to require the final "Proved" event, and store dependency mappings (item names only, not events) for the exporter
+- `fill_slot_data()`: Export proof structure data, options, and vanilla_placement flag
 
 ### 4. Region Connections
 
@@ -151,37 +159,31 @@ def create_regions(self):
     statement_regions = {}
 
     for i in range(1, self.num_statements + 1):
-        region_name = f"Prove Statement {i}"
+        region_name = self.get_location_name(i)  # "Prove Statement {i}"
         region = Region(region_name, self.player, self.multiworld)
         statement_regions[i] = region
 
         # Create location in this region (if not a starting statement)
         if i not in self.starting_statements:
-            location = MetamathLocation(...)
-            region.locations.append(location)
+            loc_name = self.get_location_name(i)
+            if loc_name in self.location_name_to_id:
+                location = MetamathLocation(...)
+                region.locations.append(location)
 
-    # Connect Menu to statement regions that have NO dependencies (axioms/base statements)
-    for i in sorted(statement_regions.keys()):
-        dependencies = self.proof_structure.dependency_graph.get(i, [])
-        if not dependencies:
-            menu_region.connect(region, f"To Statement {i}")
+            # Add event location: "Proved Statement N" fires when region is reachable
+            event_loc = MetamathLocation(self.player, f"Proved Statement {i}", None, [], region)
+            event_item = MetamathItem(f"Proved Statement {i}", ItemClassification.progression, None, self.player)
+            event_loc.place_locked_item(event_item)
+            region.locations.append(event_loc)
 
-    # Connect regions based on dependency graph
-    # Create exits from each statement to statements that depend on it
-    for i in sorted(self.proof_structure.reverse_dependencies.keys()):
-        dependents = self.proof_structure.reverse_dependencies[i]
-        if i in statement_regions:
-            source_region = statement_regions[i]
-            for dependent in sorted(dependents):
-                if dependent in statement_regions:
-                    target_region = statement_regions[dependent]
-                    source_region.connect(target_region,
-                        f"From Statement {i} to Statement {dependent}")
+    # Connect Menu to axioms, connect regions based on dependency graph
+    # ...
 ```
 
 This creates a directed graph where:
 - The Menu connects to all axioms (statements with no dependencies)
 - Each statement region connects to regions of statements that depend on it
+- Each non-starting region contains a "Proved Statement N" event that fires when the region is reached
 - The connections form the logical flow of the proof
 
 ### 5. Data Structures
@@ -205,107 +207,76 @@ class ProofStructure:
     label_to_index: Dict[str, int]
 ```
 
-### 6. Non-Randomized Item Placement
+### 6. Item Placement and the Final Statement
 
-When randomization is disabled (or seed=1), items are placed at their canonical locations:
+The final statement's item is **always locked** at its own location — it is never placed in the multiworld item pool. This acts as the victory item: you can only obtain it by reaching and checking the final proof location.
 
 ```python
 def pre_fill(self):
-    """Pre-fill items if not randomizing."""
+    """Pre-fill items: always lock the final statement, and all others if not randomizing."""
+    # Always lock the final statement's item at its location (victory item)
+    final_item_name = self.get_item_name(self.num_statements)
+    final_location_name = self.get_location_name(self.num_statements)
+    final_location = self.multiworld.get_location(final_location_name, self.player)
+    final_location.place_locked_item(self.create_item(final_item_name))
+
     if not self.options.randomize_items.value:
         self._place_original_items()
 
 def _place_original_items(self):
-    """Place statement items in their corresponding prove locations."""
-    # In metamath, each statement i should be placed at location "Prove Statement i"
+    """Place non-starting, non-final statement items at their locations (non-randomized mode)."""
     for i in range(1, self.num_statements + 1):
-        if i not in self.starting_statements:
-            item_name = f"Statement {i}"
-            location_name = f"Prove Statement {i}"
-
-            # Get the location and create the item
-            location = self.multiworld.get_location(location_name, self.player)
-            item = self.create_item(item_name)
-
-            # Place the item at its original location
-            location.place_locked_item(item)
+        if i not in self.starting_statements and i != self.num_statements:
+            # ... place_locked_item at corresponding location
 ```
 
-This ensures that:
-- Statement 1 is found at "Prove Statement 1"
-- Statement 2 is found at "Prove Statement 2"
-- And so on, creating a linear proof progression
+In randomized mode, `create_items()` also excludes the final statement from the pool:
+- Starting statements: pre-collected (no location, no pool item)
+- Final statement: locked at its location (not in pool)
+- All other statements: added to the multiworld item pool for randomization
 
 ### 7. Items and Locations
 
 **Items** (`Items.py`):
-- Statement items: `Statement 1` through `Statement N`
-- Filler hints: `Proof Hint`, `Logic Guide`, etc.
-- All statements are progression items
+- Statement items: `Statement 1` through `Statement N` (generic names for datapackage)
+- All statements are classified as progression items
+- Meaningful names (e.g., `df-2: |- 2 = ( 1 + 1 )`) are provided via `name_substitutions` and `fill_slot_data()`
+- Helper: `statement_item_name(label, expression)` builds display names from proof data
 
 **Locations** (`Locations.py`):
-- Proof locations: `Prove Statement 1` through `Prove Statement N`
+- Proof locations: `Prove Statement 1` through `Prove Statement N` (generic names for datapackage)
 - Starting statements don't create locations
 - Each location requires specific statement items
+- Helper: `statement_location_name(label, expression)` builds display names from proof data
 
-### 8. Dependency Export for Spoilers
+### 8. Dependency Export and Completion
 
-The world stores dependency mappings for the JSON exporter to use:
+The completion condition checks for the "Proved" event of the final statement, not just the item:
 
 ```python
-def set_rules(self):
-    """Set access rules based on proof dependencies."""
-    set_metamath_rules(self, self.proof_structure)
-
-    # ... completion condition setup ...
-
-    # Save dependency mappings for the exporter to use
-    location_dependencies = {}
-    entrance_dependencies = {}
-    exit_dependencies = {}
-
-    for region in self.multiworld.get_regions(self.player):
-        if region.name.startswith("Prove Statement "):
-            stmt_num = int(region.name.split()[-1])
-            if stmt_num in self.proof_structure.dependency_graph:
-                dependencies = self.proof_structure.dependency_graph[stmt_num]
-                if dependencies:
-                    # Store the actual item names required
-                    item_names = [f"Statement {d}" for d in sorted(dependencies)]
-
-                    # Store for locations
-                    for location in region.locations:
-                        location_dependencies[location.name] = item_names
-
-                    # Store for entrances
-                    for entrance in region.entrances:
-                        entrance_dependencies[entrance.name] = item_names
-
-        # Also store exit dependencies
-        for exit in region.exits:
-            if exit.connected_region and exit.connected_region.name.startswith("Prove Statement "):
-                target_stmt_num = int(exit.connected_region.name.split()[-1])
-                if target_stmt_num in self.proof_structure.dependency_graph:
-                    target_dependencies = self.proof_structure.dependency_graph[target_stmt_num]
-                    if target_dependencies:
-                        target_item_names = [f"Statement {d}" for d in sorted(target_dependencies)]
-                        exit_dependencies[exit.name] = target_item_names
-
-    # Store the dependencies directly on the world object
-    self.location_dependencies = location_dependencies
-    self.entrance_dependencies = entrance_dependencies
-    self.exit_dependencies = exit_dependencies
+# Completion requires proving (not just receiving) the final theorem
+final_proved = f"Proved Statement {self.num_statements}"
+self.multiworld.completion_condition[self.player] = \
+    lambda state, name=final_proved: state.has(name, self.player)
 ```
 
-This allows the JSON exporter to include accurate dependency information in spoiler files without needing to parse the access rule lambdas.
+The world also stores dependency mappings for the JSON exporter. These export **only real item names** ("Statement K"), not event names ("Proved Statement K"). The backend uses events for access rules, but the frontend handles proof-completion gating separately via `checkedLocations` tracking.
+
+```python
+# Export only item names for the frontend stateManager
+item_names = [self.get_item_name(d) for d in sorted(dependencies)]
+```
+
+This separation exists because the frontend stateManager cannot track backend-only event items in its inventory. The frontend proof modules enforce proof-completion requirements through their own `_updateAvailableSteps` logic.
 
 ### 9. Options (`Options.py`)
 
 Configuration options:
+- `vanilla_placement`: If enabled, forces `randomize_items=false` and marks world as vanilla
 - `randomize_items`: Enable/disable item randomization
-- `theorem`: Which theorem to prove
-- `complexity`: Controls how starting statements are selected (simple=sequential, moderate/complex=random)
-- `starting_statements`: Percentage pre-unlocked
+- `theorem`: Which theorem to prove (22 preset choices plus free-text entry)
+- `randomize_starting_statements`: Controls how starting statements are selected (false=sequential, true=random)
+- `starting_statements`: Percentage pre-unlocked (default 0, range 0-50)
 - `auto_download_database`: Auto-download set.mm
 
 ## Metamath Integration
@@ -316,10 +287,10 @@ The system uses the Metamath database (`set.mm`) for theorem data:
 
 ```python
 def get_metamath_database(auto_download=True):
-    # Try multiple paths
-    # Auto-download if enabled
+    # Try multiple paths for set.mm
+    # Auto-download if enabled and not found
     # Parse with metamath-py
-    return md.parse(path)
+    return md.parse(path), path  # Returns (database, db_path) tuple
 ```
 
 ### Proof Verification
@@ -370,23 +341,6 @@ To support other proof databases:
 2. Create ProofStructure from parsed data
 3. Add to `parse_metamath_proof()` logic
 
-### Filler Items
-
-Filler items are automatically added to match the number of locations:
-
-```python
-# In create_items()
-num_locations = self.num_statements - len(self.starting_statements)
-num_items = len(items)
-num_fillers_needed = max(0, num_locations - num_items)
-
-if num_fillers_needed > 0:
-    hints = ["Proof Hint", "Logic Guide", "Axiom Reference", ...]
-    for _ in range(num_fillers_needed):
-        hint = self.random.choice(hints)
-        # Create filler item
-```
-
 ## Technical Details
 
 ### Dependency Graph Algorithm
@@ -400,12 +354,12 @@ The system builds three representations:
 ### Starting Statement Selection
 
 ```python
-# Simple mode: First N statements in order
-if self.options.complexity.value == 0:  # Simple
+# Ordered mode: First N statements in proof order
+if not self.options.randomize_starting_statements.value:
     self.starting_statements = set(range(1, num_starting + 1))
 
-# Moderate/Complex mode: Random selection (always includes first statement)
-else:  # Moderate or Complex
+# Randomized mode: Random selection (always includes first statement)
+else:
     self.starting_statements = {1}  # Always start with first axiom
     remaining = num_starting - 1
     if remaining > 0:
@@ -416,21 +370,25 @@ else:  # Moderate or Complex
 
 ### Access Rule Generation
 
-Each location gets a rule based on its dependencies:
+Entrance rules require both **"Proved Statement K"** events (proof step completed) and **"Statement K"** items (item received from randomizer) for each dependency K. This separates item possession from proof completion — having an item doesn't mean you've proved the corresponding step.
 
 ```python
 # In set_metamath_rules function
 if dependencies:  # Only set rule if there are dependencies
-    # Create a set of item names for this statement's dependencies
-    item_names = {f"Statement {d}" for d in dependencies}
+    # Require both the proof events AND the dependency items
+    required_names = set()
+    for d in dependencies:
+        required_names.add(world.get_item_name(d))      # "Statement K"
+        required_names.add(f"Proved Statement {d}")       # "Proved Statement K"
 
-    # Create the access rule lambda
-    access_rule = lambda state, p=player, items=item_names: state.has_all(items, p)
+    access_rule = lambda state, p=player, items=required_names: state.has_all(items, p)
 
-    # Set access rules on all locations in this region
-    for location in region.locations:
-        add_rule(location, access_rule)
+    # Set access rules on entrances only (locations are accessible once you enter the region)
+    for entrance in region.entrances:
+        add_rule(entrance, access_rule)
 ```
+
+Per-location rules are not needed — entrance rules gate the entire region. "Proved Statement K" events fire automatically when a region is reachable (the event location has no access rule of its own).
 
 ## Performance Considerations
 

@@ -2,13 +2,12 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   // Directory where your test files are located
-  testDir: './tests/e2e',
+  testDir: './test_json/e2e',
 
   // Timeout for each test (in milliseconds)
-  // Increased from default 30s to 300s to accommodate running many in-app tests,
-  // especially if the app or tests are slow to initialize in CI environments.
-  // Yu-Gi-Oh! 2006 with 968 events requires longer timeout.
-  timeout: 300000,
+  // Default is 300s (5 minutes) to accommodate games with many events (e.g., Yu-Gi-Oh! 2006).
+  // Use TEST_TIMEOUT env var to override, or pass --timeout flag to playwright.
+  timeout: parseInt(process.env.TEST_TIMEOUT) || 300000,
 
   // Expectations timeout (how long to wait for expect() conditions to be met)
   expect: {

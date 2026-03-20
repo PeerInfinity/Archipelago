@@ -25,9 +25,6 @@ export class TestPanelUI {
       <p>Component State:</p>
       <pre>${JSON.stringify(componentState, null, 2)}</pre>`;
 
-    // Set title for the panel tab
-    this.container.setTitle('Test Module Panel');
-
     // Attach lifecycle listeners (optional but good practice)
     this._setupLifecycleListeners();
   }

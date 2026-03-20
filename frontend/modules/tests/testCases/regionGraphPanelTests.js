@@ -14,11 +14,8 @@ export async function testRegionGraphPanelActivation(testController) {
     testController.log(`[${testRunId}] Starting Region Graph panel activation test...`);
     testController.reportCondition('Test started', true);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const panelElement = await testController.pollForValue(
       () => document.querySelector('.region-graph-panel-container'),
@@ -81,10 +78,7 @@ export async function testCytoscapeLibraryLoading(testController) {
     testController.log(`[${testRunId}] Starting Cytoscape library loading test...`);
     testController.reportCondition('Test started', true);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     await testController.pollForCondition(
       () => document.querySelector('.region-graph-panel-container'),
@@ -151,11 +145,8 @@ export async function testGraphInitialLoad(testController) {
     testController.log(`[${testRunId}] Starting graph initial load test...`);
     testController.reportCondition('Test started', true);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    
     // Just activate the panel without loading rules - data should already be available
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const panelElement = await testController.pollForValue(
       () => document.querySelector('.region-graph-panel-container'),
@@ -225,11 +216,9 @@ export async function testGraphDataLoading(testController) {
     await testController.loadALTTPRules();
     testController.log(`[${testRunId}] Default rules loaded`);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
     const stateManager = testController.stateManager;
-    
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const panelElement = await testController.pollForValue(
       () => document.querySelector('.region-graph-panel-container'),
@@ -303,10 +292,7 @@ export async function testControlButtons(testController) {
     testController.log(`[${testRunId}] Starting control buttons test...`);
     testController.reportCondition('Test started', true);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const panelElement = await testController.pollForValue(
       () => document.querySelector('.region-graph-panel-container'),
@@ -394,16 +380,13 @@ export async function testNodeSelection(testController) {
     testController.log(`[${testRunId}] Starting node selection test...`);
     testController.reportCondition('Test started', true);
     
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    
     let nodeSelectedEvent = null;
-    const unsubscribe = eventBus.subscribe('regionGraph:nodeSelected', (data) => {
+    const unsubscribe = testController.eventBus.subscribe('regionGraph:nodeSelected', (data) => {
       nodeSelectedEvent = data;
       testController.log(`[${testRunId}] Node selected event received:`, data);
-    }, 'tests');
-    
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    });
+
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const panelElement = await testController.pollForValue(
       () => document.querySelector('.region-graph-panel-container'),

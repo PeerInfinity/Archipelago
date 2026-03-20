@@ -84,10 +84,10 @@ export const moduleMetadata = {
     name: 'presets',
     column: 2
   },
-  testSpoilersPanel: {
-    title: 'Test Spoilers',
+  spoilerTestPanel: {
+    title: 'Spoiler Test',
     icon: '🔍',
-    name: 'testSpoilers',
+    name: 'spoilerTest',
     column: 2
   },
   editorPanel: {
@@ -150,6 +150,12 @@ export const moduleMetadata = {
     title: 'Exits',
     icon: '🚪',
     name: 'exits',
+    column: 3
+  },
+  helpersPanel: {
+    title: 'Helpers',
+    icon: 'fn',
+    name: 'helpers',
     column: 3
   },
   dungeonsPanel: {

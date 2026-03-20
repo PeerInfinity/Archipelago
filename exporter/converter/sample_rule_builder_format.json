@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "game_name": "Sample Game",
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> Starting Area",
+            "connected_region": "Starting Area",
+            "access_rule": {
+              "rule": "True_",
+              "options": [],
+              "args": {}
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Starting Area": {
+        "name": "Starting Area",
+        "exits": [
+          {
+            "name": "Starting Area -> Forest",
+            "connected_region": "Forest",
+            "access_rule": {
+              "rule": "Has",
+              "options": [],
+              "args": {"item_name": "Forest Key"}
+            }
+          },
+          {
+            "name": "Starting Area -> Castle",
+            "connected_region": "Castle",
+            "access_rule": {
+              "rule": "And",
+              "options": [],
+              "children": [
+                {
+                  "rule": "Has",
+                  "options": [],
+                  "args": {"item_name": "Castle Key"}
+                },
+                {
+                  "rule": "Or",
+                  "options": [],
+                  "children": [
+                    {
+                      "rule": "Has",
+                      "options": [],
+                      "args": {"item_name": "Sword"}
+                    },
+                    {
+                      "rule": "Has",
+                      "options": [],
+                      "args": {"item_name": "Bow"}
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Starting Chest",
+            "id": 1001,
+            "access_rule": {
+              "rule": "True_",
+              "options": [],
+              "args": {}
+            },
+            "item": {
+              "name": "Forest Key",
+              "player": 1
+            }
+          }
+        ]
+      },
+      "Forest": {
+        "name": "Forest",
+        "exits": [
+          {
+            "name": "Forest -> Deep Forest",
+            "connected_region": "Deep Forest",
+            "access_rule": {
+              "rule": "HasAll",
+              "options": [],
+              "args": {"items": ["Lantern", "Rope"]}
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Forest Chest 1",
+            "id": 1002,
+            "access_rule": {
+              "rule": "True_",
+              "options": [],
+              "args": {}
+            },
+            "item": {
+              "name": "Lantern",
+              "player": 1
+            }
+          },
+          {
+            "name": "Forest Chest 2",
+            "id": 1003,
+            "access_rule": {
+              "rule": "HasAny",
+              "options": [],
+              "args": {"items": ["Sword", "Axe"]}
+            },
+            "item": {
+              "name": "Rope",
+              "player": 1
+            }
+          }
+        ]
+      },
+      "Deep Forest": {
+        "name": "Deep Forest",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Deep Forest Treasure",
+            "id": 1004,
+            "access_rule": {
+              "rule": "And",
+              "options": [],
+              "children": [
+                {
+                  "rule": "HasGroup",
+                  "options": [],
+                  "args": {"group": "Weapons", "count": 2}
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "options": [],
+                  "args": {"region_name": "Forest"}
+                }
+              ]
+            },
+            "item": {
+              "name": "Master Sword",
+              "player": 1
+            }
+          }
+        ]
+      },
+      "Castle": {
+        "name": "Castle",
+        "exits": [
+          {
+            "name": "Castle -> Throne Room",
+            "connected_region": "Throne Room",
+            "access_rule": {
+              "rule": "HasAllCounts",
+              "options": [],
+              "args": {"items": {"Castle Key": 3, "Royal Seal": 1}}
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Castle Armory",
+            "id": 1005,
+            "access_rule": {
+              "rule": "Has",
+              "options": [
+                {"option": "Difficulty", "op": "ge", "value": 2}
+              ],
+              "args": {"item_name": "Armor"}
+            },
+            "item": {
+              "name": "Shield",
+              "player": 1
+            }
+          },
+          {
+            "name": "Castle Treasury",
+            "id": 1006,
+            "access_rule": {
+              "rule": "CustomTreasuryRule",
+              "options": [],
+              "args": {"gold_required": 1000}
+            },
+            "item": {
+              "name": "Royal Seal",
+              "player": 1
+            }
+          }
+        ]
+      },
+      "Throne Room": {
+        "name": "Throne Room",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Victory",
+            "id": 1007,
+            "access_rule": {
+              "rule": "And",
+              "options": [],
+              "children": [
+                {
+                  "rule": "Has",
+                  "options": [],
+                  "args": {"item_name": "Master Sword"}
+                },
+                {
+                  "rule": "Has",
+                  "options": [],
+                  "args": {"item_name": "Shield"}
+                },
+                {
+                  "rule": "CanReachLocation",
+                  "options": [],
+                  "args": {"location_name": "Deep Forest Treasure"}
+                }
+              ]
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "items": {
+    "1": {
+      "Forest Key": {"name": "Forest Key", "id": 2001, "advancement": true},
+      "Castle Key": {"name": "Castle Key", "id": 2002, "advancement": true},
+      "Sword": {"name": "Sword", "id": 2003, "advancement": true},
+      "Bow": {"name": "Bow", "id": 2004, "advancement": true},
+      "Lantern": {"name": "Lantern", "id": 2005, "advancement": true},
+      "Rope": {"name": "Rope", "id": 2006, "advancement": true},
+      "Axe": {"name": "Axe", "id": 2007, "advancement": true},
+      "Master Sword": {"name": "Master Sword", "id": 2008, "advancement": true},
+      "Shield": {"name": "Shield", "id": 2009, "advancement": true},
+      "Armor": {"name": "Armor", "id": 2010, "advancement": false},
+      "Royal Seal": {"name": "Royal Seal", "id": 2011, "advancement": true}
+    }
+  },
+  "item_groups": {
+    "1": {
+      "Weapons": ["Sword", "Bow", "Axe", "Master Sword"]
+    }
+  }
+}

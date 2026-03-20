@@ -1,0 +1,101 @@
+{
+  "schema_version": 3,
+  "game_name": "Sudoku",
+  "game_directory": "apsudoku",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {}
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {}
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {}
+  },
+  "canonical_placements": {
+    "1": {}
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Sudoku",
+      "world_class_name": "AP_SudokuWorld",
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": []
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        }
+      },
+      "world_description": "Play a little Sudoku while you're in BK mode to maybe get some useful hints",
+      "web": {
+        "theme": "partyTime",
+        "tutorials": [
+          {
+            "name": "Setup Guide",
+            "description": "A guide to playing APSudoku",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "EmilyV"
+            ]
+          }
+        ]
+      },
+      "world_directory": "apsudoku"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {}
+  },
+  "helpers": {}
+}

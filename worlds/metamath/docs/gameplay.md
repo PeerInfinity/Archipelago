@@ -18,7 +18,11 @@ Each statement that needs to be proven is a location. To "check" a location, you
 - `Prove Statement 10` might require Statements 6 and 9
 
 ### Dependencies = Access Rules
-Mathematical logic determines access! You can only prove a statement if you have all its logical prerequisites.
+Mathematical logic determines access! To prove a statement, you need two things for each dependency:
+1. **The item** — you must have received the dependency's item (e.g., "Statement 3")
+2. **The proof** — you must have already proved (checked) the dependency's location
+
+This means having an item isn't enough — you must also have established the proof step. This prevents the tracker from showing locations as accessible just because items were received from unrelated checks.
 
 ## Example: Playing "2 + 2 = 4"
 
@@ -40,7 +44,7 @@ Let's walk through the famous proof that 2 + 2 = 4:
 
 ### Gameplay Flow
 
-1. **Start**: You begin with 10% of statements (typically Statement 1)
+1. **Start**: You begin with at least 1 starting statement (configurable via `starting_statements` percentage)
 2. **Early Game**: Find basic definitions and axioms (Statements 2-5)
 3. **Mid Game**: Build intermediate results (Statements 6-8)
 4. **End Game**: Combine everything to reach the final theorem (Statements 9-10)
@@ -67,8 +71,8 @@ Tell your multiworld partners what you need:
 - "I need Statement 3 (df-4) to unlock 2 locations"
 - "Statement 8 (addassi) is blocking my progression"
 
-### 4. Filler Items
-Items like "Proof Hint" and "Logic Guide" are filler items that don't affect progression but fill remaining item slots.
+### 4. Vanilla Placement
+If you want a non-randomized experience, enable `vanilla_placement` in your YAML. Items will stay at their original proof locations, creating a linear proof progression.
 
 ## Common Theorems and Their Difficulty
 
@@ -85,9 +89,14 @@ Items like "Proof Hint" and "Logic Guide" are filler items that don't affect pro
 - Complex theorems from algebra, analysis, or topology
 - Custom proofs from specialized areas
 
-## Tracking Your Progress
+## Playing with JSON Tools
 
-Since there's no dedicated client yet, you'll need to track your progress manually or use general Archipelago tracking tools. Keep notes on which statements you've collected and which locations are available based on your current items.
+The JSON Tools web client provides two dedicated panels for MetaMath games:
+
+- **[Proof Queue](../../../../docs/json/user/modules/proofQueue.md)** — A table-based interface showing your proof in standard MetaMath format. Steps are automatically queued as their dependencies become available. Supports multiple difficulty modes for assigning hypothesis references.
+- **[Proof Graph](../../../../docs/json/user/modules/proofGraph.md)** — An interactive graph where proof steps are nodes and you draw edges to connect dependencies. Provides a visual overview of the proof structure.
+
+Both panels appear automatically when a MetaMath game is loaded. In Easy difficulty mode, correct assignments in one panel are synchronized with the other.
 
 ## Mathematical Concepts
 
@@ -104,10 +113,9 @@ Don't worry if you don't understand the math! The game is about logical dependen
 
 ## Completion
 
-You win when you prove your target theorem! This happens when you:
-1. Collect all required statement items
-2. Check the final proof location
-3. The complete proof validates
+You win when you prove your target theorem! The final statement's item is always locked at its own location (it's never randomized into the multiworld pool). To reach it, you must:
+1. Prove all dependency statements (receive their items AND check their locations)
+2. Check the final proof location, which grants the locked item and fires the completion event
 
 ## Tips for New Players
 

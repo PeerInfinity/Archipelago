@@ -1,6 +1,8 @@
 // moduleInitializer.js - Module initialization and post-initialization
 // Extracted from init.js lines 340-481, 1935-2003
 
+import { profiler } from '../../modules/shared/profiler.js';
+
 /**
  * Initializes all enabled modules by calling their initialize() method
  *
@@ -57,6 +59,8 @@ export async function initializeModules(options) {
     `Module initialization phase started (${enabledModules.length} modules)`
   );
 
+  profiler.start('moduleInitPhase');
+
   // Initialize modules in priority order
   for (const moduleId of loadPriority) {
     if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -70,6 +74,8 @@ export async function initializeModules(options) {
       });
     }
   }
+
+  profiler.end('moduleInitPhase');
 
   logger.info(
     'init',
@@ -154,6 +160,8 @@ export async function postInitializeModules(options) {
     `Module post-initialization phase started (${modulesWithPostInit.length} modules)`
   );
 
+  profiler.start('modulePostInitPhase');
+
   // Post-initialize modules in priority order
   for (const moduleId of loadPriority) {
     if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -168,6 +176,8 @@ export async function postInitializeModules(options) {
       });
     }
   }
+
+  profiler.end('modulePostInitPhase');
 
   logger.info(
     'init',
@@ -208,6 +218,7 @@ export async function initializeSingleModule(options) {
 
   if (moduleInstance && typeof moduleInstance.initialize === 'function') {
     const api = createInitializationApi(moduleId);
+    profiler.start(`moduleInit:${moduleId}`);
     try {
       logger.info(
         'init',
@@ -224,7 +235,9 @@ export async function initializeSingleModule(options) {
         `Completed initialization of module: ${moduleId}`
       );
       logger.debug('init', `Initialized module: ${moduleId}`);
+      profiler.end(`moduleInit:${moduleId}`);
     } catch (error) {
+      profiler.end(`moduleInit:${moduleId}`);
       logger.error(
         'init',
         `Error during initialization of module: ${moduleId}`,
@@ -283,6 +296,7 @@ export async function postInitializeSingleModule(options) {
       );
     }
 
+    profiler.start(`modulePostInit:${moduleId}`);
     try {
       logger.info('init', `Post-initializing module: ${moduleId}`);
 
@@ -295,7 +309,9 @@ export async function postInitializeSingleModule(options) {
       }
 
       await moduleInstance.postInitialize(api, configForPostInitialize);
+      profiler.end(`modulePostInit:${moduleId}`);
     } catch (error) {
+      profiler.end(`modulePostInit:${moduleId}`);
       logger.error(
         'init',
         `Error during post-initialization of module: ${moduleId}`,
@@ -327,33 +343,46 @@ function prepareStateManagerConfig(genericModuleSpecificConfig, combinedModeData
       combinedModeData.dataSources.rulesConfig &&
       (combinedModeData.dataSources.rulesConfig.source === 'file' ||
        combinedModeData.dataSources.rulesConfig.source === 'urlOverride' ||
-       combinedModeData.dataSources.rulesConfig.source === 'fallback') &&
+       combinedModeData.dataSources.rulesConfig.source === 'fallback' ||
+       combinedModeData.dataSources.rulesConfig.source === 'alphabeticalFallback' ||
+       combinedModeData.dataSources.rulesConfig.source === 'hardcodedFallback') &&
       typeof combinedModeData.dataSources.rulesConfig.details === 'string'
     ) {
-      let pathPrefix;
-      if (combinedModeData.dataSources.rulesConfig.source === 'file') {
-        pathPrefix = 'Loaded from file: ';
-      } else if (combinedModeData.dataSources.rulesConfig.source === 'urlOverride') {
-        pathPrefix = 'Loaded from URL parameter override: ';
-      } else if (combinedModeData.dataSources.rulesConfig.source === 'fallback') {
-        pathPrefix = 'Loaded from "default" mode (fallback): ';
-      }
-
-      if (combinedModeData.dataSources.rulesConfig.details.startsWith(pathPrefix)) {
-        smConfig.sourceName =
-          combinedModeData.dataSources.rulesConfig.details.substring(
-            pathPrefix.length
-          );
+      // For hardcoded fallback, use a fixed source name
+      if (combinedModeData.dataSources.rulesConfig.source === 'hardcodedFallback') {
+        smConfig.sourceName = 'hardcodedFallback:apquest';
         log(
           'info',
-          `[Init _postInitializeSingleModule] Derived sourceName for StateManager: ${smConfig.sourceName} (source: ${combinedModeData.dataSources.rulesConfig.source})`
+          `[Init _postInitializeSingleModule] Using hardcoded fallback sourceName for StateManager: ${smConfig.sourceName}`
         );
       } else {
-        log(
-          'warn',
-          '[Init _postInitializeSingleModule] Could not derive sourceName for StateManager from dataSources.rulesConfig.details:',
-          combinedModeData.dataSources.rulesConfig.details
-        );
+        let pathPrefix;
+        if (combinedModeData.dataSources.rulesConfig.source === 'file') {
+          pathPrefix = 'Loaded from file: ';
+        } else if (combinedModeData.dataSources.rulesConfig.source === 'urlOverride') {
+          pathPrefix = 'Loaded from URL parameter override: ';
+        } else if (combinedModeData.dataSources.rulesConfig.source === 'fallback') {
+          pathPrefix = 'Loaded from "default" mode (fallback): ';
+        } else if (combinedModeData.dataSources.rulesConfig.source === 'alphabeticalFallback') {
+          pathPrefix = 'Loaded from first alphabetical preset (default not found): ';
+        }
+
+        if (combinedModeData.dataSources.rulesConfig.details.startsWith(pathPrefix)) {
+          smConfig.sourceName =
+            combinedModeData.dataSources.rulesConfig.details.substring(
+              pathPrefix.length
+            );
+          log(
+            'info',
+            `[Init _postInitializeSingleModule] Derived sourceName for StateManager: ${smConfig.sourceName} (source: ${combinedModeData.dataSources.rulesConfig.source})`
+          );
+        } else {
+          log(
+            'warn',
+            '[Init _postInitializeSingleModule] Could not derive sourceName for StateManager from dataSources.rulesConfig.details:',
+            combinedModeData.dataSources.rulesConfig.details
+          );
+        }
       }
     } else {
       // Check if data was loaded from localStorage - this is expected behavior

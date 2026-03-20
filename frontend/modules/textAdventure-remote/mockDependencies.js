@@ -3,7 +3,7 @@
 
 // Using local shared module copies for iframe self-containment
 import { evaluateRule as sharedEvaluateRule } from './shared/ruleEngine.js';
-import { createStateSnapshotInterface as sharedCreateStateInterface } from './shared/stateInterface.js';
+import { createSnapshotInterface as sharedCreateStateInterface } from './shared/snapshotInterface.js';
 import { createSharedLogger } from './shared/sharedLogger.js';
 
 // Create logger for this module
@@ -140,7 +140,7 @@ export class DiscoveryStateProxy {
 /**
  * Create snapshot interface using the shared implementation
  */
-export function createStateSnapshotInterface(snapshot, staticData, context = {}) {
+export function createSnapshotInterface(snapshot, staticData, context = {}) {
     return sharedCreateStateInterface(snapshot, staticData, context);
 }
 

@@ -2,7 +2,7 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
 import commonUI from '../commonUI/index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import {
   debounce,
   renderLogicTree,
@@ -11,7 +11,7 @@ import {
 } from '../commonUI/index.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 // loopStateSingleton import removed - exit click handling moved to Loops module
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 import settingsManager from '../../app/core/settingsManager.js';
 
 
@@ -29,6 +29,7 @@ export class ExitUI {
   constructor(container, componentState) {
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
     this.columns = 2; // Default number of columns
     this.rootElement = this.createRootElement();
     this.exitsGrid = this.rootElement.querySelector('#exits-grid');
@@ -38,6 +39,14 @@ export class ExitUI {
     this.isInitialized = false;
     this.originalExitOrder = [];
     this.isDiscoveryModeActive = false; // Track discovery mode state
+
+    // Discovery settings cache
+    this.discoverySettings = {
+      undiscoveredDisplay: 'hidden',
+      clickDiscoversLocation: true,
+      showUndiscoveredDetails: false
+    };
+
     this.container.element.appendChild(this.rootElement);
     this.attachEventListeners();
     this.subscribeToSettings().catch(error => {
@@ -60,9 +69,9 @@ export class ExitUI {
         '[ExitUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
 
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'exits');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -74,16 +83,21 @@ export class ExitUI {
     if (this.settingsUnsubscribe) {
       this.settingsUnsubscribe();
     }
-    
+
     // Load initial colorblind settings
     try {
       this.colorblindSettings = await settingsManager.getSetting('colorblindMode.exits', false);
+      // Load discovery settings
+      this.discoverySettings.undiscoveredDisplay = await settingsManager.getSetting('moduleSettings.discovery.undiscoveredDisplay', 'hidden');
+      this.discoverySettings.clickDiscoversLocation = await settingsManager.getSetting('moduleSettings.discovery.clickDiscoversLocation', true);
+      this.discoverySettings.showUndiscoveredDetails = await settingsManager.getSetting('moduleSettings.discovery.showUndiscoveredDetails', false);
+      this.isDiscoveryModeActive = await settingsManager.getSetting('moduleSettings.discovery.enableDiscoveryMode', false);
     } catch (error) {
       log('error', 'Error loading colorblind settings:', error);
       this.colorblindSettings = false;
     }
-    
-    this.settingsUnsubscribe = eventBus.subscribe(
+
+    this.settingsUnsubscribe = this.eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
         if (key === '*' || key.startsWith('colorblindMode.exits')) {
@@ -98,7 +112,7 @@ export class ExitUI {
           this.updateExitDisplay();
         }
       }
-    , 'exits');
+    );
   }
 
   onPanelDestroy() {
@@ -117,14 +131,14 @@ export class ExitUI {
     this.unsubscribeFromStateEvents();
     log('info', '[ExitUI] Subscribing to state and loop events...');
 
-    if (!eventBus) {
+    if (!this.eventBus) {
       log('error', '[ExitUI] EventBus not available!');
       return;
     }
 
     const subscribe = (eventName, handler) => {
       log('info', `[ExitUI] Subscribing to ${eventName}`);
-      const unsubscribe = eventBus.subscribe(eventName, handler, 'exits');
+      const unsubscribe = this.eventBus.subscribe(eventName, handler);
       this.stateUnsubscribeHandles.push(unsubscribe);
     };
 
@@ -190,6 +204,25 @@ export class ExitUI {
             ? 'inline-block'
             : 'none';
         }
+        const undiscoveredCheckbox = this.rootElement?.querySelector(
+          '#exit-show-undiscovered'
+        );
+        if (undiscoveredCheckbox?.parentElement) {
+          undiscoveredCheckbox.parentElement.style.display = this.isDiscoveryModeActive
+            ? 'inline-block'
+            : 'none';
+        }
+      }
+    });
+
+    // Subscribe to discovery settings changes
+    subscribe('discovery:settingsChanged', (data) => {
+      if (data && data.settings) {
+        this.discoverySettings.undiscoveredDisplay = data.settings.undiscoveredDisplay ?? 'hidden';
+        this.discoverySettings.clickDiscoversLocation = data.settings.clickDiscoversLocation ?? true;
+        this.discoverySettings.showUndiscoveredDetails = data.settings.showUndiscoveredDetails ?? false;
+        log('info', '[ExitUI] Discovery settings updated:', this.discoverySettings);
+        debouncedUpdate();
       }
     });
 
@@ -269,6 +302,10 @@ export class ExitUI {
           <input type="checkbox" id="exit-show-explored" checked />
           Show Explored
         </label>
+        <label style="display: none"> <!-- Controlled by discovery mode -->
+          <input type="checkbox" id="exit-show-undiscovered" checked />
+          Show Undiscovered
+        </label>
         <button id="exit-decrease-columns">-</button>
         <span id="exit-column-count" style="margin: 0 5px;">${this.columns}</span>
         <button id="exit-increase-columns">+</button>
@@ -300,19 +337,34 @@ export class ExitUI {
 
   /**
    * Handle click on an exit card
+   * Publishes user:exitClicked via dispatcher. The event chain is:
+   * - Loops module: if loop mode active, intercepts (queues moves/explore)
+   * - Discovery module: if discovery mode active, discovers the exit, then blocks
+   * - Regions module: performs the region move (only reached when neither loop nor discovery mode active)
    * @param {Object} exit - The exit data
    */
   handleExitClick(exit) {
-    // Simply publish an event that an exit was clicked
-    // The Loops module will handle this event when loop mode is active
-    log('info', `[ExitUI] Exit clicked: ${exit.name} in ${exit.region} -> ${exit.connected_region}`);
+    const sourceRegion = exit.region || exit.parentRegion;
+    const connectedRegion = exit.connected_region || exit.connectedRegion;
 
-    eventBus.publish('user:exitClicked', {
-      exitName: exit.name,
-      sourceRegion: exit.region,
-      destinationRegion: exit.connected_region,
-      isDiscovered: discoveryStateSingleton.isExitDiscovered(exit.region, exit.name)
-    }, 'exits');
+    log('info', `[ExitUI] Exit clicked: ${exit.name} in ${sourceRegion} -> ${connectedRegion}`);
+
+    import('./index.js').then(({ getExitsModuleDispatcher }) => {
+      const dispatcher = getExitsModuleDispatcher();
+      if (dispatcher) {
+        dispatcher.publish('user:exitClicked', {
+          exitName: exit.name,
+          sourceRegion: sourceRegion,
+          destinationRegion: connectedRegion,
+          accessRule: exit.access_rule,
+          isDiscovered: discoveryStateSingleton.isExitDiscovered(sourceRegion, exit.name)
+        });
+      } else {
+        log('warn', '[ExitUI] Dispatcher not available for publishing exit click events');
+      }
+    }).catch(error => {
+      log('error', '[ExitUI] Error importing exits module for dispatcher:', error);
+    });
   }
 
   // [Old handleExitClickOld_DELETE_ME method removed - logic moved to Loops module]
@@ -350,6 +402,7 @@ export class ExitUI {
       'exit-show-traversable',
       'exit-show-non-traversable',
       'exit-show-explored',
+      'exit-show-undiscovered',
     ].forEach((id) => {
       const element = this.rootElement.querySelector(`#${id}`);
       element?.addEventListener('change', () => this.updateExitDisplay());
@@ -483,7 +536,7 @@ export class ExitUI {
     // Reset the unknown evaluation counter for this rendering cycle
     resetUnknownEvaluationCounter();
 
-    const snapshotInterface = createStateSnapshotInterface(
+    const snapshotInterface = createSnapshotInterface(
       snapshot,
       staticData
     );
@@ -506,6 +559,9 @@ export class ExitUI {
     ).checked;
     const showExplored = this.rootElement.querySelector(
       '#exit-show-explored'
+    ).checked;
+    const showUndiscovered = this.rootElement.querySelector(
+      '#exit-show-undiscovered'
     ).checked;
     const sortMethod =
       this.rootElement.querySelector('#exit-sort-select').value;
@@ -583,14 +639,48 @@ export class ExitUI {
       if (isTraversable && !showTraversable) return false;
       if (!isTraversable && !showNonTraversable) return false;
 
-      // Explored status (only in discovery mode)
+      // Discovery mode filtering
       if (this.isDiscoveryModeActive) {
-        // Assuming exit objects have a unique identifier like 'name' or combined with parentRegion for discovery check
-        const isExplored = discoveryStateSingleton.isExitDiscovered(
+        // Check if the parent region is discovered
+        const isParentRegionDiscovered = discoveryStateSingleton.isRegionDiscovered(parentRegionName);
+        const isExitDiscovered = discoveryStateSingleton.isExitDiscovered(
           exit.parentRegion,
           exit.name
         );
-        if (isExplored && !showExplored) return false;
+
+        // Determine if this exit should be shown as a placeholder
+        let shouldShowAsPlaceholder = false;
+
+        if (!isParentRegionDiscovered) {
+          // Parent region is undiscovered
+          if (this.discoverySettings.undiscoveredDisplay === 'hidden') {
+            return false; // Hide exits in undiscovered regions
+          } else {
+            // undiscoveredDisplay === 'placeholder'
+            shouldShowAsPlaceholder = true;
+          }
+        } else if (!isExitDiscovered) {
+          // Parent region is discovered but exit is not
+          shouldShowAsPlaceholder = true;
+        }
+
+        // Store placeholder state on the exit object for rendering
+        exit._showAsPlaceholder = shouldShowAsPlaceholder;
+
+        // Apply "Show Undiscovered" filter
+        // Only filter out exits in undiscovered regions.
+        // Exits in discovered regions should always be visible (as clickable ??? cards).
+        if (shouldShowAsPlaceholder && !showUndiscovered && !isParentRegionDiscovered) {
+          return false;
+        }
+
+        // Apply "Show Explored" filter for discovered exits
+        if (isExitDiscovered && !showExplored) {
+          return false;
+        }
+      } else {
+        // Discovery mode not active, clear placeholder state
+        exit._showAsPlaceholder = false;
       }
 
       return true; // Keep exit if not filtered out
@@ -892,72 +982,139 @@ export class ExitUI {
         // Clear existing card content before appending new elements
         card.innerHTML = '';
 
-        const exitNameSpan = document.createElement('span');
-        exitNameSpan.className = 'exit-name';
-        exitNameSpan.textContent = exit.name;
-        card.appendChild(exitNameSpan);
+        // Check if this should be shown as a placeholder (undiscovered)
+        const showAsPlaceholder = exit._showAsPlaceholder === true;
+        const showFullDetails = this.discoverySettings.showUndiscoveredDetails;
+        const parentRegionIsDiscovered = this.isDiscoveryModeActive &&
+          discoveryStateSingleton.isRegionDiscovered(parentRegionName);
 
-        if (exit.player) {
-          const playerDiv = document.createElement('div');
-          playerDiv.className = 'text-sm';
-          playerDiv.textContent = `Player ${exit.player}`;
-          card.appendChild(playerDiv);
+        // Add undiscovered class for styling, but not when region is discovered
+        // (exits in discovered regions should look clickable, not grayed out)
+        if (showAsPlaceholder && !parentRegionIsDiscovered) {
+          card.classList.add('undiscovered-exit');
         }
 
-        // Origin Region
-        const originRegionLink = commonUI.createRegionLink(
-          parentRegionName,
-          useColorblind,
-          snapshot
-        );
-        const originDiv = document.createElement('div');
-        originDiv.className = 'text-sm';
-        originDiv.textContent = `From: `;
-        originDiv.appendChild(originRegionLink);
-        originDiv.appendChild(
-          document.createTextNode(
-            ` (${parentRegionReachable ? 'Accessible' : 'Inaccessible'})`
-          )
-        );
-        card.appendChild(originDiv);
+        if (showAsPlaceholder) {
+          // Show placeholder text for exit name
+          const exitNameSpan = document.createElement('span');
+          exitNameSpan.className = 'exit-name exit-placeholder';
+          exitNameSpan.textContent = '???';
+          exitNameSpan.style.fontStyle = 'italic';
+          if (parentRegionIsDiscovered) {
+            // Region is discovered - card is clickable (queues explore)
+            exitNameSpan.style.color = '#ccc';
+            card.title = 'Click to explore this region';
+            card.style.cursor = 'pointer';
+          } else {
+            exitNameSpan.style.color = '#888';
+          }
+          card.appendChild(exitNameSpan);
+        } else {
+          const exitNameSpan = document.createElement('span');
+          exitNameSpan.className = 'exit-name';
+          exitNameSpan.textContent = exit.name;
+          card.appendChild(exitNameSpan);
+        }
 
-        // Destination Region
-        const destRegionLink = commonUI.createRegionLink(
-          connectedRegionName,
-          useColorblind,
-          snapshot
-        );
-        const destDiv = document.createElement('div');
-        destDiv.className = 'text-sm';
-        destDiv.textContent = `To: `;
-        destDiv.appendChild(destRegionLink);
-        destDiv.appendChild(
-          document.createTextNode(
-            ` (${connectedRegionReachable ? 'Accessible' : 'Inaccessible'})`
-          )
-        );
-        card.appendChild(destDiv);
+        // For placeholder exits with minimal details, only show origin region
+        if (showAsPlaceholder && !showFullDetails) {
+          // Minimal placeholder: just show origin region
+          const originDiv = document.createElement('div');
+          originDiv.className = 'text-sm';
+          if (this.isDiscoveryModeActive && parentRegionName && !discoveryStateSingleton.isRegionDiscovered(parentRegionName)) {
+            // Region is undiscovered - mask the name
+            originDiv.textContent = 'From: ???';
+            originDiv.style.fontStyle = 'italic';
+            originDiv.style.color = '#888';
+          } else {
+            originDiv.textContent = `From: `;
+            const originRegionLink = commonUI.createRegionLink(
+              parentRegionName,
+              useColorblind,
+              snapshot
+            );
+            originDiv.appendChild(originRegionLink);
+          }
+          card.appendChild(originDiv);
 
-        // Access Rule
-        if (exit.access_rule) {
-          const ruleDiv = document.createElement('div');
-          ruleDiv.className = 'text-sm';
-          ruleDiv.textContent = 'Rule: ';
-          const logicTreeElement = renderLogicTree(
-            exit.access_rule,
+          // Status: Unknown for undiscovered
+          const statusDiv = document.createElement('div');
+          statusDiv.className = 'text-sm';
+          statusDiv.textContent = 'Status: Unknown';
+          card.appendChild(statusDiv);
+        } else {
+          // Full details (for discovered exits OR undiscovered with showFullDetails)
+
+          if (exit.player) {
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'text-sm';
+            playerDiv.textContent = `Player ${exit.player}`;
+            card.appendChild(playerDiv);
+          }
+
+          // Origin Region
+          const originDiv = document.createElement('div');
+          originDiv.className = 'text-sm';
+          if (this.isDiscoveryModeActive && parentRegionName && !discoveryStateSingleton.isRegionDiscovered(parentRegionName)) {
+            // Region is undiscovered - mask the name
+            originDiv.textContent = 'From: ???';
+            originDiv.style.fontStyle = 'italic';
+            originDiv.style.color = '#888';
+          } else {
+            const originRegionLink = commonUI.createRegionLink(
+              parentRegionName,
+              useColorblind,
+              snapshot
+            );
+            originDiv.textContent = `From: `;
+            originDiv.appendChild(originRegionLink);
+            originDiv.appendChild(
+              document.createTextNode(
+                ` (${parentRegionReachable ? 'Accessible' : 'Inaccessible'})`
+              )
+            );
+          }
+          card.appendChild(originDiv);
+
+          // Destination Region
+          const destRegionLink = commonUI.createRegionLink(
+            connectedRegionName,
             useColorblind,
-            snapshotInterface
+            snapshot
           );
-          ruleDiv.appendChild(logicTreeElement);
-          card.appendChild(ruleDiv);
+          const destDiv = document.createElement('div');
+          destDiv.className = 'text-sm';
+          destDiv.textContent = `To: `;
+          destDiv.appendChild(destRegionLink);
+          destDiv.appendChild(
+            document.createTextNode(
+              ` (${connectedRegionReachable ? 'Accessible' : 'Inaccessible'})`
+            )
+          );
+          card.appendChild(destDiv);
+
+          // Access Rule
+          if (exit.access_rule) {
+            const ruleDiv = document.createElement('div');
+            ruleDiv.className = 'text-sm';
+            ruleDiv.textContent = 'Rule: ';
+            const logicTreeElement = renderLogicTree(
+              exit.access_rule,
+              useColorblind,
+              snapshotInterface
+            );
+            ruleDiv.appendChild(logicTreeElement);
+            card.appendChild(ruleDiv);
+          }
+
+          // Status Text
+          const statusDiv = document.createElement('div');
+          statusDiv.className = 'text-sm';
+          statusDiv.textContent = `Status: ${statusText}`;
+          card.appendChild(statusDiv);
         }
 
-        // Status Text
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'text-sm';
-        statusDiv.textContent = `Status: ${statusText}`;
-        card.appendChild(statusDiv);
-
+        // Explored indicator (shown for discovered exits in discovery mode)
         if (isExplored) {
           const exploredIndicator = document.createElement('span');
           exploredIndicator.className = 'exit-explored-indicator';

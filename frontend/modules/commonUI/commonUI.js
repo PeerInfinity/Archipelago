@@ -2,10 +2,9 @@
 
 import { evaluateRule } from '../shared/ruleEngine.js';
 // Import the function directly from its source file
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import settingsManager from '../../app/core/settingsManager.js';
-import eventBusCore from '../../app/core/eventBus.js';
 // eventBus will be injected during module initialization
 let eventBus = null;
 
@@ -381,7 +380,17 @@ class CommonUI {
     // Evaluate the rule using the provided interface
     let evaluationResult; // Can be true, false, or undefined
 
-    if (stateSnapshotInterface) {
+    // Statement-type rules that only make sense inside a block context
+    // These should not be evaluated in isolation as they require local scope
+    const statementOnlyTypes = new Set([
+      'assign', 'return', 'break', 'continue',
+      'for_range', 'for_iter', 'while_loop', 'if_statement'
+    ]);
+
+    if (statementOnlyTypes.has(rule.type)) {
+      // Don't try to evaluate statement-only rules - they need block context
+      evaluationResult = undefined;
+    } else if (stateSnapshotInterface) {
       try {
         evaluationResult = evaluateRule(rule, stateSnapshotInterface);
       } catch (e) {
@@ -394,6 +403,11 @@ class CommonUI {
         'renderLogicTree called without stateSnapshotInterface. Rule evaluation might be inaccurate.'
       );
       evaluationResult = undefined; // No interface means unknown
+    }
+
+    // Detect Rule Builder format: has 'rule' key but no 'type' key
+    if (rule.rule && !rule.type) {
+      return this._renderRuleBuilderTree(rule, useColorblind, stateSnapshotInterface, evaluationResult, root);
     }
 
     const isValueNode =
@@ -653,108 +667,17 @@ class CommonUI {
       }
 
       case 'helper': {
-        // Display helper name with expand/collapse button
+        // Display helper name
         root.appendChild(document.createTextNode(` helper: ${rule.name}`));
 
-        // Add expand/collapse button for helper code
-        const expandBtn = document.createElement('button');
-        expandBtn.textContent = '[+]';
-        expandBtn.style.marginLeft = '8px';
-        expandBtn.style.fontSize = '12px';
-        expandBtn.style.padding = '0 4px';
-        expandBtn.style.cursor = 'pointer';
-        expandBtn.style.border = '1px solid #666';
-        expandBtn.style.backgroundColor = '#333';
-        expandBtn.style.color = '#ccc';
-        expandBtn.title = 'Show helper function code';
-
-        // Container for the helper code (initially hidden)
-        const codeContainer = document.createElement('div');
-        codeContainer.style.display = 'none';
-        codeContainer.style.marginTop = '8px';
-        codeContainer.style.marginLeft = '20px';
-        codeContainer.style.padding = '8px';
-        codeContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-        codeContainer.style.border = '1px solid #444';
-        codeContainer.style.borderRadius = '4px';
-        codeContainer.style.fontFamily = 'monospace';
-        codeContainer.style.fontSize = '12px';
-        codeContainer.style.whiteSpace = 'pre-wrap';
-        codeContainer.style.overflowX = 'auto';
-
-        let isExpanded = false;
-        let codeLoaded = false;
-
-        expandBtn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          isExpanded = !isExpanded;
-
-          if (isExpanded) {
-            expandBtn.textContent = '[-]';
-            expandBtn.title = 'Hide helper function code';
-            codeContainer.style.display = 'block';
-
-            // Load code if not already loaded
-            if (!codeLoaded) {
-              codeContainer.textContent = 'Loading...';
-
-              try {
-                // Get static data to determine game directory
-                const staticData = stateManager.getStaticData();
-                const gameDir = staticData?.game_directory;
-
-                if (!gameDir) {
-                  throw new Error('Game directory not found in static data');
-                }
-
-                // Construct the path to the helper file
-                const helperPath = `/frontend/modules/shared/gameLogic/${gameDir}/${gameDir}Logic.js`;
-
-                // Fetch the helper file
-                const response = await fetch(helperPath);
-                if (!response.ok) {
-                  throw new Error(`Failed to load helper file: ${response.status}`);
-                }
-
-                const helperCode = await response.text();
-
-                // Extract the specific helper function
-                const helperFunctionCode = this._extractHelperFunction(helperCode, rule.name);
-
-                if (helperFunctionCode) {
-                  // Create a container for the formatted code
-                  codeContainer.innerHTML = '';
-
-                  // Always format the code to highlight item names
-                  const formattedCode = await this._formatHelperCode(helperFunctionCode, stateSnapshotInterface);
-                  codeContainer.appendChild(formattedCode);
-
-                  codeLoaded = true;
-                } else {
-                  codeContainer.textContent = `Helper function '${rule.name}' not found in ${helperPath}`;
-                }
-              } catch (error) {
-                log('error', `Failed to load helper function: ${error.message}`);
-                codeContainer.textContent = `Error loading helper: ${error.message}`;
-              }
-            }
-          } else {
-            expandBtn.textContent = '[+]';
-            expandBtn.title = 'Show helper function code';
-            codeContainer.style.display = 'none';
-          }
-        });
-
-        root.appendChild(expandBtn);
-
-        // Process arguments for display
+        // Process arguments for display first (before expand button)
         if (rule.args && rule.args.length > 0) {
-          root.appendChild(document.createTextNode(', args: ['));
-          const argsContainer = document.createElement('span'); // Container for args text
-          argsContainer.style.backgroundColor = 'transparent'; // Explicitly remove background
-          argsContainer.style.color = 'inherit'; // Inherit text color from parent
-          argsContainer.style.padding = '0'; // Reset padding
-          argsContainer.style.margin = '0'; // Reset margin
+          root.appendChild(document.createTextNode('('));
+          const argsContainer = document.createElement('span');
+          argsContainer.style.backgroundColor = 'transparent';
+          argsContainer.style.color = 'inherit';
+          argsContainer.style.padding = '0';
+          argsContainer.style.margin = '0';
 
           let isFirstArg = true;
           rule.args.forEach((arg) => {
@@ -763,17 +686,81 @@ class CommonUI {
             }
             let argText = '(complex)';
             if (typeof arg === 'string' || typeof arg === 'number') {
-              argText = arg;
+              argText = String(arg);
             } else if (arg && arg.type === 'constant') {
-              argText = arg.value;
+              argText = String(arg.value);
             }
             argsContainer.appendChild(document.createTextNode(argText));
             isFirstArg = false;
           });
           root.appendChild(argsContainer);
-          root.appendChild(document.createTextNode(']'));
+          root.appendChild(document.createTextNode(')'));
         } else {
-          root.appendChild(document.createTextNode(', args: []'));
+          root.appendChild(document.createTextNode('()'));
+        }
+
+        // Try to look up helper definition from static data (rules.json) first
+        let helperDef = null;
+        if (stateSnapshotInterface && typeof stateSnapshotInterface.getStaticData === 'function') {
+          const staticData = stateSnapshotInterface.getStaticData();
+          if (staticData?.helpers) {
+            // helpers is keyed by player ID, try common player IDs
+            const playerIds = ['1', '0', 1, 0];
+            for (const pid of playerIds) {
+              if (staticData.helpers[pid]?.[rule.name]) {
+                helperDef = staticData.helpers[pid][rule.name];
+                break;
+              }
+            }
+          }
+        }
+
+        // Only add expand/collapse button if we have a helper definition
+        if (helperDef) {
+          const bodyContainer = document.createElement('div');
+          bodyContainer.style.marginLeft = '10px';
+          bodyContainer.style.marginTop = '4px';
+
+          const expandBtn = document.createElement('button');
+          expandBtn.textContent = '[+] Show helper body';
+          expandBtn.style.fontSize = '12px';
+          expandBtn.style.padding = '0 4px';
+          expandBtn.style.cursor = 'pointer';
+          expandBtn.style.border = '1px solid #666';
+          expandBtn.style.backgroundColor = '#333';
+          expandBtn.style.color = '#ccc';
+
+          let isExpanded = false;
+          const bodyTreeContainer = document.createElement('div');
+          bodyTreeContainer.style.display = 'none';
+          bodyTreeContainer.style.marginTop = '4px';
+
+          expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+              expandBtn.textContent = '[-] Hide helper body';
+              bodyTreeContainer.style.display = 'block';
+              // Render body on first expand
+              if (bodyTreeContainer.children.length === 0) {
+                // Helper definition can be in different formats:
+                // 1. { body: {...}, params: [...] } - parameterized helper
+                // 2. { type: 'or', conditions: [...] } - direct rule
+                // 3. { statements: [...], type: 'block' } - block
+                const bodyRule = helperDef.body || helperDef;
+                bodyTreeContainer.appendChild(
+                  this.renderLogicTree(bodyRule, useColorblind, stateSnapshotInterface)
+                );
+              }
+            } else {
+              expandBtn.textContent = '[+] Show helper body';
+              bodyTreeContainer.style.display = 'none';
+            }
+          });
+
+          bodyContainer.appendChild(expandBtn);
+          bodyContainer.appendChild(bodyTreeContainer);
+          root.appendChild(bodyContainer);
         }
 
         // Keep the logic for rendering complex arguments below if they exist
@@ -814,8 +801,6 @@ class CommonUI {
           root.appendChild(argsContainer);
         }
 
-        // Add the code container to the root
-        root.appendChild(codeContainer);
         break;
       }
 
@@ -1216,15 +1201,15 @@ class CommonUI {
       case 'binary_op': {
         const opText = rule.op || 'unknown';
         root.appendChild(document.createTextNode(`Binary Operation: ${opText}`));
-        
+
         const binaryDetails = document.createElement('div');
         binaryDetails.classList.add('logic-binary-details');
         binaryDetails.style.marginLeft = '10px';
-        
+
         const leftLabel = document.createElement('div');
         leftLabel.textContent = 'Left Operand:';
         binaryDetails.appendChild(leftLabel);
-        
+
         const leftNode = document.createElement('div');
         leftNode.style.marginLeft = '10px';
         leftNode.appendChild(
@@ -1235,11 +1220,11 @@ class CommonUI {
           )
         );
         binaryDetails.appendChild(leftNode);
-        
+
         const rightLabel = document.createElement('div');
         rightLabel.textContent = 'Right Operand:';
         binaryDetails.appendChild(rightLabel);
-        
+
         const rightNode = document.createElement('div');
         rightNode.style.marginLeft = '10px';
         rightNode.appendChild(
@@ -1250,8 +1235,738 @@ class CommonUI {
           )
         );
         binaryDetails.appendChild(rightNode);
-        
+
         root.appendChild(binaryDetails);
+        break;
+      }
+
+      case 'not': {
+        root.appendChild(document.createTextNode(' (logical NOT)'));
+        // 'not' can use either 'operand' or 'condition' field
+        const innerRule = rule.operand || rule.condition;
+        if (innerRule) {
+          const innerContainer = document.createElement('div');
+          innerContainer.style.marginLeft = '10px';
+          innerContainer.appendChild(
+            this.renderLogicTree(innerRule, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(innerContainer);
+        }
+        break;
+      }
+
+      case 'negate': {
+        root.appendChild(document.createTextNode(' (unary minus)'));
+        if (rule.operand) {
+          const operandContainer = document.createElement('div');
+          operandContainer.style.marginLeft = '10px';
+          operandContainer.appendChild(
+            this.renderLogicTree(rule.operand, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(operandContainer);
+        }
+        break;
+      }
+
+      case 'block': {
+        root.appendChild(document.createTextNode(' (code block)'));
+        if (rule.statements && rule.statements.length > 0) {
+          const statementsContainer = document.createElement('div');
+          statementsContainer.style.marginLeft = '10px';
+          rule.statements.forEach((stmt, index) => {
+            const stmtLabel = document.createElement('div');
+            stmtLabel.textContent = `Statement #${index + 1}:`;
+            statementsContainer.appendChild(stmtLabel);
+            statementsContainer.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(statementsContainer);
+        }
+        break;
+      }
+
+      case 'assign': {
+        const varName = rule.var || '?';
+        const op = rule.op || '=';
+        root.appendChild(document.createTextNode(` ${varName} ${op}`));
+        if (rule.value) {
+          const valueContainer = document.createElement('div');
+          valueContainer.style.marginLeft = '10px';
+          valueContainer.appendChild(
+            this.renderLogicTree(rule.value, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(valueContainer);
+        }
+        break;
+      }
+
+      case 'return': {
+        root.appendChild(document.createTextNode(' return'));
+        if (rule.value) {
+          const valueContainer = document.createElement('div');
+          valueContainer.style.marginLeft = '10px';
+          valueContainer.appendChild(
+            this.renderLogicTree(rule.value, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(valueContainer);
+        }
+        break;
+      }
+
+      case 'for_range': {
+        const varName = rule.var || 'i';
+        root.appendChild(document.createTextNode(` for ${varName} in range(...)`));
+
+        const forDetails = document.createElement('div');
+        forDetails.style.marginLeft = '10px';
+
+        // Show range parameters
+        if (rule.start) {
+          const startLabel = document.createElement('div');
+          startLabel.textContent = 'Start:';
+          forDetails.appendChild(startLabel);
+          const startNode = document.createElement('div');
+          startNode.style.marginLeft = '10px';
+          startNode.appendChild(
+            this.renderLogicTree(rule.start, useColorblind, stateSnapshotInterface)
+          );
+          forDetails.appendChild(startNode);
+        }
+
+        if (rule.end) {
+          const endLabel = document.createElement('div');
+          endLabel.textContent = 'End:';
+          forDetails.appendChild(endLabel);
+          const endNode = document.createElement('div');
+          endNode.style.marginLeft = '10px';
+          endNode.appendChild(
+            this.renderLogicTree(rule.end, useColorblind, stateSnapshotInterface)
+          );
+          forDetails.appendChild(endNode);
+        }
+
+        if (rule.step) {
+          const stepLabel = document.createElement('div');
+          stepLabel.textContent = 'Step:';
+          forDetails.appendChild(stepLabel);
+          const stepNode = document.createElement('div');
+          stepNode.style.marginLeft = '10px';
+          stepNode.appendChild(
+            this.renderLogicTree(rule.step, useColorblind, stateSnapshotInterface)
+          );
+          forDetails.appendChild(stepNode);
+        }
+
+        // Show body
+        if (rule.body && rule.body.length > 0) {
+          const bodyLabel = document.createElement('div');
+          bodyLabel.textContent = 'Body:';
+          forDetails.appendChild(bodyLabel);
+          rule.body.forEach((stmt, index) => {
+            const stmtNode = document.createElement('div');
+            stmtNode.style.marginLeft = '10px';
+            stmtNode.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+            forDetails.appendChild(stmtNode);
+          });
+        }
+
+        root.appendChild(forDetails);
+        break;
+      }
+
+      case 'for_iter': {
+        const varName = rule.var || 'item';
+        root.appendChild(document.createTextNode(` for ${varName} in ...`));
+
+        const forDetails = document.createElement('div');
+        forDetails.style.marginLeft = '10px';
+
+        // Show iterable
+        if (rule.iterable) {
+          const iterLabel = document.createElement('div');
+          iterLabel.textContent = 'Iterable:';
+          forDetails.appendChild(iterLabel);
+          const iterNode = document.createElement('div');
+          iterNode.style.marginLeft = '10px';
+          iterNode.appendChild(
+            this.renderLogicTree(rule.iterable, useColorblind, stateSnapshotInterface)
+          );
+          forDetails.appendChild(iterNode);
+        }
+
+        // Show body
+        if (rule.body && rule.body.length > 0) {
+          const bodyLabel = document.createElement('div');
+          bodyLabel.textContent = 'Body:';
+          forDetails.appendChild(bodyLabel);
+          rule.body.forEach((stmt) => {
+            const stmtNode = document.createElement('div');
+            stmtNode.style.marginLeft = '10px';
+            stmtNode.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+            forDetails.appendChild(stmtNode);
+          });
+        }
+
+        root.appendChild(forDetails);
+        break;
+      }
+
+      case 'while_loop': {
+        root.appendChild(document.createTextNode(' while ...'));
+
+        const whileDetails = document.createElement('div');
+        whileDetails.style.marginLeft = '10px';
+
+        if (rule.condition) {
+          const condLabel = document.createElement('div');
+          condLabel.textContent = 'Condition:';
+          whileDetails.appendChild(condLabel);
+          const condNode = document.createElement('div');
+          condNode.style.marginLeft = '10px';
+          condNode.appendChild(
+            this.renderLogicTree(rule.condition, useColorblind, stateSnapshotInterface)
+          );
+          whileDetails.appendChild(condNode);
+        }
+
+        if (rule.body && rule.body.length > 0) {
+          const bodyLabel = document.createElement('div');
+          bodyLabel.textContent = 'Body:';
+          whileDetails.appendChild(bodyLabel);
+          rule.body.forEach((stmt) => {
+            const stmtNode = document.createElement('div');
+            stmtNode.style.marginLeft = '10px';
+            stmtNode.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+            whileDetails.appendChild(stmtNode);
+          });
+        }
+
+        root.appendChild(whileDetails);
+        break;
+      }
+
+      case 'if_statement': {
+        root.appendChild(document.createTextNode(' if ...'));
+
+        const ifDetails = document.createElement('div');
+        ifDetails.style.marginLeft = '10px';
+
+        if (rule.condition) {
+          const condLabel = document.createElement('div');
+          condLabel.textContent = 'Condition:';
+          ifDetails.appendChild(condLabel);
+          const condNode = document.createElement('div');
+          condNode.style.marginLeft = '10px';
+          condNode.appendChild(
+            this.renderLogicTree(rule.condition, useColorblind, stateSnapshotInterface)
+          );
+          ifDetails.appendChild(condNode);
+        }
+
+        if (rule.body && rule.body.length > 0) {
+          const bodyLabel = document.createElement('div');
+          bodyLabel.textContent = 'Then:';
+          ifDetails.appendChild(bodyLabel);
+          rule.body.forEach((stmt) => {
+            const stmtNode = document.createElement('div');
+            stmtNode.style.marginLeft = '10px';
+            stmtNode.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+            ifDetails.appendChild(stmtNode);
+          });
+        }
+
+        if (rule.orelse && rule.orelse.length > 0) {
+          const elseLabel = document.createElement('div');
+          elseLabel.textContent = 'Else:';
+          ifDetails.appendChild(elseLabel);
+          rule.orelse.forEach((stmt) => {
+            const stmtNode = document.createElement('div');
+            stmtNode.style.marginLeft = '10px';
+            stmtNode.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+            ifDetails.appendChild(stmtNode);
+          });
+        }
+
+        root.appendChild(ifDetails);
+        break;
+      }
+
+      case 'break': {
+        root.appendChild(document.createTextNode(' break'));
+        break;
+      }
+
+      case 'continue': {
+        root.appendChild(document.createTextNode(' continue'));
+        break;
+      }
+
+      case 'setting_value': {
+        const settingName = rule.setting || '?';
+        root.appendChild(document.createTextNode(` setting: ${settingName}`));
+        break;
+      }
+
+      case 'setting_check': {
+        const settingName = rule.setting || '?';
+        const value = rule.value;
+        root.appendChild(document.createTextNode(` setting: ${settingName} == ${JSON.stringify(value)}`));
+        break;
+      }
+
+      case 'can_reach': {
+        const regionName = typeof rule.region === 'string' ? rule.region : '(complex)';
+        root.appendChild(document.createTextNode(` can_reach region: ${regionName}`));
+        if (rule.region && typeof rule.region === 'object') {
+          const regionContainer = document.createElement('div');
+          regionContainer.style.marginLeft = '10px';
+          regionContainer.appendChild(
+            this.renderLogicTree(rule.region, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(regionContainer);
+        }
+        break;
+      }
+
+      case 'region_check': {
+        const regionName = typeof rule.region === 'string' ? rule.region : '(complex)';
+        root.appendChild(document.createTextNode(` region: ${regionName}`));
+        if (rule.region && typeof rule.region === 'object') {
+          const regionContainer = document.createElement('div');
+          regionContainer.style.marginLeft = '10px';
+          regionContainer.appendChild(
+            this.renderLogicTree(rule.region, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(regionContainer);
+        }
+        break;
+      }
+
+      case 'location_check': {
+        const locationName = typeof rule.location === 'string' ? rule.location : '(complex)';
+        root.appendChild(document.createTextNode(` location: ${locationName}`));
+        if (rule.location && typeof rule.location === 'object') {
+          const locationContainer = document.createElement('div');
+          locationContainer.style.marginLeft = '10px';
+          locationContainer.appendChild(
+            this.renderLogicTree(rule.location, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(locationContainer);
+        }
+        break;
+      }
+
+      case 'location_rule_ref': {
+        const locationName = typeof rule.location === 'string' ? rule.location : '(complex)';
+        root.appendChild(document.createTextNode(` location rule: ${locationName}`));
+        break;
+      }
+
+      case 'can_reach_entrance': {
+        const entranceName = typeof rule.entrance === 'string' ? rule.entrance : '(complex)';
+        root.appendChild(document.createTextNode(` can_reach entrance: ${entranceName}`));
+        if (rule.entrance && typeof rule.entrance === 'object') {
+          const entranceContainer = document.createElement('div');
+          entranceContainer.style.marginLeft = '10px';
+          entranceContainer.appendChild(
+            this.renderLogicTree(rule.entrance, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(entranceContainer);
+        }
+        break;
+      }
+
+      case 'region_reference': {
+        const regionName = typeof rule.region === 'string' ? rule.region : '(complex)';
+        root.appendChild(document.createTextNode(` region ref: ${regionName}`));
+        break;
+      }
+
+      case 'region_attribute': {
+        const regionName = typeof rule.region === 'string' ? rule.region : '(complex)';
+        const attr = rule.attr || '?';
+        root.appendChild(document.createTextNode(` ${regionName}.${attr}`));
+        break;
+      }
+
+      case 'list': {
+        const values = rule.value || [];
+        if (values.length === 0) {
+          root.appendChild(document.createTextNode(' []'));
+        } else if (values.length <= 5) {
+          root.appendChild(document.createTextNode(' ['));
+          const listContainer = document.createElement('div');
+          listContainer.style.marginLeft = '10px';
+          values.forEach((item, index) => {
+            const itemNode = document.createElement('div');
+            itemNode.appendChild(
+              this.renderLogicTree(item, useColorblind, stateSnapshotInterface)
+            );
+            if (index < values.length - 1) {
+              itemNode.appendChild(document.createTextNode(','));
+            }
+            listContainer.appendChild(itemNode);
+          });
+          root.appendChild(listContainer);
+          root.appendChild(document.createTextNode(']'));
+        } else {
+          root.appendChild(document.createTextNode(` [${values.length} items]`));
+        }
+        break;
+      }
+
+      case 'tuple': {
+        const values = rule.value || rule.elements || [];
+        root.appendChild(document.createTextNode(` (${values.length} elements)`));
+        if (values.length > 0 && values.length <= 5) {
+          const tupleContainer = document.createElement('div');
+          tupleContainer.style.marginLeft = '10px';
+          values.forEach((item) => {
+            const itemNode = document.createElement('div');
+            itemNode.appendChild(
+              this.renderLogicTree(item, useColorblind, stateSnapshotInterface)
+            );
+            tupleContainer.appendChild(itemNode);
+          });
+          root.appendChild(tupleContainer);
+        }
+        break;
+      }
+
+      case 'set': {
+        const elements = rule.elements || [];
+        root.appendChild(document.createTextNode(` {${elements.length} elements}`));
+        break;
+      }
+
+      case 'count_item': {
+        const itemName = typeof rule.item === 'string' ? rule.item : '(complex)';
+        root.appendChild(document.createTextNode(` count(${itemName})`));
+        if (rule.item && typeof rule.item === 'object') {
+          const itemContainer = document.createElement('div');
+          itemContainer.style.marginLeft = '10px';
+          itemContainer.appendChild(
+            this.renderLogicTree(rule.item, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(itemContainer);
+        }
+        break;
+      }
+
+      case 'group_count': {
+        const groupName = typeof rule.group === 'string' ? rule.group : '(complex)';
+        root.appendChild(document.createTextNode(` group_count(${groupName})`));
+        break;
+      }
+
+      case 'prog_item_count': {
+        const itemName = typeof rule.item === 'string' ? rule.item : '(complex)';
+        root.appendChild(document.createTextNode(` prog_item_count(${itemName})`));
+        break;
+      }
+
+      case 'counts': {
+        const items = rule.items || [];
+        const count = rule.count || 1;
+        root.appendChild(document.createTextNode(` counts(${items.length} items) >= ${count}`));
+        if (items.length > 0 && items.length <= 10) {
+          const itemsContainer = document.createElement('div');
+          itemsContainer.style.marginLeft = '10px';
+          items.forEach((item) => {
+            const itemNode = document.createElement('div');
+            if (typeof item === 'string') {
+              itemNode.textContent = `- ${item}`;
+            } else {
+              itemNode.appendChild(
+                this.renderLogicTree(item, useColorblind, stateSnapshotInterface)
+              );
+            }
+            itemsContainer.appendChild(itemNode);
+          });
+          root.appendChild(itemsContainer);
+        }
+        break;
+      }
+
+      case 'all_of':
+      case 'any_of': {
+        const isAll = rule.type === 'all_of';
+        root.appendChild(document.createTextNode(` ${isAll ? 'all' : 'any'} of ...`));
+
+        const detailsContainer = document.createElement('div');
+        detailsContainer.style.marginLeft = '10px';
+
+        if (rule.iterator_info) {
+          const iterLabel = document.createElement('div');
+          iterLabel.textContent = 'Iterator:';
+          detailsContainer.appendChild(iterLabel);
+          const iterNode = document.createElement('div');
+          iterNode.style.marginLeft = '10px';
+          iterNode.appendChild(
+            this.renderLogicTree(rule.iterator_info, useColorblind, stateSnapshotInterface)
+          );
+          detailsContainer.appendChild(iterNode);
+        }
+
+        if (rule.element_rule) {
+          const elemLabel = document.createElement('div');
+          elemLabel.textContent = 'Element Rule:';
+          detailsContainer.appendChild(elemLabel);
+          const elemNode = document.createElement('div');
+          elemNode.style.marginLeft = '10px';
+          elemNode.appendChild(
+            this.renderLogicTree(rule.element_rule, useColorblind, stateSnapshotInterface)
+          );
+          detailsContainer.appendChild(elemNode);
+        }
+
+        root.appendChild(detailsContainer);
+        break;
+      }
+
+      case 'sum_of': {
+        root.appendChild(document.createTextNode(' sum of ...'));
+
+        const sumDetails = document.createElement('div');
+        sumDetails.style.marginLeft = '10px';
+
+        if (rule.iterator_info) {
+          const iterLabel = document.createElement('div');
+          iterLabel.textContent = 'Iterator:';
+          sumDetails.appendChild(iterLabel);
+          const iterNode = document.createElement('div');
+          iterNode.style.marginLeft = '10px';
+          iterNode.appendChild(
+            this.renderLogicTree(rule.iterator_info, useColorblind, stateSnapshotInterface)
+          );
+          sumDetails.appendChild(iterNode);
+        }
+
+        if (rule.element_rule) {
+          const elemLabel = document.createElement('div');
+          elemLabel.textContent = 'Element Expression:';
+          sumDetails.appendChild(elemLabel);
+          const elemNode = document.createElement('div');
+          elemNode.style.marginLeft = '10px';
+          elemNode.appendChild(
+            this.renderLogicTree(rule.element_rule, useColorblind, stateSnapshotInterface)
+          );
+          sumDetails.appendChild(elemNode);
+        }
+
+        root.appendChild(sumDetails);
+        break;
+      }
+
+      case 'count_true':
+      case 'weighted_count_true': {
+        const isWeighted = rule.type === 'weighted_count_true';
+        root.appendChild(document.createTextNode(` ${isWeighted ? 'weighted_' : ''}count_true`));
+
+        if (rule.conditions && rule.conditions.length > 0) {
+          const condContainer = document.createElement('div');
+          condContainer.style.marginLeft = '10px';
+          rule.conditions.forEach((cond, index) => {
+            const condLabel = document.createElement('div');
+            condLabel.textContent = `Condition #${index + 1}:`;
+            condContainer.appendChild(condLabel);
+            condContainer.appendChild(
+              this.renderLogicTree(cond, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(condContainer);
+        }
+        break;
+      }
+
+      case 'min':
+      case 'max':
+      case 'sum': {
+        root.appendChild(document.createTextNode(` ${rule.type}(...)`));
+        if (rule.args && rule.args.length > 0) {
+          const argsContainer = document.createElement('div');
+          argsContainer.style.marginLeft = '10px';
+          rule.args.forEach((arg) => {
+            const argNode = document.createElement('div');
+            argNode.appendChild(
+              this.renderLogicTree(arg, useColorblind, stateSnapshotInterface)
+            );
+            argsContainer.appendChild(argNode);
+          });
+          root.appendChild(argsContainer);
+        }
+        break;
+      }
+
+      case 'f_string': {
+        root.appendChild(document.createTextNode(' f"..."'));
+        if (rule.parts && rule.parts.length > 0) {
+          const partsContainer = document.createElement('div');
+          partsContainer.style.marginLeft = '10px';
+          rule.parts.forEach((part, index) => {
+            const partNode = document.createElement('div');
+            partNode.appendChild(document.createTextNode(`Part ${index + 1}: `));
+            partNode.appendChild(
+              this.renderLogicTree(part, useColorblind, stateSnapshotInterface)
+            );
+            partsContainer.appendChild(partNode);
+          });
+          root.appendChild(partsContainer);
+        }
+        break;
+      }
+
+      case 'player_id': {
+        root.appendChild(document.createTextNode(' (player ID)'));
+        break;
+      }
+
+      case 'capability': {
+        const capName = rule.capability || '?';
+        root.appendChild(document.createTextNode(` capability: ${capName}`));
+        break;
+      }
+
+      case 'placement_lookup': {
+        const locationName = typeof rule.location === 'string' ? rule.location : '(complex)';
+        root.appendChild(document.createTextNode(` placement at: ${locationName}`));
+        break;
+      }
+
+      case 'placement_search': {
+        root.appendChild(document.createTextNode(' placement_search'));
+        const searchDetails = document.createElement('div');
+        searchDetails.style.marginLeft = '10px';
+
+        if (rule.item) {
+          const itemLabel = document.createElement('div');
+          itemLabel.textContent = `Item: ${typeof rule.item === 'string' ? rule.item : '(complex)'}`;
+          searchDetails.appendChild(itemLabel);
+        }
+
+        if (rule.player !== undefined) {
+          const playerLabel = document.createElement('div');
+          playerLabel.textContent = `Player: ${rule.player}`;
+          searchDetails.appendChild(playerLabel);
+        }
+
+        if (rule.locations && rule.locations.length > 0) {
+          const locsLabel = document.createElement('div');
+          locsLabel.textContent = `Locations: ${rule.locations.length} entries`;
+          searchDetails.appendChild(locsLabel);
+        }
+
+        root.appendChild(searchDetails);
+        break;
+      }
+
+      case 'comprehension_details': {
+        root.appendChild(document.createTextNode(' (comprehension)'));
+        const compDetails = document.createElement('div');
+        compDetails.style.marginLeft = '10px';
+
+        if (rule.target) {
+          const targetLabel = document.createElement('div');
+          targetLabel.textContent = 'Target:';
+          compDetails.appendChild(targetLabel);
+          compDetails.appendChild(
+            this.renderLogicTree(rule.target, useColorblind, stateSnapshotInterface)
+          );
+        }
+
+        if (rule.iterator) {
+          const iterLabel = document.createElement('div');
+          iterLabel.textContent = 'Iterator:';
+          compDetails.appendChild(iterLabel);
+          compDetails.appendChild(
+            this.renderLogicTree(rule.iterator, useColorblind, stateSnapshotInterface)
+          );
+        }
+
+        root.appendChild(compDetails);
+        break;
+      }
+
+      case 'world_reference': {
+        root.appendChild(document.createTextNode(' (world reference)'));
+        break;
+      }
+
+      case 'generator_expression': {
+        root.appendChild(document.createTextNode(' (generator expression)'));
+        break;
+      }
+
+      case 'lambda': {
+        root.appendChild(document.createTextNode(' lambda'));
+        if (rule.body) {
+          const bodyContainer = document.createElement('div');
+          bodyContainer.style.marginLeft = '10px';
+          bodyContainer.appendChild(
+            this.renderLogicTree(rule.body, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(bodyContainer);
+        }
+        break;
+      }
+
+      case 'slice': {
+        root.appendChild(document.createTextNode(' [start:stop:step]'));
+        break;
+      }
+
+      case 'method_call': {
+        const methodName = rule.method || '?';
+        root.appendChild(document.createTextNode(` .${methodName}(...)`));
+
+        if (rule.object) {
+          const objContainer = document.createElement('div');
+          objContainer.style.marginLeft = '10px';
+          objContainer.textContent = 'Object:';
+          const objNode = document.createElement('div');
+          objNode.style.marginLeft = '10px';
+          objNode.appendChild(
+            this.renderLogicTree(rule.object, useColorblind, stateSnapshotInterface)
+          );
+          objContainer.appendChild(objNode);
+          root.appendChild(objContainer);
+        }
+
+        if (rule.args && rule.args.length > 0) {
+          const argsContainer = document.createElement('div');
+          argsContainer.style.marginLeft = '10px';
+          argsContainer.textContent = 'Args:';
+          rule.args.forEach((arg) => {
+            const argNode = document.createElement('div');
+            argNode.style.marginLeft = '10px';
+            argNode.appendChild(
+              this.renderLogicTree(arg, useColorblind, stateSnapshotInterface)
+            );
+            argsContainer.appendChild(argNode);
+          });
+          root.appendChild(argsContainer);
+        }
+        break;
+      }
+
+      case 'total_items_count': {
+        root.appendChild(document.createTextNode(' (total items count)'));
+        break;
+      }
+
+      case 'locations_checked': {
+        root.appendChild(document.createTextNode(' (locations checked)'));
         break;
       }
 
@@ -1264,6 +1979,889 @@ class CommonUI {
     }
 
     // Ensure the root element is always returned
+    return root;
+  }
+
+  /**
+   * Renders a logic tree from a Rule Builder format rule object
+   * @param {Object} rule - The Rule Builder format rule object
+   * @param {boolean} useColorblind - Whether to show colorblind indicators
+   * @param {object} stateSnapshotInterface - The interface providing state access methods
+   * @param {*} evaluationResult - Pre-computed evaluation result (true, false, or undefined)
+   * @param {HTMLElement} root - The root element to append to
+   * @returns {HTMLElement} - The rendered logic tree
+   * @private
+   */
+  _renderRuleBuilderTree(rule, useColorblind, stateSnapshotInterface, evaluationResult, root) {
+    const ruleName = rule.rule;
+    const args = rule.args || {};
+    const children = rule.children || [];
+    const child = rule.child;
+
+    // Rule Builder rules are typically boolean-like (not value nodes)
+    const isValueNode = ruleName === 'Count' || ruleName === 'CountItem' || ruleName === 'Arithmetic' || ruleName === 'MinValue';
+
+    // Apply pass/fail styling
+    if (evaluationResult === undefined) {
+      this.unknownEvaluationCount++;
+      root.classList.add('logic-node-unknown');
+    } else if (!isValueNode) {
+      if (evaluationResult === true) {
+        root.classList.add('pass');
+      } else if (evaluationResult === false) {
+        root.classList.add('fail');
+      } else {
+        root.classList.add('logic-node-unknown');
+      }
+    }
+
+    // Add colorblind symbol if enabled
+    if (useColorblind) {
+      const symbolSpan = document.createElement('span');
+      symbolSpan.classList.add('colorblind-symbol');
+
+      if (evaluationResult === undefined) {
+        symbolSpan.textContent = '? ';
+        symbolSpan.classList.add('unknown');
+        root.appendChild(symbolSpan);
+      } else if (!isValueNode) {
+        if (evaluationResult === true) {
+          symbolSpan.textContent = '✓ ';
+          symbolSpan.classList.add('accessible');
+          root.appendChild(symbolSpan);
+        } else if (evaluationResult === false) {
+          symbolSpan.textContent = '✗ ';
+          symbolSpan.classList.add('inaccessible');
+          root.appendChild(symbolSpan);
+        }
+      }
+    }
+
+    // Create label
+    const label = document.createElement('div');
+    label.classList.add('logic-label');
+    label.textContent = `Rule: ${ruleName}`;
+    root.appendChild(label);
+
+    // Handle each Rule Builder type
+    switch (ruleName) {
+      // Boolean literals
+      case 'True_':
+        root.appendChild(document.createTextNode(' (always true)'));
+        break;
+
+      case 'False_':
+        root.appendChild(document.createTextNode(' (always false)'));
+        break;
+
+      // Constant value (from converted AST format)
+      case 'Constant':
+        root.appendChild(document.createTextNode(` value: ${args.value}`));
+        break;
+
+      // Item check: Has(item_name, count)
+      case 'Has': {
+        const itemName = args.item_name;
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` item: ${itemName}`));
+        if (count > 1) {
+          root.appendChild(document.createTextNode(` (need ${count})`));
+        }
+        break;
+      }
+
+      // HasAll: all items required
+      case 'HasAll': {
+        const items = args.items || args.item_names || [];
+        root.appendChild(document.createTextNode(` all of: [${items.join(', ')}]`));
+        break;
+      }
+
+      // HasAny: any item required
+      case 'HasAny': {
+        const items = args.items || args.item_names || [];
+        root.appendChild(document.createTextNode(` any of: [${items.join(', ')}]`));
+        break;
+      }
+
+      // HasAllCounts: items with specific counts
+      case 'HasAllCounts': {
+        const itemCounts = args.items || args.item_counts || {};
+        const countsList = Object.entries(itemCounts).map(([item, count]) => `${item}×${count}`).join(', ');
+        root.appendChild(document.createTextNode(` all with counts: [${countsList}]`));
+        break;
+      }
+
+      // HasAnyCount: any item with specific count
+      case 'HasAnyCount': {
+        const itemCounts = args.items || args.item_counts || {};
+        const countsList = Object.entries(itemCounts).map(([item, count]) => `${item}×${count}`).join(', ');
+        root.appendChild(document.createTextNode(` any with count: [${countsList}]`));
+        break;
+      }
+
+      // HasFromList: N items from list
+      case 'HasFromList': {
+        const items = args.items || args.item_names || [];
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` ${count} from: [${items.join(', ')}]`));
+        break;
+      }
+
+      // HasFromListUnique: N unique items from list
+      case 'HasFromListUnique': {
+        const items = args.items || args.item_names || [];
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` ${count} unique from: [${items.join(', ')}]`));
+        break;
+      }
+
+      // HasGroup: items from group
+      case 'HasGroup': {
+        const groupName = args.group || args.item_name_group;
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` group: ${groupName}`));
+        if (count > 1) {
+          root.appendChild(document.createTextNode(` (need ${count})`));
+        }
+        break;
+      }
+
+      // HasGroupUnique: unique items from group
+      case 'HasGroupUnique': {
+        const groupName = args.group || args.item_name_group;
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` unique from group: ${groupName}`));
+        if (count > 1) {
+          root.appendChild(document.createTextNode(` (need ${count})`));
+        }
+        break;
+      }
+
+      // Composite: And
+      case 'And': {
+        const conditionsContainer = document.createElement('div');
+        conditionsContainer.classList.add('logic-conditions');
+        conditionsContainer.style.marginLeft = '10px';
+
+        if (children.length === 0) {
+          root.appendChild(document.createTextNode(' (empty - always true)'));
+        } else {
+          children.forEach((childRule, index) => {
+            const conditionLabel = document.createElement('div');
+            conditionLabel.textContent = `Condition #${index + 1}:`;
+            conditionsContainer.appendChild(conditionLabel);
+
+            conditionsContainer.appendChild(
+              this.renderLogicTree(childRule, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(conditionsContainer);
+        }
+        break;
+      }
+
+      // Composite: Or
+      case 'Or': {
+        const conditionsContainer = document.createElement('div');
+        conditionsContainer.classList.add('logic-conditions');
+        conditionsContainer.style.marginLeft = '10px';
+
+        if (children.length === 0) {
+          root.appendChild(document.createTextNode(' (empty - always false)'));
+        } else {
+          children.forEach((childRule, index) => {
+            const conditionLabel = document.createElement('div');
+            conditionLabel.textContent = `Option #${index + 1}:`;
+            conditionsContainer.appendChild(conditionLabel);
+
+            conditionsContainer.appendChild(
+              this.renderLogicTree(childRule, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(conditionsContainer);
+        }
+        break;
+      }
+
+      // Wrapper: Not
+      case 'Not': {
+        root.appendChild(document.createTextNode(' (negation)'));
+        if (child) {
+          const childContainer = document.createElement('div');
+          childContainer.style.marginLeft = '10px';
+          childContainer.appendChild(
+            this.renderLogicTree(child, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(childContainer);
+        }
+        break;
+      }
+
+      // Conditional
+      case 'Conditional': {
+        const conditionalDetails = document.createElement('div');
+        conditionalDetails.classList.add('logic-conditional-details');
+        conditionalDetails.style.marginLeft = '10px';
+
+        if (args.test) {
+          const testLabel = document.createElement('div');
+          testLabel.textContent = 'Test Condition:';
+          conditionalDetails.appendChild(testLabel);
+
+          const testNode = document.createElement('div');
+          testNode.style.marginLeft = '10px';
+          testNode.appendChild(
+            this.renderLogicTree(args.test, useColorblind, stateSnapshotInterface)
+          );
+          conditionalDetails.appendChild(testNode);
+        }
+
+        if (args.if_true) {
+          const trueLabel = document.createElement('div');
+          trueLabel.textContent = 'If True:';
+          conditionalDetails.appendChild(trueLabel);
+
+          const trueNode = document.createElement('div');
+          trueNode.style.marginLeft = '10px';
+          trueNode.appendChild(
+            this.renderLogicTree(args.if_true, useColorblind, stateSnapshotInterface)
+          );
+          conditionalDetails.appendChild(trueNode);
+        }
+
+        if (args.if_false) {
+          const falseLabel = document.createElement('div');
+          falseLabel.textContent = 'If False:';
+          conditionalDetails.appendChild(falseLabel);
+
+          const falseNode = document.createElement('div');
+          falseNode.style.marginLeft = '10px';
+          falseNode.appendChild(
+            this.renderLogicTree(args.if_false, useColorblind, stateSnapshotInterface)
+          );
+          conditionalDetails.appendChild(falseNode);
+        }
+
+        root.appendChild(conditionalDetails);
+        break;
+      }
+
+      // Filtered wrapper
+      case 'Filtered': {
+        const options = rule.options || [];
+        if (options.length > 0) {
+          root.appendChild(document.createTextNode(` options: [${options.join(', ')}]`));
+        }
+        if (child) {
+          const childContainer = document.createElement('div');
+          childContainer.style.marginLeft = '10px';
+          childContainer.appendChild(
+            this.renderLogicTree(child, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(childContainer);
+        }
+        break;
+      }
+
+      // Reachability: CanReachRegion
+      case 'CanReachRegion': {
+        const regionName = args.region_name;
+        root.appendChild(document.createTextNode(` region: ${regionName}`));
+        break;
+      }
+
+      // Reachability: CanReachLocation
+      case 'CanReachLocation': {
+        const locationName = args.location_name;
+        root.appendChild(document.createTextNode(` location: ${locationName}`));
+        break;
+      }
+
+      // Reachability: CanReachEntrance
+      case 'CanReachEntrance': {
+        const entranceName = args.entrance_name;
+        root.appendChild(document.createTextNode(` entrance: ${entranceName}`));
+        break;
+      }
+
+      // HelperCall
+      case 'HelperCall': {
+        const helperName = args.helper_name;
+        const helperArgs = args.args || [];
+        // Update the label to show as helper instead of Rule: HelperCall
+        label.textContent = `helper: ${helperName}`;
+
+        if (helperArgs.length > 0) {
+          const argsText = helperArgs.map(arg => {
+            if (typeof arg === 'string' || typeof arg === 'number') {
+              return arg;
+            } else if (arg && arg.type === 'constant') {
+              return arg.value;
+            } else if (arg && arg.rule) {
+              return `(${arg.rule})`;
+            } else {
+              return '(complex)';
+            }
+          }).join(', ');
+          root.appendChild(document.createTextNode(`, args: [${argsText}]`));
+        }
+
+        // If body_data is present, show it can be expanded
+        const bodyData = args.body_data;
+        if (bodyData) {
+          const bodyContainer = document.createElement('div');
+          bodyContainer.style.marginLeft = '10px';
+          bodyContainer.style.marginTop = '4px';
+
+          const expandBtn = document.createElement('button');
+          expandBtn.textContent = '[+] Show body';
+          expandBtn.style.fontSize = '12px';
+          expandBtn.style.padding = '0 4px';
+          expandBtn.style.cursor = 'pointer';
+          expandBtn.style.border = '1px solid #666';
+          expandBtn.style.backgroundColor = '#333';
+          expandBtn.style.color = '#ccc';
+
+          let isExpanded = false;
+          const bodyTreeContainer = document.createElement('div');
+          bodyTreeContainer.style.display = 'none';
+          bodyTreeContainer.style.marginTop = '4px';
+
+          expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+              expandBtn.textContent = '[-] Hide body';
+              bodyTreeContainer.style.display = 'block';
+              // Render body on first expand
+              if (bodyTreeContainer.children.length === 0) {
+                const bodyRule = bodyData.body || bodyData;
+                bodyTreeContainer.appendChild(
+                  this.renderLogicTree(bodyRule, useColorblind, stateSnapshotInterface)
+                );
+              }
+            } else {
+              expandBtn.textContent = '[+] Show body';
+              bodyTreeContainer.style.display = 'none';
+            }
+          });
+
+          bodyContainer.appendChild(expandBtn);
+          bodyContainer.appendChild(bodyTreeContainer);
+          root.appendChild(bodyContainer);
+        }
+        break;
+      }
+
+      // Compare
+      case 'Compare': {
+        const op = args.op || '==';
+        root.appendChild(document.createTextNode(` (${op})`));
+
+        const compareDetails = document.createElement('div');
+        compareDetails.classList.add('logic-compare-details');
+        compareDetails.style.marginLeft = '10px';
+
+        if (args.left) {
+          const leftLabel = document.createElement('div');
+          leftLabel.textContent = 'Left Operand:';
+          compareDetails.appendChild(leftLabel);
+
+          const leftNode = document.createElement('div');
+          leftNode.style.marginLeft = '10px';
+          leftNode.appendChild(
+            this.renderLogicTree(args.left, useColorblind, stateSnapshotInterface)
+          );
+          compareDetails.appendChild(leftNode);
+        }
+
+        const opLabel = document.createElement('div');
+        opLabel.textContent = `Operator: ${op}`;
+        compareDetails.appendChild(opLabel);
+
+        if (args.right !== undefined) {
+          const rightLabel = document.createElement('div');
+          rightLabel.textContent = 'Right Operand:';
+          compareDetails.appendChild(rightLabel);
+
+          const rightNode = document.createElement('div');
+          rightNode.style.marginLeft = '10px';
+          if (args.right && typeof args.right === 'object' && (args.right.type || args.right.rule)) {
+            rightNode.appendChild(
+              this.renderLogicTree(args.right, useColorblind, stateSnapshotInterface)
+            );
+          } else {
+            rightNode.textContent = JSON.stringify(args.right);
+          }
+          compareDetails.appendChild(rightNode);
+        }
+
+        root.appendChild(compareDetails);
+        break;
+      }
+
+      // Arithmetic
+      case 'Arithmetic': {
+        const op = args.op || '+';
+        root.appendChild(document.createTextNode(` (${op})`));
+
+        const arithmeticDetails = document.createElement('div');
+        arithmeticDetails.classList.add('logic-arithmetic-details');
+        arithmeticDetails.style.marginLeft = '10px';
+
+        if (args.left) {
+          const leftLabel = document.createElement('div');
+          leftLabel.textContent = 'Left Operand:';
+          arithmeticDetails.appendChild(leftLabel);
+
+          const leftNode = document.createElement('div');
+          leftNode.style.marginLeft = '10px';
+          leftNode.appendChild(
+            this.renderLogicTree(args.left, useColorblind, stateSnapshotInterface)
+          );
+          arithmeticDetails.appendChild(leftNode);
+        }
+
+        if (args.right !== undefined) {
+          const rightLabel = document.createElement('div');
+          rightLabel.textContent = 'Right Operand:';
+          arithmeticDetails.appendChild(rightLabel);
+
+          const rightNode = document.createElement('div');
+          rightNode.style.marginLeft = '10px';
+          if (args.right && typeof args.right === 'object' && (args.right.type || args.right.rule)) {
+            rightNode.appendChild(
+              this.renderLogicTree(args.right, useColorblind, stateSnapshotInterface)
+            );
+          } else {
+            rightNode.textContent = JSON.stringify(args.right);
+          }
+          arithmeticDetails.appendChild(rightNode);
+        }
+
+        root.appendChild(arithmeticDetails);
+        break;
+      }
+
+      // MinValue
+      case 'MinValue': {
+        root.appendChild(document.createTextNode(' min()'));
+
+        const minDetails = document.createElement('div');
+        minDetails.style.marginLeft = '10px';
+
+        if (args.left) {
+          const leftLabel = document.createElement('div');
+          leftLabel.textContent = 'Value 1:';
+          minDetails.appendChild(leftLabel);
+
+          const leftNode = document.createElement('div');
+          leftNode.style.marginLeft = '10px';
+          leftNode.appendChild(
+            this.renderLogicTree(args.left, useColorblind, stateSnapshotInterface)
+          );
+          minDetails.appendChild(leftNode);
+        }
+
+        if (args.right !== undefined) {
+          const rightLabel = document.createElement('div');
+          rightLabel.textContent = 'Value 2:';
+          minDetails.appendChild(rightLabel);
+
+          const rightNode = document.createElement('div');
+          rightNode.style.marginLeft = '10px';
+          if (args.right && typeof args.right === 'object' && (args.right.type || args.right.rule)) {
+            rightNode.appendChild(
+              this.renderLogicTree(args.right, useColorblind, stateSnapshotInterface)
+            );
+          } else {
+            rightNode.textContent = JSON.stringify(args.right);
+          }
+          minDetails.appendChild(rightNode);
+        }
+
+        root.appendChild(minDetails);
+        break;
+      }
+
+      // Count/CountItem
+      case 'Count':
+      case 'CountItem': {
+        const itemName = args.item_name;
+        root.appendChild(document.createTextNode(` count of: ${itemName}`));
+        break;
+      }
+
+      // ASTRule wrapper - contains AST format in body_data
+      case 'ASTRule': {
+        const bodyData = args.body_data;
+        if (bodyData) {
+          root.appendChild(document.createTextNode(' (AST wrapper)'));
+          const bodyContainer = document.createElement('div');
+          bodyContainer.style.marginLeft = '10px';
+          bodyContainer.appendChild(
+            this.renderLogicTree(bodyData, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(bodyContainer);
+        } else {
+          root.appendChild(document.createTextNode(' (empty AST wrapper)'));
+        }
+        break;
+      }
+
+      // AST_region_check: region reachability check
+      case 'AST_region_check': {
+        const regionName = args.region;
+        root.appendChild(document.createTextNode(` region: ${regionName}`));
+        break;
+      }
+
+      // AST_location_rule_ref: location rule reference
+      case 'AST_location_rule_ref': {
+        const locationName = args.location;
+        root.appendChild(document.createTextNode(` location: ${locationName}`));
+        break;
+      }
+
+      // AST_setting_value: setting value lookup
+      case 'AST_setting_value': {
+        const settingName = args.setting || args.name;
+        root.appendChild(document.createTextNode(` setting: ${settingName}`));
+        break;
+      }
+
+      // AST_prog_item_count: progressive item count
+      case 'AST_prog_item_count': {
+        const itemName = args.item;
+        root.appendChild(document.createTextNode(` count of: ${itemName}`));
+        break;
+      }
+
+      // AST_count_item: count item
+      case 'AST_count_item': {
+        const itemName = args.item;
+        root.appendChild(document.createTextNode(` count of: ${itemName}`));
+        break;
+      }
+
+      // AST_function_call: complex function call
+      case 'AST_function_call': {
+        root.appendChild(document.createTextNode(' (function call)'));
+        // Show the function and args if present
+        const funcDetails = document.createElement('div');
+        funcDetails.style.marginLeft = '10px';
+        if (args.function) {
+          const funcLabel = document.createElement('div');
+          funcLabel.textContent = 'Function:';
+          funcDetails.appendChild(funcLabel);
+          funcDetails.appendChild(
+            this.renderLogicTree(args.function, useColorblind, stateSnapshotInterface)
+          );
+        }
+        if (args.args && args.args.length > 0) {
+          const argsLabel = document.createElement('div');
+          argsLabel.textContent = 'Arguments:';
+          funcDetails.appendChild(argsLabel);
+          args.args.forEach((arg, index) => {
+            const argContainer = document.createElement('div');
+            argContainer.style.marginLeft = '10px';
+            argContainer.appendChild(
+              this.renderLogicTree(arg, useColorblind, stateSnapshotInterface)
+            );
+            funcDetails.appendChild(argContainer);
+          });
+        }
+        root.appendChild(funcDetails);
+        break;
+      }
+
+      // AST_comparison: comparison operation
+      case 'AST_comparison': {
+        const op = args.op || '==';
+        root.appendChild(document.createTextNode(` (${op})`));
+        const compDetails = document.createElement('div');
+        compDetails.style.marginLeft = '10px';
+        if (args.left) {
+          const leftLabel = document.createElement('div');
+          leftLabel.textContent = 'Left:';
+          compDetails.appendChild(leftLabel);
+          compDetails.appendChild(
+            this.renderLogicTree(args.left, useColorblind, stateSnapshotInterface)
+          );
+        }
+        if (args.right) {
+          const rightLabel = document.createElement('div');
+          rightLabel.textContent = 'Right:';
+          compDetails.appendChild(rightLabel);
+          compDetails.appendChild(
+            this.renderLogicTree(args.right, useColorblind, stateSnapshotInterface)
+          );
+        }
+        root.appendChild(compDetails);
+        break;
+      }
+
+      // AST_block: code block
+      case 'AST_block': {
+        root.appendChild(document.createTextNode(' (block)'));
+        if (args.body && args.body.length > 0) {
+          const blockDetails = document.createElement('div');
+          blockDetails.style.marginLeft = '10px';
+          args.body.forEach((stmt, index) => {
+            blockDetails.appendChild(
+              this.renderLogicTree(stmt, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(blockDetails);
+        }
+        break;
+      }
+
+      // AST_placement_search: placement search
+      case 'AST_placement_search': {
+        root.appendChild(document.createTextNode(' (placement search)'));
+        break;
+      }
+
+      // AST_placement_lookup: placement lookup
+      case 'AST_placement_lookup': {
+        root.appendChild(document.createTextNode(' (placement lookup)'));
+        break;
+      }
+
+      // List: list/array value
+      case 'List': {
+        const values = args.value || [];
+        if (values.length <= 3) {
+          // Show inline for short lists
+          const valuesText = values.map(v => {
+            if (v && v.rule === 'Constant') {
+              return v.args?.value;
+            }
+            return '...';
+          }).join(', ');
+          root.appendChild(document.createTextNode(` [${valuesText}]`));
+        } else {
+          root.appendChild(document.createTextNode(` [${values.length} items]`));
+        }
+        break;
+      }
+
+      // Name: variable/name reference
+      case 'Name': {
+        const name = args.name;
+        root.appendChild(document.createTextNode(` ${name}`));
+        break;
+      }
+
+      // Attribute: attribute access
+      case 'Attribute': {
+        const attr = args.attr;
+        root.appendChild(document.createTextNode(` .${attr}`));
+        if (args.object) {
+          const objContainer = document.createElement('div');
+          objContainer.style.marginLeft = '10px';
+          objContainer.appendChild(
+            this.renderLogicTree(args.object, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(objContainer);
+        }
+        break;
+      }
+
+      // StateMethod: state method call
+      case 'StateMethod': {
+        const method = args.method;
+        root.appendChild(document.createTextNode(` .${method}()`));
+        if (args.args && args.args.length > 0) {
+          const argsContainer = document.createElement('div');
+          argsContainer.style.marginLeft = '10px';
+          args.args.forEach(arg => {
+            argsContainer.appendChild(
+              this.renderLogicTree(arg, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(argsContainer);
+        }
+        break;
+      }
+
+      // Tuple: tuple value
+      case 'Tuple': {
+        const values = args.value || [];
+        root.appendChild(document.createTextNode(` (${values.length} elements)`));
+        break;
+      }
+
+      // CountGroup: count items in group
+      case 'CountGroup': {
+        const groupName = args.group;
+        root.appendChild(document.createTextNode(` count group: ${groupName}`));
+        break;
+      }
+
+      // CountGroupUnique: count unique items in group
+      case 'CountGroupUnique': {
+        const groupName = args.group;
+        root.appendChild(document.createTextNode(` count unique in group: ${groupName}`));
+        break;
+      }
+
+      // SettingValue: get setting value
+      case 'SettingValue': {
+        const settingName = args.setting;
+        root.appendChild(document.createTextNode(` setting: ${settingName}`));
+        break;
+      }
+
+      // ItemCheck: item check (fallback from converter)
+      case 'ItemCheck': {
+        const item = args.item;
+        const count = args.count ?? 1;
+        root.appendChild(document.createTextNode(` item: ${typeof item === 'string' ? item : '(complex)'}`));
+        if (count > 1) {
+          root.appendChild(document.createTextNode(` (need ${count})`));
+        }
+        break;
+      }
+
+      // Unknown Rule Builder type - likely a converted helper call
+      default: {
+        // Check if this is a converted helper rule
+        // _original_ast_type can be in args or at rule level depending on export format
+        // _converted_from_ast is always at rule level
+        if (args._original_ast_type?.endsWith('helper') || rule._original_ast_type?.endsWith('helper') || rule._converted_from_ast) {
+          // This is a helper call converted from AST format
+          // Update the label to show as helper instead of Rule: helper_name
+          label.textContent = `helper: ${ruleName}`;
+          // Display args if present
+          // New simplified format: rule.args is an array directly
+          // Old nested format: rule.args.args is the array
+          const helperArgs = Array.isArray(rule.args) ? rule.args : (args.args || []);
+          if (helperArgs.length > 0) {
+            const argsText = helperArgs.map(arg => {
+              if (typeof arg === 'string' || typeof arg === 'number') {
+                return arg;
+              } else if (arg && arg.type === 'constant') {
+                return arg.value;
+              } else if (arg && arg.rule === 'Constant') {
+                return arg.args?.value;
+              } else if (arg && arg.rule) {
+                return `(${arg.rule})`;
+              } else if (Array.isArray(arg)) {
+                return `[${arg.length} items]`;
+              } else {
+                return '(complex)';
+              }
+            }).join(', ');
+            root.appendChild(document.createTextNode(`(${argsText})`));
+          } else {
+            root.appendChild(document.createTextNode('()'));
+          }
+
+          // Try to look up helper definition from static data for expand/collapse
+          let helperDef = null;
+          if (stateSnapshotInterface && typeof stateSnapshotInterface.getStaticData === 'function') {
+            const staticData = stateSnapshotInterface.getStaticData();
+            if (staticData?.helpers) {
+              // helpers is keyed by player ID, try common player IDs
+              const playerIds = ['1', '0', 1, 0];
+              for (const pid of playerIds) {
+                if (staticData.helpers[pid]?.[ruleName]) {
+                  helperDef = staticData.helpers[pid][ruleName];
+                  break;
+                }
+              }
+            }
+          }
+
+          // If we found a helper definition, add expand/collapse button
+          if (helperDef) {
+            const bodyContainer = document.createElement('div');
+            bodyContainer.style.marginLeft = '10px';
+            bodyContainer.style.marginTop = '4px';
+
+            const expandBtn = document.createElement('button');
+            expandBtn.textContent = '[+] Show helper body';
+            expandBtn.style.fontSize = '12px';
+            expandBtn.style.padding = '0 4px';
+            expandBtn.style.cursor = 'pointer';
+            expandBtn.style.border = '1px solid #666';
+            expandBtn.style.backgroundColor = '#333';
+            expandBtn.style.color = '#ccc';
+
+            let isExpanded = false;
+            const bodyTreeContainer = document.createElement('div');
+            bodyTreeContainer.style.display = 'none';
+            bodyTreeContainer.style.marginTop = '4px';
+
+            expandBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              isExpanded = !isExpanded;
+              if (isExpanded) {
+                expandBtn.textContent = '[-] Hide helper body';
+                bodyTreeContainer.style.display = 'block';
+                // Render body on first expand
+                if (bodyTreeContainer.children.length === 0) {
+                  // Helper definition can be in different formats:
+                  // 1. { body: {...}, params: [...] } - parameterized helper
+                  // 2. { type: 'or', conditions: [...] } - direct rule
+                  // 3. { statements: [...], type: 'block' } - block
+                  const bodyRule = helperDef.body || helperDef;
+                  bodyTreeContainer.appendChild(
+                    this.renderLogicTree(bodyRule, useColorblind, stateSnapshotInterface)
+                  );
+                }
+              } else {
+                expandBtn.textContent = '[+] Show helper body';
+                bodyTreeContainer.style.display = 'none';
+              }
+            });
+
+            bodyContainer.appendChild(expandBtn);
+            bodyContainer.appendChild(bodyTreeContainer);
+            root.appendChild(bodyContainer);
+          }
+        } else {
+          root.appendChild(document.createTextNode(' [unhandled Rule Builder type]'));
+          // Show args if any
+          if (Object.keys(args).length > 0) {
+            const argsText = JSON.stringify(args);
+            if (argsText.length < 100) {
+              root.appendChild(document.createTextNode(` args: ${argsText}`));
+            }
+          }
+        }
+        // Show children if any
+        if (children.length > 0) {
+          const childrenContainer = document.createElement('div');
+          childrenContainer.style.marginLeft = '10px';
+          children.forEach((childRule, index) => {
+            const childLabel = document.createElement('div');
+            childLabel.textContent = `Child #${index + 1}:`;
+            childrenContainer.appendChild(childLabel);
+            childrenContainer.appendChild(
+              this.renderLogicTree(childRule, useColorblind, stateSnapshotInterface)
+            );
+          });
+          root.appendChild(childrenContainer);
+        }
+        // Show child if present
+        if (child) {
+          const childContainer = document.createElement('div');
+          childContainer.style.marginLeft = '10px';
+          childContainer.appendChild(
+            this.renderLogicTree(child, useColorblind, stateSnapshotInterface)
+          );
+          root.appendChild(childContainer);
+        }
+        if (!args._original_ast_type && !rule._original_ast_type && !rule._converted_from_ast) {
+          log('debug', `[commonUI] Unhandled Rule Builder type: ${ruleName}`, rule);
+        }
+      }
+    }
+
     return root;
   }
 
@@ -1351,11 +2949,11 @@ class CommonUI {
       }
 
       // Publish panel activation first
-      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'commonUI');
+      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
       log('info', `[commonUI] Published ui:activatePanel for regionsPanel.`);
 
       // Then publish navigation
-      eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'commonUI');
+      eventBus.publish('ui:navigateToRegion', { regionName: regionName });
       log(
         'info',
         `[commonUI] Published ui:navigateToRegion for ${regionName}.`
@@ -1434,16 +3032,13 @@ class CommonUI {
     link.addEventListener('click', (e) => {
       e.stopPropagation();
 
-      // Use injected eventBus if available, otherwise fall back to imported eventBusCore
-      const activeEventBus = eventBus || eventBusCore;
-
-      if (!activeEventBus) {
+      if (!eventBus) {
         log('error', '[commonUI] No eventBus available - cannot publish events. Location: ' + locationName);
         return;
       }
 
       // First activate the Regions panel
-      activeEventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'commonUI');
+      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
       log('info', `[commonUI] Published ui:activatePanel for regionsPanel.`);
 
       // Then publish navigation to the location
@@ -1451,10 +3046,10 @@ class CommonUI {
         'info',
         `[commonUI] Publishing ui:navigateToLocation for ${locationName} in ${regionName}`
       );
-      activeEventBus.publish('ui:navigateToLocation', {
+      eventBus.publish('ui:navigateToLocation', {
         locationName: locationName,
         regionName: regionName,
-      }, 'commonUI');
+      });
     });
 
     return link;

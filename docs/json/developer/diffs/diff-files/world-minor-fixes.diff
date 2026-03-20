@@ -1,0 +1,22 @@
+--- a/worlds/lufia2ac/Options.py
++++ b/worlds/lufia2ac/Options.py
+@@ -219,7 +219,7 @@
+         "random-high": ["venge_ghost", "white_dragon_x3", "fire_dragon", "ghost_ship", "tank"],
+         "random-sinistral": ["gades_c", "amon", "erim", "daos"],
+     }
+-    extra_options = set(random_groups)
++    extra_options = list(random_groups)
+ 
+     @property
+     def flag(self) -> int:
+--- a/worlds/landstalker/Hints.py
++++ b/worlds/landstalker/Hints.py
+@@ -128,7 +128,7 @@
+     hint_texts.append(f"Did you know that your world contains {int(percent)} percent of all progression items?")
+ 
+     # Shuffle hint texts and hint source names, and pair the two of those together
+-    hint_texts = list(set(hint_texts))
++    hint_texts = sorted(set(hint_texts))
+     random.shuffle(hint_texts)
+ 
+     hint_count = min(world.options.hint_count.value, len(hint_texts))
