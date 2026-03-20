@@ -1,78 +1,86 @@
 # Archipelago JSON Export Tools
 
-This project provides a system for exporting Archipelago's game logic into a standardized JSON format and includes a modular web client that uses this JSON for advanced tracking, accessibility analysis, and other utilities.
+A suite of tools for exporting, visualizing, and tracking Archipelago game logic.
 
-**[Web Client Live Demo](https://peerinfinity.github.io/Archipelago/)** (Stable Release)
+This project exports all the multiworld data from an Archipelago seed generation — access rules, regions, locations, items, helper functions — to a JSON file. A JavaScript frontend reads this JSON, connects to an Archipelago server, and works as a logic-aware tracker. The project also includes an enhanced Universal Tracker, several new APWorlds, and alternate game modes.
 
-For the latest development version, visit [Archipelago-CC Demo](https://peerinfinity.github.io/Archipelago-CC/)
+Most of the code for this project was written by Claude.
 
-## About This Repository
+**Live Demos:** [Latest Stable Version](https://peerinfinity.github.io/Archipelago/) | [Latest Development Version](https://peerinfinity.github.io/Archipelago-CC/)
 
-**This repository is archived.** Active development continues at [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).
+**Installer APWorld:** [Download](https://github.com/PeerInfinity/Archipelago/raw/JSONExport/apworlds/json_tools_installer.apworld) — install into an existing Archipelago directory without cloning this repository
 
-### Why Two Repositories?
+**Game Compatibility:** [Test Results](./docs/json/developer/test-results/test-results-fuzz-summary.md)
 
-- **This repository (PeerInfinity/Archipelago):** Archived stable snapshot. Periodically updated with current files from Archipelago-CC, but without git history. Use this as a clean starting point for your own fork.
-- **[Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC):** Active development repository. The commit history contains large files, making it unsuitable for direct forking if you want a clean upstream relationship.
-- **[ArchipelagoMW/Archipelago](https://github.com/ArchipelagoMW/Archipelago):** The main upstream Archipelago project.
+**Full Feature List:** [Features Overview](./docs/json/features/README.md)
 
-### For Contributors
+## How the Tracker Works
 
-**To contribute to this project:** Submit pull requests to [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).
+The exporter reads the Python AST for the multiworld data, including the full logic of all access rules and Python helper functions. By default it converts everything to [Rule Builder](https://github.com/ArchipelagoMW/Archipelago/pull/5048) format before saving to JSON. Some games are fully supported without any custom code. Others require a custom exporter that may need updating for future world versions. A few also require custom JavaScript in the frontend to parse game-specific logic.
 
-**To contribute to upstream Archipelago or maintain your own clean fork:** Fork the [main ArchipelagoMW repository](https://github.com/ArchipelagoMW/Archipelago), then copy the relevant files from this repository or Archipelago-CC. See the [diff files documentation](https://github.com/PeerInfinity/Archipelago-CC/tree/main/docs/json/developer/diffs) for details on what has changed from upstream.
+The JavaScript frontend reads this JSON, connects to an Archipelago server, and provides logic-aware tracking. The region graph displays all regions and locations, color coded by accessibility and check status.
 
----
+The frontend has a **discovery mode** that works especially well with entrance shuffle. Connect to the server, open the Region Graph, and click on nodes as you discover them. The graph shows only the regions you've discovered, and highlights when they contain newly accessible locations.
 
-## Key Features
+## Universal Tracker Enhancements
 
--   **A Highly-Configurable Web Client:** The entire user interface is built with Golden Layout, allowing you to drag, drop, stack, and resize panels to create a workspace that fits your exact needs.
+In addition to the JavaScript tracker, there is a modified [Universal Tracker](https://github.com/FarisTheAncient/Archipelago) that uses the JSON data. It uses Rule Builder to convert the data back into a Python APWorld with the seed's settings baked in. This means UT's `/explain` feature works even on games that didn't implement explain support.
 
--   **Standard Tracking Mode:** Connect to an Archipelago server just like a standard client. Load your game's `rules.json` file to enable logic-aware tracking:
-    -   View which locations are accessible with your current inventory.
-    -   View color-coded accessibility status (Available, Inaccessible, Checked).
-    -   Explore visual trees that show the specific rules for any location or exit.
-    -   Use the Path Analyzer to determine what items are needed to reach a new region.
+There is also a pickle-based exporter and a matching UT mode that loads the serialized multiworld directly. Some games work with pickle but not JSON, and vice versa. And some games work with the original UT but not either alternate version.
 
--   **Advanced Modules & Game Modes:**
-    -   **Text Adventure:** Interact with your game world through a classic text-based interface.
-    -   **Iframe & Window Integration:** Host external web applications or game clients directly within a panel or in a separate window, fully connected to the main application's state.
-    -   **Archipelago Loops (Incremental Game Mode):** A unique game mode inspired by idle/incremental games. Automate your playthrough, manage resources, and gain persistent knowledge to explore deeper with each loop.
+A **hybrid mode** automatically selects the best UT variant for each game based on [fuzz test results](./docs/json/developer/test-results/test-results-fuzz-summary.md).
 
--   **Rule Export System:** A Python-based tool that uses Abstract Syntax Tree (AST) analysis to parse the game logic from any Archipelago world and convert it into a standardized, portable JSON format.
+All three of the new trackers fully support every ALttP setting combination — including inverted mode, glitches, and entrance shuffle — with 0 failures across 10,000 seeds.
+
+## Installation
+
+You can clone the whole repository, or use the **[installer APWorld](https://github.com/PeerInfinity/Archipelago/raw/JSONExport/apworlds/json_tools_installer.apworld)**, which adds an installer tool to the Archipelago Launcher menu. Use it to select which components to download and install into your Archipelago directory. The exporter runs automatically during seed generation via runtime hooks — no modifications to existing Archipelago files are needed.
+
+The installer also has an option to patch world init files so the generator and exporter can run without requiring any ROM files.
+
+For a detailed walkthrough, see the [User Quick Start Guide](./docs/json/user/quick-start.md). For tips and FAQs, see [Tips and Tricks](./docs/json/user/tips-and-tricks.md).
+
+## New APWorlds
+
+**[MetaMath](./worlds/metamath/docs/README.md)** — Turns any MetaMath theorem into a playable Archipelago world. Each proof step is a location, each proven statement is an item. The frontend includes modules that act as a MetaMath client. [Demo](https://peerinfinity.github.io/Archipelago/?mode=metamath)
+
+**[DepGraph](./docs/json/features/depgraph.md)** — Turns any directed acyclic graph into a playable world. Supports JSON, DOT, and CSV graph formats. Bundled examples include tech trees, skill trees, and recipe chains. Includes a tool to convert a to-do list into a dependency graph. [Demo](https://peerinfinity.github.io/Archipelago/?mode=depgraph)
+
+**[Journey to Ascension](./worlds/jta/docs/en_Journey%20to%20Ascension.md)** — An incremental/idle game integrated via the frontend's iframe interface. The APWorld randomizes game features, then an algorithm adjusts energy costs and XP multipliers to guarantee the game is completable with a specific strategy. [Demo](https://peerinfinity.github.io/Archipelago/?mode=jta)
+
+## Alternate Game Modes
+
+**[Loops](./docs/json/features/loops.md)** — Turns any Archipelago game into an incremental game inspired by Idle Loops. Queue actions to move between regions, explore, and check locations, spending mana on each action. Spending mana in a region earns XP that reduces action costs in that region. Obtaining items boosts max mana. When mana runs out, the loop resets — but XP and checked locations persist. A cost generation algorithm guarantees at least one path through the game without grinding. [Demo](https://peerinfinity.github.io/Archipelago/?mode=loops)
+
+**[Maze Metagame](./docs/json/features/maze-metagame.md)** — A meta-progression layer using A-Mazing Idle. Before each region discovery or location check, complete a maze challenge. A proof of concept demonstrating the MetaGame system, which can layer any iframe-based game on top of Archipelago tracking. [Demo](https://peerinfinity.github.io/Archipelago/?metagame=mazegame) | [Loops variant](https://peerinfinity.github.io/Archipelago/?metagame=mazegameloops)
+
+**Text Adventure** — Play through any Archipelago world as a text adventure. Originally built for testing, but works as a standalone interface for any game.
 
 ## Documentation
 
 This project contains a full documentation suite for both users and developers.
 
-**[Click here to visit the main Documentation Portal](./docs/json/README.md)**
+- **[Documentation Portal](./docs/json/README.md)** — Main documentation index
+- **[Features Overview](./docs/json/features/README.md)** — All major features with links to detailed docs
+- **[User Overview](./docs/json/user/overview.md)** — What this project does and how to use it
+- **[Developer Getting Started](./docs/json/developer/getting-started.md)** — Set up a development environment
+- **[System Architecture](./docs/json/developer/architecture.md)** — High-level design overview
+- **[Project Roadmap](./docs/json/project-roadmap.md)** — Status, known issues, and future plans
 
-## Getting Started (For Users)
+## About This Repository
 
-### Standard Mode
+This repository is a stable snapshot of the Archipelago JSON Export Tools project. It is periodically updated with current files from the active development repository, but without git history.
 
-1.  **Generate Your Game:** To get the necessary files, generate your seed using a version of Archipelago that contains the JSON exporter tool. You can download this from this repository or from [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC). When you generate a seed, you will get two important files: your `.archipelago` file (for the server) and a `rules.json` file (for this web client).
-2.  **Open the Web Client:** [Open the client](https://peerinfinity.github.io/Archipelago/).
-3.  **Load Your Rules:** In one of the panels, find the "Presets" tab. At the top, click the "Load JSON File" button and select your `rules.json` file.
-4.  **Connect:** In the "Console & Status" panel, enter your server address and click "Connect".
+### Related Repositories
 
-For a more detailed walkthrough, see the [User Quick Start Guide](./docs/json/user/quick-start.md).
+- **[PeerInfinity/Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC)** - Active development repository (configured for Claude Code). Submit pull requests here.
+- **[ArchipelagoMW/Archipelago](https://github.com/ArchipelagoMW/Archipelago)** - The main upstream Archipelago project.
 
-For tips, tricks, and FAQs, see [Tips and Tricks](./docs/json/user/tips-and-tricks.md).
+### For Contributors
 
-## For Developers
+**To contribute to this project:** Submit pull requests to [Archipelago-CC](https://github.com/PeerInfinity/Archipelago-CC).
 
-The project is composed of two main parts: the Python **exporter** and the modular **frontend web client**.
-
-The frontend is built with modern, vanilla JavaScript (ES6+ Modules), a Web Worker-based State Manager to ensure a responsive UI, and the Golden Layout library for panel management. It features a robust, event-driven architecture that allows for extension.
-
--   To get started, see the [Developer Getting Started Guide](./docs/json/developer/getting-started.md).
--   To understand the project's structure, read the [System Architecture Overview](./docs/json/developer/architecture.md).
--   To learn how to contribute, review the guides on the [Module System](./docs/json/developer/guides/module-system.md) and [State Management](./docs/json/developer/guides/state-management.md).
-
-## Current Status & Roadmap
-
-See the [Project Roadmap](/docs/json/project-roadmap.md) for the latest status, known issues, and future plans.
+**To contribute to upstream Archipelago or maintain your own clean fork:** Fork the [main ArchipelagoMW repository](https://github.com/ArchipelagoMW/Archipelago), then copy the relevant files from this repository. See the [diff files documentation](./docs/json/developer/diffs/README.md) for details on what has changed from upstream.
 
 ## Credits
 
@@ -80,8 +88,13 @@ See the [Project Roadmap](/docs/json/project-roadmap.md) for the latest status, 
 - Web client interface derived from [ArchipIDLE](https://github.com/LegendaryLinux/archipidle-client).
 - Loop mode inspired by games like [Idle Loops](https://github.com/dmchurch/omsi-loops/), Increlution, and Stuck In Time.
 - Uses [Golden Layout](https://github.com/golden-layout/golden-layout) for panel management.
-- Uses [vanilla-jsoneditor](https://github.com/josdejong/svelte-jsoneditor)
-- Uses [json-editor](https://github.com/json-editor/json-editor)
 - Uses [CodeMirror](https://github.com/codemirror/codemirror5)
 - Uses [Cytoscape.js](https://github.com/cytoscape/cytoscape.js) for graph visualization
 - Uses [metamath-py](https://pypi.org/project/metamath-py/) for the MetaMath apworld
+- Uses [Rule Builder](https://github.com/ArchipelagoMW/Archipelago/pull/5048) by drtchops
+- Universal Tracker based on [FarisTheAncient/Archipelago](https://github.com/FarisTheAncient/Archipelago)
+- Fuzzer based on [Archipelago-fuzzer](https://github.com/Eijebong/Archipelago-fuzzer) by Eijebong
+- APWorld Manager from [silasary/Archipelago](https://github.com/silasary/Archipelago)
+- APWorld Index from [silasary/apworlds](https://github.com/silasary/apworlds)
+- APWorld and Iframe integration of [Journey to Ascension](https://github.com/meneth/journey-to-ascension/) by Meneth
+- Iframe integration of [A-Mazing-Idle](https://imgreghenry.github.io/A-Mazing-Idle/) by ImGregHenry
