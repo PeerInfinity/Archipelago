@@ -18,7 +18,9 @@ import {
 } from '../utils/debugSphereLogger.js';
 import { sharedClientState } from './sharedState.js';
 import { stateManagerProxySingleton } from '../../stateManager/index.js';
-import { getClientModuleDispatcher, moduleInfo } from '../index.js';
+
+// Module name constant - avoids circular import with ../index.js
+const MODULE_NAME = 'client';
 
 
 // Helper function for logging with fallback
@@ -89,10 +91,10 @@ export class MessageHandler {
       this.players = [];
       this.clientSlot = 0;
       this.clientTeam = 0;
-    }, 'messageHandler');
+    });
     this.eventBus.subscribe('connection:message', (commands) => {
       commands.forEach((command) => this.processMessage(command));
-    }, 'messageHandler');
+    });
   }
 
   processMessage(command) {
@@ -135,7 +137,7 @@ export class MessageHandler {
 
       default:
         // Use injected eventBus
-        this.eventBus?.publish(`game:raw:${command.cmd}`, command, 'client');
+        this.eventBus?.publish(`game:raw:${command.cmd}`, command);
         break;
     }
   }
@@ -167,7 +169,7 @@ export class MessageHandler {
     }
 
     // Use injected eventBus
-    this.eventBus?.publish('game:roomInfo', data, 'client');
+    this.eventBus?.publish('game:roomInfo', data);
 
     // Get slot name from settings or prompt
     let slotName;
@@ -360,7 +362,7 @@ export class MessageHandler {
           player: player,
           totalPlayers: data.players.length,
           alreadyConnected: true
-        }, 'client');
+        });
       });
     }
 
@@ -373,7 +375,7 @@ export class MessageHandler {
       missingLocations: data.missing_locations || [],
       slotData: data.slot_data || {},
       slotInfo: data.slot_info || [],
-    }, 'client');
+    });
 
     const serverCheckedLocationNames = [];
     if (data.checked_locations && data.checked_locations.length > 0) {
@@ -411,14 +413,14 @@ export class MessageHandler {
 
   _handleConnectionRefused(data) {
     // Use injected eventBus
-    this.eventBus?.publish('network:connectionRefused', data, 'client');
+    this.eventBus?.publish('network:connectionRefused', data);
     const message = `Connection refused: ${data.errors.join(', ')}`;
     log('error', '[MessageHandler]', message);
     // Publish event instead of directly printing
     this.eventBus?.publish('ui:printToConsole', {
       message: message,
       type: 'error',
-    }, 'client');
+    });
   }
 
   /**
@@ -525,7 +527,7 @@ export class MessageHandler {
       index: data.index, // Original index from server packet
       count: data.items.length, // Original count from server packet
       processedCount: processedItemDetails.length, // Actual count of items prepared for StateManager
-    }, 'client');
+    });
   }
 
   _logDebug(message, ...args) {
@@ -572,7 +574,7 @@ export class MessageHandler {
               this.eventBus?.publish('game:playerJoined', {
                 player: player,
                 totalPlayers: data.players.length
-              }, 'client');
+              });
             }
           });
         }
@@ -580,7 +582,7 @@ export class MessageHandler {
     }
 
     // Publish the event for UI updates
-    this.eventBus?.publish('game:roomUpdate', data, 'client');
+    this.eventBus?.publish('game:roomUpdate', data);
   }
 
   _handlePrint(data) {
@@ -588,7 +590,7 @@ export class MessageHandler {
     this.eventBus?.publish('ui:printToConsole', {
       message: data.text,
       type: 'server-message',
-    }, 'client');
+    });
   }
 
   async _handlePrintJSON(data) {
@@ -606,7 +608,7 @@ export class MessageHandler {
         team: data.team,         // Team of the player who sent it
         data: data.data,         // Formatted message parts
         raw: data,               // Full raw data for advanced use
-      }, 'client');
+      });
     }
 
     // Handle PrintJSON messages that contain console text (Join, Tutorial, ItemSend, etc.)
@@ -616,7 +618,7 @@ export class MessageHandler {
       this.eventBus.publish('ui:printFormattedToConsole', {
         messageParts: data.data,
         type: 'server-message',
-      }, 'client');
+      });
     }
   }
 
@@ -631,7 +633,7 @@ export class MessageHandler {
         slots: data.slots,
         tags: data.tags,
         raw: data,
-      }, 'client');
+      });
     }
   }
 
@@ -658,7 +660,7 @@ export class MessageHandler {
     }
 
     // Use injected eventBus if needed
-    this.eventBus?.publish('game:dataPackageReceived', data.data, 'client');
+    this.eventBus?.publish('game:dataPackageReceived', data.data);
   }
 
   /**
@@ -767,7 +769,7 @@ Location was force-checked to maintain server sync.`;
                 { url: diagnosticDownloadUrl, fileName: diagnosticFileName, label: 'Diagnostic Log (actual state)' },
                 { url: regressionDownloadUrl, fileName: regressionFileName, label: 'Regression Test (expected state)' }
               ]
-            }, 'client');
+            });
 
           } else {
             // Normal case - location is accessible, check it normally
@@ -943,7 +945,7 @@ Location was force-checked to maintain server sync.`;
     }
 
     // Clear inventory UI before sync
-    this.eventBus?.publish('inventory:clear', {}, 'client');
+    this.eventBus?.publish('inventory:clear', {});
 
     return connection.send([{ cmd: 'Sync' }]);
   }
@@ -1071,7 +1073,7 @@ Location was force-checked to maintain server sync.`;
       this.eventBus?.publish('error:client', {
         type: 'ConnectionError',
         message: 'Not connected to server.',
-      }, 'client');
+      });
       return;
     }
 
@@ -1124,7 +1126,7 @@ Location was force-checked to maintain server sync.`;
     // Use injected eventBus
     this.eventBus?.publish('client:checksSentUpdated', {
       count: sharedClientState.checksSent,
-    }, 'client');
+    });
   }
 }
 
@@ -1191,7 +1193,7 @@ export async function handleUserLocationCheckForClient(
       if (dispatcher) {
         // Assuming 'client' is the correct module name string for itself
         dispatcher.publishToNextModule(
-          moduleInfo.name,
+          MODULE_NAME,
           'user:locationCheck',
           eventData,
           { direction: 'up' }
@@ -1210,7 +1212,7 @@ export async function handleUserLocationCheckForClient(
     );
     if (dispatcher) {
       dispatcher.publishToNextModule(
-        moduleInfo.name,
+        MODULE_NAME,
         'user:locationCheck',
         eventData,
         { direction: 'up' }
@@ -1263,7 +1265,7 @@ export async function handleUserItemCheckForClient(
       );
       if (dispatcher) {
         dispatcher.publishToNextModule(
-          moduleInfo.name,
+          MODULE_NAME,
           'user:itemCheck',
           eventData,
           { direction: 'up' }
@@ -1282,7 +1284,7 @@ export async function handleUserItemCheckForClient(
     );
     if (dispatcher) {
       dispatcher.publishToNextModule(
-        moduleInfo.name,
+        MODULE_NAME,
         'user:itemCheck',
         eventData,
         { direction: 'up' }

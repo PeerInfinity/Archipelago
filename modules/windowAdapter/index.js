@@ -23,7 +23,7 @@ let moduleEventBus = null;
 let moduleDispatcher = null;
 let adapterCore = null;
 let moduleRegistrationApi = null;
-const moduleId = 'windowAdapter';
+let moduleId = 'windowAdapter';
 
 export async function register(registrationApi) {
     log('info', `[${moduleId} Module] Registering...`);
@@ -38,6 +38,7 @@ export async function register(registrationApi) {
     registrationApi.registerEventBusPublisher('window:messageReceived');
     registrationApi.registerEventBusPublisher('window:loadUrl');
     registrationApi.registerEventBusPublisher('window:close');
+    registrationApi.registerEventBusPublisher('playerState:regionChanged');
 
     // Register EventBus subscribers - we need to listen to all events to bridge them
     registrationApi.registerEventBusSubscriberIntent(moduleId, '*'); // Listen to all events
@@ -92,8 +93,9 @@ function registerDynamicPublisher(publisherId, eventName) {
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store API references
     moduleEventBus = initializationApi.getEventBus();
     moduleDispatcher = initializationApi.getDispatcher();

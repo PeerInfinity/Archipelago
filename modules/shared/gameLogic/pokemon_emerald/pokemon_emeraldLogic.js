@@ -157,7 +157,7 @@ export function has_group_unique(snapshot, staticData, groupName, requiredCount 
 function getOptions(staticData) {
   // Settings are nested by player ID
   const playerId = staticData?.playerId || DEFAULT_PLAYER_ID;
-  const settings = staticData?.settings?.[playerId] || staticData?.settings || {};
+  const settings = staticData?.world?.[playerId] ?? staticData?.world ?? {};
   return settings;
 }
 
@@ -170,9 +170,9 @@ function getGameData(staticData, key) {
     return staticData.game_info[playerId][key];
   }
 
-  // Fallback to settings for backward compatibility
-  if (staticData?.settings?.[playerId]?.[key]) {
-    return staticData.settings[playerId][key];
+  // Fallback to world/settings for backward compatibility
+  if (staticData?.world?.[playerId]?.[key]) {
+    return staticData.world[playerId][key];
   }
 
   // Fallback to top-level (for backward compatibility)

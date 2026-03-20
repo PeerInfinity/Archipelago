@@ -2,7 +2,7 @@
  * Debug Sphere Logger Module
  *
  * Generates sphere log files in JSONL format for debugging inaccessible location checks.
- * The format matches the sphere logs used by the testSpoilers module.
+ * The format matches the sphere logs used by the spoilerTest module.
  *
  * @module client/utils/debugSphereLogger
  */

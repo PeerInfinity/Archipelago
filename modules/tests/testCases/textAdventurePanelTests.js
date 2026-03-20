@@ -16,7 +16,7 @@ function log(level, message, ...data) {
 async function loadAdventureRulesAndPositionPlayer(testController, targetRegion = 'Menu') {
   // Step 1: Ensure text adventure panel is active first
   testController.log('Activating Text Adventure panel...');
-  testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' }, 'tests');
+  testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' });
   
   // Wait for panel to be ready
   const panelReady = await testController.pollForCondition(
@@ -43,7 +43,7 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
     jsonData: rulesData,
     selectedPlayerId: '1',
     sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-  }, 'tests');
+  });
   
   await rulesLoadedPromise;
   testController.reportCondition('Adventure rules loaded', true);
@@ -82,14 +82,14 @@ export async function textAdventureBasicInitializationTest(testController) {
       jsonData: rulesData,
       selectedPlayerId: '1',
       sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-    }, 'tests');
+    });
 
     await rulesLoadedPromise;
     testController.reportCondition('Adventure rules loaded', true);
 
     // Step 2: Activate Text Adventure panel
     testController.log('Step 2: Activating Text Adventure panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' });
 
     // Wait for panel to be ready
     const panelReady = await testController.pollForCondition(
@@ -210,14 +210,14 @@ export async function textAdventureCustomDataLoadingTest(testController) {
       jsonData: rulesData,
       selectedPlayerId: '1',
       sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-    }, 'tests');
+    });
 
     await rulesLoadedPromise;
     testController.reportCondition('Adventure rules loaded', true);
 
     // Step 2: Activate Text Adventure panel
     testController.log('Step 2: Activating Text Adventure panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' });
 
     await testController.pollForCondition(
       () => document.querySelector('.text-adventure-panel-container') !== null,
@@ -414,7 +414,7 @@ export async function textAdventureLocationCheckCommandTest(testController) {
         stateChangeReceived = true;
       };
       
-      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler, 'test');
+      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler);
       
       const eventReceived = await testController.pollForCondition(
         () => stateChangeReceived,
@@ -599,7 +599,7 @@ export async function textAdventureErrorHandlingTest(testController) {
     // Setup: Wait for rules to be ready
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' });
     await testController.pollForCondition(
       () => document.querySelector('.text-adventure-panel-container') !== null,
       'Text Adventure panel to appear',

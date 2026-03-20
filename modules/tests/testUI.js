@@ -1,6 +1,6 @@
 // frontend/modules/tests/testUI.js
 import { testLogic } from './testLogic.js';
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -30,6 +30,7 @@ export class TestUI {
     this.randomizeOrderCheckbox = null; // Placeholder for the randomize order checkbox
 
     this.unsubscribeHandles = [];
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     this._buildInitialUI();
     // this.container.element.appendChild(this.rootElement); // REMOVED: Factory in init.js will handle this
@@ -297,7 +298,7 @@ export class TestUI {
     };
 
     for (const [eventName, handler] of Object.entries(handlers)) {
-      const unsubscribe = eventBus.subscribe(eventName, handler.bind(this), 'tests');
+      const unsubscribe = this.eventBus.subscribe(eventName, handler.bind(this));
       this.unsubscribeHandles.push(unsubscribe);
     }
   }

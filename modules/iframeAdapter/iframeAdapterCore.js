@@ -82,14 +82,15 @@ export class IframeAdapterCore {
 
         // Validate message structure
         if (!validateMessage(message)) {
-            // Silently ignore WINDOW_READY and WINDOW_APP_READY messages (they're for windowAdapter)
-            if (message && (message.type === 'WINDOW_READY' || message.type === 'WINDOW_APP_READY')) {
-                return;
-            }
             log('warn', 'Received invalid message', message);
             return;
         }
-        
+
+        // Silently ignore window-specific messages (they're for windowAdapterCore)
+        if (message.type === 'WINDOW_READY' || message.type === 'WINDOW_APP_READY') {
+            return;
+        }
+
         log('debug', `Received message: ${message.type} from iframe: ${message.iframeId}`);
 
         // Debug log all available handlers
@@ -156,7 +157,7 @@ export class IframeAdapterCore {
 
         // Always publish connection event and send region sync (even for re-registration)
         if (this.eventBus) {
-            this.eventBus.publish('iframe:connected', { iframeId }, 'iframeAdapter');
+            this.eventBus.publish('iframe:connected', { iframeId });
 
             // Only send initial region sync if this is the first registration
             if (!alreadyRegistered) {
@@ -171,7 +172,7 @@ export class IframeAdapterCore {
                         this.eventBus.publish('playerState:regionChanged', {
                             oldRegion: null,
                             newRegion: currentRegion
-                        }, 'iframeAdapter');
+                        });
                     } else {
                         log('debug', 'No current region to send to iframe');
                     }
@@ -194,7 +195,7 @@ export class IframeAdapterCore {
             
             // Publish disconnection event
             if (this.eventBus) {
-                this.eventBus.publish('iframe:disconnected', { iframeId }, 'iframeAdapter');
+                this.eventBus.publish('iframe:disconnected', { iframeId });
             }
         }
     }
@@ -252,7 +253,7 @@ export class IframeAdapterCore {
                 this.eventBus.publish('iframe:appReady', {
                     iframeId: iframeId,
                     timestamp: Date.now()
-                }, this.moduleId);
+                });
             }
         }
     }
@@ -319,7 +320,7 @@ export class IframeAdapterCore {
         // Subscribe to the event and forward to interested iframes
         this.eventBus.subscribe(eventName, (eventData) => {
             this.handleEventBusEvent(eventName, eventData);
-        }, 'iframeAdapter');
+        });
 
         this._adapterEventBusSubscriptions.add(eventName);
         log('debug', `IframeAdapter subscribed to eventBus event: ${eventName}`);
@@ -423,7 +424,7 @@ export class IframeAdapterCore {
         
         // Publish to main app's event bus
         if (this.eventBus) {
-            this.eventBus.publish(eventName, eventData, `iframe_${iframeId}`);
+            this.eventBus.publishAs(eventName, eventData, `iframe_${iframeId}`);
             log('debug', `Published eventBus event from iframe ${iframeId}: ${eventName}`);
         }
     }

@@ -6,6 +6,60 @@ const LOCAL_STORAGE_MODE_PREFIX = 'archipelagoToolSuite_modeData_';
 const LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY = 'archipelagoToolSuite_lastActiveMode';
 
 /**
+ * Reads the autoLoadMode and autoSaveMode settings.
+ * Since this runs before settingsManager is initialized, we need to:
+ * 1. Check localStorage for saved mode data that might contain settings
+ * 2. Fall back to fetching defaults from settings.json
+ *
+ * @param {Object} logger - Logger instance
+ * @returns {Promise<{autoLoadMode: boolean, autoSaveMode: boolean}>}
+ */
+async function getAutoModeSettings(logger) {
+  const defaults = { autoLoadMode: false, autoSaveMode: false };
+
+  try {
+    // First, try to get settings from localStorage mode data
+    // Check both the last active mode and 'default' mode
+    const lastActiveMode = localStorage.getItem(LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
+    const modesToCheck = lastActiveMode ? [lastActiveMode, 'default'] : ['default'];
+
+    for (const modeName of modesToCheck) {
+      const storedData = localStorage.getItem(`${LOCAL_STORAGE_MODE_PREFIX}${modeName}`);
+      if (storedData) {
+        try {
+          const modeData = JSON.parse(storedData);
+          if (modeData.userSettings?.generalSettings) {
+            const gs = modeData.userSettings.generalSettings;
+            return {
+              autoLoadMode: gs.autoLoadMode ?? defaults.autoLoadMode,
+              autoSaveMode: gs.autoSaveMode ?? defaults.autoSaveMode,
+            };
+          }
+        } catch (parseError) {
+          logger.warn('init', `Failed to parse stored mode data for "${modeName}":`, parseError);
+        }
+      }
+    }
+
+    // If not found in localStorage, fetch from default settings.json
+    const response = await fetch('./settings/settings.json');
+    if (response.ok) {
+      const settingsJson = await response.json();
+      if (settingsJson.generalSettings) {
+        return {
+          autoLoadMode: settingsJson.generalSettings.autoLoadMode ?? defaults.autoLoadMode,
+          autoSaveMode: settingsJson.generalSettings.autoSaveMode ?? defaults.autoSaveMode,
+        };
+      }
+    }
+  } catch (error) {
+    logger.warn('init', 'Error reading auto mode settings, using defaults:', error);
+  }
+
+  return defaults;
+}
+
+/**
  * Determines the active mode based on URL parameters and localStorage
  *
  * ⚠️ CRITICAL: This function RETURNS state instead of setting globals.
@@ -88,18 +142,24 @@ export async function determineActiveMode(logger) {
 
   // Case 3: Standard mode determination (no "mode=reset" and no "reset=true")
   // At this point, explicitMode is not "reset", and resetFlag is false.
+
+  // Get auto mode settings to determine behavior
+  const { autoLoadMode, autoSaveMode } = await getAutoModeSettings(logger);
+  logger.info('init', `Auto mode settings: autoLoadMode=${autoLoadMode}, autoSaveMode=${autoSaveMode}`);
+
   if (explicitMode) {
     logger.info('init', `Mode specified in URL: "${explicitMode}".`);
     // Validate that the mode exists in modes.json (G_modesConfig will be loaded after this)
     // We'll defer validation until after loadModesConfiguration() is called
     currentActiveMode = explicitMode;
-  } else {
+  } else if (autoLoadMode) {
+    // Only load from localStorage if autoLoadMode is enabled
     try {
       const lastActiveMode = localStorage.getItem(LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
       if (lastActiveMode) {
         logger.info(
           'init',
-          `Loaded last active mode from localStorage: "${lastActiveMode}".`
+          `Loaded last active mode from localStorage: "${lastActiveMode}" (autoLoadMode enabled).`
         );
         currentActiveMode = lastActiveMode;
       } else {
@@ -117,18 +177,33 @@ export async function determineActiveMode(logger) {
       );
       currentActiveMode = 'default';
     }
+  } else {
+    // autoLoadMode is disabled, always use default
+    logger.info(
+      'init',
+      'autoLoadMode is disabled. Using default mode: "default".'
+    );
+    currentActiveMode = 'default';
   }
 
   // Save the determined mode as the last active mode for the next session
+  // Only save if autoSaveMode is enabled
   // This block is only reached if it's not a reset scenario (i.e., didn't return early)
-  try {
-    localStorage.setItem(LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY, currentActiveMode);
+  if (autoSaveMode) {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY, currentActiveMode);
+      logger.info(
+        'init',
+        `Saved current active mode to localStorage: "${currentActiveMode}" (autoSaveMode enabled).`
+      );
+    } catch (e) {
+      logger.error('init', 'Error saving last active mode to localStorage.', e);
+    }
+  } else {
     logger.info(
       'init',
-      `Saved current active mode to localStorage: "${currentActiveMode}".`
+      `autoSaveMode is disabled. Not saving current active mode to localStorage.`
     );
-  } catch (e) {
-    logger.error('init', 'Error saving last active mode to localStorage.', e);
   }
 
   return { currentActiveMode, skipLocalStorageLoad };

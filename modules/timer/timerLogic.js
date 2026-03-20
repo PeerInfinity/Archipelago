@@ -1,6 +1,6 @@
 // frontend/modules/timer/timerLogic.js
 import { Config } from '../client/core/config.js'; // Assuming Config might be needed for defaults
-import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // For evaluating rules
+import { createSnapshotInterface } from '../shared/snapshotInterface.js'; // For evaluating rules
 
 
 // Helper function for logging with fallback
@@ -103,8 +103,7 @@ export class TimerLogic {
     };
     const unsubLoopMode = this.eventBus.subscribe(
       'loop:modeChanged',
-      loopModeHandler
-      , 'timer');
+      loopModeHandler);
     this.unsubscribeHandles.push(unsubLoopMode);
 
     // TODO: Add listener for settings:changed if delays become configurable
@@ -120,7 +119,7 @@ export class TimerLogic {
       this.eventBus.publish('ui:notification', {
         message: 'Timer disabled while Loop Mode is active.',
         type: 'warn',
-      }, 'timer');
+      });
       return;
     }
 
@@ -147,11 +146,11 @@ export class TimerLogic {
     this.eventBus.publish('timer:started', {
       startTime: this.startTime,
       endTime: this.endTime,
-    }, 'timer');
+    });
     this.eventBus.publish('timer:progressUpdate', {
       value: 0,
       max: this.endTime - this.startTime,
-    }, 'timer');
+    });
 
     // Use faster interval when delay is 0 for immediate checking
     const intervalMs = (this.minCheckDelay === 0 && this.maxCheckDelay === 0)
@@ -174,7 +173,7 @@ export class TimerLogic {
         this.eventBus.publish('timer:progressUpdate', {
           value: elapsed,
           max: totalDuration,
-        }, 'timer');
+        });
       }
 
       if (currentTime >= this.endTime) {
@@ -289,7 +288,7 @@ export class TimerLogic {
             this.eventBus.publish('timer:started', {
               startTime: this.startTime,
               endTime: this.endTime,
-            }, 'timer');
+            });
           } else if (isZeroDelayMode && this.isInFallbackDelay) {
             // Already in fallback mode, increment cycle count
             this.fallbackCycleCount++;
@@ -309,7 +308,7 @@ export class TimerLogic {
               this.eventBus.publish('timer:started', {
                 startTime: this.startTime,
                 endTime: this.endTime,
-              }, 'timer');
+              });
             }
           } else {
             // Not in zero-delay mode, just stop
@@ -336,13 +335,13 @@ export class TimerLogic {
           this.eventBus.publish('timer:started', {
             startTime: this.startTime,
             endTime: this.endTime,
-          }, 'timer');
+          });
           // Only send progress update in normal mode
           if (intervalMs > 10) {
             this.eventBus.publish('timer:progressUpdate', {
               value: 0,
               max: this.endTime - this.startTime,
-            }, 'timer');
+            });
           }
         }
       }
@@ -362,12 +361,12 @@ export class TimerLogic {
     this.startTime = 0;
     this.endTime = 0;
 
-    this.eventBus.publish('timer:stopped', {}, 'timer');
+    this.eventBus.publish('timer:stopped', {});
     // Publish a final progress update to reset the bar visually
     this.eventBus.publish('timer:progressUpdate', {
       value: 0,
       max: lastEndTime - lastStartTime || 1,
-    }, 'timer');
+    });
     log('info', '[TimerLogic] Timer stopped.');
   }
 
@@ -387,7 +386,7 @@ export class TimerLogic {
         );
         return null;
       }
-      const snapshotInterface = createStateSnapshotInterface(
+      const snapshotInterface = createSnapshotInterface(
         snapshot,
         staticData
       );
@@ -506,7 +505,7 @@ export class TimerLogic {
             this.eventBus.publish('ui:notification', {
               message: 'All available locations checked by timer.',
               type: 'info',
-            }, 'timer');
+            });
             return false;
           }
 
@@ -554,14 +553,14 @@ export class TimerLogic {
             this.eventBus.publish('ui:notification', {
               message: 'All available locations checked by timer.',
               type: 'info',
-            }, 'timer');
+            });
           }
         } catch (error) {
           log('error', '[TimerLogic] Error during accessibility recalculation:', error);
           this.eventBus.publish('ui:notification', {
             message: 'All available locations checked by timer.',
             type: 'info',
-          }, 'timer');
+          });
         }
       }
       return false;
@@ -575,7 +574,7 @@ export class TimerLogic {
       this.eventBus.publish('ui:notification', {
         message: 'State not ready for Quick Check.',
         type: 'error',
-      }, 'timer');
+      });
       return false;
     }
 
@@ -588,7 +587,7 @@ export class TimerLogic {
       this.eventBus.publish('ui:notification', {
         message: 'Static data not ready for Quick Check.',
         type: 'error',
-      }, 'timer');
+      });
       return false;
     }
 
@@ -638,7 +637,7 @@ export class TimerLogic {
         message: `Quick Check: Sent ${quickCheckTarget.name}.`,
         type: 'success',
         duration: 3000,
-      }, 'timer');
+      });
       return true;
     } else {
       log('info',
@@ -647,7 +646,7 @@ export class TimerLogic {
       this.eventBus.publish('ui:notification', {
         message: 'Quick Check: No new accessible locations found.',
         type: 'info',
-      }, 'timer');
+      });
       return false;
     }
   }
@@ -680,7 +679,7 @@ export class TimerLogic {
       this.eventBus.publish('ui:notification', {
         message: 'Timer delay updated. Restart timer to apply.',
         type: 'info',
-      }, 'timer');
+      });
     }
   }
 

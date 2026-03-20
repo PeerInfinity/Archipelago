@@ -21,6 +21,20 @@ function countProgress(snapshot, staticData, progressId, visitedRules = new Set(
       return 0;
     }
 
+    // Special handling for setting-based progress IDs
+    // These are not provided by items, but by game settings
+    const options = staticData?.world?.[1]?.options;
+
+    if (progressId === 25) { // P_ALLOW_OOB
+      // Return 1 if out_of_bounds is set to 'logic' (option value 2), else 0
+      return options?.out_of_bounds === 2 ? 1 : 0;
+    }
+
+    if (progressId === 26) { // P_ALLOW_SEQUENCE_BREAKS
+      // Return 1 if sequence_breaks is set to 'logic' (option value 2), else 0
+      return options?.sequence_breaks === 2 ? 1 : 0;
+    }
+
     const inventory = snapshot.inventory || {};
 
     // StateManager flattens items to staticData.items (no player ID needed)
@@ -119,25 +133,25 @@ export function has(snapshot, staticData, progressId, requiredCount = 1) {
     }
 
     // Special handling for P_ALLOW_OOB (25) and P_ALLOW_SEQUENCE_BREAKS (26)
-    // These are controlled by settings
-    const settings = staticData?.settings?.[1];
+    // These are controlled by settings (options are nested under world[1].options)
+    const options = staticData?.world?.[1]?.options;
 
     if (progressId === 25) { // P_ALLOW_OOB
       // Check if out_of_bounds is set to 'logic' (option value 2)
-      return settings?.out_of_bounds === 2;
+      return options?.out_of_bounds === 2;
     }
 
     if (progressId === 26) { // P_ALLOW_SEQUENCE_BREAKS
       // Check if sequence_breaks is set to 'logic' (option value 2)
-      return settings?.sequence_breaks === 2;
+      return options?.sequence_breaks === 2;
     }
 
     // For energy core fragments mode
     if (progressId === 9) { // P_ENERGY_CORE
-      // Check if we're in fragments mode
-      if (settings?.energy_core === 1) { // fragments mode
+      // Check if we're in fragments mode (energy_core: 0=vanilla, 1=shuffle, 2=fragments)
+      if (options?.energy_core === 2) { // fragments mode
         // Use P_CORE_FRAGMENT (10) instead and required_fragments count
-        const requiredFragments = settings?.required_fragments || 21;
+        const requiredFragments = options?.required_fragments || 21;
         progressId = 10; // P_CORE_FRAGMENT
         requiredCount = requiredFragments;
       }

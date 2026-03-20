@@ -28,7 +28,8 @@ export function has(snapshot, staticData, itemName) {
 
   // Check inventory
   if (!snapshot.inventory) return false;
-  return (snapshot.inventory[itemName] || 0) > 0;
+  const count = snapshot.inventory[itemName] || 0;
+  return count > 0;
 }
 
 /**
@@ -79,7 +80,7 @@ export function has_any(snapshot, staticData, items) {
 function getOptions(staticData) {
   // Settings are nested by player ID
   const playerId = staticData?.playerId || DEFAULT_PLAYER_ID;
-  const settings = staticData?.settings?.[playerId] || staticData?.settings || {};
+  const settings = staticData?.world?.[playerId] ?? staticData?.world ?? {};
   return settings;
 }
 
@@ -113,8 +114,10 @@ export function can_learn_hm(snapshot, staticData, move) {
   if (moveIndex === -1) return false;
 
   for (const [pokemon, data] of Object.entries(local_poke_data)) {
-    // Check for both base Pokemon name and "Static {pokemon}" prefix
-    const hasPokemon = has(snapshot, staticData, pokemon) || has(snapshot, staticData, `Static ${pokemon}`);
+    // Only check for exact Pokemon name match (matches Python's state.has(pokemon, player))
+    // Note: "Static {pokemon}" items (like "Static Snorlax") are DIFFERENT from base Pokemon
+    // items (like "Snorlax"). Python's logic only checks for the base name from local_poke_data.
+    const hasPokemon = has(snapshot, staticData, pokemon);
     if (hasPokemon && data.tms && data.tms[6]) {
       // Check if the Pokemon can learn this HM
       const bitMask = 1 << (moveIndex + 2);
@@ -406,7 +409,8 @@ export function evolve_level(snapshot, staticData, level) {
     }
   }
 
-  return count > (level / 7);
+  const threshold = level / 7;
+  return count > threshold;
 }
 
 // Export all helper functions

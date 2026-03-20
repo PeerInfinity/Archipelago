@@ -1,9 +1,10 @@
-import eventBus from '../../app/core/eventBus.js';
+import { getModuleEventBus } from './index.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
+import discoveryStateSingleton from '../discovery/singleton.js';
 
 const logger = createUniversalLogger('regionGraph');
 
@@ -13,6 +14,7 @@ const logger = createUniversalLogger('regionGraph');
 export class GraphInteractionManager {
   constructor(ui) {
     this.ui = ui;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
   }
 
   setupEventHandlers() {
@@ -37,9 +39,19 @@ export class GraphInteractionManager {
     this.ui.cy.on('layoutstop', () => {
       this.ui.isLayoutRunning = false;
 
+      // Capture the current layout generation so we can detect if the graph
+      // was rebuilt before this timeout fires (stale layoutstop from a stopped layout)
+      const generation = this.ui.layoutGeneration;
+
       // Wait for the animation to complete before saving positions and positioning player
       // Animation duration is 1000ms as defined in runLayout
       setTimeout(() => {
+        // Skip if the graph was rebuilt since this layout started
+        if (generation !== this.ui.layoutGeneration) {
+          logger.debug('Skipping stale layoutstop timeout (generation mismatch)');
+          return;
+        }
+
         this.ui.saveNodePositions();
         this.ui.updateStatus('Layout complete');
 
@@ -107,26 +119,26 @@ export class GraphInteractionManager {
       forceShowLocationsCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           forceHideLocationsCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#forceHideLocations', 'regionGraph.forceHideLocations', false);
+          this.ui.saveCheckboxSetting('#forceHideLocations', 'moduleSettings.regionGraph.forceHideLocations', false);
           this.ui.locationsManuallyShown = true;
           this.ui.locationsManuallyHidden = false;
         } else {
           this.ui.locationsManuallyShown = false;
         }
-        this.ui.saveCheckboxSetting('#forceShowLocations', 'regionGraph.forceShowLocations', e.target.checked);
+        this.ui.saveCheckboxSetting('#forceShowLocations', 'moduleSettings.regionGraph.forceShowLocations', e.target.checked);
         this.updateZoomBasedVisibility();
       });
 
       forceHideLocationsCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           forceShowLocationsCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#forceShowLocations', 'regionGraph.forceShowLocations', false);
+          this.ui.saveCheckboxSetting('#forceShowLocations', 'moduleSettings.regionGraph.forceShowLocations', false);
           this.ui.locationsManuallyHidden = true;
           this.ui.locationsManuallyShown = false;
         } else {
           this.ui.locationsManuallyHidden = false;
         }
-        this.ui.saveCheckboxSetting('#forceHideLocations', 'regionGraph.forceHideLocations', e.target.checked);
+        this.ui.saveCheckboxSetting('#forceHideLocations', 'moduleSettings.regionGraph.forceHideLocations', e.target.checked);
         this.updateZoomBasedVisibility();
       });
     }
@@ -139,17 +151,17 @@ export class GraphInteractionManager {
       addToPathCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           overwritePathCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#overwritePath', 'regionGraph.overwritePath', false);
+          this.ui.saveCheckboxSetting('#overwritePath', 'moduleSettings.regionGraph.overwritePath', false);
         }
-        this.ui.saveCheckboxSetting('#addToPath', 'regionGraph.addToPath', e.target.checked);
+        this.ui.saveCheckboxSetting('#addToPath', 'moduleSettings.regionGraph.addToPath', e.target.checked);
       });
 
       overwritePathCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           addToPathCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#addToPath', 'regionGraph.addToPath', false);
+          this.ui.saveCheckboxSetting('#addToPath', 'moduleSettings.regionGraph.addToPath', false);
         }
-        this.ui.saveCheckboxSetting('#overwritePath', 'regionGraph.overwritePath', e.target.checked);
+        this.ui.saveCheckboxSetting('#overwritePath', 'moduleSettings.regionGraph.overwritePath', e.target.checked);
       });
     }
 
@@ -161,17 +173,17 @@ export class GraphInteractionManager {
       moveOneStepCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           moveDirectlyCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#movePlayerDirectly', 'regionGraph.movePlayerDirectly', false);
+          this.ui.saveCheckboxSetting('#movePlayerDirectly', 'moduleSettings.regionGraph.movePlayerDirectly', false);
         }
-        this.ui.saveCheckboxSetting('#movePlayerOneStep', 'regionGraph.movePlayerOneStep', e.target.checked);
+        this.ui.saveCheckboxSetting('#movePlayerOneStep', 'moduleSettings.regionGraph.movePlayerOneStep', e.target.checked);
       });
 
       moveDirectlyCheckbox.addEventListener('change', (e) => {
         if (e.target.checked) {
           moveOneStepCheckbox.checked = false;
-          this.ui.saveCheckboxSetting('#movePlayerOneStep', 'regionGraph.movePlayerOneStep', false);
+          this.ui.saveCheckboxSetting('#movePlayerOneStep', 'moduleSettings.regionGraph.movePlayerOneStep', false);
         }
-        this.ui.saveCheckboxSetting('#movePlayerDirectly', 'regionGraph.movePlayerDirectly', e.target.checked);
+        this.ui.saveCheckboxSetting('#movePlayerDirectly', 'moduleSettings.regionGraph.movePlayerDirectly', e.target.checked);
       });
     }
 
@@ -179,7 +191,7 @@ export class GraphInteractionManager {
     const showRegionInPanelCheckbox = this.ui.controlPanel.querySelector('#showRegionInPanel');
     if (showRegionInPanelCheckbox) {
       showRegionInPanelCheckbox.addEventListener('change', (e) => {
-        this.ui.saveCheckboxSetting('#showRegionInPanel', 'regionGraph.showRegionInPanel', e.target.checked);
+        this.ui.saveCheckboxSetting('#showRegionInPanel', 'moduleSettings.regionGraph.showRegionInPanel', e.target.checked);
       });
     }
 
@@ -187,14 +199,14 @@ export class GraphInteractionManager {
     const addLocationsToPathCheckbox = this.ui.controlPanel.querySelector('#addLocationsToPath');
     if (addLocationsToPathCheckbox) {
       addLocationsToPathCheckbox.addEventListener('change', (e) => {
-        this.ui.saveCheckboxSetting('#addLocationsToPath', 'regionGraph.addLocationsToPath', e.target.checked);
+        this.ui.saveCheckboxSetting('#addLocationsToPath', 'moduleSettings.regionGraph.addLocationsToPath', e.target.checked);
       });
     }
 
     const checkAllLocationsInRegionCheckbox = this.ui.controlPanel.querySelector('#checkAllLocationsInRegion');
     if (checkAllLocationsInRegionCheckbox) {
       checkAllLocationsInRegionCheckbox.addEventListener('change', (e) => {
-        this.ui.saveCheckboxSetting('#checkAllLocationsInRegion', 'regionGraph.checkAllLocationsInRegion', e.target.checked);
+        this.ui.saveCheckboxSetting('#checkAllLocationsInRegion', 'moduleSettings.regionGraph.checkAllLocationsInRegion', e.target.checked);
       });
     }
   }
@@ -205,6 +217,12 @@ export class GraphInteractionManager {
 
     logger.debug(`Location node clicked: ${locationName} in ${parentRegion}`);
 
+    // Discovery mode: if location checks are disabled, skip the check
+    if (this.ui.isDiscoveryModeActive && this.ui.discoverySettings.disableLocationCheckUI) {
+      logger.debug(`Location check disabled by discovery settings, skipping: ${locationName}`);
+      return;
+    }
+
     // Check which actions are enabled via checkboxes (same logic as region nodes)
     const movePlayerOneStepCheckbox = this.ui.controlPanel.querySelector('#movePlayerOneStep');
     const movePlayerDirectlyCheckbox = this.ui.controlPanel.querySelector('#movePlayerDirectly');
@@ -213,7 +231,7 @@ export class GraphInteractionManager {
     const overwritePathCheckbox = this.ui.controlPanel.querySelector('#overwritePath');
 
     // Check if we should add to path (use settings)
-    settingsManager.getSetting('regionGraph.addLocationsToPath', false).then(shouldAddToPath => {
+    settingsManager.getSetting('moduleSettings.regionGraph.addLocationsToPath', false).then(shouldAddToPath => {
       if (shouldAddToPath) {
         logger.debug(`Adding location ${locationName} to path in region ${parentRegion}`);
 
@@ -286,10 +304,10 @@ export class GraphInteractionManager {
     node.addClass('selected');
 
     // Publish the custom regionGraph event for any other listeners
-    eventBus.publish('regionGraph:nodeSelected', {
+    this.eventBus.publish('regionGraph:nodeSelected', {
       nodeId: regionName,
       data: node.data()
-    }, 'regionGraph');
+    });
 
     // Check which actions are enabled via checkboxes
     const movePlayerOneStepCheckbox = this.ui.controlPanel.querySelector('#movePlayerOneStep');
@@ -323,11 +341,11 @@ export class GraphInteractionManager {
       this.ui.setShowAllRegions(shouldShowAll);
 
       // Activate the regions panel
-      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
+      this.eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
       logger.debug('Published ui:activatePanel for regionsPanel');
 
       // Navigate to the region
-      eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
+      this.eventBus.publish('ui:navigateToRegion', { regionName: regionName });
       logger.debug(`Published ui:navigateToRegion for ${regionName}`);
     }
 
@@ -339,14 +357,20 @@ export class GraphInteractionManager {
   }
 
   checkAllLocationsInRegion(regionName) {
+    // Discovery mode: if location checks are disabled, skip
+    if (this.ui.isDiscoveryModeActive && this.ui.discoverySettings.disableLocationCheckUI) {
+      logger.debug(`Location checks disabled by discovery settings, skipping bulk check for: ${regionName}`);
+      return;
+    }
+
     // Get locations in this region
     const staticData = stateManager.getStaticData();
-    const regionData = staticData?.regions?.[regionName];
+    const regionData = staticData?.regions?.get(regionName);
 
     if (regionData && regionData.locations && regionData.locations.length > 0) {
       // Get current state to check which locations are accessible
       const snapshot = stateManager.getLatestStateSnapshot();
-      const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+      const snapshotInterface = createSnapshotInterface(snapshot, staticData);
       const checkedLocations = new Set(snapshot.checkedLocations || []);
 
       // Check each location that is accessible and not already checked
@@ -360,8 +384,8 @@ export class GraphInteractionManager {
           }
 
           // Check if location is accessible
-          const isAccessible = location.requires ?
-            evaluateRule(location.requires, snapshotInterface) : true;
+          const isAccessible = location.access_rule ?
+            evaluateRule(location.access_rule, snapshotInterface) : true;
 
           if (isAccessible) {
             // Dispatch location check event
@@ -417,8 +441,8 @@ export class GraphInteractionManager {
 
       // Highlight edges between consecutive regions in the path (regionMove entries)
       for (let i = 0; i < this.ui.currentPath.length - 1; i++) {
-        const source = this.ui.currentPath[i].region;
-        const target = this.ui.currentPath[i + 1].region;
+        const source = this.ui.currentPath[i].destinationRegion;
+        const target = this.ui.currentPath[i + 1].destinationRegion;
 
         // Find edge between source and target (consider both directions)
         const edge = this.ui.cy.edges(`[source="${source}"][target="${target}"], [source="${target}"][target="${source}"]`);
@@ -431,12 +455,12 @@ export class GraphInteractionManager {
       if (this.ui.locationsVisible) {
         fullPath.forEach(entry => {
           if (entry.type === 'locationCheck') {
-            const locationNodeId = `loc_${entry.region}_${entry.locationName}`;
+            const locationNodeId = `loc_${entry.sourceRegion}_${entry.locationName}`;
             const locationNode = this.ui.cy.getElementById(locationNodeId);
 
             if (locationNode && locationNode.length > 0) {
               // Highlight the edge from region to location
-              const edge = this.ui.cy.edges(`[source="${entry.region}"][target="${locationNodeId}"]`);
+              const edge = this.ui.cy.edges(`[source="${entry.sourceRegion}"][target="${locationNodeId}"]`);
               if (edge && edge.length > 0) {
                 edge.addClass('in-path');
               }
@@ -454,16 +478,63 @@ export class GraphInteractionManager {
     this.ui.currentZoomLevel = this.ui.cy.zoom();
     this.ui.locationsVisible = false;
 
+    // Initialize debounce timer for viewport-based location refresh
+    this.viewportRefreshTimer = null;
+
     // Listen to zoom/pan events
     this.ui.cy.on('zoom pan', () => {
       this.updateZoomBasedVisibility();
       this.ui.updateLocationNodeZOrder();
+
+      // Debounced refresh for viewport-filtered locations
+      this.scheduleViewportRefresh();
     });
 
     // Also update z-order when viewport changes
     this.ui.cy.on('viewport', () => {
       this.ui.updateLocationNodeZOrder();
+
+      // Debounced refresh for viewport-filtered locations
+      this.scheduleViewportRefresh();
     });
+  }
+
+  /**
+   * Schedule a debounced refresh of location nodes when viewport changes.
+   * Triggers if locations are visible and viewport-dependent features are enabled
+   * (either onlyShowLocationsInView or maxLocationNodes limit).
+   */
+  scheduleViewportRefresh() {
+    // Only schedule refresh if locations are visible
+    if (!this.ui.locationsVisible) {
+      return;
+    }
+
+    // Check if any viewport-dependent feature is enabled
+    const hasLocationLimit = (this.ui.maxLocationNodes ?? 100) > 0;
+    const hasViewportFilter = this.ui.onlyShowLocationsInView ?? false;
+
+    // Only refresh if a viewport-dependent feature is active
+    if (!hasViewportFilter && !hasLocationLimit) {
+      return;
+    }
+
+    // Clear any existing timer
+    if (this.viewportRefreshTimer) {
+      clearTimeout(this.viewportRefreshTimer);
+    }
+
+    // Get the stabilize delay (default 1000ms)
+    const delay = this.ui.viewportStabilizeDelay ?? 1000;
+
+    // Schedule the refresh
+    this.viewportRefreshTimer = setTimeout(() => {
+      this.viewportRefreshTimer = null;
+      if (this.ui.locationsVisible) {
+        logger.debug('Viewport stabilized, refreshing location nodes');
+        this.ui.refreshLocationNodes();
+      }
+    }, delay);
   }
 
   updateZoomBasedVisibility() {
@@ -500,6 +571,7 @@ export class GraphInteractionManager {
   updateLabelVisibility(zoom) {
     // Check if locations are manually shown - if so, show their labels at same zoom as region labels
     const forceShowLocationLabels = this.ui.locationsManuallyShown;
+    const edgeLabelStyle = this.ui.edgeLabelsHidden ? '' : 'data(label)';
 
     // Update visibility of labels based on zoom level
     if (zoom < this.ui.zoomLevels.hideAllLabels) {
@@ -517,12 +589,23 @@ export class GraphInteractionManager {
     } else if (zoom < this.ui.zoomLevels.showRegionCounts) {
       // Show only region names, no counts
       const staticData = stateManager.getStaticData();
+      const isDiscoveryModeActive = this.ui.isDiscoveryModeActive || false;
+      const showUndiscoveredNames = this.ui.discoverySettings?.showUndiscoveredRegionNames || false;
       this.ui.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
-          const regionData = staticData?.regions?.[regionName];
-          const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
-          node.data('label', displayText);
+          if (isDiscoveryModeActive && !discoveryStateSingleton.isRegionDiscovered(regionName)) {
+            if (showUndiscoveredNames && !node.hasClass('discovery-hidden')) {
+              const regionData = staticData?.regions?.get(regionName);
+              node.data('label', regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' '));
+            } else {
+              node.data('label', '???');
+            }
+          } else {
+            const regionData = staticData?.regions?.get(regionName);
+            const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
+          }
         }
       });
       // Apply the labels and hide edge labels
@@ -549,7 +632,7 @@ export class GraphInteractionManager {
         .selector('node.region').style('label', 'data(label)')
         .selector('node.player').style('label', 'data(label)')
         .selector('.location-node').style('label', forceShowLocationLabels ? 'data(label)' : '')
-        .selector('edge[label]').style('label', 'data(label)')
+        .selector('edge[label]').style('label', edgeLabelStyle)
         .selector('.region-location-edge').style('label', '')
         .update();
     } else if (zoom < this.ui.zoomLevels.showLocationLabels) {
@@ -559,7 +642,7 @@ export class GraphInteractionManager {
         .selector('node.region').style('label', 'data(label)')
         .selector('node.player').style('label', 'data(label)')
         .selector('.location-node').style('label', forceShowLocationLabels ? 'data(label)' : '')
-        .selector('edge[label]').style('label', 'data(label)')
+        .selector('edge[label]').style('label', edgeLabelStyle)
         .selector('.region-location-edge').style('label', '')
         .update();
     } else {
@@ -569,7 +652,7 @@ export class GraphInteractionManager {
         .selector('node.region').style('label', 'data(label)')
         .selector('node.player').style('label', 'data(label)')
         .selector('.location-node').style('label', 'data(label)')
-        .selector('edge[label]').style('label', 'data(label)')
+        .selector('edge[label]').style('label', edgeLabelStyle)
         .selector('.region-location-edge').style('label', '')
         .update();
     }
@@ -580,18 +663,30 @@ export class GraphInteractionManager {
 
   updateRegionLabelsWithCounts() {
     const staticData = stateManager.getStaticData();
+    const isDiscoveryModeActive = this.ui.isDiscoveryModeActive || false;
+    const showUndiscoveredNames = this.ui.discoverySettings?.showUndiscoveredRegionNames || false;
     this.ui.cy.nodes().forEach(node => {
       if (!node.hasClass('location-node') && !node.hasClass('player')) {
         const regionName = node.data('regionName') || node.id();
-        const regionData = staticData?.regions?.[regionName];
-        const locationCounts = node.data('locationCounts');
-        if (locationCounts && locationCounts.total > 0) {
-          const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
-          const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-          node.data('label', `${displayText}\n${countLabel}`);
+        // In discovery mode, undiscovered regions show ??? or name depending on setting
+        if (isDiscoveryModeActive && !discoveryStateSingleton.isRegionDiscovered(regionName)) {
+          if (showUndiscoveredNames && !node.hasClass('discovery-hidden')) {
+            const regionData = staticData?.regions?.get(regionName);
+            node.data('label', regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' '));
+          } else {
+            node.data('label', '???');
+          }
         } else {
-          const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
-          node.data('label', displayText);
+          const regionData = staticData?.regions?.get(regionName);
+          const locationCounts = node.data('locationCounts');
+          if (locationCounts && locationCounts.total > 0) {
+            const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
+            node.data('label', `${displayText}\n${countLabel}`);
+          } else {
+            const displayText = regionData ? this.ui.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
+          }
         }
       }
     });

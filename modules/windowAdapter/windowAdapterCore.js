@@ -62,9 +62,10 @@ export class WindowAdapterCore {
         this.messageHandlers.set(MessageTypes.REQUEST_STATE_SNAPSHOT, this.handleRequestStateSnapshot.bind(this));
         this.messageHandlers.set(MessageTypes.REQUEST_LOG_CONFIG, this.handleRequestLogConfig.bind(this));
 
-        // Stub handlers for iframe-specific messages (handled by iframeAdapterCore instead)
+        // Stub handler for IFRAME_READY (handled by iframeAdapterCore instead)
         this.messageHandlers.set(MessageTypes.IFRAME_READY, this.handleIframeMessage.bind(this));
-        this.messageHandlers.set(MessageTypes.IFRAME_APP_READY, this.handleIframeMessage.bind(this));
+        // Handle IFRAME_APP_READY from window-mode clients using unified AdapterClient
+        this.messageHandlers.set(MessageTypes.IFRAME_APP_READY, this.handleWindowAppReady.bind(this));
     }
 
     /**
@@ -82,10 +83,14 @@ export class WindowAdapterCore {
      */
     handlePostMessage(event) {
         const message = event.data;
-        
+
         // Validate message structure
         if (!validateMessage(message)) {
-            log('warn', 'Received invalid message', message);
+            return;
+        }
+
+        // Skip messages intended for iframeAdapter (have iframeId but no windowId)
+        if (message.iframeId && !message.windowId) {
             return;
         }
         
@@ -142,7 +147,7 @@ export class WindowAdapterCore {
 
         // Publish connection event
         if (this.eventBus) {
-            this.eventBus.publish('window:connected', { windowId }, 'windowAdapter');
+            this.eventBus.publish('window:connected', { windowId });
 
             // Send current region to newly connected window so it can initialize its state
             // Use setTimeout to ensure window has finished setting up its event subscriptions
@@ -155,7 +160,7 @@ export class WindowAdapterCore {
                     this.eventBus.publish('playerState:regionChanged', {
                         oldRegion: null,
                         newRegion: currentRegion
-                    }, 'windowAdapter');
+                    });
                 } else {
                     log('debug', 'No current region to send to window');
                 }
@@ -177,7 +182,7 @@ export class WindowAdapterCore {
             
             // Publish disconnection event
             if (this.eventBus) {
-                this.eventBus.publish('window:disconnected', { windowId }, 'windowAdapter');
+                this.eventBus.publish('window:disconnected', { windowId });
             }
         }
     }
@@ -191,6 +196,21 @@ export class WindowAdapterCore {
     handleIframeMessage(message, source) {
         // Silently ignore - these messages are for iframeAdapterCore
         log('debug', `Ignoring iframe-specific message: ${message.type} (handled by iframeAdapterCore)`);
+    }
+
+    /**
+     * Handle app-ready message from window-mode clients using unified AdapterClient.
+     * The unified client sends IFRAME_APP_READY regardless of mode.
+     * @param {object} message - The message object
+     * @param {Window} source - Source window
+     */
+    handleWindowAppReady(message, source) {
+        const windowId = message.windowId || message.clientId || message.iframeId;
+        if (!this.windows.has(windowId)) {
+            // Not a window-mode client registered with us — ignore
+            return;
+        }
+        log('info', `Window app ready: ${windowId}`);
     }
 
     /**
@@ -285,7 +305,7 @@ export class WindowAdapterCore {
             // Subscribe to the event and forward to interested windows
             this.eventBus.subscribe(eventName, (eventData) => {
                 this.handleEventBusEvent(eventName, eventData);
-            }, 'windowAdapter');
+            });
 
             this._adapterEventBusSubscriptions.add(eventName);
             log('debug', `WindowAdapter subscribed to eventBus event: ${eventName}`);
@@ -367,7 +387,7 @@ export class WindowAdapterCore {
         
         // Publish to main app's event bus
         if (this.eventBus) {
-            this.eventBus.publish(eventName, eventData, `window_${windowId}`);
+            this.eventBus.publishAs(eventName, eventData, `window_${windowId}`);
             log('debug', `Published eventBus event from window ${windowId}: ${eventName}`);
         }
     }

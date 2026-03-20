@@ -60,7 +60,7 @@ export async function initializeLayoutManager(options) {
   } = options;
 
   // Determine if we should use mobile or desktop layout
-  const usesMobileLayout = determineLayoutMode(logger);
+  const usesMobileLayout = determineLayoutMode(logger, settingsManager);
 
   // Get the layout container
   const layoutContainer = document.getElementById('goldenlayout-container');
@@ -78,6 +78,7 @@ export async function initializeLayoutManager(options) {
       layoutContainer,
       centralRegistry,
       layoutPresets,
+      settingsManager,
       moduleInfoMap,
       importedModules,
       logger,
@@ -149,7 +150,8 @@ function validateLayoutManagerOptions(options) {
  * Determines whether to use mobile or desktop layout
  * @private
  */
-function determineLayoutMode(logger) {
+function determineLayoutMode(logger, settingsManager) {
+  // Priority 1: URL parameter override
   const layoutUrlParams = new URLSearchParams(window.location.search);
   const forceLayout = layoutUrlParams.get('layout');
 
@@ -159,17 +161,29 @@ function determineLayoutMode(logger) {
   } else if (forceLayout === 'desktop') {
     logger.info('init', 'Layout mode forced to DESKTOP via URL parameter (?layout=desktop)');
     return false;
-  } else {
-    // Auto-detect based on device
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const usesMobileLayout = isMobile || isTouchDevice;
-    logger.info(
-      'init',
-      `Auto-detected device - Mobile: ${isMobile}, Touch: ${isTouchDevice}, Using mobile layout: ${usesMobileLayout}`
-    );
-    return usesMobileLayout;
   }
+
+  // Priority 2: Settings-based layout mode
+  if (settingsManager && settingsManager.settings) {
+    const layoutMode = settingsManager.settings?.generalSettings?.layoutMode;
+    if (layoutMode === 'mobile') {
+      logger.info('init', 'Layout mode forced to MOBILE via generalSettings.layoutMode');
+      return true;
+    } else if (layoutMode === 'desktop') {
+      logger.info('init', 'Layout mode forced to DESKTOP via generalSettings.layoutMode');
+      return false;
+    }
+  }
+
+  // Priority 3: Auto-detect based on device
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const usesMobileLayout = isMobile || isTouchDevice;
+  logger.info(
+    'init',
+    `Auto-detected device - Mobile: ${isMobile}, Touch: ${isTouchDevice}, Using mobile layout: ${usesMobileLayout}`
+  );
+  return usesMobileLayout;
 }
 
 /**
@@ -182,6 +196,7 @@ async function setupMobileLayout(options) {
     layoutContainer,
     centralRegistry,
     layoutPresets,
+    settingsManager,
     moduleInfoMap,
     importedModules,
     logger,
@@ -224,8 +239,12 @@ async function setupMobileLayout(options) {
       }
     });
 
+  // Resolve which layout preset to use (same logic as desktop)
+  const activeLayoutId = await settingsManager.getSetting('activeLayout', 'default');
+  logger.info('init', `Mobile layout using active layout preset: "${activeLayoutId}"`);
+
   // Initialize the mobile layout manager
-  mobileLayoutManager.initialize(layoutContainer, layoutPresets);
+  mobileLayoutManager.initialize(layoutContainer, layoutPresets, activeLayoutId);
   logger.info('INIT_STEP', 'Mobile Layout Manager initialized with all components');
 
   // Add class to body to indicate mobile layout is active

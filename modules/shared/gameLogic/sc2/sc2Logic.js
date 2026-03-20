@@ -21,6 +21,23 @@ export const helperFunctions = helpers.default;
 export const helperPrefixes = ['terran_', 'zerg_', 'protoss_', 'nova_'];
 
 /**
+ * Helpers that have optional parameters and should NOT be called directly by resolveName.
+ * JavaScript's function.length doesn't count parameters with default values, so functions
+ * like terran_competent_comp(snapshot, staticData, upgradeLevel = 1) have length === 2.
+ * These helpers must be called via executeHelper to receive their arguments properly.
+ */
+export const helpersWithOptionalArgs = new Set([
+    'terran_competent_comp',
+    'zerg_competent_comp',
+    'protoss_competent_comp',
+    'terran_beats_protoss_deathball',
+    'terran_defense_rating',
+    'zerg_defense_rating',
+    'protoss_defense_rating',
+    'soa_defense_rating',
+]);
+
+/**
  * Get the base power rating based on required tactics setting.
  * In Python: self.base_power_rating = 2 if self.advanced_tactics else 0
  *
@@ -46,7 +63,7 @@ export function wrapState(snapshot, staticData) {
 
     // Get player settings
     const playerId = snapshot?.player?.id || snapshot?.player?.slot || 1;
-    const settings = staticData?.settings?.[playerId] || {};
+    const settings = staticData?.world?.[playerId] ?? {};
 
     // Compute power rating
     // In Python: power_rating is base_power_rating + various upgrade bonuses
@@ -77,5 +94,6 @@ export default {
     initializeGameLogic,
     helperFunctions,
     helperPrefixes,
+    helpersWithOptionalArgs,
     wrapState
 };

@@ -1,7 +1,8 @@
 // frontend/modules/tests/index.js
 import { TestUI } from './testUI.js';
 import { testLogic } from './testLogic.js';
-import eventBus from '../../app/core/eventBus.js'; // Assuming global eventBus
+import eventBus from '../../app/core/eventBus.js';
+// eventBus is obtained via initializationApi.getEventBus() in initialize()
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -24,6 +25,21 @@ export const moduleInfo = {
 };
 
 let appInitializationApi = null;
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'tests'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'tests'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'tests'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 /**
  * Registration function for the Tests module.
@@ -72,7 +88,7 @@ export function register(registrationApi) {
 
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',
-    defaultChecked: true,
+    defaultChecked: false,
     requiresReload: false, // Test list, enabled states can be updated live. Auto-start applies on next load.
     getSaveDataFunction: async () => {
       log('info', '[Tests Module] getSaveDataFunction called for testsConfig');
@@ -99,9 +115,9 @@ export function register(registrationApi) {
       );
 
       // Optionally, trigger a UI refresh if the panel might already be open
-      eventBus.publish('tests:listUpdated', {
+      _moduleEventBus.publish('tests:listUpdated', {
         tests: await testLogic.getTests(),
-      }, 'tests');
+      });
     },
   });
 
@@ -117,13 +133,14 @@ export function register(registrationApi) {
 export async function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', `[Tests Module] Initializing with priority ${priorityIndex}...`);
   appInitializationApi = initializationApi;
+  _moduleEventBus = initializationApi.getEventBus();
 
   // Pass the initializationApi to testLogic so it can use moduleManager etc.
   testLogic.setInitializationApi(appInitializationApi);
-  testLogic.setEventBus(eventBus); // Pass eventBus to testLogic
+  testLogic.setEventBus(_moduleEventBus); // Pass scoped eventBus to testLogic
 
   // Listen for the app to be fully ready for basic setup
-  eventBus.subscribe('app:readyForUiDataLoad', () => {
+  _moduleEventBus.subscribe('app:readyForUiDataLoad', () => {
     log('info', '[Tests Module] app:readyForUiDataLoad received.');
 
     // Debug: Check current mode
@@ -132,19 +149,19 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       localStorage.getItem('archipelagoToolSuite_lastActiveMode') ||
       'unknown';
     log('info', '[Tests Module] Current application mode:', currentMode);
-  }, 'tests');
+  });
 
   // Listen for when test loaded state is fully applied (including auto-start check)
-  eventBus.subscribe('tests:loadedStateApplied', (eventData) => {
+  _moduleEventBus.subscribe('tests:loadedStateApplied', (eventData) => {
     log('info', '[Tests Module] test:loadedStateApplied received:', eventData);
     log(
       'info',
       '[Tests Module] Auto-start handling is now done by testLogic.applyLoadedState()'
     );
-  }, 'tests');
+  });
 
   // Subscribe to test log messages to pipe them to the main logger
-  eventBus.subscribe('tests:logAdded', (logData) => {
+  _moduleEventBus.subscribe('tests:logAdded', (logData) => {
     if (window.logger && typeof window.logger.log === 'function') {
       const { testId, message, type } = logData;
       const category = `TestRunner/${testId}`;
@@ -160,7 +177,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
         logData.message
       );
     }
-  }, 'tests');
+  });
 
   log('info', '[Tests Module] Initialization complete.');
 }

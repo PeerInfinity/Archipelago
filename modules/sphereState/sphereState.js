@@ -82,7 +82,7 @@ export class SphereState {
     // Don't reset currentPlayerId as it comes from static data
 
     if (this.eventBus) {
-      this.eventBus.publish('sphereState:dataCleared', {}, 'sphereState');
+      this.eventBus.publish('sphereState:dataCleared', {});
     }
   }
 
@@ -117,7 +117,7 @@ export class SphereState {
         this.eventBus.publish('sphereState:dataLoaded', {
           sphereCount: this.sphereData.length,
           filePath
-        }, 'sphereState');
+        });
       }
 
       // Calculate initial current sphere
@@ -211,6 +211,11 @@ export class SphereState {
             }
           }
           continue; // Don't add header to entries
+        }
+
+        // Skip metadata entries (contains seed info, event locations/items, etc.)
+        if (entry.type === 'metadata') {
+          continue;
         }
 
         if (entry.type !== 'state_update') {
@@ -449,7 +454,7 @@ export class SphereState {
 
         if (changed && this.eventBus) {
           log('info', `Current sphere changed to: ${newCurrent.sphereIndex}`);
-          this.eventBus.publish('sphereState:currentSphereChanged', newCurrent, 'sphereState');
+          this.eventBus.publish('sphereState:currentSphereChanged', newCurrent);
         }
 
         return;
@@ -469,7 +474,7 @@ export class SphereState {
       log('info', 'All spheres complete');
 
       if (this.eventBus) {
-        this.eventBus.publish('sphereState:allSpheresComplete', this.currentSphere, 'sphereState');
+        this.eventBus.publish('sphereState:allSpheresComplete', this.currentSphere);
       }
     }
   }
@@ -530,6 +535,32 @@ export class SphereState {
         allPlayersLocations // Object keyed by playerId with arrays of location names
       };
     });
+  }
+
+  /**
+   * Get incremental items received by the current player per sphere.
+   * Extracted from the raw sphere log's new_inventory_details.
+   * @returns {Map<string, object>} sphereIndex → { base_items: {itemName: count} }
+   */
+  getPerSphereReceivedItems() {
+    const result = new Map();
+    if (!this.rawData || !this.rawData.length) return result;
+
+    const pid = String(this.currentPlayerId);
+
+    for (const entry of this.rawData) {
+      if (!entry.sphere_index || !entry.player_data) continue;
+
+      const playerData = entry.player_data[pid];
+      if (!playerData) continue;
+
+      const newItems = playerData.new_inventory_details?.base_items;
+      if (newItems && Object.keys(newItems).length > 0) {
+        result.set(entry.sphere_index, { base_items: newItems });
+      }
+    }
+
+    return result;
   }
 
   /**

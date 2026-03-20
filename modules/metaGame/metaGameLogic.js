@@ -12,7 +12,10 @@ export class MetaGameLogic {
     this.isReady = false;
     this.eventHandlers = new Map();
     this.progressBars = new Map(); // Track created progress bars
+    this.progressBarCompletionHandlers = new Map(); // Track active completion handler unsubscribers
     this.registeredDispatcherReceivers = []; // Track registered dispatcher receivers for cleanup
+    this.activeMazeChallenge = null; // Active maze challenge state
+    this.mazeCompletionUnsubscribe = null; // Unsubscribe function for maze completion handler
     
     this.logger.info('metaGame', 'MetaGameLogic instance created');
   }
@@ -21,26 +24,35 @@ export class MetaGameLogic {
     try {
       // Get access to other modules we need
       this.progressBarAPI = {
-        create: (config) => this.eventBus.publish('progressBar:create', config, 'metaGame'),
-        show: (id) => this.eventBus.publish('progressBar:show', { id }, 'metaGame'),
-        hide: (id) => this.eventBus.publish('progressBar:hide', { id }, 'metaGame'),
-        destroy: (id) => this.eventBus.publish('progressBar:destroy', { id }, 'metaGame')
+        create: (config) => this.eventBus.publish('progressBar:create', config),
+        show: (id) => this.eventBus.publish('progressBar:show', { id }),
+        hide: (id) => this.eventBus.publish('progressBar:hide', { id }),
+        destroy: (id) => this.eventBus.publish('progressBar:destroy', { id })
       };
       
       this.isReady = true;
-      this.eventBus.publish('metaGame:ready', { status: 'ready' }, 'metaGame');
+      this.eventBus.publish('metaGame:ready', { status: 'ready' });
       this.logger.info('metaGame', 'MetaGameLogic ready');
       
     } catch (error) {
       this.logger.error('metaGame', 'MetaGameLogic post-initialization failed:', error);
       throw error;
+    } finally {
+      this._isLoadingConfig = false;
     }
   }
   
   async loadConfiguration(filePath) {
+    if (this._isLoadingConfig) {
+      this.logger.info('metaGame', `Ignoring duplicate loadConfiguration call for: ${filePath}`);
+      console.log('MetaGameLogic.loadConfiguration SKIPPED (already loading):', filePath);
+      return { success: true, configuration: this.configuration, skipped: true };
+    }
+    this._isLoadingConfig = true;
+
     this.logger.info('metaGame', `Loading configuration from: ${filePath}`);
     console.log('MetaGameLogic.loadConfiguration called with:', filePath);
-    
+
     try {
       // Dynamically import the configuration file
       console.log('About to import configuration module from:', filePath);
@@ -83,10 +95,10 @@ export class MetaGameLogic {
       
       console.log('About to publish metaGame:configurationLoaded event');
       this.logger.info('metaGame', 'Publishing metaGame:configurationLoaded event');
-      this.eventBus.publish('metaGame:configurationLoaded', { 
+      this.eventBus.publish('metaGame:configurationLoaded', {
         filePath,
-        configuration: this.configuration 
-      }, 'metaGame');
+        configuration: this.configuration
+      });
       console.log('metaGame:configurationLoaded event published successfully');
       this.logger.info('metaGame', 'metaGame:configurationLoaded event published');
       
@@ -97,10 +109,10 @@ export class MetaGameLogic {
       console.error('MetaGameLogic.loadConfiguration error:', error);
       console.error('Error stack:', error.stack);
       this.logger.error('metaGame', `Failed to load configuration from ${filePath}:`, error);
-      this.eventBus.publish('metaGame:error', { 
+      this.eventBus.publish('metaGame:error', {
         error: `Configuration loading failed: ${error.message}`,
-        filePath 
-      }, 'metaGame');
+        filePath
+      });
       throw error;
     }
   }
@@ -115,51 +127,37 @@ export class MetaGameLogic {
     console.log('Processing configuration with data:', this.configuration);
     this.logger.info('metaGame', 'Processing configuration...');
     
-    // Register event dispatcher receivers now that we have configuration (only if not already registered)
+    // Register event dispatcher receivers for all events in the configuration
     if (this.registrationApi && this.registeredDispatcherReceivers.length === 0) {
-      // Create handler functions that call our methods
-      const regionMoveHandler = (eventData, context) => {
-        return this.handleRegionMoveEvent(eventData, context);
-      };
-      
-      const locationCheckHandler = (eventData, context) => {
-        return this.handleLocationCheckEvent(eventData, context);
-      };
-      
-      this.registrationApi.registerDispatcherReceiver(
-        'MetaGame',
-        'user:regionMove',
-        regionMoveHandler,
-        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-      );
-      
-      this.registrationApi.registerDispatcherReceiver(
-        'MetaGame',
-        'user:locationCheck',
-        locationCheckHandler,
-        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-      );
-      
-      // Track registered receivers for cleanup
-      this.registeredDispatcherReceivers.push(
-        { moduleName: 'MetaGame', eventName: 'user:regionMove', handler: regionMoveHandler },
-        { moduleName: 'MetaGame', eventName: 'user:locationCheck', handler: locationCheckHandler }
-      );
-      
-      this.logger.info('metaGame', 'Event dispatcher receivers registered after configuration loading');
-    } else if (this.registeredDispatcherReceivers.length > 0) {
-      this.logger.debug('metaGame', 'Event dispatcher receivers already registered, skipping duplicate registration');
-    }
-    
-    // Process eventDispatcher configuration
-    if (this.configuration.eventDispatcher) {
-      for (const [eventName, eventConfig] of Object.entries(this.configuration.eventDispatcher)) {
-        this.logger.debug('metaGame', `Processing dispatcher configuration for: ${eventName}`);
-        
-        if (!eventConfig.actions) {
-          this.logger.warn('metaGame', `No actions defined for event: ${eventName}`);
+      if (this.configuration.eventDispatcher) {
+        for (const [eventName, eventConfig] of Object.entries(this.configuration.eventDispatcher)) {
+          if (!eventConfig.actions) {
+            this.logger.warn('metaGame', `No actions defined for event: ${eventName}`);
+            continue;
+          }
+
+          const handler = (eventData, context) => {
+            return this.handleDispatcherEvent(eventName, eventData, context);
+          };
+
+          this.registrationApi.registerDispatcherReceiver(
+            'metaGame',
+            eventName,
+            handler,
+            { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+          );
+
+          this.registeredDispatcherReceivers.push(
+            { moduleName: 'metaGame', eventName, handler }
+          );
+
+          this.logger.debug('metaGame', `Registered dispatcher receiver for: ${eventName}`);
         }
       }
+
+      this.logger.info('metaGame', `Event dispatcher receivers registered: ${this.registeredDispatcherReceivers.length} events`);
+    } else if (this.registeredDispatcherReceivers.length > 0) {
+      this.logger.debug('metaGame', 'Event dispatcher receivers already registered, skipping duplicate registration');
     }
     
     // Process eventBus configuration
@@ -171,7 +169,7 @@ export class MetaGameLogic {
           // Set up event bus subscriber if needed
           this.eventBus.subscribe(eventName, (data) => {
             this.executeActions(eventConfig.actions, data, eventName);
-          }, 'metaGame');
+          });
         }
       }
     }
@@ -213,7 +211,15 @@ export class MetaGameLogic {
       case 'forwardEvent':
         await this.handleForwardEvent(action, eventData, eventName);
         break;
-        
+
+      case 'startMazeChallenge':
+        await this.handleStartMazeChallenge(action, eventData, eventName);
+        break;
+
+      case 'cancelMazeChallenge':
+        this.handleCancelMazeChallenge();
+        break;
+
       default:
         this.logger.warn('metaGame', `Unknown action type: ${action.type}`);
     }
@@ -284,27 +290,47 @@ export class MetaGameLogic {
       eventSource: 'eventBus'
     };
     
+    // If this progress bar is already active, cancel it (restart behavior)
+    const existingUnsub = this.progressBarCompletionHandlers.get(progressBarId);
+    if (existingUnsub) {
+      const oldConfig = this.progressBars.get(progressBarId);
+      this.logger.debug('metaGame', `Cancelling active progress bar: ${progressBarId}`);
+      existingUnsub();
+      this.progressBarCompletionHandlers.delete(progressBarId);
+
+      // Notify that this progress bar's action was cancelled
+      if (oldConfig?.completionPayload) {
+        this.eventBus.publish('metaGame:progressBarCancelled', {
+          progressBarId,
+          originalEvent: oldConfig.completionPayload.originalEvent,
+          eventData: oldConfig.completionPayload.eventData
+        });
+      }
+    }
+
     this.logger.debug('metaGame', `Creating progress bar: ${progressBarId}`, progressBarConfig);
     this.progressBarAPI.create(progressBarConfig);
     this.progressBars.set(progressBarId, progressBarConfig);
-    
+
     // Start the progress bar immediately
-    this.eventBus.publish(`metaGame:${progressBarId}Start`, {}, 'metaGame');
-    
+    this.eventBus.publish(`metaGame:${progressBarId}Start`, {});
+
     // Set up completion handler
     const completionHandler = (completionData) => {
       this.logger.debug('metaGame', `Progress bar ${progressBarId} completed`, completionData);
-      
+
       // Execute completion actions if specified
       if (config.completionActions) {
         this.executeActions(config.completionActions, eventData, originalEventName);
       }
-      
+
       // Clean up the handler
-      this.eventBus.unsubscribe(`metaGame:${progressBarId}Complete`, completionHandler);
+      this.progressBarCompletionHandlers.delete(progressBarId);
+      unsubscribe();
     };
-    
-    this.eventBus.subscribe(`metaGame:${progressBarId}Complete`, completionHandler, 'metaGame');
+
+    const unsubscribe = this.eventBus.subscribe(`metaGame:${progressBarId}Complete`, completionHandler);
+    this.progressBarCompletionHandlers.set(progressBarId, unsubscribe);
   }
   
   async handleForwardEvent(action, eventData, originalEventName) {
@@ -327,6 +353,163 @@ export class MetaGameLogic {
     }
   }
   
+  async handleStartMazeChallenge(action, eventData, originalEventName) {
+    const { challengeId, config } = action;
+    if (!challengeId || !config) {
+      throw new Error('startMazeChallenge action requires challengeId and config');
+    }
+
+    this.logger.debug('metaGame', `Starting maze challenge: ${challengeId}`, config);
+
+    // Cancel any existing active maze challenge
+    this.handleCancelMazeChallenge();
+
+    // Save the currently active panel in the iframe panel's stack
+    const savedPanelType = this.findActivePanelInIframeStack();
+    this.logger.debug('metaGame', `Saved active panel type: ${savedPanelType}`);
+
+    // Store active challenge state
+    this.activeMazeChallenge = {
+      challengeId,
+      completionActions: config.completionActions,
+      eventData,
+      originalEventName,
+      savedPanelType
+    };
+
+    // Check if using window mode
+    const useWindow = new URLSearchParams(window.location.search).get('useWindow');
+
+    if (useWindow) {
+      // In window mode: open the maze game in a separate window
+      this.eventBus.publish('window:loadUrl', {
+        url: './modules/a-mazing-idle-remote/index-iframe.html'
+      });
+    } else {
+      // In iframe mode: activate the iframe panel to show the maze game
+      this.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' });
+    }
+
+    // Set the biome for this challenge (triggers iframe reload).
+    // Upgrades are written directly to save data; disableBiomeCheck zeros out
+    // the game's biome requirements so upgrades take effect at any biome level.
+    if (typeof config.biome === 'number') {
+      const setBiomeData = { biome: config.biome };
+      if (config.upgrades) {
+        setBiomeData.upgrades = config.upgrades;
+      }
+      if (config.disableBiomeCheck) {
+        setBiomeData.disableBiomeCheck = true;
+      }
+      this.eventBus.publish('amazingIdle:setBiome', setBiomeData);
+    }
+
+    if (!useWindow) {
+      // Focus the iframe so keyboard input goes to the maze game
+      requestAnimationFrame(() => {
+        const iframe = document.querySelector('.iframe-panel-container iframe');
+        if (iframe) {
+          iframe.focus();
+          this.logger.debug('metaGame', 'Focused maze game iframe');
+        }
+      });
+    }
+
+    // Subscribe to maze completion (one-shot)
+    const completionHandler = (data) => {
+      this.onMazeCompleted(data);
+    };
+    this.mazeCompletionUnsubscribe = this.eventBus.subscribe('amazingIdle:mazeCompleted', completionHandler);
+
+    this.logger.info('metaGame', `Maze challenge ${challengeId} started, waiting for completion`);
+  }
+
+  handleCancelMazeChallenge() {
+    if (!this.activeMazeChallenge) {
+      return;
+    }
+
+    this.logger.debug('metaGame', `Cancelling maze challenge: ${this.activeMazeChallenge.challengeId}`);
+
+    // Unsubscribe the completion handler
+    if (this.mazeCompletionUnsubscribe) {
+      this.mazeCompletionUnsubscribe();
+      this.mazeCompletionUnsubscribe = null;
+    }
+
+    this.activeMazeChallenge = null;
+  }
+
+  findActivePanelInIframeStack() {
+    const gl = window.goldenLayoutInstance;
+    if (!gl || !gl.root) {
+      this.logger.warn('metaGame', 'Cannot find iframe stack: GoldenLayout not available');
+      return null;
+    }
+
+    // Find the iframePanel component in the layout
+    const allItems = gl.getAllContentItems();
+    let iframePanelItem = null;
+    for (const item of allItems) {
+      if (item.componentType === 'iframePanel') {
+        iframePanelItem = item;
+        break;
+      }
+    }
+
+    if (!iframePanelItem) {
+      this.logger.warn('metaGame', 'Could not find iframePanel in layout');
+      return null;
+    }
+
+    // Get the parent stack and its active component
+    const stack = iframePanelItem.parent;
+    if (!stack || !stack.getActiveComponentItem) {
+      this.logger.warn('metaGame', 'iframePanel parent is not a stack');
+      return null;
+    }
+
+    const activeItem = stack.getActiveComponentItem();
+    if (activeItem) {
+      return activeItem.componentType;
+    }
+
+    return null;
+  }
+
+  onMazeCompleted(data) {
+    if (!this.activeMazeChallenge) {
+      this.logger.warn('metaGame', 'Maze completed but no active challenge');
+      return;
+    }
+
+    const { challengeId, completionActions, eventData, originalEventName, savedPanelType } = this.activeMazeChallenge;
+    this.logger.info('metaGame', `Maze challenge ${challengeId} completed`, data);
+
+    // Clean up the completion handler
+    if (this.mazeCompletionUnsubscribe) {
+      this.mazeCompletionUnsubscribe();
+      this.mazeCompletionUnsubscribe = null;
+    }
+
+    // Restore the previously active panel or close the window
+    const useWindow = new URLSearchParams(window.location.search).get('useWindow');
+    if (useWindow) {
+      this.eventBus.publish('window:close', {});
+    } else if (savedPanelType) {
+      this.logger.debug('metaGame', `Restoring panel: ${savedPanelType}`);
+      this.eventBus.publish('ui:activatePanel', { panelId: savedPanelType });
+    }
+
+    // Clear active challenge before executing completion actions
+    this.activeMazeChallenge = null;
+
+    // Execute completion actions
+    if (completionActions) {
+      this.executeActions(completionActions, eventData, originalEventName);
+    }
+  }
+
   getProgressBarTargetElement() {
     // Try to find the progress bar panel
     const progressBarPanel = document.querySelector('.progress-bar-panel-main');
@@ -350,70 +533,52 @@ export class MetaGameLogic {
   }
   
   async handleRegionMoveEvent(eventData, context) {
-    this.logger.debug('metaGame', 'Handling user:regionMove event', eventData);
-    
-    // First, immediately forward the event up unless configuration instructs otherwise
-    let shouldForward = true;
-    
-    if (this.configuration && this.configuration.eventDispatcher) {
-      const eventConfig = this.configuration.eventDispatcher['user:regionMove'];
-      if (eventConfig) {
-        // Execute the configured actions
-        if (eventConfig.actions) {
-          await this.executeActions(eventConfig.actions, eventData, 'user:regionMove');
-        }
-        
-        // Check if configuration says not to forward
-        if (eventConfig.stopPropagation) {
-          shouldForward = false;
-        }
-      }
-    }
-    
-    if (shouldForward) {
-      // Immediately forward the event up to the next module
-      this.dispatcher.publishToNextModule(
-        'MetaGame',
-        'user:regionMove',
-        eventData,
-        { direction: 'up' }
-      );
-    }
-    
-    return { action: shouldForward ? 'continue' : 'stop' };
+    return this.handleDispatcherEvent('user:regionMove', eventData, context);
   }
-  
+
   async handleLocationCheckEvent(eventData, context) {
-    this.logger.debug('metaGame', 'Handling user:locationCheck event', eventData);
-    
-    // First, immediately forward the event up unless configuration instructs otherwise
+    return this.handleDispatcherEvent('user:locationCheck', eventData, context);
+  }
+
+  /**
+   * Generic dispatcher event handler. Looks up the event in the configuration,
+   * evaluates conditions, executes actions, and controls propagation.
+   * @param {string} eventName - The event name
+   * @param {Object} eventData - The event data
+   * @param {Object} context - The dispatcher context
+   * @returns {Object} Action result ({ action: 'continue' | 'stop' })
+   */
+  async handleDispatcherEvent(eventName, eventData, context) {
+    this.logger.debug('metaGame', `Handling dispatcher event: ${eventName}`, eventData);
+
     let shouldForward = true;
-    
+
     if (this.configuration && this.configuration.eventDispatcher) {
-      const eventConfig = this.configuration.eventDispatcher['user:locationCheck'];
+      const eventConfig = this.configuration.eventDispatcher[eventName];
       if (eventConfig) {
+        // If a condition function is defined, evaluate it first
+        if (typeof eventConfig.condition === 'function' && !eventConfig.condition(eventData)) {
+          this.logger.debug('metaGame', `Condition returned false for ${eventName}, forwarding immediately`);
+          this.dispatcher.publishToNextModule('metaGame', eventName, eventData, { direction: 'up' });
+          return { action: 'continue' };
+        }
+
         // Execute the configured actions
         if (eventConfig.actions) {
-          await this.executeActions(eventConfig.actions, eventData, 'user:locationCheck');
+          await this.executeActions(eventConfig.actions, eventData, eventName);
         }
-        
+
         // Check if configuration says not to forward
         if (eventConfig.stopPropagation) {
           shouldForward = false;
         }
       }
     }
-    
+
     if (shouldForward) {
-      // Immediately forward the event up to the next module
-      this.dispatcher.publishToNextModule(
-        'MetaGame',
-        'user:locationCheck',
-        eventData,
-        { direction: 'up' }
-      );
+      this.dispatcher.publishToNextModule('metaGame', eventName, eventData, { direction: 'up' });
     }
-    
+
     return { action: shouldForward ? 'continue' : 'stop' };
   }
   
@@ -434,18 +599,18 @@ export class MetaGameLogic {
       await this.processConfiguration();
       
       // Publish update event
-      this.eventBus.publish('metaGame:configurationUpdated', { 
-        configuration: this.configuration 
-      }, 'metaGame');
+      this.eventBus.publish('metaGame:configurationUpdated', {
+        configuration: this.configuration
+      });
       
       this.logger.info('metaGame', 'JSON configuration updated successfully');
       return { success: true, configuration: this.configuration };
       
     } catch (error) {
       this.logger.error('metaGame', 'Failed to update JSON configuration:', error);
-      this.eventBus.publish('metaGame:error', { 
+      this.eventBus.publish('metaGame:error', {
         error: `Configuration update failed: ${error.message}`
-      }, 'metaGame');
+      });
       throw error;
     }
   }
@@ -468,6 +633,9 @@ export class MetaGameLogic {
     }
     this.progressBars.clear();
     
+    // Clean up active maze challenge
+    this.handleCancelMazeChallenge();
+
     // Clean up event handlers
     this.eventHandlers.clear();
     

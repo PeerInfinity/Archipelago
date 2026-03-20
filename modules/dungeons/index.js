@@ -1,4 +1,5 @@
 import { DungeonUI } from './dungeonUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // Helper function for logging
 function log(level, message, ...data) {
@@ -53,10 +54,27 @@ class DungeonsModule {
 
 const dungeonsModule = new DungeonsModule();
 
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'dungeons'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'dungeons'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'dungeons'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
+
 export function register(registrationApi) {
   dungeonsModule.register(registrationApi);
 }
 
-export function initialize(initializationApi) {
+export function initialize(moduleId, priorityIndex, initializationApi) {
+  _moduleEventBus = initializationApi.getEventBus();
   dungeonsModule.initialize(initializationApi);
 }

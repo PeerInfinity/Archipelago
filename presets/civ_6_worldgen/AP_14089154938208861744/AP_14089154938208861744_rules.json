@@ -1,0 +1,5843 @@
+{
+  "schema_version": 3,
+  "game_name": "Civilization VI WorldGen",
+  "game_directory": "civ_6_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "Menu -> ERA_ANCIENT",
+            "connected_region": "ERA_ANCIENT",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "ERA_ANCIENT": {
+        "name": "ERA_ANCIENT",
+        "exits": [
+          {
+            "name": "ERA_ANCIENT -> ERA_CLASSICAL",
+            "connected_region": "ERA_CLASSICAL",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_ANCIENT"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_ANCIENT"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_ANCIENT_00",
+            "id": 5041000,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Theater",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_01",
+            "id": 5041001,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "State Workforce",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_02",
+            "id": 5041002,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mining",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_03",
+            "id": 5041003,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sailing",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_04",
+            "id": 5041004,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Shipbuilding",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_05",
+            "id": 5041005,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Animal Husbandry",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_06",
+            "id": 5041006,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Irrigation",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_07",
+            "id": 5041007,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Holy Site",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_08",
+            "id": 5041008,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Campus",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_09",
+            "id": 5041009,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sanitation",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ANCIENT_10",
+            "id": 5041010,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Military Tactics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_00",
+            "id": 5041077,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Stirrups",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_01",
+            "id": 5041078,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Neighborhood",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_02",
+            "id": 5041079,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Recorded History",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_03",
+            "id": 5041080,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Political Philosophy",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_04",
+            "id": 5041081,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Encampment",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_05",
+            "id": 5041082,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Diplomatic Quarter",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ANCIENT_06",
+            "id": 5041083,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Foreign Trade",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "GOODY_HUT_1",
+            "id": 5041146,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Faith: Large",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_2",
+            "id": 5041147,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gold: Small",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_3",
+            "id": 5041148,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Faith: Small",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_4",
+            "id": 5041149,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gold: Medium",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_5",
+            "id": 5041150,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gold: Medium",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_6",
+            "id": 5041151,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Additional Population",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_7",
+            "id": 5041152,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Faith: Medium",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_8",
+            "id": 5041153,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Faith: Medium",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_9",
+            "id": 5041154,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Governor Title",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "GOODY_HUT_10",
+            "id": 5041155,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gold: Medium",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          }
+        ]
+      },
+      "ERA_CLASSICAL": {
+        "name": "ERA_CLASSICAL",
+        "exits": [
+          {
+            "name": "ERA_CLASSICAL -> ERA_MEDIEVAL",
+            "connected_region": "ERA_MEDIEVAL",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_CLASSICAL"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_CLASSICAL"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_CLASSICAL_11",
+            "id": 5041011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ballistics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_12",
+            "id": 5041012,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Early Empire",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_13",
+            "id": 5041013,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Commercial Hub",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_14",
+            "id": 5041014,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Commercial Hub",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_15",
+            "id": 5041015,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gunpowder",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_16",
+            "id": 5041016,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Harbor",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_17",
+            "id": 5041017,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Computers",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_CLASSICAL_18",
+            "id": 5041018,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Steel",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_07",
+            "id": 5041084,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Information Warfare",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_08",
+            "id": 5041085,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Entertainment Complex",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_09",
+            "id": 5041086,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Predictive Systems",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_10",
+            "id": 5041087,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Rapid Deployment",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_11",
+            "id": 5041088,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Holy Site",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_12",
+            "id": 5041089,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Campus",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_CLASSICAL_13",
+            "id": 5041090,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Totalitarianism",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_MEDIEVAL": {
+        "name": "ERA_MEDIEVAL",
+        "exits": [
+          {
+            "name": "ERA_MEDIEVAL -> ERA_RENAISSANCE",
+            "connected_region": "ERA_RENAISSANCE",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_MEDIEVAL"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_MEDIEVAL"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_MEDIEVAL_19",
+            "id": 5041019,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Divine Right",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_20",
+            "id": 5041020,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Rifling",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_21",
+            "id": 5041021,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Machinery",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_22",
+            "id": 5041022,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Combined Arms",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_23",
+            "id": 5041023,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cybernetics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_24",
+            "id": 5041024,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Composites",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_25",
+            "id": 5041025,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Commercial Hub",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MEDIEVAL_67",
+            "id": 5041067,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Exploration",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_14",
+            "id": 5041091,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Encampment",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_15",
+            "id": 5041092,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Social Media",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_16",
+            "id": 5041093,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Printing",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_17",
+            "id": 5041094,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Industrial Zone",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_18",
+            "id": 5041095,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Engineering",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_19",
+            "id": 5041096,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Guidance Systems",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MEDIEVAL_20",
+            "id": 5041097,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Refining",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_RENAISSANCE": {
+        "name": "ERA_RENAISSANCE",
+        "exits": [
+          {
+            "name": "ERA_RENAISSANCE -> ERA_INDUSTRIAL",
+            "connected_region": "ERA_INDUSTRIAL",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_RENAISSANCE"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_RENAISSANCE"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_RENAISSANCE_26",
+            "id": 5041026,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Colonialism",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_27",
+            "id": 5041027,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Exodus Imperative",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_28",
+            "id": 5041028,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Diplomatic Quarter",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_29",
+            "id": 5041029,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Advanced Ballistics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_30",
+            "id": 5041030,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Neighborhood",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_31",
+            "id": 5041031,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Harbor",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_32",
+            "id": 5041032,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cartography",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_33",
+            "id": 5041033,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reformed Church",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_RENAISSANCE_34",
+            "id": 5041034,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Digital Democracy",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_21",
+            "id": 5041098,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Suffrage",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_22",
+            "id": 5041099,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Square Rigging",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_23",
+            "id": 5041100,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Theater",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_24",
+            "id": 5041101,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Civil Service",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_25",
+            "id": 5041102,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Guilds",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_RENAISSANCE_26",
+            "id": 5041103,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "The Wheel",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_INDUSTRIAL": {
+        "name": "ERA_INDUSTRIAL",
+        "exits": [
+          {
+            "name": "ERA_INDUSTRIAL -> ERA_MODERN",
+            "connected_region": "ERA_MODERN",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_INDUSTRIAL"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_INDUSTRIAL"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_INDUSTRIAL_35",
+            "id": 5041035,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Defensive Tactics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_36",
+            "id": 5041036,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Nationalism",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_37",
+            "id": 5041037,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Nuclear Fusion",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_38",
+            "id": 5041038,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Industrial Zone",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_39",
+            "id": 5041039,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Naval Tradition",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_40",
+            "id": 5041040,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Global Warming Mitigation",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_41",
+            "id": 5041041,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Entertainment Complex",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INDUSTRIAL_42",
+            "id": 5041042,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Advanced AI",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_27",
+            "id": 5041104,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Globalization",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_28",
+            "id": 5041105,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Lasers",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_29",
+            "id": 5041106,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Neighborhood",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_30",
+            "id": 5041107,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "The Enlightenment",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_31",
+            "id": 5041108,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Preserve",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_32",
+            "id": 5041109,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Encampment",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INDUSTRIAL_33",
+            "id": 5041110,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Civil Engineering",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_MODERN": {
+        "name": "ERA_MODERN",
+        "exits": [
+          {
+            "name": "ERA_MODERN -> ERA_ATOMIC",
+            "connected_region": "ERA_ATOMIC",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_MODERN"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_MODERN"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_MODERN_43",
+            "id": 5041043,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Opera and Ballet",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_44",
+            "id": 5041044,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Castles",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_45",
+            "id": 5041045,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Class Struggle",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_46",
+            "id": 5041046,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Entertainment Complex",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_47",
+            "id": 5041047,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Theater",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_48",
+            "id": 5041048,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Campus",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_49",
+            "id": 5041049,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Aerodrome",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_MODERN_68",
+            "id": 5041068,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Future Tech",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_34",
+            "id": 5041111,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Industrial Zone",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_35",
+            "id": 5041112,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Industrial Zone",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_36",
+            "id": 5041113,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mobilization",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_37",
+            "id": 5041114,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mercantilism",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_38",
+            "id": 5041115,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Military Tradition",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_39",
+            "id": 5041116,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Plastics",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_40",
+            "id": 5041117,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mass Media",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_41",
+            "id": 5041118,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Robotics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_MODERN_42",
+            "id": 5041119,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Stealth Technology",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_ATOMIC": {
+        "name": "ERA_ATOMIC",
+        "exits": [
+          {
+            "name": "ERA_ATOMIC -> ERA_INFORMATION",
+            "connected_region": "ERA_INFORMATION",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_ATOMIC"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_ATOMIC"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_ATOMIC_50",
+            "id": 5041050,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Aerodrome",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_51",
+            "id": 5041051,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ideology",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_52",
+            "id": 5041052,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_53",
+            "id": 5041053,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Preserve",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_54",
+            "id": 5041054,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_55",
+            "id": 5041055,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Smart Power Doctrine",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_56",
+            "id": 5041056,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Near Future Governance",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_ATOMIC_57",
+            "id": 5041057,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Nuclear Program",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_43",
+            "id": 5041120,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Pottery",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_44",
+            "id": 5041121,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Craftsmanship",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_45",
+            "id": 5041122,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Buttress",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_46",
+            "id": 5041123,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Casting",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_ATOMIC_47",
+            "id": 5041124,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mercenaries",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_INFORMATION": {
+        "name": "ERA_INFORMATION",
+        "exits": [
+          {
+            "name": "ERA_INFORMATION -> ERA_FUTURE",
+            "connected_region": "ERA_FUTURE",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_non_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_INFORMATION"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "has_progressive_items",
+                  "_original_ast_type": "rb_defined_helper",
+                  "args": [
+                    {
+                      "rule": "Constant",
+                      "args": {
+                        "value": "ERA_INFORMATION"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "TECH_AP_INFORMATION_58",
+            "id": 5041058,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Future Civic",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_59",
+            "id": 5041059,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Astronomy",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_60",
+            "id": 5041060,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Military Training",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_61",
+            "id": 5041061,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Synthetic Materials",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_62",
+            "id": 5041062,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cultural Hegemony",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_63",
+            "id": 5041063,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Medieval Faires",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_64",
+            "id": 5041064,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_65",
+            "id": 5041065,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cold War",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_INFORMATION_66",
+            "id": 5041066,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Corporate Libertarianism",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_48",
+            "id": 5041125,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Advanced Power Cells",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_49",
+            "id": 5041126,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_51",
+            "id": 5041128,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Steam Power",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_52",
+            "id": 5041129,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Synthetic Technocracy",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_53",
+            "id": 5041130,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Siege Tactics",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_54",
+            "id": 5041131,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Masonry",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_INFORMATION_55",
+            "id": 5041132,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Code of Laws",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "ERA_FUTURE": {
+        "name": "ERA_FUTURE",
+        "exits": [],
+        "locations": [
+          {
+            "name": "TECH_AP_FUTURE_69",
+            "id": 5041069,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Scientific Theory",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_70",
+            "id": 5041070,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Space Race",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_71",
+            "id": 5041071,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Construction",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_72",
+            "id": 5041072,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Iron Working",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_73",
+            "id": 5041073,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Feudalism",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_74",
+            "id": 5041074,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Environmentalism",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_75",
+            "id": 5041075,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Horseback Riding",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "TECH_AP_FUTURE_76",
+            "id": 5041076,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Combustion",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_50",
+            "id": 5041127,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Scorched Earth",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_56",
+            "id": 5041133,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cultural Heritage",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_57",
+            "id": 5041134,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Progressive Space Port",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_58",
+            "id": 5041135,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Archery",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_59",
+            "id": 5041136,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Seasteads",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "CIVIC_AP_FUTURE_60",
+            "id": 5041137,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Telecommunications",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Complete a victory type",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "ERA_FUTURE"
+              }
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Pottery": {
+        "name": "Pottery",
+        "id": 5041000,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Animal Husbandry": {
+        "name": "Animal Husbandry",
+        "id": 5041001,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mining": {
+        "name": "Mining",
+        "id": 5041002,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Sailing": {
+        "name": "Sailing",
+        "id": 5041003,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Astrology": {
+        "name": "Astrology",
+        "id": 5041004,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Irrigation": {
+        "name": "Irrigation",
+        "id": 5041005,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Archery": {
+        "name": "Archery",
+        "id": 5041006,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Writing": {
+        "name": "Writing",
+        "id": 5041007,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Masonry": {
+        "name": "Masonry",
+        "id": 5041008,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Bronze Working": {
+        "name": "Bronze Working",
+        "id": 5041009,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "The Wheel": {
+        "name": "The Wheel",
+        "id": 5041010,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Celestial Navigation": {
+        "name": "Celestial Navigation",
+        "id": 5041011,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Currency": {
+        "name": "Currency",
+        "id": 5041012,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Horseback Riding": {
+        "name": "Horseback Riding",
+        "id": 5041013,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Iron Working": {
+        "name": "Iron Working",
+        "id": 5041014,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Shipbuilding": {
+        "name": "Shipbuilding",
+        "id": 5041015,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mathematics": {
+        "name": "Mathematics",
+        "id": 5041016,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Construction": {
+        "name": "Construction",
+        "id": 5041017,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Engineering": {
+        "name": "Engineering",
+        "id": 5041018,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Military Tactics": {
+        "name": "Military Tactics",
+        "id": 5041019,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Apprenticeship": {
+        "name": "Apprenticeship",
+        "id": 5041020,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Machinery": {
+        "name": "Machinery",
+        "id": 5041021,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Education": {
+        "name": "Education",
+        "id": 5041022,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Stirrups": {
+        "name": "Stirrups",
+        "id": 5041023,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Military Engineering": {
+        "name": "Military Engineering",
+        "id": 5041024,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Castles": {
+        "name": "Castles",
+        "id": 5041025,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Cartography": {
+        "name": "Cartography",
+        "id": 5041026,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mass Production": {
+        "name": "Mass Production",
+        "id": 5041027,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Banking": {
+        "name": "Banking",
+        "id": 5041028,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Gunpowder": {
+        "name": "Gunpowder",
+        "id": 5041029,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Printing": {
+        "name": "Printing",
+        "id": 5041030,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Square Rigging": {
+        "name": "Square Rigging",
+        "id": 5041031,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Astronomy": {
+        "name": "Astronomy",
+        "id": 5041032,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Casting": {
+        "name": "Metal Casting",
+        "id": 5041033,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Siege Tactics": {
+        "name": "Siege Tactics",
+        "id": 5041034,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Industrialization": {
+        "name": "Industrialization",
+        "id": 5041035,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Scientific Theory": {
+        "name": "Scientific Theory",
+        "id": 5041036,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Ballistics": {
+        "name": "Ballistics",
+        "id": 5041037,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Military Science": {
+        "name": "Military Science",
+        "id": 5041038,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Steam Power": {
+        "name": "Steam Power",
+        "id": 5041039,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Sanitation": {
+        "name": "Sanitation",
+        "id": 5041040,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Economics": {
+        "name": "Economics",
+        "id": 5041041,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Rifling": {
+        "name": "Rifling",
+        "id": 5041042,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Flight": {
+        "name": "Flight",
+        "id": 5041043,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Replaceable Parts": {
+        "name": "Replaceable Parts",
+        "id": 5041044,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Steel": {
+        "name": "Steel",
+        "id": 5041045,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Electricity": {
+        "name": "Electricity",
+        "id": 5041046,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Radio": {
+        "name": "Radio",
+        "id": 5041047,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Chemistry": {
+        "name": "Chemistry",
+        "id": 5041048,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Combustion": {
+        "name": "Combustion",
+        "id": 5041049,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Flight": {
+        "name": "Advanced Flight",
+        "id": 5041050,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Rocketry": {
+        "name": "Rocketry",
+        "id": 5041051,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Ballistics": {
+        "name": "Advanced Ballistics",
+        "id": 5041052,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Combined Arms": {
+        "name": "Combined Arms",
+        "id": 5041053,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Plastics": {
+        "name": "Plastics",
+        "id": 5041054,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Computers": {
+        "name": "Computers",
+        "id": 5041055,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Fission": {
+        "name": "Nuclear Fission",
+        "id": 5041056,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Synthetic Materials": {
+        "name": "Synthetic Materials",
+        "id": 5041057,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Telecommunications": {
+        "name": "Telecommunications",
+        "id": 5041058,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Satellites": {
+        "name": "Satellites",
+        "id": 5041059,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Guidance Systems": {
+        "name": "Guidance Systems",
+        "id": 5041060,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Lasers": {
+        "name": "Lasers",
+        "id": 5041061,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Composites": {
+        "name": "Composites",
+        "id": 5041062,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Stealth Technology": {
+        "name": "Stealth Technology",
+        "id": 5041063,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Robotics": {
+        "name": "Robotics",
+        "id": 5041064,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Nanotechnology": {
+        "name": "Nanotechnology",
+        "id": 5041065,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Fusion": {
+        "name": "Nuclear Fusion",
+        "id": 5041066,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Buttress": {
+        "name": "Buttress",
+        "id": 5041067,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Refining": {
+        "name": "Refining",
+        "id": 5041068,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Seasteads": {
+        "name": "Seasteads",
+        "id": 5041069,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced AI": {
+        "name": "Advanced AI",
+        "id": 5041070,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Advanced Power Cells": {
+        "name": "Advanced Power Cells",
+        "id": 5041071,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Cybernetics": {
+        "name": "Cybernetics",
+        "id": 5041072,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Materials": {
+        "name": "Smart Materials",
+        "id": 5041073,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Predictive Systems": {
+        "name": "Predictive Systems",
+        "id": 5041074,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Offworld Mission": {
+        "name": "Offworld Mission",
+        "id": 5041075,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Future Tech": {
+        "name": "Future Tech",
+        "id": 5041076,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Code of Laws": {
+        "name": "Code of Laws",
+        "id": 5041077,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Craftsmanship": {
+        "name": "Craftsmanship",
+        "id": 5041078,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Foreign Trade": {
+        "name": "Foreign Trade",
+        "id": 5041079,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Military Tradition": {
+        "name": "Military Tradition",
+        "id": 5041080,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "State Workforce": {
+        "name": "State Workforce",
+        "id": 5041081,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Early Empire": {
+        "name": "Early Empire",
+        "id": 5041082,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Mysticism": {
+        "name": "Mysticism",
+        "id": 5041083,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Games Recreation": {
+        "name": "Games Recreation",
+        "id": 5041084,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Political Philosophy": {
+        "name": "Political Philosophy",
+        "id": 5041085,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Drama and Poetry": {
+        "name": "Drama and Poetry",
+        "id": 5041086,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Military Training": {
+        "name": "Military Training",
+        "id": 5041087,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Defensive Tactics": {
+        "name": "Defensive Tactics",
+        "id": 5041088,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Recorded History": {
+        "name": "Recorded History",
+        "id": 5041089,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Theology": {
+        "name": "Theology",
+        "id": 5041090,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Naval Tradition": {
+        "name": "Naval Tradition",
+        "id": 5041091,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Feudalism": {
+        "name": "Feudalism",
+        "id": 5041092,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Civil Service": {
+        "name": "Civil Service",
+        "id": 5041093,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Mercenaries": {
+        "name": "Mercenaries",
+        "id": 5041094,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Medieval Faires": {
+        "name": "Medieval Faires",
+        "id": 5041095,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Guilds": {
+        "name": "Guilds",
+        "id": 5041096,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Divine Right": {
+        "name": "Divine Right",
+        "id": 5041097,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Exploration": {
+        "name": "Exploration",
+        "id": 5041098,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Humanism": {
+        "name": "Humanism",
+        "id": 5041099,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Diplomatic Service": {
+        "name": "Diplomatic Service",
+        "id": 5041100,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Reformed Church": {
+        "name": "Reformed Church",
+        "id": 5041101,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mercantilism": {
+        "name": "Mercantilism",
+        "id": 5041102,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "The Enlightenment": {
+        "name": "The Enlightenment",
+        "id": 5041103,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Colonialism": {
+        "name": "Colonialism",
+        "id": 5041104,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Civil Engineering": {
+        "name": "Civil Engineering",
+        "id": 5041105,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Nationalism": {
+        "name": "Nationalism",
+        "id": 5041106,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Opera and Ballet": {
+        "name": "Opera and Ballet",
+        "id": 5041107,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Natural History": {
+        "name": "Natural History",
+        "id": 5041108,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Scorched Earth": {
+        "name": "Scorched Earth",
+        "id": 5041109,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Urbanization": {
+        "name": "Urbanization",
+        "id": 5041110,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Conservation": {
+        "name": "Conservation",
+        "id": 5041111,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Capitalism": {
+        "name": "Capitalism",
+        "id": 5041112,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Nuclear Program": {
+        "name": "Nuclear Program",
+        "id": 5041113,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Mass Media": {
+        "name": "Mass Media",
+        "id": 5041114,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Mobilization": {
+        "name": "Mobilization",
+        "id": 5041115,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Ideology": {
+        "name": "Ideology",
+        "id": 5041116,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Suffrage": {
+        "name": "Suffrage",
+        "id": 5041117,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Totalitarianism": {
+        "name": "Totalitarianism",
+        "id": 5041118,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Class Struggle": {
+        "name": "Class Struggle",
+        "id": 5041119,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Cold War": {
+        "name": "Cold War",
+        "id": 5041120,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Professional Sports": {
+        "name": "Professional Sports",
+        "id": 5041121,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Cultural Heritage": {
+        "name": "Cultural Heritage",
+        "id": 5041122,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Rapid Deployment": {
+        "name": "Rapid Deployment",
+        "id": 5041123,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Space Race": {
+        "name": "Space Race",
+        "id": 5041124,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Globalization": {
+        "name": "Globalization",
+        "id": 5041125,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Social Media": {
+        "name": "Social Media",
+        "id": 5041126,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Future Civic": {
+        "name": "Future Civic",
+        "id": 5041127,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Environmentalism": {
+        "name": "Environmentalism",
+        "id": 5041128,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Corporate Libertarianism": {
+        "name": "Corporate Libertarianism",
+        "id": 5041129,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Digital Democracy": {
+        "name": "Digital Democracy",
+        "id": 5041130,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Synthetic Technocracy": {
+        "name": "Synthetic Technocracy",
+        "id": 5041131,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Near Future Governance": {
+        "name": "Near Future Governance",
+        "id": 5041132,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Global Warming Mitigation": {
+        "name": "Global Warming Mitigation",
+        "id": 5041133,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Smart Power Doctrine": {
+        "name": "Smart Power Doctrine",
+        "id": 5041134,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Information Warfare": {
+        "name": "Information Warfare",
+        "id": 5041135,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Exodus Imperative": {
+        "name": "Exodus Imperative",
+        "id": 5041136,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Cultural Hegemony": {
+        "name": "Cultural Hegemony",
+        "id": 5041137,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Campus": {
+        "name": "Progressive Campus",
+        "id": 5041138,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Theater": {
+        "name": "Progressive Theater",
+        "id": 5041139,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Holy Site": {
+        "name": "Progressive Holy Site",
+        "id": 5041140,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Encampment": {
+        "name": "Progressive Encampment",
+        "id": 5041141,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Commercial Hub": {
+        "name": "Progressive Commercial Hub",
+        "id": 5041142,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Harbor": {
+        "name": "Progressive Harbor",
+        "id": 5041143,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Industrial Zone": {
+        "name": "Progressive Industrial Zone",
+        "id": 5041144,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 4
+      },
+      "Progressive Preserve": {
+        "name": "Progressive Preserve",
+        "id": 5041145,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Entertainment Complex": {
+        "name": "Progressive Entertainment Complex",
+        "id": 5041146,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Neighborhood": {
+        "name": "Progressive Neighborhood",
+        "id": 5041147,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 3
+      },
+      "Progressive Aerodrome": {
+        "name": "Progressive Aerodrome",
+        "id": 5041148,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Diplomatic Quarter": {
+        "name": "Progressive Diplomatic Quarter",
+        "id": 5041149,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Space Port": {
+        "name": "Progressive Space Port",
+        "id": 5041150,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 5
+      },
+      "Progressive Era": {
+        "name": "Progressive Era",
+        "id": 5041151,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Gold: Small": {
+        "name": "Gold: Small",
+        "id": 5041152,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Gold: Medium": {
+        "name": "Gold: Medium",
+        "id": 5041153,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 3
+      },
+      "Gold: Large": {
+        "name": "Gold: Large",
+        "id": 5041154,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Faith: Small": {
+        "name": "Faith: Small",
+        "id": 5041155,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Faith: Medium": {
+        "name": "Faith: Medium",
+        "id": 5041156,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 2
+      },
+      "Faith: Large": {
+        "name": "Faith: Large",
+        "id": 5041157,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Diplomatic Favor": {
+        "name": "Diplomatic Favor",
+        "id": 5041158,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Governor Title": {
+        "name": "Governor Title",
+        "id": 5041159,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Envoy": {
+        "name": "Envoy",
+        "id": 5041160,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Relic": {
+        "name": "Relic",
+        "id": 5041161,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Scout": {
+        "name": "Scout",
+        "id": 5041162,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Additional Population": {
+        "name": "Additional Population",
+        "id": 5041163,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Builder": {
+        "name": "Builder",
+        "id": 5041164,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Trader": {
+        "name": "Trader",
+        "id": 5041165,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Settler": {
+        "name": "Settler",
+        "id": 5041166,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Additional Population": 1,
+      "Advanced AI": 1,
+      "Advanced Ballistics": 1,
+      "Advanced Power Cells": 1,
+      "Animal Husbandry": 1,
+      "Archery": 1,
+      "Astronomy": 1,
+      "Ballistics": 1,
+      "Buttress": 1,
+      "Cartography": 1,
+      "Castles": 1,
+      "Civil Engineering": 1,
+      "Civil Service": 1,
+      "Class Struggle": 1,
+      "Code of Laws": 1,
+      "Cold War": 1,
+      "Colonialism": 1,
+      "Combined Arms": 1,
+      "Combustion": 1,
+      "Composites": 1,
+      "Computers": 1,
+      "Construction": 1,
+      "Corporate Libertarianism": 1,
+      "Craftsmanship": 1,
+      "Cultural Hegemony": 1,
+      "Cultural Heritage": 1,
+      "Cybernetics": 1,
+      "Defensive Tactics": 1,
+      "Digital Democracy": 1,
+      "Divine Right": 1,
+      "Early Empire": 1,
+      "Engineering": 1,
+      "Environmentalism": 1,
+      "Exodus Imperative": 1,
+      "Exploration": 1,
+      "Faith: Large": 1,
+      "Faith: Medium": 2,
+      "Faith: Small": 1,
+      "Feudalism": 1,
+      "Foreign Trade": 1,
+      "Future Civic": 1,
+      "Future Tech": 1,
+      "Global Warming Mitigation": 1,
+      "Globalization": 1,
+      "Gold: Medium": 3,
+      "Gold: Small": 1,
+      "Governor Title": 1,
+      "Guidance Systems": 1,
+      "Guilds": 1,
+      "Gunpowder": 1,
+      "Horseback Riding": 1,
+      "Ideology": 1,
+      "Information Warfare": 1,
+      "Iron Working": 1,
+      "Irrigation": 1,
+      "Lasers": 1,
+      "Machinery": 1,
+      "Masonry": 1,
+      "Mass Media": 1,
+      "Medieval Faires": 1,
+      "Mercantilism": 1,
+      "Mercenaries": 1,
+      "Metal Casting": 1,
+      "Military Tactics": 1,
+      "Military Tradition": 1,
+      "Military Training": 1,
+      "Mining": 1,
+      "Mobilization": 1,
+      "Nationalism": 1,
+      "Naval Tradition": 1,
+      "Near Future Governance": 1,
+      "Nuclear Fusion": 1,
+      "Nuclear Program": 1,
+      "Opera and Ballet": 1,
+      "Plastics": 1,
+      "Political Philosophy": 1,
+      "Pottery": 1,
+      "Predictive Systems": 1,
+      "Printing": 1,
+      "Progressive Aerodrome": 2,
+      "Progressive Campus": 3,
+      "Progressive Commercial Hub": 3,
+      "Progressive Diplomatic Quarter": 2,
+      "Progressive Encampment": 3,
+      "Progressive Entertainment Complex": 3,
+      "Progressive Harbor": 2,
+      "Progressive Holy Site": 2,
+      "Progressive Industrial Zone": 4,
+      "Progressive Neighborhood": 3,
+      "Progressive Preserve": 2,
+      "Progressive Space Port": 5,
+      "Progressive Theater": 3,
+      "Rapid Deployment": 1,
+      "Recorded History": 1,
+      "Refining": 1,
+      "Reformed Church": 1,
+      "Rifling": 1,
+      "Robotics": 1,
+      "Sailing": 1,
+      "Sanitation": 1,
+      "Scientific Theory": 1,
+      "Scorched Earth": 1,
+      "Seasteads": 1,
+      "Shipbuilding": 1,
+      "Siege Tactics": 1,
+      "Smart Power Doctrine": 1,
+      "Social Media": 1,
+      "Space Race": 1,
+      "Square Rigging": 1,
+      "State Workforce": 1,
+      "Stealth Technology": 1,
+      "Steam Power": 1,
+      "Steel": 1,
+      "Stirrups": 1,
+      "Suffrage": 1,
+      "Synthetic Materials": 1,
+      "Synthetic Technocracy": 1,
+      "Telecommunications": 1,
+      "The Enlightenment": 1,
+      "The Wheel": 1,
+      "Totalitarianism": 1,
+      "Victory": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "CIVIC_AP_RENAISSANCE_23": "Progressive Theater",
+      "TECH_AP_ANCIENT_00": "Progressive Theater",
+      "TECH_AP_MODERN_47": "Progressive Theater",
+      "TECH_AP_ANCIENT_01": "State Workforce",
+      "TECH_AP_ANCIENT_02": "Mining",
+      "TECH_AP_ANCIENT_03": "Sailing",
+      "TECH_AP_ANCIENT_04": "Shipbuilding",
+      "TECH_AP_ANCIENT_05": "Animal Husbandry",
+      "TECH_AP_ANCIENT_06": "Irrigation",
+      "CIVIC_AP_CLASSICAL_11": "Progressive Holy Site",
+      "TECH_AP_ANCIENT_07": "Progressive Holy Site",
+      "CIVIC_AP_CLASSICAL_12": "Progressive Campus",
+      "TECH_AP_ANCIENT_08": "Progressive Campus",
+      "TECH_AP_MODERN_48": "Progressive Campus",
+      "TECH_AP_ANCIENT_09": "Sanitation",
+      "TECH_AP_ANCIENT_10": "Military Tactics",
+      "CIVIC_AP_ANCIENT_00": "Stirrups",
+      "CIVIC_AP_ANCIENT_01": "Progressive Neighborhood",
+      "CIVIC_AP_INDUSTRIAL_29": "Progressive Neighborhood",
+      "TECH_AP_RENAISSANCE_30": "Progressive Neighborhood",
+      "CIVIC_AP_ANCIENT_02": "Recorded History",
+      "CIVIC_AP_ANCIENT_03": "Political Philosophy",
+      "CIVIC_AP_ANCIENT_04": "Progressive Encampment",
+      "CIVIC_AP_INDUSTRIAL_32": "Progressive Encampment",
+      "CIVIC_AP_MEDIEVAL_14": "Progressive Encampment",
+      "CIVIC_AP_ANCIENT_05": "Progressive Diplomatic Quarter",
+      "TECH_AP_RENAISSANCE_28": "Progressive Diplomatic Quarter",
+      "CIVIC_AP_ANCIENT_06": "Foreign Trade",
+      "GOODY_HUT_1": "Faith: Large",
+      "GOODY_HUT_2": "Gold: Small",
+      "GOODY_HUT_3": "Faith: Small",
+      "GOODY_HUT_10": "Gold: Medium",
+      "GOODY_HUT_4": "Gold: Medium",
+      "GOODY_HUT_5": "Gold: Medium",
+      "GOODY_HUT_6": "Additional Population",
+      "GOODY_HUT_7": "Faith: Medium",
+      "GOODY_HUT_8": "Faith: Medium",
+      "GOODY_HUT_9": "Governor Title",
+      "TECH_AP_CLASSICAL_11": "Ballistics",
+      "TECH_AP_CLASSICAL_12": "Early Empire",
+      "TECH_AP_CLASSICAL_13": "Progressive Commercial Hub",
+      "TECH_AP_CLASSICAL_14": "Progressive Commercial Hub",
+      "TECH_AP_MEDIEVAL_25": "Progressive Commercial Hub",
+      "TECH_AP_CLASSICAL_15": "Gunpowder",
+      "TECH_AP_CLASSICAL_16": "Progressive Harbor",
+      "TECH_AP_RENAISSANCE_31": "Progressive Harbor",
+      "TECH_AP_CLASSICAL_17": "Computers",
+      "TECH_AP_CLASSICAL_18": "Steel",
+      "CIVIC_AP_CLASSICAL_07": "Information Warfare",
+      "CIVIC_AP_CLASSICAL_08": "Progressive Entertainment Complex",
+      "TECH_AP_INDUSTRIAL_41": "Progressive Entertainment Complex",
+      "TECH_AP_MODERN_46": "Progressive Entertainment Complex",
+      "CIVIC_AP_CLASSICAL_09": "Predictive Systems",
+      "CIVIC_AP_CLASSICAL_10": "Rapid Deployment",
+      "CIVIC_AP_CLASSICAL_13": "Totalitarianism",
+      "TECH_AP_MEDIEVAL_19": "Divine Right",
+      "TECH_AP_MEDIEVAL_20": "Rifling",
+      "TECH_AP_MEDIEVAL_21": "Machinery",
+      "TECH_AP_MEDIEVAL_22": "Combined Arms",
+      "TECH_AP_MEDIEVAL_23": "Cybernetics",
+      "TECH_AP_MEDIEVAL_24": "Composites",
+      "TECH_AP_MEDIEVAL_67": "Exploration",
+      "CIVIC_AP_MEDIEVAL_15": "Social Media",
+      "CIVIC_AP_MEDIEVAL_16": "Printing",
+      "CIVIC_AP_MEDIEVAL_17": "Progressive Industrial Zone",
+      "CIVIC_AP_MODERN_34": "Progressive Industrial Zone",
+      "CIVIC_AP_MODERN_35": "Progressive Industrial Zone",
+      "TECH_AP_INDUSTRIAL_38": "Progressive Industrial Zone",
+      "CIVIC_AP_MEDIEVAL_18": "Engineering",
+      "CIVIC_AP_MEDIEVAL_19": "Guidance Systems",
+      "CIVIC_AP_MEDIEVAL_20": "Refining",
+      "TECH_AP_RENAISSANCE_26": "Colonialism",
+      "TECH_AP_RENAISSANCE_27": "Exodus Imperative",
+      "TECH_AP_RENAISSANCE_29": "Advanced Ballistics",
+      "TECH_AP_RENAISSANCE_32": "Cartography",
+      "TECH_AP_RENAISSANCE_33": "Reformed Church",
+      "TECH_AP_RENAISSANCE_34": "Digital Democracy",
+      "CIVIC_AP_RENAISSANCE_21": "Suffrage",
+      "CIVIC_AP_RENAISSANCE_22": "Square Rigging",
+      "CIVIC_AP_RENAISSANCE_24": "Civil Service",
+      "CIVIC_AP_RENAISSANCE_25": "Guilds",
+      "CIVIC_AP_RENAISSANCE_26": "The Wheel",
+      "TECH_AP_INDUSTRIAL_35": "Defensive Tactics",
+      "TECH_AP_INDUSTRIAL_36": "Nationalism",
+      "TECH_AP_INDUSTRIAL_37": "Nuclear Fusion",
+      "TECH_AP_INDUSTRIAL_39": "Naval Tradition",
+      "TECH_AP_INDUSTRIAL_40": "Global Warming Mitigation",
+      "TECH_AP_INDUSTRIAL_42": "Advanced AI",
+      "CIVIC_AP_INDUSTRIAL_27": "Globalization",
+      "CIVIC_AP_INDUSTRIAL_28": "Lasers",
+      "CIVIC_AP_INDUSTRIAL_30": "The Enlightenment",
+      "CIVIC_AP_INDUSTRIAL_31": "Progressive Preserve",
+      "TECH_AP_ATOMIC_53": "Progressive Preserve",
+      "CIVIC_AP_INDUSTRIAL_33": "Civil Engineering",
+      "TECH_AP_MODERN_43": "Opera and Ballet",
+      "TECH_AP_MODERN_44": "Castles",
+      "TECH_AP_MODERN_45": "Class Struggle",
+      "TECH_AP_ATOMIC_50": "Progressive Aerodrome",
+      "TECH_AP_MODERN_49": "Progressive Aerodrome",
+      "TECH_AP_MODERN_68": "Future Tech",
+      "CIVIC_AP_MODERN_36": "Mobilization",
+      "CIVIC_AP_MODERN_37": "Mercantilism",
+      "CIVIC_AP_MODERN_38": "Military Tradition",
+      "CIVIC_AP_MODERN_39": "Plastics",
+      "CIVIC_AP_MODERN_40": "Mass Media",
+      "CIVIC_AP_MODERN_41": "Robotics",
+      "CIVIC_AP_MODERN_42": "Stealth Technology",
+      "TECH_AP_ATOMIC_51": "Ideology",
+      "CIVIC_AP_FUTURE_57": "Progressive Space Port",
+      "CIVIC_AP_INFORMATION_49": "Progressive Space Port",
+      "TECH_AP_ATOMIC_52": "Progressive Space Port",
+      "TECH_AP_ATOMIC_54": "Progressive Space Port",
+      "TECH_AP_INFORMATION_64": "Progressive Space Port",
+      "TECH_AP_ATOMIC_55": "Smart Power Doctrine",
+      "TECH_AP_ATOMIC_56": "Near Future Governance",
+      "TECH_AP_ATOMIC_57": "Nuclear Program",
+      "CIVIC_AP_ATOMIC_43": "Pottery",
+      "CIVIC_AP_ATOMIC_44": "Craftsmanship",
+      "CIVIC_AP_ATOMIC_45": "Buttress",
+      "CIVIC_AP_ATOMIC_46": "Metal Casting",
+      "CIVIC_AP_ATOMIC_47": "Mercenaries",
+      "TECH_AP_INFORMATION_58": "Future Civic",
+      "TECH_AP_INFORMATION_59": "Astronomy",
+      "TECH_AP_INFORMATION_60": "Military Training",
+      "TECH_AP_INFORMATION_61": "Synthetic Materials",
+      "TECH_AP_INFORMATION_62": "Cultural Hegemony",
+      "TECH_AP_INFORMATION_63": "Medieval Faires",
+      "TECH_AP_INFORMATION_65": "Cold War",
+      "TECH_AP_INFORMATION_66": "Corporate Libertarianism",
+      "CIVIC_AP_INFORMATION_48": "Advanced Power Cells",
+      "CIVIC_AP_INFORMATION_51": "Steam Power",
+      "CIVIC_AP_INFORMATION_52": "Synthetic Technocracy",
+      "CIVIC_AP_INFORMATION_53": "Siege Tactics",
+      "CIVIC_AP_INFORMATION_54": "Masonry",
+      "CIVIC_AP_INFORMATION_55": "Code of Laws",
+      "TECH_AP_FUTURE_69": "Scientific Theory",
+      "TECH_AP_FUTURE_70": "Space Race",
+      "TECH_AP_FUTURE_71": "Construction",
+      "TECH_AP_FUTURE_72": "Iron Working",
+      "TECH_AP_FUTURE_73": "Feudalism",
+      "TECH_AP_FUTURE_74": "Environmentalism",
+      "TECH_AP_FUTURE_75": "Horseback Riding",
+      "TECH_AP_FUTURE_76": "Combustion",
+      "CIVIC_AP_FUTURE_50": "Scorched Earth",
+      "CIVIC_AP_FUTURE_56": "Cultural Heritage",
+      "CIVIC_AP_FUTURE_58": "Archery",
+      "CIVIC_AP_FUTURE_59": "Seasteads",
+      "CIVIC_AP_FUTURE_60": "Telecommunications",
+      "Complete a victory type": "Victory"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Civilization VI WorldGen",
+      "world_class_name": "CivVIWorld",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "advisor_show_progression_items": true,
+        "boostsanity": false,
+        "death_link": false,
+        "death_link_effect_percent": 20,
+        "exclude_locations": [],
+        "hide_item_names": false,
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "progression_style": 0,
+        "randomize_items": false,
+        "research_cost_multiplier": 100,
+        "shuffle_goody_hut_rewards": true,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_inventory_from_pool": {},
+        "start_location_hints": [],
+        "use_canonical_options": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "advisor_show_progression_items": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Advisor Indicates Progression Items"
+        },
+        "boostsanity": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Boostsanity"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "death_link_effect_percent": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 100,
+          "default": 20,
+          "display_name": "Death Link Effect Percent"
+        },
+        "hide_item_names": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Hide Item Names"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "progression_style": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "districts_only",
+            "1": "eras_and_districts",
+            "2": "none"
+          },
+          "default": 0,
+          "display_name": "Progression Style"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "research_cost_multiplier": {
+          "type": "range",
+          "range_start": 50,
+          "range_end": 150,
+          "default": 100,
+          "display_name": "Tech/Civic Cost Multiplier"
+        },
+        "shuffle_goody_hut_rewards": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Shuffle Goody Hut Rewards"
+        },
+        "start_inventory_from_pool": {
+          "type": "start_inventory_pool",
+          "default": {},
+          "display_name": "Start Inventory from Pool"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        }
+      },
+      "location_by_era": {
+        "ERA_ANCIENT": {
+          "TECH_AP_ANCIENT_00": "TECH_AP_ANCIENT_00",
+          "TECH_AP_ANCIENT_01": "TECH_AP_ANCIENT_01",
+          "TECH_AP_ANCIENT_02": "TECH_AP_ANCIENT_02",
+          "TECH_AP_ANCIENT_03": "TECH_AP_ANCIENT_03",
+          "TECH_AP_ANCIENT_04": "TECH_AP_ANCIENT_04",
+          "TECH_AP_ANCIENT_05": "TECH_AP_ANCIENT_05",
+          "TECH_AP_ANCIENT_06": "TECH_AP_ANCIENT_06",
+          "TECH_AP_ANCIENT_07": "TECH_AP_ANCIENT_07",
+          "TECH_AP_ANCIENT_08": "TECH_AP_ANCIENT_08",
+          "TECH_AP_ANCIENT_09": "TECH_AP_ANCIENT_09",
+          "TECH_AP_ANCIENT_10": "TECH_AP_ANCIENT_10",
+          "CIVIC_AP_ANCIENT_00": "CIVIC_AP_ANCIENT_00",
+          "CIVIC_AP_ANCIENT_01": "CIVIC_AP_ANCIENT_01",
+          "CIVIC_AP_ANCIENT_02": "CIVIC_AP_ANCIENT_02",
+          "CIVIC_AP_ANCIENT_03": "CIVIC_AP_ANCIENT_03",
+          "CIVIC_AP_ANCIENT_04": "CIVIC_AP_ANCIENT_04",
+          "CIVIC_AP_ANCIENT_05": "CIVIC_AP_ANCIENT_05",
+          "CIVIC_AP_ANCIENT_06": "CIVIC_AP_ANCIENT_06",
+          "GOODY_HUT_1": "GOODY_HUT_1",
+          "GOODY_HUT_2": "GOODY_HUT_2",
+          "GOODY_HUT_3": "GOODY_HUT_3",
+          "GOODY_HUT_4": "GOODY_HUT_4",
+          "GOODY_HUT_5": "GOODY_HUT_5",
+          "GOODY_HUT_6": "GOODY_HUT_6",
+          "GOODY_HUT_7": "GOODY_HUT_7",
+          "GOODY_HUT_8": "GOODY_HUT_8",
+          "GOODY_HUT_9": "GOODY_HUT_9",
+          "GOODY_HUT_10": "GOODY_HUT_10",
+          "BOOST_TECH_SAILING": "BOOST_TECH_SAILING",
+          "BOOST_TECH_ASTROLOGY": "BOOST_TECH_ASTROLOGY",
+          "BOOST_TECH_IRRIGATION": "BOOST_TECH_IRRIGATION",
+          "BOOST_TECH_ARCHERY": "BOOST_TECH_ARCHERY",
+          "BOOST_TECH_WRITING": "BOOST_TECH_WRITING",
+          "BOOST_TECH_MASONRY": "BOOST_TECH_MASONRY",
+          "BOOST_TECH_BRONZE_WORKING": "BOOST_TECH_BRONZE_WORKING",
+          "BOOST_TECH_THE_WHEEL": "BOOST_TECH_THE_WHEEL",
+          "BOOST_TECH_CELESTIAL_NAVIGATION": "BOOST_TECH_CELESTIAL_NAVIGATION",
+          "BOOST_TECH_CURRENCY": "BOOST_TECH_CURRENCY",
+          "BOOST_TECH_HORSEBACK_RIDING": "BOOST_TECH_HORSEBACK_RIDING",
+          "BOOST_TECH_IRON_WORKING": "BOOST_TECH_IRON_WORKING",
+          "BOOST_TECH_SHIPBUILDING": "BOOST_TECH_SHIPBUILDING",
+          "BOOST_TECH_MATHEMATICS": "BOOST_TECH_MATHEMATICS",
+          "BOOST_TECH_CONSTRUCTION": "BOOST_TECH_CONSTRUCTION",
+          "BOOST_TECH_ENGINEERING": "BOOST_TECH_ENGINEERING",
+          "BOOST_TECH_MILITARY_TACTICS": "BOOST_TECH_MILITARY_TACTICS",
+          "BOOST_TECH_APPRENTICESHIP": "BOOST_TECH_APPRENTICESHIP",
+          "BOOST_TECH_MACHINERY": "BOOST_TECH_MACHINERY",
+          "BOOST_TECH_EDUCATION": "BOOST_TECH_EDUCATION",
+          "BOOST_TECH_STIRRUPS": "BOOST_TECH_STIRRUPS",
+          "BOOST_TECH_MILITARY_ENGINEERING": "BOOST_TECH_MILITARY_ENGINEERING",
+          "BOOST_TECH_CASTLES": "BOOST_TECH_CASTLES",
+          "BOOST_TECH_CARTOGRAPHY": "BOOST_TECH_CARTOGRAPHY",
+          "BOOST_TECH_MASS_PRODUCTION": "BOOST_TECH_MASS_PRODUCTION",
+          "BOOST_TECH_BANKING": "BOOST_TECH_BANKING",
+          "BOOST_TECH_GUNPOWDER": "BOOST_TECH_GUNPOWDER",
+          "BOOST_TECH_PRINTING": "BOOST_TECH_PRINTING",
+          "BOOST_TECH_SQUARE_RIGGING": "BOOST_TECH_SQUARE_RIGGING",
+          "BOOST_TECH_ASTRONOMY": "BOOST_TECH_ASTRONOMY",
+          "BOOST_TECH_METAL_CASTING": "BOOST_TECH_METAL_CASTING",
+          "BOOST_TECH_SIEGE_TACTICS": "BOOST_TECH_SIEGE_TACTICS",
+          "BOOST_TECH_INDUSTRIALIZATION": "BOOST_TECH_INDUSTRIALIZATION",
+          "BOOST_TECH_SCIENTIFIC_THEORY": "BOOST_TECH_SCIENTIFIC_THEORY",
+          "BOOST_TECH_BALLISTICS": "BOOST_TECH_BALLISTICS",
+          "BOOST_TECH_MILITARY_SCIENCE": "BOOST_TECH_MILITARY_SCIENCE",
+          "BOOST_TECH_STEAM_POWER": "BOOST_TECH_STEAM_POWER",
+          "BOOST_TECH_SANITATION": "BOOST_TECH_SANITATION",
+          "BOOST_TECH_ECONOMICS": "BOOST_TECH_ECONOMICS",
+          "BOOST_TECH_RIFLING": "BOOST_TECH_RIFLING",
+          "BOOST_TECH_FLIGHT": "BOOST_TECH_FLIGHT",
+          "BOOST_TECH_REPLACEABLE_PARTS": "BOOST_TECH_REPLACEABLE_PARTS",
+          "BOOST_TECH_STEEL": "BOOST_TECH_STEEL",
+          "BOOST_TECH_ELECTRICITY": "BOOST_TECH_ELECTRICITY",
+          "BOOST_TECH_RADIO": "BOOST_TECH_RADIO",
+          "BOOST_TECH_CHEMISTRY": "BOOST_TECH_CHEMISTRY",
+          "BOOST_TECH_COMBUSTION": "BOOST_TECH_COMBUSTION",
+          "BOOST_TECH_ADVANCED_FLIGHT": "BOOST_TECH_ADVANCED_FLIGHT",
+          "BOOST_TECH_ROCKETRY": "BOOST_TECH_ROCKETRY",
+          "BOOST_TECH_ADVANCED_BALLISTICS": "BOOST_TECH_ADVANCED_BALLISTICS",
+          "BOOST_TECH_COMBINED_ARMS": "BOOST_TECH_COMBINED_ARMS",
+          "BOOST_TECH_PLASTICS": "BOOST_TECH_PLASTICS",
+          "BOOST_TECH_COMPUTERS": "BOOST_TECH_COMPUTERS",
+          "BOOST_TECH_NUCLEAR_FISSION": "BOOST_TECH_NUCLEAR_FISSION",
+          "BOOST_TECH_SYNTHETIC_MATERIALS": "BOOST_TECH_SYNTHETIC_MATERIALS",
+          "BOOST_TECH_TELECOMMUNICATIONS": "BOOST_TECH_TELECOMMUNICATIONS",
+          "BOOST_TECH_SATELLITES": "BOOST_TECH_SATELLITES",
+          "BOOST_TECH_GUIDANCE_SYSTEMS": "BOOST_TECH_GUIDANCE_SYSTEMS",
+          "BOOST_TECH_LASERS": "BOOST_TECH_LASERS",
+          "BOOST_TECH_COMPOSITES": "BOOST_TECH_COMPOSITES",
+          "BOOST_TECH_STEALTH_TECHNOLOGY": "BOOST_TECH_STEALTH_TECHNOLOGY",
+          "BOOST_TECH_ROBOTICS": "BOOST_TECH_ROBOTICS",
+          "BOOST_TECH_NANOTECHNOLOGY": "BOOST_TECH_NANOTECHNOLOGY",
+          "BOOST_TECH_NUCLEAR_FUSION": "BOOST_TECH_NUCLEAR_FUSION",
+          "BOOST_TECH_BUTTRESS": "BOOST_TECH_BUTTRESS",
+          "BOOST_TECH_REFINING": "BOOST_TECH_REFINING",
+          "BOOST_TECH_SEASTEADS": "BOOST_TECH_SEASTEADS",
+          "BOOST_TECH_ADVANCED_AI": "BOOST_TECH_ADVANCED_AI",
+          "BOOST_TECH_ADVANCED_POWER_CELLS": "BOOST_TECH_ADVANCED_POWER_CELLS",
+          "BOOST_TECH_CYBERNETICS": "BOOST_TECH_CYBERNETICS",
+          "BOOST_TECH_SMART_MATERIALS": "BOOST_TECH_SMART_MATERIALS",
+          "BOOST_TECH_PREDICTIVE_SYSTEMS": "BOOST_TECH_PREDICTIVE_SYSTEMS",
+          "BOOST_TECH_OFFWORLD_MISSION": "BOOST_TECH_OFFWORLD_MISSION",
+          "BOOST_CIVIC_CRAFTSMANSHIP": "BOOST_CIVIC_CRAFTSMANSHIP",
+          "BOOST_CIVIC_FOREIGN_TRADE": "BOOST_CIVIC_FOREIGN_TRADE",
+          "BOOST_CIVIC_MILITARY_TRADITION": "BOOST_CIVIC_MILITARY_TRADITION",
+          "BOOST_CIVIC_STATE_WORKFORCE": "BOOST_CIVIC_STATE_WORKFORCE",
+          "BOOST_CIVIC_EARLY_EMPIRE": "BOOST_CIVIC_EARLY_EMPIRE",
+          "BOOST_CIVIC_MYSTICISM": "BOOST_CIVIC_MYSTICISM",
+          "BOOST_CIVIC_GAMES_RECREATION": "BOOST_CIVIC_GAMES_RECREATION",
+          "BOOST_CIVIC_POLITICAL_PHILOSOPHY": "BOOST_CIVIC_POLITICAL_PHILOSOPHY",
+          "BOOST_CIVIC_DRAMA_POETRY": "BOOST_CIVIC_DRAMA_POETRY",
+          "BOOST_CIVIC_MILITARY_TRAINING": "BOOST_CIVIC_MILITARY_TRAINING",
+          "BOOST_CIVIC_DEFENSIVE_TACTICS": "BOOST_CIVIC_DEFENSIVE_TACTICS",
+          "BOOST_CIVIC_RECORDED_HISTORY": "BOOST_CIVIC_RECORDED_HISTORY",
+          "BOOST_CIVIC_THEOLOGY": "BOOST_CIVIC_THEOLOGY",
+          "BOOST_CIVIC_NAVAL_TRADITION": "BOOST_CIVIC_NAVAL_TRADITION",
+          "BOOST_CIVIC_MERCENARIES": "BOOST_CIVIC_MERCENARIES",
+          "BOOST_CIVIC_MEDIEVAL_FAIRES": "BOOST_CIVIC_MEDIEVAL_FAIRES",
+          "BOOST_CIVIC_GUILDS": "BOOST_CIVIC_GUILDS",
+          "BOOST_CIVIC_DIVINE_RIGHT": "BOOST_CIVIC_DIVINE_RIGHT",
+          "BOOST_CIVIC_EXPLORATION": "BOOST_CIVIC_EXPLORATION",
+          "BOOST_CIVIC_HUMANISM": "BOOST_CIVIC_HUMANISM",
+          "BOOST_CIVIC_DIPLOMATIC_SERVICE": "BOOST_CIVIC_DIPLOMATIC_SERVICE",
+          "BOOST_CIVIC_REFORMED_CHURCH": "BOOST_CIVIC_REFORMED_CHURCH",
+          "BOOST_CIVIC_MERCANTILISM": "BOOST_CIVIC_MERCANTILISM",
+          "BOOST_CIVIC_THE_ENLIGHTENMENT": "BOOST_CIVIC_THE_ENLIGHTENMENT",
+          "BOOST_CIVIC_COLONIALISM": "BOOST_CIVIC_COLONIALISM",
+          "BOOST_CIVIC_CIVIL_ENGINEERING": "BOOST_CIVIC_CIVIL_ENGINEERING",
+          "BOOST_CIVIC_NATIONALISM": "BOOST_CIVIC_NATIONALISM",
+          "BOOST_CIVIC_OPERA_BALLET": "BOOST_CIVIC_OPERA_BALLET",
+          "BOOST_CIVIC_NATURAL_HISTORY": "BOOST_CIVIC_NATURAL_HISTORY",
+          "BOOST_CIVIC_SCORCHED_EARTH": "BOOST_CIVIC_SCORCHED_EARTH",
+          "BOOST_CIVIC_CONSERVATION": "BOOST_CIVIC_CONSERVATION",
+          "BOOST_CIVIC_CAPITALISM": "BOOST_CIVIC_CAPITALISM",
+          "BOOST_CIVIC_NUCLEAR_PROGRAM": "BOOST_CIVIC_NUCLEAR_PROGRAM",
+          "BOOST_CIVIC_MASS_MEDIA": "BOOST_CIVIC_MASS_MEDIA",
+          "BOOST_CIVIC_MOBILIZATION": "BOOST_CIVIC_MOBILIZATION",
+          "BOOST_CIVIC_SUFFRAGE": "BOOST_CIVIC_SUFFRAGE",
+          "BOOST_CIVIC_TOTALITARIANISM": "BOOST_CIVIC_TOTALITARIANISM",
+          "BOOST_CIVIC_CLASS_STRUGGLE": "BOOST_CIVIC_CLASS_STRUGGLE",
+          "BOOST_CIVIC_COLD_WAR": "BOOST_CIVIC_COLD_WAR",
+          "BOOST_CIVIC_PROFESSIONAL_SPORTS": "BOOST_CIVIC_PROFESSIONAL_SPORTS",
+          "BOOST_CIVIC_CULTURAL_HERITAGE": "BOOST_CIVIC_CULTURAL_HERITAGE",
+          "BOOST_CIVIC_RAPID_DEPLOYMENT": "BOOST_CIVIC_RAPID_DEPLOYMENT",
+          "BOOST_CIVIC_GLOBALIZATION": "BOOST_CIVIC_GLOBALIZATION",
+          "BOOST_CIVIC_SOCIAL_MEDIA": "BOOST_CIVIC_SOCIAL_MEDIA",
+          "BOOST_CIVIC_ENVIRONMENTALISM": "BOOST_CIVIC_ENVIRONMENTALISM"
+        },
+        "ERA_CLASSICAL": {
+          "TECH_AP_CLASSICAL_11": "TECH_AP_CLASSICAL_11",
+          "TECH_AP_CLASSICAL_12": "TECH_AP_CLASSICAL_12",
+          "TECH_AP_CLASSICAL_13": "TECH_AP_CLASSICAL_13",
+          "TECH_AP_CLASSICAL_14": "TECH_AP_CLASSICAL_14",
+          "TECH_AP_CLASSICAL_15": "TECH_AP_CLASSICAL_15",
+          "TECH_AP_CLASSICAL_16": "TECH_AP_CLASSICAL_16",
+          "TECH_AP_CLASSICAL_17": "TECH_AP_CLASSICAL_17",
+          "TECH_AP_CLASSICAL_18": "TECH_AP_CLASSICAL_18",
+          "CIVIC_AP_CLASSICAL_07": "CIVIC_AP_CLASSICAL_07",
+          "CIVIC_AP_CLASSICAL_08": "CIVIC_AP_CLASSICAL_08",
+          "CIVIC_AP_CLASSICAL_09": "CIVIC_AP_CLASSICAL_09",
+          "CIVIC_AP_CLASSICAL_10": "CIVIC_AP_CLASSICAL_10",
+          "CIVIC_AP_CLASSICAL_11": "CIVIC_AP_CLASSICAL_11",
+          "CIVIC_AP_CLASSICAL_12": "CIVIC_AP_CLASSICAL_12",
+          "CIVIC_AP_CLASSICAL_13": "CIVIC_AP_CLASSICAL_13",
+          "ERA_CLASSICAL": "ERA_CLASSICAL",
+          "BOOST_CIVIC_FEUDALISM": "BOOST_CIVIC_FEUDALISM"
+        },
+        "ERA_MEDIEVAL": {
+          "TECH_AP_MEDIEVAL_19": "TECH_AP_MEDIEVAL_19",
+          "TECH_AP_MEDIEVAL_20": "TECH_AP_MEDIEVAL_20",
+          "TECH_AP_MEDIEVAL_21": "TECH_AP_MEDIEVAL_21",
+          "TECH_AP_MEDIEVAL_22": "TECH_AP_MEDIEVAL_22",
+          "TECH_AP_MEDIEVAL_23": "TECH_AP_MEDIEVAL_23",
+          "TECH_AP_MEDIEVAL_24": "TECH_AP_MEDIEVAL_24",
+          "TECH_AP_MEDIEVAL_25": "TECH_AP_MEDIEVAL_25",
+          "TECH_AP_MEDIEVAL_67": "TECH_AP_MEDIEVAL_67",
+          "CIVIC_AP_MEDIEVAL_14": "CIVIC_AP_MEDIEVAL_14",
+          "CIVIC_AP_MEDIEVAL_15": "CIVIC_AP_MEDIEVAL_15",
+          "CIVIC_AP_MEDIEVAL_16": "CIVIC_AP_MEDIEVAL_16",
+          "CIVIC_AP_MEDIEVAL_17": "CIVIC_AP_MEDIEVAL_17",
+          "CIVIC_AP_MEDIEVAL_18": "CIVIC_AP_MEDIEVAL_18",
+          "CIVIC_AP_MEDIEVAL_19": "CIVIC_AP_MEDIEVAL_19",
+          "CIVIC_AP_MEDIEVAL_20": "CIVIC_AP_MEDIEVAL_20",
+          "ERA_MEDIEVAL": "ERA_MEDIEVAL",
+          "BOOST_CIVIC_CIVIL_SERVICE": "BOOST_CIVIC_CIVIL_SERVICE"
+        },
+        "ERA_RENAISSANCE": {
+          "TECH_AP_RENAISSANCE_26": "TECH_AP_RENAISSANCE_26",
+          "TECH_AP_RENAISSANCE_27": "TECH_AP_RENAISSANCE_27",
+          "TECH_AP_RENAISSANCE_28": "TECH_AP_RENAISSANCE_28",
+          "TECH_AP_RENAISSANCE_29": "TECH_AP_RENAISSANCE_29",
+          "TECH_AP_RENAISSANCE_30": "TECH_AP_RENAISSANCE_30",
+          "TECH_AP_RENAISSANCE_31": "TECH_AP_RENAISSANCE_31",
+          "TECH_AP_RENAISSANCE_32": "TECH_AP_RENAISSANCE_32",
+          "TECH_AP_RENAISSANCE_33": "TECH_AP_RENAISSANCE_33",
+          "TECH_AP_RENAISSANCE_34": "TECH_AP_RENAISSANCE_34",
+          "CIVIC_AP_RENAISSANCE_21": "CIVIC_AP_RENAISSANCE_21",
+          "CIVIC_AP_RENAISSANCE_22": "CIVIC_AP_RENAISSANCE_22",
+          "CIVIC_AP_RENAISSANCE_23": "CIVIC_AP_RENAISSANCE_23",
+          "CIVIC_AP_RENAISSANCE_24": "CIVIC_AP_RENAISSANCE_24",
+          "CIVIC_AP_RENAISSANCE_25": "CIVIC_AP_RENAISSANCE_25",
+          "CIVIC_AP_RENAISSANCE_26": "CIVIC_AP_RENAISSANCE_26",
+          "ERA_RENAISSANCE": "ERA_RENAISSANCE"
+        },
+        "ERA_INDUSTRIAL": {
+          "TECH_AP_INDUSTRIAL_35": "TECH_AP_INDUSTRIAL_35",
+          "TECH_AP_INDUSTRIAL_36": "TECH_AP_INDUSTRIAL_36",
+          "TECH_AP_INDUSTRIAL_37": "TECH_AP_INDUSTRIAL_37",
+          "TECH_AP_INDUSTRIAL_38": "TECH_AP_INDUSTRIAL_38",
+          "TECH_AP_INDUSTRIAL_39": "TECH_AP_INDUSTRIAL_39",
+          "TECH_AP_INDUSTRIAL_40": "TECH_AP_INDUSTRIAL_40",
+          "TECH_AP_INDUSTRIAL_41": "TECH_AP_INDUSTRIAL_41",
+          "TECH_AP_INDUSTRIAL_42": "TECH_AP_INDUSTRIAL_42",
+          "CIVIC_AP_INDUSTRIAL_27": "CIVIC_AP_INDUSTRIAL_27",
+          "CIVIC_AP_INDUSTRIAL_28": "CIVIC_AP_INDUSTRIAL_28",
+          "CIVIC_AP_INDUSTRIAL_29": "CIVIC_AP_INDUSTRIAL_29",
+          "CIVIC_AP_INDUSTRIAL_30": "CIVIC_AP_INDUSTRIAL_30",
+          "CIVIC_AP_INDUSTRIAL_31": "CIVIC_AP_INDUSTRIAL_31",
+          "CIVIC_AP_INDUSTRIAL_32": "CIVIC_AP_INDUSTRIAL_32",
+          "CIVIC_AP_INDUSTRIAL_33": "CIVIC_AP_INDUSTRIAL_33",
+          "ERA_INDUSTRIAL": "ERA_INDUSTRIAL",
+          "BOOST_CIVIC_URBANIZATION": "BOOST_CIVIC_URBANIZATION"
+        },
+        "ERA_MODERN": {
+          "TECH_AP_MODERN_43": "TECH_AP_MODERN_43",
+          "TECH_AP_MODERN_44": "TECH_AP_MODERN_44",
+          "TECH_AP_MODERN_45": "TECH_AP_MODERN_45",
+          "TECH_AP_MODERN_46": "TECH_AP_MODERN_46",
+          "TECH_AP_MODERN_47": "TECH_AP_MODERN_47",
+          "TECH_AP_MODERN_48": "TECH_AP_MODERN_48",
+          "TECH_AP_MODERN_49": "TECH_AP_MODERN_49",
+          "TECH_AP_MODERN_68": "TECH_AP_MODERN_68",
+          "CIVIC_AP_MODERN_34": "CIVIC_AP_MODERN_34",
+          "CIVIC_AP_MODERN_35": "CIVIC_AP_MODERN_35",
+          "CIVIC_AP_MODERN_36": "CIVIC_AP_MODERN_36",
+          "CIVIC_AP_MODERN_37": "CIVIC_AP_MODERN_37",
+          "CIVIC_AP_MODERN_38": "CIVIC_AP_MODERN_38",
+          "CIVIC_AP_MODERN_39": "CIVIC_AP_MODERN_39",
+          "CIVIC_AP_MODERN_40": "CIVIC_AP_MODERN_40",
+          "CIVIC_AP_MODERN_41": "CIVIC_AP_MODERN_41",
+          "CIVIC_AP_MODERN_42": "CIVIC_AP_MODERN_42",
+          "ERA_MODERN": "ERA_MODERN"
+        },
+        "ERA_ATOMIC": {
+          "TECH_AP_ATOMIC_50": "TECH_AP_ATOMIC_50",
+          "TECH_AP_ATOMIC_51": "TECH_AP_ATOMIC_51",
+          "TECH_AP_ATOMIC_52": "TECH_AP_ATOMIC_52",
+          "TECH_AP_ATOMIC_53": "TECH_AP_ATOMIC_53",
+          "TECH_AP_ATOMIC_54": "TECH_AP_ATOMIC_54",
+          "TECH_AP_ATOMIC_55": "TECH_AP_ATOMIC_55",
+          "TECH_AP_ATOMIC_56": "TECH_AP_ATOMIC_56",
+          "TECH_AP_ATOMIC_57": "TECH_AP_ATOMIC_57",
+          "CIVIC_AP_ATOMIC_43": "CIVIC_AP_ATOMIC_43",
+          "CIVIC_AP_ATOMIC_44": "CIVIC_AP_ATOMIC_44",
+          "CIVIC_AP_ATOMIC_45": "CIVIC_AP_ATOMIC_45",
+          "CIVIC_AP_ATOMIC_46": "CIVIC_AP_ATOMIC_46",
+          "CIVIC_AP_ATOMIC_47": "CIVIC_AP_ATOMIC_47",
+          "ERA_ATOMIC": "ERA_ATOMIC",
+          "BOOST_CIVIC_SPACE_RACE": "BOOST_CIVIC_SPACE_RACE"
+        },
+        "ERA_INFORMATION": {
+          "TECH_AP_INFORMATION_58": "TECH_AP_INFORMATION_58",
+          "TECH_AP_INFORMATION_59": "TECH_AP_INFORMATION_59",
+          "TECH_AP_INFORMATION_60": "TECH_AP_INFORMATION_60",
+          "TECH_AP_INFORMATION_61": "TECH_AP_INFORMATION_61",
+          "TECH_AP_INFORMATION_62": "TECH_AP_INFORMATION_62",
+          "TECH_AP_INFORMATION_63": "TECH_AP_INFORMATION_63",
+          "TECH_AP_INFORMATION_64": "TECH_AP_INFORMATION_64",
+          "TECH_AP_INFORMATION_65": "TECH_AP_INFORMATION_65",
+          "TECH_AP_INFORMATION_66": "TECH_AP_INFORMATION_66",
+          "CIVIC_AP_INFORMATION_48": "CIVIC_AP_INFORMATION_48",
+          "CIVIC_AP_INFORMATION_49": "CIVIC_AP_INFORMATION_49",
+          "CIVIC_AP_INFORMATION_51": "CIVIC_AP_INFORMATION_51",
+          "CIVIC_AP_INFORMATION_52": "CIVIC_AP_INFORMATION_52",
+          "CIVIC_AP_INFORMATION_53": "CIVIC_AP_INFORMATION_53",
+          "CIVIC_AP_INFORMATION_54": "CIVIC_AP_INFORMATION_54",
+          "CIVIC_AP_INFORMATION_55": "CIVIC_AP_INFORMATION_55",
+          "ERA_INFORMATION": "ERA_INFORMATION"
+        },
+        "ERA_FUTURE": {
+          "TECH_AP_FUTURE_69": "TECH_AP_FUTURE_69",
+          "TECH_AP_FUTURE_70": "TECH_AP_FUTURE_70",
+          "TECH_AP_FUTURE_71": "TECH_AP_FUTURE_71",
+          "TECH_AP_FUTURE_72": "TECH_AP_FUTURE_72",
+          "TECH_AP_FUTURE_73": "TECH_AP_FUTURE_73",
+          "TECH_AP_FUTURE_74": "TECH_AP_FUTURE_74",
+          "TECH_AP_FUTURE_75": "TECH_AP_FUTURE_75",
+          "TECH_AP_FUTURE_76": "TECH_AP_FUTURE_76",
+          "CIVIC_AP_FUTURE_50": "CIVIC_AP_FUTURE_50",
+          "CIVIC_AP_FUTURE_56": "CIVIC_AP_FUTURE_56",
+          "CIVIC_AP_FUTURE_57": "CIVIC_AP_FUTURE_57",
+          "CIVIC_AP_FUTURE_58": "CIVIC_AP_FUTURE_58",
+          "CIVIC_AP_FUTURE_59": "CIVIC_AP_FUTURE_59",
+          "CIVIC_AP_FUTURE_60": "CIVIC_AP_FUTURE_60",
+          "ERA_FUTURE": "ERA_FUTURE"
+        }
+      },
+      "location_table": {
+        "TECH_AP_ANCIENT_00": "TECH_AP_ANCIENT_00",
+        "TECH_AP_ANCIENT_01": "TECH_AP_ANCIENT_01",
+        "TECH_AP_ANCIENT_02": "TECH_AP_ANCIENT_02",
+        "TECH_AP_ANCIENT_03": "TECH_AP_ANCIENT_03",
+        "TECH_AP_ANCIENT_04": "TECH_AP_ANCIENT_04",
+        "TECH_AP_ANCIENT_05": "TECH_AP_ANCIENT_05",
+        "TECH_AP_ANCIENT_06": "TECH_AP_ANCIENT_06",
+        "TECH_AP_ANCIENT_07": "TECH_AP_ANCIENT_07",
+        "TECH_AP_ANCIENT_08": "TECH_AP_ANCIENT_08",
+        "TECH_AP_ANCIENT_09": "TECH_AP_ANCIENT_09",
+        "TECH_AP_ANCIENT_10": "TECH_AP_ANCIENT_10",
+        "CIVIC_AP_ANCIENT_00": "CIVIC_AP_ANCIENT_00",
+        "CIVIC_AP_ANCIENT_01": "CIVIC_AP_ANCIENT_01",
+        "CIVIC_AP_ANCIENT_02": "CIVIC_AP_ANCIENT_02",
+        "CIVIC_AP_ANCIENT_03": "CIVIC_AP_ANCIENT_03",
+        "CIVIC_AP_ANCIENT_04": "CIVIC_AP_ANCIENT_04",
+        "CIVIC_AP_ANCIENT_05": "CIVIC_AP_ANCIENT_05",
+        "CIVIC_AP_ANCIENT_06": "CIVIC_AP_ANCIENT_06",
+        "GOODY_HUT_1": "GOODY_HUT_1",
+        "GOODY_HUT_2": "GOODY_HUT_2",
+        "GOODY_HUT_3": "GOODY_HUT_3",
+        "GOODY_HUT_4": "GOODY_HUT_4",
+        "GOODY_HUT_5": "GOODY_HUT_5",
+        "GOODY_HUT_6": "GOODY_HUT_6",
+        "GOODY_HUT_7": "GOODY_HUT_7",
+        "GOODY_HUT_8": "GOODY_HUT_8",
+        "GOODY_HUT_9": "GOODY_HUT_9",
+        "GOODY_HUT_10": "GOODY_HUT_10",
+        "BOOST_TECH_SAILING": "BOOST_TECH_SAILING",
+        "BOOST_TECH_ASTROLOGY": "BOOST_TECH_ASTROLOGY",
+        "BOOST_TECH_IRRIGATION": "BOOST_TECH_IRRIGATION",
+        "BOOST_TECH_ARCHERY": "BOOST_TECH_ARCHERY",
+        "BOOST_TECH_WRITING": "BOOST_TECH_WRITING",
+        "BOOST_TECH_MASONRY": "BOOST_TECH_MASONRY",
+        "BOOST_TECH_BRONZE_WORKING": "BOOST_TECH_BRONZE_WORKING",
+        "BOOST_TECH_THE_WHEEL": "BOOST_TECH_THE_WHEEL",
+        "BOOST_TECH_CELESTIAL_NAVIGATION": "BOOST_TECH_CELESTIAL_NAVIGATION",
+        "BOOST_TECH_CURRENCY": "BOOST_TECH_CURRENCY",
+        "BOOST_TECH_HORSEBACK_RIDING": "BOOST_TECH_HORSEBACK_RIDING",
+        "BOOST_TECH_IRON_WORKING": "BOOST_TECH_IRON_WORKING",
+        "BOOST_TECH_SHIPBUILDING": "BOOST_TECH_SHIPBUILDING",
+        "BOOST_TECH_MATHEMATICS": "BOOST_TECH_MATHEMATICS",
+        "BOOST_TECH_CONSTRUCTION": "BOOST_TECH_CONSTRUCTION",
+        "BOOST_TECH_ENGINEERING": "BOOST_TECH_ENGINEERING",
+        "BOOST_TECH_MILITARY_TACTICS": "BOOST_TECH_MILITARY_TACTICS",
+        "BOOST_TECH_APPRENTICESHIP": "BOOST_TECH_APPRENTICESHIP",
+        "BOOST_TECH_MACHINERY": "BOOST_TECH_MACHINERY",
+        "BOOST_TECH_EDUCATION": "BOOST_TECH_EDUCATION",
+        "BOOST_TECH_STIRRUPS": "BOOST_TECH_STIRRUPS",
+        "BOOST_TECH_MILITARY_ENGINEERING": "BOOST_TECH_MILITARY_ENGINEERING",
+        "BOOST_TECH_CASTLES": "BOOST_TECH_CASTLES",
+        "BOOST_TECH_CARTOGRAPHY": "BOOST_TECH_CARTOGRAPHY",
+        "BOOST_TECH_MASS_PRODUCTION": "BOOST_TECH_MASS_PRODUCTION",
+        "BOOST_TECH_BANKING": "BOOST_TECH_BANKING",
+        "BOOST_TECH_GUNPOWDER": "BOOST_TECH_GUNPOWDER",
+        "BOOST_TECH_PRINTING": "BOOST_TECH_PRINTING",
+        "BOOST_TECH_SQUARE_RIGGING": "BOOST_TECH_SQUARE_RIGGING",
+        "BOOST_TECH_ASTRONOMY": "BOOST_TECH_ASTRONOMY",
+        "BOOST_TECH_METAL_CASTING": "BOOST_TECH_METAL_CASTING",
+        "BOOST_TECH_SIEGE_TACTICS": "BOOST_TECH_SIEGE_TACTICS",
+        "BOOST_TECH_INDUSTRIALIZATION": "BOOST_TECH_INDUSTRIALIZATION",
+        "BOOST_TECH_SCIENTIFIC_THEORY": "BOOST_TECH_SCIENTIFIC_THEORY",
+        "BOOST_TECH_BALLISTICS": "BOOST_TECH_BALLISTICS",
+        "BOOST_TECH_MILITARY_SCIENCE": "BOOST_TECH_MILITARY_SCIENCE",
+        "BOOST_TECH_STEAM_POWER": "BOOST_TECH_STEAM_POWER",
+        "BOOST_TECH_SANITATION": "BOOST_TECH_SANITATION",
+        "BOOST_TECH_ECONOMICS": "BOOST_TECH_ECONOMICS",
+        "BOOST_TECH_RIFLING": "BOOST_TECH_RIFLING",
+        "BOOST_TECH_FLIGHT": "BOOST_TECH_FLIGHT",
+        "BOOST_TECH_REPLACEABLE_PARTS": "BOOST_TECH_REPLACEABLE_PARTS",
+        "BOOST_TECH_STEEL": "BOOST_TECH_STEEL",
+        "BOOST_TECH_ELECTRICITY": "BOOST_TECH_ELECTRICITY",
+        "BOOST_TECH_RADIO": "BOOST_TECH_RADIO",
+        "BOOST_TECH_CHEMISTRY": "BOOST_TECH_CHEMISTRY",
+        "BOOST_TECH_COMBUSTION": "BOOST_TECH_COMBUSTION",
+        "BOOST_TECH_ADVANCED_FLIGHT": "BOOST_TECH_ADVANCED_FLIGHT",
+        "BOOST_TECH_ROCKETRY": "BOOST_TECH_ROCKETRY",
+        "BOOST_TECH_ADVANCED_BALLISTICS": "BOOST_TECH_ADVANCED_BALLISTICS",
+        "BOOST_TECH_COMBINED_ARMS": "BOOST_TECH_COMBINED_ARMS",
+        "BOOST_TECH_PLASTICS": "BOOST_TECH_PLASTICS",
+        "BOOST_TECH_COMPUTERS": "BOOST_TECH_COMPUTERS",
+        "BOOST_TECH_NUCLEAR_FISSION": "BOOST_TECH_NUCLEAR_FISSION",
+        "BOOST_TECH_SYNTHETIC_MATERIALS": "BOOST_TECH_SYNTHETIC_MATERIALS",
+        "BOOST_TECH_TELECOMMUNICATIONS": "BOOST_TECH_TELECOMMUNICATIONS",
+        "BOOST_TECH_SATELLITES": "BOOST_TECH_SATELLITES",
+        "BOOST_TECH_GUIDANCE_SYSTEMS": "BOOST_TECH_GUIDANCE_SYSTEMS",
+        "BOOST_TECH_LASERS": "BOOST_TECH_LASERS",
+        "BOOST_TECH_COMPOSITES": "BOOST_TECH_COMPOSITES",
+        "BOOST_TECH_STEALTH_TECHNOLOGY": "BOOST_TECH_STEALTH_TECHNOLOGY",
+        "BOOST_TECH_ROBOTICS": "BOOST_TECH_ROBOTICS",
+        "BOOST_TECH_NANOTECHNOLOGY": "BOOST_TECH_NANOTECHNOLOGY",
+        "BOOST_TECH_NUCLEAR_FUSION": "BOOST_TECH_NUCLEAR_FUSION",
+        "BOOST_TECH_BUTTRESS": "BOOST_TECH_BUTTRESS",
+        "BOOST_TECH_REFINING": "BOOST_TECH_REFINING",
+        "BOOST_TECH_SEASTEADS": "BOOST_TECH_SEASTEADS",
+        "BOOST_TECH_ADVANCED_AI": "BOOST_TECH_ADVANCED_AI",
+        "BOOST_TECH_ADVANCED_POWER_CELLS": "BOOST_TECH_ADVANCED_POWER_CELLS",
+        "BOOST_TECH_CYBERNETICS": "BOOST_TECH_CYBERNETICS",
+        "BOOST_TECH_SMART_MATERIALS": "BOOST_TECH_SMART_MATERIALS",
+        "BOOST_TECH_PREDICTIVE_SYSTEMS": "BOOST_TECH_PREDICTIVE_SYSTEMS",
+        "BOOST_TECH_OFFWORLD_MISSION": "BOOST_TECH_OFFWORLD_MISSION",
+        "BOOST_CIVIC_CRAFTSMANSHIP": "BOOST_CIVIC_CRAFTSMANSHIP",
+        "BOOST_CIVIC_FOREIGN_TRADE": "BOOST_CIVIC_FOREIGN_TRADE",
+        "BOOST_CIVIC_MILITARY_TRADITION": "BOOST_CIVIC_MILITARY_TRADITION",
+        "BOOST_CIVIC_STATE_WORKFORCE": "BOOST_CIVIC_STATE_WORKFORCE",
+        "BOOST_CIVIC_EARLY_EMPIRE": "BOOST_CIVIC_EARLY_EMPIRE",
+        "BOOST_CIVIC_MYSTICISM": "BOOST_CIVIC_MYSTICISM",
+        "BOOST_CIVIC_GAMES_RECREATION": "BOOST_CIVIC_GAMES_RECREATION",
+        "BOOST_CIVIC_POLITICAL_PHILOSOPHY": "BOOST_CIVIC_POLITICAL_PHILOSOPHY",
+        "BOOST_CIVIC_DRAMA_POETRY": "BOOST_CIVIC_DRAMA_POETRY",
+        "BOOST_CIVIC_MILITARY_TRAINING": "BOOST_CIVIC_MILITARY_TRAINING",
+        "BOOST_CIVIC_DEFENSIVE_TACTICS": "BOOST_CIVIC_DEFENSIVE_TACTICS",
+        "BOOST_CIVIC_RECORDED_HISTORY": "BOOST_CIVIC_RECORDED_HISTORY",
+        "BOOST_CIVIC_THEOLOGY": "BOOST_CIVIC_THEOLOGY",
+        "BOOST_CIVIC_NAVAL_TRADITION": "BOOST_CIVIC_NAVAL_TRADITION",
+        "BOOST_CIVIC_MERCENARIES": "BOOST_CIVIC_MERCENARIES",
+        "BOOST_CIVIC_MEDIEVAL_FAIRES": "BOOST_CIVIC_MEDIEVAL_FAIRES",
+        "BOOST_CIVIC_GUILDS": "BOOST_CIVIC_GUILDS",
+        "BOOST_CIVIC_DIVINE_RIGHT": "BOOST_CIVIC_DIVINE_RIGHT",
+        "BOOST_CIVIC_EXPLORATION": "BOOST_CIVIC_EXPLORATION",
+        "BOOST_CIVIC_HUMANISM": "BOOST_CIVIC_HUMANISM",
+        "BOOST_CIVIC_DIPLOMATIC_SERVICE": "BOOST_CIVIC_DIPLOMATIC_SERVICE",
+        "BOOST_CIVIC_REFORMED_CHURCH": "BOOST_CIVIC_REFORMED_CHURCH",
+        "BOOST_CIVIC_MERCANTILISM": "BOOST_CIVIC_MERCANTILISM",
+        "BOOST_CIVIC_THE_ENLIGHTENMENT": "BOOST_CIVIC_THE_ENLIGHTENMENT",
+        "BOOST_CIVIC_COLONIALISM": "BOOST_CIVIC_COLONIALISM",
+        "BOOST_CIVIC_CIVIL_ENGINEERING": "BOOST_CIVIC_CIVIL_ENGINEERING",
+        "BOOST_CIVIC_NATIONALISM": "BOOST_CIVIC_NATIONALISM",
+        "BOOST_CIVIC_OPERA_BALLET": "BOOST_CIVIC_OPERA_BALLET",
+        "BOOST_CIVIC_NATURAL_HISTORY": "BOOST_CIVIC_NATURAL_HISTORY",
+        "BOOST_CIVIC_SCORCHED_EARTH": "BOOST_CIVIC_SCORCHED_EARTH",
+        "BOOST_CIVIC_CONSERVATION": "BOOST_CIVIC_CONSERVATION",
+        "BOOST_CIVIC_CAPITALISM": "BOOST_CIVIC_CAPITALISM",
+        "BOOST_CIVIC_NUCLEAR_PROGRAM": "BOOST_CIVIC_NUCLEAR_PROGRAM",
+        "BOOST_CIVIC_MASS_MEDIA": "BOOST_CIVIC_MASS_MEDIA",
+        "BOOST_CIVIC_MOBILIZATION": "BOOST_CIVIC_MOBILIZATION",
+        "BOOST_CIVIC_SUFFRAGE": "BOOST_CIVIC_SUFFRAGE",
+        "BOOST_CIVIC_TOTALITARIANISM": "BOOST_CIVIC_TOTALITARIANISM",
+        "BOOST_CIVIC_CLASS_STRUGGLE": "BOOST_CIVIC_CLASS_STRUGGLE",
+        "BOOST_CIVIC_COLD_WAR": "BOOST_CIVIC_COLD_WAR",
+        "BOOST_CIVIC_PROFESSIONAL_SPORTS": "BOOST_CIVIC_PROFESSIONAL_SPORTS",
+        "BOOST_CIVIC_CULTURAL_HERITAGE": "BOOST_CIVIC_CULTURAL_HERITAGE",
+        "BOOST_CIVIC_RAPID_DEPLOYMENT": "BOOST_CIVIC_RAPID_DEPLOYMENT",
+        "BOOST_CIVIC_GLOBALIZATION": "BOOST_CIVIC_GLOBALIZATION",
+        "BOOST_CIVIC_SOCIAL_MEDIA": "BOOST_CIVIC_SOCIAL_MEDIA",
+        "BOOST_CIVIC_ENVIRONMENTALISM": "BOOST_CIVIC_ENVIRONMENTALISM",
+        "TECH_AP_CLASSICAL_11": "TECH_AP_CLASSICAL_11",
+        "TECH_AP_CLASSICAL_12": "TECH_AP_CLASSICAL_12",
+        "TECH_AP_CLASSICAL_13": "TECH_AP_CLASSICAL_13",
+        "TECH_AP_CLASSICAL_14": "TECH_AP_CLASSICAL_14",
+        "TECH_AP_CLASSICAL_15": "TECH_AP_CLASSICAL_15",
+        "TECH_AP_CLASSICAL_16": "TECH_AP_CLASSICAL_16",
+        "TECH_AP_CLASSICAL_17": "TECH_AP_CLASSICAL_17",
+        "TECH_AP_CLASSICAL_18": "TECH_AP_CLASSICAL_18",
+        "CIVIC_AP_CLASSICAL_07": "CIVIC_AP_CLASSICAL_07",
+        "CIVIC_AP_CLASSICAL_08": "CIVIC_AP_CLASSICAL_08",
+        "CIVIC_AP_CLASSICAL_09": "CIVIC_AP_CLASSICAL_09",
+        "CIVIC_AP_CLASSICAL_10": "CIVIC_AP_CLASSICAL_10",
+        "CIVIC_AP_CLASSICAL_11": "CIVIC_AP_CLASSICAL_11",
+        "CIVIC_AP_CLASSICAL_12": "CIVIC_AP_CLASSICAL_12",
+        "CIVIC_AP_CLASSICAL_13": "CIVIC_AP_CLASSICAL_13",
+        "ERA_CLASSICAL": "ERA_CLASSICAL",
+        "BOOST_CIVIC_FEUDALISM": "BOOST_CIVIC_FEUDALISM",
+        "TECH_AP_MEDIEVAL_19": "TECH_AP_MEDIEVAL_19",
+        "TECH_AP_MEDIEVAL_20": "TECH_AP_MEDIEVAL_20",
+        "TECH_AP_MEDIEVAL_21": "TECH_AP_MEDIEVAL_21",
+        "TECH_AP_MEDIEVAL_22": "TECH_AP_MEDIEVAL_22",
+        "TECH_AP_MEDIEVAL_23": "TECH_AP_MEDIEVAL_23",
+        "TECH_AP_MEDIEVAL_24": "TECH_AP_MEDIEVAL_24",
+        "TECH_AP_MEDIEVAL_25": "TECH_AP_MEDIEVAL_25",
+        "TECH_AP_MEDIEVAL_67": "TECH_AP_MEDIEVAL_67",
+        "CIVIC_AP_MEDIEVAL_14": "CIVIC_AP_MEDIEVAL_14",
+        "CIVIC_AP_MEDIEVAL_15": "CIVIC_AP_MEDIEVAL_15",
+        "CIVIC_AP_MEDIEVAL_16": "CIVIC_AP_MEDIEVAL_16",
+        "CIVIC_AP_MEDIEVAL_17": "CIVIC_AP_MEDIEVAL_17",
+        "CIVIC_AP_MEDIEVAL_18": "CIVIC_AP_MEDIEVAL_18",
+        "CIVIC_AP_MEDIEVAL_19": "CIVIC_AP_MEDIEVAL_19",
+        "CIVIC_AP_MEDIEVAL_20": "CIVIC_AP_MEDIEVAL_20",
+        "ERA_MEDIEVAL": "ERA_MEDIEVAL",
+        "BOOST_CIVIC_CIVIL_SERVICE": "BOOST_CIVIC_CIVIL_SERVICE",
+        "TECH_AP_RENAISSANCE_26": "TECH_AP_RENAISSANCE_26",
+        "TECH_AP_RENAISSANCE_27": "TECH_AP_RENAISSANCE_27",
+        "TECH_AP_RENAISSANCE_28": "TECH_AP_RENAISSANCE_28",
+        "TECH_AP_RENAISSANCE_29": "TECH_AP_RENAISSANCE_29",
+        "TECH_AP_RENAISSANCE_30": "TECH_AP_RENAISSANCE_30",
+        "TECH_AP_RENAISSANCE_31": "TECH_AP_RENAISSANCE_31",
+        "TECH_AP_RENAISSANCE_32": "TECH_AP_RENAISSANCE_32",
+        "TECH_AP_RENAISSANCE_33": "TECH_AP_RENAISSANCE_33",
+        "TECH_AP_RENAISSANCE_34": "TECH_AP_RENAISSANCE_34",
+        "CIVIC_AP_RENAISSANCE_21": "CIVIC_AP_RENAISSANCE_21",
+        "CIVIC_AP_RENAISSANCE_22": "CIVIC_AP_RENAISSANCE_22",
+        "CIVIC_AP_RENAISSANCE_23": "CIVIC_AP_RENAISSANCE_23",
+        "CIVIC_AP_RENAISSANCE_24": "CIVIC_AP_RENAISSANCE_24",
+        "CIVIC_AP_RENAISSANCE_25": "CIVIC_AP_RENAISSANCE_25",
+        "CIVIC_AP_RENAISSANCE_26": "CIVIC_AP_RENAISSANCE_26",
+        "ERA_RENAISSANCE": "ERA_RENAISSANCE",
+        "TECH_AP_INDUSTRIAL_35": "TECH_AP_INDUSTRIAL_35",
+        "TECH_AP_INDUSTRIAL_36": "TECH_AP_INDUSTRIAL_36",
+        "TECH_AP_INDUSTRIAL_37": "TECH_AP_INDUSTRIAL_37",
+        "TECH_AP_INDUSTRIAL_38": "TECH_AP_INDUSTRIAL_38",
+        "TECH_AP_INDUSTRIAL_39": "TECH_AP_INDUSTRIAL_39",
+        "TECH_AP_INDUSTRIAL_40": "TECH_AP_INDUSTRIAL_40",
+        "TECH_AP_INDUSTRIAL_41": "TECH_AP_INDUSTRIAL_41",
+        "TECH_AP_INDUSTRIAL_42": "TECH_AP_INDUSTRIAL_42",
+        "CIVIC_AP_INDUSTRIAL_27": "CIVIC_AP_INDUSTRIAL_27",
+        "CIVIC_AP_INDUSTRIAL_28": "CIVIC_AP_INDUSTRIAL_28",
+        "CIVIC_AP_INDUSTRIAL_29": "CIVIC_AP_INDUSTRIAL_29",
+        "CIVIC_AP_INDUSTRIAL_30": "CIVIC_AP_INDUSTRIAL_30",
+        "CIVIC_AP_INDUSTRIAL_31": "CIVIC_AP_INDUSTRIAL_31",
+        "CIVIC_AP_INDUSTRIAL_32": "CIVIC_AP_INDUSTRIAL_32",
+        "CIVIC_AP_INDUSTRIAL_33": "CIVIC_AP_INDUSTRIAL_33",
+        "ERA_INDUSTRIAL": "ERA_INDUSTRIAL",
+        "BOOST_CIVIC_URBANIZATION": "BOOST_CIVIC_URBANIZATION",
+        "TECH_AP_MODERN_43": "TECH_AP_MODERN_43",
+        "TECH_AP_MODERN_44": "TECH_AP_MODERN_44",
+        "TECH_AP_MODERN_45": "TECH_AP_MODERN_45",
+        "TECH_AP_MODERN_46": "TECH_AP_MODERN_46",
+        "TECH_AP_MODERN_47": "TECH_AP_MODERN_47",
+        "TECH_AP_MODERN_48": "TECH_AP_MODERN_48",
+        "TECH_AP_MODERN_49": "TECH_AP_MODERN_49",
+        "TECH_AP_MODERN_68": "TECH_AP_MODERN_68",
+        "CIVIC_AP_MODERN_34": "CIVIC_AP_MODERN_34",
+        "CIVIC_AP_MODERN_35": "CIVIC_AP_MODERN_35",
+        "CIVIC_AP_MODERN_36": "CIVIC_AP_MODERN_36",
+        "CIVIC_AP_MODERN_37": "CIVIC_AP_MODERN_37",
+        "CIVIC_AP_MODERN_38": "CIVIC_AP_MODERN_38",
+        "CIVIC_AP_MODERN_39": "CIVIC_AP_MODERN_39",
+        "CIVIC_AP_MODERN_40": "CIVIC_AP_MODERN_40",
+        "CIVIC_AP_MODERN_41": "CIVIC_AP_MODERN_41",
+        "CIVIC_AP_MODERN_42": "CIVIC_AP_MODERN_42",
+        "ERA_MODERN": "ERA_MODERN",
+        "TECH_AP_ATOMIC_50": "TECH_AP_ATOMIC_50",
+        "TECH_AP_ATOMIC_51": "TECH_AP_ATOMIC_51",
+        "TECH_AP_ATOMIC_52": "TECH_AP_ATOMIC_52",
+        "TECH_AP_ATOMIC_53": "TECH_AP_ATOMIC_53",
+        "TECH_AP_ATOMIC_54": "TECH_AP_ATOMIC_54",
+        "TECH_AP_ATOMIC_55": "TECH_AP_ATOMIC_55",
+        "TECH_AP_ATOMIC_56": "TECH_AP_ATOMIC_56",
+        "TECH_AP_ATOMIC_57": "TECH_AP_ATOMIC_57",
+        "CIVIC_AP_ATOMIC_43": "CIVIC_AP_ATOMIC_43",
+        "CIVIC_AP_ATOMIC_44": "CIVIC_AP_ATOMIC_44",
+        "CIVIC_AP_ATOMIC_45": "CIVIC_AP_ATOMIC_45",
+        "CIVIC_AP_ATOMIC_46": "CIVIC_AP_ATOMIC_46",
+        "CIVIC_AP_ATOMIC_47": "CIVIC_AP_ATOMIC_47",
+        "ERA_ATOMIC": "ERA_ATOMIC",
+        "BOOST_CIVIC_SPACE_RACE": "BOOST_CIVIC_SPACE_RACE",
+        "TECH_AP_INFORMATION_58": "TECH_AP_INFORMATION_58",
+        "TECH_AP_INFORMATION_59": "TECH_AP_INFORMATION_59",
+        "TECH_AP_INFORMATION_60": "TECH_AP_INFORMATION_60",
+        "TECH_AP_INFORMATION_61": "TECH_AP_INFORMATION_61",
+        "TECH_AP_INFORMATION_62": "TECH_AP_INFORMATION_62",
+        "TECH_AP_INFORMATION_63": "TECH_AP_INFORMATION_63",
+        "TECH_AP_INFORMATION_64": "TECH_AP_INFORMATION_64",
+        "TECH_AP_INFORMATION_65": "TECH_AP_INFORMATION_65",
+        "TECH_AP_INFORMATION_66": "TECH_AP_INFORMATION_66",
+        "CIVIC_AP_INFORMATION_48": "CIVIC_AP_INFORMATION_48",
+        "CIVIC_AP_INFORMATION_49": "CIVIC_AP_INFORMATION_49",
+        "CIVIC_AP_INFORMATION_51": "CIVIC_AP_INFORMATION_51",
+        "CIVIC_AP_INFORMATION_52": "CIVIC_AP_INFORMATION_52",
+        "CIVIC_AP_INFORMATION_53": "CIVIC_AP_INFORMATION_53",
+        "CIVIC_AP_INFORMATION_54": "CIVIC_AP_INFORMATION_54",
+        "CIVIC_AP_INFORMATION_55": "CIVIC_AP_INFORMATION_55",
+        "ERA_INFORMATION": "ERA_INFORMATION",
+        "TECH_AP_FUTURE_69": "TECH_AP_FUTURE_69",
+        "TECH_AP_FUTURE_70": "TECH_AP_FUTURE_70",
+        "TECH_AP_FUTURE_71": "TECH_AP_FUTURE_71",
+        "TECH_AP_FUTURE_72": "TECH_AP_FUTURE_72",
+        "TECH_AP_FUTURE_73": "TECH_AP_FUTURE_73",
+        "TECH_AP_FUTURE_74": "TECH_AP_FUTURE_74",
+        "TECH_AP_FUTURE_75": "TECH_AP_FUTURE_75",
+        "TECH_AP_FUTURE_76": "TECH_AP_FUTURE_76",
+        "CIVIC_AP_FUTURE_50": "CIVIC_AP_FUTURE_50",
+        "CIVIC_AP_FUTURE_56": "CIVIC_AP_FUTURE_56",
+        "CIVIC_AP_FUTURE_57": "CIVIC_AP_FUTURE_57",
+        "CIVIC_AP_FUTURE_58": "CIVIC_AP_FUTURE_58",
+        "CIVIC_AP_FUTURE_59": "CIVIC_AP_FUTURE_59",
+        "CIVIC_AP_FUTURE_60": "CIVIC_AP_FUTURE_60",
+        "ERA_FUTURE": "ERA_FUTURE"
+      },
+      "item_table": {
+        "Pottery": "Pottery",
+        "Animal Husbandry": "Animal Husbandry",
+        "Mining": "Mining",
+        "Sailing": "Sailing",
+        "Astrology": "Astrology",
+        "Irrigation": "Irrigation",
+        "Archery": "Archery",
+        "Writing": "Writing",
+        "Masonry": "Masonry",
+        "Bronze Working": "Bronze Working",
+        "The Wheel": "The Wheel",
+        "Celestial Navigation": "Celestial Navigation",
+        "Currency": "Currency",
+        "Horseback Riding": "Horseback Riding",
+        "Iron Working": "Iron Working",
+        "Shipbuilding": "Shipbuilding",
+        "Mathematics": "Mathematics",
+        "Construction": "Construction",
+        "Engineering": "Engineering",
+        "Military Tactics": "Military Tactics",
+        "Apprenticeship": "Apprenticeship",
+        "Machinery": "Machinery",
+        "Education": "Education",
+        "Stirrups": "Stirrups",
+        "Military Engineering": "Military Engineering",
+        "Castles": "Castles",
+        "Cartography": "Cartography",
+        "Mass Production": "Mass Production",
+        "Banking": "Banking",
+        "Gunpowder": "Gunpowder",
+        "Printing": "Printing",
+        "Square Rigging": "Square Rigging",
+        "Astronomy": "Astronomy",
+        "Metal Casting": "Metal Casting",
+        "Siege Tactics": "Siege Tactics",
+        "Industrialization": "Industrialization",
+        "Scientific Theory": "Scientific Theory",
+        "Ballistics": "Ballistics",
+        "Military Science": "Military Science",
+        "Steam Power": "Steam Power",
+        "Sanitation": "Sanitation",
+        "Economics": "Economics",
+        "Rifling": "Rifling",
+        "Flight": "Flight",
+        "Replaceable Parts": "Replaceable Parts",
+        "Steel": "Steel",
+        "Electricity": "Electricity",
+        "Radio": "Radio",
+        "Chemistry": "Chemistry",
+        "Combustion": "Combustion",
+        "Advanced Flight": "Advanced Flight",
+        "Rocketry": "Rocketry",
+        "Advanced Ballistics": "Advanced Ballistics",
+        "Combined Arms": "Combined Arms",
+        "Plastics": "Plastics",
+        "Computers": "Computers",
+        "Nuclear Fission": "Nuclear Fission",
+        "Synthetic Materials": "Synthetic Materials",
+        "Telecommunications": "Telecommunications",
+        "Satellites": "Satellites",
+        "Guidance Systems": "Guidance Systems",
+        "Lasers": "Lasers",
+        "Composites": "Composites",
+        "Stealth Technology": "Stealth Technology",
+        "Robotics": "Robotics",
+        "Nanotechnology": "Nanotechnology",
+        "Nuclear Fusion": "Nuclear Fusion",
+        "Buttress": "Buttress",
+        "Refining": "Refining",
+        "Seasteads": "Seasteads",
+        "Advanced AI": "Advanced AI",
+        "Advanced Power Cells": "Advanced Power Cells",
+        "Cybernetics": "Cybernetics",
+        "Smart Materials": "Smart Materials",
+        "Predictive Systems": "Predictive Systems",
+        "Offworld Mission": "Offworld Mission",
+        "Future Tech": "Future Tech",
+        "Code of Laws": "Code of Laws",
+        "Craftsmanship": "Craftsmanship",
+        "Foreign Trade": "Foreign Trade",
+        "Military Tradition": "Military Tradition",
+        "State Workforce": "State Workforce",
+        "Early Empire": "Early Empire",
+        "Mysticism": "Mysticism",
+        "Games Recreation": "Games Recreation",
+        "Political Philosophy": "Political Philosophy",
+        "Drama and Poetry": "Drama and Poetry",
+        "Military Training": "Military Training",
+        "Defensive Tactics": "Defensive Tactics",
+        "Recorded History": "Recorded History",
+        "Theology": "Theology",
+        "Naval Tradition": "Naval Tradition",
+        "Feudalism": "Feudalism",
+        "Civil Service": "Civil Service",
+        "Mercenaries": "Mercenaries",
+        "Medieval Faires": "Medieval Faires",
+        "Guilds": "Guilds",
+        "Divine Right": "Divine Right",
+        "Exploration": "Exploration",
+        "Humanism": "Humanism",
+        "Diplomatic Service": "Diplomatic Service",
+        "Reformed Church": "Reformed Church",
+        "Mercantilism": "Mercantilism",
+        "The Enlightenment": "The Enlightenment",
+        "Colonialism": "Colonialism",
+        "Civil Engineering": "Civil Engineering",
+        "Nationalism": "Nationalism",
+        "Opera and Ballet": "Opera and Ballet",
+        "Natural History": "Natural History",
+        "Scorched Earth": "Scorched Earth",
+        "Urbanization": "Urbanization",
+        "Conservation": "Conservation",
+        "Capitalism": "Capitalism",
+        "Nuclear Program": "Nuclear Program",
+        "Mass Media": "Mass Media",
+        "Mobilization": "Mobilization",
+        "Ideology": "Ideology",
+        "Suffrage": "Suffrage",
+        "Totalitarianism": "Totalitarianism",
+        "Class Struggle": "Class Struggle",
+        "Cold War": "Cold War",
+        "Professional Sports": "Professional Sports",
+        "Cultural Heritage": "Cultural Heritage",
+        "Rapid Deployment": "Rapid Deployment",
+        "Space Race": "Space Race",
+        "Globalization": "Globalization",
+        "Social Media": "Social Media",
+        "Future Civic": "Future Civic",
+        "Environmentalism": "Environmentalism",
+        "Corporate Libertarianism": "Corporate Libertarianism",
+        "Digital Democracy": "Digital Democracy",
+        "Synthetic Technocracy": "Synthetic Technocracy",
+        "Near Future Governance": "Near Future Governance",
+        "Global Warming Mitigation": "Global Warming Mitigation",
+        "Smart Power Doctrine": "Smart Power Doctrine",
+        "Information Warfare": "Information Warfare",
+        "Exodus Imperative": "Exodus Imperative",
+        "Cultural Hegemony": "Cultural Hegemony",
+        "Progressive Campus": "Progressive Campus",
+        "Progressive Theater": "Progressive Theater",
+        "Progressive Holy Site": "Progressive Holy Site",
+        "Progressive Encampment": "Progressive Encampment",
+        "Progressive Commercial Hub": "Progressive Commercial Hub",
+        "Progressive Harbor": "Progressive Harbor",
+        "Progressive Industrial Zone": "Progressive Industrial Zone",
+        "Progressive Preserve": "Progressive Preserve",
+        "Progressive Entertainment Complex": "Progressive Entertainment Complex",
+        "Progressive Neighborhood": "Progressive Neighborhood",
+        "Progressive Aerodrome": "Progressive Aerodrome",
+        "Progressive Diplomatic Quarter": "Progressive Diplomatic Quarter",
+        "Progressive Space Port": "Progressive Space Port",
+        "Progressive Era": "Progressive Era",
+        "Gold: Small": "Gold: Small",
+        "Gold: Medium": "Gold: Medium",
+        "Gold: Large": "Gold: Large",
+        "Faith: Small": "Faith: Small",
+        "Faith: Medium": "Faith: Medium",
+        "Faith: Large": "Faith: Large",
+        "Diplomatic Favor": "Diplomatic Favor",
+        "Governor Title": "Governor Title",
+        "Envoy": "Envoy",
+        "Relic": "Relic",
+        "Scout": "Scout",
+        "Additional Population": "Additional Population",
+        "Builder": "Builder",
+        "Trader": "Trader",
+        "Settler": "Settler"
+      },
+      "era_required_non_progressive_items": {
+        "ERA_ANCIENT": [
+          "Mining",
+          "Irrigation",
+          "Sailing",
+          "Animal Husbandry",
+          "State Workforce",
+          "Foreign Trade"
+        ],
+        "ERA_CLASSICAL": [
+          "Shipbuilding",
+          "Political Philosophy"
+        ],
+        "ERA_MEDIEVAL": [
+          "Divine Right"
+        ],
+        "ERA_RENAISSANCE": [
+          "Exploration",
+          "Reformed Church",
+          "Cartography"
+        ],
+        "ERA_INDUSTRIAL": [
+          "Nationalism"
+        ],
+        "ERA_MODERN": [
+          "Refining",
+          "Suffrage",
+          "Totalitarianism",
+          "Class Struggle"
+        ],
+        "ERA_ATOMIC": [
+          "Combined Arms",
+          "Plastics"
+        ],
+        "ERA_INFORMATION": [
+          "Corporate Libertarianism",
+          "Digital Democracy",
+          "Synthetic Technocracy"
+        ],
+        "ERA_FUTURE": []
+      },
+      "era_required_progressive_items_counts": {
+        "ERA_ANCIENT": {
+          "Progressive Encampment": 1,
+          "Progressive Holy Site": 1,
+          "Progressive Campus": 1
+        },
+        "ERA_CLASSICAL": {
+          "Progressive Encampment": 1,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 1,
+          "Progressive Harbor": 1,
+          "Progressive Commercial Hub": 1,
+          "Progressive Diplomatic Quarter": 1,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 1
+        },
+        "ERA_MEDIEVAL": {
+          "Progressive Encampment": 2,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 1,
+          "Progressive Commercial Hub": 1,
+          "Progressive Diplomatic Quarter": 1,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 1,
+          "Progressive Industrial Zone": 1
+        },
+        "ERA_RENAISSANCE": {
+          "Progressive Encampment": 2,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 2,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 1,
+          "Progressive Theater": 2,
+          "Progressive Industrial Zone": 1
+        },
+        "ERA_INDUSTRIAL": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 2,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 2,
+          "Progressive Theater": 2,
+          "Progressive Industrial Zone": 2
+        },
+        "ERA_MODERN": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 2,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 3,
+          "Progressive Aerodrome": 1
+        },
+        "ERA_ATOMIC": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 1
+        },
+        "ERA_INFORMATION": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 4
+        },
+        "ERA_FUTURE": {
+          "Progressive Encampment": 3,
+          "Progressive Holy Site": 2,
+          "Progressive Campus": 3,
+          "Progressive Harbor": 2,
+          "Progressive Commercial Hub": 3,
+          "Progressive Diplomatic Quarter": 2,
+          "Progressive Entertainment Complex": 3,
+          "Progressive Theater": 3,
+          "Progressive Industrial Zone": 4,
+          "Progressive Aerodrome": 2,
+          "Progressive Space Port": 4
+        }
+      },
+      "era_required_progressive_era_counts": {
+        "ERA_ANCIENT": 1,
+        "ERA_CLASSICAL": 2,
+        "ERA_MEDIEVAL": 3,
+        "ERA_RENAISSANCE": 4,
+        "ERA_INDUSTRIAL": 5,
+        "ERA_MODERN": 6,
+        "ERA_ATOMIC": 7,
+        "ERA_INFORMATION": 0,
+        "ERA_FUTURE": 0
+      },
+      "item_by_civ_name": {
+        "TECH_POTTERY": "Pottery",
+        "TECH_ANIMAL_HUSBANDRY": "Animal Husbandry",
+        "TECH_MINING": "Mining",
+        "TECH_SAILING": "Sailing",
+        "TECH_ASTROLOGY": "Astrology",
+        "TECH_IRRIGATION": "Irrigation",
+        "TECH_ARCHERY": "Archery",
+        "TECH_WRITING": "Writing",
+        "TECH_MASONRY": "Masonry",
+        "TECH_BRONZE_WORKING": "Bronze Working",
+        "TECH_THE_WHEEL": "The Wheel",
+        "TECH_CELESTIAL_NAVIGATION": "Celestial Navigation",
+        "TECH_CURRENCY": "Currency",
+        "TECH_HORSEBACK_RIDING": "Horseback Riding",
+        "TECH_IRON_WORKING": "Iron Working",
+        "TECH_SHIPBUILDING": "Shipbuilding",
+        "TECH_MATHEMATICS": "Mathematics",
+        "TECH_CONSTRUCTION": "Construction",
+        "TECH_ENGINEERING": "Engineering",
+        "TECH_MILITARY_TACTICS": "Military Tactics",
+        "TECH_APPRENTICESHIP": "Apprenticeship",
+        "TECH_MACHINERY": "Machinery",
+        "TECH_EDUCATION": "Education",
+        "TECH_STIRRUPS": "Stirrups",
+        "TECH_MILITARY_ENGINEERING": "Military Engineering",
+        "TECH_CASTLES": "Castles",
+        "TECH_CARTOGRAPHY": "Cartography",
+        "TECH_MASS_PRODUCTION": "Mass Production",
+        "TECH_BANKING": "Banking",
+        "TECH_GUNPOWDER": "Gunpowder",
+        "TECH_PRINTING": "Printing",
+        "TECH_SQUARE_RIGGING": "Square Rigging",
+        "TECH_ASTRONOMY": "Astronomy",
+        "TECH_METAL_CASTING": "Metal Casting",
+        "TECH_SIEGE_TACTICS": "Siege Tactics",
+        "TECH_INDUSTRIALIZATION": "Industrialization",
+        "TECH_SCIENTIFIC_THEORY": "Scientific Theory",
+        "TECH_BALLISTICS": "Ballistics",
+        "TECH_MILITARY_SCIENCE": "Military Science",
+        "TECH_STEAM_POWER": "Steam Power",
+        "TECH_SANITATION": "Sanitation",
+        "TECH_ECONOMICS": "Economics",
+        "TECH_RIFLING": "Rifling",
+        "TECH_FLIGHT": "Flight",
+        "TECH_REPLACEABLE_PARTS": "Replaceable Parts",
+        "TECH_STEEL": "Steel",
+        "TECH_ELECTRICITY": "Electricity",
+        "TECH_RADIO": "Radio",
+        "TECH_CHEMISTRY": "Chemistry",
+        "TECH_COMBUSTION": "Combustion",
+        "TECH_ADVANCED_FLIGHT": "Advanced Flight",
+        "TECH_ROCKETRY": "Rocketry",
+        "TECH_ADVANCED_BALLISTICS": "Advanced Ballistics",
+        "TECH_COMBINED_ARMS": "Combined Arms",
+        "TECH_PLASTICS": "Plastics",
+        "TECH_COMPUTERS": "Computers",
+        "TECH_NUCLEAR_FISSION": "Nuclear Fission",
+        "TECH_SYNTHETIC_MATERIALS": "Synthetic Materials",
+        "TECH_TELECOMMUNICATIONS": "Telecommunications",
+        "TECH_SATELLITES": "Satellites",
+        "TECH_GUIDANCE_SYSTEMS": "Guidance Systems",
+        "TECH_LASERS": "Lasers",
+        "TECH_COMPOSITES": "Composites",
+        "TECH_STEALTH_TECHNOLOGY": "Stealth Technology",
+        "TECH_ROBOTICS": "Robotics",
+        "TECH_NANOTECHNOLOGY": "Nanotechnology",
+        "TECH_NUCLEAR_FUSION": "Nuclear Fusion",
+        "TECH_BUTTRESS": "Buttress",
+        "TECH_REFINING": "Refining",
+        "TECH_SEASTEADS": "Seasteads",
+        "TECH_ADVANCED_AI": "Advanced AI",
+        "TECH_ADVANCED_POWER_CELLS": "Advanced Power Cells",
+        "TECH_CYBERNETICS": "Cybernetics",
+        "TECH_SMART_MATERIALS": "Smart Materials",
+        "TECH_PREDICTIVE_SYSTEMS": "Predictive Systems",
+        "TECH_OFFWORLD_MISSION": "Offworld Mission",
+        "TECH_FUTURE_TECH": "Future Tech",
+        "CIVIC_CODE_OF_LAWS": "Code of Laws",
+        "CIVIC_CRAFTSMANSHIP": "Craftsmanship",
+        "CIVIC_FOREIGN_TRADE": "Foreign Trade",
+        "CIVIC_MILITARY_TRADITION": "Military Tradition",
+        "CIVIC_STATE_WORKFORCE": "State Workforce",
+        "CIVIC_EARLY_EMPIRE": "Early Empire",
+        "CIVIC_MYSTICISM": "Mysticism",
+        "CIVIC_GAMES_RECREATION": "Games Recreation",
+        "CIVIC_POLITICAL_PHILOSOPHY": "Political Philosophy",
+        "CIVIC_DRAMA_POETRY": "Drama and Poetry",
+        "CIVIC_MILITARY_TRAINING": "Military Training",
+        "CIVIC_DEFENSIVE_TACTICS": "Defensive Tactics",
+        "CIVIC_RECORDED_HISTORY": "Recorded History",
+        "CIVIC_THEOLOGY": "Theology",
+        "CIVIC_NAVAL_TRADITION": "Naval Tradition",
+        "CIVIC_FEUDALISM": "Feudalism",
+        "CIVIC_CIVIL_SERVICE": "Civil Service",
+        "CIVIC_MERCENARIES": "Mercenaries",
+        "CIVIC_MEDIEVAL_FAIRES": "Medieval Faires",
+        "CIVIC_GUILDS": "Guilds",
+        "CIVIC_DIVINE_RIGHT": "Divine Right",
+        "CIVIC_EXPLORATION": "Exploration",
+        "CIVIC_HUMANISM": "Humanism",
+        "CIVIC_DIPLOMATIC_SERVICE": "Diplomatic Service",
+        "CIVIC_REFORMED_CHURCH": "Reformed Church",
+        "CIVIC_MERCANTILISM": "Mercantilism",
+        "CIVIC_THE_ENLIGHTENMENT": "The Enlightenment",
+        "CIVIC_COLONIALISM": "Colonialism",
+        "CIVIC_CIVIL_ENGINEERING": "Civil Engineering",
+        "CIVIC_NATIONALISM": "Nationalism",
+        "CIVIC_OPERA_BALLET": "Opera and Ballet",
+        "CIVIC_NATURAL_HISTORY": "Natural History",
+        "CIVIC_SCORCHED_EARTH": "Scorched Earth",
+        "CIVIC_URBANIZATION": "Urbanization",
+        "CIVIC_CONSERVATION": "Conservation",
+        "CIVIC_CAPITALISM": "Capitalism",
+        "CIVIC_NUCLEAR_PROGRAM": "Nuclear Program",
+        "CIVIC_MASS_MEDIA": "Mass Media",
+        "CIVIC_MOBILIZATION": "Mobilization",
+        "CIVIC_IDEOLOGY": "Ideology",
+        "CIVIC_SUFFRAGE": "Suffrage",
+        "CIVIC_TOTALITARIANISM": "Totalitarianism",
+        "CIVIC_CLASS_STRUGGLE": "Class Struggle",
+        "CIVIC_COLD_WAR": "Cold War",
+        "CIVIC_PROFESSIONAL_SPORTS": "Professional Sports",
+        "CIVIC_CULTURAL_HERITAGE": "Cultural Heritage",
+        "CIVIC_RAPID_DEPLOYMENT": "Rapid Deployment",
+        "CIVIC_SPACE_RACE": "Space Race",
+        "CIVIC_GLOBALIZATION": "Globalization",
+        "CIVIC_SOCIAL_MEDIA": "Social Media",
+        "CIVIC_FUTURE_CIVIC": "Future Civic",
+        "CIVIC_ENVIRONMENTALISM": "Environmentalism",
+        "CIVIC_CORPORATE_LIBERTARIANISM": "Corporate Libertarianism",
+        "CIVIC_DIGITAL_DEMOCRACY": "Digital Democracy",
+        "CIVIC_SYNTHETIC_TECHNOCRACY": "Synthetic Technocracy",
+        "CIVIC_NEAR_FUTURE_GOVERNANCE": "Near Future Governance",
+        "CIVIC_GLOBAL_WARMING_MITIGATION": "Global Warming Mitigation",
+        "CIVIC_SMART_POWER_DOCTRINE": "Smart Power Doctrine",
+        "CIVIC_INFORMATION_WARFARE": "Information Warfare",
+        "CIVIC_EXODUS_IMPERATIVE": "Exodus Imperative",
+        "CIVIC_CULTURAL_HEGEMONY": "Cultural Hegemony",
+        "PROGRESSIVE_CAMPUS": "Progressive Campus",
+        "PROGRESSIVE_THEATER": "Progressive Theater",
+        "PROGRESSIVE_HOLY_SITE": "Progressive Holy Site",
+        "PROGRESSIVE_ENCAMPMENT": "Progressive Encampment",
+        "PROGRESSIVE_COMMERCIAL_HUB": "Progressive Commercial Hub",
+        "PROGRESSIVE_HARBOR": "Progressive Harbor",
+        "PROGRESSIVE_INDUSTRIAL_ZONE": "Progressive Industrial Zone",
+        "PROGRESSIVE_PRESERVE": "Progressive Preserve",
+        "PROGRESSIVE_ENTERTAINMENT_COMPLEX": "Progressive Entertainment Complex",
+        "PROGRESSIVE_NEIGHBORHOOD": "Progressive Neighborhood",
+        "PROGRESSIVE_AERODROME": "Progressive Aerodrome",
+        "PROGRESSIVE_DIPLOMATIC_QUARTER": "Progressive Diplomatic Quarter",
+        "PROGRESSIVE_SPACE_PORT": "Progressive Space Port",
+        "PROGRESSIVE_ERA": "Progressive Era",
+        "GOODY_GOLD_SMALL_MODIFIER": "Gold: Small",
+        "GOODY_GOLD_MEDIUM_MODIFIER": "Gold: Medium",
+        "GOODY_GOLD_LARGE_MODIFIER": "Gold: Large",
+        "GOODY_FAITH_SMALL_MODIFIER": "Faith: Small",
+        "GOODY_FAITH_MEDIUM_MODIFIER": "Faith: Medium",
+        "GOODY_FAITH_LARGE_MODIFIER": "Faith: Large",
+        "GOODY_DIPLOMACY_GRANT_FAVOR": "Diplomatic Favor",
+        "GOODY_DIPLOMACY_GRANT_GOVERNOR_TITLE": "Governor Title",
+        "GOODY_DIPLOMACY_GRANT_ENVOY": "Envoy",
+        "GOODY_CULTURE_GRANT_ONE_RELIC": "Relic",
+        "GOODY_MILITARY_GRANT_SCOUT": "Scout",
+        "GOODY_SURVIVORS_ADD_POPULATION": "Additional Population",
+        "GOODY_SURVIVORS_GRANT_BUILDER": "Builder",
+        "GOODY_SURVIVORS_GRANT_TRADER": "Trader",
+        "GOODY_SURVIVORS_GRANT_SETTLER": "Settler"
+      },
+      "world_description": "Civilization VI is a turn-based strategy video game in which one or more players compete alongside computer-controlled opponents to grow their individual civilization from a small tribe to control the entire planet across several periods of development.",
+      "slot_data": {
+        "progression_style": 0,
+        "death_link": 0,
+        "research_cost_multiplier": 100,
+        "death_link_effect": [
+          "Unit Killed"
+        ],
+        "death_link_effect_percent": 20
+      },
+      "web": {
+        "theme": "ocean",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Civilization VI for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "hesto2"
+            ]
+          }
+        ]
+      },
+      "world_directory": "civ_6_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
+      }
+    }
+  },
+  "helpers": {
+    "1": {
+      "has_non_progressive_items": {
+        "params": [
+          "era"
+        ],
+        "body": {
+          "type": "state_method",
+          "method": "has_all",
+          "args": [
+            {
+              "type": "subscript",
+              "value": {
+                "type": "constant",
+                "value": {
+                  "ERA_ANCIENT": [
+                    "Mining",
+                    "Irrigation",
+                    "Sailing",
+                    "Animal Husbandry",
+                    "State Workforce",
+                    "Foreign Trade"
+                  ],
+                  "ERA_CLASSICAL": [
+                    "Shipbuilding",
+                    "Political Philosophy"
+                  ],
+                  "ERA_MEDIEVAL": [
+                    "Divine Right"
+                  ],
+                  "ERA_RENAISSANCE": [
+                    "Exploration",
+                    "Reformed Church",
+                    "Cartography"
+                  ],
+                  "ERA_INDUSTRIAL": [
+                    "Nationalism"
+                  ],
+                  "ERA_MODERN": [
+                    "Refining",
+                    "Suffrage",
+                    "Totalitarianism",
+                    "Class Struggle"
+                  ],
+                  "ERA_ATOMIC": [
+                    "Combined Arms",
+                    "Plastics"
+                  ],
+                  "ERA_INFORMATION": [
+                    "Corporate Libertarianism",
+                    "Digital Democracy",
+                    "Synthetic Technocracy"
+                  ],
+                  "ERA_FUTURE": []
+                }
+              },
+              "index": {
+                "type": "name",
+                "name": "era"
+              }
+            }
+          ]
+        }
+      },
+      "has_progressive_items": {
+        "params": [
+          "era"
+        ],
+        "body": {
+          "type": "state_method",
+          "method": "has_all_counts",
+          "args": [
+            {
+              "type": "subscript",
+              "value": {
+                "type": "constant",
+                "value": {
+                  "ERA_ANCIENT": {
+                    "Progressive Encampment": 1,
+                    "Progressive Holy Site": 1,
+                    "Progressive Campus": 1
+                  },
+                  "ERA_CLASSICAL": {
+                    "Progressive Encampment": 1,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 1,
+                    "Progressive Harbor": 1,
+                    "Progressive Commercial Hub": 1,
+                    "Progressive Diplomatic Quarter": 1,
+                    "Progressive Entertainment Complex": 1,
+                    "Progressive Theater": 1
+                  },
+                  "ERA_MEDIEVAL": {
+                    "Progressive Encampment": 2,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 2,
+                    "Progressive Harbor": 1,
+                    "Progressive Commercial Hub": 1,
+                    "Progressive Diplomatic Quarter": 1,
+                    "Progressive Entertainment Complex": 1,
+                    "Progressive Theater": 1,
+                    "Progressive Industrial Zone": 1
+                  },
+                  "ERA_RENAISSANCE": {
+                    "Progressive Encampment": 2,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 2,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 2,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 1,
+                    "Progressive Theater": 2,
+                    "Progressive Industrial Zone": 1
+                  },
+                  "ERA_INDUSTRIAL": {
+                    "Progressive Encampment": 3,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 2,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 3,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 2,
+                    "Progressive Theater": 2,
+                    "Progressive Industrial Zone": 2
+                  },
+                  "ERA_MODERN": {
+                    "Progressive Encampment": 3,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 3,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 3,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 2,
+                    "Progressive Theater": 3,
+                    "Progressive Industrial Zone": 3,
+                    "Progressive Aerodrome": 1
+                  },
+                  "ERA_ATOMIC": {
+                    "Progressive Encampment": 3,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 3,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 3,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 3,
+                    "Progressive Theater": 3,
+                    "Progressive Industrial Zone": 4,
+                    "Progressive Aerodrome": 2,
+                    "Progressive Space Port": 1
+                  },
+                  "ERA_INFORMATION": {
+                    "Progressive Encampment": 3,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 3,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 3,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 3,
+                    "Progressive Theater": 3,
+                    "Progressive Industrial Zone": 4,
+                    "Progressive Aerodrome": 2,
+                    "Progressive Space Port": 4
+                  },
+                  "ERA_FUTURE": {
+                    "Progressive Encampment": 3,
+                    "Progressive Holy Site": 2,
+                    "Progressive Campus": 3,
+                    "Progressive Harbor": 2,
+                    "Progressive Commercial Hub": 3,
+                    "Progressive Diplomatic Quarter": 2,
+                    "Progressive Entertainment Complex": 3,
+                    "Progressive Theater": 3,
+                    "Progressive Industrial Zone": 4,
+                    "Progressive Aerodrome": 2,
+                    "Progressive Space Port": 4
+                  }
+                }
+              },
+              "index": {
+                "type": "name",
+                "name": "era"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "is_canonical": true
+}

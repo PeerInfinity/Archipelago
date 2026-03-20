@@ -1,5 +1,5 @@
 // import { getInitApi } from './index.js'; // REMOVED Import
-import eventBus from '../../app/core/eventBus.js'; // Import eventBus
+import { getModuleEventBus } from './index.js';
 import { centralRegistry } from '../../app/core/centralRegistry.js'; // Corrected Import
 import commonUI from '../commonUI/index.js';
 
@@ -151,21 +151,20 @@ class EventsUI {
     this.unsubscribeModuleState = null;
     this.moduleId = 'events';
     this.initApi = null; // To store initApi when received
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     this._createUI();
 
     // Defer loading data until the app signals it's ready
-    eventBus.subscribe(
+    this.eventBus.subscribe(
       'app:readyForUiDataLoad',
-      this.handleAppReady.bind(this),
-      this.moduleId
-    , 'events');
+      this.handleAppReady.bind(this)
+    );
 
-    this.unsubscribeModuleState = eventBus.subscribe(
+    this.unsubscribeModuleState = this.eventBus.subscribe(
       'module:stateChanged',
-      this.moduleStateChangeHandler,
-      this.moduleId
-    , 'events');
+      this.moduleStateChangeHandler
+    );
 
     this.container.on('destroy', () => {
       this.destroy();
@@ -370,11 +369,11 @@ class EventsUI {
       const moduleStates = await moduleManager.getAllModuleStates();
 
       // Get all publishers/subscribers from eventBus directly (includes iframes)
-      const allEventBusPublishers = eventBus.getAllPublishers();
-      const allEventBusSubscribers = eventBus.getAllSubscribers();
+      const allEventBusPublishers = this.eventBus.getAllPublishers();
+      const allEventBusSubscribers = this.eventBus.getAllSubscribers();
 
       // Get counter data from both EventBus and EventDispatcher
-      const eventBusPublishCounts = eventBus.getAllPublishCounts();
+      const eventBusPublishCounts = this.eventBus.getAllPublishCounts();
       const eventDispatcherPublishCounts = window.eventDispatcher ? window.eventDispatcher.getAllPublishCounts() : {};
       const eventDispatcherPropagationCounts = window.eventDispatcher ? window.eventDispatcher.getAllPropagationCounts() : {};
 
@@ -1320,7 +1319,7 @@ class EventsUI {
   _updateCounterDisplay() {
     try {
       // Get fresh counter data
-      const eventBusPublishCounts = eventBus.getAllPublishCounts();
+      const eventBusPublishCounts = this.eventBus.getAllPublishCounts();
       const eventDispatcherPublishCounts = window.eventDispatcher ? window.eventDispatcher.getAllPublishCounts() : {};
       const eventDispatcherPropagationCounts = window.eventDispatcher ? window.eventDispatcher.getAllPropagationCounts() : {};
 
@@ -1390,10 +1389,9 @@ class EventsUI {
   destroy() {
     if (this.unsubscribeModuleState) {
       // Use the stored handler reference for unsubscribe
-      eventBus.unsubscribe(
+      this.eventBus.unsubscribe(
         'module:stateChanged',
-        this.moduleStateChangeHandler,
-        this.moduleId
+        this.moduleStateChangeHandler
       );
       this.unsubscribeModuleState = null;
       log('info', '[EventsUI] Unsubscribed from module:stateChanged.');

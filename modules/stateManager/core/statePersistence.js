@@ -72,6 +72,7 @@
 
 import { initializeGameLogic, getGameLogic } from '../../shared/gameLogic/gameLogicRegistry.js';
 import { DEFAULT_PLAYER_ID } from '../../shared/playerIdUtils.js';
+import { buildSubstitutionMaps, getDisplayName } from '../../shared/nameSubstitutions.js';
 
 // Module-level helper for logging
 function log(level, message, ...data) {
@@ -192,7 +193,7 @@ export function getSnapshot(sm) {
     // REFACTOR: Add missing properties for canonical state
     debugMode: sm.debugMode || false,
     autoCollectEventsEnabled: sm.autoCollectEventsEnabled !== false, // Default true
-    startRegions: sm.startRegions || ['Menu'],
+    startRegions: sm.startRegions || [],
     // Progressive items tracking (used by games like DLCQuest for coin accumulation)
     prog_items: sm.prog_items || {},
 
@@ -260,9 +261,10 @@ export function _sendSnapshotUpdate(sm) {
  * Used for internal rule evaluation (like isLocationAccessible)
  *
  * @param {Object} sm - StateManager instance
+ * @param {Object} contextVariables - Optional context variables (e.g., { location: currentLocation })
  * @returns {Object} Snapshot interface with helper methods
  */
-export function _createSelfSnapshotInterface(sm) {
+export function _createSelfSnapshotInterface(sm, contextVariables = {}) {
   const anInterface = {
     _isSnapshotInterface: true,
     hasItem: (itemName) => {
@@ -275,11 +277,14 @@ export function _createSelfSnapshotInterface(sm) {
             inventory: sm.inventory,
             flags: sm.gameStateModule?.flags || [],
             events: sm.gameStateModule?.events || [],
-            player: { id: sm.playerId, slot: sm.playerId }
+            player: { id: sm.playerId, slot: sm.playerId },
+            prog_items: sm.prog_items  // Include prog_items for state counter games
           };
           // Include all game-specific data needed by helpers (e.g., Pokemon local_poke_data)
           const staticData = {
             progressionMapping: sm.progressionMapping,
+            // Also include snake_case with player key for generic helpers
+            progression_mapping: { [sm.playerId]: sm.progressionMapping },
             items: sm.itemData,
             game_info: sm.gameInfo,
             settings: sm.settings,
@@ -303,16 +308,20 @@ export function _createSelfSnapshotInterface(sm) {
             inventory: sm.inventory,
             flags: sm.gameStateModule?.flags || [],
             events: sm.gameStateModule?.events || [],
-            player: { id: sm.playerId, slot: sm.playerId }
+            player: { id: sm.playerId, slot: sm.playerId },
+            prog_items: sm.prog_items  // Include prog_items for state counter games
           };
           // Include all game-specific data needed by helpers (e.g., Pokemon local_poke_data)
           const staticData = {
             progressionMapping: sm.progressionMapping,
+            // Also include snake_case with player key for generic helpers
+            progression_mapping: { [sm.playerId]: sm.progressionMapping },
             items: sm.itemData,
             game_info: sm.gameInfo,
             settings: sm.settings,
             playerId: sm.playerId
           };
+
           return sm.helperFunctions.count(snapshot, staticData, itemName);
         } catch (e) {
           sm.logger?.warn?.('StatePersistence', `Error using game-specific count helper for ${itemName}:`, e);
@@ -341,8 +350,61 @@ export function _createSelfSnapshotInterface(sm) {
         : (sm.state &&
           typeof sm.state.hasFlag === 'function' &&
           sm.state.hasFlag(flagName))),
-    getSetting: (settingName) =>
-      sm.settings ? sm.settings[settingName] : undefined,
+    getSetting: (settingName) => {
+      const playerIdKey = String(sm.playerId);
+      let rawValue;
+
+      // Check world data (new structure) or settings (legacy) if available
+      // sm.world and sm.settings now point to the same object for backwards compatibility
+      const worldData = sm.world || sm.settings;
+      if (worldData) {
+        // Check if world data is keyed by player ID (multiworld case)
+        // JSON keys are always strings, so convert playerId to string for lookup
+        let worldToUse = worldData;
+        if (worldData[playerIdKey] && typeof worldData[playerIdKey] === 'object') {
+          worldToUse = worldData[playerIdKey];
+        }
+        // First check direct lookup at top level (includes runtime attributes in new structure)
+        rawValue = worldToUse[settingName];
+        // If not found at top level, check inside 'options' object
+        // Many settings like dk_coins_for_gyrocopter are nested in options
+        if (rawValue === undefined && worldToUse?.options) {
+          rawValue = worldToUse.options[settingName];
+        }
+      }
+
+      // Legacy fallback: check world_attributes for computed runtime values
+      // In new structure, these are merged into 'world' directly, but check here for backwards compatibility
+      if (rawValue === undefined && sm.rules?.world_attributes) {
+        let worldAttrsToUse = sm.rules.world_attributes;
+        // Check if world_attributes is keyed by player ID
+        if (worldAttrsToUse[playerIdKey] && typeof worldAttrsToUse[playerIdKey] === 'object') {
+          worldAttrsToUse = worldAttrsToUse[playerIdKey];
+        }
+        rawValue = worldAttrsToUse?.[settingName];
+      }
+
+      // Special case: item_name_groups needs to be constructed dynamically
+      // This is needed for world_attribute rules that reference item_name_groups
+      // (used by helpers like has_relic_combo in AHIT)
+      if (rawValue === undefined && settingName === 'item_name_groups') {
+        const gameInfo = sm.gameInfo?.[playerIdKey] || sm.gameInfo || {};
+        rawValue = {
+          ...(sm.groupData || {}),
+          ...(gameInfo.relic_groups || {})
+        };
+      }
+
+      // Normalize "off"/"none" type strings to falsy values
+      // Choice options in Python use 0 for "off"/"none" which get exported as strings
+      if (typeof rawValue === 'string') {
+        const lowerValue = rawValue.toLowerCase();
+        if (lowerValue === 'off' || lowerValue === 'none' || lowerValue === 'false' || lowerValue === '') {
+          return 0;
+        }
+      }
+      return rawValue;
+    },
     getAllSettings: () => sm.settings,
     isRegionReachable: (regionName) => sm.isRegionReachable(regionName),
     isRegionAccessible: (regionName) => sm.isRegionReachable(regionName), // Alias for isRegionReachable
@@ -368,10 +430,8 @@ export function _createSelfSnapshotInterface(sm) {
       if (!location.access_rule) return true;
 
       // Evaluate the access rule
-      // Create a context with the location set
-      const locationContext = sm._createSelfSnapshotInterface();
-      locationContext.location = location;
-      locationContext.currentLocation = location;
+      // Create a context with the location set via contextVariables
+      const locationContext = sm._createSelfSnapshotInterface({ location, currentLocation: location });
 
       return sm.evaluateRuleFromEngine(location.access_rule, locationContext);
     },
@@ -390,6 +450,11 @@ export function _createSelfSnapshotInterface(sm) {
     getPlayerSlot: () => sm.playerId, // Deprecated: use getPlayerId
     helpers: sm.helpers,
     resolveName: (name) => {
+      // Check context variables first (e.g., 'location' when evaluating location access rules)
+      if (contextVariables && Object.prototype.hasOwnProperty.call(contextVariables, name)) {
+        return contextVariables[name];
+      }
+
       // Standard constants
       if (name === 'True') return true;
       if (name === 'False') return false;
@@ -400,16 +465,81 @@ export function _createSelfSnapshotInterface(sm) {
 
       // World object (commonly used in helper functions)
       if (name === 'world') {
-        return {
-          player: sm.playerId,
-          options: sm.settings?.[sm.playerId] || sm.settings || {}
+        // sm.world contains world data (game, options, runtime attributes)
+        // sm.settings is an alias for backwards compatibility
+        // The structure has game options nested under world.options
+        const worldData = sm.world || sm.settings;
+        let worldToUse = worldData;
+        // Check if world is keyed by player ID (multiworld case)
+        if (worldData?.[sm.playerId] && typeof worldData[sm.playerId] === 'object') {
+          worldToUse = worldData[sm.playerId];
+        }
+        const gameOptions = worldToUse?.options || worldToUse || {};
+
+        // Get game-specific info from game_info (e.g., AHIT hat_yarn_costs)
+        const playerIdKey = String(sm.playerId);
+        const gameInfo = sm.gameInfo?.[playerIdKey] || sm.gameInfo || {};
+
+        // Build the world object with game-specific properties
+        // item_name_groups comes from multiple sources:
+        // - sm.itemGroups for standard item groups
+        // - gameInfo.relic_groups for AHIT relic combos
+        const itemNameGroups = {
+          ...(sm.itemGroups?.[playerIdKey] || sm.itemGroups || {}),
+          ...(gameInfo.relic_groups || {})
         };
+
+        const worldObj = {
+          player: sm.playerId,
+          options: gameOptions,
+          // Include item_name_groups for helpers like has_relic_combo
+          item_name_groups: itemNameGroups
+        };
+
+        // In new structure, world attributes are directly on worldToUse
+        // Copy all attributes except 'options' and 'option_definitions' which are handled separately
+        if (worldToUse) {
+          for (const [key, value] of Object.entries(worldToUse)) {
+            if (key !== 'options' && key !== 'option_definitions' && key !== 'game' && !(key in worldObj)) {
+              worldObj[key] = value;
+            }
+          }
+        }
+
+        // Legacy fallback: check world_attributes for older exports
+        if (sm.rules?.world_attributes) {
+          let worldAttrs = sm.rules.world_attributes;
+          // Check if world_attributes is keyed by player ID
+          if (worldAttrs[playerIdKey] && typeof worldAttrs[playerIdKey] === 'object') {
+            worldAttrs = worldAttrs[playerIdKey];
+          }
+          Object.assign(worldObj, worldAttrs);
+        }
+
+        // Merge in game-specific properties from game_info
+        // For AHIT: hat_yarn_costs, hat_craft_order come from hat_info
+        if (gameInfo.hat_info) {
+          worldObj.hat_yarn_costs = gameInfo.hat_info.hat_yarn_costs || {};
+          worldObj.hat_craft_order = gameInfo.hat_info.hat_craft_order || [];
+        }
+
+        // For other game-specific properties, spread them onto world
+        if (gameInfo.variables) {
+          Object.assign(worldObj, gameInfo.variables);
+        }
+
+        return worldObj;
       }
 
       // Logic object (game-specific helper functions)
       if (name === 'logic') {
         // Get game-specific helpers from the game logic module
-        const gameName = sm.rules?.game_name;
+        // For multiworld, use the player-specific game from world data instead of the top-level game_name
+        const worldData = sm.world || sm.settings;
+        let gameName = sm.rules?.game_name;
+        if (gameName === 'Multiworld' && worldData?.game) {
+          gameName = worldData.game;
+        }
         if (gameName) {
           const gameLogic = getGameLogic(gameName);
           if (gameLogic && gameLogic.helperFunctions) {
@@ -531,27 +661,52 @@ export function _createSelfSnapshotInterface(sm) {
       // These are stored in game_info[playerId].variables in the rules.json
       const staticData = getStaticGameData(sm);
       const currentPlayerId = sm.playerId || DEFAULT_PLAYER_ID;
-      if (staticData?.game_info?.[currentPlayerId]?.variables &&
-          staticData.game_info[currentPlayerId].variables[name]) {
-        return staticData.game_info[currentPlayerId].variables[name];
+      // Normalize to string for JSON object key lookup (JSON keys are always strings)
+      const currentPlayerIdStr = String(currentPlayerId);
+      if (staticData?.game_info?.[currentPlayerIdStr]?.variables &&
+          staticData.game_info[currentPlayerIdStr].variables[name]) {
+        return staticData.game_info[currentPlayerIdStr].variables[name];
       }
 
       // Check if there's a helper function that computes this value
       // SC2 uses this for power_rating which is computed from inventory state
+      // IMPORTANT: Only call helpers directly if they take no extra args (beyond snapshot, staticData)
+      // Helpers that require additional arguments (like graffiti_spots with movestyle, limit, etc.)
+      // must be called via executeHelper with their args properly evaluated
+      // Also skip helpers that have optional parameters (function.length doesn't count defaults)
       const gameName = sm.rules?.game_name;
       if (gameName) {
         const gameLogic = getGameLogic(gameName);
         const computedHelpers = gameLogic?.helperFunctions;
+        // Get the set of helpers with optional args that should NOT be called directly
+        const helpersWithOptionalArgs = gameLogic?.helpersWithOptionalArgs || new Set();
         if (computedHelpers) {
           // Try exact match first (e.g., 'power_rating' -> power_rating helper)
-          if (typeof computedHelpers[name] === 'function') {
-            // Create a lightweight snapshot for the helper
+          // Only call directly if:
+          // 1. The function takes at most 2 params (snapshot, staticData)
+          // 2. The helper is NOT in the helpersWithOptionalArgs set (has optional params)
+          if (typeof computedHelpers[name] === 'function'
+              && computedHelpers[name].length <= 2
+              && !helpersWithOptionalArgs.has(name)) {
+            // Create a snapshot for the helper that includes regionReachability
+            // Some helpers (like lingo_can_use_level_2_location) need to check which regions are reachable
+            const regionReachability = {};
+            if (sm.regions) {
+              for (const regionName of sm.regions.keys()) {
+                if (sm.knownReachableRegions.has(regionName)) {
+                  regionReachability[regionName] = 'reachable';
+                } else {
+                  regionReachability[regionName] = 'unreachable';
+                }
+              }
+            }
             const snapshot = {
               inventory: sm.inventory,
               flags: sm.gameStateModule?.flags || [],
               events: sm.gameStateModule?.events || [],
               player: { id: sm.playerId, slot: sm.playerId },
-              checkedLocations: Array.from(sm.checkedLocations || [])
+              checkedLocations: Array.from(sm.checkedLocations || []),
+              regionReachability: regionReachability
             };
             const staticData = getStaticGameData(sm);
             return computedHelpers[name](snapshot, staticData);
@@ -560,13 +715,27 @@ export function _createSelfSnapshotInterface(sm) {
           const prefixes = gameLogic.helperPrefixes || [];
           for (const prefix of prefixes) {
             const prefixedName = prefix + name;
-            if (typeof computedHelpers[prefixedName] === 'function') {
+            if (typeof computedHelpers[prefixedName] === 'function'
+                && computedHelpers[prefixedName].length <= 2
+                && !helpersWithOptionalArgs.has(prefixedName)) {
+              // Create a snapshot for the helper that includes regionReachability
+              const regionReachability = {};
+              if (sm.regions) {
+                for (const regionName of sm.regions.keys()) {
+                  if (sm.knownReachableRegions.has(regionName)) {
+                    regionReachability[regionName] = 'reachable';
+                  } else {
+                    regionReachability[regionName] = 'unreachable';
+                  }
+                }
+              }
               const snapshot = {
                 inventory: sm.inventory,
                 flags: sm.gameStateModule?.flags || [],
                 events: sm.gameStateModule?.events || [],
                 player: { id: sm.playerId, slot: sm.playerId },
-                checkedLocations: Array.from(sm.checkedLocations || [])
+                checkedLocations: Array.from(sm.checkedLocations || []),
+                regionReachability: regionReachability
               };
               const staticData = getStaticGameData(sm);
               return computedHelpers[prefixedName](snapshot, staticData);
@@ -605,6 +774,16 @@ export function _createSelfSnapshotInterface(sm) {
       return getStaticGameData(sm);
     },
     getStaticData: () => getStaticGameData(sm),
+    // Get item placed at a location (for placement_lookup rules)
+    getLocationItem: (locationName) => {
+      // Get location from StateManager's locations Map
+      const location = sm.locations.get(locationName);
+      if (!location || !location.item) return undefined;
+      return {
+        name: location.item.name,
+        player: location.item.player || sm.playerId
+      };
+    },
     // Resolve attributes with special handling for parent_region
     resolveAttribute: (baseObject, attributeName) => {
       if (
@@ -640,6 +819,59 @@ export function _createSelfSnapshotInterface(sm) {
         return undefined;
       }
 
+      // Handle region.dungeon -> get actual dungeon object (not just the name)
+      // Note: The rule engine tries direct property access first, which returns the string dungeon name
+      // We need to intercept this to return the actual dungeon object
+      if (attributeName === 'dungeon' && baseObject && typeof baseObject.dungeon === 'string') {
+        const dungeonName = baseObject.dungeon;
+        // Look up the actual dungeon object from sm.dungeons
+        if (sm.dungeons && sm.dungeons instanceof Map && sm.dungeons.has(dungeonName)) {
+          return sm.dungeons.get(dungeonName);
+        }
+        // Also try plain object access if not a Map
+        if (sm.dungeons && !(sm.dungeons instanceof Map) && sm.dungeons[dungeonName]) {
+          return sm.dungeons[dungeonName];
+        }
+        return undefined;
+      }
+
+      // Handle dungeonString.boss -> treat string as dungeon name and look up boss
+      // This handles the case where region.dungeon returns a string instead of a dungeon object
+      if (attributeName === 'boss' && typeof baseObject === 'string') {
+        // baseObject is a dungeon name string, look up the dungeon first
+        let dungeon = null;
+        if (sm.dungeons && sm.dungeons instanceof Map && sm.dungeons.has(baseObject)) {
+          dungeon = sm.dungeons.get(baseObject);
+        } else if (sm.dungeons && !(sm.dungeons instanceof Map) && sm.dungeons[baseObject]) {
+          dungeon = sm.dungeons[baseObject];
+        }
+        if (dungeon && dungeon.bosses) {
+          // Return the main boss (keyed by "None" or first available)
+          if (dungeon.bosses['None']) {
+            return dungeon.bosses['None'];
+          }
+          const bossKeys = Object.keys(dungeon.bosses);
+          if (bossKeys.length > 0) {
+            return dungeon.bosses[bossKeys[0]];
+          }
+        }
+        return undefined;
+      }
+
+      // Handle dungeon.boss -> get the main boss object (when dungeon is already an object)
+      if (attributeName === 'boss' && baseObject && typeof baseObject === 'object' && baseObject.bosses) {
+        // Return the "None" keyed boss (main boss) or the first boss if "None" doesn't exist
+        if (baseObject.bosses['None']) {
+          return baseObject.bosses['None'];
+        }
+        // Fallback: return the first boss
+        const bossKeys = Object.keys(baseObject.bosses);
+        if (bossKeys.length > 0) {
+          return baseObject.bosses[bossKeys[0]];
+        }
+        return undefined;
+      }
+
       return undefined;
     },
   };
@@ -647,7 +879,15 @@ export function _createSelfSnapshotInterface(sm) {
   // NOTE: We do NOT expose helpers as direct properties here to avoid recursion issues.
   // Helpers should be called through executeHelper() which properly manages state.
 
-  return anInterface;
+  // Spread contextVariables onto the interface so properties like currentLocation
+  // are directly accessible (needed by ruleEngine's get_location handler)
+  // Also include prog_items and playerId for prog_item_count rule evaluation
+  return {
+    ...anInterface,
+    ...contextVariables,
+    prog_items: sm.prog_items || {},
+    playerId: sm.playerId
+  };
 }
 
 /**
@@ -689,6 +929,46 @@ export function getStaticGameData(sm) {
     }
   }
 
+  // Build name substitution maps and enrich objects with displayName
+  const nameSubstitutions = sm.rules?.world?.[sm.playerId]?.name_substitutions;
+  const subMaps = buildSubstitutionMaps(nameSubstitutions);
+
+  // Add .displayName to each location object
+  if (sm.locations) {
+    for (const loc of sm.locations.values()) {
+      loc.displayName = getDisplayName(subMaps.locations, loc.name);
+    }
+  }
+
+  // Add .displayName to each item object
+  if (sm.itemData) {
+    for (const [itemName, itemObj] of Object.entries(sm.itemData)) {
+      if (itemObj && typeof itemObj === 'object') {
+        itemObj.displayName = getDisplayName(subMaps.items, itemName);
+      }
+    }
+  }
+
+  // Add .displayName to each region object and its embedded location objects
+  if (sm.regions) {
+    for (const region of sm.regions.values()) {
+      region.displayName = getDisplayName(subMaps.regions, region.name);
+      // Region.locations is a separate array of location objects (not the same refs as sm.locations)
+      if (region.locations) {
+        for (const loc of region.locations) {
+          loc.displayName = getDisplayName(subMaps.locations, loc.name);
+        }
+      }
+    }
+  }
+
+  // Add .displayName to locationItemsMap entries
+  for (const [locName, itemInfo] of locationItemsMap) {
+    if (itemInfo) {
+      itemInfo.displayName = getDisplayName(subMaps.items, itemInfo.name);
+    }
+  }
+
   // Phase 3.2: Return Maps directly instead of converting to arrays
   // Helper functions (like location_item_name) are already designed to handle Maps
   return {
@@ -712,7 +992,11 @@ export function getStaticGameData(sm) {
     mode: sm.mode,
     // Game-specific information
     game_info: sm.gameInfo,
-    settings: sm.rules?.settings,
+    // World data - player options and runtime attributes keyed by player ID
+    world: sm.rules?.world,  // Full world object (game, options, runtime attributes) keyed by player ID
+    exporter: sm.rules?.exporter,  // Exporter-specific settings (keyed by player ID for multiworld)
+    world_attributes: sm.rules?.world_attributes,  // Legacy: now merged into world
+    helpers: sm.rules?.helpers,  // Helper function definitions (keyed by player ID for multiworld)
     // Starting items (precollected items)
     starting_items: sm.rules?.starting_items,
     // ID mappings
@@ -725,7 +1009,9 @@ export function getStaticGameData(sm) {
     // Event locations
     eventLocations: Object.fromEntries(sm.eventLocations || new Map()),
     // Location items mapping (Phase 3.2: Keep as Map)
-    locationItems: locationItemsMap
+    locationItems: locationItemsMap,
+    // Name substitution maps (items, locations, regions)
+    nameSubstitutionMaps: subMaps
   };
 }
 
@@ -787,6 +1073,25 @@ export function applyRuntimeState(sm, payload) {
     );
     // In canonical format, itemData and groupData are accessed from StateManager instance directly
     // No need to assign them to inventory object
+
+    // Re-add starting items (precollected items like keycards in SMZ3 when Keysanity is off)
+    // These should always be present after a reset, just like at initial load
+    const startingItems = sm.rules?.starting_items?.[sm.playerId] || [];
+    if (startingItems.length > 0) {
+      sm._logDebug(
+        `[StateManager applyRuntimeState] Re-adding ${startingItems.length} starting items for player ${sm.playerId}`
+      );
+      startingItems.forEach((itemName) => {
+        if (sm.itemData?.[itemName]) {
+          sm._addItemToInventory(itemName, 1);
+        } else {
+          log(
+            'warn',
+            `[StateManager applyRuntimeState] Starting item '${itemName}' not found in itemData`
+          );
+        }
+      });
+    }
   } else {
     sm._logDebug(
       '[StateManager applyRuntimeState] Preserving existing inventory (incremental update).'
@@ -974,6 +1279,19 @@ export function clearState(sm, options = { recomputeAndSendUpdate: true }) {
           }
         }
       }
+    }
+
+    // Re-initialize prog_items from prog_items_init (e.g., for precollected coins)
+    const gameInfo = sm.gameInfo?.[sm.playerId];
+    if (gameInfo?.prog_items_init && sm.prog_items) {
+      const playerId = sm.playerId;
+      if (!sm.prog_items[playerId]) {
+        sm.prog_items[playerId] = {};
+      }
+      for (const [accumulatorName, initialValue] of Object.entries(gameInfo.prog_items_init)) {
+        sm.prog_items[playerId][accumulatorName] = initialValue;
+      }
+      sm._logDebug(`[clearState] Re-initialized prog_items from prog_items_init`);
     }
   } else if (!sm.inventory) {
     // If inventory doesn't exist, create it

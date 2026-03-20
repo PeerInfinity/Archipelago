@@ -3,13 +3,12 @@
 import ConsoleUI from './consoleUI.js';
 import { stateManagerProxySingleton as stateManager } from '../../stateManager/index.js';
 import messageHandler from '../core/messageHandler.js';
-import eventBus from '../../../app/core/eventBus.js';
 import connection from '../core/connection.js';
 import {
   setMainContentUIInstance,
   getClientModuleDispatcher,
   getClientModuleEventBus,
-} from '../index.js'; // ADDED getClientModuleDispatcher
+} from '../index.js';
 import { centralRegistry } from '../../../app/core/centralRegistry.js'; // RE-ADD import
 
 
@@ -24,7 +23,7 @@ function log(level, message, ...data) {
 }
 
 // const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI'; // May not be needed, or keep for logging
-const CLIENT_MODULE_ID = 'Client'; // This module's ID for logging or other purposes
+const CLIENT_MODULE_ID = 'client'; // This module's ID for logging or other purposes
 
 class MainContentUI {
   constructor(container, componentState) {
@@ -52,25 +51,25 @@ class MainContentUI {
     this.connectButton = null;
     this.serverAddressInput = null;
 
-    this.eventBus = eventBus;
+    Object.defineProperty(this, 'eventBus', { get: () => getClientModuleEventBus(), configurable: true });
     this.connection = connection;
 
     this.stateManager = stateManager;
     this.messageHandler = messageHandler;
 
-    // Subscribe to connection events using the imported eventBus singleton
+    // Subscribe to connection events using the scoped eventBus
     this.eventBus.subscribe('connection:open', () => {
       this.updateConnectionStatus(true);
-    }, 'client');
+    });
     this.eventBus.subscribe('connection:close', () => {
       this.updateConnectionStatus(false);
-    }, 'client');
+    });
     this.eventBus.subscribe('connection:error', () => {
       this.updateConnectionStatus(false);
-    }, 'client');
+    });
     this.eventBus.subscribe('connection:reconnecting', () => {
       this.updateConnectionStatus('connecting');
-    }, 'client');
+    });
 
     // ADDED: Subscribe to the game:connected event to show the final success message
     this.eventBus.subscribe('game:connected', (data) => {
@@ -91,7 +90,7 @@ class MainContentUI {
         `${checked} locations checked, ${total - checked} remaining.`,
         'info'
       );
-    }, 'client');
+    });
 
     // <<< ADDED: Subscribe to console print requests >>>
     this.eventBus.subscribe('ui:printToConsole', (payload) => {
@@ -108,26 +107,26 @@ class MainContentUI {
           this.appendConsoleDownloadLink(payload.downloadUrl, payload.downloadFileName);
         }
       }
-    }, 'client');
+    });
 
     // Subscribe to formatted console messages (PrintJSON)
     this.eventBus.subscribe('ui:printFormattedToConsole', (payload) => {
       if (payload && payload.messageParts) {
         this.appendFormattedMessage(payload.messageParts, payload.type || 'info');
       }
-    }, 'client');
+    });
     // <<< END ADDED >>>
 
     // Defer full element initialization and event listener setup
     const readyHandler = (eventPayload) => {
-      log('info', 
+      log('info',
         '[MainContentUI] Received app:readyForUiDataLoad. Initializing elements.'
       );
       // Pass the GoldenLayout container's DOM element to initializeElements
       this.initializeElements(this.container.element);
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'client');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -312,8 +311,17 @@ class MainContentUI {
     log('info', '[MainContentUI] Initializing console');
 
     this.appendConsoleMessage(
-      'Console initialized. Type "help" for local commands, or "!help" for server commands.',
-      'system'
+      'Console initialized. Type "help" for local commands, or "!help" for server commands.'
+    );
+    const isStable = window.location.pathname.startsWith('/Archipelago/');
+    const overviewUrl = isStable
+      ? 'https://github.com/PeerInfinity/Archipelago/blob/JSONExport/docs/json/user/overview.md'
+      : 'https://github.com/PeerInfinity/Archipelago-CC/blob/main/docs/json/user/overview.md';
+    this.appendConsoleLink(
+      'New here? See the ',
+      'Overview',
+      overviewUrl,
+      ' for an introduction to this project.'
     );
   }
 
@@ -359,6 +367,38 @@ class MainContentUI {
     });
 
     // Scroll to bottom
+    this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
+  }
+
+  /**
+   * Appends a system message containing a clickable link to the console
+   * @param {string} before - Text before the link
+   * @param {string} linkText - The clickable link text
+   * @param {string} url - The URL to link to
+   * @param {string} [after=''] - Text after the link
+   */
+  appendConsoleLink(before, linkText, url, after = '') {
+    if (!this.consoleHistoryElement) return;
+
+    const messageElement = document.createElement('div');
+    messageElement.className = 'console-message console-message-info';
+    messageElement.style.color = '#ced4da';
+
+    messageElement.appendChild(document.createTextNode(before));
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = linkText;
+    link.style.color = '#4dabf7';
+    link.style.textDecoration = 'underline';
+    link.style.cursor = 'pointer';
+    messageElement.appendChild(link);
+
+    messageElement.appendChild(document.createTextNode(after));
+
+    this.consoleHistoryElement.appendChild(messageElement);
     this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
   }
 
@@ -1042,19 +1082,6 @@ class MainContentUI {
   dispose() {
     log('info', '[MainContentUI] Disposing...');
     setMainContentUIInstance(null); // Clear instance on dispose
-
-    // ADDED: Notify that this panel was manually closed
-    const bus = getClientModuleEventBus();
-    if (bus && typeof bus.publish === 'function') {
-      log('info', 
-        '[MainContentUI] Panel disposed, publishing ui:panelManuallyClosed.'
-      );
-      bus.publish('ui:panelManuallyClosed', { moduleId: CLIENT_MODULE_ID });
-    } else {
-      log('warn', 
-        '[MainContentUI] Could not get eventBus or publish function to send ui:panelManuallyClosed.'
-      );
-    }
 
     // Unsubscribe from eventBus events to prevent memory leaks
     // (Assuming eventBus.unsubscribe requires the original handler reference,

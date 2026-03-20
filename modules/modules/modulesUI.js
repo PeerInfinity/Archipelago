@@ -1,6 +1,6 @@
 import { centralRegistry } from '../../app/core/centralRegistry.js';
-import eventBus from '../../app/core/eventBus.js';
-import { getInitializationApi } from './index.js';
+import { getInitializationApi, getModuleEventBus } from './index.js';
+import { debounce } from '../commonUI/index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -74,6 +74,26 @@ const CSS = `
 .module-controls button:hover:not(:disabled) {
     background-color: #777;
 }
+.module-badge {
+    font-size: 0.7em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.module-badge-service {
+    background-color: #2e2e2e;
+    color: #777;
+    border: 1px solid #4a4a4a;
+}
+.modules-search-controls {
+    border-bottom: 1px solid #666;
+    flex-shrink: 0;
+    padding-bottom: 0.5rem;
+}
 `;
 
 export class ModulesPanel {
@@ -91,6 +111,7 @@ export class ModulesPanel {
     this.moduleFailHandler = this._handleModuleLoadFailed.bind(this);
     this.moduleId = 'modules'; // Assume module ID is known or passed differently if needed
     this.initApi = getInitializationApi(); // Get the API object
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     // GoldenLayout specifics
     // this.container.setTitle('Modules'); // Title is usually set by GL config or PanelManager
@@ -132,7 +153,24 @@ export class ModulesPanel {
     // Create container for buttons
     this.buttonContainer = document.createElement('div');
     this.buttonContainer.className = 'modules-panel-buttons';
+    this.buttonContainer.style.paddingBottom = '0.5rem';
     this.rootElement.appendChild(this.buttonContainer);
+
+    // Create search controls
+    const searchControls = document.createElement('div');
+    searchControls.className = 'control-group modules-search-controls';
+    const searchInput = document.createElement('input');
+    searchInput.type = 'search';
+    searchInput.id = 'module-search';
+    searchInput.placeholder = 'Search modules...';
+    searchInput.style.width = '100%';
+    searchInput.style.boxSizing = 'border-box';
+    searchInput.addEventListener(
+      'input',
+      debounce(() => this._renderModules(), 250)
+    );
+    searchControls.appendChild(searchInput);
+    this.rootElement.appendChild(searchControls);
 
     // Create container for the module list
     this.moduleListContainer = document.createElement('div');
@@ -147,10 +185,10 @@ export class ModulesPanel {
 
     // Listen for app ready event before fetching data
     // Use the bound named handler
-    this.appReadyListener = eventBus.subscribe(
+    this.appReadyListener = this.eventBus.subscribe(
       'app:readyForUiDataLoad', // MODIFIED: Listen to app:ready
       this.appReadyHandler
-    , 'modules');
+    );
     // NOW register the subscription with the registry
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
@@ -158,19 +196,19 @@ export class ModulesPanel {
     );
 
     // Subscribe to external events using bound handlers
-    eventBus.subscribe('module:stateChanged', this.moduleStateHandler, 'modules');
+    this.eventBus.subscribe('module:stateChanged', this.moduleStateHandler);
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
       'module:stateChanged'
     );
 
-    // eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this), 'modules'); // Keep commented for now
-    eventBus.subscribe('module:loaded', this.moduleLoadHandler, 'modules'); // Listen for newly loaded modules
+    // this.eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this)); // Keep commented for now
+    this.eventBus.subscribe('module:loaded', this.moduleLoadHandler); // Listen for newly loaded modules
     // No need to register 'module:loaded' or 'failed' unless we add UI toggles for them
-    eventBus.subscribe(
+    this.eventBus.subscribe(
       'module:loadFailed',
       this.moduleFailHandler // Listen for load failures
-    , 'modules');
+    );
   }
 
   async _requestModuleData(moduleManager) {
@@ -227,6 +265,11 @@ export class ModulesPanel {
       return;
     }
 
+    // Get search term for filtering
+    const searchTerm = this.rootElement
+      .querySelector('#module-search')
+      ?.value.toLowerCase() || '';
+
     // Render modules in the current load priority order
     this.loadPriority.forEach((moduleId, index) => {
       // log('info', 
@@ -241,6 +284,15 @@ export class ModulesPanel {
         // );
         return;
       }
+      // Filter by search term
+      if (searchTerm) {
+        const title = (state.definition.title || moduleId).toLowerCase();
+        const description = (state.definition.description || '').toLowerCase();
+        if (!title.includes(searchTerm) && !description.includes(searchTerm) && !moduleId.toLowerCase().includes(searchTerm)) {
+          return;
+        }
+      }
+
       const module = state.definition;
       const isEnabled = state.enabled;
       const isCoreModule =
@@ -254,21 +306,28 @@ export class ModulesPanel {
       const nameDiv = document.createElement('div');
       nameDiv.className = 'module-name';
 
-      // Add icon - use module's icon if it has one (panel module), otherwise use a default
-      const iconSpan = document.createElement('span');
-      if (state.definition.icon) {
+      const hasPanel = !!state.definition.componentType;
+
+      // Panel modules: show icon. Service modules: no icon, show badge instead.
+      if (hasPanel && state.definition.icon) {
+        const iconSpan = document.createElement('span');
         iconSpan.textContent = state.definition.icon;
-        iconSpan.title = 'Has panel';
-      } else {
-        iconSpan.textContent = '▪️'; // Black square for non-panel modules
-        iconSpan.title = 'Service module (no panel)';
+        iconSpan.style.marginRight = '8px';
+        nameDiv.appendChild(iconSpan);
       }
-      iconSpan.style.marginRight = '8px';
-      nameDiv.appendChild(iconSpan);
 
       const nameText = document.createElement('span');
       nameText.textContent = state.definition.title || moduleId;
       nameDiv.appendChild(nameText);
+
+      if (!hasPanel) {
+        const badgeSpan = document.createElement('span');
+        badgeSpan.className = 'module-badge module-badge-service';
+        badgeSpan.textContent = 'service';
+        badgeSpan.title = 'No UI panel — background service module';
+        nameDiv.appendChild(badgeSpan);
+      }
+
       const descDiv = document.createElement('div');
       descDiv.className = 'module-description';
       descDiv.textContent =
@@ -292,30 +351,24 @@ export class ModulesPanel {
       enableCheckbox.checked = isEnabled;
       enableCheckbox.disabled = isCoreModule;
       enableCheckbox.addEventListener('change', (event) => {
-        // Prevent user interaction for now until full enable/disable cycle is implemented for external
-        if (isExternal) {
-          event.target.checked = !event.target.checked; // Revert UI
-          alert(
-            'Enabling/disabling external modules is not fully implemented yet.'
-          );
-          return;
-        }
         this._handleEnableToggle(moduleId, event.target.checked);
       });
       enableLabel.appendChild(enableCheckbox);
       enableLabel.appendChild(document.createTextNode('Enabled'));
       controlsDiv.appendChild(enableLabel);
-      const upButton = document.createElement('button');
-      upButton.textContent = '▲';
-      upButton.title = 'Increase Priority (Move Up)';
-      upButton.disabled = isCoreModule || index === 0;
-      const downButton = document.createElement('button');
-      downButton.textContent = '▼';
-      downButton.title = 'Decrease Priority (Move Down)';
-      downButton.disabled =
-        isCoreModule || index === this.loadPriority.length - 1 || isExternal; // Disable for external initially
-      controlsDiv.appendChild(upButton);
-      controlsDiv.appendChild(downButton);
+
+      // Show "+" button for modules that support multiple instances
+      if (module.allowMultipleInstances && isEnabled) {
+        const addInstanceButton = document.createElement('button');
+        addInstanceButton.textContent = '+';
+        addInstanceButton.title = 'Open another instance of this panel';
+        addInstanceButton.dataset.action = 'addInstance';
+        addInstanceButton.addEventListener('click', () => {
+          this._handleCreateInstance(moduleId);
+        });
+        controlsDiv.appendChild(addInstanceButton);
+      }
+
       entryDiv.appendChild(infoDiv);
       entryDiv.appendChild(controlsDiv);
 
@@ -368,7 +421,8 @@ export class ModulesPanel {
           `State for module ${moduleId} not found locally after toggle.`
         );
         // Request full update if state is missing?
-        this._requestModuleData();
+        const mgr = window.moduleManagerApi;
+        if (mgr) this._requestModuleData(mgr);
         return; // Avoid further processing as state is inconsistent
       }
       log('info', `Module ${moduleId} state updated successfully.`);
@@ -386,12 +440,20 @@ export class ModulesPanel {
     }
   }
 
-  // _handlePriorityChange(moduleId, direction) {
-  //     log('info', `Changing priority for ${moduleId}: ${direction}`);
-  //     // TODO: Implement priority change logic using moduleManager
-  //     // This will likely involve calling something like moduleManager.changeModulePriority(moduleId, direction)
-  //     // and then calling this._requestModuleData() to refresh the UI.
-  // }
+  async _handleCreateInstance(moduleId) {
+    log('info', `Creating new instance for module ${moduleId}`);
+    const moduleManager = window.moduleManagerApi;
+    if (!moduleManager || typeof moduleManager.createPanelInstance !== 'function') {
+      log('error', 'Cannot create instance: ModuleManager or createPanelInstance not available.');
+      return;
+    }
+
+    try {
+      await moduleManager.createPanelInstance(moduleId);
+    } catch (error) {
+      log('error', `Failed to create instance for ${moduleId}:`, error);
+    }
+  }
 
   _updateCheckboxVisualState(moduleId, isChecked) {
     const checkbox = this.rootElement.querySelector(
@@ -405,16 +467,23 @@ export class ModulesPanel {
 
   // Example handler for external state changes
   _handleModuleStateChange({ moduleId, enabled }) {
-    log('info', 
+    log('info',
       `ModulesPanel received external state change for ${moduleId}: ${enabled}`
     );
     // Update local state if the module exists
     if (this.moduleStates[moduleId]) {
       this.moduleStates[moduleId].enabled = enabled;
     }
-    // Update the visual state of the checkbox regardless
-    // (Handles cases where state might have been out of sync)
+    // Update the visual state of the checkbox
     this._updateCheckboxVisualState(moduleId, enabled);
+    // Also update "+" button visibility for multi-instance modules
+    const entry = this.rootElement?.querySelector(`.module-entry[data-module-id="${moduleId}"]`);
+    if (entry) {
+      const addBtn = entry.querySelector('[data-action="addInstance"]');
+      if (addBtn) {
+        addBtn.style.display = enabled ? '' : 'none';
+      }
+    }
   }
 
   // Example handler for panel closing events
@@ -437,8 +506,10 @@ export class ModulesPanel {
   _handleModuleLoaded({ moduleId }) {
     log('info', `ModulesPanel notified that module ${moduleId} has loaded.`);
     // Refresh the entire list to ensure order and state are correct
-    // This is simpler than trying to patch the DOM for now
-    this._requestModuleData();
+    const moduleManager = window.moduleManagerApi;
+    if (moduleManager) {
+      this._requestModuleData(moduleManager);
+    }
   }
 
   // Handler for when a module fails to load
@@ -493,7 +564,7 @@ export class ModulesPanel {
     log('info', 
       `Requesting load for external module: ${moduleId} from ${modulePath}`
     );
-    eventBus.publish('module:loadExternalRequest', { moduleId, modulePath }, 'modules');
+    this.eventBus.publish('module:loadExternalRequest', { moduleId, modulePath });
   }
 
   // MODIFIED: Renamed from _handleInitComplete to _handleAppReady
@@ -530,13 +601,13 @@ export class ModulesPanel {
   destroy() {
     log('info', 'Destroying ModulesPanel');
     // Remove event listeners using the stored bound handlers
-    eventBus.unsubscribe('module:stateChanged', this.moduleStateHandler);
-    eventBus.unsubscribe('module:loaded', this.moduleLoadHandler);
-    eventBus.unsubscribe('module:loadFailed', this.moduleFailHandler);
+    this.eventBus.unsubscribe('module:stateChanged', this.moduleStateHandler);
+    this.eventBus.unsubscribe('module:loaded', this.moduleLoadHandler);
+    this.eventBus.unsubscribe('module:loadFailed', this.moduleFailHandler);
     // Unsubscribe from app:ready if listener exists
     // Use the named handler for unsubscribe
     if (this.appReadyListener) {
-      eventBus.unsubscribe('app:readyForUiDataLoad', this.appReadyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', this.appReadyHandler);
       this.appReadyListener = null;
     }
 

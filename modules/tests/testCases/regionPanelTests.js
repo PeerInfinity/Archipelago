@@ -30,9 +30,7 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
 
     // 2. Activate the Regions panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 3. Wait for the regions panel to appear in DOM
     const regionsPanelElement = await testController.pollForValue(
@@ -295,9 +293,7 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
 
     // 1. Activate the Regions panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 2. Wait for the regions panel to appear in DOM
     const regionsPanelElement = await testController.pollForValue(
@@ -606,9 +602,7 @@ export async function testRegionPanelBasicFunctionality(testController) {
     testController.reportCondition('Test started', true);
 
     // 1. Activate the Regions panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 2. Wait for panel to appear and check it exists
     const regionsPanelElement = await testController.pollForValue(
@@ -705,9 +699,7 @@ export async function testShowPathsCheckbox(testController) {
     testController.log(`[${testRunId}] Starting Show Paths checkbox test...`);
     
     // Activate Regions panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const regionsPanelElement = await testController.pollForValue(
       () => document.querySelector('.regions-panel-container'),
@@ -895,9 +887,7 @@ export async function testRegionMoveEventDispatch(testController) {
       testController.log(`[${testRunId}] moduleDispatcher available:`, !!regionsModule.moduleDispatcher);
 
       // Activate Regions panel
-      const eventBusModule = await import('../../../app/core/eventBus.js');
-      const eventBus = eventBusModule.default;
-      eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+      testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
       const regionsPanelElement = await testController.pollForValue(
         () => document.querySelector('.regions-panel-container'),
@@ -1003,9 +993,7 @@ export async function testEntranceDisplay(testController) {
     await testController.loadALTTPRules();
 
     // Activate Regions panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     const regionsPanelElement = await testController.pollForValue(
       () => document.querySelector('.regions-panel-container'),
@@ -1189,14 +1177,12 @@ export async function testRegionMoveComplete(testController) {
     testController.log(`[${testRunId}] Default rules loaded successfully`);
 
     // Import modules we'll need
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
     const regionsModule = await import('../../regions/index.js');
     const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
     
     // 1. Activate the Regions panel
     testController.log(`[${testRunId}] Activating regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     // Wait for regions panel to appear
     let regionsPanelElement = null;
@@ -1425,7 +1411,7 @@ export async function testRegionMoveComplete(testController) {
     
     // 14. Activate the Events panel
     testController.log(`[${testRunId}] Activating Events panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' });
     
     // 15. Wait for Events panel to appear
     let eventsPanelElement = null;
@@ -1738,13 +1724,11 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] Default rules loaded successfully`);
 
     // Import modules we'll need
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
     const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
     
     // 1. Activate the Regions panel
     testController.log(`[${testRunId}] Activating regions panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
     
     const regionsPanelElement = document.querySelector('.regions-panel-container');
     if (!regionsPanelElement) {
@@ -1836,7 +1820,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
 
     // 6. Activate the Events panel
     testController.log(`[${testRunId}] Activating Events panel...`);
-    eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' });
     
     // 7. Wait for Events panel to appear
     let eventsPanelElement = null;

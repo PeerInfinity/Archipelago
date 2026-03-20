@@ -16,6 +16,8 @@ const logger = createUniversalLogger('loopUI:DisplaySettings');
  * 4. Set setting: Update cache and optionally persist
  * 5. Sync to UI: Update checkbox/select states to match cache
  */
+const LOOP_SETTINGS_STORAGE_KEY = 'archipelago_loop_settings';
+
 export class DisplaySettingsManager {
   constructor(settingsManager, rootElement) {
     this.settingsManager = settingsManager;
@@ -29,6 +31,7 @@ export class DisplaySettingsManager {
       // Loop-specific settings (persisted)
       defaultSpeed: 10,
       autoRestart: false,
+      instantMode: false,
       loopModeEnabled: false,
     };
 
@@ -56,10 +59,13 @@ export class DisplaySettingsManager {
       // Load display settings
       this.settings.colorblindMode = await this.settingsManager.getSetting('colorblindMode.loops', false);
 
-      // Load loop-specific settings
+      // Load loop-specific settings from settingsManager (defaults from settings.json)
       this.settings.defaultSpeed = await this.settingsManager.getSetting('moduleSettings.loops.defaultSpeed', 10);
       this.settings.autoRestart = await this.settingsManager.getSetting('moduleSettings.loops.autoRestart', false);
       this.settings.loopModeEnabled = await this.settingsManager.getSetting('moduleSettings.loops.loopModeEnabled', false);
+
+      // Override with localStorage values (since settingsManager doesn't actually persist)
+      this._loadFromLocalStorage();
 
       logger.debug('Persisted settings loaded successfully');
     } catch (error) {
@@ -107,12 +113,19 @@ export class DisplaySettingsManager {
       }
     }
 
-    // Update auto-restart button text if it exists
-    const autoRestartBtn = this.rootElement.querySelector('#loop-ui-toggle-auto-restart');
-    if (autoRestartBtn) {
-      autoRestartBtn.textContent = this.settings.autoRestart
-        ? 'Auto-restart enabled'
-        : 'Pause when queue complete';
+    // Update auto-restart checkbox if it exists
+    const autoRestartCheckbox = this.rootElement.querySelector('#loop-ui-toggle-auto-restart');
+    if (autoRestartCheckbox) {
+      autoRestartCheckbox.checked = this.settings.autoRestart;
+    }
+
+    // Update instant mode checkbox and slider disabled state
+    const instantCheckbox = this.rootElement.querySelector('#loop-ui-toggle-instant');
+    if (instantCheckbox) {
+      instantCheckbox.checked = this.settings.instantMode;
+      if (speedSlider) {
+        speedSlider.disabled = this.settings.instantMode;
+      }
     }
 
     logger.debug('Settings synced to UI');
@@ -149,6 +162,7 @@ export class DisplaySettingsManager {
         // Revert on failure
         this.settings[key] = oldValue;
       }
+      this._saveToLocalStorage();
     }
   }
 
@@ -224,6 +238,39 @@ export class DisplaySettingsManager {
     }
 
     return false; // Not a loop-related setting
+  }
+
+  _saveToLocalStorage() {
+    try {
+      const data = {
+        defaultSpeed: this.settings.defaultSpeed,
+        autoRestart: this.settings.autoRestart,
+        instantMode: this.settings.instantMode,
+      };
+      localStorage.setItem(LOOP_SETTINGS_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+      logger.error('Failed to save loop settings to localStorage:', e);
+    }
+  }
+
+  _loadFromLocalStorage() {
+    try {
+      const raw = localStorage.getItem(LOOP_SETTINGS_STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (typeof data.defaultSpeed === 'number') {
+        this.settings.defaultSpeed = data.defaultSpeed;
+      }
+      if (typeof data.autoRestart === 'boolean') {
+        this.settings.autoRestart = data.autoRestart;
+      }
+      if (typeof data.instantMode === 'boolean') {
+        this.settings.instantMode = data.instantMode;
+      }
+      logger.debug('Loaded loop settings from localStorage', data);
+    } catch (e) {
+      logger.error('Failed to load loop settings from localStorage:', e);
+    }
   }
 }
 

@@ -1,0 +1,2504 @@
+{
+  "schema_version": 3,
+  "game_name": "DepGraph",
+  "game_directory": "depgraph",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 11,
+  "seed_name": "89757102641179993453",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To basic_combat",
+            "connected_region": "Complete Node 1",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Complete Node 1": {
+        "name": "Complete Node 1",
+        "exits": [
+          {
+            "name": "From basic_combat to agility",
+            "connected_region": "Complete Node 2",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 1",
+                  "Node 1"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From basic_combat to strength",
+            "connected_region": "Complete Node 3",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 1",
+                  "Node 1"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Complete Node 2": {
+        "name": "Complete Node 2",
+        "exits": [
+          {
+            "name": "From agility to parry",
+            "connected_region": "Complete Node 6",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 2",
+                  "Completed Node 5",
+                  "Node 2"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From agility to dual_wield",
+            "connected_region": "Complete Node 9",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 2",
+                  "Completed Node 8",
+                  "Node 2"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 2",
+            "id": 234800002,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 11",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 2",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 3": {
+        "name": "Complete Node 3",
+        "exits": [
+          {
+            "name": "From strength to battle_cry",
+            "connected_region": "Complete Node 4",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 3",
+                  "Node 3"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From strength to shield_mastery",
+            "connected_region": "Complete Node 5",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 3",
+                  "Node 3"
+                ]
+              }
+            }
+          },
+          {
+            "name": "From strength to sword_mastery",
+            "connected_region": "Complete Node 8",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 3",
+                  "Node 3"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 3",
+            "id": 234800003,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 3",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 4": {
+        "name": "Complete Node 4",
+        "exits": [
+          {
+            "name": "From battle_cry to whirlwind",
+            "connected_region": "Complete Node 10",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 4",
+                  "Completed Node 9",
+                  "Node 4"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 4",
+            "id": 234800004,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 5",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 4",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 4",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 5": {
+        "name": "Complete Node 5",
+        "exits": [
+          {
+            "name": "From shield_mastery to parry",
+            "connected_region": "Complete Node 6",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 2",
+                  "Completed Node 5",
+                  "Node 5"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 5",
+            "id": 234800005,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 8",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 5",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 5",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 6": {
+        "name": "Complete Node 6",
+        "exits": [
+          {
+            "name": "From parry to counter",
+            "connected_region": "Complete Node 7",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 6",
+                  "Node 6"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 6",
+            "id": 234800006,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 10",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 6",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 6",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 7": {
+        "name": "Complete Node 7",
+        "exits": [
+          {
+            "name": "From counter to warrior_stance",
+            "connected_region": "Complete Node 11",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 10",
+                  "Completed Node 7",
+                  "Node 7"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 7",
+            "id": 234800007,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 4",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 7",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 7",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 8": {
+        "name": "Complete Node 8",
+        "exits": [
+          {
+            "name": "From sword_mastery to dual_wield",
+            "connected_region": "Complete Node 9",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 2",
+                  "Completed Node 8",
+                  "Node 8"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 8",
+            "id": 234800008,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 8",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 8",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 9": {
+        "name": "Complete Node 9",
+        "exits": [
+          {
+            "name": "From dual_wield to whirlwind",
+            "connected_region": "Complete Node 10",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 4",
+                  "Completed Node 9",
+                  "Node 9"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 9",
+            "id": 234800009,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 6",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 9",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 9",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 10": {
+        "name": "Complete Node 10",
+        "exits": [
+          {
+            "name": "From whirlwind to warrior_stance",
+            "connected_region": "Complete Node 11",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 10",
+                  "Completed Node 7",
+                  "Node 10"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 10",
+            "id": 234800010,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 9",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 10",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 10",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 11": {
+        "name": "Complete Node 11",
+        "exits": [
+          {
+            "name": "From warrior_stance to legendary_hero",
+            "connected_region": "Complete Node 12",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Completed Node 11",
+                  "Node 11"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Complete Node 11",
+            "id": 234800011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 7",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Completed Node 11",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 11",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Complete Node 12": {
+        "name": "Complete Node 12",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Complete Node 12",
+            "id": 234800012,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Node 12",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true
+          },
+          {
+            "name": "Completed Node 12",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Completed Node 12",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Node 1": {
+        "name": "Node 1",
+        "id": 234800000,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 2": {
+        "name": "Node 2",
+        "id": 234800001,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 3": {
+        "name": "Node 3",
+        "id": 234800002,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 4": {
+        "name": "Node 4",
+        "id": 234800003,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 5": {
+        "name": "Node 5",
+        "id": 234800004,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 6": {
+        "name": "Node 6",
+        "id": 234800005,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 7": {
+        "name": "Node 7",
+        "id": 234800006,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 8": {
+        "name": "Node 8",
+        "id": 234800007,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 9": {
+        "name": "Node 9",
+        "id": 234800008,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 10": {
+        "name": "Node 10",
+        "id": 234800009,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 11": {
+        "name": "Node 11",
+        "id": 234800010,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 12": {
+        "name": "Node 12",
+        "id": 234800011,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 13": {
+        "name": "Node 13",
+        "id": 234800012,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 14": {
+        "name": "Node 14",
+        "id": 234800013,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 15": {
+        "name": "Node 15",
+        "id": 234800014,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 16": {
+        "name": "Node 16",
+        "id": 234800015,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 17": {
+        "name": "Node 17",
+        "id": 234800016,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 18": {
+        "name": "Node 18",
+        "id": 234800017,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 19": {
+        "name": "Node 19",
+        "id": 234800018,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 20": {
+        "name": "Node 20",
+        "id": 234800019,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 21": {
+        "name": "Node 21",
+        "id": 234800020,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 22": {
+        "name": "Node 22",
+        "id": 234800021,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 23": {
+        "name": "Node 23",
+        "id": 234800022,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 24": {
+        "name": "Node 24",
+        "id": 234800023,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 25": {
+        "name": "Node 25",
+        "id": 234800024,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 26": {
+        "name": "Node 26",
+        "id": 234800025,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 27": {
+        "name": "Node 27",
+        "id": 234800026,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 28": {
+        "name": "Node 28",
+        "id": 234800027,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 29": {
+        "name": "Node 29",
+        "id": 234800028,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 30": {
+        "name": "Node 30",
+        "id": 234800029,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 31": {
+        "name": "Node 31",
+        "id": 234800030,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 32": {
+        "name": "Node 32",
+        "id": 234800031,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 33": {
+        "name": "Node 33",
+        "id": 234800032,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 34": {
+        "name": "Node 34",
+        "id": 234800033,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 35": {
+        "name": "Node 35",
+        "id": 234800034,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 36": {
+        "name": "Node 36",
+        "id": 234800035,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 37": {
+        "name": "Node 37",
+        "id": 234800036,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 38": {
+        "name": "Node 38",
+        "id": 234800037,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 39": {
+        "name": "Node 39",
+        "id": 234800038,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 40": {
+        "name": "Node 40",
+        "id": 234800039,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 41": {
+        "name": "Node 41",
+        "id": 234800040,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 42": {
+        "name": "Node 42",
+        "id": 234800041,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 43": {
+        "name": "Node 43",
+        "id": 234800042,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 44": {
+        "name": "Node 44",
+        "id": 234800043,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 45": {
+        "name": "Node 45",
+        "id": 234800044,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 46": {
+        "name": "Node 46",
+        "id": 234800045,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 47": {
+        "name": "Node 47",
+        "id": 234800046,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 48": {
+        "name": "Node 48",
+        "id": 234800047,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 49": {
+        "name": "Node 49",
+        "id": 234800048,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 50": {
+        "name": "Node 50",
+        "id": 234800049,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 51": {
+        "name": "Node 51",
+        "id": 234800050,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 52": {
+        "name": "Node 52",
+        "id": 234800051,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 53": {
+        "name": "Node 53",
+        "id": 234800052,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 54": {
+        "name": "Node 54",
+        "id": 234800053,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 55": {
+        "name": "Node 55",
+        "id": 234800054,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 56": {
+        "name": "Node 56",
+        "id": 234800055,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 57": {
+        "name": "Node 57",
+        "id": 234800056,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 58": {
+        "name": "Node 58",
+        "id": 234800057,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 59": {
+        "name": "Node 59",
+        "id": 234800058,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 60": {
+        "name": "Node 60",
+        "id": 234800059,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 61": {
+        "name": "Node 61",
+        "id": 234800060,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 62": {
+        "name": "Node 62",
+        "id": 234800061,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 63": {
+        "name": "Node 63",
+        "id": 234800062,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 64": {
+        "name": "Node 64",
+        "id": 234800063,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 65": {
+        "name": "Node 65",
+        "id": 234800064,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 66": {
+        "name": "Node 66",
+        "id": 234800065,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 67": {
+        "name": "Node 67",
+        "id": 234800066,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 68": {
+        "name": "Node 68",
+        "id": 234800067,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 69": {
+        "name": "Node 69",
+        "id": 234800068,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 70": {
+        "name": "Node 70",
+        "id": 234800069,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 71": {
+        "name": "Node 71",
+        "id": 234800070,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 72": {
+        "name": "Node 72",
+        "id": 234800071,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 73": {
+        "name": "Node 73",
+        "id": 234800072,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 74": {
+        "name": "Node 74",
+        "id": 234800073,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 75": {
+        "name": "Node 75",
+        "id": 234800074,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 76": {
+        "name": "Node 76",
+        "id": 234800075,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 77": {
+        "name": "Node 77",
+        "id": 234800076,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 78": {
+        "name": "Node 78",
+        "id": 234800077,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 79": {
+        "name": "Node 79",
+        "id": 234800078,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 80": {
+        "name": "Node 80",
+        "id": 234800079,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 81": {
+        "name": "Node 81",
+        "id": 234800080,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 82": {
+        "name": "Node 82",
+        "id": 234800081,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 83": {
+        "name": "Node 83",
+        "id": 234800082,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 84": {
+        "name": "Node 84",
+        "id": 234800083,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 85": {
+        "name": "Node 85",
+        "id": 234800084,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 86": {
+        "name": "Node 86",
+        "id": 234800085,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 87": {
+        "name": "Node 87",
+        "id": 234800086,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 88": {
+        "name": "Node 88",
+        "id": 234800087,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 89": {
+        "name": "Node 89",
+        "id": 234800088,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 90": {
+        "name": "Node 90",
+        "id": 234800089,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 91": {
+        "name": "Node 91",
+        "id": 234800090,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 92": {
+        "name": "Node 92",
+        "id": 234800091,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 93": {
+        "name": "Node 93",
+        "id": 234800092,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 94": {
+        "name": "Node 94",
+        "id": 234800093,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 95": {
+        "name": "Node 95",
+        "id": 234800094,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 96": {
+        "name": "Node 96",
+        "id": 234800095,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 97": {
+        "name": "Node 97",
+        "id": 234800096,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 98": {
+        "name": "Node 98",
+        "id": 234800097,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 99": {
+        "name": "Node 99",
+        "id": 234800098,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Node 100": {
+        "name": "Node 100",
+        "id": 234800099,
+        "groups": [
+          "Everything",
+          "Nodes"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Completed Node 2": {
+        "name": "Completed Node 2",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 3": {
+        "name": "Completed Node 3",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 4": {
+        "name": "Completed Node 4",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 5": {
+        "name": "Completed Node 5",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 6": {
+        "name": "Completed Node 6",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 7": {
+        "name": "Completed Node 7",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 8": {
+        "name": "Completed Node 8",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 9": {
+        "name": "Completed Node 9",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 10": {
+        "name": "Completed Node 10",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 11": {
+        "name": "Completed Node 11",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 12": {
+        "name": "Completed Node 12",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Completed Node 1": {
+        "name": "Completed Node 1",
+        "id": null,
+        "groups": [],
+        "classification": "progression",
+        "event": true,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Nodes"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Completed Node 1": 1,
+      "Completed Node 10": 1,
+      "Completed Node 11": 1,
+      "Completed Node 12": 1,
+      "Completed Node 2": 1,
+      "Completed Node 3": 1,
+      "Completed Node 4": 1,
+      "Completed Node 5": 1,
+      "Completed Node 6": 1,
+      "Completed Node 7": 1,
+      "Completed Node 8": 1,
+      "Completed Node 9": 1,
+      "Node 1": 1,
+      "Node 10": 1,
+      "Node 11": 1,
+      "Node 12": 1,
+      "Node 2": 1,
+      "Node 3": 1,
+      "Node 4": 1,
+      "Node 5": 1,
+      "Node 6": 1,
+      "Node 7": 1,
+      "Node 8": 1,
+      "Node 9": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Complete Node 2": "Node 2",
+      "Complete Node 3": "Node 3",
+      "Complete Node 4": "Node 4",
+      "Complete Node 5": "Node 5",
+      "Complete Node 6": "Node 6",
+      "Complete Node 7": "Node 7",
+      "Complete Node 8": "Node 8",
+      "Complete Node 9": "Node 9",
+      "Complete Node 10": "Node 10",
+      "Complete Node 11": "Node 11"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Node 1",
+      "Completed Node 1"
+    ]
+  },
+  "world": {
+    "1": {
+      "game": "DepGraph",
+      "world_class_name": "DepGraphWorld",
+      "options": {
+        "accessibility": 0,
+        "entrance_rule_mode": 1,
+        "exclude_locations": [],
+        "graph_file": 1,
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": true,
+        "randomize_starting_nodes": true,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_nodes": 0,
+        "vanilla_placement": false
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "entrance_rule_mode": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "strict",
+            "1": "relaxed_items",
+            "2": "relaxed_events",
+            "3": "fully_relaxed"
+          },
+          "default": 1,
+          "display_name": "Entrance Rule Mode"
+        },
+        "graph_file": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "tech_tree",
+            "1": "skill_tree",
+            "2": "recipe_chain",
+            "3": "baking_adventure",
+            "4": "coding_adventure"
+          },
+          "default": 4,
+          "display_name": "Graph File"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "randomize_starting_nodes": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Starting Nodes"
+        },
+        "starting_nodes": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 50,
+          "default": 0,
+          "display_name": "Starting Nodes %"
+        },
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Item Placement"
+        }
+      },
+      "graph_structure": {
+        "label_to_index": {
+          "basic_combat": 1,
+          "agility": 2,
+          "strength": 3,
+          "battle_cry": 4,
+          "shield_mastery": 5,
+          "parry": 6,
+          "counter": 7,
+          "sword_mastery": 8,
+          "dual_wield": 9,
+          "whirlwind": 10,
+          "warrior_stance": 11,
+          "legendary_hero": 12
+        },
+        "title": "Skill Tree"
+      },
+      "num_nodes": 12,
+      "preset_label": "skill_tree s11",
+      "name_substitutions": {
+        "items": {
+          "Node 1": "Basic Combat",
+          "Completed Node 1": "Event: Basic Combat",
+          "Node 2": "Agility",
+          "Completed Node 2": "Event: Agility",
+          "Node 3": "Strength",
+          "Completed Node 3": "Event: Strength",
+          "Node 4": "Battle Cry",
+          "Completed Node 4": "Event: Battle Cry",
+          "Node 5": "Shield Mastery",
+          "Completed Node 5": "Event: Shield Mastery",
+          "Node 6": "Parry",
+          "Completed Node 6": "Event: Parry",
+          "Node 7": "Counter",
+          "Completed Node 7": "Event: Counter",
+          "Node 8": "Sword Mastery",
+          "Completed Node 8": "Event: Sword Mastery",
+          "Node 9": "Dual Wield",
+          "Completed Node 9": "Event: Dual Wield",
+          "Node 10": "Whirlwind",
+          "Completed Node 10": "Event: Whirlwind",
+          "Node 11": "Warrior Stance",
+          "Completed Node 11": "Event: Warrior Stance",
+          "Node 12": "Legendary Hero",
+          "Completed Node 12": "Event: Legendary Hero"
+        },
+        "locations": {
+          "Complete Node 1": "Basic Combat",
+          "Complete Node 2": "Agility",
+          "Complete Node 3": "Strength",
+          "Complete Node 4": "Battle Cry",
+          "Complete Node 5": "Shield Mastery",
+          "Complete Node 6": "Parry",
+          "Complete Node 7": "Counter",
+          "Complete Node 8": "Sword Mastery",
+          "Complete Node 9": "Dual Wield",
+          "Complete Node 10": "Whirlwind",
+          "Complete Node 11": "Warrior Stance",
+          "Complete Node 12": "Legendary Hero"
+        },
+        "regions": {
+          "Complete Node 1": "Basic Combat",
+          "Complete Node 2": "Agility",
+          "Complete Node 3": "Strength",
+          "Complete Node 4": "Battle Cry",
+          "Complete Node 5": "Shield Mastery",
+          "Complete Node 6": "Parry",
+          "Complete Node 7": "Counter",
+          "Complete Node 8": "Sword Mastery",
+          "Complete Node 9": "Dual Wield",
+          "Complete Node 10": "Whirlwind",
+          "Complete Node 11": "Warrior Stance",
+          "Complete Node 12": "Legendary Hero"
+        }
+      },
+      "canonical_placements": {
+        "Complete Node 2": "Node 2",
+        "Complete Node 3": "Node 3",
+        "Complete Node 4": "Node 4",
+        "Complete Node 5": "Node 5",
+        "Complete Node 6": "Node 6",
+        "Complete Node 7": "Node 7",
+        "Complete Node 8": "Node 8",
+        "Complete Node 9": "Node 9",
+        "Complete Node 10": "Node 10",
+        "Complete Node 11": "Node 11"
+      },
+      "location_dependencies": {
+        "Complete Node 2": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "Completed Node 2": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "Complete Node 3": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "Completed Node 3": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "Complete Node 4": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Completed Node 4": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Complete Node 5": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Completed Node 5": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Complete Node 6": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "Completed Node 6": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "Complete Node 7": [
+          "Node 6",
+          "Completed Node 6"
+        ],
+        "Completed Node 7": [
+          "Node 6",
+          "Completed Node 6"
+        ],
+        "Complete Node 8": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Completed Node 8": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "Complete Node 9": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "Completed Node 9": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "Complete Node 10": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "Completed Node 10": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "Complete Node 11": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "Completed Node 11": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "Complete Node 12": [
+          "Node 11",
+          "Completed Node 11"
+        ],
+        "Completed Node 12": [
+          "Node 11",
+          "Completed Node 11"
+        ]
+      },
+      "entrance_dependencies": {
+        "From basic_combat to agility": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "From basic_combat to strength": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "From strength to battle_cry": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From strength to shield_mastery": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From agility to parry": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "From shield_mastery to parry": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "From parry to counter": [
+          "Node 6",
+          "Completed Node 6"
+        ],
+        "From strength to sword_mastery": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From agility to dual_wield": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "From sword_mastery to dual_wield": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "From battle_cry to whirlwind": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "From dual_wield to whirlwind": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "From counter to warrior_stance": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "From whirlwind to warrior_stance": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "From warrior_stance to legendary_hero": [
+          "Node 11",
+          "Completed Node 11"
+        ]
+      },
+      "exit_dependencies": {
+        "From basic_combat to agility": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "From basic_combat to strength": [
+          "Node 1",
+          "Completed Node 1"
+        ],
+        "From agility to parry": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "From agility to dual_wield": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "From strength to battle_cry": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From strength to shield_mastery": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From strength to sword_mastery": [
+          "Node 3",
+          "Completed Node 3"
+        ],
+        "From battle_cry to whirlwind": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "From shield_mastery to parry": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 5",
+          "Completed Node 5"
+        ],
+        "From parry to counter": [
+          "Node 6",
+          "Completed Node 6"
+        ],
+        "From counter to warrior_stance": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "From sword_mastery to dual_wield": [
+          "Node 2",
+          "Completed Node 2",
+          "Node 8",
+          "Completed Node 8"
+        ],
+        "From dual_wield to whirlwind": [
+          "Node 4",
+          "Completed Node 4",
+          "Node 9",
+          "Completed Node 9"
+        ],
+        "From whirlwind to warrior_stance": [
+          "Node 7",
+          "Completed Node 7",
+          "Node 10",
+          "Completed Node 10"
+        ],
+        "From warrior_stance to legendary_hero": [
+          "Node 11",
+          "Completed Node 11"
+        ]
+      },
+      "world_description": "Turn any directed acyclic graph into an Archipelago world!\nEach node is both a location (unlocking it) and an item (ability to use it).\nNavigate dependency edges across the multiworld to reach the final node.",
+      "slot_data": {
+        "graph_structure": {
+          "1": {
+            "label": "basic_combat",
+            "expression": "Basic Combat",
+            "dependencies": [],
+            "full_text": "basic_combat: Basic Combat"
+          },
+          "2": {
+            "label": "agility",
+            "expression": "Agility",
+            "dependencies": [
+              1
+            ],
+            "full_text": "agility: Agility"
+          },
+          "3": {
+            "label": "strength",
+            "expression": "Strength",
+            "dependencies": [
+              1
+            ],
+            "full_text": "strength: Strength"
+          },
+          "4": {
+            "label": "battle_cry",
+            "expression": "Battle Cry",
+            "dependencies": [
+              3
+            ],
+            "full_text": "battle_cry: Battle Cry"
+          },
+          "5": {
+            "label": "shield_mastery",
+            "expression": "Shield Mastery",
+            "dependencies": [
+              3
+            ],
+            "full_text": "shield_mastery: Shield Mastery"
+          },
+          "6": {
+            "label": "parry",
+            "expression": "Parry",
+            "dependencies": [
+              2,
+              5
+            ],
+            "full_text": "parry: Parry"
+          },
+          "7": {
+            "label": "counter",
+            "expression": "Counter",
+            "dependencies": [
+              6
+            ],
+            "full_text": "counter: Counter"
+          },
+          "8": {
+            "label": "sword_mastery",
+            "expression": "Sword Mastery",
+            "dependencies": [
+              3
+            ],
+            "full_text": "sword_mastery: Sword Mastery"
+          },
+          "9": {
+            "label": "dual_wield",
+            "expression": "Dual Wield",
+            "dependencies": [
+              2,
+              8
+            ],
+            "full_text": "dual_wield: Dual Wield"
+          },
+          "10": {
+            "label": "whirlwind",
+            "expression": "Whirlwind",
+            "dependencies": [
+              4,
+              9
+            ],
+            "full_text": "whirlwind: Whirlwind"
+          },
+          "11": {
+            "label": "warrior_stance",
+            "expression": "Warrior Stance",
+            "dependencies": [
+              7,
+              10
+            ],
+            "full_text": "warrior_stance: Warrior Stance"
+          },
+          "12": {
+            "label": "legendary_hero",
+            "expression": "Legendary Hero",
+            "dependencies": [
+              11
+            ],
+            "full_text": "legendary_hero: Legendary Hero"
+          }
+        },
+        "starting_nodes": [
+          1
+        ],
+        "title": "Skill Tree",
+        "randomize_items": 1,
+        "vanilla_placement": 0
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up DepGraph for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "depgraph"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Completed Node 12"
+      }
+    }
+  },
+  "helpers": {},
+  "preset_label": "skill_tree s11"
+}

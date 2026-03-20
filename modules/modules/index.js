@@ -1,7 +1,6 @@
 import { ModulesPanel } from './modulesUI.js';
 import eventBus from '../../app/core/eventBus.js';
 
-
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {
@@ -16,6 +15,21 @@ function log(level, message, ...data) {
 let moduleId;
 let initializationApi = null;
 let modulesPanelInstance = null;
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'modules'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'modules'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'modules'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -65,6 +79,7 @@ export async function initialize(id, index, initApi) {
   log('info', `Initializing Modules module (ID: ${id}, Priority: ${index})`);
   moduleId = id;
   initializationApi = initApi;
+  _moduleEventBus = initApi.getEventBus();
 
   // Get necessary functions/data from initApi
   // const settings = api.getSettings();

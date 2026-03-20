@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "Metamath",
   "game_directory": "metamath",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 2,
+  "seed_name": "01043188731678011336",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "MetamathWorld"
   },
   "regions": {
     "1": {
@@ -16,43 +14,38 @@
         "name": "Menu",
         "exits": [
           {
-            "name": "To Statement 1",
+            "name": "To 2cn",
             "connected_region": "Prove Statement 1",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
-            "name": "To Statement 2",
+            "name": "To ax-1cn",
             "connected_region": "Prove Statement 2",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
-            "name": "To Statement 4",
+            "name": "To df-2",
             "connected_region": "Prove Statement 4",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
-            "name": "To Statement 5",
+            "name": "To df-3",
             "connected_region": "Prove Statement 5",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           },
           {
-            "name": "To Statement 6",
+            "name": "To df-4",
             "connected_region": "Prove Statement 6",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -62,73 +55,37 @@
         "name": "Prove Statement 1",
         "exits": [
           {
-            "name": "From Statement 1 to Statement 3",
+            "name": "From 2cn to addassi",
             "connected_region": "Prove Statement 3",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 1"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 2"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 1",
+                  "Proved Statement 2",
+                  "Statement 1"
+                ]
+              }
             }
           }
         ],
-        "locations": [],
-        "label1": "2cn",
-        "label2": "|- 2 e. CC"
+        "locations": []
       },
       "Prove Statement 2": {
         "name": "Prove Statement 2",
         "exits": [
           {
-            "name": "From Statement 2 to Statement 3",
+            "name": "From ax-1cn to addassi",
             "connected_region": "Prove Statement 3",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 1"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 2"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 1",
+                  "Proved Statement 2",
+                  "Statement 2"
+                ]
+              }
             }
           }
         ],
@@ -137,66 +94,49 @@
             "name": "Prove Statement 2",
             "id": 234790002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 2",
+              "name": "Statement 5",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 2,
-            "label1": "ax-1cn",
-            "label2": "|- 1 e. CC"
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 2",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "ax-1cn",
-        "label2": "|- 1 e. CC"
+        ]
       },
       "Prove Statement 3": {
         "name": "Prove Statement 3",
         "exits": [
           {
-            "name": "From Statement 3 to Statement 8",
+            "name": "From addassi to 3eqtri",
             "connected_region": "Prove Statement 8",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 3"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 6"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 7"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 3",
+                  "Proved Statement 6",
+                  "Proved Statement 7",
+                  "Statement 3"
+                ]
+              }
             }
           }
         ],
@@ -205,65 +145,46 @@
             "name": "Prove Statement 3",
             "id": 234790003,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 1"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 2"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 7",
+              "name": "Statement 8",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 3,
-            "label1": "addassi",
-            "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
-            "required_items": [
-              "Statement 1",
-              "Statement 2"
-            ]
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 3",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "addassi",
-        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )"
+        ]
       },
       "Prove Statement 4": {
         "name": "Prove Statement 4",
         "exits": [
           {
-            "name": "From Statement 4 to Statement 9",
+            "name": "From df-2 to oveq2i",
             "connected_region": "Prove Statement 9",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Statement 4"
-              },
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 4",
+                  "Statement 4"
+                ]
               }
             }
           }
@@ -273,38 +194,46 @@
             "name": "Prove Statement 4",
             "id": 234790004,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 9",
+              "name": "Statement 2",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 4,
-            "label1": "df-2",
-            "label2": "|- 2 = ( 1 + 1 )"
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 4",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 4",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "df-2",
-        "label2": "|- 2 = ( 1 + 1 )"
+        ]
       },
       "Prove Statement 5": {
         "name": "Prove Statement 5",
         "exits": [
           {
-            "name": "From Statement 5 to Statement 7",
+            "name": "From df-3 to oveq1i",
             "connected_region": "Prove Statement 7",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Statement 5"
-              },
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 5",
+                  "Statement 5"
+                ]
               }
             }
           }
@@ -314,66 +243,49 @@
             "name": "Prove Statement 5",
             "id": 234790005,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 4",
+              "name": "Statement 9",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 5,
-            "label1": "df-3",
-            "label2": "|- 3 = ( 2 + 1 )"
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 5",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 5",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "df-3",
-        "label2": "|- 3 = ( 2 + 1 )"
+        ]
       },
       "Prove Statement 6": {
         "name": "Prove Statement 6",
         "exits": [
           {
-            "name": "From Statement 6 to Statement 8",
+            "name": "From df-4 to 3eqtri",
             "connected_region": "Prove Statement 8",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 3"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 6"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 7"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 3",
+                  "Proved Statement 6",
+                  "Proved Statement 7",
+                  "Statement 6"
+                ]
+              }
             }
           }
         ],
@@ -382,66 +294,49 @@
             "name": "Prove Statement 6",
             "id": 234790006,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 6",
+              "name": "Statement 3",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 6,
-            "label1": "df-4",
-            "label2": "|- 4 = ( 3 + 1 )"
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 6",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 6",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "df-4",
-        "label2": "|- 4 = ( 3 + 1 )"
+        ]
       },
       "Prove Statement 7": {
         "name": "Prove Statement 7",
         "exits": [
           {
-            "name": "From Statement 7 to Statement 8",
+            "name": "From oveq1i to 3eqtri",
             "connected_region": "Prove Statement 8",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 3"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 6"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 7"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 3",
+                  "Proved Statement 6",
+                  "Proved Statement 7",
+                  "Statement 7"
+                ]
+              }
             }
           }
         ],
@@ -450,65 +345,48 @@
             "name": "Prove Statement 7",
             "id": 234790007,
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Statement 5"
-              },
-              "count": {
-                "type": "constant",
-                "value": 1
-              }
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 3",
+              "name": "Statement 6",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 7,
-            "label1": "oveq1i",
-            "label2": "|- ( A F C ) = ( B F C )",
-            "required_items": [
-              "Statement 5"
-            ]
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 7",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 7",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "oveq1i",
-        "label2": "|- ( A F C ) = ( B F C )"
+        ]
       },
       "Prove Statement 8": {
         "name": "Prove Statement 8",
         "exits": [
           {
-            "name": "From Statement 8 to Statement 10",
+            "name": "From 3eqtri to eqtr4i",
             "connected_region": "Prove Statement 10",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 8"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 9"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 8",
+                  "Proved Statement 9",
+                  "Statement 8"
+                ]
+              }
             }
           }
         ],
@@ -517,94 +395,48 @@
             "name": "Prove Statement 8",
             "id": 234790008,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 3"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 6"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 7"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 8",
+              "name": "Statement 4",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 8,
-            "label1": "3eqtri",
-            "label2": "|- A = D",
-            "required_items": [
-              "Statement 3",
-              "Statement 6",
-              "Statement 7"
-            ]
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 8",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 8",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "3eqtri",
-        "label2": "|- A = D"
+        ]
       },
       "Prove Statement 9": {
         "name": "Prove Statement 9",
         "exits": [
           {
-            "name": "From Statement 9 to Statement 10",
+            "name": "From oveq2i to eqtr4i",
             "connected_region": "Prove Statement 10",
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 8"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 9"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Proved Statement 8",
+                  "Proved Statement 9",
+                  "Statement 9"
+                ]
+              }
             }
           }
         ],
@@ -613,32 +445,32 @@
             "name": "Prove Statement 9",
             "id": 234790009,
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Statement 4"
-              },
-              "count": {
-                "type": "constant",
-                "value": 1
-              }
+              "rule": "True_"
             },
             "item": {
-              "name": "Statement 5",
+              "name": "Statement 7",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 9,
-            "label1": "oveq2i",
-            "label2": "|- ( C F A ) = ( C F B )",
-            "required_items": [
-              "Statement 4"
-            ]
+            "locked": false
+          },
+          {
+            "name": "Proved Statement 9",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 9",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "oveq2i",
-        "label2": "|- ( C F A ) = ( C F B )"
+        ]
       },
       "Prove Statement 10": {
         "name": "Prove Statement 10",
@@ -648,31 +480,7 @@
             "name": "Prove Statement 10",
             "id": 234790010,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 8"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Statement 9"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 1
-                  }
-                }
-              ]
+              "rule": "True_"
             },
             "item": {
               "name": "Statement 10",
@@ -680,17 +488,24 @@
               "advancement": true,
               "type": "None"
             },
-            "statement_id": 10,
-            "label1": "eqtr4i",
-            "label2": "|- A = C",
-            "required_items": [
-              "Statement 8",
-              "Statement 9"
-            ]
+            "locked": true
+          },
+          {
+            "name": "Proved Statement 10",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Proved Statement 10",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
           }
-        ],
-        "label1": "eqtr4i",
-        "label2": "|- A = C"
+        ]
       }
     }
   },
@@ -706,163 +521,113 @@
     "1": {
       "Statement 1": {
         "name": "Statement 1",
+        "id": 234790000,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 1,
-        "label1": "2cn",
-        "label2": "|- 2 e. CC",
-        "id": 234790000
+        "max_count": 1
       },
       "Statement 2": {
         "name": "Statement 2",
+        "id": 234790001,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "ax-1cn",
-        "label2": "|- 1 e. CC",
-        "id": 234790001
+        "max_count": 1
       },
       "Statement 3": {
         "name": "Statement 3",
+        "id": 234790002,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "addassi",
-        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
-        "id": 234790002
+        "max_count": 1
       },
       "Statement 4": {
         "name": "Statement 4",
+        "id": 234790003,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "df-2",
-        "label2": "|- 2 = ( 1 + 1 )",
-        "id": 234790003
+        "max_count": 1
       },
       "Statement 5": {
         "name": "Statement 5",
+        "id": 234790004,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "df-3",
-        "label2": "|- 3 = ( 2 + 1 )",
-        "id": 234790004
+        "max_count": 1
       },
       "Statement 6": {
         "name": "Statement 6",
+        "id": 234790005,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "df-4",
-        "label2": "|- 4 = ( 3 + 1 )",
-        "id": 234790005
+        "max_count": 1
       },
       "Statement 7": {
         "name": "Statement 7",
+        "id": 234790006,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "oveq1i",
-        "label2": "|- ( A F C ) = ( B F C )",
-        "id": 234790006
+        "max_count": 1
       },
       "Statement 8": {
         "name": "Statement 8",
+        "id": 234790007,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "3eqtri",
-        "label2": "|- A = D",
-        "id": 234790007
+        "max_count": 1
       },
       "Statement 9": {
         "name": "Statement 9",
+        "id": 234790008,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "oveq2i",
-        "label2": "|- ( C F A ) = ( C F B )",
-        "id": 234790008
+        "max_count": 1
       },
       "Statement 10": {
         "name": "Statement 10",
+        "id": 234790009,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 2,
-        "label1": "eqtr4i",
-        "label2": "|- A = C",
-        "id": 234790009
+        "max_count": 1
       },
       "Statement 11": {
         "name": "Statement 11",
@@ -871,10 +636,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -885,10 +647,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -899,10 +658,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -913,10 +669,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -927,10 +680,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -941,10 +691,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -955,10 +702,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -969,10 +713,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -983,10 +724,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -997,10 +735,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1011,10 +746,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1025,10 +757,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1039,10 +768,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1053,10 +779,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1067,10 +790,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1081,10 +801,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1095,10 +812,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1109,10 +823,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1123,10 +834,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1137,10 +845,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1151,10 +856,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1165,10 +867,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1179,10 +878,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1193,10 +889,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1207,10 +900,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1221,10 +911,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1235,10 +922,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1249,10 +933,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1263,10 +944,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1277,10 +955,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1291,10 +966,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1305,10 +977,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1319,10 +988,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1333,10 +999,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1347,10 +1010,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1361,10 +1021,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1375,10 +1032,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1389,10 +1043,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1403,10 +1054,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1417,10 +1065,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1431,10 +1076,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1445,10 +1087,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1459,10 +1098,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1473,10 +1109,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1487,10 +1120,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1501,10 +1131,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1515,10 +1142,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1529,10 +1153,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1543,10 +1164,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1557,10 +1175,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1571,10 +1186,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1585,10 +1197,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1599,10 +1208,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1613,10 +1219,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1627,10 +1230,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1641,10 +1241,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1655,10 +1252,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1669,10 +1263,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1683,10 +1274,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1697,10 +1285,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1711,10 +1296,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1725,10 +1307,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1739,10 +1318,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1753,10 +1329,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1767,10 +1340,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1781,10 +1351,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1795,10 +1362,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1809,10 +1373,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1823,10 +1384,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1837,10 +1395,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1851,10 +1406,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1865,10 +1417,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1879,10 +1428,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1893,10 +1439,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1907,10 +1450,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1921,10 +1461,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1935,10 +1472,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1949,10 +1483,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1963,10 +1494,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1977,10 +1505,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -1991,10 +1516,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2005,10 +1527,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2019,10 +1538,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2033,10 +1549,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2047,10 +1560,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2061,10 +1571,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2075,10 +1582,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2089,10 +1593,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2103,10 +1604,7 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
@@ -2117,122 +1615,115 @@
           "Everything",
           "Statements"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "filler",
         "type": null,
         "max_count": 1
       },
-      "Proof Hint": {
-        "name": "Proof Hint",
-        "id": 234791999,
+      "Proved Statement 2": {
+        "name": "Proved Statement 2",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Logic Guide": {
-        "name": "Logic Guide",
-        "id": 234791998,
+      "Proved Statement 3": {
+        "name": "Proved Statement 3",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Axiom Reference": {
-        "name": "Axiom Reference",
-        "id": 234791997,
+      "Proved Statement 4": {
+        "name": "Proved Statement 4",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Lemma Note": {
-        "name": "Lemma Note",
-        "id": 234791996,
+      "Proved Statement 5": {
+        "name": "Proved Statement 5",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Theorem Insight": {
-        "name": "Theorem Insight",
-        "id": 234791995,
+      "Proved Statement 6": {
+        "name": "Proved Statement 6",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Deduction Tip": {
-        "name": "Deduction Tip",
-        "id": 234791994,
+      "Proved Statement 7": {
+        "name": "Proved Statement 7",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "Inference Help": {
-        "name": "Inference Help",
-        "id": 234791993,
+      "Proved Statement 8": {
+        "name": "Proved Statement 8",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
         "max_count": 1
       },
-      "QED Moment": {
-        "name": "QED Moment",
-        "id": 234791992,
+      "Proved Statement 9": {
+        "name": "Proved Statement 9",
+        "id": null,
         "groups": [
-          "Everything",
-          "Hints"
+          "Event"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 10": {
+        "name": "Proved Statement 10",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Proved Statement 1": {
+        "name": "Proved Statement 1",
+        "id": null,
+        "groups": [],
+        "classification": "progression",
+        "event": true,
         "type": null,
         "max_count": 1
       }
@@ -2241,22 +1732,43 @@
   "item_groups": {
     "1": [
       "Everything",
-      "Hints",
       "Statements"
     ]
   },
   "itempool_counts": {
     "1": {
+      "Proved Statement 1": 1,
+      "Proved Statement 10": 1,
+      "Proved Statement 2": 1,
+      "Proved Statement 3": 1,
+      "Proved Statement 4": 1,
+      "Proved Statement 5": 1,
+      "Proved Statement 6": 1,
+      "Proved Statement 7": 1,
+      "Proved Statement 8": 1,
+      "Proved Statement 9": 1,
       "Statement 1": 1,
-      "Statement 10": 2,
-      "Statement 2": 2,
-      "Statement 3": 2,
-      "Statement 4": 2,
-      "Statement 5": 2,
-      "Statement 6": 2,
-      "Statement 7": 2,
-      "Statement 8": 2,
-      "Statement 9": 2
+      "Statement 10": 1,
+      "Statement 2": 1,
+      "Statement 3": 1,
+      "Statement 4": 1,
+      "Statement 5": 1,
+      "Statement 6": 1,
+      "Statement 7": 1,
+      "Statement 8": 1,
+      "Statement 9": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Prove Statement 2": "Statement 2",
+      "Prove Statement 3": "Statement 3",
+      "Prove Statement 4": "Statement 4",
+      "Prove Statement 5": "Statement 5",
+      "Prove Statement 6": "Statement 6",
+      "Prove Statement 7": "Statement 7",
+      "Prove Statement 8": "Statement 8",
+      "Prove Statement 9": "Statement 9"
     }
   },
   "progression_mapping": {
@@ -2264,169 +1776,487 @@
   },
   "starting_items": {
     "1": [
-      "Statement 1"
+      "Statement 1",
+      "Proved Statement 1"
     ]
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Metamath",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
-    }
-  },
-  "game_info": {
-    "1": {
-      "name": "Metamath",
-      "rule_format": {
-        "version": "1.0"
-      }
-    }
-  },
-  "metamath_data": {
-    "1": {
-      "statements": {
-        "1": {
-          "label": "2cn",
-          "expression": "|- 2 e. CC",
-          "dependencies": [],
-          "full_text": "2cn: The number 2 is a complex number.  (Contributed by NM, 30-Jul-2004.) Reduce dependencies on axioms.  (Revised by Steven Nguyen, 4-Oct-2022.) (|- 2 e. CC)"
+      "world_class_name": "MetamathWorld",
+      "options": {
+        "accessibility": 0,
+        "auto_download_database": true,
+        "entrance_rule_mode": 1,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": true,
+        "randomize_starting_statements": true,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_statements": 0,
+        "theorem": 1,
+        "vanilla_placement": false
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
         },
-        "2": {
-          "label": "ax-1cn",
-          "expression": "|- 1 e. CC",
-          "dependencies": [],
-          "full_text": "ax-1cn: $j restatement 'ax-resscn' of 'axresscn'; $) $( 1 is a complex number.  Axiom 2 of 22 for real and complex numbers, justified by Theorem ~ ax1cn .  (Contributed by NM, 1-Mar-1995.) (|- 1 e. CC)"
+        "auto_download_database": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Auto-Download Database"
         },
-        "3": {
-          "label": "addassi",
-          "expression": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
-          "dependencies": [
-            1,
-            2
-          ],
-          "full_text": "addassi: Associative law for addition.  (Contributed by NM, 23-Nov-1994.) (|- ( ( A + B ) + C ) = ( A + ( B + C ) ))"
+        "entrance_rule_mode": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "strict",
+            "1": "relaxed_items",
+            "2": "relaxed_events",
+            "3": "fully_relaxed"
+          },
+          "default": 1,
+          "display_name": "Entrance Rule Mode"
         },
-        "4": {
-          "label": "df-2",
-          "expression": "|- 2 = ( 1 + 1 )",
-          "dependencies": [],
-          "full_text": "df-2: Define the number 2.  (Contributed by NM, 27-May-1999.) (|- 2 = ( 1 + 1 ))"
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
         },
-        "5": {
-          "label": "df-3",
-          "expression": "|- 3 = ( 2 + 1 )",
-          "dependencies": [],
-          "full_text": "df-3: Define the number 3.  (Contributed by NM, 27-May-1999.) (|- 3 = ( 2 + 1 ))"
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
         },
-        "6": {
-          "label": "df-4",
-          "expression": "|- 4 = ( 3 + 1 )",
-          "dependencies": [],
-          "full_text": "df-4: Define the number 4.  (Contributed by NM, 27-May-1999.) (|- 4 = ( 3 + 1 ))"
+        "randomize_starting_statements": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Starting Statements"
         },
-        "7": {
-          "label": "oveq1i",
-          "expression": "|- ( A F C ) = ( B F C )",
-          "dependencies": [
-            5
-          ],
-          "full_text": "oveq1i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( A F C ) = ( B F C ))"
+        "starting_statements": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 50,
+          "default": 0,
+          "display_name": "Starting Statements %"
         },
-        "8": {
-          "label": "3eqtri",
-          "expression": "|- A = D",
-          "dependencies": [
-            3,
-            6,
-            7
-          ],
-          "full_text": "3eqtri: Register '=' as an equality for its type (class). $) $( $j equality 'wceq' from 'eqid' 'eqcomi' 'eqtri'; $) ${ 3eqtri.1 $e |- A = B $. 3eqtri.2 $e |- B = C $. 3eqtri.3 $e |- C = D $. $( An inference from three chained equalities.  (Contributed by NM, 29-Aug-1993.) (|- A = D)"
+        "theorem": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "1p1e2",
+            "1": "2p2e4",
+            "2": "3p3e6",
+            "3": "4p4e8",
+            "4": "5p5e10",
+            "5": "2m1e1",
+            "6": "pm2_21",
+            "7": "pm2_43",
+            "8": "pm5_32",
+            "9": "con3i",
+            "10": "syl",
+            "11": "uneq12i",
+            "12": "ineq12i",
+            "13": "pwfi",
+            "14": "canth",
+            "15": "grplid",
+            "16": "grpinveu",
+            "17": "cos0",
+            "18": "sin0",
+            "19": "euclemma",
+            "20": "wilth",
+            "22": "prmunb",
+            "23": "cncmp",
+            "21": "dfac5"
+          },
+          "default": 1,
+          "display_name": "Theorem to Prove"
         },
-        "9": {
-          "label": "oveq2i",
-          "expression": "|- ( C F A ) = ( C F B )",
-          "dependencies": [
-            4
-          ],
-          "full_text": "oveq2i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( C F A ) = ( C F B ))"
-        },
-        "10": {
-          "label": "eqtr4i",
-          "expression": "|- A = C",
-          "dependencies": [
-            8,
-            9
-          ],
-          "full_text": "eqtr4i: An equality transitivity inference.  (Contributed by NM, 26-May-1993.) (|- A = C)"
+        "vanilla_placement": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Vanilla Item Placement"
         }
       },
-      "dependency_graph": {
-        "1": [],
-        "2": [],
-        "3": [
-          1,
-          2
+      "proof_structure": {
+        "label_to_index": {
+          "2cn": 1,
+          "ax-1cn": 2,
+          "addassi": 3,
+          "df-2": 4,
+          "df-3": 5,
+          "df-4": 6,
+          "oveq1i": 7,
+          "3eqtri": 8,
+          "oveq2i": 9,
+          "eqtr4i": 10
+        }
+      },
+      "num_statements": 10,
+      "preset_label": "2p2e4 s2",
+      "name_substitutions": {
+        "items": {
+          "Statement 1": "2cn: |- 2 e. CC",
+          "Proved Statement 1": "Given 2cn: |- 2 e. CC",
+          "Statement 2": "ax-1cn: |- 1 e. CC",
+          "Proved Statement 2": "Axiom ax-1cn: |- 1 e. CC",
+          "Statement 3": "addassi: |- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "Proved Statement 3": "Proved addassi: |- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "Statement 4": "df-2: |- 2 = ( 1 + 1 )",
+          "Proved Statement 4": "Definition df-2: |- 2 = ( 1 + 1 )",
+          "Statement 5": "df-3: |- 3 = ( 2 + 1 )",
+          "Proved Statement 5": "Definition df-3: |- 3 = ( 2 + 1 )",
+          "Statement 6": "df-4: |- 4 = ( 3 + 1 )",
+          "Proved Statement 6": "Definition df-4: |- 4 = ( 3 + 1 )",
+          "Statement 7": "oveq1i: |- ( A F C ) = ( B F C )",
+          "Proved Statement 7": "Proved oveq1i: |- ( A F C ) = ( B F C )",
+          "Statement 8": "3eqtri: |- A = D",
+          "Proved Statement 8": "Proved 3eqtri: |- A = D",
+          "Statement 9": "oveq2i: |- ( C F A ) = ( C F B )",
+          "Proved Statement 9": "Proved oveq2i: |- ( C F A ) = ( C F B )",
+          "Statement 10": "eqtr4i: |- A = C",
+          "Proved Statement 10": "Proved eqtr4i: |- A = C"
+        },
+        "locations": {
+          "Prove Statement 1": "Given 2cn: |- 2 e. CC",
+          "Prove Statement 2": "Axiom ax-1cn: |- 1 e. CC",
+          "Prove Statement 3": "Prove addassi: |- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "Prove Statement 4": "Definition df-2: |- 2 = ( 1 + 1 )",
+          "Prove Statement 5": "Definition df-3: |- 3 = ( 2 + 1 )",
+          "Prove Statement 6": "Definition df-4: |- 4 = ( 3 + 1 )",
+          "Prove Statement 7": "Prove oveq1i: |- ( A F C ) = ( B F C )",
+          "Prove Statement 8": "Prove 3eqtri: |- A = D",
+          "Prove Statement 9": "Prove oveq2i: |- ( C F A ) = ( C F B )",
+          "Prove Statement 10": "Prove eqtr4i: |- A = C"
+        },
+        "regions": {
+          "Prove Statement 1": "Given 2cn: |- 2 e. CC",
+          "Prove Statement 2": "Axiom ax-1cn: |- 1 e. CC",
+          "Prove Statement 3": "Prove addassi: |- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "Prove Statement 4": "Definition df-2: |- 2 = ( 1 + 1 )",
+          "Prove Statement 5": "Definition df-3: |- 3 = ( 2 + 1 )",
+          "Prove Statement 6": "Definition df-4: |- 4 = ( 3 + 1 )",
+          "Prove Statement 7": "Prove oveq1i: |- ( A F C ) = ( B F C )",
+          "Prove Statement 8": "Prove 3eqtri: |- A = D",
+          "Prove Statement 9": "Prove oveq2i: |- ( C F A ) = ( C F B )",
+          "Prove Statement 10": "Prove eqtr4i: |- A = C"
+        }
+      },
+      "canonical_placements": {
+        "Prove Statement 2": "Statement 2",
+        "Prove Statement 3": "Statement 3",
+        "Prove Statement 4": "Statement 4",
+        "Prove Statement 5": "Statement 5",
+        "Prove Statement 6": "Statement 6",
+        "Prove Statement 7": "Statement 7",
+        "Prove Statement 8": "Statement 8",
+        "Prove Statement 9": "Statement 9"
+      },
+      "location_dependencies": {
+        "Prove Statement 3": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
         ],
-        "4": [],
-        "5": [],
-        "6": [],
-        "7": [
-          5
+        "Proved Statement 3": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
         ],
-        "8": [
-          3,
-          6,
-          7
+        "Prove Statement 7": [
+          "Statement 5",
+          "Proved Statement 5"
         ],
-        "9": [
-          4
+        "Proved Statement 7": [
+          "Statement 5",
+          "Proved Statement 5"
         ],
-        "10": [
-          8,
-          9
+        "Prove Statement 8": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
+        ],
+        "Proved Statement 8": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
+        ],
+        "Prove Statement 9": [
+          "Statement 4",
+          "Proved Statement 4"
+        ],
+        "Proved Statement 9": [
+          "Statement 4",
+          "Proved Statement 4"
+        ],
+        "Prove Statement 10": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "Proved Statement 10": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
         ]
       },
-      "reverse_dependencies": {
-        "1": [
-          3
+      "entrance_dependencies": {
+        "From 2cn to addassi": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
         ],
-        "2": [
-          3
+        "From ax-1cn to addassi": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
         ],
-        "3": [
-          8
+        "From df-3 to oveq1i": [
+          "Statement 5",
+          "Proved Statement 5"
         ],
-        "4": [
-          9
+        "From addassi to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
         ],
-        "5": [
-          7
+        "From df-4 to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
         ],
-        "6": [
-          8
+        "From oveq1i to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
         ],
-        "7": [
-          8
+        "From df-2 to oveq2i": [
+          "Statement 4",
+          "Proved Statement 4"
         ],
-        "8": [
-          10
+        "From 3eqtri to eqtr4i": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
         ],
-        "9": [
-          10
+        "From oveq2i to eqtr4i": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
         ]
       },
-      "label_to_index": {
-        "2cn": 1,
-        "ax-1cn": 2,
-        "addassi": 3,
-        "df-2": 4,
-        "df-3": 5,
-        "df-4": 6,
-        "oveq1i": 7,
-        "3eqtri": 8,
-        "oveq2i": 9,
-        "eqtr4i": 10
+      "exit_dependencies": {
+        "From 2cn to addassi": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
+        ],
+        "From ax-1cn to addassi": [
+          "Statement 1",
+          "Proved Statement 1",
+          "Statement 2",
+          "Proved Statement 2"
+        ],
+        "From addassi to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
+        ],
+        "From df-2 to oveq2i": [
+          "Statement 4",
+          "Proved Statement 4"
+        ],
+        "From df-3 to oveq1i": [
+          "Statement 5",
+          "Proved Statement 5"
+        ],
+        "From df-4 to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
+        ],
+        "From oveq1i to 3eqtri": [
+          "Statement 3",
+          "Proved Statement 3",
+          "Statement 6",
+          "Proved Statement 6",
+          "Statement 7",
+          "Proved Statement 7"
+        ],
+        "From 3eqtri to eqtr4i": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ],
+        "From oveq2i to eqtr4i": [
+          "Statement 8",
+          "Proved Statement 8",
+          "Statement 9",
+          "Proved Statement 9"
+        ]
+      },
+      "world_description": "Turn MetaMath proofs into Archipelago worlds!\nEach proof step is both a location (proving it) and an item (ability to use it).\nNavigate logical dependencies across the multiworld to complete your proof.",
+      "slot_data": {
+        "proof_structure": {
+          "1": {
+            "label": "2cn",
+            "expression": "|- 2 e. CC",
+            "dependencies": [],
+            "full_text": "2cn: The number 2 is a complex number.  (Contributed by NM, 30-Jul-2004.) Reduce dependencies on axioms.  (Revised by Steven Nguyen, 4-Oct-2022.)"
+          },
+          "2": {
+            "label": "ax-1cn",
+            "expression": "|- 1 e. CC",
+            "dependencies": [],
+            "full_text": "ax-1cn: $j restatement 'ax-resscn' of 'axresscn'; $) $( 1 is a complex number.  Axiom 2 of 22 for real and complex numbers, justified by Theorem ~ ax1cn .  (Contributed by NM, 1-Mar-1995.)"
+          },
+          "3": {
+            "label": "addassi",
+            "expression": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+            "dependencies": [
+              1,
+              2,
+              2
+            ],
+            "full_text": "addassi: Associative law for addition.  (Contributed by NM, 23-Nov-1994.)",
+            "instantiated_expression": "|- ( ( 2 + 1 ) + 1 ) = ( 2 + ( 1 + 1 ) )"
+          },
+          "4": {
+            "label": "df-2",
+            "expression": "|- 2 = ( 1 + 1 )",
+            "dependencies": [],
+            "full_text": "df-2: Define the number 2.  (Contributed by NM, 27-May-1999.)"
+          },
+          "5": {
+            "label": "df-3",
+            "expression": "|- 3 = ( 2 + 1 )",
+            "dependencies": [],
+            "full_text": "df-3: Define the number 3.  (Contributed by NM, 27-May-1999.)"
+          },
+          "6": {
+            "label": "df-4",
+            "expression": "|- 4 = ( 3 + 1 )",
+            "dependencies": [],
+            "full_text": "df-4: Define the number 4.  (Contributed by NM, 27-May-1999.)"
+          },
+          "7": {
+            "label": "oveq1i",
+            "expression": "|- ( A F C ) = ( B F C )",
+            "dependencies": [
+              5
+            ],
+            "full_text": "oveq1i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.)",
+            "instantiated_expression": "|- ( 3 + 1 ) = ( ( 2 + 1 ) + 1 )"
+          },
+          "8": {
+            "label": "3eqtri",
+            "expression": "|- A = D",
+            "dependencies": [
+              3,
+              6,
+              7
+            ],
+            "full_text": "3eqtri: Register '=' as an equality for its type (class). $) $( $j equality 'wceq' from 'eqid' 'eqcomi' 'eqtri'; $) ${ 3eqtri.1 $e |- A = B $. 3eqtri.2 $e |- B = C $. 3eqtri.3 $e |- C = D $. $( An inference from three chained equalities.  (Contributed by NM, 29-Aug-1993.)",
+            "instantiated_expression": "|- 4 = ( 2 + ( 1 + 1 ) )"
+          },
+          "9": {
+            "label": "oveq2i",
+            "expression": "|- ( C F A ) = ( C F B )",
+            "dependencies": [
+              4
+            ],
+            "full_text": "oveq2i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.)",
+            "instantiated_expression": "|- ( 2 + 2 ) = ( 2 + ( 1 + 1 ) )"
+          },
+          "10": {
+            "label": "eqtr4i",
+            "expression": "|- A = C",
+            "dependencies": [
+              8,
+              9
+            ],
+            "full_text": "eqtr4i: An equality transitivity inference.  (Contributed by NM, 26-May-1993.)",
+            "instantiated_expression": "|- ( 2 + 2 ) = 4"
+          }
+        },
+        "starting_statements": [
+          1
+        ],
+        "theorem": "2p2e4",
+        "randomize_items": 1,
+        "vanilla_placement": 0
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up Metamath for MultiWorld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Archipelago Team"
+            ]
+          }
+        ]
+      },
+      "world_directory": "metamath"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Proved Statement 10"
       }
     }
-  }
+  },
+  "helpers": {},
+  "preset_label": "2p2e4 s2"
 }

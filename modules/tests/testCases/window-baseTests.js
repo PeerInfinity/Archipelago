@@ -20,7 +20,7 @@ async function setupWindowBase(testController) {
   testController.eventBus.publish('ui:activatePanel', { 
     panelId: 'windowPanel',
     config: { windowName: 'window-base' }
-  }, 'tests');
+  });
   
   const windowPanelReady = await testController.pollForCondition(
     () => {
@@ -46,7 +46,7 @@ async function setupWindowBase(testController) {
   
   testController.eventBus.publish('window:loadUrl', {
     url: './modules/window-base/index.html?heartbeatInterval=3000'
-  }, 'tests');
+  });
   
   const windowOpened = await windowOpenedPromise;
   testController.reportCondition('Window opened successfully', !!windowOpened);
@@ -284,7 +284,7 @@ export async function windowBaseConnectionTest(testController) {
     testController.reportCondition('WindowAdapter core available', typeof window.windowAdapterCore !== 'undefined');
     
     // Create window panel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' });
     
     const windowPanelCreated = await testController.pollForCondition(
       () => {
@@ -303,7 +303,7 @@ export async function windowBaseConnectionTest(testController) {
     
     testController.eventBus.publish('window:loadUrl', {
       url: './modules/window-base/index.html?heartbeatInterval=3000'
-    }, 'tests');
+    });
     
     const windowLoaded = await windowLoadedPromise;
     testController.reportCondition('Window loaded event received', !!windowLoaded);
@@ -322,7 +322,7 @@ export async function windowBaseConnectionTest(testController) {
 
     // Test window manager panel
     testController.log('Testing window manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' });
     
     const windowManagerCreated = await testController.pollForCondition(
       () => {

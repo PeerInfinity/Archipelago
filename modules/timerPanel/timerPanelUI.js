@@ -1,6 +1,5 @@
 // frontend/modules/timerPanel/timerPanelUI.js
 // import { centralRegistry } from '../../app/core/centralRegistry.js'; // REMOVED - No longer used for timer hosting
-import eventBus from '../../app/core/eventBus.js'; // Keep for 'module:stateChanged' if still used for other purposes
 import { centralRegistry } from '../../app/core/centralRegistry.js'; // RE-ADD import
 // Import helper from its own index.js to get module context
 import {
@@ -9,7 +8,7 @@ import {
   // getHostedUIComponentType, // REMOVED
   setTimerPanelUIInstance, // ADDED
   getModuleDispatcher, // ADDED
-  getModuleEventBus, // ADDED
+  getModuleEventBus,
 } from './index.js';
 
 // Helper function for logging with fallback
@@ -32,6 +31,7 @@ export class TimerPanelUI {
     setTimerPanelUIInstance(this); // ADDED - Register instance with module's index.js
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     this.rootElement = document.createElement('div');
     this.rootElement.className = 'timer-panel-ui-container panel-container';
@@ -65,7 +65,7 @@ export class TimerPanelUI {
     // This subscription might still be relevant if the panel needs to react to its own module being disabled/enabled
     // for reasons other than timer hosting. If not, it can be removed.
     // For now, keep it, but its logic in _handleSelfModuleStateChange will change.
-    eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler, 'timerPanel');
+    this.eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler);
     // centralRegistry.registerEventBusSubscriberIntent(this.moduleId, 'module:stateChanged'); // This was likely for the old system; remove if not broadly used
 
     log(
@@ -99,7 +99,7 @@ export class TimerPanelUI {
     // this._cleanupHostRegistration();
 
     if (this.moduleStateChangeHandler) {
-      eventBus.unsubscribe(
+      this.eventBus.unsubscribe(
         'module:stateChanged',
         this.moduleStateChangeHandler
       );
@@ -162,21 +162,6 @@ export class TimerPanelUI {
       `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'destroy' event. Calling onUnmount.`
     );
     this.onUnmount(); // onUnmount now includes setTimerPanelUIInstance(null)
-
-    // ADDED: Notify that this panel was manually closed, so ModuleManager can update state
-    const bus = getModuleEventBus();
-    if (bus && typeof bus.publish === 'function') {
-      log(
-        'info',
-        `[TimerPanelUI for ${this.moduleId}] Panel destroyed, publishing ui:panelManuallyClosed.`
-      );
-      bus.publish('ui:panelManuallyClosed', { moduleId: this.moduleId });
-    } else {
-      log(
-        'warn',
-        `[TimerPanelUI for ${this.moduleId}] Could not get eventBus or publish function to send ui:panelManuallyClosed.`
-      );
-    }
 
     // Dispatch rehome event for TimerUI
     const dispatcher = getModuleDispatcher();

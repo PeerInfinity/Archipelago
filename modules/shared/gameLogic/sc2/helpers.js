@@ -11,7 +11,19 @@
 import { DEFAULT_PLAYER_ID } from '../../playerIdUtils.js';
 
 /**
- * Get the player number from staticData
+ * Get the player ID from snapshot or staticData.
+ * In multiworld mode, the player ID is in snapshot.player.id or snapshot.player.slot.
+ * Falls back to staticData.player or DEFAULT_PLAYER_ID.
+ * Always returns a string for consistent world key lookup.
+ */
+function getPlayerId(snapshot, staticData) {
+    const rawId = snapshot?.player?.id || snapshot?.player?.slot ||
+                  staticData?.player || staticData?.playerId || DEFAULT_PLAYER_ID;
+    return String(rawId);
+}
+
+/**
+ * Get the player number from staticData (legacy, prefer getPlayerId)
  */
 function getPlayer(staticData) {
     return staticData?.player || 1;
@@ -20,10 +32,15 @@ function getPlayer(staticData) {
 /**
  * Check if advanced tactics are enabled
  */
-function isAdvancedTactics(staticData) {
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
-    const logicLevel = settings?.required_tactics;
+function isAdvancedTactics(staticData, snapshot = null) {
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
+    // Use pre-computed advanced_tactics if available (exported by exporter)
+    if (settings?.advanced_tactics !== undefined) {
+        return settings.advanced_tactics;
+    }
+    // Fall back to computing from required_tactics in options
+    const logicLevel = settings?.required_tactics ?? settings?.options?.required_tactics;
     // RequiredTactics.option_standard = 0, anything else means advanced tactics
     return logicLevel !== undefined && logicLevel !== 0;
 }
@@ -62,24 +79,25 @@ function count(snapshot, itemName) {
  * Get the required weapon/armor upgrade level for very hard missions
  * Standard tactics requires level 3, advanced tactics requires level 2
  */
-function getVeryHardRequiredUpgradeLevel(staticData) {
-    return isAdvancedTactics(staticData) ? 2 : 3;
+function getVeryHardRequiredUpgradeLevel(snapshot, staticData) {
+    return isAdvancedTactics(staticData, snapshot) ? 2 : 3;
 }
 
 /**
  * Get minimum weapon/armor upgrade level across all unit types
  * Returns the minimum upgrade count for infantry, vehicle, and ship weapons/armor
+ * Uses weapon_armor_upgrade_count to account for bundle items
  */
-function terranArmyWeaponArmorUpgradeMinLevel(snapshot) {
+function terranArmyWeaponArmorUpgradeMinLevel(snapshot, staticData) {
     const WEAPON_ARMOR_UPGRADE_MAX_LEVEL = 3;
 
-    // Get upgrade counts for each type
-    const infantryWeapon = count(snapshot, 'Progressive Terran Infantry Weapon');
-    const infantryArmor = count(snapshot, 'Progressive Terran Infantry Armor');
-    const vehicleWeapon = count(snapshot, 'Progressive Terran Vehicle Weapon');
-    const vehicleArmor = count(snapshot, 'Progressive Terran Vehicle Armor');
-    const shipWeapon = count(snapshot, 'Progressive Terran Ship Weapon');
-    const shipArmor = count(snapshot, 'Progressive Terran Ship Armor');
+    // Get upgrade counts for each type, accounting for bundles
+    const infantryWeapon = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Infantry Weapon');
+    const infantryArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Infantry Armor');
+    const vehicleWeapon = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Vehicle Weapon');
+    const vehicleArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Vehicle Armor');
+    const shipWeapon = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Weapon');
+    const shipArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Armor');
 
     // Return minimum across all types (assuming all unit types are in the game)
     return Math.min(
@@ -94,19 +112,50 @@ function terranArmyWeaponArmorUpgradeMinLevel(snapshot) {
  * Check if weapon/armor upgrade level meets very hard mission requirements
  */
 function terranVeryHardMissionWeaponArmorLevel(snapshot, staticData) {
-    const minLevel = terranArmyWeaponArmorUpgradeMinLevel(snapshot);
+    const minLevel = terranArmyWeaponArmorUpgradeMinLevel(snapshot, staticData);
     const requiredLevel = getVeryHardRequiredUpgradeLevel(staticData);
     return minLevel >= requiredLevel;
 }
 
 /**
  * Count weapon/armor upgrades for a specific progressive item
- * Returns the count of a weapon/armor upgrade item.
+ * Returns the count of a weapon/armor upgrade item, including counts from bundle items.
  * Used in comparisons like `weapon_armor_upgrade_count(...) >= 2`
  * Matches Python: self.weapon_armor_upgrade_count(item_name, state)
+ *
+ * Python logic handles:
+ * 1. generic_upgrade_missions option (mission-based upgrades) - not implemented in JS
+ * 2. Direct count of the upgrade item
+ * 3. Counts from upgrade_bundle_inverted_lookup (bundle items that provide this upgrade)
+ * 4. For protoss shields: max of ground/air upgrades - not implemented yet
+ * 5. Quatro bonus for protoss generic upgrades - not implemented yet
  */
 function weapon_armor_upgrade_count(snapshot, staticData, upgradeItem) {
-    return count(snapshot, upgradeItem);
+    let totalCount = count(snapshot, upgradeItem);
+
+    // Get the bundle lookup from game_info
+    // The structure is staticData.game_info[playerId].upgrade_bundle_inverted_lookup
+    const playerId = getPlayerId(snapshot, staticData);
+    let bundleLookup = staticData?.game_info?.[playerId]?.upgrade_bundle_inverted_lookup;
+
+    // Fallback: check if game_info is not keyed by player (some test environments)
+    if (!bundleLookup) {
+        bundleLookup = staticData?.game_info?.upgrade_bundle_inverted_lookup;
+    }
+
+    // Fallback: check if upgrade_bundle_inverted_lookup is directly on staticData
+    if (!bundleLookup) {
+        bundleLookup = staticData?.upgrade_bundle_inverted_lookup;
+    }
+
+    if (bundleLookup && bundleLookup[upgradeItem]) {
+        // Add counts from bundle items that provide this upgrade
+        for (const bundleItem of bundleLookup[upgradeItem]) {
+            totalCount += count(snapshot, bundleItem);
+        }
+    }
+
+    return totalCount;
 }
 
 /**
@@ -116,7 +165,7 @@ function weapon_armor_upgrade_count(snapshot, staticData, upgradeItem) {
  * Advanced adds: Reaper, Diamondback, Viking, Siege Tank, Banshee, Thor, Battlecruiser, Cyclone
  */
 export function terran_common_unit(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     // Basic units (always included) - matches Python basic_units[SC2Race.TERRAN]
     const basicUnits = ['Marine', 'Marauder', 'Dominion Trooper', 'Goliath', 'Hellion', 'Vulture', 'Warhound'];
@@ -142,7 +191,7 @@ export function terran_common_unit(snapshot, staticData) {
  * Basic combat unit that can be deployed quickly from mission start
  */
 export function terran_early_tech(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Marine', 'Dominion Trooper', 'Firebat', 'Marauder', 'Reaper', 'Hellion'])
         || (advancedTactics && has_any(snapshot, ['Goliath', 'Diamondback', 'Viking', 'Banshee']));
@@ -152,7 +201,7 @@ export function terran_early_tech(snapshot, staticData) {
  * Air units or drops on advanced tactics
  */
 export function terran_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Viking', 'Wraith', 'Banshee', 'Battlecruiser'])
         || (advancedTactics && has_any(snapshot, ['Hercules', 'Medivac']) && terran_common_unit(snapshot, staticData));
@@ -162,7 +211,7 @@ export function terran_air(snapshot, staticData) {
  * Air-to-air capable units
  */
 export function terran_air_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has(snapshot, 'Viking')
         || has_all(snapshot, ['Wraith', 'Advanced Laser Technology (Wraith)'])
@@ -178,7 +227,7 @@ export function terran_air_anti_air(snapshot, staticData) {
  *   - Advanced tactics AND (Cyclone OR (Thor AND Thor_HIGH_IMPACT_PAYLOAD))
  */
 export function terran_competent_ground_to_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     // Has Goliath
     if (has(snapshot, 'Goliath')) {
@@ -188,7 +237,7 @@ export function terran_competent_ground_to_air(snapshot, staticData) {
     // (Marine OR Dominion Trooper) AND bio_heal AND infantry weapon >= 2
     if (has_any(snapshot, ['Marine', 'Dominion Trooper'])
         && terran_bio_heal(snapshot, staticData)
-        && count(snapshot, 'Progressive Terran Infantry Weapon') >= 2) {
+        && weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Infantry Weapon') >= 2) {
         return true;
     }
 
@@ -216,7 +265,7 @@ export function terran_competent_anti_air(snapshot, staticData) {
  * Moderate anti-air capability (more than basic but not full competence)
  */
 export function terran_moderate_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return terran_competent_anti_air(snapshot, staticData)
         || has_any(snapshot, [
@@ -232,7 +281,7 @@ export function terran_moderate_anti_air(snapshot, staticData) {
  * Ability to heal bio units
  */
 export function terran_bio_heal(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Medic', 'Medivac'])
         || (advancedTactics && has_all(snapshot, ['Raven', 'Bio Mechanical Repair Drone (Raven)']));
@@ -242,7 +291,7 @@ export function terran_bio_heal(snapshot, staticData) {
  * Basic anti-air to deal with few air units
  */
 export function terran_basic_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, [
         'Missile Turret', 'Thor', 'War Pigs', 'Spartan Company',
@@ -276,7 +325,7 @@ export function enemy_intelligence_garrisonable_unit(snapshot, staticData) {
  * Units that can reach cliff garrisons in Enemy Intelligence
  */
 export function enemy_intelligence_cliff_garrison(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Reaper', 'Viking', 'Medivac', 'Hercules'])
         || has_all(snapshot, ['Goliath', 'Jump Jets (Goliath)'])
@@ -303,8 +352,8 @@ export function enemy_intelligence_first_stage_requirement(snapshot, staticData)
  * Enemy Intelligence second stage requirement
  */
 export function enemy_intelligence_second_stage_requirement(snapshot, staticData) {
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
     const storyTechGranted = settings?.story_tech_granted || false;
 
     return enemy_intelligence_first_stage_requirement(snapshot, staticData)
@@ -329,8 +378,8 @@ export function enemy_intelligence_second_stage_requirement(snapshot, staticData
  * Enemy Intelligence third stage requirement
  */
 export function enemy_intelligence_third_stage_requirement(snapshot, staticData) {
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
     const storyTechGranted = settings?.story_tech_granted || false;
 
     return enemy_intelligence_second_stage_requirement(snapshot, staticData)
@@ -382,7 +431,7 @@ export function nova_anti_air_weapon(snapshot, staticData) {
  * Nova has splash damage capability
  */
 export function nova_splash(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, [
         'Hellfire Shotgun (Nova Weapon)',
@@ -510,7 +559,7 @@ export function terran_defense_rating(snapshot, staticData, zergEnemy, airEnemy 
 
     // Advanced Tactics bumps defense rating requirements down by 2
     // (adds 2 to score, making it easier to meet requirements)
-    if (isAdvancedTactics(staticData)) {
+    if (isAdvancedTactics(staticData, snapshot)) {
         defenseScore += 2;
     }
 
@@ -523,7 +572,7 @@ export function terran_defense_rating(snapshot, staticData, zergEnemy, airEnemy 
  */
 export function terran_power_rating(snapshot, staticData) {
     // Base power rating: 2 if advanced tactics, 0 otherwise
-    const basePowerRating = isAdvancedTactics(staticData) ? 2 : 0;
+    const basePowerRating = isAdvancedTactics(staticData, snapshot) ? 2 : 0;
     let powerScore = basePowerRating;
 
     // Passive ratings for economic upgrades and global army upgrades
@@ -545,8 +594,8 @@ export function terran_power_rating(snapshot, staticData) {
     }
 
     // Spear of Adun presence - check settings
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
     const soaPresence = settings?.spear_of_adun_presence;
     const soaPassivePresence = settings?.spear_of_adun_passive_presence;
 
@@ -630,11 +679,12 @@ export function terran_competent_comp(snapshot, staticData, upgradeLevel = 1) {
         return false;
     }
 
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     // Infantry with Healing
-    const infantryWeapons = count(snapshot, 'Progressive Terran Infantry Weapon');
-    const infantryArmor = count(snapshot, 'Progressive Terran Infantry Armor');
+    // Use weapon_armor_upgrade_count to account for bundle items
+    const infantryWeapons = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Infantry Weapon');
+    const infantryArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Infantry Armor');
     const hasInfantry = has_any(snapshot, ['Marine', 'Dominion Trooper', 'Marauder']);
     if (infantryWeapons >= upgradeLevel + 1
         && infantryArmor >= upgradeLevel
@@ -645,8 +695,8 @@ export function terran_competent_comp(snapshot, staticData, upgradeLevel = 1) {
     }
 
     // Mass Air-To-Ground
-    const shipWeapons = count(snapshot, 'Progressive Terran Ship Weapon');
-    const shipArmor = count(snapshot, 'Progressive Terran Ship Armor');
+    const shipWeapons = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Weapon');
+    const shipArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Armor');
     if (shipWeapons >= upgradeLevel && shipArmor >= upgradeLevel) {
         const hasAir = has_any(snapshot, ['Banshee', 'Battlecruiser'])
             || has_all(snapshot, ['Liberator', 'Raid Artillery (Liberator)'])
@@ -659,8 +709,8 @@ export function terran_competent_comp(snapshot, staticData, upgradeLevel = 1) {
     }
 
     // Strong Mech
-    const vehicleWeapons = count(snapshot, 'Progressive Terran Vehicle Weapon');
-    const vehicleArmor = count(snapshot, 'Progressive Terran Vehicle Armor');
+    const vehicleWeapons = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Vehicle Weapon');
+    const vehicleArmor = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Vehicle Armor');
     if (vehicleWeapons >= upgradeLevel && vehicleArmor >= upgradeLevel) {
         const strongVehicle = has_any(snapshot, ['Thor', 'Siege Tank']);
         const lightFrontline = has_any(snapshot, ['Marine', 'Dominion Trooper', 'Hellion', 'Vulture'])
@@ -701,7 +751,7 @@ export function terran_havens_fall_requirement(snapshot, staticData) {
  * Ability to deal with trains (moving target with a lot of HP) - Great Train Robbery
  */
 export function terran_great_train_robbery_train_stopper(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Siege Tank', 'Diamondback', 'Marauder', 'Cyclone', 'Banshee'])
         || (advancedTactics && (
@@ -744,7 +794,7 @@ export function terran_beats_protoss_deathball(snapshot, staticData) {
  * No-logic adds: Sentry, High Templar, Signifier, Energizer, Colossus
  */
 export function protoss_common_unit(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     // Basic units (always included)
     const basicUnits = [
@@ -771,7 +821,7 @@ export function protoss_common_unit(snapshot, staticData) {
  * Competent anti-air for Protoss
  */
 export function protoss_competent_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, [
         'Stalker', 'Slayer', 'Instigator', 'Dragoon', 'Adept',
@@ -788,7 +838,7 @@ export function protoss_competent_anti_air(snapshot, staticData) {
  * Basic anti-air for Protoss
  */
 export function protoss_basic_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return protoss_competent_anti_air(snapshot, staticData)
         || has_any(snapshot, [
@@ -833,7 +883,7 @@ export function protoss_has_blink(snapshot, staticData) {
  * Can attack behind chasm
  */
 export function protoss_can_attack_behind_chasm(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, [
         'Scout', 'Tempest', 'Carrier', 'Void Ray', 'Destroyer', 'Mothership'
@@ -872,7 +922,7 @@ export function protoss_static_defense(snapshot, staticData) {
  * Protoss can counter hybrids
  */
 export function protoss_hybrid_counter(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, [
         'Annihilator', 'Ascendant', 'Tempest', 'Carrier', 'Void Ray',
@@ -921,7 +971,7 @@ export function protoss_stalker_upgrade(snapshot, staticData) {
  * Zerg competent anti-air
  */
 export function zerg_competent_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     return has_any(snapshot, ['Hydralisk', 'Mutalisk', 'Corruptor', 'Brood Queen'])
         || has_all(snapshot, ['Swarm Host', 'Pressurized Glands (Swarm Host)'])
@@ -939,9 +989,9 @@ export function zerg_competent_anti_air(snapshot, staticData) {
  * So this check passes when we're NOT in a HotS Zerg context, effectively skipping anti-air requirements.
  */
 export function zerg_basic_anti_air(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
     const kerriganUnitAvailable = settings?.kerrigan_unit_available || false;
 
     // Check if zerg_competent_anti_air is satisfied
@@ -996,7 +1046,7 @@ export function morph_impaler_or_lurker(snapshot, staticData) {
  * Zerg competent composition
  */
 export function zerg_competent_comp(snapshot, staticData) {
-    const advanced = isAdvancedTactics(staticData);
+    const advanced = isAdvancedTactics(staticData, snapshot);
 
     const coreUnit = has_any(snapshot, ['Roach', 'Aberration', 'Zergling']);
     const supportUnit = has_any(snapshot, ['Swarm Queen', 'Hydralisk'])
@@ -1016,7 +1066,7 @@ export function zerg_competent_comp(snapshot, staticData) {
  * Spread creep
  */
 export function spread_creep(snapshot, staticData) {
-    return isAdvancedTactics(staticData) || has(snapshot, 'Swarm Queen');
+    return isAdvancedTactics(staticData, snapshot) || has(snapshot, 'Swarm Queen');
 }
 
 /**
@@ -1049,7 +1099,7 @@ export function two_kerrigan_actives(snapshot, staticData) {
  * Basic Kerrigan - check if player has basic Kerrigan setup
  */
 export function basic_kerrigan(snapshot, staticData) {
-    const advancedTactics = isAdvancedTactics(staticData);
+    const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
     // List of active abilities that can defeat enemies directly
     const directCombatAbilities = [
@@ -1096,8 +1146,8 @@ export function basic_kerrigan(snapshot, staticData) {
  * Kerrigan levels - check if player has enough Kerrigan levels
  */
 export function kerrigan_levels(snapshot, staticData, target) {
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId] || {};
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId] ?? {};
     const storyLevelsGranted = settings.story_levels_granted || false;
     const kerriganUnitAvailable = settings.kerrigan_unit_available || false;
 
@@ -1196,7 +1246,7 @@ function marine_medic_upgrade(snapshot, staticData) {
     }
 
     // Advanced tactics: Laser Targeting System also qualifies
-    if (isAdvancedTactics(staticData) && has(snapshot, 'Laser Targeting System (Marine)')) {
+    if (isAdvancedTactics(staticData, snapshot) && has(snapshot, 'Laser Targeting System (Marine)')) {
         return true;
     }
 
@@ -1257,8 +1307,8 @@ function engine_of_destruction_requirement(snapshot, staticData) {
  * Check if stuff is granted for The Escape mission
  */
 function the_escape_stuff_granted(snapshot, staticData) {
-    const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-    const settings = staticData?.settings?.[playerId];
+    const playerId = getPlayerId(snapshot, staticData);
+    const settings = staticData?.world?.[playerId];
     const storyTechGranted = settings?.story_tech_granted || false;
     const missionOrder = settings?.mission_order;
     const enabledCampaigns = settings?.enabled_campaigns;
@@ -1295,7 +1345,7 @@ function terran_sustainable_mech_heal(snapshot, staticData) {
     return has(snapshot, 'Science Vessel')
         || (has_any(snapshot, ['Medic', 'Field Response Theta']) && has(snapshot, 'Adaptive Medpacks (Medic)'))
         || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 3
-        || (isAdvancedTactics(staticData) && (
+        || (isAdvancedTactics(staticData, snapshot) && (
             has_all(snapshot, ['Raven', 'Bio-Mechanical Repair Drone (Raven)'])
             || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 2
         ));
@@ -1339,7 +1389,7 @@ export default {
             return false;
         }
 
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         // One of the following base-trashing options:
         // - Siege Tank with Jump Jets (for mobility)
@@ -1356,9 +1406,10 @@ export default {
             ));
     },
     terran_can_rescue: (snapshot, staticData) => {
-        // Can rescue requires ground units that can reach and defend the rescue targets
-        // Any terran common unit should suffice
-        return terran_common_unit(snapshot, staticData);
+        // Rescuing in The Moebius Factor - requires transport or air units
+        // From Python: has_any((MEDIVAC, HERCULES, RAVEN, VIKING)) or advanced_tactics
+        return has_any(snapshot, ['Medivac', 'Hercules', 'Raven', 'Viking'])
+            || isAdvancedTactics(staticData, snapshot);
     },
     terran_cliffjumper,
     terran_able_to_snipe_defiler: (snapshot, staticData) => {
@@ -1373,7 +1424,7 @@ export default {
                 terran_air_anti_air(snapshot, staticData)
                 || (
                     has_any(snapshot, ['Battlecruiser', 'Valkyrie'])
-                    && count(snapshot, 'Progressive Terran Ship Weapon') >= 2
+                    && weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Weapon') >= 2
                 )
             )
         );
@@ -1382,7 +1433,7 @@ export default {
         const sustainableHeal = has(snapshot, 'Science Vessel')
             || has_all(snapshot, ['Medic', 'Adaptive Medpacks (Medic)'])
             || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 3
-            || (isAdvancedTactics(staticData) && (
+            || (isAdvancedTactics(staticData, snapshot) && (
                 has_all(snapshot, ['Raven', 'Bio-Mechanical Repair Drone (Raven)'])
                 || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 2
             ));
@@ -1410,7 +1461,7 @@ export default {
     protoss_hybrid_counter,
 
     zerg_common_unit: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         // Basic zerg units (standard logic)
         const basicUnits = ['Zergling', 'Swarm Queen', 'Roach', 'Hydralisk'];
@@ -1430,7 +1481,7 @@ export default {
     zerg_basic_anti_air,
     zerg_competent_comp,
     zerg_competent_defense: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         const zergCommon = has_any(snapshot, ['Zergling', 'Swarm Queen', 'Roach', 'Hydralisk'])
             || (advancedTactics && has_any(snapshot, ['Infestor', 'Aberration']));
 
@@ -1445,10 +1496,10 @@ export default {
         );
     },
     zerg_pass_vents: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return storyTechGranted
             || has_any(snapshot, ['Zergling', 'Hydralisk', 'Roach'])
@@ -1464,9 +1515,8 @@ export default {
     kerrigan_levels,
     two_kerrigan_actives,
 
-    marine_medic_upgrade,
     can_nuke: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return advancedTactics && (
             has_any(snapshot, ['Ghost', 'Spectre'])
@@ -1486,7 +1536,7 @@ export default {
     },
 
     great_train_robbery_train_stopper: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return (
             has_any(snapshot, ['Siege Tank', 'Diamondback', 'Marauder', 'Cyclone', 'Banshee'])
@@ -1498,7 +1548,7 @@ export default {
         );
     },
     welcome_to_the_jungle_requirement: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return (
             terran_common_unit(snapshot, staticData)
@@ -1510,7 +1560,7 @@ export default {
         );
     },
     night_terrors_requirement: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return terran_common_unit(snapshot, staticData)
             && terran_competent_anti_air(snapshot, staticData)
@@ -1551,7 +1601,7 @@ export default {
         const canReach = (
             terran_cliffjumper(snapshot, staticData)
             || has_any(snapshot, ['Banshee', 'Viking'])
-            || (isAdvancedTactics(staticData)
+            || (isAdvancedTactics(staticData, snapshot)
                 && has(snapshot, 'Medivac')
                 && has_any(snapshot, ['Marine', 'Marauder', 'Vulture', 'Hellion', 'Goliath']))
         );
@@ -1571,7 +1621,7 @@ export default {
             && hasDefenseOrJumpSuit;
     },
     sudden_strike_can_reach_objectives: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         // Can reach objectives with cliff jumpers
         if (terran_cliffjumper(snapshot, staticData)) {
@@ -1602,8 +1652,8 @@ export default {
      * Brothers in Arms mission requirement
      */
     brothers_in_arms_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         return (
@@ -1636,7 +1686,7 @@ export default {
             && terran_defense_rating(snapshot, staticData, false, true) >= 8;
     },
     last_stand_requirement: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return protoss_common_unit(snapshot, staticData)
             && protoss_competent_anti_air(snapshot, staticData)
@@ -1644,7 +1694,7 @@ export default {
             && (advancedTactics || protoss_basic_splash(snapshot, staticData));
     },
     end_game_requirement: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return terran_competent_comp(snapshot, staticData)
             && has_any(snapshot, ['Raven', 'Science Vessel', 'Progressive Orbital Command']) // terran_mobile_detector
@@ -1674,8 +1724,8 @@ export default {
         ]);
     },
     enemy_shadow_domination: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         return storyTechGranted
@@ -1688,8 +1738,8 @@ export default {
             );
     },
     enemy_shadow_first_stage: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         // enemy_shadow_domination check
@@ -1718,8 +1768,8 @@ export default {
             );
     },
     enemy_shadow_second_stage: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         // enemy_shadow_domination check
@@ -1756,8 +1806,8 @@ export default {
             );
     },
     enemy_shadow_door_controls: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         // enemy_shadow_domination check
@@ -1805,8 +1855,8 @@ export default {
             && (storyTechGranted || doorUnlocksTool);
     },
     enemy_shadow_victory: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         // enemy_shadow_domination check
@@ -1872,8 +1922,8 @@ export default {
         // story_tech_granted OR
         // (has_any(Immortal, Annihilator) AND has_any(Colossus, Vanguard, Reaver, Dark Templar)
         //  AND has_any(Sentry, High Templar))
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const storyTechGranted = settings?.story_tech_granted || false;
 
         return storyTechGranted
@@ -1887,7 +1937,7 @@ export default {
         // Templar's Charge requires:
         // protoss_heal AND protoss_anti_armor_anti_air AND
         // (protoss_fleet OR (advanced_tactics AND protoss_competent_comp))
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
 
         return protoss_heal(snapshot, staticData)
             && protoss_anti_armor_anti_air(snapshot, staticData)
@@ -1897,8 +1947,8 @@ export default {
             );
     },
     the_infinite_cycle_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId] || {};
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId] ?? {};
         const storyTechGranted = settings.story_tech_granted || false;
         const kerriganUnitAvailable = settings.kerrigan_unit_available || false;
 
@@ -1909,8 +1959,8 @@ export default {
                 && kerrigan_levels(snapshot, staticData, 70));
     },
     harbinger_of_oblivion_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         return protoss_anti_armor_anti_air(snapshot, staticData) && (
@@ -1920,8 +1970,8 @@ export default {
         );
     },
     supreme_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId] || {};
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId] ?? {};
         const storyTechGranted = settings.story_tech_granted || false;
         const kerriganUnitAvailable = settings.kerrigan_unit_available || false;
 
@@ -1937,8 +1987,8 @@ export default {
         return has(snapshot, "Beat Templar's Return");
     },
     into_the_void_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         return protoss_competent_comp(snapshot, staticData)
@@ -1954,8 +2004,8 @@ export default {
             );
     },
     essence_of_eternity_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         let defenseScore = terran_defense_rating(snapshot, staticData, false, true);
@@ -1975,8 +2025,8 @@ export default {
             );
     },
     amons_fall_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         if (take_over_ai_allies) {
@@ -1994,7 +2044,7 @@ export default {
                         has(snapshot, 'Science Vessel')
                         || has_all(snapshot, ['Medic', 'Adaptive Medpacks (Medic)'])
                         || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 3
-                        || (isAdvancedTactics(staticData) && (
+                        || (isAdvancedTactics(staticData, snapshot) && (
                             has_all(snapshot, ['Raven', 'Bio-Mechanical Repair Drone (Raven)'])
                             || count(snapshot, 'Progressive Regenerative Bio-Steel') >= 2
                         ))
@@ -2009,8 +2059,8 @@ export default {
         }
     },
     the_reckoning_requirement: (snapshot, staticData) => {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         if (take_over_ai_allies) {
@@ -2026,9 +2076,9 @@ export default {
         }
     },
     all_in_requirement: (snapshot, staticData) => {
-        const advancedTactics = isAdvancedTactics(staticData);
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const allInMap = settings?.all_in_map; // 0 = ground, 1 = air
 
         const beatsKerrigan = has_any(snapshot, ['Marine', 'Banshee', 'Ghost']) || advancedTactics;
@@ -2075,7 +2125,7 @@ export default {
         if (terran_power_rating(snapshot, staticData) < 5) {
             return false;
         }
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         return (
             terran_common_unit(snapshot, staticData)
             && terran_competent_ground_to_air(snapshot, staticData)
@@ -2086,7 +2136,7 @@ export default {
         );
     },
     terran_night_terrors_requirement: function(snapshot, staticData) {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         return terran_common_unit(snapshot, staticData)
             && terran_competent_anti_air(snapshot, staticData)
             && terran_defense_rating(snapshot, staticData, false, false) >= 4
@@ -2098,7 +2148,7 @@ export default {
             && terran_defense_rating(snapshot, staticData, false, false) >= 7;
     },
     terran_sudden_strike_requirement: function(snapshot, staticData) {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         return terran_common_unit(snapshot, staticData)
             && terran_competent_anti_air(snapshot, staticData)
             && terran_defense_rating(snapshot, staticData, true, false) >= 6
@@ -2113,8 +2163,8 @@ export default {
             );
     },
     terran_brothers_in_arms_requirement: function(snapshot, staticData) {
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const take_over_ai_allies = settings?.take_over_ai_allies || false;
 
         return (
@@ -2147,14 +2197,14 @@ export default {
             && terran_defense_rating(snapshot, staticData, false, true) >= 8;
     },
     terran_last_stand_requirement: function(snapshot, staticData) {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         return protoss_common_unit(snapshot, staticData)
             && protoss_competent_anti_air(snapshot, staticData)
             && protoss_static_defense(snapshot, staticData)
             && (advancedTactics || protoss_basic_splash(snapshot, staticData));
     },
     terran_end_game_requirement: function(snapshot, staticData) {
-        const advancedTactics = isAdvancedTactics(staticData);
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
         return terran_competent_comp(snapshot, staticData)
             && has_any(snapshot, ['Raven', 'Science Vessel', 'Progressive Orbital Command'])
             && (
@@ -2163,13 +2213,14 @@ export default {
             );
     },
     terran_gates_of_hell_requirement: function(snapshot, staticData) {
+        // Python: terran_defense_rating(state, True) uses default air_enemy=True
         return terran_competent_comp(snapshot, staticData)
-            && terran_defense_rating(snapshot, staticData, true, false) > 6;
+            && terran_defense_rating(snapshot, staticData, true, true) > 6;
     },
     terran_all_in_requirement: function(snapshot, staticData) {
-        const advancedTactics = isAdvancedTactics(staticData);
-        const playerId = staticData?.player || DEFAULT_PLAYER_ID;
-        const settings = staticData?.settings?.[playerId];
+        const advancedTactics = isAdvancedTactics(staticData, snapshot);
+        const playerId = getPlayerId(snapshot, staticData);
+        const settings = staticData?.world?.[playerId];
         const allInMap = settings?.all_in_map;
 
         // First check: weapon/armor upgrades must be high enough for very hard missions
@@ -2219,7 +2270,7 @@ export default {
     terran_maw_requirement: function(snapshot, staticData) {
         // Ability to deal with large areas with environment damage
         // Either Battlecruiser with upgrades OR air units that can survive and deal damage
-        const shipWeaponLevel = count(snapshot, 'Progressive Terran Ship Weapon');
+        const shipWeaponLevel = weapon_armor_upgrade_count(snapshot, staticData, 'Progressive Terran Ship Weapon');
 
         return (
             has(snapshot, 'Battlecruiser')
@@ -2253,7 +2304,7 @@ export default {
     terran_very_hard_mission_weapon_armor_level: function(snapshot, staticData) {
         // Returns true if weapon/armor upgrade level is high enough for very hard missions
         // Threshold is 2 for advanced tactics, 3 otherwise
-        const requiredLevel = isAdvancedTactics(staticData) ? 2 : 3;
+        const requiredLevel = isAdvancedTactics(staticData, snapshot) ? 2 : 3;
         return terranArmyWeaponArmorUpgradeMinLevel(snapshot) >= requiredLevel;
     }
 };

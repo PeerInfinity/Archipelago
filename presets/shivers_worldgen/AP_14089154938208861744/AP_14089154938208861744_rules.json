@@ -1,0 +1,5617 @@
+{
+  "schema_version": 3,
+  "game_name": "Shivers WorldGen",
+  "game_directory": "shivers_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To Registry",
+            "connected_region": "Registry",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Registry": {
+        "name": "Registry",
+        "exits": [
+          {
+            "name": "To Outside From Registry",
+            "connected_region": "Outside",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Outside": {
+        "name": "Outside",
+        "exits": [
+          {
+            "name": "To Underground Tunnels From Outside",
+            "connected_region": "Underground Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Lobby From Outside",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Front Door"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Combination Lock",
+            "id": 27114,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Office Elevator",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Gears",
+            "id": 27000,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Always Available in Pegasus Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Stone Henge",
+            "id": 27001,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Bedroom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Office Elevator",
+            "id": 27110,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Or",
+                  "children": [
+                    {
+                      "rule": "CanReachRegion",
+                      "args": {
+                        "region_name": "Office"
+                      }
+                    },
+                    {
+                      "rule": "CanReachRegion",
+                      "args": {
+                        "region_name": "Underground Lake"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Key for Office Elevator"
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Cloth Always Available in Burial Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Three Floor Elevator",
+            "id": 27112,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Or",
+                  "children": [
+                    {
+                      "rule": "CanReachRegion",
+                      "args": {
+                        "region_name": "Blue Maze"
+                      }
+                    },
+                    {
+                      "rule": "CanReachRegion",
+                      "args": {
+                        "region_name": "Maintenance Tunnels"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Key for Three Floor Elevator"
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Sand Always Available in Greenhouse",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Mailbox",
+            "id": 27054,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Orange Symbol",
+            "id": 27055,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Underground Lake",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Silver Symbol",
+            "id": 27056,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Shaman Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Green Symbol",
+            "id": 27057,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Office",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: White Symbol",
+            "id": 27058,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Always Available in Ocean",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Brown Symbol",
+            "id": 27059,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sand Always Available in Ocean",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Tan Symbol",
+            "id": 27060,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cloth Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Underground Tunnels": {
+        "name": "Underground Tunnels",
+        "exits": [
+          {
+            "name": "To Underground Lake From Underground Tunnels",
+            "connected_region": "Underground Lake",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Underground Lake"
+              }
+            }
+          },
+          {
+            "name": "To Outside From Underground",
+            "connected_region": "Outside",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Underground Lake": {
+        "name": "Underground Lake",
+        "exits": [
+          {
+            "name": "To Underground Tunnels From Underground Lake",
+            "connected_region": "Underground Tunnels",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Underground Lake"
+              }
+            }
+          },
+          {
+            "name": "To Windlenot's Body From Underground Lake",
+            "connected_region": "Windlenot's Body",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Underground Blue Tunnels From Underground Lake",
+            "connected_region": "Underground Blue Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Windlenot's Ghost",
+            "id": 27026,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Windlenot's Body": {
+        "name": "Windlenot's Body",
+        "exits": [
+          {
+            "name": "To Underground Lake From Windlenot's Body",
+            "connected_region": "Underground Lake",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Egyptian Hieroglyphics Explained",
+            "id": 27031,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cloth Always Available in Egypt",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Windlenot's Body",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Viewed Egyptian Hieroglyphics Explained",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Underground Blue Tunnels": {
+        "name": "Underground Blue Tunnels",
+        "exits": [
+          {
+            "name": "To Underground Lake From Underground Blue Tunnels",
+            "connected_region": "Underground Lake",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Office Elevator From Underground Blue Tunnels",
+            "connected_region": "Office Elevator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Office Elevator"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Office Elevator": {
+        "name": "Office Elevator",
+        "exits": [
+          {
+            "name": "To Underground Blue Tunnels From Office Elevator",
+            "connected_region": "Underground Blue Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Office From Office Elevator",
+            "connected_region": "Office",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Office": {
+        "name": "Office",
+        "exits": [
+          {
+            "name": "To Office Elevator From Office",
+            "connected_region": "Office Elevator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Office Elevator"
+              }
+            }
+          },
+          {
+            "name": "To Workshop",
+            "connected_region": "Workshop",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Workshop"
+              }
+            }
+          },
+          {
+            "name": "To Lobby From Office",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Office"
+              }
+            }
+          },
+          {
+            "name": "To Bedroom Elevator From Office",
+            "connected_region": "Bedroom Elevator",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Crawling",
+                  "Key for Bedroom Elevator"
+                ]
+              }
+            }
+          },
+          {
+            "name": "To Ash Capture From Office",
+            "connected_region": "Ash Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Scrapbook",
+            "id": 27028,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Desk Drawer",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Atlantis Map",
+            "id": 27062,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crawling",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Tape Recorder Heard",
+            "id": 27069,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Janitor Closet",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Bedroom Elevator",
+            "id": 27111,
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Crawling",
+                  "Key for Bedroom Elevator"
+                ]
+              }
+            },
+            "item": {
+              "name": "Water Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Workshop": {
+        "name": "Workshop",
+        "exits": [
+          {
+            "name": "To Office From Workshop",
+            "connected_region": "Office",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Wood Capture From Workshop",
+            "connected_region": "Wood Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Workshop Drawers",
+            "id": 27002,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Always Available in Bedroom",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Workshop Drawers",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Basilisk Bone Fragments",
+            "id": 27061,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cloth Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Bedroom Elevator": {
+        "name": "Bedroom Elevator",
+        "exits": [
+          {
+            "name": "To Office From Bedroom Elevator",
+            "connected_region": "Office",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Crawling",
+                  "Key for Bedroom Elevator"
+                ]
+              }
+            }
+          },
+          {
+            "name": "To Bedroom",
+            "connected_region": "Bedroom",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Bedroom"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Bedroom": {
+        "name": "Bedroom",
+        "exits": [
+          {
+            "name": "To Bedroom Elevator From Bedroom",
+            "connected_region": "Bedroom Elevator",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Metal Capture From Bedroom",
+            "connected_region": "Metal Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Professor Windlenot's Diary",
+            "id": 27039,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Lobby": {
+        "name": "Lobby",
+        "exits": [
+          {
+            "name": "To Office From Lobby",
+            "connected_region": "Office",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Office"
+              }
+            }
+          },
+          {
+            "name": "To Library From Lobby",
+            "connected_region": "Library",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Library"
+              }
+            }
+          },
+          {
+            "name": "To Theater From Lobby",
+            "connected_region": "Theater",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Egyptian Hieroglyphics Explained"
+              }
+            }
+          },
+          {
+            "name": "To Prehistoric From Lobby",
+            "connected_region": "Prehistoric",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Prehistoric Room"
+              }
+            }
+          },
+          {
+            "name": "To Egypt From Lobby",
+            "connected_region": "Egypt",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Egypt Room"
+              }
+            }
+          },
+          {
+            "name": "To Tar River From Lobby",
+            "connected_region": "Tar River",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "oil_capturable",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Tar River"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Crawling"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "To Outside From Lobby",
+            "connected_region": "Outside",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Front Door"
+              }
+            }
+          },
+          {
+            "name": "To Water Capture From Lobby",
+            "connected_region": "Water Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Crystal Capture From Lobby",
+            "connected_region": "Crystal Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Victory",
+            "connected_region": "Victory",
+            "access_rule": {
+              "rule": "Compare",
+              "args": {
+                "left": {
+                  "rule": "Arithmetic",
+                  "args": {
+                    "left": {
+                      "rule": "Arithmetic",
+                      "args": {
+                        "left": {
+                          "rule": "Arithmetic",
+                          "args": {
+                            "left": {
+                              "rule": "Arithmetic",
+                              "args": {
+                                "left": {
+                                  "rule": "Arithmetic",
+                                  "args": {
+                                    "left": {
+                                      "rule": "Arithmetic",
+                                      "args": {
+                                        "left": {
+                                          "rule": "Arithmetic",
+                                          "args": {
+                                            "left": {
+                                              "rule": "Arithmetic",
+                                              "args": {
+                                                "left": {
+                                                  "rule": "Arithmetic",
+                                                  "args": {
+                                                    "left": {
+                                                      "rule": "water_capturable",
+                                                      "_original_ast_type": "helper",
+                                                      "_converted_from_ast": true
+                                                    },
+                                                    "op": "+",
+                                                    "right": {
+                                                      "rule": "wax_capturable",
+                                                      "_original_ast_type": "helper",
+                                                      "_converted_from_ast": true
+                                                    }
+                                                  }
+                                                },
+                                                "op": "+",
+                                                "right": {
+                                                  "rule": "ash_capturable",
+                                                  "_original_ast_type": "helper",
+                                                  "_converted_from_ast": true
+                                                }
+                                              }
+                                            },
+                                            "op": "+",
+                                            "right": {
+                                              "rule": "oil_capturable",
+                                              "_original_ast_type": "helper",
+                                              "_converted_from_ast": true
+                                            }
+                                          }
+                                        },
+                                        "op": "+",
+                                        "right": {
+                                          "rule": "cloth_capturable",
+                                          "_original_ast_type": "helper",
+                                          "_converted_from_ast": true
+                                        }
+                                      }
+                                    },
+                                    "op": "+",
+                                    "right": {
+                                      "rule": "wood_capturable",
+                                      "_original_ast_type": "helper",
+                                      "_converted_from_ast": true
+                                    }
+                                  }
+                                },
+                                "op": "+",
+                                "right": {
+                                  "rule": "crystal_capturable",
+                                  "_original_ast_type": "helper",
+                                  "_converted_from_ast": true
+                                }
+                              }
+                            },
+                            "op": "+",
+                            "right": {
+                              "rule": "sand_capturable",
+                              "_original_ast_type": "helper",
+                              "_converted_from_ast": true
+                            }
+                          }
+                        },
+                        "op": "+",
+                        "right": {
+                          "rule": "metal_capturable",
+                          "_original_ast_type": "helper",
+                          "_converted_from_ast": true
+                        }
+                      }
+                    },
+                    "op": "+",
+                    "right": {
+                      "rule": "lightning_capturable",
+                      "_original_ast_type": "helper",
+                      "_converted_from_ast": true
+                    }
+                  }
+                },
+                "op": ">=",
+                "right": {
+                  "rule": "OptionValue",
+                  "args": {
+                    "option": "ixupi_captures_needed"
+                  }
+                },
+                "_original_ast_type": "compare"
+              },
+              "_converted_from_ast": true
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Theater Door",
+            "id": 27004,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Egyptian Hieroglyphics Explained"
+              }
+            },
+            "item": {
+              "name": "Key for Torture Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Museum Brochure",
+            "id": 27029,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Slide",
+            "id": null,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Slide Room"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Lost Your Head"
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Ash Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Storage: Transforming Mask",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Water Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Library": {
+        "name": "Library",
+        "exits": [
+          {
+            "name": "To Lobby From Library",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Library"
+              }
+            }
+          },
+          {
+            "name": "To Maintenance Tunnels From Library",
+            "connected_region": "Maintenance Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Wax Capture From Library",
+            "connected_region": "Wax Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Library Statue",
+            "id": 27003,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Three Floor Elevator",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained In Search of the Unexplained",
+            "id": 27030,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Egypt Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained South American Pictographs",
+            "id": 27032,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wax Always Available in Anansi Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Mythology of the Stars",
+            "id": 27033,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Black Book",
+            "id": 27034,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Ocean Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Library Cabinet",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Oil Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Storage: Library Statue",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sand Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Maintenance Tunnels": {
+        "name": "Maintenance Tunnels",
+        "exits": [
+          {
+            "name": "To Library From Maintenance Tunnels",
+            "connected_region": "Library",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Three Floor Elevator From Maintenance Tunnels",
+            "connected_region": "Three Floor Elevator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Three Floor Elevator"
+              }
+            }
+          },
+          {
+            "name": "To Generator From Maintenance Tunnels",
+            "connected_region": "Generator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Generator Room"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Beth's Address Book",
+            "id": 27037,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Generator": {
+        "name": "Generator",
+        "exits": [
+          {
+            "name": "To Maintenance Tunnels From Generator",
+            "connected_region": "Maintenance Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Beth's Body From Generator",
+            "connected_region": "Beth's Body",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Conditional",
+                  "args": {
+                    "test": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "puzzle_hints_required"
+                      }
+                    },
+                    "if_true": {
+                      "rule": "And",
+                      "children": [
+                        {
+                          "rule": "CanReachRegion",
+                          "args": {
+                            "region_name": "Theater"
+                          }
+                        },
+                        {
+                          "rule": "Has",
+                          "args": {
+                            "item_name": "Viewed Norse Stone"
+                          }
+                        }
+                      ]
+                    },
+                    "if_false": {
+                      "rule": "True_"
+                    },
+                    "_original_ast_type": "conditional"
+                  },
+                  "_converted_from_ast": true
+                },
+                {
+                  "rule": "beths_body_available",
+                  "_original_ast_type": "helper",
+                  "_converted_from_ast": true
+                }
+              ]
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Beth's Body": {
+        "name": "Beth's Body",
+        "exits": [
+          {
+            "name": "To Generator From Beth's Body",
+            "connected_region": "Generator",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Final Riddle: Beth's Body Page 17",
+            "id": 27052,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Projector Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beth's Body",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Viewed Page 17",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Theater": {
+        "name": "Theater",
+        "exits": [
+          {
+            "name": "To Lobby From Theater",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Theater Back Hallway From Theater",
+            "connected_region": "Theater Back Hallway",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Theater",
+            "id": null,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Theater Movie"
+              }
+            },
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Beth's Note",
+            "id": 27115,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Theater Back Hallway": {
+        "name": "Theater Back Hallway",
+        "exits": [
+          {
+            "name": "To Theater From Theater Back Hallway",
+            "connected_region": "Theater",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Clock Tower Staircase From Theater Back Hallway",
+            "connected_region": "Clock Tower Staircase",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Three Floor Elevator"
+              }
+            }
+          },
+          {
+            "name": "To Maintenance Tunnels From Theater Back Hallway",
+            "connected_region": "Maintenance Tunnels",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Crawling"
+              }
+            }
+          },
+          {
+            "name": "To Projector Room",
+            "connected_region": "Projector Room",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Projector Room"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Clock Tower Door",
+            "id": 27005,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Three Floor Elevator"
+              }
+            },
+            "item": {
+              "name": "Ash Always Available in Office",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Clock Tower Staircase": {
+        "name": "Clock Tower Staircase",
+        "exits": [
+          {
+            "name": "To Theater Back Hallway From Clock Tower Staircase",
+            "connected_region": "Theater Back Hallway",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Clock Tower",
+            "connected_region": "Clock Tower",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Clock Chains From Clock Tower Staircase",
+            "connected_region": "Clock Chains",
+            "access_rule": {
+              "rule": "Conditional",
+              "args": {
+                "test": {
+                  "rule": "OptionValue",
+                  "args": {
+                    "option": "puzzle_hints_required"
+                  }
+                },
+                "if_true": {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Bedroom"
+                  }
+                },
+                "if_false": {
+                  "rule": "True_"
+                },
+                "_original_ast_type": "conditional"
+              },
+              "_converted_from_ast": true
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Clock Chains": {
+        "name": "Clock Chains",
+        "exits": [
+          {
+            "name": "To Clock Tower Staircase From Clock Chains",
+            "connected_region": "Clock Tower Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Clock Chains",
+            "id": 27006,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Clock Chains",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Time",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Clock Tower": {
+        "name": "Clock Tower",
+        "exits": [
+          {
+            "name": "To Clock Tower Staircase From Clock Tower",
+            "connected_region": "Clock Tower Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Beth's Ghost",
+            "id": 27024,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ash Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Clock Tower",
+            "id": null,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Set Time"
+              }
+            },
+            "item": {
+              "name": "Water Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Shaman Security Camera",
+            "id": 27068,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Always Available in Lobby",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Jukebox",
+            "id": null,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Conditional",
+                  "args": {
+                    "test": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "puzzle_hints_required"
+                      }
+                    },
+                    "if_true": {
+                      "rule": "CanReachRegion",
+                      "args": {
+                        "region_name": "Anansi"
+                      }
+                    },
+                    "if_false": {
+                      "rule": "True_"
+                    },
+                    "_original_ast_type": "conditional"
+                  },
+                  "_converted_from_ast": true
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Clock Tower"
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Set Song",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Projector Room": {
+        "name": "Projector Room",
+        "exits": [
+          {
+            "name": "To Theater Back Hallway From Projector Room",
+            "connected_region": "Theater Back Hallway",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Metal Capture From Projector Room",
+            "connected_region": "Metal Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Theater Movie",
+            "id": 27035,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wax Always Available in Library",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Viewed Theater Movie",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Viewed Theater Movie",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Prehistoric": {
+        "name": "Prehistoric",
+        "exits": [
+          {
+            "name": "To Lobby From Prehistoric",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Prehistoric Room"
+              }
+            }
+          },
+          {
+            "name": "To Greenhouse",
+            "connected_region": "Greenhouse",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Greenhouse"
+              }
+            }
+          },
+          {
+            "name": "To Ocean From Prehistoric",
+            "connected_region": "Ocean",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Ocean Room"
+              }
+            }
+          },
+          {
+            "name": "To Oil Capture From Prehistoric",
+            "connected_region": "Oil Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Metal Capture From Prehistoric",
+            "connected_region": "Metal Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Eagles Nest",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wax Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Set Skull Dial: Prehistoric",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Prehistoric",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Greenhouse": {
+        "name": "Greenhouse",
+        "exits": [
+          {
+            "name": "To Prehistoric From Greenhouse",
+            "connected_region": "Prehistoric",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Sand Capture From Greenhouse",
+            "connected_region": "Sand Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Greenhouse",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cloth Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Ocean": {
+        "name": "Ocean",
+        "exits": [
+          {
+            "name": "To Prehistoric From Ocean",
+            "connected_region": "Prehistoric",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Ocean Room"
+              }
+            }
+          },
+          {
+            "name": "To Maze Staircase From Ocean",
+            "connected_region": "Maze Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Crystal Capture From Ocean",
+            "connected_region": "Crystal Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Sand Capture From Ocean",
+            "connected_region": "Sand Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Atlantis",
+            "id": 27007,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Office"
+              }
+            },
+            "item": {
+              "name": "Key for Generator Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Organ",
+            "id": 27008,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Oil Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Museum Blueprints",
+            "id": 27036,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Always Available in Gods Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Ocean",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Lightning Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Sirens Song Heard",
+            "id": 27063,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Water Always Available in Lobby",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Maze Staircase": {
+        "name": "Maze Staircase",
+        "exits": [
+          {
+            "name": "To Ocean From Maze Staircase",
+            "connected_region": "Ocean",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Maze From Maze Staircase",
+            "connected_region": "Maze",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Projector Room"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Maze Door",
+            "id": 27009,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Theater Movie"
+              }
+            },
+            "item": {
+              "name": "Key for Puzzle Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Maze": {
+        "name": "Maze",
+        "exits": [
+          {
+            "name": "To Maze Staircase From Maze",
+            "connected_region": "Maze Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Tar River",
+            "connected_region": "Tar River",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Tar River": {
+        "name": "Tar River",
+        "exits": [
+          {
+            "name": "To Maze From Tar River",
+            "connected_region": "Maze",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Lobby From Tar River",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "oil_capturable",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Crawling"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "To Oil Capture From Tar River",
+            "connected_region": "Oil Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Tar River",
+            "id": null,
+            "access_rule": {
+              "rule": "oil_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Wax Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Set Skull Dial: Tar River",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Tar River",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Egypt": {
+        "name": "Egypt",
+        "exits": [
+          {
+            "name": "To Lobby From Egypt",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Egypt Room"
+              }
+            }
+          },
+          {
+            "name": "To Burial From Egypt",
+            "connected_region": "Burial",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Egypt"
+              }
+            }
+          },
+          {
+            "name": "To Blue Maze From Egypt",
+            "connected_region": "Blue Maze",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Crawling"
+              }
+            }
+          },
+          {
+            "name": "To Cloth Capture From Egypt",
+            "connected_region": "Cloth Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Columns of RA",
+            "id": 27010,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Egyptian Hieroglyphics Explained"
+              }
+            },
+            "item": {
+              "name": "Key for Workshop",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Burial Door",
+            "id": 27011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Egypt",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cloth Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Egyptian Sphinx Heard",
+            "id": 27064,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Set Skull Dial: Egypt",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Egypt",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Burial": {
+        "name": "Burial",
+        "exits": [
+          {
+            "name": "To Egypt From Burial",
+            "connected_region": "Egypt",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Shaman From Burial",
+            "connected_region": "Shaman",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Shaman Room"
+              }
+            }
+          },
+          {
+            "name": "To Ash Capture From Burial",
+            "connected_region": "Ash Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Cloth Capture From Burial",
+            "connected_region": "Cloth Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Chinese Solitaire",
+            "id": 27012,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Merrick's Notebook",
+            "id": 27038,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ash Always Available in Burial Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Chinese Solitaire",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sand Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Set Skull Dial: Burial",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Burial",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Shaman": {
+        "name": "Shaman",
+        "exits": [
+          {
+            "name": "To Burial From Shaman",
+            "connected_region": "Burial",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Shaman Room"
+              }
+            }
+          },
+          {
+            "name": "To Gods Room From Shaman",
+            "connected_region": "Gods Room",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Clock Tower"
+              }
+            }
+          },
+          {
+            "name": "To Wax Capture From Shaman",
+            "connected_region": "Wax Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Shaman Drums",
+            "id": 27013,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Clock Tower"
+              }
+            },
+            "item": {
+              "name": "Metal Always Available in Prehistoric",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Shaman Hut",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Gods Room": {
+        "name": "Gods Room",
+        "exits": [
+          {
+            "name": "To Shaman From Gods Room",
+            "connected_region": "Shaman",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Anansi From Gods Room",
+            "connected_region": "Anansi",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Maintenance Tunnels"
+              }
+            }
+          },
+          {
+            "name": "To Wood Capture From Gods Room",
+            "connected_region": "Wood Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Norse Stone From Gods Room",
+            "connected_region": "Norse Stone",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Aligned Planets"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Lyre",
+            "id": 27014,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Bedroom Elevator",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Solved Red Door",
+            "id": 27015,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Maintenance Tunnels"
+              }
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Lyre",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Set Skull Dial: Gods Room",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Gods Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Norse Stone": {
+        "name": "Norse Stone",
+        "exits": [
+          {
+            "name": "To Gods Room From Norse Stone",
+            "connected_region": "Gods Room",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Final Riddle: Norse God Stone Message",
+            "id": 27051,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metal Always Available in Projector Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Norse Stone",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Viewed Norse Stone",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Anansi": {
+        "name": "Anansi",
+        "exits": [
+          {
+            "name": "To Gods Room From Anansi",
+            "connected_region": "Gods Room",
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Gods Room"
+              }
+            }
+          },
+          {
+            "name": "To Pegasus From Anansi",
+            "connected_region": "Pegasus",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Wax Capture From Anansi",
+            "connected_region": "Wax Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Anansi Music Box",
+            "id": 27019,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Set Song"
+              }
+            },
+            "item": {
+              "name": "Wax Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Flashback Memory Obtained Ancient Astrology",
+            "id": 27027,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Always Available in Blue Maze",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Skeleton",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Storage: Anansi Music Box",
+            "id": null,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Set Song"
+              }
+            },
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Pegasus": {
+        "name": "Pegasus",
+        "exits": [
+          {
+            "name": "To Anansi From Pegasus",
+            "connected_region": "Anansi",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Werewolf From Pegasus",
+            "connected_region": "Werewolf",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Wood Capture From Pegasus",
+            "connected_region": "Wood Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Werewolf": {
+        "name": "Werewolf",
+        "exits": [
+          {
+            "name": "To Pegasus From Werewolf",
+            "connected_region": "Pegasus",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Night Staircase From Werewolf",
+            "connected_region": "Night Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Set Skull Dial: Werewolf",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Set Skull Dial: Werewolf",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Night Staircase": {
+        "name": "Night Staircase",
+        "exits": [
+          {
+            "name": "To Werewolf From Night Staircase",
+            "connected_region": "Werewolf",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Janitor Closet",
+            "connected_region": "Janitor Closet",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Janitor Closet"
+              }
+            }
+          },
+          {
+            "name": "To UFO From Night Staircase",
+            "connected_region": "UFO",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Janitor Closet": {
+        "name": "Janitor Closet",
+        "exits": [
+          {
+            "name": "To Night Staircase From Janitor Closet",
+            "connected_region": "Night Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Water Capture From Janitor Closet",
+            "connected_region": "Water Capture",
+            "access_rule": {
+              "rule": "cloth_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            }
+          },
+          {
+            "name": "To Cloth Capture From Janitor Closet",
+            "connected_region": "Cloth Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Janitor Closet",
+            "id": null,
+            "access_rule": {
+              "rule": "cloth_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Lightning Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "UFO": {
+        "name": "UFO",
+        "exits": [
+          {
+            "name": "To Night Staircase From UFO",
+            "connected_region": "Night Staircase",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Orrery From UFO",
+            "connected_region": "Orrery",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Viewed Fortune"
+              }
+            }
+          },
+          {
+            "name": "To Inventions From UFO",
+            "connected_region": "Inventions",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for UFO Room"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved UFO Symbols",
+            "id": 27018,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Library"
+              }
+            },
+            "item": {
+              "name": "Sand Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: UFO",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Library"
+              }
+            },
+            "item": {
+              "name": "Wood Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Orrery": {
+        "name": "Orrery",
+        "exits": [
+          {
+            "name": "To UFO From Orrery",
+            "connected_region": "UFO",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Final Riddle: Planets Aligned",
+            "id": 27050,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ash Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Orrery",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Aligned Planets",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Blue Maze": {
+        "name": "Blue Maze",
+        "exits": [
+          {
+            "name": "To Egypt From Blue Maze",
+            "connected_region": "Egypt",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Crawling"
+              }
+            }
+          },
+          {
+            "name": "To Three Floor Elevator From Blue Maze Bottom",
+            "connected_region": "Three Floor Elevator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Three Floor Elevator"
+              }
+            }
+          },
+          {
+            "name": "To Three Floor Elevator From Blue Maze Top",
+            "connected_region": "Three Floor Elevator",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Three Floor Elevator"
+              }
+            }
+          },
+          {
+            "name": "To Fortune Teller",
+            "connected_region": "Fortune Teller",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Inventions From Blue Maze",
+            "connected_region": "Inventions",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Wood Capture From Blue Maze",
+            "connected_region": "Wood Capture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Fortune Teller Door",
+            "id": 27016,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Always Available in Workshop",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Three Floor Elevator": {
+        "name": "Three Floor Elevator",
+        "exits": [
+          {
+            "name": "To Maintenance Tunnels From Three Floor Elevator",
+            "connected_region": "Maintenance Tunnels",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Blue Maze From Three Floor Elevator",
+            "connected_region": "Blue Maze",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Hint Found: Elevator Writing",
+            "id": 27067,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for UFO Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Fortune Teller": {
+        "name": "Fortune Teller",
+        "exits": [
+          {
+            "name": "To Blue Maze From Fortune Teller",
+            "connected_region": "Blue Maze",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Flashback Memory Obtained Merrick's Ghost",
+            "id": 27025,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Sand Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Final Riddle: Fortune Teller",
+            "id": 27049,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Viewed Fortune",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Viewed Fortune",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Inventions": {
+        "name": "Inventions",
+        "exits": [
+          {
+            "name": "To Blue Maze From Inventions",
+            "connected_region": "Blue Maze",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To UFO From Inventions",
+            "connected_region": "UFO",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for UFO Room"
+              }
+            }
+          },
+          {
+            "name": "To Torture From Inventions",
+            "connected_region": "Torture",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Torture Room"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Alchemy",
+            "id": 27017,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Key for Prehistoric Room",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Alchemy",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Oil Pot Bottom DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Torture": {
+        "name": "Torture",
+        "exits": [
+          {
+            "name": "To Inventions From Torture",
+            "connected_region": "Inventions",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Torture Room"
+              }
+            }
+          },
+          {
+            "name": "To Puzzle Room Mastermind From Torture",
+            "connected_region": "Puzzle Room Mastermind",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Puzzle Room"
+              }
+            }
+          },
+          {
+            "name": "To Guillotine From Torture",
+            "connected_region": "Guillotine",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "Conditional",
+                  "args": {
+                    "test": {
+                      "rule": "OptionValue",
+                      "args": {
+                        "option": "puzzle_hints_required"
+                      }
+                    },
+                    "if_true": {
+                      "rule": "Has",
+                      "args": {
+                        "item_name": "Viewed Egyptian Hieroglyphics Explained"
+                      }
+                    },
+                    "if_false": {
+                      "rule": "True_"
+                    },
+                    "_original_ast_type": "conditional"
+                  },
+                  "_converted_from_ast": true
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Viewed Page 17"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Gallows",
+            "id": 27020,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Easier Lyre",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Storage: Gallows",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Hint Found: Gallows Information Plaque",
+            "id": 27065,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Oil Always Available in Prehistoric Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Guillotine": {
+        "name": "Guillotine",
+        "exits": [
+          {
+            "name": "To Torture From Guillotine",
+            "connected_region": "Torture",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Final Riddle: Guillotine Dropped",
+            "id": 27053,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wax Always Available in Shaman Room",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Guillotine",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Lost Your Head",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true,
+            "show_in_spoiler": false
+          }
+        ]
+      },
+      "Puzzle Room Mastermind": {
+        "name": "Puzzle Room Mastermind",
+        "exits": [
+          {
+            "name": "To Torture",
+            "connected_region": "Torture",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Key for Puzzle Room"
+              }
+            }
+          },
+          {
+            "name": "To Puzzle Room Marbles From Puzzle Room Mastermind",
+            "connected_region": "Puzzle Room Marbles",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Mastermind",
+            "id": 27021,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wood Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Puzzle Hint Found: Mastermind Information Plaque",
+            "id": 27066,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Puzzle Room Marbles": {
+        "name": "Puzzle Room Marbles",
+        "exits": [
+          {
+            "name": "To Puzzle Room Mastermind From Puzzle Room Marbles",
+            "connected_region": "Puzzle Room Mastermind",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Skull Bridge From Puzzle Room Marbles",
+            "connected_region": "Skull Bridge",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Puzzle Solved Marble Flipper",
+            "id": 27022,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Heal",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Skull Bridge": {
+        "name": "Skull Bridge",
+        "exits": [
+          {
+            "name": "To Puzzle Room Marbles From Skull Bridge",
+            "connected_region": "Puzzle Room Marbles",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Slide Room",
+            "connected_region": "Slide Room",
+            "access_rule": {
+              "rule": "all_skull_dials_set",
+              "_original_ast_type": "rb_defined_helper"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Storage: Skull Bridge",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ash Pot Top DUPE",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Puzzle Solved Skull Dial Door",
+            "id": 27023,
+            "access_rule": {
+              "rule": "all_skull_dials_set",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Wax Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Slide Room": {
+        "name": "Slide Room",
+        "exits": [
+          {
+            "name": "To Skull Bridge From Slide Room",
+            "connected_region": "Skull Bridge",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "To Lobby From Slide Room",
+            "connected_region": "Lobby",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Lost Your Head"
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Water Capture": {
+        "name": "Water Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Water",
+            "id": 27040,
+            "access_rule": {
+              "rule": "water_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Metal Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Wax Capture": {
+        "name": "Wax Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Wax",
+            "id": 27041,
+            "access_rule": {
+              "rule": "wax_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Key for Library",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Ash Capture": {
+        "name": "Ash Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Ash",
+            "id": 27042,
+            "access_rule": {
+              "rule": "ash_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Crystal Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Oil Capture": {
+        "name": "Oil Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Oil",
+            "id": 27043,
+            "access_rule": {
+              "rule": "oil_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Lightning Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Cloth Capture": {
+        "name": "Cloth Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Cloth",
+            "id": 27044,
+            "access_rule": {
+              "rule": "cloth_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Water Pot Top",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Wood Capture": {
+        "name": "Wood Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Wood",
+            "id": 27045,
+            "access_rule": {
+              "rule": "wood_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Key for Greenhouse",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Crystal Capture": {
+        "name": "Crystal Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Crystal",
+            "id": 27046,
+            "access_rule": {
+              "rule": "crystal_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Wood Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Sand Capture": {
+        "name": "Sand Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Sand",
+            "id": 27047,
+            "access_rule": {
+              "rule": "sand_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Oil Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Metal Capture": {
+        "name": "Metal Capture",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ixupi Captured Metal",
+            "id": 27048,
+            "access_rule": {
+              "rule": "metal_capturable",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Lightning Pot Bottom",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "PRIORITY"
+          }
+        ]
+      },
+      "Victory": {
+        "name": "Victory",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Mystery Solved",
+            "id": 27116,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Water Pot Bottom": {
+        "name": "Water Pot Bottom",
+        "id": 27000,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Pot Bottom": {
+        "name": "Wax Pot Bottom",
+        "id": 27001,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Ash Pot Bottom": {
+        "name": "Ash Pot Bottom",
+        "id": 27002,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Oil Pot Bottom": {
+        "name": "Oil Pot Bottom",
+        "id": 27003,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloth Pot Bottom": {
+        "name": "Cloth Pot Bottom",
+        "id": 27004,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Pot Bottom": {
+        "name": "Wood Pot Bottom",
+        "id": 27005,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Pot Bottom": {
+        "name": "Crystal Pot Bottom",
+        "id": 27006,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Lightning Pot Bottom": {
+        "name": "Lightning Pot Bottom",
+        "id": 27007,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Sand Pot Bottom": {
+        "name": "Sand Pot Bottom",
+        "id": 27008,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Pot Bottom": {
+        "name": "Metal Pot Bottom",
+        "id": 27009,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Water Pot Top": {
+        "name": "Water Pot Top",
+        "id": 27010,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Pot Top": {
+        "name": "Wax Pot Top",
+        "id": 27011,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Ash Pot Top": {
+        "name": "Ash Pot Top",
+        "id": 27012,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Oil Pot Top": {
+        "name": "Oil Pot Top",
+        "id": 27013,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloth Pot Top": {
+        "name": "Cloth Pot Top",
+        "id": 27014,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Pot Top": {
+        "name": "Wood Pot Top",
+        "id": 27015,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Pot Top": {
+        "name": "Crystal Pot Top",
+        "id": 27016,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Lightning Pot Top": {
+        "name": "Lightning Pot Top",
+        "id": 27017,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Sand Pot Top": {
+        "name": "Sand Pot Top",
+        "id": 27018,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Pot Top": {
+        "name": "Metal Pot Top",
+        "id": 27019,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Water Pot Complete": {
+        "name": "Water Pot Complete",
+        "id": 27020,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Pot Complete": {
+        "name": "Wax Pot Complete",
+        "id": 27021,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Ash Pot Complete": {
+        "name": "Ash Pot Complete",
+        "id": 27022,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Oil Pot Complete": {
+        "name": "Oil Pot Complete",
+        "id": 27023,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloth Pot Complete": {
+        "name": "Cloth Pot Complete",
+        "id": 27024,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Pot Complete": {
+        "name": "Wood Pot Complete",
+        "id": 27025,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Pot Complete": {
+        "name": "Crystal Pot Complete",
+        "id": 27026,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Lightning Pot Complete": {
+        "name": "Lightning Pot Complete",
+        "id": 27027,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Sand Pot Complete": {
+        "name": "Sand Pot Complete",
+        "id": 27028,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Pot Complete": {
+        "name": "Metal Pot Complete",
+        "id": 27029,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Office Elevator": {
+        "name": "Key for Office Elevator",
+        "id": 27030,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Bedroom Elevator": {
+        "name": "Key for Bedroom Elevator",
+        "id": 27031,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Three Floor Elevator": {
+        "name": "Key for Three Floor Elevator",
+        "id": 27032,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Workshop": {
+        "name": "Key for Workshop",
+        "id": 27033,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Office": {
+        "name": "Key for Office",
+        "id": 27034,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Prehistoric Room": {
+        "name": "Key for Prehistoric Room",
+        "id": 27035,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Greenhouse": {
+        "name": "Key for Greenhouse",
+        "id": 27036,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Ocean Room": {
+        "name": "Key for Ocean Room",
+        "id": 27037,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Projector Room": {
+        "name": "Key for Projector Room",
+        "id": 27038,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Generator Room": {
+        "name": "Key for Generator Room",
+        "id": 27039,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Egypt Room": {
+        "name": "Key for Egypt Room",
+        "id": 27040,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Library": {
+        "name": "Key for Library",
+        "id": 27041,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Shaman Room": {
+        "name": "Key for Shaman Room",
+        "id": 27042,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for UFO Room": {
+        "name": "Key for UFO Room",
+        "id": 27043,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Torture Room": {
+        "name": "Key for Torture Room",
+        "id": 27044,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Puzzle Room": {
+        "name": "Key for Puzzle Room",
+        "id": 27045,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Bedroom": {
+        "name": "Key for Bedroom",
+        "id": 27046,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Underground Lake": {
+        "name": "Key for Underground Lake",
+        "id": 27047,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Janitor Closet": {
+        "name": "Key for Janitor Closet",
+        "id": 27048,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Key for Front Door": {
+        "name": "Key for Front Door",
+        "id": 27049,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Crawling": {
+        "name": "Crawling",
+        "id": 27050,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Easier Lyre": {
+        "name": "Easier Lyre",
+        "id": 27091,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 9
+      },
+      "Water Always Available in Lobby": {
+        "name": "Water Always Available in Lobby",
+        "id": 27092,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Always Available in Library": {
+        "name": "Wax Always Available in Library",
+        "id": 27093,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Always Available in Anansi Room": {
+        "name": "Wax Always Available in Anansi Room",
+        "id": 27094,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wax Always Available in Shaman Room": {
+        "name": "Wax Always Available in Shaman Room",
+        "id": 27095,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Ash Always Available in Office": {
+        "name": "Ash Always Available in Office",
+        "id": 27096,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Ash Always Available in Burial Room": {
+        "name": "Ash Always Available in Burial Room",
+        "id": 27097,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Oil Always Available in Prehistoric Room": {
+        "name": "Oil Always Available in Prehistoric Room",
+        "id": 27098,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloth Always Available in Egypt": {
+        "name": "Cloth Always Available in Egypt",
+        "id": 27099,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Cloth Always Available in Burial Room": {
+        "name": "Cloth Always Available in Burial Room",
+        "id": 27100,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Always Available in Workshop": {
+        "name": "Wood Always Available in Workshop",
+        "id": 27101,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Always Available in Blue Maze": {
+        "name": "Wood Always Available in Blue Maze",
+        "id": 27102,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Always Available in Pegasus Room": {
+        "name": "Wood Always Available in Pegasus Room",
+        "id": 27103,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Always Available in Gods Room": {
+        "name": "Wood Always Available in Gods Room",
+        "id": 27104,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Always Available in Lobby": {
+        "name": "Crystal Always Available in Lobby",
+        "id": 27105,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Always Available in Ocean": {
+        "name": "Crystal Always Available in Ocean",
+        "id": 27106,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Sand Always Available in Greenhouse": {
+        "name": "Sand Always Available in Greenhouse",
+        "id": 27107,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Sand Always Available in Ocean": {
+        "name": "Sand Always Available in Ocean",
+        "id": 27108,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Always Available in Projector Room": {
+        "name": "Metal Always Available in Projector Room",
+        "id": 27109,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Always Available in Bedroom": {
+        "name": "Metal Always Available in Bedroom",
+        "id": 27110,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Always Available in Prehistoric": {
+        "name": "Metal Always Available in Prehistoric",
+        "id": 27111,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Heal": {
+        "name": "Heal",
+        "id": 27112,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 6
+      },
+      "Mt. Pleasant Tribune: 44 year Old Mystery Solved!": {
+        "name": "Mt. Pleasant Tribune: 44 year Old Mystery Solved!",
+        "id": 27144,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Mt. Pleasant Tribune: 45 year Old Mystery Solved!": {
+        "name": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!",
+        "id": 27145,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Mt. Pleasant Tribune: 46 year Old Mystery Solved!": {
+        "name": "Mt. Pleasant Tribune: 46 year Old Mystery Solved!",
+        "id": 27146,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Viewed Egyptian Hieroglyphics Explained": {
+        "name": "Viewed Egyptian Hieroglyphics Explained",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Crystal Pot Bottom DUPE": {
+        "name": "Crystal Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Metal Pot Bottom DUPE": {
+        "name": "Metal Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ash Pot Bottom DUPE": {
+        "name": "Ash Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Water Pot Top DUPE": {
+        "name": "Water Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Oil Pot Top DUPE": {
+        "name": "Oil Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Sand Pot Bottom DUPE": {
+        "name": "Sand Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Page 17": {
+        "name": "Viewed Page 17",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Empty": {
+        "name": "Empty",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "filler",
+        "event": true,
+        "type": "Event",
+        "max_count": 3
+      },
+      "Set Time": {
+        "name": "Set Time",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Water Pot Bottom DUPE": {
+        "name": "Water Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Song": {
+        "name": "Set Song",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Theater Movie": {
+        "name": "Viewed Theater Movie",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wax Pot Top DUPE": {
+        "name": "Wax Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Prehistoric": {
+        "name": "Set Skull Dial: Prehistoric",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cloth Pot Top DUPE": {
+        "name": "Cloth Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lightning Pot Top DUPE": {
+        "name": "Lightning Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wax Pot Bottom DUPE": {
+        "name": "Wax Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Tar River": {
+        "name": "Set Skull Dial: Tar River",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cloth Pot Bottom DUPE": {
+        "name": "Cloth Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Egypt": {
+        "name": "Set Skull Dial: Egypt",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Sand Pot Top DUPE": {
+        "name": "Sand Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Burial": {
+        "name": "Set Skull Dial: Burial",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Metal Pot Top DUPE": {
+        "name": "Metal Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Gods Room": {
+        "name": "Set Skull Dial: Gods Room",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Norse Stone": {
+        "name": "Viewed Norse Stone",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wood Pot Top DUPE": {
+        "name": "Wood Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Werewolf": {
+        "name": "Set Skull Dial: Werewolf",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lightning Pot Bottom DUPE": {
+        "name": "Lightning Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wood Pot Bottom DUPE": {
+        "name": "Wood Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Aligned Planets": {
+        "name": "Aligned Planets",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Fortune": {
+        "name": "Viewed Fortune",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Oil Pot Bottom DUPE": {
+        "name": "Oil Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Crystal Pot Top DUPE": {
+        "name": "Crystal Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lost Your Head": {
+        "name": "Lost Your Head",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ash Pot Top DUPE": {
+        "name": "Ash Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Aligned Planets": 1,
+      "Ash Always Available in Burial Room": 1,
+      "Ash Always Available in Office": 1,
+      "Ash Pot Bottom": 1,
+      "Ash Pot Bottom DUPE": 1,
+      "Ash Pot Top": 1,
+      "Ash Pot Top DUPE": 1,
+      "Cloth Always Available in Burial Room": 1,
+      "Cloth Always Available in Egypt": 1,
+      "Cloth Pot Bottom": 1,
+      "Cloth Pot Bottom DUPE": 1,
+      "Cloth Pot Top": 1,
+      "Cloth Pot Top DUPE": 1,
+      "Crawling": 1,
+      "Crystal Always Available in Lobby": 1,
+      "Crystal Always Available in Ocean": 1,
+      "Crystal Pot Bottom": 1,
+      "Crystal Pot Bottom DUPE": 1,
+      "Crystal Pot Top": 1,
+      "Crystal Pot Top DUPE": 1,
+      "Easier Lyre": 9,
+      "Empty": 3,
+      "Heal": 6,
+      "Key for Bedroom": 1,
+      "Key for Bedroom Elevator": 1,
+      "Key for Egypt Room": 1,
+      "Key for Generator Room": 1,
+      "Key for Greenhouse": 1,
+      "Key for Janitor Closet": 1,
+      "Key for Library": 1,
+      "Key for Ocean Room": 1,
+      "Key for Office": 1,
+      "Key for Office Elevator": 1,
+      "Key for Prehistoric Room": 1,
+      "Key for Projector Room": 1,
+      "Key for Puzzle Room": 1,
+      "Key for Shaman Room": 1,
+      "Key for Three Floor Elevator": 1,
+      "Key for Torture Room": 1,
+      "Key for UFO Room": 1,
+      "Key for Underground Lake": 1,
+      "Key for Workshop": 1,
+      "Lightning Pot Bottom": 1,
+      "Lightning Pot Bottom DUPE": 1,
+      "Lightning Pot Top": 1,
+      "Lightning Pot Top DUPE": 1,
+      "Lost Your Head": 1,
+      "Metal Always Available in Bedroom": 1,
+      "Metal Always Available in Prehistoric": 1,
+      "Metal Always Available in Projector Room": 1,
+      "Metal Pot Bottom": 1,
+      "Metal Pot Bottom DUPE": 1,
+      "Metal Pot Top": 1,
+      "Metal Pot Top DUPE": 1,
+      "Mt. Pleasant Tribune: 45 year Old Mystery Solved!": 1,
+      "Oil Always Available in Prehistoric Room": 1,
+      "Oil Pot Bottom": 1,
+      "Oil Pot Bottom DUPE": 1,
+      "Oil Pot Top": 1,
+      "Oil Pot Top DUPE": 1,
+      "Sand Always Available in Greenhouse": 1,
+      "Sand Always Available in Ocean": 1,
+      "Sand Pot Bottom": 1,
+      "Sand Pot Bottom DUPE": 1,
+      "Sand Pot Top": 1,
+      "Sand Pot Top DUPE": 1,
+      "Set Skull Dial: Burial": 1,
+      "Set Skull Dial: Egypt": 1,
+      "Set Skull Dial: Gods Room": 1,
+      "Set Skull Dial: Prehistoric": 1,
+      "Set Skull Dial: Tar River": 1,
+      "Set Skull Dial: Werewolf": 1,
+      "Set Song": 1,
+      "Set Time": 1,
+      "Viewed Egyptian Hieroglyphics Explained": 1,
+      "Viewed Fortune": 1,
+      "Viewed Norse Stone": 1,
+      "Viewed Page 17": 1,
+      "Viewed Theater Movie": 1,
+      "Water Always Available in Lobby": 1,
+      "Water Pot Bottom": 1,
+      "Water Pot Bottom DUPE": 1,
+      "Water Pot Top": 1,
+      "Water Pot Top DUPE": 1,
+      "Wax Always Available in Anansi Room": 1,
+      "Wax Always Available in Library": 1,
+      "Wax Always Available in Shaman Room": 1,
+      "Wax Pot Bottom": 1,
+      "Wax Pot Bottom DUPE": 1,
+      "Wax Pot Top": 1,
+      "Wax Pot Top DUPE": 1,
+      "Wood Always Available in Blue Maze": 1,
+      "Wood Always Available in Gods Room": 1,
+      "Wood Always Available in Pegasus Room": 1,
+      "Wood Always Available in Workshop": 1,
+      "Wood Pot Bottom": 1,
+      "Wood Pot Bottom DUPE": 1,
+      "Wood Pot Top": 1,
+      "Wood Pot Top DUPE": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Puzzle Solved Combination Lock": "Key for Office Elevator",
+      "Puzzle Solved Gears": "Wood Always Available in Pegasus Room",
+      "Puzzle Solved Stone Henge": "Key for Bedroom",
+      "Puzzle Solved Office Elevator": "Cloth Always Available in Burial Room",
+      "Puzzle Solved Three Floor Elevator": "Sand Always Available in Greenhouse",
+      "Flashback Memory Obtained Beth's Address Book": "Easier Lyre",
+      "Flashback Memory Obtained Museum Brochure": "Easier Lyre",
+      "Flashback Memory Obtained Professor Windlenot's Diary": "Easier Lyre",
+      "Puzzle Hint Found: Beth's Note": "Easier Lyre",
+      "Puzzle Hint Found: Mailbox": "Easier Lyre",
+      "Puzzle Solved Chinese Solitaire": "Easier Lyre",
+      "Puzzle Solved Clock Chains": "Easier Lyre",
+      "Puzzle Solved Gallows": "Easier Lyre",
+      "Puzzle Solved Red Door": "Easier Lyre",
+      "Puzzle Hint Found: Orange Symbol": "Key for Underground Lake",
+      "Puzzle Hint Found: Silver Symbol": "Key for Shaman Room",
+      "Puzzle Hint Found: Green Symbol": "Key for Office",
+      "Puzzle Hint Found: White Symbol": "Crystal Always Available in Ocean",
+      "Puzzle Hint Found: Brown Symbol": "Sand Always Available in Ocean",
+      "Puzzle Hint Found: Tan Symbol": "Cloth Pot Bottom",
+      "Final Riddle: Fortune Teller": "Heal",
+      "Flashback Memory Obtained Mythology of the Stars": "Heal",
+      "Flashback Memory Obtained Scrapbook": "Heal",
+      "Flashback Memory Obtained Windlenot's Ghost": "Heal",
+      "Puzzle Hint Found: Egyptian Sphinx Heard": "Heal",
+      "Puzzle Solved Marble Flipper": "Heal",
+      "Flashback Memory Obtained Egyptian Hieroglyphics Explained": "Cloth Always Available in Egypt",
+      "Windlenot's Body": "Viewed Egyptian Hieroglyphics Explained",
+      "Storage: Desk Drawer": "Crystal Pot Bottom DUPE",
+      "Puzzle Hint Found: Atlantis Map": "Crawling",
+      "Puzzle Hint Found: Tape Recorder Heard": "Key for Janitor Closet",
+      "Puzzle Solved Bedroom Elevator": "Water Pot Bottom",
+      "Puzzle Solved Workshop Drawers": "Metal Always Available in Bedroom",
+      "Storage: Workshop Drawers": "Metal Pot Bottom DUPE",
+      "Puzzle Hint Found: Basilisk Bone Fragments": "Cloth Pot Top",
+      "Puzzle Solved Theater Door": "Key for Torture Room",
+      "Storage: Slide": "Ash Pot Bottom DUPE",
+      "Storage: Transforming Mask": "Water Pot Top DUPE",
+      "Puzzle Solved Library Statue": "Key for Three Floor Elevator",
+      "Flashback Memory Obtained In Search of the Unexplained": "Key for Egypt Room",
+      "Flashback Memory Obtained South American Pictographs": "Wax Always Available in Anansi Room",
+      "Flashback Memory Obtained Black Book": "Key for Ocean Room",
+      "Storage: Library Cabinet": "Oil Pot Top DUPE",
+      "Storage: Library Statue": "Sand Pot Bottom DUPE",
+      "Final Riddle: Beth's Body Page 17": "Key for Projector Room",
+      "Beth's Body": "Viewed Page 17",
+      "Storage: Anansi Music Box": "Empty",
+      "Storage: Shaman Hut": "Empty",
+      "Storage: Theater": "Empty",
+      "Puzzle Solved Clock Tower Door": "Ash Always Available in Office",
+      "Clock Chains": "Set Time",
+      "Flashback Memory Obtained Beth's Ghost": "Ash Pot Bottom",
+      "Storage: Clock Tower": "Water Pot Bottom DUPE",
+      "Puzzle Hint Found: Shaman Security Camera": "Crystal Always Available in Lobby",
+      "Jukebox": "Set Song",
+      "Flashback Memory Obtained Theater Movie": "Wax Always Available in Library",
+      "Viewed Theater Movie": "Viewed Theater Movie",
+      "Storage: Eagles Nest": "Wax Pot Top DUPE",
+      "Set Skull Dial: Prehistoric": "Set Skull Dial: Prehistoric",
+      "Storage: Greenhouse": "Cloth Pot Top DUPE",
+      "Puzzle Solved Atlantis": "Key for Generator Room",
+      "Puzzle Solved Organ": "Oil Pot Top",
+      "Flashback Memory Obtained Museum Blueprints": "Wood Always Available in Gods Room",
+      "Storage: Ocean": "Lightning Pot Top DUPE",
+      "Puzzle Hint Found: Sirens Song Heard": "Water Always Available in Lobby",
+      "Puzzle Solved Maze Door": "Key for Puzzle Room",
+      "Storage: Tar River": "Wax Pot Bottom DUPE",
+      "Set Skull Dial: Tar River": "Set Skull Dial: Tar River",
+      "Puzzle Solved Columns of RA": "Key for Workshop",
+      "Puzzle Solved Burial Door": "Metal Pot Bottom",
+      "Storage: Egypt": "Cloth Pot Bottom DUPE",
+      "Set Skull Dial: Egypt": "Set Skull Dial: Egypt",
+      "Flashback Memory Obtained Merrick's Notebook": "Ash Always Available in Burial Room",
+      "Storage: Chinese Solitaire": "Sand Pot Top DUPE",
+      "Set Skull Dial: Burial": "Set Skull Dial: Burial",
+      "Puzzle Solved Shaman Drums": "Metal Always Available in Prehistoric",
+      "Puzzle Solved Lyre": "Key for Bedroom Elevator",
+      "Storage: Lyre": "Metal Pot Top DUPE",
+      "Set Skull Dial: Gods Room": "Set Skull Dial: Gods Room",
+      "Final Riddle: Norse God Stone Message": "Metal Always Available in Projector Room",
+      "Norse Stone": "Viewed Norse Stone",
+      "Puzzle Solved Anansi Music Box": "Wax Pot Top",
+      "Flashback Memory Obtained Ancient Astrology": "Wood Always Available in Blue Maze",
+      "Storage: Skeleton": "Wood Pot Top DUPE",
+      "Set Skull Dial: Werewolf": "Set Skull Dial: Werewolf",
+      "Storage: Janitor Closet": "Lightning Pot Bottom DUPE",
+      "Puzzle Solved UFO Symbols": "Sand Pot Bottom",
+      "Storage: UFO": "Wood Pot Bottom DUPE",
+      "Final Riddle: Planets Aligned": "Ash Pot Top",
+      "Orrery": "Aligned Planets",
+      "Puzzle Solved Fortune Teller Door": "Wood Always Available in Workshop",
+      "Puzzle Hint Found: Elevator Writing": "Key for UFO Room",
+      "Flashback Memory Obtained Merrick's Ghost": "Sand Pot Top",
+      "Viewed Fortune": "Viewed Fortune",
+      "Puzzle Solved Alchemy": "Key for Prehistoric Room",
+      "Storage: Alchemy": "Oil Pot Bottom DUPE",
+      "Storage: Gallows": "Crystal Pot Top DUPE",
+      "Puzzle Hint Found: Gallows Information Plaque": "Oil Always Available in Prehistoric Room",
+      "Final Riddle: Guillotine Dropped": "Wax Always Available in Shaman Room",
+      "Guillotine": "Lost Your Head",
+      "Puzzle Solved Mastermind": "Wood Pot Top",
+      "Puzzle Hint Found: Mastermind Information Plaque": "Crystal Pot Top",
+      "Storage: Skull Bridge": "Ash Pot Top DUPE",
+      "Puzzle Solved Skull Dial Door": "Wax Pot Bottom",
+      "Ixupi Captured Water": "Metal Pot Top",
+      "Ixupi Captured Wax": "Key for Library",
+      "Ixupi Captured Ash": "Crystal Pot Bottom",
+      "Ixupi Captured Oil": "Lightning Pot Top",
+      "Ixupi Captured Cloth": "Water Pot Top",
+      "Ixupi Captured Wood": "Key for Greenhouse",
+      "Ixupi Captured Crystal": "Wood Pot Bottom",
+      "Ixupi Captured Sand": "Oil Pot Bottom",
+      "Ixupi Captured Metal": "Lightning Pot Bottom",
+      "Mystery Solved": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Shivers WorldGen",
+      "world_class_name": "ShiversWorld",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "early_beth": true,
+        "early_lightning": false,
+        "elevators_stay_solved": true,
+        "exclude_locations": [],
+        "front_door_usable": false,
+        "full_pots": 0,
+        "include_information_plaques": false,
+        "item_links": [],
+        "ixupi_captures_needed": 10,
+        "ixupi_captures_priority": true,
+        "lobby_access": 1,
+        "local_items": [],
+        "location_pot_pieces": 2,
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "puzzle_collect_behavior": 1,
+        "puzzle_hints_required": true,
+        "randomize_items": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "use_canonical_options": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "early_beth": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Early Beth"
+        },
+        "early_lightning": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Early Lightning"
+        },
+        "elevators_stay_solved": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Elevators Stay Solved"
+        },
+        "front_door_usable": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Front Door Usable"
+        },
+        "full_pots": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "pieces",
+            "1": "complete",
+            "2": "mixed"
+          },
+          "default": 0,
+          "display_name": "Full Pots"
+        },
+        "include_information_plaques": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Include Information Plaques"
+        },
+        "ixupi_captures_needed": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 10,
+          "default": 10,
+          "display_name": "Number of Ixupi Captures Needed"
+        },
+        "ixupi_captures_priority": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Ixupi Captures are Priority"
+        },
+        "lobby_access": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "normal",
+            "1": "early",
+            "2": "local"
+          },
+          "default": 1,
+          "display_name": "Lobby Access"
+        },
+        "location_pot_pieces": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "own_world",
+            "1": "different_world",
+            "2": "any_world"
+          },
+          "default": 2,
+          "display_name": "Location of Pot Pieces"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "puzzle_collect_behavior": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "solve_none",
+            "1": "prevent_out_of_logic_access",
+            "2": "solve_all"
+          },
+          "default": 1,
+          "display_name": "Puzzle Collect Behavior"
+        },
+        "puzzle_hints_required": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Puzzle Hints Required"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        }
+      },
+      "pot_completed_list": [],
+      "storage_placements": {
+        "Workshop Drawers": "Metal Pot Bottom",
+        "Anansi Music Box": "Empty",
+        "Greenhouse": "Cloth Pot Top",
+        "Theater": "Empty",
+        "Shaman Hut": "Empty",
+        "Alchemy": "Oil Pot Bottom",
+        "Ocean": "Lightning Pot Top",
+        "Janitor Closet": "Lightning Pot Bottom",
+        "Lyre": "Metal Pot Top",
+        "Gallows": "Crystal Pot Top",
+        "Slide": "Ash Pot Bottom",
+        "Chinese Solitaire": "Sand Pot Top",
+        "UFO": "Wood Pot Bottom",
+        "Skull Bridge": "Ash Pot Top",
+        "Egypt": "Cloth Pot Bottom",
+        "Desk Drawer": "Crystal Pot Bottom",
+        "Eagles Nest": "Wax Pot Top",
+        "Skeleton": "Wood Pot Top",
+        "Tar River": "Wax Pot Bottom",
+        "Clock Tower": "Water Pot Bottom",
+        "Library Cabinet": "Oil Pot Top",
+        "Transforming Mask": "Water Pot Top",
+        "Library Statue": "Sand Pot Bottom"
+      },
+      "world_description": "Shivers is a horror themed point and click adventure.\nExplore the mysteries of Windlenot's Museum of the Strange and Unusual.",
+      "slot_data": {
+        "StoragePlacements": {
+          "Workshop Drawers": "Metal Pot Bottom",
+          "Anansi Music Box": "Empty",
+          "Greenhouse": "Cloth Pot Top",
+          "Theater": "Empty",
+          "Shaman Hut": "Empty",
+          "Alchemy": "Oil Pot Bottom",
+          "Ocean": "Lightning Pot Top",
+          "Janitor Closet": "Lightning Pot Bottom",
+          "Lyre": "Metal Pot Top",
+          "Gallows": "Crystal Pot Top",
+          "Slide": "Ash Pot Bottom",
+          "Chinese Solitaire": "Sand Pot Top",
+          "UFO": "Wood Pot Bottom",
+          "Skull Bridge": "Ash Pot Top",
+          "Egypt": "Cloth Pot Bottom",
+          "Desk Drawer": "Crystal Pot Bottom",
+          "Eagles Nest": "Wax Pot Top",
+          "Skeleton": "Wood Pot Top",
+          "Tar River": "Wax Pot Bottom",
+          "Clock Tower": "Water Pot Bottom",
+          "Library Cabinet": "Oil Pot Top",
+          "Transforming Mask": "Water Pot Top",
+          "Library Statue": "Sand Pot Bottom"
+        },
+        "ExcludedLocations": [],
+        "IxupiCapturesNeeded": 10,
+        "ElevatorsStaySolved": 1,
+        "EarlyBeth": 1,
+        "EarlyLightning": 0,
+        "FrontDoorUsable": 0,
+        "PuzzleCollectBehavior": 1
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Shivers Setup Guide",
+            "description": "A guide to setting up Shivers for Multiworld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "GodlFire",
+              "Cynbel_Terreus"
+            ]
+          }
+        ]
+      },
+      "world_directory": "shivers_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!"
+      }
+    }
+  },
+  "helpers": {
+    "1": {
+      "all_skull_dials_set": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Burial"
+          },
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Egypt"
+          },
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Gods Room"
+          },
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Prehistoric"
+          },
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Tar River"
+          },
+          {
+            "type": "item_check",
+            "item": "Set Skull Dial: Werewolf"
+          }
+        ]
+      },
+      "ash_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Ash Pot Bottom",
+                  "Ash Pot Bottom DUPE",
+                  "Ash Pot Top",
+                  "Ash Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Ash Pot Complete",
+                  "Ash Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "beths_body_available": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "helper",
+            "name": "first_nine_ixupi_capturable"
+          },
+          {
+            "type": "option_value",
+            "option": "early_beth"
+          }
+        ]
+      },
+      "cloth_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Cloth Pot Bottom",
+                  "Cloth Pot Bottom DUPE",
+                  "Cloth Pot Top",
+                  "Cloth Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Cloth Pot Complete",
+                  "Cloth Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Mt. Pleasant Tribune: 45 year Old Mystery Solved!"
+      },
+      "crystal_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Crystal Pot Bottom",
+                  "Crystal Pot Bottom DUPE",
+                  "Crystal Pot Top",
+                  "Crystal Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Crystal Pot Complete",
+                  "Crystal Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "first_nine_ixupi_capturable": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "helper",
+            "name": "water_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "wax_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "ash_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "oil_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "cloth_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "wood_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "crystal_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "sand_capturable"
+          },
+          {
+            "type": "helper",
+            "name": "metal_capturable"
+          }
+        ]
+      },
+      "lightning_capturable": {
+        "type": "and",
+        "conditions": [
+          {
+            "type": "or",
+            "conditions": [
+              {
+                "type": "helper",
+                "name": "first_nine_ixupi_capturable"
+              },
+              {
+                "type": "option_value",
+                "option": "early_lightning"
+              }
+            ]
+          },
+          {
+            "type": "or",
+            "conditions": [
+              {
+                "type": "state_method",
+                "method": "has_all",
+                "args": [
+                  {
+                    "type": "constant",
+                    "value": [
+                      "Lightning Pot Bottom",
+                      "Lightning Pot Bottom DUPE",
+                      "Lightning Pot Top",
+                      "Lightning Pot Top DUPE"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "state_method",
+                "method": "has_all",
+                "args": [
+                  {
+                    "type": "constant",
+                    "value": [
+                      "Lightning Pot Complete",
+                      "Lightning Pot Complete DUPE"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "metal_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Metal Pot Bottom",
+                  "Metal Pot Bottom DUPE",
+                  "Metal Pot Top",
+                  "Metal Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Metal Pot Complete",
+                  "Metal Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "oil_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Oil Pot Bottom",
+                  "Oil Pot Bottom DUPE",
+                  "Oil Pot Top",
+                  "Oil Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Oil Pot Complete",
+                  "Oil Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "sand_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Sand Pot Bottom",
+                  "Sand Pot Bottom DUPE",
+                  "Sand Pot Top",
+                  "Sand Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Sand Pot Complete",
+                  "Sand Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "water_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Water Pot Bottom",
+                  "Water Pot Bottom DUPE",
+                  "Water Pot Top",
+                  "Water Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Water Pot Complete",
+                  "Water Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "wax_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Wax Pot Bottom",
+                  "Wax Pot Bottom DUPE",
+                  "Wax Pot Top",
+                  "Wax Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Wax Pot Complete",
+                  "Wax Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "wood_capturable": {
+        "type": "or",
+        "conditions": [
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Wood Pot Bottom",
+                  "Wood Pot Bottom DUPE",
+                  "Wood Pot Top",
+                  "Wood Pot Top DUPE"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "state_method",
+            "method": "has_all",
+            "args": [
+              {
+                "type": "constant",
+                "value": [
+                  "Wood Pot Complete",
+                  "Wood Pot Complete DUPE"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "is_canonical": true
+}

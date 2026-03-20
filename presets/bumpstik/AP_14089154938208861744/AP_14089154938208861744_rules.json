@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "Bumper Stickers",
   "game_directory": "bumpstik",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "BumpStikWorld"
   },
   "regions": {
     "1": {
@@ -19,22 +17,19 @@
             "name": "To Level 1",
             "connected_region": "Level 1",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 1
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Treasure Bumper",
+                    "count": 8
                   }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 8
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Booster Bumper"
                   }
                 }
               ]
@@ -46,179 +41,177 @@
             "name": "Level 1 - 250 Points",
             "id": 595000,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 500 Points",
             "id": 595001,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 750 Points",
             "id": 595002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Booster Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 1000 Points",
             "id": 595003,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 500 Level Points",
             "id": 595004,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 1000 Level Points",
             "id": 595005,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 1500 Level Points",
             "id": 595006,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 2000 Level Points",
             "id": 595007,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 25 Level Bumpers",
             "id": 595008,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 50 Level Bumpers",
             "id": 595009,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - 75 Level Bumpers",
             "id": 595010,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Booster Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 1 - Combo 5",
             "id": 595011,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bonus Booster 1",
             "id": 595063,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Booster Bumper"
               }
             },
             "item": {
@@ -226,17 +219,16 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 1",
             "id": 595068,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 1
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper"
               }
             },
             "item": {
@@ -244,17 +236,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 2",
             "id": 595069,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 2
               }
             },
             "item": {
@@ -262,17 +254,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 3",
             "id": 595070,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 3
               }
             },
             "item": {
@@ -280,17 +272,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 4",
             "id": 595071,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 4
               }
             },
             "item": {
@@ -298,17 +290,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 5",
             "id": 595072,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 5
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 5
               }
             },
             "item": {
@@ -316,17 +308,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 6",
             "id": 595073,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 6
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 6
               }
             },
             "item": {
@@ -334,17 +326,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 7",
             "id": 595074,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 7
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 7
               }
             },
             "item": {
@@ -352,17 +344,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 8",
             "id": 595075,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 8
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 8
               }
             },
             "item": {
@@ -370,7 +362,8 @@
               "player": 1,
               "advancement": false,
               "type": "Trap"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -381,22 +374,20 @@
             "name": "To Level 2",
             "connected_region": "Level 2",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 2
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Booster Bumper",
+                    "count": 2
                   }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 16
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Treasure Bumper",
+                    "count": 16
                   }
                 }
               ]
@@ -408,207 +399,206 @@
             "name": "Level 2 - 500 Points",
             "id": 595012,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 1000 Points",
             "id": 595013,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 1500 Points",
             "id": 595014,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 2000 Points",
             "id": 595015,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 1000 Level Points",
             "id": 595016,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 2000 Level Points",
             "id": 595017,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 3000 Level Points",
             "id": 595018,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 4000 Level Points",
             "id": 595019,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 25 Level Bumpers",
             "id": 595020,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 50 Level Bumpers",
             "id": 595021,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 75 Level Bumpers",
             "id": 595022,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Starting Paint Can",
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - 100 Level Bumpers",
             "id": 595023,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - Combo 5",
             "id": 595024,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 2 - Chain x2",
             "id": 595025,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bonus Booster 2",
             "id": 595064,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 2
+              "rule": "Has",
+              "args": {
+                "item_name": "Booster Bumper",
+                "count": 2
               }
             },
             "item": {
@@ -616,17 +606,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 9",
             "id": 595076,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 9
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 9
               }
             },
             "item": {
@@ -634,17 +624,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 10",
             "id": 595077,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 10
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 10
               }
             },
             "item": {
@@ -652,17 +642,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 11",
             "id": 595078,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 11
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 11
               }
             },
             "item": {
@@ -670,17 +660,17 @@
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 12",
             "id": 595079,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 12
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 12
               }
             },
             "item": {
@@ -688,17 +678,17 @@
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 13",
             "id": 595080,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 13
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 13
               }
             },
             "item": {
@@ -706,17 +696,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 14",
             "id": 595081,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 14
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 14
               }
             },
             "item": {
@@ -724,17 +714,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 15",
             "id": 595082,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 15
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 15
               }
             },
             "item": {
@@ -742,17 +732,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 16",
             "id": 595083,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 16
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 16
               }
             },
             "item": {
@@ -760,7 +750,8 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -771,22 +762,20 @@
             "name": "To Level 3",
             "connected_region": "Level 3",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 3
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Booster Bumper",
+                    "count": 3
                   }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 24
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Treasure Bumper",
+                    "count": 24
                   }
                 }
               ]
@@ -798,249 +787,248 @@
             "name": "Level 3 - 800 Points",
             "id": 595026,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 1600 Points",
             "id": 595027,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 2400 Points",
             "id": 595028,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 3200 Points",
             "id": 595029,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 2000 Level Points",
             "id": 595030,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 4000 Level Points",
             "id": 595031,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 6000 Level Points",
             "id": 595032,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 8000 Level Points",
             "id": 595033,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 25 Level Bumpers",
             "id": 595034,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 50 Level Bumpers",
             "id": 595035,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 75 Level Bumpers",
             "id": 595036,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 100 Level Bumpers",
             "id": 595037,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - 125 Level Bumpers",
             "id": 595038,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - Combo 5",
             "id": 595039,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - Combo 7",
             "id": 595040,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - Chain x2",
             "id": 595041,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 3 - All Clear, 3 colors",
             "id": 595042,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Starting Turner",
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bonus Booster 3",
             "id": 595065,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 3
+              "rule": "Has",
+              "args": {
+                "item_name": "Booster Bumper",
+                "count": 3
               }
             },
             "item": {
@@ -1048,17 +1036,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 17",
             "id": 595084,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 17
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 17
               }
             },
             "item": {
@@ -1066,17 +1054,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 18",
             "id": 595085,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 18
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 18
               }
             },
             "item": {
@@ -1084,17 +1072,17 @@
               "player": 1,
               "advancement": false,
               "type": "Trap"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 19",
             "id": 595086,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 19
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 19
               }
             },
             "item": {
@@ -1102,17 +1090,17 @@
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 20",
             "id": 595087,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 20
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 20
               }
             },
             "item": {
@@ -1120,17 +1108,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 21",
             "id": 595088,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 21
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 21
               }
             },
             "item": {
@@ -1138,17 +1126,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 22",
             "id": 595089,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 22
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 22
               }
             },
             "item": {
@@ -1156,17 +1144,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 23",
             "id": 595090,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 23
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 23
               }
             },
             "item": {
@@ -1174,17 +1162,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 24",
             "id": 595091,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 24
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 24
               }
             },
             "item": {
@@ -1192,7 +1180,8 @@
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -1203,22 +1192,20 @@
             "name": "To Level 4",
             "connected_region": "Level 4",
             "access_rule": {
-              "type": "and",
-              "conditions": [
+              "rule": "And",
+              "children": [
                 {
-                  "type": "item_check",
-                  "item": "Booster Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 5
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Booster Bumper",
+                    "count": 5
                   }
                 },
                 {
-                  "type": "item_check",
-                  "item": "Treasure Bumper",
-                  "count": {
-                    "type": "constant",
-                    "value": 32
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Treasure Bumper",
+                    "count": 32
                   }
                 }
               ]
@@ -1230,263 +1217,262 @@
             "name": "Level 4 - 1500 Points",
             "id": 595043,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 3000 Points",
             "id": 595044,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 4500 Points",
             "id": 595045,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Starting Paint Can",
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 6000 Points",
             "id": 595046,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 3000 Level Points",
             "id": 595047,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 6000 Level Points",
             "id": 595048,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Task Advance",
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 9000 Level Points",
             "id": 595049,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 12000 Level Points",
             "id": 595050,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 25 Level Bumpers",
             "id": 595051,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 50 Level Bumpers",
             "id": 595052,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Rainbow Trap",
               "player": 1,
               "advancement": false,
               "type": "Trap"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 75 Level Bumpers",
             "id": 595053,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Score Bonus",
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 100 Level Bumpers",
             "id": 595054,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Rainbow Trap",
               "player": 1,
               "advancement": false,
               "type": "Trap"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 125 Level Bumpers",
             "id": 595055,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - 150 Level Bumpers",
             "id": 595056,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - Combo 5",
             "id": 595057,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - Combo 7",
             "id": 595058,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Hazard Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - Chain x2",
             "id": 595059,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Rainbow Trap",
               "player": 1,
               "advancement": false,
               "type": "Trap"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 4 - Chain x3",
             "id": 595060,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Starting Turner",
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bonus Booster 4",
             "id": 595066,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 4
+              "rule": "Has",
+              "args": {
+                "item_name": "Booster Bumper",
+                "count": 4
               }
             },
             "item": {
@@ -1494,17 +1480,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Bonus Booster 5",
             "id": 595067,
             "access_rule": {
-              "type": "item_check",
-              "item": "Booster Bumper",
-              "count": {
-                "type": "constant",
-                "value": 5
+              "rule": "Has",
+              "args": {
+                "item_name": "Booster Bumper",
+                "count": 5
               }
             },
             "item": {
@@ -1512,17 +1498,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 25",
             "id": 595092,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 25
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 25
               }
             },
             "item": {
@@ -1530,17 +1516,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 26",
             "id": 595093,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 26
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 26
               }
             },
             "item": {
@@ -1548,17 +1534,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 27",
             "id": 595094,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 27
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 27
               }
             },
             "item": {
@@ -1566,17 +1552,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 28",
             "id": 595095,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 28
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 28
               }
             },
             "item": {
@@ -1584,17 +1570,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 29",
             "id": 595096,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 29
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 29
               }
             },
             "item": {
@@ -1602,17 +1588,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 30",
             "id": 595097,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 30
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 30
               }
             },
             "item": {
@@ -1620,17 +1606,17 @@
               "player": 1,
               "advancement": false,
               "type": "Other"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 31",
             "id": 595098,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 31
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 31
               }
             },
             "item": {
@@ -1638,17 +1624,17 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Treasure Bumper 32",
             "id": 595099,
             "access_rule": {
-              "type": "item_check",
-              "item": "Treasure Bumper",
-              "count": {
-                "type": "constant",
-                "value": 32
+              "rule": "Has",
+              "args": {
+                "item_name": "Treasure Bumper",
+                "count": 32
               }
             },
             "item": {
@@ -1656,7 +1642,8 @@
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           }
         ]
       },
@@ -1668,25 +1655,24 @@
             "name": "Level 5 - 50,000+ Total Points",
             "id": 595061,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Treasure Bumper",
               "player": 1,
               "advancement": true,
               "type": "Target"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Level 5 - Cleared all Hazards",
             "id": 595062,
             "access_rule": {
-              "type": "item_check",
-              "item": "Hazard Bumper",
-              "count": {
-                "type": "constant",
-                "value": 25
+              "rule": "Has",
+              "args": {
+                "item_name": "Hazard Bumper",
+                "count": 25
               }
             },
             "item": {
@@ -1694,7 +1680,8 @@
               "player": 1,
               "advancement": false,
               "type": "Helper"
-            }
+            },
+            "locked": false
           }
         ]
       }
@@ -1711,136 +1698,133 @@
   "items": {
     "1": {
       "Nothing": {
-        "classification": "filler",
-        "type": "Other",
+        "name": "Nothing",
         "id": 595000,
         "groups": [
           "Everything"
-        ]
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
       },
       "Score Bonus": {
-        "classification": "filler",
-        "type": "Other",
+        "name": "Score Bonus",
         "id": 595001,
         "groups": [
           "Everything"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": false
+        "classification": "filler",
+        "type": null,
+        "max_count": 22
       },
       "Task Advance": {
-        "classification": "useful",
-        "type": "Helper",
+        "name": "Task Advance",
         "id": 595002,
         "groups": [
           "Everything",
           "Helpers"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false
+        "classification": "useful",
+        "type": null,
+        "max_count": 4
       },
       "Starting Turner": {
-        "classification": "useful",
-        "type": "Helper",
+        "name": "Starting Turner",
         "id": 595003,
         "groups": [
           "Everything",
           "Helpers"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false
+        "classification": "useful",
+        "type": null,
+        "max_count": 3
       },
       "Reserved": {
-        "classification": "filler",
-        "type": "Other",
+        "name": "Reserved",
         "id": 595004,
         "groups": [
           "Everything"
-        ]
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
       },
       "Starting Paint Can": {
-        "classification": "useful",
-        "type": "Helper",
+        "name": "Starting Paint Can",
         "id": 595005,
         "groups": [
           "Everything",
           "Helpers"
         ],
-        "advancement": false,
-        "useful": true,
-        "trap": false
+        "classification": "useful",
+        "type": null,
+        "max_count": 3
       },
       "Booster Bumper": {
-        "classification": "progression",
-        "type": "Target",
+        "name": "Booster Bumper",
         "id": 595006,
         "groups": [
           "Everything",
           "Targets"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false
+        "classification": "progression",
+        "type": null,
+        "max_count": 5
       },
       "Hazard Bumper": {
-        "classification": "progression",
-        "type": "Target",
+        "name": "Hazard Bumper",
         "id": 595007,
         "groups": [
           "Everything",
           "Targets"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false
+        "classification": "progression",
+        "type": null,
+        "max_count": 25
       },
       "Treasure Bumper": {
-        "classification": "progression",
-        "type": "Target",
+        "name": "Treasure Bumper",
         "id": 595008,
         "groups": [
           "Everything",
           "Targets"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false
+        "classification": "progression",
+        "type": null,
+        "max_count": 33
       },
       "Rainbow Trap": {
-        "classification": "trap",
-        "type": "Trap",
+        "name": "Rainbow Trap",
         "id": 595009,
         "groups": [
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true
+        "classification": "trap",
+        "type": null,
+        "max_count": 3
       },
       "Spinner Trap": {
-        "classification": "trap",
-        "type": "Trap",
+        "name": "Spinner Trap",
         "id": 595010,
         "groups": [
           "Everything",
           "Traps"
         ],
-        "advancement": false,
-        "useful": false,
-        "trap": true
+        "classification": "trap",
+        "type": null,
+        "max_count": 2
       },
       "Killer Trap": {
-        "classification": "trap",
-        "type": "Trap",
+        "name": "Killer Trap",
         "id": 595011,
         "groups": [
           "Everything",
           "Traps"
-        ]
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -1854,16 +1838,19 @@
   },
   "itempool_counts": {
     "1": {
-      "Booster Bumper": 10,
-      "Hazard Bumper": 50,
-      "Rainbow Trap": 6,
-      "Score Bonus": 44,
-      "Spinner Trap": 4,
-      "Starting Paint Can": 6,
-      "Starting Turner": 6,
-      "Task Advance": 8,
-      "Treasure Bumper": 66
+      "Booster Bumper": 5,
+      "Hazard Bumper": 25,
+      "Rainbow Trap": 3,
+      "Score Bonus": 22,
+      "Spinner Trap": 2,
+      "Starting Paint Can": 3,
+      "Starting Turner": 3,
+      "Task Advance": 4,
+      "Treasure Bumper": 33
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -1871,19 +1858,141 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "Bumper Stickers",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "BumpStikWorld",
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "killer_trap_weight": 0,
+        "local_items": [],
+        "non_local_items": [],
+        "paint_cans": 3,
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "rainbow_trap_weight": 50,
+        "spinner_trap_weight": 50,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "task_advances": 4,
+        "trap_count": 5,
+        "turners": 3
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "killer_trap_weight": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 0,
+          "display_name": "Killer Trap weight"
+        },
+        "paint_cans": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 5,
+          "default": 3,
+          "display_name": "Paint Cans"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "rainbow_trap_weight": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 50,
+          "display_name": "Rainbow Trap weight"
+        },
+        "spinner_trap_weight": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 100,
+          "default": 50,
+          "display_name": "Spinner Trap weight"
+        },
+        "task_advances": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 5,
+          "default": 4,
+          "display_name": "Task Advances"
+        },
+        "trap_count": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 15,
+          "default": 5,
+          "display_name": "Trap Count"
+        },
+        "turners": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 5,
+          "default": 3,
+          "display_name": "Turners"
+        }
+      },
+      "task_advances": 4,
+      "turners": 3,
+      "paint_cans": 3,
+      "traps": 5,
+      "rainbow_trap_weight": 50,
+      "spinner_trap_weight": 50,
+      "killer_trap_weight": 0,
+      "world_description": "Bumper Stickers is a match-three puzzle game unlike any you've seen.\nLaunch Bumpers onto the field, and match them in sets of three of the same color.\nHow long can you go without getting Jammed?",
+      "web": {
+        "theme": "stone",
+        "tutorials": [
+          {
+            "name": "Bumper Stickers Setup Guide",
+            "description": "A guide to setting up the Archipelago Bumper Stickers software on your computer.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "KewlioMZX"
+            ]
+          }
+        ]
+      },
+      "world_directory": "bumpstik"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "Bumper Stickers",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "state_method",
+        "method": "has_all_counts",
+        "args": [
+          {
+            "type": "constant",
+            "value": {
+              "Booster Bumper": 5,
+              "Hazard Bumper": 25,
+              "Treasure Bumper": 32
+            }
+          }
+        ]
       }
     }
-  }
+  },
+  "helpers": {}
 }

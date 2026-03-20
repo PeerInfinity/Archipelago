@@ -1,4 +1,5 @@
 import EventsUI from './eventsUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 
 // Helper function for logging with fallback
@@ -12,6 +13,21 @@ function log(level, message, ...data) {
 }
 
 // let moduleInitApi = null; // REMOVED - Store the Initialization API
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'events'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'events'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'events'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Module metadata (optional but good practice)
 export const moduleInfo = {
@@ -49,10 +65,10 @@ export function register(registrationApi) {
  * @param {object} initApi - API provided by the initialization script.
  */
 export async function initialize(moduleId, index, initApi) {
-  log('info', 
+  log('info',
     `[Events Module] Initializing (ID: ${moduleId}, Priority: ${index})...`
   );
-  // moduleInitApi = initApi; // REMOVED assignment
+  _moduleEventBus = initApi.getEventBus();
   // We might not need to do anything else immediately,
   // the UI component will fetch data when it's created/shown.
 }

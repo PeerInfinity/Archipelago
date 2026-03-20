@@ -131,6 +131,11 @@ export function count(snapshot, staticData, itemName) {
  * @returns {boolean} True if player has at least 'amount' items from the list
  */
 export function has_from_list(snapshot, staticData, itemList, amount) {
+  // If amount is 0 or negative, always return true (requirement satisfied)
+  if (amount <= 0) {
+    return true;
+  }
+
   let foundCount = 0;
 
   for (const itemName of itemList) {

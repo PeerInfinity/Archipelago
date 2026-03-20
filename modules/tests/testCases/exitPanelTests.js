@@ -26,9 +26,7 @@ export async function testLibraryExitAccessibility(testController) {
 
     // 1. Activate the Exits panel
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 2. Wait for the exits panel to appear in DOM
     const exitsPanelElement = await testController.pollForValue(
@@ -177,9 +175,7 @@ export async function testExitPanelBasicFunctionality(testController) {
     testController.reportCondition('Test started', true);
 
     // 1. Activate the Exits panel
-    const eventBusModule = await import('../../../app/core/eventBus.js');
-    const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
 
     // 2. Wait for panel to appear and check it exists
     const exitsPanelElement = await testController.pollForValue(

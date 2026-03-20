@@ -207,12 +207,20 @@ self.onerror = function (message, source, lineno, colno, error) {
 import { StateManager } from './stateManager.js';
 // Import the actual rule evaluation function
 import { evaluateRule } from '../shared/ruleEngine.js';
+// Import PathAnalyzerLogic for worker-side path analysis
+import { PathAnalyzerLogic } from '../pathAnalyzer/pathAnalyzerLogic.js';
+// Import createSnapshotInterface for worker-side rule evaluation
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 // Import shared commands instead of StateManagerProxy to avoid window references
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
 // Import universal logger
 import { initializeWorkerLogger, updateWorkerLoggerConfig, createUniversalLogger, workerLoggerInstance } from '../../app/core/universalLogger.js';
 // Import CommandQueue for Phase 8 command queue implementation
 import { CommandQueue } from './core/commandQueue.js';
+// Import profiler for worker-side profiling
+import { profiler } from '../shared/profiler.js';
+// Import worker-side spoiler test runner
+import { WorkerSpoilerTest } from './core/workerSpoilerTest.js';
 
 // Initialize worker logger with basic settings
 initializeWorkerLogger({
@@ -254,6 +262,7 @@ let stateManagerInstance = null;
 let workerConfig = null;
 let workerInitialized = false;
 const preInitQueue = [];
+let activeSpoilerTest = null;
 
 // Function to set the communication channel on the instance
 function setupCommunicationChannel(instance) {
@@ -1357,6 +1366,268 @@ async function handleMessage(message) {
           );
         }
         break;
+
+      case 'setProgItem':
+        if (!stateManagerInstance) {
+          log('error', '[stateManagerWorker] StateManager not initialized for setProgItem');
+          break;
+        }
+        try {
+          const { itemName, value, playerId } = message.payload;
+          const playerIdKey = playerId !== undefined ? String(playerId) : stateManagerInstance.playerId;
+
+          if (!stateManagerInstance.prog_items) {
+            stateManagerInstance.prog_items = {};
+          }
+          if (!stateManagerInstance.prog_items[playerIdKey]) {
+            stateManagerInstance.prog_items[playerIdKey] = {};
+          }
+
+          stateManagerInstance.prog_items[playerIdKey][itemName] = value;
+          log('debug', `[stateManagerWorker] Set prog_items["${playerIdKey}"]["${itemName}"] = ${value}`);
+
+          // Invalidate cache and send snapshot update
+          stateManagerInstance.invalidateCache();
+          stateManagerInstance._sendSnapshotUpdate();
+        } catch (e) {
+          log('error', '[stateManagerWorker] Error processing setProgItem:', e);
+        }
+        break;
+
+      case 'setWorkerProfiling':
+        // Enable or disable worker-side profiling
+        log('info', '[stateManagerWorker] Received setWorkerProfiling command', message.payload);
+        try {
+          const { enabled } = message.payload;
+          profiler.enabled = !!enabled;
+          log('info', `[stateManagerWorker] Worker profiling ${profiler.enabled ? 'enabled' : 'disabled'}`);
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              result: { success: true, enabled: profiler.enabled }
+            });
+          }
+        } catch (e) {
+          log('error', '[stateManagerWorker] Error processing setWorkerProfiling:', e);
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              error: e.message
+            });
+          }
+        }
+        break;
+
+      case 'getWorkerProfilingReport':
+        // Get the worker profiling report
+        log('info', '[stateManagerWorker] Received getWorkerProfilingReport command');
+        try {
+          const report = profiler.report();
+          const data = profiler.getData();
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              result: { report, data }
+            });
+          }
+        } catch (e) {
+          log('error', '[stateManagerWorker] Error processing getWorkerProfilingReport:', e);
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              error: e.message
+            });
+          }
+        }
+        break;
+
+      case 'runSpoilerTest':
+        // Run spoiler test entirely within the worker
+        log('info', '[stateManagerWorker] Received runSpoilerTest command');
+        if (!workerInitialized || !stateManagerInstance) {
+          const errorMsg = 'Worker not initialized for runSpoilerTest';
+          log('error', `[stateManagerWorker] ${errorMsg}`);
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              error: errorMsg
+            });
+          }
+          break;
+        }
+        try {
+          const { sphereData, config } = message.payload;
+
+          // Create spoiler test instance
+          activeSpoilerTest = new WorkerSpoilerTest(
+            stateManagerInstance,
+            (msg) => self.postMessage(msg),
+            log
+          );
+
+          // Run the test
+          const testResult = await activeSpoilerTest.run(sphereData, config);
+
+          // Send completion response
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              result: testResult
+            });
+          }
+
+          // Also send a dedicated completion message for event-based handling
+          self.postMessage({
+            type: 'spoilerTestComplete',
+            result: testResult
+          });
+
+          activeSpoilerTest = null;
+        } catch (e) {
+          log('error', '[stateManagerWorker] Error running spoiler test:', e);
+          activeSpoilerTest = null;
+          if (message.queryId) {
+            self.postMessage({
+              type: 'queryResponse',
+              queryId: message.queryId,
+              error: e.message
+            });
+          }
+        }
+        break;
+
+      case 'abortSpoilerTest':
+        // Abort running spoiler test
+        log('info', '[stateManagerWorker] Received abortSpoilerTest command');
+        if (activeSpoilerTest) {
+          activeSpoilerTest.abort();
+          log('info', '[stateManagerWorker] Spoiler test abort signaled');
+        }
+        if (message.queryId) {
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: { aborted: !!activeSpoilerTest }
+          });
+        }
+        break;
+
+      case 'signalAnalysisComplete':
+        // Signal that main thread analysis is complete
+        log('debug', '[stateManagerWorker] Received signalAnalysisComplete command');
+        if (activeSpoilerTest) {
+          activeSpoilerTest.signalAnalysisComplete();
+        }
+        break;
+
+      case 'analyzePathToRegion': {
+        if (!workerInitialized || !stateManagerInstance) {
+          self.postMessage({ type: 'queryResponse', queryId: message.queryId,
+            error: 'Worker not initialized' });
+          break;
+        }
+        const { regionName, settings = {} } = message.payload;
+        const startTime = Date.now();
+        try {
+          const snapshot = stateManagerInstance.getSnapshot();
+          const staticData = stateManagerInstance.getStaticGameData();
+          const snapshotInterface = createSnapshotInterface(snapshot, staticData);
+          const logic = new PathAnalyzerLogic({
+            maxPaths: settings.maxPaths || 100,
+            maxAnalysisTimeMs: settings.maxAnalysisTimeMs || 10000,
+          });
+
+          // Check region reachability
+          const reachabilityStatus = snapshot?.regionReachability?.[regionName];
+          const isRegionActuallyReachable =
+            reachabilityStatus === true || reachabilityStatus === 'reachable' || reachabilityStatus === 'checked';
+
+          // DFS path finding (blocking operation, now off main thread)
+          let iterationCount = 0;
+          const paths = logic.findPathsToRegionWithCallback(
+            regionName, null, snapshot, staticData,
+            (count) => { iterationCount = count; }
+          );
+
+          // Aggregate nodes and build path details
+          const allNodes = {
+            primaryBlockers: [], secondaryBlockers: [], tertiaryBlockers: [],
+            primaryRequirements: [], secondaryRequirements: [], tertiaryRequirements: [],
+          };
+          let accessiblePathCount = 0;
+          const pathDetails = [];
+
+          if (paths.length > 0) {
+            for (const path of paths) {
+              const transitions = logic.findAllTransitions(path, snapshot, staticData, snapshotInterface);
+              const isViable = transitions.every(t => t.transitionAccessible);
+              if (isViable) accessiblePathCount++;
+
+              for (const transition of transitions) {
+                for (const exit of transition.exits) {
+                  if (exit.access_rule) {
+                    const ruleNodes = logic.analyzeRuleForNodes(exit.access_rule, snapshotInterface);
+                    Object.keys(allNodes).forEach(key => allNodes[key].push(...(ruleNodes[key] || [])));
+                  }
+                }
+              }
+
+              // Serialize transitions — strip access_rule (main thread looks up from its staticData cache)
+              pathDetails.push({
+                isViable,
+                transitions: transitions.map(t => ({
+                  fromRegion: t.fromRegion,
+                  toRegion: t.toRegion,
+                  transitionAccessible: t.transitionAccessible,
+                  isBlocking: t.isBlocking,
+                  exits: t.exits.map(e => ({
+                    name: e.name,
+                    connected_region: e.connected_region,
+                    isAccessible: e.isAccessible,
+                  })),
+                })),
+              });
+            }
+          } else {
+            // No paths: analyze direct connections for requirements display
+            const directResult = logic.analyzeDirectConnections(regionName, staticData, snapshotInterface);
+            if (directResult?.nodes) {
+              Object.keys(allNodes).forEach(key => allNodes[key].push(...(directResult.nodes[key] || [])));
+            }
+          }
+
+          // Deduplicate allNodes before sending
+          Object.keys(allNodes).forEach(key => { allNodes[key] = logic.deduplicateNodes(allNodes[key]); });
+
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: {
+              paths,
+              pathDetails,
+              allNodes,
+              accessiblePathCount,
+              isRegionActuallyReachable,
+              timedOut: false,
+              elapsedMs: Date.now() - startTime,
+              iterationCount,
+            },
+          });
+        } catch (e) {
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: e.message,
+          });
+        }
+        break;
+      }
 
       default:
         log(

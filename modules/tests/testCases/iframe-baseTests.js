@@ -20,7 +20,7 @@ async function setupIframeBase(testController) {
   testController.eventBus.publish('ui:activatePanel', { 
     panelId: 'iframePanel',
     config: { iframeName: 'iframe-base' }
-  }, 'tests');
+  });
   
   const iframePanelReady = await testController.pollForCondition(
     () => {
@@ -46,7 +46,7 @@ async function setupIframeBase(testController) {
   
   testController.eventBus.publish('iframe:loadUrl', {
     url: './modules/iframe-base/index.html?heartbeatInterval=3000'
-  }, 'tests');
+  });
   
   const iframeLoaded = await iframeLoadedPromise;
   testController.reportCondition('Iframe loaded successfully', !!iframeLoaded);
@@ -310,7 +310,7 @@ export async function iframeBaseConnectionTest(testController) {
     testController.reportCondition('IframeAdapter core available', typeof window.iframeAdapterCore !== 'undefined');
     
     // Create iframe panel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' });
     
     const iframePanelCreated = await testController.pollForCondition(
       () => {
@@ -329,7 +329,7 @@ export async function iframeBaseConnectionTest(testController) {
     
     testController.eventBus.publish('iframe:loadUrl', {
       url: './modules/iframe-base/index.html?heartbeatInterval=3000'
-    }, 'tests');
+    });
     
     const iframeLoaded = await iframeLoadedPromise;
     testController.reportCondition('Iframe loaded event received', !!iframeLoaded);
@@ -349,7 +349,7 @@ export async function iframeBaseConnectionTest(testController) {
 
     // Test iframe manager panel
     testController.log('Testing iframe manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' });
     
     const iframeManagerCreated = await testController.pollForCondition(
       () => {

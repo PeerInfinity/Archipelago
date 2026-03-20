@@ -20,30 +20,57 @@
       href="libs/golden-layout/css/themes/goldenlayout-dark-theme.css"
     />
 
-    <!-- Add jQuery (It looks like this isn't needed by either Golden Layout or vanilla-jsoneditor) -->
-    <!--
-    <script
-      src="libs/jquery/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    -->
-
-    <!-- Add JSON Editor library -->
-    <script src="libs/json-editor/jsoneditor.js"></script>
-
     <script type="module">
-      // Load the main initialization
-      import('./init.js');
+      // Support both bundled and unbundled loading modes:
+      // - ?dev or ?unbundled: Force unbundled mode (ES modules)
+      // - ?bundled: Force bundled mode
+      // - Local development (localhost): Default to unbundled
+      // - Deployed (other hosts): Try bundled first, fall back to unbundled
+      const params = new URLSearchParams(location.search);
+      const forceUnbundled = params.has('dev') || params.has('unbundled');
+      const forceBundled = params.has('bundled');
+      const isLocalDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+      async function loadApp() {
+        if (forceUnbundled) {
+          console.log('[Loader] Using unbundled mode (ES modules)');
+          await import('./init.js');
+          return;
+        }
+
+        if (forceBundled) {
+          console.log('[Loader] Using bundled mode');
+          await import('./dist/bundle.js');
+          return;
+        }
+
+        // Local development: default to unbundled (no HEAD request noise)
+        if (isLocalDev) {
+          console.log('[Loader] Using unbundled mode (local development)');
+          await import('./init.js');
+          return;
+        }
+
+        // Deployed: try bundled first, fall back to unbundled
+        try {
+          // Check if bundle exists by fetching with HEAD request
+          const response = await fetch('./dist/bundle.js', { method: 'HEAD' });
+          if (response.ok) {
+            console.log('[Loader] Using bundled mode (auto-detected)');
+            await import('./dist/bundle.js');
+          } else {
+            throw new Error('Bundle not found');
+          }
+        } catch (e) {
+          console.log('[Loader] Using unbundled mode (bundle not available)');
+          await import('./init.js');
+        }
+      }
+
+      loadApp();
     </script>
 
     <link rel="icon" href="data:," type="image/x-icon" />
-
-    <!-- Link to vanilla-jsoneditor dark theme -->
-    <link
-      rel="stylesheet"
-      href="libs/vanilla-jsoneditor/themes/jse-theme-dark.css"
-    />
   </head>
   <body>
     <!-- Simple static loading screen -->

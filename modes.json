@@ -1,7 +1,7 @@
 {
   "default": {
     "moduleConfig": {
-      "path": "./modules.json",
+      "path": "./module-configs/modules.json",
       "enabled": true
     },
     "rulesConfig": {
@@ -9,73 +9,142 @@
       "enabled": true
     },
     "layoutConfig": {
-      "path": "./layout_presets.json",
+      "path": "./layout-configs/layout_presets.json",
       "enabled": true
     },
     "userSettings": {
-      "path": "./settings.json",
+      "path": "./settings/settings.json",
       "enabled": true
     }
   },
   "test": {
     "testsConfig": {
-      "path": "./playwright_tests_config.json",
+      "path": "./test-configs/playwright_tests_config.json",
       "enabled": true
     }
   },
   "test-custom": {
     "testsConfig": {
-      "path": "./playwright_tests_config-custom.json",
+      "path": "./test-configs/playwright_tests_config-custom.json",
       "enabled": true
     }
   },
   "test-full": {
     "testsConfig": {
-      "path": "./playwright_tests_config-full.json",
+      "path": "./test-configs/playwright_tests_config-full.json",
       "enabled": true
     }
   },
   "test-full-random": {
     "testsConfig": {
-      "path": "./playwright_tests_config-full-random.json",
+      "path": "./test-configs/playwright_tests_config-full-random.json",
       "enabled": true
     }
   },
   "test-regression": {
     "moduleConfig": {
-      "path": "./modules-nograph.json",
+      "path": "./module-configs/modules-nograph.json",
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config-regression.json",
+      "path": "./test-configs/playwright_tests_config-regression.json",
       "enabled": true
     }
   },
   "test-spoilers": {
     "moduleConfig": {
-      "path": "./modules-test-spoilers.json",
+      "path": "./module-configs/modules-test-spoilers.json",
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config-spoilers.json",
+      "path": "./test-configs/playwright_tests_config-spoilers.json",
       "enabled": true
     }
   },
   "test-spoilers-headed": {
     "moduleConfig": {
-      "path": "./modules-test-spoilers-headed.json",
+      "path": "./module-configs/modules-test-spoilers-headed.json",
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config-spoilers.json",
+      "path": "./test-configs/playwright_tests_config-spoilers.json",
+      "enabled": true
+    }
+  },
+  "metamath": {
+    "moduleConfig": {
+      "path": "./module-configs/modules-metamath.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/metamath/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-metamath.json"
+      ],
+      "enabled": true
+    }
+  },
+  "depgraph": {
+    "moduleConfig": {
+      "path": "./module-configs/modules-depgraph.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/depgraph_vanilla/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-depgraph.json"
+      ],
+      "enabled": true
+    }
+  },
+  "jta": {
+    "moduleConfig": {
+      "path": "./module-configs/modules-jta.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/jta_vanilla/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-jta.json"
+      ],
+      "enabled": true
+    }
+  },
+  "discovery-entrance": {
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-discovery-entrance.json"
+      ],
+      "enabled": true
+    }
+  },
+  "check-all-from-graph": {
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-check-all-from-graph.json"
+      ],
       "enabled": true
     }
   },
   "loops": {
     "userSettings": {
       "paths": [
-        "./settings.json",
-        "./settings-loops.json"
+        "./settings/settings.json",
+        "./settings/settings-loops.json"
       ],
       "enabled": true
     }
@@ -83,64 +152,77 @@
   "test-loops": {
     "userSettings": {
       "paths": [
-        "./settings.json",
-        "./settings-loops.json"
+        "./settings/settings.json",
+        "./settings/settings-loops.json"
       ],
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config.json",
+      "path": "./test-configs/playwright_tests_config.json",
+      "enabled": true
+    }
+  },
+  "test-loops-only": {
+    "userSettings": {
+      "paths": [
+        "./settings/settings.json",
+        "./settings/settings-loops.json"
+      ],
+      "enabled": true
+    },
+    "testsConfig": {
+      "path": "./test-configs/playwright_tests_config-loops.json",
       "enabled": true
     }
   },
   "test-multi-settings": {
     "userSettings": {
       "paths": [
-        "./settings.json",
-        "./settings-overlay.json"
+        "./settings/settings.json",
+        "./settings/settings-overlay.json"
       ],
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config.json",
+      "path": "./test-configs/playwright_tests_config.json",
       "enabled": true
     }
   },
   "test-textadventure": {
     "testsConfig": {
-      "path": "./playwright_tests_config-textadventure.json",
+      "path": "./test-configs/playwright_tests_config-textadventure.json",
       "enabled": true
     }
   },
   "test-textadventure-iframe": {
     "testsConfig": {
-      "path": "./playwright_tests_config-textadventure-iframe.json",
+      "path": "./test-configs/playwright_tests_config-textadventure-iframe.json",
       "enabled": true
     }
   },
   "test-textadventure-window": {
     "testsConfig": {
-      "path": "./playwright_tests_config-textadventure-window.json",
+      "path": "./test-configs/playwright_tests_config-textadventure-window.json",
       "enabled": true
     }
   },
   "test-multiclient-client1": {
     "moduleConfig": {
-      "path": "./modules-nograph.json",
+      "path": "./module-configs/modules-nograph.json",
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config-client1.json",
+      "path": "./test-configs/playwright_tests_config-client1.json",
       "enabled": true
     }
   },
   "test-multiclient-client2": {
     "moduleConfig": {
-      "path": "./modules-nograph.json",
+      "path": "./module-configs/modules-nograph.json",
       "enabled": true
     },
     "testsConfig": {
-      "path": "./playwright_tests_config-client2.json",
+      "path": "./test-configs/playwright_tests_config-client2.json",
       "enabled": true
     }
   }

@@ -539,8 +539,8 @@ export async function testPathAnalyzerLibrary(testController) {
     logic.setDebugMode(true); // Enable debug logging
 
     const snapshot = stateManager.getSnapshot();
-    const { createStateSnapshotInterface } = await import('../../shared/stateInterface.js');
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const { createSnapshotInterface } = await import('../../shared/snapshotInterface.js');
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
 
     const result = logic.analyzeDirectConnections('Library', staticData, snapshotInterface);
     
@@ -613,8 +613,8 @@ export async function testPathAnalyzerMiseryMireEntrance(testController) {
     logic.setDebugMode(true); // Enable debug logging
 
     const snapshot = stateManager.getSnapshot();
-    const { createStateSnapshotInterface } = await import('../../shared/stateInterface.js');
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const { createSnapshotInterface } = await import('../../shared/snapshotInterface.js');
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
 
     const result = logic.analyzeDirectConnections(regionName, staticData, snapshotInterface);
     

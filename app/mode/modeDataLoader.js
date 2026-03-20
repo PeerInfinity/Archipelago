@@ -1,8 +1,51 @@
 // modeDataLoader.js - Load combined mode data from localStorage or files
 // Extracted from init.js lines 640-1097
 
-import { LOCAL_STORAGE_MODE_PREFIX } from './modeManager.js';
+import { LOCAL_STORAGE_MODE_PREFIX, LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY } from './modeManager.js';
 import { loadAndMergeJsonFiles, getConfigPaths } from '../../utils/settingsMerger.js';
+import { resolveFirstPresetPath } from '../../utils/presetResolver.js';
+import { FALLBACK_RULES } from '../../data/fallbackRules.js';
+
+/**
+ * Reads the autoLoadMode setting to determine if localStorage data should be loaded.
+ * This mirrors the logic in modeManager.js but is needed here for mode data loading.
+ *
+ * @param {Function} fetchJson - Function to fetch JSON files
+ * @param {Object} logger - Logger instance
+ * @returns {Promise<boolean>}
+ */
+async function shouldLoadFromLocalStorage(fetchJson, logger) {
+  try {
+    // First, try to get settings from localStorage mode data
+    const lastActiveMode = localStorage.getItem(LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
+    const modesToCheck = lastActiveMode ? [lastActiveMode, 'default'] : ['default'];
+
+    for (const modeName of modesToCheck) {
+      const storedData = localStorage.getItem(`${LOCAL_STORAGE_MODE_PREFIX}${modeName}`);
+      if (storedData) {
+        try {
+          const modeData = JSON.parse(storedData);
+          if (modeData.userSettings?.generalSettings?.autoLoadMode !== undefined) {
+            return modeData.userSettings.generalSettings.autoLoadMode;
+          }
+        } catch (parseError) {
+          logger.warn('init', `Failed to parse stored mode data for "${modeName}":`, parseError);
+        }
+      }
+    }
+
+    // If not found in localStorage, fetch from default settings.json
+    const settingsJson = await fetchJson('./settings/settings.json', 'Error loading settings.json for autoLoadMode check');
+    if (settingsJson?.generalSettings?.autoLoadMode !== undefined) {
+      return settingsJson.generalSettings.autoLoadMode;
+    }
+  } catch (error) {
+    logger.warn('init', 'Error reading autoLoadMode setting, defaulting to false:', error);
+  }
+
+  // Default to false (don't auto-load from localStorage)
+  return false;
+}
 
 /**
  * Loads combined mode data from localStorage or config files
@@ -65,8 +108,29 @@ export async function loadCombinedModeData(options) {
   let baseCombinedData = {};
   const dataSources = {}; // To track the origin of each config piece
 
-  // Load from localStorage if allowed
-  if (!skipLocalStorageLoad) {
+  // An explicit ?mode= URL parameter means the user deliberately requested this mode's
+  // localStorage data — bypass the autoLoadMode guard in that case.
+  const explicitModeParam = urlParams.get('mode');
+  const modeExplicitlyRequested = !!(explicitModeParam && explicitModeParam !== 'reset');
+
+  // Check if autoLoadMode is enabled (in addition to skipLocalStorageLoad flag)
+  const autoLoadModeEnabled = modeExplicitlyRequested || await shouldLoadFromLocalStorage(fetchJson, logger);
+  const shouldSkipLocalStorage = skipLocalStorageLoad || !autoLoadModeEnabled;
+
+  if (!autoLoadModeEnabled && !skipLocalStorageLoad) {
+    logger.info(
+      'init',
+      'autoLoadMode is disabled in settings. Skipping localStorage load for mode data.'
+    );
+  } else if (modeExplicitlyRequested && !skipLocalStorageLoad) {
+    logger.info(
+      'init',
+      `Mode "${currentActiveMode}" explicitly requested via URL — loading localStorage data.`
+    );
+  }
+
+  // Load from localStorage if allowed and autoLoadMode is enabled
+  if (!shouldSkipLocalStorage) {
     try {
       const storedData = localStorage.getItem(
         `${LOCAL_STORAGE_MODE_PREFIX}${currentActiveMode}`
@@ -85,7 +149,7 @@ export async function loadCombinedModeData(options) {
         });
         logger.info(
           'init',
-          `Successfully set baseCombinedData for mode "${currentActiveMode}" from localStorage.`
+          `Successfully set baseCombinedData for mode "${currentActiveMode}" from localStorage (autoLoadMode enabled).`
         );
       } else {
         logger.info(
@@ -101,7 +165,7 @@ export async function loadCombinedModeData(options) {
       );
       baseCombinedData = {}; // Reset on error
     }
-  } else {
+  } else if (skipLocalStorageLoad) {
     logger.info(
       'init',
       'Skipping localStorage load for mode data as per skipLocalStorageLoad flag.'
@@ -143,7 +207,7 @@ export async function loadCombinedModeData(options) {
         baseCombinedData,
         dataSources,
         rulesOverride,
-        skipLocalStorageLoad,
+        skipLocalStorageLoad: shouldSkipLocalStorage,
         fetchJson,
         logger,
       });
@@ -196,7 +260,8 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
     try {
       const presetFiles = await fetchJson(
         './presets/preset_files.json',
-        'Error loading preset_files.json for game/seed lookup'
+        'Error loading preset_files.json for game/seed lookup',
+        { logLevel: 'warn' }
       );
 
       if (presetFiles) {
@@ -245,19 +310,36 @@ async function resolveRulesOverride(urlParams, fetchJson, logger) {
  * For single-player games:
  *   - Returns the standard rules file (e.g., AP_seed_rules.json)
  *   - playerParam is ignored for non-multiworld games
+ *
  */
 function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, playerParam, logger) {
   let gameEntry = null;
   let gameKey = null;
 
+  // Handle path-style game parameters like "presets/dlcquest_test/AP_14089154938208861744"
+  // Extract the game directory from the path
+  let normalizedGameParam = gameParam;
+  if (gameParam.startsWith('presets/')) {
+    const pathParts = gameParam.split('/');
+    if (pathParts.length >= 2) {
+      normalizedGameParam = pathParts[1]; // Extract game directory (e.g., "dlcquest_test")
+      logger.info('init', `Extracted game directory "${normalizedGameParam}" from path "${gameParam}"`);
+    }
+  }
+
   // First check if gameParam matches a root key directly
-  if (presetFiles[gameParam]) {
+  if (presetFiles[normalizedGameParam]) {
+    gameEntry = presetFiles[normalizedGameParam];
+    gameKey = normalizedGameParam;
+  } else if (presetFiles[gameParam]) {
+    // Fallback to original gameParam in case it matches
     gameEntry = presetFiles[gameParam];
     gameKey = gameParam;
   } else {
     // Search through all entries to find matching name
     for (const [key, entry] of Object.entries(presetFiles)) {
-      if (entry.name && entry.name.toLowerCase() === gameParam.toLowerCase()) {
+      if (entry.name && (entry.name.toLowerCase() === normalizedGameParam.toLowerCase() ||
+                         entry.name.toLowerCase() === gameParam.toLowerCase())) {
         gameEntry = entry;
         gameKey = key;
         break;
@@ -266,56 +348,68 @@ function findRulesFileFromGameSeed(presetFiles, gameParam, seedParam, playerPara
   }
 
   if (gameEntry && gameEntry.folders) {
-    // Find the folder with matching seed number
+    // Collect all folders with matching seed number
+    const matchingFolders = [];
     for (const [folderName, folderData] of Object.entries(gameEntry.folders)) {
       if (folderData.seed && String(folderData.seed) === String(seedParam)) {
-        // Check if this is a multiworld seed (has games array)
-        const isMultiworld = folderData.games && Array.isArray(folderData.games) && folderData.games.length > 1;
+        matchingFolders.push({ folderName, folderData });
+      }
+    }
 
-        if (folderData.files && Array.isArray(folderData.files)) {
-          let rulesFileName = null;
+    // Select the matching folder (use first match for the seed)
+    let selectedFolder = null;
+    if (matchingFolders.length > 0) {
+      selectedFolder = matchingFolders[0];
+    }
 
-          if (isMultiworld && playerParam) {
-            // For multiworld with player specified, find player-specific rules file
-            // playerParam can be player number (e.g., "1") or player name (e.g., "Player1")
-            const playerNumber = parseInt(playerParam);
-            const isPlayerNumber = !isNaN(playerNumber) && String(playerNumber) === playerParam;
+    if (selectedFolder) {
+      const { folderName, folderData } = selectedFolder;
+      // Check if this is a multiworld seed (has games array)
+      const isMultiworld = folderData.games && Array.isArray(folderData.games) && folderData.games.length > 1;
 
-            if (isPlayerNumber) {
-              // Look for _P{number}_rules.json
-              rulesFileName = folderData.files.find(file =>
-                file.includes(`_P${playerParam}_rules.json`)
-              );
-            } else {
-              // Look for player by name in games array, then find their rules file
-              const playerInfo = folderData.games.find(g =>
-                g.name && g.name.toLowerCase() === playerParam.toLowerCase()
-              );
-              if (playerInfo && playerInfo.player) {
-                rulesFileName = folderData.files.find(file =>
-                  file.includes(`_P${playerInfo.player}_rules.json`)
-                );
-              }
-            }
+      if (folderData.files && Array.isArray(folderData.files)) {
+        let rulesFileName = null;
 
-            if (!rulesFileName) {
-              logger.warn(
-                'init',
-                `No player-specific rules file found for game="${gameParam}" seed="${seedParam}" player="${playerParam}"`
-              );
-              return null;
-            }
-          } else {
-            // For non-multiworld or multiworld without player specified, find standard rules file
-            // Standard rules file ends with _rules.json but doesn't have _P{number}_ in the name
+        if (isMultiworld && playerParam) {
+          // For multiworld with player specified, find player-specific rules file
+          // playerParam can be player number (e.g., "1") or player name (e.g., "Player1")
+          const playerNumber = parseInt(playerParam);
+          const isPlayerNumber = !isNaN(playerNumber) && String(playerNumber) === playerParam;
+
+          if (isPlayerNumber) {
+            // Look for _P{number}_rules.json
             rulesFileName = folderData.files.find(file =>
-              file.endsWith('_rules.json') && !file.includes('_P')
+              file.includes(`_P${playerParam}_rules.json`)
             );
+          } else {
+            // Look for player by name in games array, then find their rules file
+            const playerInfo = folderData.games.find(g =>
+              g.name && g.name.toLowerCase() === playerParam.toLowerCase()
+            );
+            if (playerInfo && playerInfo.player) {
+              rulesFileName = folderData.files.find(file =>
+                file.includes(`_P${playerInfo.player}_rules.json`)
+              );
+            }
           }
 
-          if (rulesFileName) {
-            return `./presets/${gameKey}/${folderName}/${rulesFileName}`;
+          if (!rulesFileName) {
+            logger.warn(
+              'init',
+              `No player-specific rules file found for game="${gameParam}" seed="${seedParam}" player="${playerParam}"`
+            );
+            return null;
           }
+        } else {
+          // For non-multiworld or multiworld without player specified, find standard rules file
+          // Standard rules file ends with _rules.json but doesn't have _P{number}_ in the name
+          rulesFileName = folderData.files.find(file =>
+            file.endsWith('_rules.json') && !file.includes('_P')
+          );
+        }
+
+        if (rulesFileName) {
+          return `./presets/${gameKey}/${folderName}/${rulesFileName}`;
         }
       }
     }
@@ -376,7 +470,7 @@ async function loadConfigKey(params) {
   if (
     configEntry &&
     typeof configEntry === 'object' &&
-    (configEntry.path || configEntry.paths) &&
+    (configEntry.path || configEntry.paths || configEntry.autoResolve) &&
     (typeof configEntry.enabled === 'undefined' || configEntry.enabled)
   ) {
     // Get paths to load (supports both single path and multiple paths)
@@ -405,7 +499,51 @@ async function loadConfigKey(params) {
         `${configKey} for "${currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
       );
 
-      const fetchedData = await loadConfigFiles(pathsToLoad, configKey, fetchJson, logger);
+      // For rulesConfig without URL override, use 'warn' level since fallback chain handles failures
+      const hasRulesFallback = configKey === 'rulesConfig' && !rulesOverride;
+      let fetchedData = await loadConfigFiles(pathsToLoad, configKey, fetchJson, logger,
+        hasRulesFallback ? { logLevel: 'warn' } : {});
+
+      // For rulesConfig, try alphabetical preset fallback if primary load fails
+      if (!fetchedData && hasRulesFallback) {
+        logger.info(
+          'init',
+          `Primary rulesConfig load failed for "${pathsToLoad.join(', ')}". Attempting alphabetical preset fallback.`
+        );
+
+        const alphabeticalPresetPath = await findFirstAlphabeticalPreset(fetchJson, logger);
+        if (alphabeticalPresetPath) {
+          fetchedData = await loadConfigFiles([alphabeticalPresetPath], configKey, fetchJson, logger);
+          if (fetchedData) {
+            baseCombinedData[configKey] = fetchedData;
+            dataSources[configKey] = {
+              source: 'alphabeticalFallback',
+              timestamp: new Date().toISOString(),
+              details: `Loaded from first alphabetical preset (default not found): ${alphabeticalPresetPath}`,
+            };
+            logger.info(
+              'init',
+              `Loaded rulesConfig from first alphabetical preset: ${alphabeticalPresetPath}`
+            );
+            return; // Successfully loaded, skip further fallback attempts
+          }
+        }
+
+        // Final hardcoded fallback: use embedded APQuest rules
+        if (!fetchedData) {
+          logger.warn(
+            'init',
+            'All preset loading failed for rulesConfig. Using hardcoded APQuest fallback rules.'
+          );
+          baseCombinedData[configKey] = FALLBACK_RULES;
+          dataSources[configKey] = {
+            source: 'hardcodedFallback',
+            timestamp: new Date().toISOString(),
+            details: 'Loaded from hardcoded APQuest fallback (no presets available)',
+          };
+          return;
+        }
+      }
 
       if (fetchedData) {
         baseCombinedData[configKey] = fetchedData;
@@ -444,7 +582,7 @@ async function loadConfigKey(params) {
 /**
  * Loads config files (single or multiple with merging)
  */
-async function loadConfigFiles(pathsToLoad, configKey, fetchJson, logger) {
+async function loadConfigFiles(pathsToLoad, configKey, fetchJson, logger, { logLevel = 'error' } = {}) {
   if (pathsToLoad.length > 1) {
     return await loadAndMergeJsonFiles(
       pathsToLoad,
@@ -454,7 +592,8 @@ async function loadConfigFiles(pathsToLoad, configKey, fetchJson, logger) {
   } else if (pathsToLoad.length === 1) {
     return await fetchJson(
       pathsToLoad[0],
-      `Error loading ${configKey} from file`
+      `Error loading ${configKey} from file`,
+      { logLevel }
     );
   }
   return null;
@@ -493,7 +632,7 @@ async function attemptFallbackLoad(params) {
   } = params;
 
   if (!usingFallback && defaultModeFileConfigs && defaultModeFileConfigs[configKey]) {
-    logger.error(
+    logger.warn(
       'init',
       `Failed to load ${configKey} from ${pathsToLoad.join(', ')}. Attempting fallback to "default" mode.`
     );
@@ -568,11 +707,21 @@ async function handleLayoutConfig(params) {
 
   if (baseCombinedData.layoutConfig) {
     if (isValidLayoutObject(baseCombinedData.layoutConfig)) {
-      layoutPresets = baseCombinedData.layoutConfig;
-      logger.info(
-        'init',
-        'layoutPresets populated from combined data (either localStorage or file).'
-      );
+      // If it's a direct GL config (has .root), wrap it as a preset collection
+      // so consumers like mobileLayoutManager can find it at layoutPresets.default
+      if (baseCombinedData.layoutConfig.root) {
+        layoutPresets = { default: baseCombinedData.layoutConfig };
+        logger.info(
+          'init',
+          'layoutPresets wrapped direct GL config as { default: config }.'
+        );
+      } else {
+        layoutPresets = baseCombinedData.layoutConfig;
+        logger.info(
+          'init',
+          'layoutPresets populated from preset collection in combined data.'
+        );
+      }
     } else {
       logger.warn(
         'init',
@@ -624,6 +773,13 @@ function prepareStateManagerConfig(baseCombinedData, dataSources, log) {
       if (match) {
         sourcePath = match[1];
       }
+    } else if (dataSources.rulesConfig.source === 'alphabeticalFallback') {
+      const match = dataSources.rulesConfig.details.match(/^Loaded from first alphabetical preset \(default not found\): (.+)$/);
+      if (match) {
+        sourcePath = match[1];
+      }
+    } else if (dataSources.rulesConfig.source === 'hardcodedFallback') {
+      sourcePath = 'hardcodedFallback:apquest';
     }
 
     // Set up StateManager config if we have a valid source path
@@ -672,5 +828,42 @@ function prepareStateManagerConfig(baseCombinedData, dataSources, log) {
         `[Init] Could not extract source path from rulesConfig dataSources details: ${dataSources.rulesConfig.details}`
       );
     }
+  }
+}
+
+/**
+ * Finds the first available preset alphabetically from preset_files.json
+ * Used as a fallback when the default Adventure preset doesn't exist
+ *
+ * @param {Function} fetchJson - Function to fetch JSON files
+ * @param {Object} logger - Logger instance
+ * @returns {Promise<string|null>} Path to rules file, or null if none found
+ */
+async function findFirstAlphabeticalPreset(fetchJson, logger) {
+  try {
+    const presetFiles = await fetchJson(
+      './presets/preset_files.json',
+      'Loading preset_files.json for alphabetical fallback',
+      { logLevel: 'warn' }
+    );
+
+    if (!presetFiles) {
+      logger.warn('init', 'Could not load preset_files.json for alphabetical fallback');
+      return null;
+    }
+
+    const result = resolveFirstPresetPath(presetFiles);
+
+    if (!result) {
+      logger.warn('init', 'No valid preset found in preset_files.json for alphabetical fallback');
+      return null;
+    }
+
+    logger.info('init', `Found first alphabetical preset: ${result.path} (game: ${result.gameName})`);
+    return result.path;
+
+  } catch (error) {
+    logger.error('init', 'Error during alphabetical preset fallback lookup:', error);
+    return null;
   }
 }

@@ -108,17 +108,36 @@ export class RegionRenderer {
    * @param {string} sortMethod - Current sort method
    * @param {boolean} useColorblind - Whether to use colorblind mode
    * @param {string} sectionOrder - Section order preference
+   * @param {Object} discoverySettings - Discovery settings for filtering
    * @returns {Object} Object with fragments: { available, unavailable, general }
    */
-  buildRegionFragments(regionsToRender, staticData, snapshot, snapshotInterface, sortMethod, useColorblind, sectionOrder) {
+  buildRegionFragments(regionsToRender, staticData, snapshot, snapshotInterface, sortMethod, useColorblind, sectionOrder, discoverySettings = null) {
     const availableFragment = document.createDocumentFragment();
     const unavailableFragment = document.createDocumentFragment();
     const generalFragment = document.createDocumentFragment();
 
     const isAccessibilitySort = sortMethod.includes('accessibility');
 
+    // Pre-compute exitUsedFromHere for each region in navigation mode.
+    // For region at index i, the next region (i+1) has exitUsed which is the exit
+    // name used FROM region i to reach region i+1.
+    const exitUsedFromHereMap = new Map();
+    for (let i = 0; i < regionsToRender.length - 1; i++) {
+      const current = regionsToRender[i];
+      const next = regionsToRender[i + 1];
+      if (current.mode === 'navigation' && next.exitUsed) {
+        exitUsedFromHereMap.set(current.uid, next.exitUsed);
+      }
+    }
+
     regionsToRender.forEach((regionInfo) => {
       let regionBlock;
+
+      // Build navigation context for path-based highlighting
+      const navigationContext = regionInfo.mode === 'navigation' ? {
+        exitUsed: regionInfo.exitUsed || null,
+        exitUsedFromHere: exitUsedFromHereMap.get(regionInfo.uid) || null
+      } : null;
 
       if (regionInfo.isSkipIndicator) {
         // Build skip indicator using RegionBlockBuilder (it has special handling for skip indicators)
@@ -133,7 +152,9 @@ export class RegionRenderer {
           false, // Skip indicators are never expanded
           staticData,
           true, // isSkipIndicator
-          sectionOrder
+          sectionOrder,
+          discoverySettings,
+          navigationContext
         );
       } else {
         // Get static region data
@@ -155,11 +176,14 @@ export class RegionRenderer {
           regionInfo.expanded,
           staticData,
           false, // Not a skip indicator
-          sectionOrder
+          sectionOrder,
+          discoverySettings,
+          navigationContext
         );
 
         if (!regionBlock) {
-          logger.warn(`Failed to build region block for: ${regionInfo.name}`);
+          // May return null for undiscovered regions in discovery mode
+          logger.debug(`Region block not built for: ${regionInfo.name} (may be undiscovered)`);
           return;
         }
       }
@@ -234,7 +258,8 @@ export class RegionRenderer {
       sortMethod = 'original',
       originalRegionOrder = [],
       useColorblind = false,
-      sectionOrder = 'entrances-exits-locations'
+      sectionOrder = 'entrances-exits-locations',
+      discoverySettings = null
     } = options;
 
     logger.info(`Rendering ${regionsToRender.length} regions (sort: ${sortMethod})`);
@@ -257,7 +282,8 @@ export class RegionRenderer {
       snapshotInterface,
       sortMethod,
       useColorblind,
-      sectionOrder
+      sectionOrder,
+      discoverySettings
     );
 
     // Update DOM

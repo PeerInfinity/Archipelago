@@ -2,6 +2,16 @@
 // Refactored from 2,600+ lines to ~100 lines
 // Original backed up as init.js.backup
 
+// Import profiler first to capture page load timing
+import { profiler, autoEnableFromConfig } from './modules/shared/profiler.js';
+
+// Auto-enable profiling from URL param or localStorage
+autoEnableFromConfig();
+
+// Start page load timing immediately
+profiler.start('pageLoad');
+profiler.start('pageLoad > coreImports');
+
 // Import logger first and make it globally available before other imports
 import logger from './app/core/loggerService.js';
 
@@ -10,6 +20,9 @@ logger.configure({
   defaultLevel: 'WARN',
   moduleLevels: {},
 });
+
+// Apply any URL-based logging parameters (e.g., ?log=DEBUG, ?logcat=StateManager:DEBUG)
+logger.applyUrlParameters();
 
 // Make logger globally available
 window.logger = logger;
@@ -28,12 +41,15 @@ window.centralRegistry = centralRegistry;
 // Register frontend as publisher for events it publishes
 centralRegistry.registerEventBusPublisher('core', 'app:fullModeDataLoadedFromStorage');
 centralRegistry.registerEventBusPublisher('core', 'module:stateChanged');
+centralRegistry.registerEventBusPublisher('core', 'module:loaded');
+centralRegistry.registerEventBusPublisher('core', 'module:loadFailed');
 centralRegistry.registerEventBusPublisher('core', 'app:modesJsonLoaded');
 centralRegistry.registerEventBusPublisher('core', 'app:readyForUiDataLoad');
 centralRegistry.registerEventBusPublisher('core', 'app:activeModeDetermined');
 centralRegistry.registerEventBusPublisher('core', 'uiHostRegistry:hostStatusChanged');
 centralRegistry.registerEventBusPublisher('core', 'ui:activatePanel');
 centralRegistry.registerEventBusPublisher('core', 'settings:changed');
+centralRegistry.registerEventBusPublisher('panelManager', 'ui:panelManuallyClosed');
 
 // Import layout libraries
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
@@ -44,6 +60,9 @@ import { initializeApplication } from './app/initialization/index.js';
 
 // Import file loading UI utilities
 import { incrementFileCounter, addFileError } from './app/initialization/fileLoadingUI.js';
+
+// End core imports timing
+profiler.end('coreImports');
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -70,11 +89,14 @@ function log(level, message, ...data) {
 /**
  * Fetches JSON from a URL and tracks file loading
  */
-async function fetchJson(url, errorMessage) {
+async function fetchJson(url, errorMessage, { logLevel = 'error' } = {}) {
   const fileName = url.split('/').pop() || url;
 
   try {
-    const response = await fetch(url);
+    // Use cache: 'reload' to validate with server (allows 304 Not Modified)
+    // Use cache: 'no-store' when ?nocache=1 is in URL (completely bypasses cache for testing)
+    const noCache = new URLSearchParams(window.location.search).has('nocache');
+    const response = await fetch(url, { cache: noCache ? 'no-store' : 'reload' });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -82,13 +104,15 @@ async function fetchJson(url, errorMessage) {
     incrementFileCounter(fileName, logger);
     return result;
   } catch (error) {
-    logger.error('init', `${errorMessage}: ${url}`, error);
+    const logFn = logger[logLevel] || logger.error;
+    logFn.call(logger, 'init', `${errorMessage}: ${url}`, error);
     addFileError(fileName, logger);
     return null;
   }
 }
 
 // Start the initialization process
+profiler.start('pageLoad > initializeApplication');
 initializeApplication({
   logger,
   eventBus,
@@ -100,6 +124,13 @@ initializeApplication({
   GoldenLayout,
   fetchJson,
   log,
+  profiler,
+}).then(() => {
+  profiler.end('initializeApplication');
+  profiler.end('pageLoad');
+  if (profiler.enabled) {
+    console.log(profiler.report());
+  }
 }).catch((error) => {
   console.error('[Init] CRITICAL: Application initialization failed:', error);
   log('error', 'Application initialization failed. Check console for details.', error);

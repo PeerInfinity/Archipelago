@@ -3,7 +3,6 @@
  * Tests for the progressBar and progressBarPanel modules
  */
 
-import eventBus from '../../../app/core/eventBus.js';
 import { registerTest } from '../testRegistry.js';
 
 // Helper function for logging with fallback
@@ -31,8 +30,8 @@ export async function testProgressBarTimer(testController) {
     testController.log('Looking for progressBarPanel...');
     
     // First, try to activate the progressBarPanel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' }, 'tests');
-    
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' });
+
     // Wait for panel to be ready
     const panelReady = await testController.pollForCondition(
       () => {
@@ -43,29 +42,29 @@ export async function testProgressBarTimer(testController) {
       5000,
       250
     );
-    
+
     if (!panelReady) {
       throw new Error('Progress Bar panel could not be activated or found');
     }
-    
+
     const mainAreaElement = document.querySelector('.progress-bar-panel-main');
     if (!mainAreaElement) {
       throw new Error('Could not find Progress Bar panel main area element');
     }
-    
+
     // Set up completion event listener
     completionHandler = (payload) => {
       testController.log('Received completion event with payload:', payload);
       completionReceived = true;
       completionPayload = payload;
     };
-    
-    eventBus.subscribe('test:progressBarComplete', completionHandler, 'tests');
-  
+
+    testController.eventBus.subscribe('test:progressBarComplete', completionHandler);
+
     // Send progressBar:create event with test specifications
     testController.log('Creating progress bar with 5-second timer');
-    
-    eventBus.publish('progressBar:create', {
+
+    testController.eventBus.publish('progressBar:create', {
       id: testId,
       targetElement: mainAreaElement,
       mode: 'timer',
@@ -75,7 +74,7 @@ export async function testProgressBarTimer(testController) {
       completionEvent: 'test:progressBarComplete',
       completionPayload: 'progress complete',
       autoCleanup: 'none' // Keep visible for verification
-    }, 'tests');
+    });
     
     // Wait a moment for progress bar to be created
     await testController.pollForCondition(
@@ -87,7 +86,7 @@ export async function testProgressBarTimer(testController) {
     testController.log('Progress bar created, sending start event');
     
     // Send the start event
-    eventBus.publish('test:progressBarStart', {}, 'tests');
+    testController.eventBus.publish('test:progressBarStart', {});
     
     // Wait for completion event (with some buffer time)
     testController.log('Waiting for progress bar to complete (5+ seconds)...');
@@ -126,7 +125,7 @@ export async function testProgressBarTimer(testController) {
     testController.log('✓ Progress bar visual state verified');
     
     // Clean up the test progress bar
-    eventBus.publish('progressBar:destroy', { id: testId }, 'tests');
+    testController.eventBus.publish('progressBar:destroy', { id: testId });
     
     await testController.pollForCondition(
       () => mainAreaElement.querySelector(`[data-progress-id="${testId}"]`) === null,
@@ -148,7 +147,7 @@ export async function testProgressBarTimer(testController) {
   } finally {
     // Clean up event subscription
     if (completionHandler) {
-      eventBus.unsubscribe('test:progressBarComplete', completionHandler);
+      testController.eventBus.unsubscribe('test:progressBarComplete', completionHandler);
     }
   }
 }
@@ -168,8 +167,8 @@ export async function testProgressBarEventMode(testController) {
     testController.log('Looking for progressBarPanel...');
     
     // First, try to activate the progressBarPanel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' }, 'tests');
-    
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' });
+
     // Wait for panel to be ready
     const panelReady = await testController.pollForCondition(
       () => {
@@ -180,29 +179,29 @@ export async function testProgressBarEventMode(testController) {
       5000,
       250
     );
-    
+
     if (!panelReady) {
       throw new Error('Progress Bar panel could not be activated or found');
     }
-    
+
     const mainAreaElement = document.querySelector('.progress-bar-panel-main');
     if (!mainAreaElement) {
       throw new Error('Could not find Progress Bar panel main area element');
     }
-    
+
     // Set up completion event listener
     completionHandler = (payload) => {
       testController.log('Received completion event with payload:', payload);
       completionReceived = true;
       completionPayload = payload;
     };
-    
-    eventBus.subscribe('test:eventProgressComplete', completionHandler, 'tests');
-  
+
+    testController.eventBus.subscribe('test:eventProgressComplete', completionHandler);
+
     // Create event-driven progress bar
     testController.log('Creating progress bar with event mode');
-    
-    eventBus.publish('progressBar:create', {
+
+    testController.eventBus.publish('progressBar:create', {
       id: testId,
       targetElement: mainAreaElement,
       mode: 'event',
@@ -212,7 +211,7 @@ export async function testProgressBarEventMode(testController) {
       completionEvent: 'test:eventProgressComplete',
       completionPayload: 'event progress complete',
       autoCleanup: 'none'
-    }, 'tests');
+    });
     
     // Wait for progress bar to be created
     await testController.pollForCondition(
@@ -222,18 +221,18 @@ export async function testProgressBarEventMode(testController) {
     );
     
     // Start the progress bar
-    eventBus.publish('test:eventProgressStart', {}, 'tests');
-    
+    testController.eventBus.publish('test:eventProgressStart', {});
+
     // Send progress updates
     testController.log('Sending progress updates...');
-    
+
     for (let i = 0; i <= 100; i += 20) {
-      eventBus.publish('test:progressUpdate', {
+      testController.eventBus.publish('test:progressUpdate', {
         id: testId,
         value: i,
         max: 100,
         text: `Event-driven progress: ${i}%`
-      }, 'tests');
+      });
       
       // Small delay between updates
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -254,18 +253,18 @@ export async function testProgressBarEventMode(testController) {
     testController.log('✓ Event progress bar completed with correct payload');
     
     // Clean up
-    eventBus.publish('progressBar:destroy', { id: testId }, 'tests');
-    
+    testController.eventBus.publish('progressBar:destroy', { id: testId });
+
     await testController.pollForCondition(
       () => mainAreaElement.querySelector(`[data-progress-id="${testId}"]`) === null,
       'Event progress bar destroyed after test',
       1000
     );
-    
+
     testController.reportCondition('All event mode test conditions passed', true);
     log('info', '[testProgressBarEventMode] COMPLETED successfully');
     await testController.completeTest(true);
-    
+
   } catch (error) {
     log('error', '[testProgressBarEventMode] CAUGHT ERROR:', error);
     testController.log(`Error in testProgressBarEventMode: ${error.message}`, 'error');
@@ -273,7 +272,7 @@ export async function testProgressBarEventMode(testController) {
     await testController.completeTest(false);
   } finally {
     if (completionHandler) {
-      eventBus.unsubscribe('test:eventProgressComplete', completionHandler);
+      testController.eventBus.unsubscribe('test:eventProgressComplete', completionHandler);
     }
   }
 }
@@ -290,7 +289,7 @@ export async function testProgressBarCommands(testController) {
   testController.log('Looking for progressBarPanel...');
   
   // First, try to activate the progressBarPanel
-  testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' }, 'tests');
+  testController.eventBus.publish('ui:activatePanel', { panelId: 'progressBarPanel' });
   
   // Wait for panel to be ready
   const panelReady = await testController.pollForCondition(
@@ -313,7 +312,7 @@ export async function testProgressBarCommands(testController) {
   }
   
     // Create progress bar
-    eventBus.publish('progressBar:create', {
+    testController.eventBus.publish('progressBar:create', {
       id: testId,
       targetElement: mainAreaElement,
       mode: 'timer',
@@ -321,7 +320,7 @@ export async function testProgressBarCommands(testController) {
       text: 'Command test progress bar',
       startEvent: 'test:commandsStart',
       autoCleanup: 'none'
-    }, 'tests');
+    });
     
     // Wait for creation
     await testController.pollForCondition(
@@ -333,11 +332,11 @@ export async function testProgressBarCommands(testController) {
     const progressBarElement = mainAreaElement.querySelector(`[data-progress-id="${testId}"]`);
     
     // Start progress bar
-    eventBus.publish('test:commandsStart', {}, 'tests');
-    
+    testController.eventBus.publish('test:commandsStart', {});
+
     // Test hide command
     testController.log('Testing hide command');
-    eventBus.publish('progressBar:hide', { id: testId }, 'tests');
+    testController.eventBus.publish('progressBar:hide', { id: testId });
     
     await testController.pollForCondition(
       () => progressBarElement.style.display === 'none',
@@ -349,7 +348,7 @@ export async function testProgressBarCommands(testController) {
     
     // Test show command
     testController.log('Testing show command');
-    eventBus.publish('progressBar:show', { id: testId }, 'tests');
+    testController.eventBus.publish('progressBar:show', { id: testId });
     
     await testController.pollForCondition(
       () => progressBarElement.style.display !== 'none',
@@ -361,7 +360,7 @@ export async function testProgressBarCommands(testController) {
     
     // Test destroy command
     testController.log('Testing destroy command');
-    eventBus.publish('progressBar:destroy', { id: testId }, 'tests');
+    testController.eventBus.publish('progressBar:destroy', { id: testId });
     
     await testController.pollForCondition(
       () => mainAreaElement.querySelector(`[data-progress-id="${testId}"]`) === null,
@@ -380,7 +379,7 @@ export async function testProgressBarCommands(testController) {
     testController.log(`Error in testProgressBarCommands: ${error.message}`, 'error');
     testController.reportCondition(`Test errored: ${error.message}`, false);
     // Clean up on error
-    eventBus.publish('progressBar:destroy', { id: testId }, 'tests');
+    testController.eventBus.publish('progressBar:destroy', { id: testId });
     await testController.completeTest(false);
   }
 }

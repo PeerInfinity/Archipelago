@@ -2,7 +2,6 @@
 import { TimerLogic } from './timerLogic.js';
 import { TimerUI } from './timerUI.js';
 import { stateManagerProxySingleton } from '../stateManager/index.js'; // For dependency injection
-import eventBus from '../../app/core/eventBus.js'; // For dependency injection
 
 
 // Helper function for logging with fallback

@@ -3,7 +3,7 @@ import { stateManagerProxySingleton as stateManager } from '../stateManager/inde
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { moduleDispatcher } from './index.js';
 // Instance registration is no longer needed
 
@@ -27,13 +27,14 @@ export class TextAdventureLogic {
         this.messageHistory = [];
         this.messageHistoryLimit = 10;
         this.discoveryMode = false;
+        this.isDiscoveryModeActive = false; // Track global discovery mode state
         this.retryAttempts = 0;
         this.maxRetryAttempts = 10; // Limit retries to prevent infinite loops
         this.lastDisplayedRegion = null; // Track last displayed region to prevent duplicates
-        
+
         // Subscribe to relevant events
         this.setupEventSubscriptions();
-        
+
         log('info', 'TextAdventureLogic initialized');
     }
 
@@ -42,23 +43,37 @@ export class TextAdventureLogic {
             // Listen for player state changes
             this.eventBus.subscribe('playerState:regionChanged', (data) => {
                 this.handleRegionChange(data);
-            }, 'textAdventure');
+            });
 
             // Listen for rules loaded event directly from StateManager
             this.eventBus.subscribe('stateManager:rulesLoaded', (data) => {
                 this.handleRulesLoaded(data);
-            }, 'textAdventure');
+            });
 
-            // Listen for ready event directly from StateManager  
+            // Listen for ready event directly from StateManager
             this.eventBus.subscribe('stateManager:ready', (data) => {
                 this.handleStateManagerReady(data);
-            }, 'textAdventure');
+            });
 
             // Listen for state changed event directly from StateManager
             this.eventBus.subscribe('stateManager:snapshotUpdated', (data) => {
                 this.handleStateChange(data);
-            }, 'textAdventure');
+            });
+
+            // Listen for discovery mode changes
+            this.eventBus.subscribe('discovery:modeChanged', (data) => {
+                this.handleDiscoveryModeChanged(data);
+            });
         }
+    }
+
+    /**
+     * Handle discovery mode changed event
+     * @param {Object} data - Event data with 'active' boolean
+     */
+    handleDiscoveryModeChanged(data) {
+        this.isDiscoveryModeActive = data?.active || false;
+        log('info', `Discovery mode changed: ${this.isDiscoveryModeActive}`);
     }
 
     /**
@@ -78,33 +93,38 @@ export class TextAdventureLogic {
     handleRulesLoaded(data) {
         log('info', 'Rules loaded, initializing player positioning and display');
         log('debug', 'Rules loaded event data:', data);
-        
+
+        // Clear message history and show initial message
+        // This is done here so that the region display follows the "Rules loaded!" message
+        this.clearMessageHistory();
+        this.addMessage('Rules loaded! Your adventure begins...');
+
         try {
             // Get snapshot and static data
             const snapshot = data.snapshot;
             const staticData = stateManager.getStaticData();
-            
+
             log('debug', 'Snapshot from event:', { hasSnapshot: !!snapshot });
             log('debug', 'Static data:', { hasStaticData: !!staticData, hasRegions: !!(staticData && staticData.regions) });
-            
+
             if (!snapshot) {
                 log('error', 'No snapshot in rules loaded event. Cannot initialize player.');
                 this.displayCurrentRegion(); // Show fallback
                 return;
             }
-            
+
             if (!staticData || !staticData.regions) {
                 log('error', 'No static data or regions available. Cannot initialize player.');
                 this.displayCurrentRegion(); // Show fallback
                 return;
             }
-            
+
             // Reset retry attempts since we got valid data
             this.retryAttempts = 0;
-            
+
             // Initialize player positioning with the snapshot and static data
             this.initializePlayerWithSnapshot(snapshot, staticData);
-            
+
         } catch (error) {
             log('error', 'Error handling rules loaded:', error);
             this.displayCurrentRegion(); // Show fallback
@@ -137,13 +157,27 @@ export class TextAdventureLogic {
             // Try to find a suitable starting region
             let targetRegion = null;
             
-            // First, try start_regions if available
-            if (snapshot.start_regions) {
-                const playerId = snapshot.playerId || '1';
-                const startRegions = snapshot.start_regions[playerId];
-                if (startRegions && startRegions.default && startRegions.default.length > 0) {
-                    targetRegion = startRegions.default[0];
-                    log('info', `Found starting region from start_regions: ${targetRegion}`);
+            // First, try startRegions from snapshot (camelCase in snapshot, may be array or object)
+            const snapshotStartRegions = snapshot.startRegions || snapshot.start_regions;
+            if (snapshotStartRegions) {
+                // Handle array format: ["Overworld"]
+                if (Array.isArray(snapshotStartRegions) && snapshotStartRegions.length > 0) {
+                    targetRegion = snapshotStartRegions[0];
+                    log('info', `Found starting region from startRegions array: ${targetRegion}`);
+                }
+                // Handle object format: {"default": ["Overworld"], "available": []}
+                else if (snapshotStartRegions.default && Array.isArray(snapshotStartRegions.default) && snapshotStartRegions.default.length > 0) {
+                    targetRegion = snapshotStartRegions.default[0];
+                    log('info', `Found starting region from startRegions.default: ${targetRegion}`);
+                }
+                // Handle per-player format: {"1": {"default": ["Overworld"]}}
+                else if (typeof snapshotStartRegions === 'object') {
+                    const playerId = snapshot.playerId || '1';
+                    const playerStartRegions = snapshotStartRegions[playerId];
+                    if (playerStartRegions && playerStartRegions.default && playerStartRegions.default.length > 0) {
+                        targetRegion = playerStartRegions.default[0];
+                        log('info', `Found starting region from startRegions[${playerId}].default: ${targetRegion}`);
+                    }
                 }
             }
             
@@ -225,7 +259,7 @@ export class TextAdventureLogic {
             
             // Publish event
             if (this.eventBus) {
-                this.eventBus.publish('textAdventure:customDataLoaded', { customData }, 'textAdventure');
+                this.eventBus.publish('textAdventure:customDataLoaded', { customData });
             }
             
             return true;
@@ -292,6 +326,54 @@ export class TextAdventureLogic {
     }
 
     /**
+     * Get reverse exits - exits from other regions that connect TO the current region.
+     * These are shown as available exits when assume_bidirectional_exits is true.
+     * @returns {Array} Array of {name, sourceRegion, connected_region} for reverse exits
+     */
+    getReverseExits() {
+        const regionInfo = this.getCurrentRegionInfo();
+        if (!regionInfo) {
+            return [];
+        }
+
+        const currentRegion = regionInfo.name;
+        const staticData = stateManager.getStaticData();
+        if (!staticData || !staticData.regions) {
+            return [];
+        }
+
+        const reverseExits = [];
+
+        // Find all exits from other regions that connect to the current region
+        for (const [otherRegionName, otherRegionData] of staticData.regions.entries()) {
+            if (otherRegionName === currentRegion) continue;
+
+            const exits = otherRegionData.exits || [];
+            for (const exit of exits) {
+                if (exit.connected_region === currentRegion) {
+                    // Check if there's already an explicit exit back to this region
+                    const hasExplicitReturn = regionInfo.data.exits?.some(
+                        e => e.connected_region === otherRegionName
+                    );
+
+                    if (!hasExplicitReturn) {
+                        // Create a reverse exit name
+                        reverseExits.push({
+                            name: `Return to ${otherRegionName}`,
+                            sourceRegion: otherRegionName,
+                            connected_region: otherRegionName,
+                            originalExitName: exit.name,
+                            isReverseExit: true
+                        });
+                    }
+                }
+            }
+        }
+
+        return reverseExits;
+    }
+
+    /**
      * Get available exits in current region
      * @returns {Array} Array of exit names
      */
@@ -303,9 +385,16 @@ export class TextAdventureLogic {
 
         let exits = regionInfo.data.exits.map(exit => exit.name);
 
+        // Add reverse exits if bidirectional is enabled
+        const bidirectionalSetting = stateManager.getEffectiveBidirectionalSetting();
+        if (bidirectionalSetting.assumeBidirectional) {
+            const reverseExits = this.getReverseExits();
+            exits = exits.concat(reverseExits.map(re => re.name));
+        }
+
         // Filter by discovery mode if enabled
         if (this.discoveryMode && discoveryStateSingleton) {
-            exits = exits.filter(exitName => 
+            exits = exits.filter(exitName =>
                 discoveryStateSingleton.isExitDiscovered(regionInfo.name, exitName)
             );
         }
@@ -345,7 +434,7 @@ export class TextAdventureLogic {
             if (locationDef.access_rule) {
                 try {
                     // Create context-aware snapshot interface with location object (same as Regions)
-                    const locationContextInterface = createStateSnapshotInterface(
+                    const locationContextInterface = createSnapshotInterface(
                         snapshot,
                         staticData,
                         { location: locationDef }
@@ -375,47 +464,66 @@ export class TextAdventureLogic {
         try {
             const snapshot = stateManager.getLatestStateSnapshot();
             const staticData = stateManager.getStaticData();
-            
+
             log('debug', `Got snapshot: ${!!snapshot}, staticData: ${!!staticData}`);
-            
+
             if (!snapshot || !staticData || !staticData.regions) {
                 log('warn', `Missing data - snapshot: ${!!snapshot}, staticData: ${!!staticData}, regions: ${!!(staticData && staticData.regions)}`);
                 return false;
             }
-            
+
             // Get current region info
             const regionInfo = this.getCurrentRegionInfo();
             log('debug', `isExitAccessible: regionInfo = ${regionInfo ? regionInfo.name : 'null'}`);
-            if (!regionInfo || !regionInfo.data.exits) {
-                log('debug', `isExitAccessible: No region info or exits for ${exitName}`);
+            if (!regionInfo) {
+                log('debug', `isExitAccessible: No region info for ${exitName}`);
                 return false;
             }
-            
-            // Find the exit definition
-            const exitDef = regionInfo.data.exits.find(exit => exit.name === exitName);
-            log('debug', `isExitAccessible: Found exit def for ${exitName}: ${!!exitDef}`);
-            if (!exitDef) {
-                log('debug', `isExitAccessible: Available exits: ${regionInfo.data.exits.map(e => e.name).join(', ')}`);
-                return false;
-            }
-            
+
             // Check if current region is reachable
             const currentRegion = regionInfo.name;
+            const playerState = getPlayerStateSingleton();
+            const isStartRegion = playerState?.isStartRegion(currentRegion);
             const regionIsReachable = snapshot.regionReachability?.[currentRegion] === true ||
                                     snapshot.regionReachability?.[currentRegion] === 'reachable' ||
                                     snapshot.regionReachability?.[currentRegion] === 'checked' ||
-                                    currentRegion === 'Menu'; // Menu is always reachable
-            
+                                    isStartRegion; // Start regions are always reachable
+
             if (!regionIsReachable) {
                 return false;
             }
-            
-            // Evaluate exit's access rule if it exists
+
+            // Find the exit definition (explicit exits first)
+            let exitDef = regionInfo.data.exits?.find(exit => exit.name === exitName);
+            let connectedRegionName = exitDef?.connected_region;
+
+            // If not found, check for reverse exits when bidirectional is enabled
+            if (!exitDef) {
+                const bidirectionalSetting = stateManager.getEffectiveBidirectionalSetting();
+                if (bidirectionalSetting.assumeBidirectional) {
+                    const reverseExits = this.getReverseExits();
+                    const reverseExit = reverseExits.find(re => re.name === exitName);
+                    if (reverseExit) {
+                        log('debug', `isExitAccessible: Found reverse exit for ${exitName} -> ${reverseExit.connected_region}`);
+                        // For reverse exits, we don't have an access rule - assume accessible
+                        connectedRegionName = reverseExit.connected_region;
+                        exitDef = reverseExit; // Use the reverse exit info
+                    }
+                }
+            }
+
+            log('debug', `isExitAccessible: Found exit def for ${exitName}: ${!!exitDef}`);
+            if (!exitDef) {
+                log('debug', `isExitAccessible: Available exits: ${regionInfo.data.exits?.map(e => e.name).join(', ') || 'none'}`);
+                return false;
+            }
+
+            // Evaluate exit's access rule if it exists (reverse exits don't have rules)
             let exitAccessible = true;
-            if (exitDef.access_rule) {
+            if (exitDef.access_rule && !exitDef.isReverseExit) {
                 log('debug', `Evaluating rule for ${exitName}:`, exitDef.access_rule);
                 try {
-                    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+                    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
                     exitAccessible = evaluateRule(exitDef.access_rule, snapshotInterface);
                     log('debug', `Rule evaluation result for ${exitName}: ${exitAccessible}`);
                 } catch (e) {
@@ -426,14 +534,13 @@ export class TextAdventureLogic {
             } else {
                 log('debug', `No access rule for ${exitName}, defaulting to accessible`);
             }
-            
-            // Check if connected region is reachable  
-            const connectedRegionName = exitDef.connected_region;
+
+            // Check if connected region is reachable
             const connectedRegionReachable = snapshot.regionReachability?.[connectedRegionName] === true ||
                                            snapshot.regionReachability?.[connectedRegionName] === 'reachable' ||
                                            snapshot.regionReachability?.[connectedRegionName] === 'checked' ||
-                                           connectedRegionName === 'Menu'; // Menu is always reachable
-            
+                                           playerState?.isStartRegion(connectedRegionName); // Start regions are always reachable
+
             // Exit is accessible if all conditions are met
             const result = exitAccessible && connectedRegionReachable;
             log('debug', `Final accessibility result for ${exitName}: ${result} (exitAccessible: ${exitAccessible}, connectedRegionReachable: ${connectedRegionReachable})`);
@@ -754,9 +861,20 @@ export class TextAdventureLogic {
         try {
             const regionInfo = this.getCurrentRegionInfo();
             if (regionInfo && regionInfo.data.exits) {
+                // First check explicit exits
                 const exit = regionInfo.data.exits.find(ex => ex.name === exitName);
                 if (exit) {
                     return exit.connected_region;
+                }
+            }
+
+            // Check reverse exits if bidirectional is enabled
+            const bidirectionalSetting = stateManager.getEffectiveBidirectionalSetting();
+            if (bidirectionalSetting.assumeBidirectional) {
+                const reverseExits = this.getReverseExits();
+                const reverseExit = reverseExits.find(re => re.name === exitName);
+                if (reverseExit) {
+                    return reverseExit.connected_region;
                 }
             }
         } catch (error) {
@@ -827,7 +945,7 @@ export class TextAdventureLogic {
 
         // Publish event
         if (this.eventBus) {
-            this.eventBus.publish('textAdventure:messageAdded', { message }, 'textAdventure');
+            this.eventBus.publish('textAdventure:messageAdded', { message });
         }
 
         log('debug', 'Message added:', message);
@@ -847,7 +965,7 @@ export class TextAdventureLogic {
     clearMessageHistory() {
         this.messageHistory = [];
         if (this.eventBus) {
-            this.eventBus.publish('textAdventure:historyCleared', {}, 'textAdventure');
+            this.eventBus.publish('textAdventure:historyCleared', {});
         }
     }
 
@@ -858,10 +976,18 @@ export class TextAdventureLogic {
     handleRegionChange(data) {
         log('info', 'Region changed:', data);
 
+        // Skip display if this is from a reset (oldRegion is null)
+        // handleRulesLoaded will display the region after showing "Rules loaded!"
+        if (data && data.oldRegion === null) {
+            log('debug', 'Skipping region display - this is from reset, handleRulesLoaded will display');
+            return;
+        }
+
         // Only display if the region is different from the last one we displayed
         // This prevents duplicate messages when sync events fire
         if (data && data.newRegion && data.newRegion !== this.lastDisplayedRegion) {
             this.lastDisplayedRegion = data.newRegion;
+
             // Display new region immediately - this event fires when region change is complete
             this.displayCurrentRegion();
         } else {

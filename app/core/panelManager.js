@@ -81,6 +81,17 @@ class PanelManager {
         }
       }, 'panelManager');
 
+      // Subscribe to ui:movePanel event
+      eventBus.subscribe('ui:movePanel', (payload) => {
+        if (payload && payload.componentType && payload.targetStackId) {
+          log(
+            'info',
+            `[PanelManager] Received ui:movePanel for ${payload.componentType} -> ${payload.targetStackId}`
+          );
+          this.movePanel(payload.componentType, payload.targetStackId);
+        }
+      }, 'panelManager');
+
       // Attempt to populate panelMap from existing items
       if (
         this.goldenLayout &&
@@ -121,32 +132,37 @@ class PanelManager {
         this.goldenLayout.on('itemDestroyed', (item) => {
           // Ensure this part is also robust
           try {
-            if (item.isComponent) {
-              const componentType = item.componentType;
-              const panelId = item.id;
+            // GL fires itemDestroyed with a BubblingEvent; the actual content item is in item.target
+            const contentItem = item.target || item;
+            if (contentItem.isComponent) {
+              const componentType = contentItem.componentType;
+              const panelId = contentItem.id;
               log(
                 'info',
-                // Kept this log as it's about an event, not pure debug
                 `[PanelManager itemDestroyed Event] Component Type: ${componentType}, Panel ID: ${panelId}`
               );
-              // Call your removeMappingByPanelId or removeMappingByComponentType
-              // For example: this.removeMappingByPanelId(panelId); // panelManagerInstance replaced with this
-              // Based on current file structure, let's try to be more specific
               if (this.panelMapById.has(panelId)) {
                 this.removeMappingByPanelId(panelId);
               } else if (this.panelMap.has(componentType)) {
-                // This is less direct and might remove the wrong one if multiple panels of same type exist
-                // but could be a fallback. For now, prioritize ID-based removal.
                 log(
                   'warn',
                   `[PanelManager itemDestroyed Event] panelId ${panelId} not in panelMapById. ComponentType ${componentType} might be in panelMap, but not removing by type to avoid ambiguity.`
                 );
               }
+
+              // Publish ui:panelManuallyClosed centrally so the modules panel
+              // checkbox stays in sync without each module needing to do it.
+              const componentEntry = centralRegistry.panelComponents.get(componentType);
+              if (componentEntry && componentEntry.moduleId) {
+                eventBus.publish('ui:panelManuallyClosed', {
+                  moduleId: componentEntry.moduleId,
+                }, 'panelManager');
+              }
             }
           } catch (e) {
             log(
               'error',
-              '[PanelManager itemDestroyed Event] Error in handler:', // Kept as error
+              '[PanelManager itemDestroyed Event] Error in handler:',
               e
             );
           }
@@ -162,6 +178,7 @@ class PanelManager {
       }
 
       this.isInitialized = true;
+      eventBus.publish('panelManager:initialized', {}, 'panelManager');
       // log('info',
       //   '[PanelManager.initialize DEBUG] Initialization COMPLETE. isInitialized set to true.'
       // );
@@ -633,6 +650,67 @@ class PanelManager {
     }
   }
 
+  /**
+   * Destroys ALL panel instances matching the given component type.
+   * Used when disabling a module that allows multiple instances.
+   * @param {string} componentType - The component type name.
+   */
+  async destroyAllPanelsByComponentType(componentType) {
+    if (!this.isInitialized || !this.goldenLayout || !this.goldenLayout.root) {
+      log('error', '[PanelManager destroyAll] Not initialized. Cannot destroy panels.');
+      return;
+    }
+
+    try {
+      const components = [];
+      function findComponents(item) {
+        if (item.isComponent && item.componentType === componentType) {
+          components.push(item);
+        } else if (item.contentItems && item.contentItems.length > 0) {
+          item.contentItems.forEach(findComponents);
+        }
+      }
+      if (this.goldenLayout.root.contentItems) {
+        findComponents(this.goldenLayout.root);
+      }
+
+      log('info', `[PanelManager destroyAll] Found ${components.length} instance(s) of ${componentType} to destroy.`);
+
+      // Remove in reverse order to avoid index shifting issues
+      for (let i = components.length - 1; i >= 0; i--) {
+        const item = components[i];
+        if (typeof item.remove === 'function') {
+          item.remove();
+        }
+      }
+    } catch (error) {
+      log('error', `[PanelManager destroyAll] Error destroying panels for ${componentType}:`, error);
+    }
+  }
+
+  /**
+   * Creates an additional instance of a panel type that supports multiple instances.
+   * Unlike createPanelForComponent, this doesn't check for existing instances.
+   * @param {string} componentType - The component type name.
+   * @param {string} title - The title for the new panel instance.
+   * @param {number|null} targetColumn - Target column (1=left, 2=middle, 3=right).
+   * @param {object} instanceState - State passed to the component constructor.
+   * @returns {object|null} The created panel item.
+   */
+  async createAdditionalInstance(componentType, title, targetColumn = null, instanceState = {}) {
+    log('info', `[PanelManager] Creating additional instance of ${componentType}, title: ${title}`);
+
+    if (!this.isInitialized || !this.goldenLayout) {
+      log('error', '[PanelManager] Not initialized. Cannot create instance.');
+      return null;
+    }
+
+    const state = { ...instanceState, instanceId: Date.now() };
+
+    // Use the same column-based placement as createPanelForComponent
+    return this.createPanelForComponent(componentType, title, targetColumn, state);
+  }
+
   // --- NEW: Method to activate a panel --- //
   /**
    * Finds and activates the first panel matching the given component type.
@@ -895,31 +973,60 @@ class PanelManager {
     return null;
   }
 
-  // MODIFIED createPanelForComponent (V8)
+  // MODIFIED createPanelForComponent (V9) — supports targetColumn for placement
   async createPanelForComponent(
     componentType,
     title = componentType,
-    location = null, // Still mostly ignored by this approach
+    targetColumn = null,
     additionalState = {}
   ) {
     log(
       'info',
-      `[PanelManager createPanelForComponent V8] Called for type: ${componentType}, title: ${title}`
+      `[PanelManager createPanelForComponent V9] Called for type: ${componentType}, title: ${title}, targetColumn: ${targetColumn}`
     );
 
     if (!this.isInitialized || !this.goldenLayout) {
       log(
         'error',
-        '[PanelManager V8] PanelManager not initialized or GoldenLayout instance missing.'
+        '[PanelManager V9] PanelManager not initialized or GoldenLayout instance missing.'
       );
       return null;
     }
 
     try {
       const expectedTitleStr = title || componentType;
+
+      // If a target column is specified, try to add directly to that stack
+      if (targetColumn) {
+        const targetStack = this._findStackForColumn(targetColumn);
+        if (targetStack && typeof targetStack.addChild === 'function') {
+          log(
+            'info',
+            `[PanelManager V9] Adding to target stack for column ${targetColumn} (stack id: ${targetStack.id || 'none'})`
+          );
+          // addItem resolves the config, creates the ContentItem, then calls addChild.
+          // addChild alone requires an already-instantiated ComponentItem (not a config),
+          // and throws Assert SACC88532 if given a plain object.
+          const newItemIndex = targetStack.addItem({
+            type: 'component',
+            componentType: componentType,
+            title: expectedTitleStr,
+            componentState: additionalState || {},
+          });
+          const newItem = targetStack.contentItems[newItemIndex];
+          log('info', '[PanelManager V9] Added to target stack successfully.');
+          return newItem;
+        }
+        log(
+          'warn',
+          `[PanelManager V9] Could not find target stack for column ${targetColumn}, falling back to default placement.`
+        );
+      }
+
+      // Default placement: use GL's addComponent
       log(
         'info',
-        `[PanelManager V8] Attempting this.goldenLayout.addComponent('${componentType}', '${expectedTitleStr}', ...)`,
+        `[PanelManager V9] Attempting this.goldenLayout.addComponent('${componentType}', '${expectedTitleStr}', ...)`,
         additionalState
       );
 
@@ -931,7 +1038,7 @@ class PanelManager {
 
       log(
         'info',
-        '[PanelManager V8] this.goldenLayout.addComponent call result:',
+        '[PanelManager V9] this.goldenLayout.addComponent call result:',
         addResult
       );
 
@@ -945,7 +1052,7 @@ class PanelManager {
       ) {
         log(
           'info',
-          `[PanelManager V8] addResult provides parentItem & index. Accessing parentItem.contentItems[${addResult.index}]`
+          `[PanelManager V9] addResult provides parentItem & index. Accessing parentItem.contentItems[${addResult.index}]`
         );
         resolvedItem = addResult.parentItem.contentItems[addResult.index];
       } else if (
@@ -954,16 +1061,15 @@ class PanelManager {
         'id' in addResult &&
         'title' in addResult
       ) {
-        // If addResult itself looks like a ComponentItem (duck typing)
         log(
           'info',
-          '[PanelManager V8] addResult itself looks like a ComponentItem.'
+          '[PanelManager V9] addResult itself looks like a ComponentItem.'
         );
         resolvedItem = addResult;
       } else {
         log(
           'warn',
-          '[PanelManager V8] addComponent did not return {parentItem, index} or a direct ComponentItem-like object. addResult:',
+          '[PanelManager V9] addComponent did not return {parentItem, index} or a direct ComponentItem-like object. addResult:',
           addResult
         );
       }
@@ -976,56 +1082,53 @@ class PanelManager {
       ) {
         log(
           'info',
-          `[PanelManager V8] Resolved ComponentItem. Current ID: '${resolvedItem.id}', Initial Reported Title: '${resolvedItem.title}', Expected Title: '${expectedTitleStr}'`
+          `[PanelManager V9] Resolved ComponentItem. Current ID: '${resolvedItem.id}', Initial Reported Title: '${resolvedItem.title}', Expected Title: '${expectedTitleStr}'`
         );
-        // Check if title needs to be set or corrected
         if (String(resolvedItem.title) !== expectedTitleStr) {
-          // Only log a warning if the initial title was something other than a typical placeholder/object string,
-          // or if it's an actual string that doesn't match.
           if (
             typeof resolvedItem.title === 'string' &&
             resolvedItem.title !== '[object Object]'
           ) {
             log(
               'warn',
-              `[PanelManager V8] Title mismatch. Current: '${resolvedItem.title}'. Attempting setTitle(\'${expectedTitleStr}\').`
+              `[PanelManager V9] Title mismatch. Current: '${resolvedItem.title}'. Attempting setTitle(\'${expectedTitleStr}\').`
             );
           } else if (typeof resolvedItem.title !== 'string') {
             log(
-              'info', // Downgrade to info if it was initially an object, as it's less surprising
-              `[PanelManager V8] Initial title was not a string (type: ${typeof resolvedItem.title}). Attempting setTitle(\'${expectedTitleStr}\').`
+              'info',
+              `[PanelManager V9] Initial title was not a string (type: ${typeof resolvedItem.title}). Attempting setTitle(\'${expectedTitleStr}\').`
             );
           }
           resolvedItem.setTitle(expectedTitleStr);
           log(
             'info',
-            `[PanelManager V8] Title after setTitle: '${resolvedItem.title}'`
+            `[PanelManager V9] Title after setTitle: '${resolvedItem.title}'`
           );
         } else {
-          log('info', '[PanelManager V8] Title is already correct.');
+          log('info', '[PanelManager V9] Title is already correct.');
         }
         return resolvedItem;
       } else {
         log(
           'error',
-          '[PanelManager V8] Could not resolve a valid ComponentItem or it lacks essential properties/methods. Resolved item:',
+          '[PanelManager V9] Could not resolve a valid ComponentItem or it lacks essential properties/methods. Resolved item:',
           resolvedItem,
           'Original addResult:',
           addResult
         );
-        return resolvedItem || addResult; // Return what we have for further debugging if needed
+        return resolvedItem || addResult;
       }
     } catch (error) {
       log(
         'error',
-        `[PanelManager V8] Error in createPanelForComponent for '${componentType}':`,
+        `[PanelManager V9] Error in createPanelForComponent for '${componentType}':`,
         error,
         error.stack
       );
       if (error.message && error.message.includes('Unknown component type')) {
         log(
           'error',
-          `[PanelManager V8] Error suggests componentType "${componentType}" might not be registered.`
+          `[PanelManager V9] Error suggests componentType "${componentType}" might not be registered.`
         );
       }
       return null;
@@ -1066,6 +1169,156 @@ class PanelManager {
         if (found) {
           return found;
         }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Find the appropriate stack for a given column number (1=left, 2=middle, 3=right).
+   * Tries by stack ID first, then by index, then creates new stacks if needed.
+   * @param {number} column - The target column (1-based).
+   * @returns {object|null} The stack to add a component to.
+   */
+  _findStackForColumn(column) {
+    const columnToStackId = { 1: 'left-stack', 2: 'middle-stack', 3: 'right-stack' };
+    const stackId = columnToStackId[column];
+    const root = this.goldenLayout.root;
+
+    // Try by stack ID first
+    if (stackId) {
+      const stack = this.findItemByIdRecursive(root, stackId);
+      if (stack) return stack;
+    }
+
+    // Fallback: try by index
+    const stacks = this._getAllStacks(root);
+    const targetIndex = column - 1;
+
+    if (targetIndex >= 0 && targetIndex < stacks.length) {
+      return stacks[targetIndex];
+    }
+
+    // Create new stacks until we have enough
+    const rootRow = this._findRootRow(root);
+    if (!rootRow) {
+      log('warn', '[PanelManager] Cannot create new stack: no root row found');
+      return stacks.length > 0 ? stacks[stacks.length - 1] : null;
+    }
+
+    // Create stacks to fill up to the target index.
+    // addItem (not addChild) is required here — addChild expects an already-instantiated
+    // ContentItem, while addItem accepts a config and handles creation internally.
+    while (this._getAllStacks(root).length <= targetIndex) {
+      log('info', `[PanelManager] Creating new stack for column ${this._getAllStacks(root).length + 1}`);
+      rootRow.addItem({ type: 'stack', content: [] });
+    }
+
+    // Redistribute widths evenly across all stacks in the root row
+    const updatedStacks = this._getAllStacks(root);
+    if (rootRow.contentItems && rootRow.contentItems.length > 0) {
+      const equalWidth = 100 / rootRow.contentItems.length;
+      for (const child of rootRow.contentItems) {
+        if (typeof child.setSize === 'function') {
+          child.setSize(equalWidth, undefined);
+        }
+      }
+    }
+
+    const finalStacks = this._getAllStacks(root);
+    if (targetIndex < finalStacks.length) {
+      return finalStacks[targetIndex];
+    }
+    return finalStacks.length > 0 ? finalStacks[finalStacks.length - 1] : null;
+  }
+
+  /**
+   * Collect all stacks in the layout tree in document order.
+   * @param {object} item - The root item to start from.
+   * @param {Array} stacks - Accumulator array.
+   * @returns {Array} All stack items.
+   */
+  _getAllStacks(item, stacks = []) {
+    if (!item) return stacks;
+    if (item.isStack) stacks.push(item);
+    if (item.contentItems) {
+      for (const child of item.contentItems) {
+        this._getAllStacks(child, stacks);
+      }
+    }
+    return stacks;
+  }
+
+  /**
+   * Move an existing panel to a different stack, identified by its Golden Layout ID
+   * (e.g., 'left-stack', 'middle-stack', 'right-stack').
+   *
+   * Uses the same removeChild(item, true) + addChild(item) reparenting pattern
+   * that Golden Layout's own drag/drop system uses internally.
+   *
+   * @param {string} componentType - The component type to move (e.g., 'loopsPanel').
+   * @param {string} targetStackId - The ID of the target stack (e.g., 'left-stack').
+   * @returns {boolean} True if the panel was moved successfully.
+   */
+  movePanel(componentType, targetStackId) {
+    if (!this.goldenLayout || !this.goldenLayout.isInitialised || !this.goldenLayout.root) {
+      log('warn', `[PanelManager movePanel] Cannot move panel — GoldenLayout not ready.`);
+      return false;
+    }
+
+    // Find the component item
+    const allItems = this.goldenLayout.getAllContentItems ? this.goldenLayout.getAllContentItems() : [];
+    const componentItem = allItems.find(
+      item => item.isComponent && item.container && item.container.componentType === componentType
+    );
+    if (!componentItem) {
+      log('warn', `[PanelManager movePanel] Component "${componentType}" not found in layout.`);
+      return false;
+    }
+
+    // Find the target stack by ID
+    const targetStack = this.findItemByIdRecursive(this.goldenLayout.root, targetStackId);
+    if (!targetStack || !targetStack.isStack) {
+      log('warn', `[PanelManager movePanel] Target stack "${targetStackId}" not found.`);
+      return false;
+    }
+
+    // Check if already in the target stack
+    const sourceStack = componentItem.parent;
+    if (sourceStack === targetStack) {
+      log('info', `[PanelManager movePanel] "${componentType}" is already in "${targetStackId}", activating.`);
+      if (typeof targetStack.setActiveComponentItem === 'function') {
+        targetStack.setActiveComponentItem(componentItem, true);
+      }
+      return true;
+    }
+
+    // Reparent: remove from source without destroying, add to target
+    log('info', `[PanelManager movePanel] Moving "${componentType}" from stack "${sourceStack.id || '?'}" to "${targetStackId}".`);
+    sourceStack.removeChild(componentItem, true);
+    targetStack.addChild(componentItem);
+
+    // Activate the moved panel in its new stack
+    if (typeof targetStack.setActiveComponentItem === 'function') {
+      targetStack.setActiveComponentItem(componentItem, true);
+    }
+
+    log('info', `[PanelManager movePanel] Successfully moved "${componentType}" to "${targetStackId}".`);
+    return true;
+  }
+
+  /**
+   * Find the root row container in the layout (the top-level row that holds columns/stacks).
+   * @param {object} item - The root item to start from.
+   * @returns {object|null} The root row item.
+   */
+  _findRootRow(item) {
+    if (!item) return null;
+    if (item.isRow) return item;
+    if (item.contentItems) {
+      for (const child of item.contentItems) {
+        const found = this._findRootRow(child);
+        if (found) return found;
       }
     }
     return null;

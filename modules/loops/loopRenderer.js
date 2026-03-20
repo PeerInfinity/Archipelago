@@ -2,7 +2,9 @@
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
+import { analyzeQueue } from '../shared/queueAnalysis.js';
+import { getCostDataManager } from './index.js';
 
 const logger = createUniversalLogger('loopUI:Renderer');
 
@@ -45,6 +47,14 @@ export class LoopRenderer {
       return;
     }
 
+    // Check if cost data is loaded (takes priority over all other states)
+    const costDataManager = getCostDataManager();
+    if (costDataManager && !costDataManager.isLoaded()) {
+      this._showNoCostDataMessage();
+      return;
+    }
+    this._hideNoCostDataMessage();
+
     // Manage visibility based on loop mode
     if (!isLoopModeActive) {
       this._showInactiveMessage();
@@ -72,50 +82,61 @@ export class LoopRenderer {
     // Clear regions area
     regionsArea.innerHTML = '';
 
-    // If queue is empty, show message
-    if (actionQueue.length === 0) {
-      regionsArea.innerHTML = '<div class="no-actions-message">No actions queued. Navigate to regions to queue actions.</div>';
-      this.updateManaDisplay(loopState.currentMana, loopState.maxMana);
-      this.updateCurrentActionDisplay(loopState.currentAction, loopState);
-      return;
-    }
-
     // Get snapshot and static data for rendering
     const snapshot = stateManager.getSnapshot();
     const staticData = stateManager.getStaticData();
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     const currentActionIndex = loopState.currentActionIndex || 0;
     const useLoopColorblind = this.displaySettings.getColorblindMode();
 
-    // Group actions by region
+    // Run queue analysis for predicted costs/remaining mana
+    const analysis = analyzeQueue(actionQueue, loopState);
+    this._lastAnalysis = analysis;
+
+    // Group actions by region, ensuring the start region always has an entry
     const regionGroups = this.groupActionsByRegion(actionQueue);
+    const startRegion = this.loopUI?.getPrimaryStartRegion?.();
+    if (startRegion && !regionGroups.has(startRegion)) {
+      regionGroups.set(startRegion, []);
+      // Note: Do NOT auto-expand the start region here. The renderer should not
+      // mutate expansion state during rendering, as it overrides user actions like
+      // Collapse All and header click toggles. Initial expansion is handled by
+      // toggleLoopMode() when loop mode is first entered.
+    }
 
-    // Render each region block
-    regionGroups.forEach((actions, regionName) => {
-      const regionStaticData = staticData?.regions?.[regionName];
-      if (!regionStaticData && regionName !== 'Menu') {
-        logger.warn(`No static data found for region: ${regionName}`);
-        return;
-      }
+    // Check if compact view is active
+    if (this._compactView) {
+      this._renderCompactView(regionsArea, actionQueue, analysis);
+    } else {
+      // Render each region block (normal view)
+      regionGroups.forEach((actions, regionName) => {
+        const regionStaticData = staticData?.regions?.get(regionName);
+        const isStartRegion = this.loopUI?.playerStateAPI?.isStartRegion?.(regionName);
+        if (!regionStaticData && !isStartRegion) {
+          logger.warn(`No static data found for region: ${regionName}`);
+          return;
+        }
 
-      const isExpanded = this.expansionState.isRegionExpanded(regionName);
+        const isExpanded = this.expansionState.isRegionExpanded(regionName);
 
-      // Delegate to callback for actual block construction
-      const regionBlock = this.buildRegionBlockFn(
-        regionName,
-        regionStaticData,
-        actions,
-        snapshot,
-        snapshotInterface,
-        useLoopColorblind,
-        isExpanded,
-        currentActionIndex
-      );
+        // Delegate to callback for actual block construction
+        const regionBlock = this.buildRegionBlockFn(
+          regionName,
+          regionStaticData,
+          actions,
+          snapshot,
+          snapshotInterface,
+          useLoopColorblind,
+          isExpanded,
+          currentActionIndex,
+          analysis.entries
+        );
 
-      if (regionBlock) {
-        regionsArea.appendChild(regionBlock);
-      }
-    });
+        if (regionBlock) {
+          regionsArea.appendChild(regionBlock);
+        }
+      });
+    }
 
     // Update displays
     this.updateManaDisplay(loopState.currentMana, loopState.maxMana);
@@ -136,15 +157,30 @@ export class LoopRenderer {
     const regionGroups = new Map();
 
     actionQueue.forEach((pathEntry, index) => {
-      const regionName = pathEntry.region;
-      if (!regionGroups.has(regionName)) {
-        regionGroups.set(regionName, []);
+      // For move actions, group under the source region (where we're moving FROM)
+      // For other actions, group under the source region (where the action occurs)
+      let groupRegion;
+      if (pathEntry.type === 'regionMove') {
+        groupRegion = pathEntry.sourceRegion || pathEntry.destinationRegion;
+      } else {
+        groupRegion = pathEntry.sourceRegion;
       }
-      regionGroups.get(regionName).push({
+
+      if (!regionGroups.has(groupRegion)) {
+        regionGroups.set(groupRegion, []);
+      }
+      regionGroups.get(groupRegion).push({
         pathEntry,
         index,
         instanceNumber: pathEntry.instanceNumber || 0
       });
+
+      // Ensure destination regions of moves also have a group entry,
+      // so a region block is rendered for them (even if no actions exist there yet)
+      if (pathEntry.type === 'regionMove' && pathEntry.destinationRegion &&
+          !regionGroups.has(pathEntry.destinationRegion)) {
+        regionGroups.set(pathEntry.destinationRegion, []);
+      }
     });
 
     return regionGroups;
@@ -185,16 +221,6 @@ export class LoopRenderer {
     // Update text
     manaText.textContent = `${Math.floor(current)}/${Math.floor(max)}`;
 
-    // Add color classes based on percentage
-    manaBar.classList.remove('mana-low', 'mana-medium', 'mana-high');
-    if (percentage < 25) {
-      manaBar.classList.add('mana-low');
-    } else if (percentage < 75) {
-      manaBar.classList.add('mana-medium');
-    } else {
-      manaBar.classList.add('mana-high');
-    }
-
     logger.debug(`Mana updated: ${current}/${max} (${percentage.toFixed(1)}%)`);
   }
 
@@ -218,7 +244,7 @@ export class LoopRenderer {
     }
 
     if (!action) {
-      actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
+      actionContainer.innerHTML = `<div class="no-action-message">Queue ready</div>`;
       return;
     }
 
@@ -228,15 +254,14 @@ export class LoopRenderer {
     const displayIndex = loopState.currentActionIndex + 1;
     const actionName = getActionDisplayNameFn(action);
 
-    // Build HTML to match original implementation
+    const queueLength = getActionQueueFn().length;
     actionContainer.innerHTML = `
       <div class="current-action-label">
-        <span>${actionName}</span>
-        <span class="mana-cost">${Math.floor(manaCostSoFar)}/${actionCost} mana</span>
+        <span>Action ${displayIndex} of ${queueLength}: ${actionName}</span>
+        <span class="mana-cost">Progress: ${Math.floor(manaCostSoFar)} of ${parseFloat(actionCost.toFixed(1))} mana</span>
       </div>
       <div class="current-action-progress">
         <div class="current-action-progress-bar" style="width: ${action.progress}%"></div>
-        <span class="current-action-value">Action ${displayIndex} of ${getActionQueueFn().length}, Progress: ${Math.floor(manaCostSoFar)} of ${actionCost} mana</span>
       </div>
     `;
 
@@ -247,6 +272,84 @@ export class LoopRenderer {
    * Show inactive message and hide active areas
    * @private
    */
+  /**
+   * Show "no cost data" message with Generate/Accept buttons,
+   * replacing the entire panel content.
+   * @private
+   */
+  _showNoCostDataMessage() {
+    const controls = this.rootElement.querySelector('.loop-controls');
+    const fixedArea = this.rootElement.querySelector('#loop-fixed-area');
+    const regionsArea = this.rootElement.querySelector('#loop-regions-area');
+
+    if (controls) controls.style.display = 'none';
+    if (fixedArea) fixedArea.style.display = 'none';
+    if (regionsArea) regionsArea.style.display = 'none';
+
+    // Don't recreate if already showing
+    if (this.rootElement.querySelector('.loop-no-costs-message')) return;
+
+    const msg = document.createElement('div');
+    msg.className = 'loop-no-costs-message';
+    msg.style.cssText = 'padding: 24px; text-align: center; color: #bbb; flex: 1;';
+    msg.innerHTML = `
+      <div style="font-size: 1.1em; margin-bottom: 12px; color: #e0e0e0;">
+        No cost data loaded
+      </div>
+      <div style="margin-bottom: 16px; font-size: 0.9em; color: #999; line-height: 1.5;">
+        Cost data determines mana costs for moving between regions and checking locations.<br>
+        Generate costs from the sphere log, or accept default costs (regions: 50, locations: 100).
+      </div>
+      <div style="margin-bottom: 8px; font-size: 0.85em; color: #aaa; text-align: center;">
+        Either button will automatically enter Loop mode. To exit later, expand the Controls section and click Exit Loop Mode.
+      </div>
+      <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+        <button id="loop-ui-generate-costs-inline" class="button" style="padding: 6px 16px;">Generate Costs</button>
+        <button id="loop-ui-accept-defaults" class="button" style="padding: 6px 16px;">Accept Defaults</button>
+      </div>
+      <div id="loop-ui-cost-progress" style="display: none; margin-top: 12px;">
+        <div style="margin-bottom: 4px; font-size: 0.85em; color: #aaa;">
+          <span id="loop-ui-cost-progress-label">Generating...</span>
+        </div>
+        <div style="background: #333; border-radius: 3px; height: 6px; overflow: hidden;">
+          <div id="loop-ui-cost-progress-bar" style="background: #6a6; height: 100%; width: 0%; transition: width 0.2s;"></div>
+        </div>
+      </div>
+    `;
+
+    // Insert after controls (or prepend if controls missing)
+    if (controls) {
+      controls.insertAdjacentElement('afterend', msg);
+    } else {
+      this.rootElement.prepend(msg);
+    }
+
+    // Wire up buttons via loopUI callbacks
+    msg.querySelector('#loop-ui-generate-costs-inline')?.addEventListener('click', () => {
+      this.loopUI?._handleGenerateCostsInline();
+    });
+    msg.querySelector('#loop-ui-accept-defaults')?.addEventListener('click', () => {
+      this.loopUI?._handleAcceptDefaults();
+    });
+  }
+
+  /**
+   * Hide the "no cost data" message and restore normal panel content.
+   * @private
+   */
+  _hideNoCostDataMessage() {
+    const msg = this.rootElement.querySelector('.loop-no-costs-message');
+    if (msg) msg.remove();
+
+    const controls = this.rootElement.querySelector('.loop-controls');
+    const fixedArea = this.rootElement.querySelector('#loop-fixed-area');
+    const regionsArea = this.rootElement.querySelector('#loop-regions-area');
+
+    if (controls) controls.style.display = '';
+    if (fixedArea) fixedArea.style.display = '';
+    if (regionsArea) regionsArea.style.display = '';
+  }
+
   _showInactiveMessage() {
     const fixedArea = this.rootElement.querySelector('#loop-fixed-area');
     const regionsArea = this.rootElement.querySelector('#loop-regions-area');
@@ -302,6 +405,66 @@ export class LoopRenderer {
     );
 
     expandCollapseBtn.textContent = allExpanded ? 'Collapse All' : 'Expand All';
+  }
+
+  /**
+   * Toggle compact view mode
+   */
+  toggleCompactView() {
+    this._compactView = !this._compactView;
+    return this._compactView;
+  }
+
+  /**
+   * Get current compact view state
+   */
+  get isCompactView() {
+    return !!this._compactView;
+  }
+
+  /**
+   * Render the compact view — flat table of all actions
+   * @param {HTMLElement} container - The regions area container
+   * @param {Array} actionQueue - Full action queue
+   * @param {Object} analysis - Queue analysis result
+   * @private
+   */
+  _renderCompactView(container, actionQueue, analysis) {
+    const table = document.createElement('div');
+    table.className = 'loop-compact-table';
+
+    // Header row
+    const header = document.createElement('div');
+    header.className = 'loop-compact-header';
+    header.innerHTML = `
+      <span class="loop-action-cancel-placeholder"></span>
+      <span class="loop-action-index">#</span>
+      <span class="loop-action-name">Action</span>
+      <div class="loop-action-right-group">
+        <span class="loop-action-cost">Cost</span>
+        <span class="loop-action-remaining">Remaining</span>
+        <span class="loop-action-time">Time</span>
+        <span class="loop-action-status">Status</span>
+      </div>
+    `;
+    table.appendChild(header);
+
+    // Use the block builder to create entries (reuses same format as region view)
+    const blockBuilder = this.loopUI?.loopBlockBuilder;
+    if (blockBuilder) {
+      for (const entry of analysis.entries) {
+        // Find the original pathEntry from actionQueue
+        const pathEntry = actionQueue[entry.index] || actionQueue.find(a => a.pathIndex === entry.pathIndex);
+        if (!pathEntry) continue;
+
+        const actionEl = blockBuilder.createActionEntry(pathEntry, entry.index, entry);
+        if (actionEl) {
+          table.appendChild(actionEl);
+        }
+      }
+    }
+
+    container.appendChild(table);
   }
 }
 

@@ -1,0 +1,2372 @@
+{
+  "schema_version": 3,
+  "game_name": "Meritous WorldGen",
+  "game_directory": "meritous_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To Meridian",
+            "connected_region": "Meridian",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "Important Artifacts",
+                    "count": 1
+                  }
+                },
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "PSI Keys",
+                    "count": 1
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Alpha Cache 1",
+            "id": 593000,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ethereal Monocle",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 2",
+            "id": 593001,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 3",
+            "id": 593002,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "PSI Key 3",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 4",
+            "id": 593003,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 5",
+            "id": 593004,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 6",
+            "id": 593005,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x2000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 1",
+            "id": 593024,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 2",
+            "id": 593025,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 3",
+            "id": 593026,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 4",
+            "id": 593027,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 5",
+            "id": 593028,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 6",
+            "id": 593029,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 1",
+            "id": 593048,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 2",
+            "id": 593049,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 3",
+            "id": 593050,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 4",
+            "id": 593051,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 5",
+            "id": 593052,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 6",
+            "id": 593053,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 1",
+            "id": 593072,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 2",
+            "id": 593073,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 3",
+            "id": 593074,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 4",
+            "id": 593075,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 5",
+            "id": 593076,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 6",
+            "id": 593077,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "PSI Key Storage 1",
+            "id": 593096,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Booster",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Second Quarter": {
+        "name": "Second Quarter",
+        "exits": [
+          {
+            "name": "To Ataraxia",
+            "connected_region": "Ataraxia",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "Important Artifacts",
+                    "count": 2
+                  }
+                },
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "PSI Keys",
+                    "count": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Alpha Cache 7",
+            "id": 593006,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 8",
+            "id": 593007,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 9",
+            "id": 593008,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 10",
+            "id": 593009,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x2000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 11",
+            "id": 593010,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 12",
+            "id": 593011,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 7",
+            "id": 593030,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 8",
+            "id": 593031,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "PSI Key 2",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 9",
+            "id": 593032,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 10",
+            "id": 593033,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 11",
+            "id": 593034,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 12",
+            "id": 593035,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 7",
+            "id": 593054,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 8",
+            "id": 593055,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 9",
+            "id": 593056,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 10",
+            "id": 593057,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 11",
+            "id": 593058,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 12",
+            "id": 593059,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Dodge Enhancer",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 7",
+            "id": 593078,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Portable Compass",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 8",
+            "id": 593079,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Metabolism",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 9",
+            "id": 593080,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 10",
+            "id": 593081,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 11",
+            "id": 593082,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Efficiency",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 12",
+            "id": 593083,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "PSI Key Storage 2",
+            "id": 593097,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Third Quarter": {
+        "name": "Third Quarter",
+        "exits": [
+          {
+            "name": "To Merodach",
+            "connected_region": "Merodach",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "Important Artifacts",
+                    "count": 3
+                  }
+                },
+                {
+                  "rule": "HasGroup",
+                  "args": {
+                    "group": "PSI Keys",
+                    "count": 3
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Alpha Cache 13",
+            "id": 593012,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Shield Boost",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 14",
+            "id": 593013,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 15",
+            "id": 593014,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 16",
+            "id": 593015,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 17",
+            "id": 593016,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Map",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Alpha Cache 18",
+            "id": 593017,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 13",
+            "id": 593036,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 14",
+            "id": 593037,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 15",
+            "id": 593038,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 16",
+            "id": 593039,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 17",
+            "id": 593040,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Beta Cache 18",
+            "id": 593041,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 13",
+            "id": 593060,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 14",
+            "id": 593061,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 15",
+            "id": 593062,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 16",
+            "id": 593063,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x2000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 17",
+            "id": 593064,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gamma Cache 18",
+            "id": 593065,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "PSI Key 1",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 13",
+            "id": 593084,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 14",
+            "id": 593085,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 15",
+            "id": 593086,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystal Gatherer",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 16",
+            "id": 593087,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 17",
+            "id": 593088,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Reward Chest 18",
+            "id": 593089,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "PSI Key Storage 3",
+            "id": 593098,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Last Quarter": {
+        "name": "Last Quarter",
+        "exits": [
+          {
+            "name": "Back to the entrance",
+            "connected_region": "Final Boss",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Cursed Seal"
+              }
+            }
+          },
+          {
+            "name": "Back to the entrance with the Knife",
+            "connected_region": "True Final Boss",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Agate Knife",
+                  "Cursed Seal"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Alpha Cache 19",
+            "id": 593018,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Alpha Cache 20",
+            "id": 593019,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Alpha Cache 21",
+            "id": 593020,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Alpha Cache 22",
+            "id": 593021,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x2000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Alpha Cache 23",
+            "id": 593022,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Alpha Cache 24",
+            "id": 593023,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 19",
+            "id": 593042,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 20",
+            "id": 593043,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 21",
+            "id": 593044,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 22",
+            "id": 593045,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x1000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 23",
+            "id": 593046,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Beta Cache 24",
+            "id": 593047,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 19",
+            "id": 593066,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 20",
+            "id": 593067,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 21",
+            "id": 593068,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 22",
+            "id": 593069,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x2000",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 23",
+            "id": 593070,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Gamma Cache 24",
+            "id": 593071,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Charge upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 19",
+            "id": 593090,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 20",
+            "id": 593091,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 21",
+            "id": 593092,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Circuit Refill upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 22",
+            "id": 593093,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 23",
+            "id": 593094,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Reflect Shield upgrade",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Reward Chest 24",
+            "id": 593095,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Crystals x500",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "Place of Power",
+            "id": 593102,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Cursed Seal",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "The Last Place You'll Look",
+            "id": 593103,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Agate Knife",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Meridian": {
+        "name": "Meridian",
+        "exits": [
+          {
+            "name": "To Second Quarter",
+            "connected_region": "Second Quarter",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Meridian Defeated"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Meridian",
+            "id": 593099,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Evolution Trap",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Meridian Defeat",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Meridian Defeated",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Ataraxia": {
+        "name": "Ataraxia",
+        "exits": [
+          {
+            "name": "To Third Quarter",
+            "connected_region": "Third Quarter",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Ataraxia Defeated"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Ataraxia",
+            "id": 593100,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Evolution Trap",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Ataraxia Defeat",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Ataraxia Defeated",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Merodach": {
+        "name": "Merodach",
+        "exits": [
+          {
+            "name": "To Last Quarter",
+            "connected_region": "Last Quarter",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Merodach Defeated"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Merodach",
+            "id": 593101,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Evolution Trap",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Merodach Defeat",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Merodach Defeated",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Final Boss": {
+        "name": "Final Boss",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wervyn Anixil",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "True Final Boss": {
+        "name": "True Final Boss",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wervyn Anixil?",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Full Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Nothing": {
+        "name": "Nothing",
+        "id": 593000,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Reflect Shield upgrade": {
+        "name": "Reflect Shield upgrade",
+        "id": 593001,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 25
+      },
+      "Circuit Charge upgrade": {
+        "name": "Circuit Charge upgrade",
+        "id": 593002,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 23
+      },
+      "Circuit Refill upgrade": {
+        "name": "Circuit Refill upgrade",
+        "id": 593003,
+        "groups": [
+          "Everything",
+          "Upgrades"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 22
+      },
+      "Map": {
+        "name": "Map",
+        "id": 593004,
+        "groups": [
+          "Artifacts",
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Shield Boost": {
+        "name": "Shield Boost",
+        "id": 593005,
+        "groups": [
+          "Artifacts",
+          "Everything",
+          "Important Artifacts"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Efficiency": {
+        "name": "Crystal Efficiency",
+        "id": 593006,
+        "groups": [
+          "Artifacts",
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Circuit Booster": {
+        "name": "Circuit Booster",
+        "id": 593007,
+        "groups": [
+          "Artifacts",
+          "Everything",
+          "Important Artifacts"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Metabolism": {
+        "name": "Metabolism",
+        "id": 593008,
+        "groups": [
+          "Artifacts",
+          "Everything",
+          "Important Artifacts"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Dodge Enhancer": {
+        "name": "Dodge Enhancer",
+        "id": 593009,
+        "groups": [
+          "Artifacts",
+          "Everything",
+          "Important Artifacts"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Ethereal Monocle": {
+        "name": "Ethereal Monocle",
+        "id": 593010,
+        "groups": [
+          "Artifacts",
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal Gatherer": {
+        "name": "Crystal Gatherer",
+        "id": 593011,
+        "groups": [
+          "Artifacts",
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "Portable Compass": {
+        "name": "Portable Compass",
+        "id": 593012,
+        "groups": [
+          "Artifacts",
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 1
+      },
+      "PSI Key 1": {
+        "name": "PSI Key 1",
+        "id": 593013,
+        "groups": [
+          "Everything",
+          "PSI Keys"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "PSI Key 2": {
+        "name": "PSI Key 2",
+        "id": 593014,
+        "groups": [
+          "Everything",
+          "PSI Keys"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "PSI Key 3": {
+        "name": "PSI Key 3",
+        "id": 593015,
+        "groups": [
+          "Everything",
+          "PSI Keys"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Cursed Seal": {
+        "name": "Cursed Seal",
+        "id": 593016,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Agate Knife": {
+        "name": "Agate Knife",
+        "id": 593017,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Evolution Trap": {
+        "name": "Evolution Trap",
+        "id": 593018,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "trap",
+        "type": null,
+        "max_count": 3
+      },
+      "Crystals x500": {
+        "name": "Crystals x500",
+        "id": 593019,
+        "groups": [
+          "Crystals",
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 7
+      },
+      "Crystals x1000": {
+        "name": "Crystals x1000",
+        "id": 593020,
+        "groups": [
+          "Crystals",
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 5
+      },
+      "Crystals x2000": {
+        "name": "Crystals x2000",
+        "id": 593021,
+        "groups": [
+          "Crystals",
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 5
+      },
+      "Extra Life": {
+        "name": "Extra Life",
+        "id": 593022,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 1
+      },
+      "Meridian Defeated": {
+        "name": "Meridian Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ataraxia Defeated": {
+        "name": "Ataraxia Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Merodach Defeated": {
+        "name": "Merodach Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Full Victory": {
+        "name": "Full Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Artifacts",
+      "Crystals",
+      "Everything",
+      "Important Artifacts",
+      "PSI Keys",
+      "Upgrades"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Agate Knife": 1,
+      "Ataraxia Defeated": 1,
+      "Circuit Booster": 1,
+      "Circuit Charge upgrade": 23,
+      "Circuit Refill upgrade": 22,
+      "Crystal Efficiency": 1,
+      "Crystal Gatherer": 1,
+      "Crystals x1000": 5,
+      "Crystals x2000": 5,
+      "Crystals x500": 7,
+      "Cursed Seal": 1,
+      "Dodge Enhancer": 1,
+      "Ethereal Monocle": 1,
+      "Evolution Trap": 3,
+      "Full Victory": 1,
+      "Map": 1,
+      "Meridian Defeated": 1,
+      "Merodach Defeated": 1,
+      "Metabolism": 1,
+      "PSI Key 1": 1,
+      "PSI Key 2": 1,
+      "PSI Key 3": 1,
+      "Portable Compass": 1,
+      "Reflect Shield upgrade": 25,
+      "Shield Boost": 1,
+      "Victory": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Alpha Cache 1": "Ethereal Monocle",
+      "Alpha Cache 12": "Reflect Shield upgrade",
+      "Alpha Cache 2": "Reflect Shield upgrade",
+      "Alpha Cache 9": "Reflect Shield upgrade",
+      "Beta Cache 11": "Reflect Shield upgrade",
+      "Beta Cache 17": "Reflect Shield upgrade",
+      "Beta Cache 18": "Reflect Shield upgrade",
+      "Beta Cache 2": "Reflect Shield upgrade",
+      "Beta Cache 21": "Reflect Shield upgrade",
+      "Beta Cache 23": "Reflect Shield upgrade",
+      "Beta Cache 5": "Reflect Shield upgrade",
+      "Beta Cache 9": "Reflect Shield upgrade",
+      "Gamma Cache 10": "Reflect Shield upgrade",
+      "Gamma Cache 13": "Reflect Shield upgrade",
+      "Gamma Cache 15": "Reflect Shield upgrade",
+      "Gamma Cache 2": "Reflect Shield upgrade",
+      "Gamma Cache 20": "Reflect Shield upgrade",
+      "PSI Key Storage 3": "Reflect Shield upgrade",
+      "Reward Chest 1": "Reflect Shield upgrade",
+      "Reward Chest 10": "Reflect Shield upgrade",
+      "Reward Chest 20": "Reflect Shield upgrade",
+      "Reward Chest 23": "Reflect Shield upgrade",
+      "Reward Chest 3": "Reflect Shield upgrade",
+      "Reward Chest 4": "Reflect Shield upgrade",
+      "Reward Chest 5": "Reflect Shield upgrade",
+      "Reward Chest 6": "Reflect Shield upgrade",
+      "Alpha Cache 3": "PSI Key 3",
+      "Alpha Cache 14": "Circuit Charge upgrade",
+      "Alpha Cache 15": "Circuit Charge upgrade",
+      "Alpha Cache 16": "Circuit Charge upgrade",
+      "Alpha Cache 18": "Circuit Charge upgrade",
+      "Alpha Cache 20": "Circuit Charge upgrade",
+      "Alpha Cache 21": "Circuit Charge upgrade",
+      "Alpha Cache 4": "Circuit Charge upgrade",
+      "Alpha Cache 7": "Circuit Charge upgrade",
+      "Alpha Cache 8": "Circuit Charge upgrade",
+      "Beta Cache 1": "Circuit Charge upgrade",
+      "Beta Cache 20": "Circuit Charge upgrade",
+      "Beta Cache 3": "Circuit Charge upgrade",
+      "Gamma Cache 14": "Circuit Charge upgrade",
+      "Gamma Cache 17": "Circuit Charge upgrade",
+      "Gamma Cache 19": "Circuit Charge upgrade",
+      "Gamma Cache 23": "Circuit Charge upgrade",
+      "Gamma Cache 24": "Circuit Charge upgrade",
+      "Gamma Cache 3": "Circuit Charge upgrade",
+      "Gamma Cache 8": "Circuit Charge upgrade",
+      "Reward Chest 14": "Circuit Charge upgrade",
+      "Reward Chest 16": "Circuit Charge upgrade",
+      "Reward Chest 18": "Circuit Charge upgrade",
+      "Reward Chest 2": "Circuit Charge upgrade",
+      "Alpha Cache 24": "Crystals x500",
+      "Alpha Cache 5": "Crystals x500",
+      "Beta Cache 10": "Crystals x500",
+      "Reward Chest 17": "Crystals x500",
+      "Reward Chest 19": "Crystals x500",
+      "Reward Chest 22": "Crystals x500",
+      "Reward Chest 24": "Crystals x500",
+      "Alpha Cache 10": "Crystals x2000",
+      "Alpha Cache 22": "Crystals x2000",
+      "Alpha Cache 6": "Crystals x2000",
+      "Gamma Cache 16": "Crystals x2000",
+      "Gamma Cache 22": "Crystals x2000",
+      "Alpha Cache 11": "Circuit Refill upgrade",
+      "Alpha Cache 19": "Circuit Refill upgrade",
+      "Alpha Cache 23": "Circuit Refill upgrade",
+      "Beta Cache 13": "Circuit Refill upgrade",
+      "Beta Cache 14": "Circuit Refill upgrade",
+      "Beta Cache 15": "Circuit Refill upgrade",
+      "Beta Cache 16": "Circuit Refill upgrade",
+      "Beta Cache 19": "Circuit Refill upgrade",
+      "Beta Cache 24": "Circuit Refill upgrade",
+      "Beta Cache 4": "Circuit Refill upgrade",
+      "Beta Cache 7": "Circuit Refill upgrade",
+      "Gamma Cache 1": "Circuit Refill upgrade",
+      "Gamma Cache 11": "Circuit Refill upgrade",
+      "Gamma Cache 21": "Circuit Refill upgrade",
+      "Gamma Cache 4": "Circuit Refill upgrade",
+      "Gamma Cache 5": "Circuit Refill upgrade",
+      "Gamma Cache 6": "Circuit Refill upgrade",
+      "Gamma Cache 9": "Circuit Refill upgrade",
+      "PSI Key Storage 2": "Circuit Refill upgrade",
+      "Reward Chest 12": "Circuit Refill upgrade",
+      "Reward Chest 13": "Circuit Refill upgrade",
+      "Reward Chest 21": "Circuit Refill upgrade",
+      "Beta Cache 12": "Crystals x1000",
+      "Beta Cache 22": "Crystals x1000",
+      "Beta Cache 6": "Crystals x1000",
+      "Gamma Cache 7": "Crystals x1000",
+      "Reward Chest 9": "Crystals x1000",
+      "PSI Key Storage 1": "Circuit Booster",
+      "Beta Cache 8": "PSI Key 2",
+      "Gamma Cache 12": "Dodge Enhancer",
+      "Reward Chest 7": "Portable Compass",
+      "Reward Chest 8": "Metabolism",
+      "Reward Chest 11": "Crystal Efficiency",
+      "Alpha Cache 13": "Shield Boost",
+      "Alpha Cache 17": "Map",
+      "Gamma Cache 18": "PSI Key 1",
+      "Reward Chest 15": "Crystal Gatherer",
+      "Place of Power": "Cursed Seal",
+      "The Last Place You'll Look": "Agate Knife",
+      "Ataraxia": "Evolution Trap",
+      "Meridian": "Evolution Trap",
+      "Merodach": "Evolution Trap",
+      "Meridian Defeat": "Meridian Defeated",
+      "Ataraxia Defeat": "Ataraxia Defeated",
+      "Merodach Defeat": "Merodach Defeated",
+      "Wervyn Anixil": "Victory",
+      "Wervyn Anixil?": "Full Victory"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "world": {
+    "1": {
+      "game": "Meritous WorldGen",
+      "world_class_name": "MeritousWorld",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "death_link": false,
+        "exclude_locations": [],
+        "goal": 0,
+        "include_evolution_traps": false,
+        "include_psi_keys": true,
+        "item_cache_cost": 0,
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "randomize_items": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "use_canonical_options": true
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "goal": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "return_the_cursed_seal",
+            "1": "any_ending",
+            "2": "true_ending"
+          },
+          "default": 0,
+          "display_name": "Goal"
+        },
+        "include_evolution_traps": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Include Evolution Traps"
+        },
+        "include_psi_keys": {
+          "type": "default_on_toggle",
+          "default": true,
+          "display_name": "Include PSI Keys"
+        },
+        "item_cache_cost": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "vanilla",
+            "1": "reduced",
+            "2": "heavily_reduced"
+          },
+          "default": 0,
+          "display_name": "Item cache cost scaling"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        }
+      },
+      "goal": 0,
+      "include_evolution_traps": 0,
+      "include_psi_keys": 1,
+      "item_cache_cost": 0,
+      "death_link": 0,
+      "world_description": "Meritous Gaiden is a procedurally generated bullet-hell dungeon crawl game.\nFive generations after the Orcus Dome incident, strange experiments conducted in a new\nstructure on the moon are tearing at the very fabric of reality...",
+      "slot_data": {
+        "goal": 0,
+        "cost_scale": [
+          80,
+          5,
+          4
+        ],
+        "death_link": 0
+      },
+      "web": {
+        "theme": "ice",
+        "tutorials": [
+          {
+            "name": "Meritous Setup Guide",
+            "description": "A guide to setting up the Archipelago Meritous software on your computer.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "KewlioMZX"
+            ]
+          }
+        ]
+      },
+      "world_directory": "meritous_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "state_method",
+        "method": "has_any",
+        "args": [
+          {
+            "type": "constant",
+            "value": [
+              "Full Victory",
+              "Victory"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "helpers": {},
+  "is_canonical": true
+}

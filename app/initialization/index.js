@@ -2,6 +2,13 @@
 // Orchestrates the entire application initialization flow
 // Extracted and refactored from init.js main() function (lines 1148-2610)
 
+import { profiler } from '../../modules/shared/profiler.js';
+import { resolveIframeUrl } from '../config/knownIframePages.js';
+import { resolveMetaGamePath } from '../config/knownMetaGames.js';
+
+// Delay (ms) between panel activation and iframe/metagame loading
+const IFRAME_LOAD_DELAY_MS = 500;
+
 // Import mode management
 import { determineActiveMode } from '../mode/modeManager.js';
 import { loadModesConfiguration } from '../mode/modeConfigResolver.js';
@@ -94,7 +101,9 @@ export async function initializeApplication(dependencies) {
   logger.info('init', 'DOM content fully loaded and parsed.');
 
   // --- Phase 1: Mode Determination ---
+  profiler.start('phase1:modeDetermination');
   const { currentActiveMode, skipLocalStorageLoad } = await determineActiveMode(logger);
+  profiler.end('phase1:modeDetermination');
   logger.info(
     'init',
     `Effective active mode for this session: "${currentActiveMode}"`
@@ -105,38 +114,23 @@ export async function initializeApplication(dependencies) {
   );
 
   // --- Phase 2: Load Modes Configuration ---
+  profiler.start('phase2:loadModesConfig');
   const modesConfig = await loadModesConfiguration(fetchJson, logger);
+  profiler.end('phase2:loadModesConfig');
 
-  // Validate that the current active mode exists in modes.json
-  let validatedMode = currentActiveMode;
+  // Check if the current active mode exists in modes.json.
+  // If not, file-based configs will automatically fall back to the "default" mode entry
+  // in modeDataLoader.js, but localStorage data for the requested mode is still loaded.
+  const validatedMode = currentActiveMode;
   if (!modesConfig[currentActiveMode]) {
-    logger.warn(
+    logger.info(
       'init',
-      `Mode "${currentActiveMode}" not found in modes.json. Falling back to "default" mode.`
+      `Mode "${currentActiveMode}" not found in modes.json. File configs will use "default" mode as fallback; localStorage data for "${currentActiveMode}" will still be loaded.`
     );
-
-    // Clear invalid mode from localStorage if it wasn't from URL
-    if (!urlParams.get('mode')) {
-      try {
-        localStorage.removeItem('archipelagoToolSuite_lastActiveMode');
-        logger.info('init', 'Cleared invalid mode from localStorage.');
-      } catch (e) {
-        logger.error('init', 'Error clearing invalid mode from localStorage:', e);
-      }
-    }
-
-    validatedMode = 'default';
-
-    // Save the corrected mode
-    try {
-      localStorage.setItem('archipelagoToolSuite_lastActiveMode', validatedMode);
-      logger.info('init', 'Saved corrected mode to localStorage: "default".');
-    } catch (e) {
-      logger.error('init', 'Error saving corrected mode to localStorage:', e);
-    }
   }
 
   // --- Phase 3: Load Combined Mode Data ---
+  profiler.start('phase3:loadCombinedModeData');
   const { combinedModeData, layoutPresets } = await loadCombinedModeData({
     urlParams,
     modesConfig,
@@ -148,8 +142,10 @@ export async function initializeApplication(dependencies) {
     isValidLayoutObject,
     getDefaultLayoutConfig: () => getDefaultLayoutConfig(logger),
   });
+  profiler.end('phase3:loadCombinedModeData');
 
   // --- Phase 4: Initialize Settings Manager ---
+  profiler.start('phase4:settingsManager');
   if (combinedModeData.userSettings) {
     logger.debug(
       'init',
@@ -180,8 +176,10 @@ export async function initializeApplication(dependencies) {
   } catch (error) {
     log('error', '[Init] Error reconfiguring logger:', error);
   }
+  profiler.end('phase4:settingsManager');
 
   // --- Phase 5: Load and Register Modules ---
+  profiler.start('phase5:loadModules');
   const modulesData = combinedModeData.moduleConfig;
   if (
     !modulesData ||
@@ -242,8 +240,10 @@ export async function initializeApplication(dependencies) {
     incrementFileCounter: (fileName) => incrementFileCounter(fileName, logger),
     createRegistrationApi: createRegistrationApiWrapper,
   });
+  profiler.end('phase5:loadModules');
 
   // --- Phase 6: Apply Data to Registered Modules ---
+  profiler.start('phase6:applyDataToModules');
   if (combinedModeData) {
     const jsonDataHandlers = centralRegistry.getAllJsonDataHandlers();
     logger.debug(
@@ -274,8 +274,10 @@ export async function initializeApplication(dependencies) {
       'Published app:fullModeDataLoadedFromStorage with combinedModeData.'
     );
   }
+  profiler.end('phase6:applyDataToModules');
 
   // --- Phase 7: Initialize Layout Manager ---
+  profiler.start('phase7:layoutManager');
   const {
     layoutManagerInstance,
     goldenLayoutInstance,
@@ -297,8 +299,10 @@ export async function initializeApplication(dependencies) {
     logger,
     log,
   });
+  profiler.end('phase7:layoutManager');
 
   // --- Phase 8: Initialize Event Dispatcher ---
+  profiler.start('phase8:eventDispatcher');
   logger.info('init', 'Initializing Event Dispatcher...');
   const getHandlersFunc = () => centralRegistry.getAllDispatcherHandlers();
   const getLoadPriorityFunc = () => modulesData?.loadPriority || [];
@@ -337,11 +341,14 @@ export async function initializeApplication(dependencies) {
     });
   };
 
+  profiler.end('phase8:eventDispatcher');
+
   // Make combinedModeData globally available
   window.G_combinedModeData = combinedModeData;
   logger.debug('init', 'window.G_combinedModeData has been set.');
 
   // --- Phase 9: Initialize Modules ---
+  profiler.start('phase9:initializeModules');
   await initializeModules({
     loadPriority: modulesData.loadPriority,
     importedModules,
@@ -349,8 +356,10 @@ export async function initializeApplication(dependencies) {
     createInitializationApi: createInitializationApiWithDispatcher,
     logger,
   });
+  profiler.end('phase9:initializeModules');
 
   // --- Phase 10: Post-Initialize Modules ---
+  profiler.start('phase10:postInitializeModules');
   await postInitializeModules({
     loadPriority: modulesData.loadPriority,
     importedModules,
@@ -360,8 +369,10 @@ export async function initializeApplication(dependencies) {
     logger,
     log,
   });
+  profiler.end('phase10:postInitializeModules');
 
   // --- Phase 11: Create Module Manager API ---
+  profiler.start('phase11:createModuleManagerApi');
   // CRITICAL: Assign to existing moduleManagerApi object (not const)
   // This populates the object that was forward-referenced during module loading
   Object.assign(moduleManagerApi, createModuleManagerApi({
@@ -378,21 +389,81 @@ export async function initializeApplication(dependencies) {
     createRegistrationApi: createRegistrationApiWrapper,
     createInitializationApi: createInitializationApiWithDispatcher,
   }));
+  profiler.end('phase11:createModuleManagerApi');
 
   logger.info('init', 'ModuleManagerAPI populated.');
 
   // Listen for panels being closed manually
   eventBus.subscribe('ui:panelManuallyClosed', ({ moduleId }) => {
     if (!moduleId) return;
-
     const moduleState = runtimeModuleStates.get(moduleId);
-    if (moduleState && moduleState.enabled !== false) {
-      logger.debug(
-        'init',
-        `Panel closed by user for ${moduleId}. Updating module state to disabled.`
-      );
-      moduleState.enabled = false;
-      eventBus.publish('module:stateChanged', { moduleId, enabled: false }, 'core');
+    if (!moduleState || moduleState.enabled === false) return;
+
+    // Defer all logic to the next event loop tick so GL can finish removing the panel from its
+    // tree (including _contentItems.splice). This ensures the multi-instance remaining-count check
+    // and destroyPanelByComponentType both see the updated tree state.
+    setTimeout(() => {
+      // Re-check: a concurrent close of another instance may have already disabled the module.
+      if (moduleState.enabled === false) return;
+
+      // For modules that allow multiple instances, only mark as disabled
+      // when the last instance is closed (i.e., no more panels of this type remain).
+      const moduleInstance = importedModules.get(moduleId);
+      if (moduleInstance?.moduleInfo?.allowMultipleInstances) {
+        const componentType = centralRegistry.getComponentTypeForModule(moduleId);
+        if (componentType && panelManagerInstance?.goldenLayout?.root) {
+          const remaining = [];
+          function findComponents(item) {
+            if (item.isComponent && item.componentType === componentType) {
+              remaining.push(item);
+            } else if (item.contentItems) {
+              item.contentItems.forEach(findComponents);
+            }
+          }
+          findComponents(panelManagerInstance.goldenLayout.root);
+          if (remaining.length > 0) {
+            logger.debug(
+              'init',
+              `Panel closed for multi-instance module ${moduleId}, but ${remaining.length} instance(s) remain. Staying enabled.`
+            );
+            return;
+          }
+        }
+      }
+
+      logger.debug('init', `Panel closed by user for ${moduleId}. Disabling module.`);
+      // skipPanelDestroy: panel is already gone, no need to find and remove it.
+      moduleManagerApi.disableModule(moduleId, { skipPanelDestroy: true });
+    }, 0);
+  }, 'core');
+
+  // Listen for external module load requests
+  eventBus.subscribe('module:loadExternalRequest', async ({ moduleId, modulePath }) => {
+    logger.info('init', `Loading external module: ${moduleId} from ${modulePath}`);
+
+    // Create a temporary module definition so enableModule can find it
+    if (!combinedModeData.moduleConfig.moduleDefinitions[moduleId]) {
+      combinedModeData.moduleConfig.moduleDefinitions[moduleId] = {
+        path: modulePath,
+        enabled: true,
+        isExternal: true,
+      };
+      // Add to load priority at the end
+      if (!combinedModeData.moduleConfig.loadPriority.includes(moduleId)) {
+        combinedModeData.moduleConfig.loadPriority.push(moduleId);
+      }
+    }
+
+    try {
+      await moduleManagerApi.enableModule(moduleId);
+      eventBus.publish('module:loaded', { moduleId }, 'core');
+    } catch (error) {
+      logger.error('init', `Failed to load external module ${moduleId}:`, error);
+      eventBus.publish('module:loadFailed', {
+        moduleId,
+        path: modulePath,
+        error: error.message,
+      }, 'core');
     }
   }, 'core');
 
@@ -450,20 +521,138 @@ export async function initializeApplication(dependencies) {
     activeMode: validatedMode,
   }, 'core');
 
-  // Handle panel URL parameter
-  const panelParam = urlParams.get('panel');
-  if (panelParam) {
-    setTimeout(() => {
-      logger.info('init', `Activating panel from URL parameter: ${panelParam}`);
+  // Handle panel URL parameter (comma-separated to activate one panel per stack)
+  // Uses event bus so both desktop PanelManager and MobileLayoutManager can respond
+  const panelParam = urlParams.get('focusPanel');
+  const iframeParam = urlParams.get('iframe');
+  const metagameParam = urlParams.get('metagame');
+  const useWindowParam = urlParams.get('useWindow');
+  // ?movePanel=componentType:stackId,... — move panels to specific stacks before activating
+  const moveParam = urlParams.get('movePanel');
 
-      if (panelManagerInstance && typeof panelManagerInstance.activatePanel === 'function') {
-        panelManagerInstance.activatePanel(panelParam);
-        logger.info('init', `Panel activation request sent for: ${panelParam}`);
-      } else {
-        logger.info('init', `Using event bus to activate panel: ${panelParam}`);
-        eventBus.publish('ui:activatePanel', { panelId: panelParam }, 'core');
+  // Support iframeAutoLoad from mode settings (e.g., settings-jta.json)
+  let effectiveIframeParam = iframeParam;
+  if (!effectiveIframeParam) {
+    try {
+      const allSettings = await settingsManager.getSettings();
+      if (allSettings.iframeAutoLoad) {
+        effectiveIframeParam = allSettings.iframeAutoLoad;
+        logger.info('init', `iframeAutoLoad from settings: "${effectiveIframeParam}"`);
       }
-    }, 1500);
+    } catch (e) {
+      logger.warn('init', 'Error reading iframeAutoLoad setting:', e);
+    }
+  }
+
+  if (moveParam) {
+    eventBus.registerPublisher('ui:movePanel', 'core');
+  }
+  if (effectiveIframeParam) {
+    if (useWindowParam) {
+      eventBus.registerPublisher('window:loadUrl', 'core');
+    } else {
+      eventBus.registerPublisher('iframe:loadUrl', 'core');
+    }
+  }
+  if (metagameParam) {
+    eventBus.registerPublisher('metaGame:loadFromUrl', 'core');
+  }
+  if (panelParam || effectiveIframeParam || metagameParam || moveParam) {
+    const activatePanelsAndAutoLoad = () => {
+      // Handle ?move= parameter first (before panel activation)
+      if (moveParam) {
+        const movePairs = moveParam.split(',').map(s => s.trim()).filter(Boolean);
+        logger.info('init', `Moving panels from URL parameter: ${movePairs.join(', ')}`);
+
+        for (const pair of movePairs) {
+          const [componentType, targetStackId] = pair.split(':').map(s => s.trim());
+          if (componentType && targetStackId) {
+            logger.info('init', `Publishing panel move: ${componentType} -> ${targetStackId}`);
+            eventBus.publish('ui:movePanel', { componentType, targetStackId }, 'core');
+          } else {
+            logger.warn('init', `Invalid move pair (expected "componentType:stackId"): "${pair}"`);
+          }
+        }
+      }
+
+      if (panelParam) {
+        const panelIds = panelParam.split(',').map(s => s.trim()).filter(Boolean);
+        logger.info('init', `Activating panels from URL parameter: ${panelIds.join(', ')}`);
+
+        for (const panelId of panelIds) {
+          logger.info('init', `Publishing panel activation for: ${panelId}`);
+          eventBus.publish('ui:activatePanel', { panelId }, 'core');
+        }
+      }
+
+      // Handle iframe/window auto-load: from ?iframe= URL parameter or iframeAutoLoad setting
+      // When ?useWindow=1 is present, redirect to window adapter instead
+      if (effectiveIframeParam) {
+        const resolvedUrl = resolveIframeUrl(effectiveIframeParam);
+        if (resolvedUrl) {
+          setTimeout(() => {
+            if (useWindowParam) {
+              logger.info('init', `Loading in window (useWindow=1): ${effectiveIframeParam} -> ${resolvedUrl}`);
+              eventBus.publish('window:loadUrl', { url: resolvedUrl }, 'core');
+              // Activate window panel instead of iframe panel
+              eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' }, 'core');
+            } else {
+              logger.info('init', `Loading iframe: ${effectiveIframeParam} -> ${resolvedUrl}`);
+              eventBus.publish('iframe:loadUrl', { url: resolvedUrl }, 'core');
+            }
+          }, IFRAME_LOAD_DELAY_MS);
+        } else {
+          logger.warn('init', `Could not resolve iframe URL: ${effectiveIframeParam}`);
+        }
+      }
+
+      // Handle ?metagame= parameter: resolve shortname and load after panels settle
+      if (metagameParam) {
+        const resolvedPath = resolveMetaGamePath(metagameParam);
+        if (resolvedPath) {
+          setTimeout(() => {
+            logger.info('init', `Loading metagame from URL parameter: ${metagameParam} -> ${resolvedPath}`);
+            eventBus.publish('metaGame:loadFromUrl', { path: resolvedPath }, 'core');
+          }, IFRAME_LOAD_DELAY_MS);
+        } else {
+          logger.warn('init', `Could not resolve metagame URL parameter: ${metagameParam}`);
+        }
+      }
+    };
+
+    // Wait for panelManager to be initialized before activating panels
+    if (panelManagerInstance.isInitialized) {
+      activatePanelsAndAutoLoad();
+    } else {
+      eventBus.subscribe('panelManager:initialized', () => {
+        activatePanelsAndAutoLoad();
+      }, 'core');
+    }
+  }
+
+  // Handle ?loadModule= parameter: load external module(s) by URL
+  const loadModuleParams = urlParams.getAll('loadModule');
+  if (loadModuleParams.length > 0) {
+    eventBus.registerPublisher('module:loadExternalRequest', 'core');
+    const loadExternalModules = () => {
+      for (const modulePath of loadModuleParams) {
+        const trimmed = modulePath.trim();
+        if (!trimmed) continue;
+        const sanitizedPath = trimmed.replace(/[^a-zA-Z0-9]/g, '_');
+        const moduleId = `external_${sanitizedPath}_url`;
+        logger.info('init', `Loading external module from URL parameter: ${trimmed}`);
+        eventBus.publish('module:loadExternalRequest', { moduleId, modulePath: trimmed }, 'core');
+      }
+    };
+
+    // Wait for panelManager to be initialized before loading external modules
+    if (panelManagerInstance.isInitialized) {
+      loadExternalModules();
+    } else {
+      eventBus.subscribe('panelManager:initialized', () => {
+        loadExternalModules();
+      }, 'core');
+    }
   }
 
   // Subscribe to files:jsonLoaded event
@@ -589,9 +778,11 @@ function createModuleManagerApi(options) {
       );
       try {
         // IMPORTANT: Resolve path relative to frontend root
-        // Module paths in modules.json are like "./modules/foo/index.js"
-        // From this file's location (app/initialization/), we need to go up to frontend root
-        const resolvedPath = new URL(moduleDefinition.path, new URL('../../', import.meta.url)).href;
+        // Module paths in module-configs/modules.json are like "./modules/foo/index.js"
+        // Use window.location.href (page URL) as base so this works in both bundled and
+        // unbundled modes. Using import.meta.url breaks in bundled mode because the bundle
+        // is at frontend/dist/bundle.js — two levels up lands at the repo root, not frontend/.
+        const resolvedPath = new URL(moduleDefinition.path, window.location.href).href;
         const moduleInstance = await import(resolvedPath);
         const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
         incrementFileCounter(`${moduleId} (${moduleFileName})`);
@@ -782,18 +973,20 @@ function createModuleManagerApi(options) {
 
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
       const titleFromInfo =
-        actualModuleObject?.moduleInfo?.name ||
-        actualModuleObject?.moduleInfo?.title;
+        actualModuleObject?.moduleInfo?.title ||
+        actualModuleObject?.moduleInfo?.name;
       const panelTitle = titleFromInfo || moduleId;
+      const targetColumn = actualModuleObject?.moduleInfo?.column || null;
 
       if (componentType && panelManagerInstance) {
         logger.debug(
           'init',
-          `Re-adding panel for ${moduleId}. Type: ${componentType}, Title: ${panelTitle}`
+          `Re-adding panel for ${moduleId}. Type: ${componentType}, Title: ${panelTitle}, Column: ${targetColumn}`
         );
         await panelManagerInstance.createPanelForComponent(
           componentType,
-          panelTitle
+          panelTitle,
+          targetColumn
         );
         logger.debug(
           'init',
@@ -856,7 +1049,7 @@ function createModuleManagerApi(options) {
    *
    * Note: Does NOT uninitialize the module or remove it from memory
    */
-  api.disableModule = async (moduleId) => {
+  api.disableModule = async (moduleId, { skipPanelDestroy = false } = {}) => {
     logger.info('init', `Attempted to disable ${moduleId}`);
     const moduleState = runtimeModuleStates.get(moduleId);
     if (moduleState) {
@@ -868,18 +1061,26 @@ function createModuleManagerApi(options) {
 
       // Get componentType from centralRegistry
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
+      const moduleInstance = importedModules.get(moduleId);
+      const allowsMultiple = moduleInstance?.moduleInfo?.allowMultipleInstances;
       let panelActionTaken = false;
-      if (componentType) {
+      if (skipPanelDestroy) {
+        // Panel already closed by the user — no need to destroy it programmatically.
+      } else if (componentType) {
         logger.debug(
           'init',
-          `Closing panel for disabled module ${moduleId} (Component Type: ${componentType})`
+          `Closing panel(s) for disabled module ${moduleId} (Component Type: ${componentType}, multiple: ${!!allowsMultiple})`
         );
 
         if (
           panelManagerInstance &&
           typeof panelManagerInstance.destroyPanelByComponentType === 'function'
         ) {
-          panelManagerInstance.destroyPanelByComponentType(componentType);
+          if (allowsMultiple && typeof panelManagerInstance.destroyAllPanelsByComponentType === 'function') {
+            panelManagerInstance.destroyAllPanelsByComponentType(componentType);
+          } else {
+            panelManagerInstance.destroyPanelByComponentType(componentType);
+          }
           panelActionTaken = true;
         } else {
           logger.error(
@@ -940,6 +1141,57 @@ function createModuleManagerApi(options) {
   };
 
   api.getModuleManagerApi = () => api;
+
+  /**
+   * Creates an additional panel instance for a module that supports multiple instances.
+   * @param {string} moduleId - The module to create an instance for.
+   * @param {object} instanceState - Optional state passed to the component (e.g., { title: "Map View" }).
+   * @returns {object|null} The created panel item, or null if not supported.
+   */
+  api.createPanelInstance = async (moduleId, instanceState = {}) => {
+    const moduleState = runtimeModuleStates.get(moduleId);
+    if (!moduleState || !moduleState.enabled) {
+      logger.warn('init', `Cannot create instance: module ${moduleId} is not enabled.`);
+      return null;
+    }
+
+    const componentType = centralRegistry.getComponentTypeForModule(moduleId);
+    const moduleInstance = importedModules.get(moduleId);
+    const moduleInfoObj = moduleInstance?.moduleInfo;
+
+    if (!moduleInfoObj?.allowMultipleInstances) {
+      logger.warn('init', `Module ${moduleId} does not support multiple instances.`);
+      return null;
+    }
+
+    if (!componentType || !panelManagerInstance) {
+      logger.error('init', `Cannot create instance: missing componentType or panelManager.`);
+      return null;
+    }
+
+    // Determine title: explicit > auto-numbered > default
+    let title = instanceState.title;
+    if (!title) {
+      // Count existing instances to generate a number
+      const stacks = [];
+      function findComponents(item) {
+        if (item.isComponent && item.componentType === componentType) {
+          stacks.push(item);
+        } else if (item.contentItems) {
+          item.contentItems.forEach(findComponents);
+        }
+      }
+      if (panelManagerInstance.goldenLayout?.root?.contentItems) {
+        findComponents(panelManagerInstance.goldenLayout.root);
+      }
+      const instanceNumber = stacks.length + 1;
+      const baseTitle = moduleInfoObj.title || moduleId;
+      title = instanceNumber > 1 ? `${baseTitle} ${instanceNumber}` : baseTitle;
+    }
+
+    const column = instanceState.column || moduleInfoObj.column || null;
+    return panelManagerInstance.createAdditionalInstance(componentType, title, column, instanceState);
+  };
 
   return api;
 }

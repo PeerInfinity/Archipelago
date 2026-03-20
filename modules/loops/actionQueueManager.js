@@ -46,45 +46,17 @@ export class ActionQueueManager {
     const actions = [];
 
     path.forEach((entry, index) => {
-      let action = null;
-
-      if (entry.type === 'regionMove') {
-        action = {
+      // Pass through raw path entry types without renaming.
+      // Only add overlay data: id, pathIndex, progress, completed.
+      if (entry.type === 'regionMove' || entry.type === 'locationCheck' ||
+          (entry.type === 'customAction' && entry.actionName === 'explore')) {
+        const action = {
+          ...entry,
           id: `action-${index}`,
-          type: 'moveToRegion',
-          regionName: entry.region,
-          region: entry.region,
-          exitUsed: entry.exitUsed || null,
-          instanceNumber: entry.instanceNumber,
           pathIndex: index,
+          progress: this.actionProgress.get(index) || 0,
+          completed: this.actionCompleted.has(index),
         };
-      } else if (entry.type === 'locationCheck') {
-        action = {
-          id: `action-${index}`,
-          type: 'checkLocation',
-          locationName: entry.locationName,
-          regionName: entry.region,
-          region: entry.region,
-          instanceNumber: entry.instanceNumber,
-          pathIndex: index,
-        };
-      } else if (entry.type === 'customAction' && entry.actionName === 'explore') {
-        action = {
-          id: `action-${index}`,
-          type: 'explore',
-          regionName: entry.region,
-          region: entry.region,
-          repeat: entry.metadata?.repeat || false,
-          instanceNumber: entry.instanceNumber,
-          pathIndex: index,
-        };
-      }
-      // Add other custom actions as needed
-
-      if (action) {
-        // Add progress and completion status from our tracking
-        action.progress = this.actionProgress.get(index) || 0;
-        action.completed = this.actionCompleted.has(index);
         actions.push(action);
       }
     });
@@ -144,16 +116,16 @@ export class ActionQueueManager {
     const actionToRemove = queue[actionIndex];
 
     // Remove from playerState based on action type
-    if (actionToRemove.type === 'checkLocation') {
+    if (actionToRemove.type === 'locationCheck') {
       this.playerStateAPI.removeLocationCheckAt(
         actionToRemove.locationName,
-        actionToRemove.regionName,
+        actionToRemove.sourceRegion,
         actionToRemove.instanceNumber
       );
-    } else if (actionToRemove.type === 'explore') {
+    } else if (actionToRemove.type === 'customAction') {
       this.playerStateAPI.removeCustomActionAt(
-        'explore',
-        actionToRemove.regionName,
+        actionToRemove.actionName,
+        actionToRemove.sourceRegion,
         actionToRemove.instanceNumber,
         actionToRemove.metadata
       );
@@ -294,7 +266,8 @@ export class ActionQueueManager {
       completedActions: this.actionCompleted.size,
       queue: queue.map(a => ({
         type: a.type,
-        region: a.regionName,
+        sourceRegion: a.sourceRegion,
+        destinationRegion: a.destinationRegion,
         progress: a.progress,
         completed: a.completed
       }))

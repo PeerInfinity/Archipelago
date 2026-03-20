@@ -143,9 +143,93 @@
       },
       "additionalProperties": false
     },
+    "world": {
+      "type": "object",
+      "description": "World data mirroring Archipelago's world structure, keyed by player slot ID (string). Contains game name, options, runtime attributes, slot_data, and web metadata.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "properties": {
+            "game": {
+              "type": "string",
+              "description": "Name of the game this world is for."
+            },
+            "slot_data": {
+              "type": "object",
+              "description": "Data from world.fill_slot_data() sent to the client."
+            },
+            "base_id": {
+              "type": "integer",
+              "description": "Base ID for item/location allocation."
+            },
+            "world_description": {
+              "type": "string",
+              "description": "World class docstring describing the game."
+            },
+            "web": {
+              "type": "object",
+              "description": "WebWorld metadata (mirrors Archipelago's world.web).",
+              "properties": {
+                "theme": {
+                  "type": "string",
+                  "description": "Theme for the game pages."
+                },
+                "tutorials": {
+                  "type": "array",
+                  "description": "List of tutorial guides.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "description": { "type": "string" },
+                      "language": { "type": "string" },
+                      "file_name": { "type": "string" },
+                      "link": { "type": "string" },
+                      "authors": { "type": "array", "items": { "type": "string" } }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": ["game"],
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "exporter": {
+      "type": "object",
+      "description": "Exporter-specific settings, keyed by player slot ID (string). Contains processing flags and metadata not from the Archipelago world.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "properties": {
+            "rule_format": {
+              "type": "object",
+              "description": "Version metadata for the exported rules.",
+              "properties": {
+                "version": { "type": "string" }
+              },
+              "required": ["version"]
+            },
+            "assume_bidirectional_exits": {
+              "type": "boolean",
+              "description": "Whether region connections are bidirectional by default."
+            },
+            "use_resolved_items": {
+              "type": "boolean",
+              "description": "Whether to use resolved items in event processing."
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
     "settings": {
       "type": "object",
-      "description": "Game-specific settings, keyed by player slot ID (string). The structure within each player's settings varies by game.",
+      "description": "DEPRECATED: Use 'world' instead. Kept for backwards compatibility.",
       "patternProperties": {
         "^[0-9]+$": {
           "type": "object",
@@ -155,7 +239,6 @@
               "description": "Name of the game these settings apply to."
             }
           },
-          "required": ["game"],
           "additionalProperties": true
         }
       },
@@ -163,21 +246,57 @@
     },
     "game_info": {
       "type": "object",
-      "description": "General game information, keyed by player slot ID (string).",
+      "description": "Game-specific information and accumulator patterns, keyed by player slot ID (string). Contains custom game data that doesn't fit in world/exporter sections.",
       "patternProperties": {
         "^[0-9]+$": {
           "type": "object",
           "properties": {
-            "name": { "type": "string" },
-            "rule_format": {
+            "accumulator_rules": {
+              "type": "array",
+              "description": "Rules for computing accumulated values (e.g., coin counts)."
+            },
+            "prog_items_init": {
               "type": "object",
-              "properties": {
-                "version": { "type": "string" }
-              },
-              "required": ["version"]
+              "description": "Initial values for progressive item accumulators."
             }
           },
-          "required": ["name", "rule_format"]
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "helpers": {
+      "type": "object",
+      "description": "Helper function definitions, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Helper definitions for a player, keyed by helper name.",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "seed_name": {
+      "type": "string",
+      "description": "The seed name string for this generation."
+    },
+    "is_vanilla": {
+      "type": "boolean",
+      "description": "Whether item placements match the original non-randomized game. True for games where items are in their designed/intended locations."
+    },
+    "is_canonical": {
+      "type": "boolean",
+      "description": "Whether item placements are deterministically reproduced by the world generator. True for worldgen worlds generated with --canonical-seed."
+    },
+    "canonical_placements": {
+      "type": "object",
+      "description": "Canonical item placements for deterministic seed generation, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Mapping of location name to placed item name.",
+          "additionalProperties": true
         }
       },
       "additionalProperties": false
@@ -189,18 +308,52 @@
     "archipelago_version",
     "generation_seed",
     "player_names",
-    "world_classes",
     "regions",
     "start_regions",
     "items",
     "item_groups",
     "itempool_counts",
-    "settings",
+    "world",
     "game_info"
   ],
   "$defs": {
     "rule": {
-      "description": "A rule object defining access conditions.",
+      "description": "A rule object in either AST format (has 'type' field) or Rule Builder format (has 'rule' field).",
+      "oneOf": [
+        { "$ref": "#/$defs/astRule" },
+        { "$ref": "#/$defs/ruleBuilderRule" }
+      ]
+    },
+    "ruleBuilderRule": {
+      "description": "A Rule Builder rule object. Built-in rules include True_, False_, Has, HasAll, HasAny, HasGroup, HasAllCounts, HasFromList, CountItem, And, Or, CanReachRegion, CanReachLocation, OptionValue, Compare, Conditional, Constant. Game-specific helper rules use arbitrary names.",
+      "type": "object",
+      "properties": {
+        "rule": {
+          "type": "string",
+          "description": "The rule type name (e.g., 'Has', 'And', 'True_') or a game-specific helper name."
+        },
+        "args": {
+          "description": "Rule arguments. Object for named args (e.g., {\"item_name\": \"Sword\"}), array for positional args."
+        },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Sub-rules for composite rules like 'And' and 'Or'."
+        },
+        "_original_ast_type": {
+          "type": "string",
+          "description": "Metadata: the original AST rule type before conversion."
+        },
+        "_converted_from_ast": {
+          "type": "boolean",
+          "description": "Metadata: whether this rule was converted from AST format."
+        }
+      },
+      "required": ["rule"],
+      "additionalProperties": true
+    },
+    "astRule": {
+      "description": "An AST-format rule object defining access conditions.",
       "type": "object",
       "properties": {
         "type": { "type": "string" },
@@ -231,7 +384,12 @@
         "args": {
           "type": "array",
           "items": { "$ref": "#/$defs/rule" },
-          "description": "Arguments for 'helper', 'state_method', 'function_call'."
+          "description": "Positional arguments for 'helper', 'state_method', 'function_call'."
+        },
+        "kwargs": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/rule" },
+          "description": "Keyword arguments for 'helper' type. Keys are parameter names, values are rule objects."
         },
         "conditions": {
           "type": "array",
@@ -282,9 +440,13 @@
           "$ref": "#/$defs/rule",
           "description": "Condition for 'not'."
         },
+        "operand": {
+          "$ref": "#/$defs/rule",
+          "description": "Operand for 'not' or 'negate' types."
+        },
         "element_rule": {
           "$ref": "#/$defs/rule",
-          "description": "Rule for each element in 'all_of'."
+          "description": "Rule for each element in 'all_of' or 'any_of'."
         },
         "iterator_info": {
           "type": "object",
@@ -294,7 +456,82 @@
             "iterator": { "$ref": "#/$defs/rule" }
           },
           "required": ["type", "target", "iterator"],
-          "description": "Iterator details for 'all_of'."
+          "description": "Iterator details for 'all_of' or 'any_of'."
+        },
+        "region": {
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }],
+          "description": "Region name for 'can_reach', 'region_reference', 'region_attribute'."
+        },
+        "entrance": {
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }],
+          "description": "Entrance name for 'can_reach_entrance'."
+        },
+        "location": {
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }],
+          "description": "Location name for 'location_check', 'placement_lookup'."
+        },
+        "setting": {
+          "type": "string",
+          "description": "Setting name for 'setting_value' (legacy)."
+        },
+        "option": {
+          "type": "string",
+          "description": "Option name for 'option_value' type."
+        },
+        "attribute": {
+          "type": "string",
+          "description": "Attribute name for 'world_attribute' type."
+        },
+        "capability": {
+          "type": "string",
+          "description": "Capability name for 'capability' type."
+        },
+        "statements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Statements for 'block' type."
+        },
+        "body": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Body statements for 'for_range', 'for_iter', 'if_statement'."
+        },
+        "orelse": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Else branch for 'if_statement'."
+        },
+        "var": {
+          "type": "string",
+          "description": "Loop variable name for 'for_range', 'for_iter'."
+        },
+        "iterable": {
+          "$ref": "#/$defs/rule",
+          "description": "Iterable expression for 'for_iter'."
+        },
+        "parts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Parts for 'f_string' type."
+        },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Elements for 'tuple' type."
+        },
+        "player": {
+          "oneOf": [{ "type": "integer" }, { "$ref": "#/$defs/rule" }],
+          "description": "Player ID for 'placement_search'."
+        },
+        "locations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Location names for 'placement_search'."
+        },
+        "items": {
+          "type": "array",
+          "items": { "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }] },
+          "description": "Item names or rules for 'counts' type (check if total count of items >= required amount)."
         }
       },
       "required": ["type"]
@@ -361,8 +598,8 @@
         "player": { "type": "integer" },
         "advancement": { "type": "boolean" },
         "type": {
-          "type": ["string", "null"],
-          "description": "Generic classification of the item."
+          "type": ["string", "integer", "null"],
+          "description": "Item type classification. String or integer depending on exporter version."
         }
       },
       "required": ["name", "player", "advancement", "type"]
@@ -465,37 +702,62 @@
           "description": "Archipelago Item ID. Can be a single integer, null, or an array of integers for composite items like pendants and crystals."
         },
         "groups": { "type": "array", "items": { "type": "string" } },
-        "advancement": { "type": "boolean" },
-        "useful": { "type": "boolean" },
-        "trap": { "type": "boolean" },
+        "classification": {
+          "type": "string",
+          "description": "Item classification string (e.g., 'progression', 'useful', 'trap', 'filler', 'progression_skip_balancing')."
+        },
+        "advancement": {
+          "type": "boolean",
+          "description": "Legacy: whether item is progression. Replaced by 'classification' in newer exports."
+        },
+        "useful": {
+          "type": "boolean",
+          "description": "Legacy: whether item is useful. Replaced by 'classification' in newer exports."
+        },
+        "trap": {
+          "type": "boolean",
+          "description": "Legacy: whether item is a trap. Replaced by 'classification' in newer exports."
+        },
         "event": { "type": "boolean" },
         "type": {
           "type": ["string", "null"],
-          "description": "Generic item classification."
+          "description": "Generic item type."
         },
         "max_count": {
           "type": "integer",
           "description": "Maximum count of this item."
+        },
+        "hint_text": {
+          "type": "string",
+          "description": "Hint text for this item. Optional, only present for some games."
+        },
+        "classification_counts": {
+          "type": "object",
+          "description": "Counts per classification when multiple copies of an item exist with different classifications.",
+          "patternProperties": {
+            "^.*$": { "type": "integer" }
+          },
+          "additionalProperties": false
         }
       },
-      "required": [
-        "name",
-        "id",
-        "groups",
-        "advancement",
-        "useful",
-        "trap",
-        "event",
-        "type",
-        "max_count"
-      ]
+      "required": ["name"],
+      "additionalProperties": true
     },
     "progressionMappingDetail": {
       "type": "object",
       "properties": {
         "items": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/progressiveItemLevel" }
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/progressiveItemLevel" }
+            },
+            {
+              "type": "object",
+              "description": "Mapping of item name to count (alternative format used by some games).",
+              "additionalProperties": { "type": "integer" }
+            }
+          ]
         },
         "base_item": {
           "type": "string",

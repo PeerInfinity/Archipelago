@@ -44,7 +44,7 @@ export function lingo_can_use_entrance(snapshot, staticData, room, door) {
 
   // Get player ID from snapshot (usually 1 for single-player)
   const playerId = getPlayerId(snapshot, staticData);
-  const settings = staticData?.settings?.[playerId];
+  const settings = staticData?.world?.[playerId];
 
   // First, check if this door has access requirements
   const doorReqs = settings?.door_reqs?.[effectiveRoom]?.[doorName];
@@ -70,21 +70,6 @@ export function lingo_can_use_entrance(snapshot, staticData, room, door) {
 }
 
 /**
- * Check if player can access a location
- * @param {Object} snapshot - Canonical state snapshot
- * @param {Object} staticData - Static game data including rules
- * @param {*} location - Location access requirements
- * @returns {boolean} True if location can be accessed
- */
-export function lingo_can_use_location(snapshot, staticData, location) {
-  // This is a placeholder implementation
-  // The actual logic would need to evaluate AccessRequirements
-  // For now, return true to allow progression
-  // TODO: Implement proper location access checking
-  return true;
-}
-
-/**
  * Check if player has achieved enough mastery requirements
  * @param {Object} snapshot - Canonical state snapshot
  * @param {Object} staticData - Static game data including rules
@@ -92,7 +77,7 @@ export function lingo_can_use_location(snapshot, staticData, location) {
  */
 export function lingo_can_use_mastery_location(snapshot, staticData) {
   const playerId = getPlayerId(snapshot, staticData);
-  const settings = staticData?.settings?.[playerId];
+  const settings = staticData?.world?.[playerId];
 
   if (!settings) {
     console.error('[lingo_can_use_mastery_location] No settings found');
@@ -171,7 +156,7 @@ export function _lingo_can_satisfy_requirements(snapshot, staticData, access) {
 
   // Check color requirements (only if shuffle_colors is enabled)
   // For now, we'll check if the setting is in staticData
-  const settings = staticData?.settings?.[playerId] || {};
+  const settings = staticData?.world?.[playerId] ?? {};
   const shuffleColors = settings.shuffle_colors;
 
   if (access.colors && access.colors.length > 0 && shuffleColors) {
@@ -235,7 +220,7 @@ export function _lingo_can_satisfy_requirements(snapshot, staticData, access) {
  */
 function _lingo_can_open_door(snapshot, staticData, room, door) {
   const playerId = getPlayerId(snapshot, staticData);
-  const settings = staticData?.settings?.[playerId];
+  const settings = staticData?.world?.[playerId];
 
   // First, check if this door has access requirements
   const doorReqs = settings?.door_reqs?.[room]?.[door];
@@ -269,7 +254,7 @@ function _lingo_can_open_door(snapshot, staticData, room, door) {
  */
 export function lingo_can_use_level_2_location(snapshot, staticData) {
   const playerId = getPlayerId(snapshot, staticData);
-  const settings = staticData?.settings?.[playerId];
+  const settings = staticData?.world?.[playerId];
 
   if (!settings) {
     console.error('[lingo_can_use_level_2_location] No settings found');
@@ -324,7 +309,6 @@ export function lingo_can_use_level_2_location(snapshot, staticData) {
  */
 export const helperFunctions = {
   lingo_can_use_entrance,
-  lingo_can_use_location,
   lingo_can_use_mastery_location,
   lingo_can_use_level_2_location,
   _lingo_can_satisfy_requirements,

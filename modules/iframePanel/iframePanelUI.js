@@ -1,12 +1,11 @@
 // UI component for iframe panel module
-import { moduleEventBus } from './index.js';
-import eventBus from '../../app/core/eventBus.js';
-import { 
-    MessageTypes, 
-    createMessage, 
-    validateMessage, 
+import { getModuleEventBus } from './index.js';
+import {
+    MessageTypes,
+    createMessage,
+    validateMessage,
     safePostMessage,
-    generateIframeId 
+    generateIframeId
 } from '../iframeAdapter/communicationProtocol.js';
 
 // Helper function for logging with fallback
@@ -23,7 +22,8 @@ export class IframePanelUI {
     constructor(container, componentState) {
         this.container = container;
         this.componentState = componentState;
-        
+        Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
+
         // UI elements
         this.rootElement = null;
         this.iframe = null;
@@ -146,22 +146,22 @@ export class IframePanelUI {
     }
 
     setupEventSubscriptions() {
-        log('debug', `setupEventSubscriptions: eventBus available: ${eventBus !== null}`);
-        if (eventBus) {
+        log('debug', `setupEventSubscriptions: eventBus available: ${this.eventBus !== null}`);
+        if (this.eventBus) {
             log('debug', 'Subscribing to iframe:loadUrl event...');
             // Subscribe to load URL commands
-            const loadUrlUnsubscribe = eventBus.subscribe('iframe:loadUrl', (data) => {
+            const loadUrlUnsubscribe = this.eventBus.subscribe('iframe:loadUrl', (data) => {
                 log('debug', 'UI component received iframe:loadUrl event:', data);
                 this.handleLoadUrl(data);
-            }, 'iframePanel');
+            });
             this.unsubscribeHandles.push(loadUrlUnsubscribe);
 
             // Subscribe to unload commands
-            const unloadUnsubscribe = eventBus.subscribe('iframe:unload', (data) => {
+            const unloadUnsubscribe = this.eventBus.subscribe('iframe:unload', (data) => {
                 this.handleUnload(data);
-            }, 'iframePanel');
+            });
             this.unsubscribeHandles.push(unloadUnsubscribe);
-            
+
             log('debug', 'Event subscriptions set up successfully');
         } else {
             log('error', 'eventBus is null! Cannot subscribe to events');
@@ -227,6 +227,8 @@ export class IframePanelUI {
             this.iframe.style.width = '100%';
             this.iframe.style.height = '100%';
             this.iframe.style.border = 'none';
+            // Hide until loaded to prevent forced layout before stylesheets are ready
+            this.iframe.style.visibility = 'hidden';
             // Note: sandbox attribute removed - not needed since iframe content is trusted and same-origin
 
             // Set up iframe event listeners
@@ -304,10 +306,10 @@ export class IframePanelUI {
         this.iframeId = generateIframeId(this.customIframeName);
         
         // Publish unload event
-        if (moduleEventBus) {
-            moduleEventBus.publish('iframePanel:unloaded', { 
-                panelId: this.container?.id 
-            }, 'iframePanel');
+        if (this.eventBus) {
+            this.eventBus.publish('iframePanel:unloaded', {
+                panelId: this.container?.id
+            });
         }
     }
 
@@ -317,6 +319,10 @@ export class IframePanelUI {
     handleIframeLoad() {
         log('debug', `handleIframeLoad: iframe loaded for URL ${this.currentUrl}`);
         this.isLoaded = true;
+        // Reveal iframe now that stylesheets are loaded
+        if (this.iframe) {
+            this.iframe.style.visibility = 'visible';
+        }
         this.updateStatus(`Loaded: ${this.currentUrl} - Waiting for connection...`);
         
         log('debug', 'Iframe loaded, waiting for IFRAME_READY message...');
@@ -334,12 +340,12 @@ export class IframePanelUI {
         this.updateStatus('Error loading iframe');
         
         // Publish error event
-        if (moduleEventBus) {
-            moduleEventBus.publish('iframePanel:error', { 
+        if (this.eventBus) {
+            this.eventBus.publish('iframePanel:error', {
                 panelId: this.container?.id,
                 error: errorMessage,
                 url: this.currentUrl
-            }, 'iframePanel');
+            });
         }
     }
 
@@ -396,10 +402,8 @@ export class IframePanelUI {
                 break;
                 
             default:
-                // Forward other messages to the adapter core
-                if (window.iframeAdapterCore) {
-                    window.iframeAdapterCore.handlePostMessage(event);
-                }
+                // Other messages are handled by iframeAdapterCore's own
+                // postMessage listener — no forwarding needed here.
                 break;
         }
     }
@@ -429,21 +433,21 @@ export class IframePanelUI {
         }
         
         // Publish loaded event
-        log('debug', `Attempting to publish iframePanel:loaded event. moduleEventBus available: ${moduleEventBus !== null}`);
-        if (moduleEventBus) {
-            log('debug', `Publishing iframePanel:loaded event via moduleEventBus with data:`, {
+        log('debug', `Attempting to publish iframePanel:loaded event. eventBus available: ${this.eventBus !== null}`);
+        if (this.eventBus) {
+            log('debug', `Publishing iframePanel:loaded event via eventBus with data:`, {
                 panelId: this.container?.id,
                 iframeId: this.iframeId,
                 url: this.currentUrl
             });
-            moduleEventBus.publish('iframePanel:loaded', { 
+            this.eventBus.publish('iframePanel:loaded', {
                 panelId: this.container?.id,
                 iframeId: this.iframeId,
                 url: this.currentUrl
-            }, 'iframePanel');
-            log('debug', `iframePanel:loaded event published successfully via moduleEventBus`);
+            });
+            log('debug', `iframePanel:loaded event published successfully via eventBus`);
         } else {
-            log('error', `Cannot publish iframePanel:loaded event - moduleEventBus is null`);
+            log('error', `Cannot publish iframePanel:loaded event - eventBus is null`);
         }
     }
 

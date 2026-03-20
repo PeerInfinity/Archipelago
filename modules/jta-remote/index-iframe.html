@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+  Journey to Ascension by Magne 'Meneth' Skjaeran (https://meneth.github.io/journey-to-ascension/)
+  This file adapts the game's HTML structure with Archipelago integration hooks.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="https://meneth.github.io/journey-to-ascension/">
+    <title>Journey to Ascension (Archipelago)</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Non-render-blocking stylesheets: parent hides iframe until onload, so no FOUC -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./style.css" media="print" onload="this.media='all'">
+
+    <!-- Pre-bundle hooks: intercept globals before game initializes -->
+    <script>
+    (function() {
+        var LOG = '[PreBundle]';
+
+        // --- localStorage.setItem intercept: notify on every game save ---
+        var origSetItem = Storage.prototype.setItem;
+        Storage.prototype.setItem = function(key, value) {
+            var result = origSetItem.call(this, key, value);
+            if (key === 'incrementalGameSave') {
+                window.dispatchEvent(new CustomEvent('jta:saveWritten', {
+                    detail: { length: value.length }
+                }));
+            }
+            return result;
+        };
+
+        console.log(LOG, 'All hooks installed, waiting for game...');
+    })();
+    </script>
+
+    <style>
+        /* Connection status bar - matches a-mazing-idle-remote pattern */
+        .connection-status {
+            background: #2d2d2d;
+            border-bottom: 1px solid #555;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #cecece;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+
+        /* Hide connection status when running in iframe panel (parent shows status) */
+        .iframe-embedded .connection-status {
+            display: none;
+        }
+
+        .connection-status.connected {
+            background: #0a3318;
+            border-bottom-color: #3c7a3c;
+            color: #c8f7c8;
+        }
+
+        .connection-status.error {
+            background: #5d2a2a;
+            border-bottom-color: #8c3c3c;
+            color: #f7c8c8;
+        }
+    </style>
+</head>
+<body>
+    <!-- CONNECTION STATUS BAR -->
+    <div class="connection-status" id="connectionStatus">
+        Connecting to Archipelago...
+    </div>
+
+    <div id="background"></div>
+    <main>
+        <div id="game-area" class="hidden">
+            <div id="left-sidebar" class="sidebar">
+                <div id="settings-area">
+                    <button id="open-settings" class="sidebar-button">&#9881;</button>
+                    <button id="open-energy-reset" class="sidebar-button">&#9851;</button>
+                </div>
+                <button id="open-prestige" class="hidden"><h2>Prestige: 1337<br />(+42)</h2></button>
+                <button id="open-stats" class="sidebar-button"><span>&#128200;Stats</span></button>
+                <div id="attunement" class="sidebar-section sidebar-item-text hidden">&#127744;Attunement: 1337</div>
+                <div id="power" class="sidebar-section sidebar-item-text hidden">&#128170;Power: 1337</div>
+                <div id="skills"></div>
+            </div>
+            <div id="main-area">
+                <div id="play-area">
+                    <div id="left-column">
+                        <div id="zone" class="sidebar-section">
+                            <h2 id="zone-name">Lorem Ipsum</h2>
+                        </div>
+                        <div id="tasks"></div>
+                    </div>
+                    <div id="right-column" class="sidebar">
+                        <div id="controls" class="sidebar-section">
+                            <h3 class="section-name">Controls</h3>
+                            <div id="controls-list" class="elements-list"></div>
+                        </div>
+                        <div id="artifacts" class="sidebar-section hidden">
+                            <h3 class="section-name">Artifacts</h3>
+                            <button id="artifact-undo">Undo</button>
+                            <h3 class="section-info">&#8505;</h3>
+                            <div id="artifacts-list" class="elements-list"></div>
+                        </div>
+                        <div id="items" class="sidebar-section">
+                            <h3 class="section-name">Items</h3>
+                            <button id="item-undo">Undo</button>
+                            <h3 class="section-info">&#8505;</h3>
+                            <div id="items-list" class="elements-list"></div>
+                        </div>
+                        <div id="perks" class="sidebar-section">
+                            <h3 class="section-name">Perks</h3>
+                            <h3 class="section-info">&#8505;</h3>
+                            <div id="perks-list" class="elements-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="top-area">
+                    <div id="energy">
+                        <span class="label"></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                            <span class="progress-value">100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-over-overlay" class="full-screen-overlay hidden"></div>
+
+        <div id="end-of-content-overlay" class="full-screen-overlay hidden">
+            <div id="end-of-content-box">
+                <h2>End of Content</h2>
+                <p>You've reached the end of all content that exists!</p>
+                <p>Congrats on winning the game. For now.</p>
+                <h3 id="end-of-content-reset-count"></h3>
+                <button id="end-of-content-reset">Do Energy Reset</button>
+                <button id="end-of-content-prestige">Prestige</button>
+            </div>
+        </div>
+
+        <div id="prestige-overlay" class="full-screen-overlay hidden">
+            <div id="prestige-box" class="overlay-box"></div>
+        </div>
+
+        <div id="settings-overlay" class="full-screen-overlay hidden">
+            <div id="settings" class="overlay-box">
+                <button class="close">X</button>
+                <h1>Settings</h1>
+                <button id="manual-tooltips"></button>
+                <div>
+                    <button id="save">Save</button>
+                    <button id="load">Load</button>
+                </div>
+                <button id="reset-save">Reset Save</button>
+                <div>
+                    <button id="changelog">Changelog</button>
+                    <button id="credits">Credits</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="changelog-overlay" class="full-screen-overlay hidden">
+            <div id="changelog-box" class="overlay-box"></div>
+        </div>
+
+        <div id="credits-overlay" class="full-screen-overlay hidden">
+            <div id="credits-box" class="overlay-box"></div>
+        </div>
+
+        <div id="confirmation-overlay" class="full-screen-overlay hidden"></div>
+        <div id="stats-overlay" class="full-screen-overlay hidden">
+            <div id="stats-box" class="overlay-box"></div>
+        </div>
+
+        <div id="hints-overlay" class="full-screen-overlay hidden"></div>
+    </main>
+
+    <footer>
+        <div id="messages"></div>
+    </footer>
+
+    <div id="tooltip" class="tooltip hidden"></div>
+
+    <!-- Game bundle + Archipelago client (deferred until stylesheets loaded to avoid forced layout warning) -->
+    <script type="module">
+        function loadScripts() {
+            const gameUrl = new URL('./game-bundle/game.js', location.href).href;
+            const clientUrl = new URL('./jtaGameClient.js', location.href).href;
+            import(gameUrl);
+            import(clientUrl);
+        }
+        if (document.readyState === 'complete') {
+            loadScripts();
+        } else {
+            window.addEventListener('load', loadScripts);
+        }
+    </script>
+</body>
+</html>

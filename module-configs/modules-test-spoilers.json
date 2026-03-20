@@ -1,0 +1,26 @@
+{
+  "moduleDefinitions": {
+    "stateManager": {
+      "path": "./modules/stateManager/index.js",
+      "enabled": true
+    },
+    "sphereState": {
+      "path": "./modules/sphereState/index.js",
+      "enabled": true
+    },
+    "spoilerTest": {
+      "path": "./modules/spoilerTest/index.js",
+      "enabled": true
+    },
+    "tests": {
+      "path": "./modules/tests/index.js",
+      "enabled": true
+    }
+  },
+  "loadPriority": [
+    "stateManager",
+    "sphereState",
+    "spoilerTest",
+    "tests"
+  ]
+}

@@ -1,5 +1,22 @@
 // UI Class for this module
 import { ProgressBarPanelUI } from './progressBarPanelUI.js';
+import eventBus from '../../app/core/eventBus.js';
+
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'progressBarPanel'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'progressBarPanel'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'progressBarPanel'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -39,15 +56,16 @@ export function register(registrationApi) {
 // --- Initialization Function ---
 export function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', 'Initializing ProgressBarPanel module');
-  
+  _moduleEventBus = initializationApi.getEventBus();
+
   // No special initialization needed for this simple panel module
   // The UI instances will be created by Golden Layout as needed
-  
+
   log('info', 'ProgressBarPanel module initialized successfully');
-  
+
   // Return cleanup function
   return () => {
     log('info', 'Cleaning up ProgressBarPanel module');
-    // No cleanup needed for this module
+    _moduleEventBus = null;
   };
 }

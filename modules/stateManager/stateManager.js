@@ -12,10 +12,9 @@
 import {
   initializeGameLogic,
   determineGameName,
-  getGameLogic,
-  detectGameFromWorldClass
+  getGameLogic
 } from '../shared/gameLogic/gameLogicRegistry.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
 import { DEFAULT_PLAYER_ID, PlayerIdUtils } from '../shared/playerIdUtils.js';
 
 // Import universal logger for consistent logging across contexts
@@ -279,7 +278,7 @@ export class StateManager {
     // Also emit to eventBus for ProgressUI
     try {
       if (this.eventBus) {
-        this.eventBus.publish(`stateManager:${eventType}`, {}, 'stateManager');
+        this.eventBus.publish(`stateManager:${eventType}`, {});
       }
     } catch (e) {
       log('warn', 'Could not publish to eventBus:', e);
@@ -649,7 +648,7 @@ export class StateManager {
     } else if (this.eventBus) {
       // Main thread mode - publish directly to eventBus
       try {
-        this.eventBus.publish(`stateManager:${eventType}`, eventData, 'stateManager');
+        this.eventBus.publish(`stateManager:${eventType}`, eventData);
         this._logDebug(
           `[StateManager Class] Published ${eventType} event via EventBus.`
         );
@@ -687,7 +686,14 @@ export class StateManager {
   }
 
   // Delegate can_reach methods to ReachabilityModule (Python API compatibility)
-  can_reach(target, type = 'Region', playerId = null) {
+  can_reach(target, type = null, playerId = null) {
+    // If no type specified, auto-detect based on whether target is a location or region
+    // This handles cases like Factorio's state.can_reach(loc) where loc is a Location object
+    // that gets exported without a type argument
+    if (!type) {
+      const isLocation = this.locations && this.locations.has(target);
+      type = isLocation ? 'Location' : 'Region';
+    }
     return ReachabilityModule.can_reach(this, target, type, playerId);
   }
 
@@ -724,8 +730,8 @@ export class StateManager {
 
   // Helper to create a snapshot-like interface from the instance itself
   // Needed for internal methods that rely on rule evaluation (like isLocationAccessible)
-  _createSelfSnapshotInterface() {
-    return StatePersistenceModule._createSelfSnapshotInterface(this);
+  _createSelfSnapshotInterface(contextVariables = {}) {
+    return StatePersistenceModule._createSelfSnapshotInterface(this, contextVariables);
   }
 
   /**
@@ -783,6 +789,10 @@ export class StateManager {
     return InventoryModule.has_all_counts(this, itemCounts);
   }
 
+  has_any_count(itemCounts) {
+    return InventoryModule.has_any_count(this, itemCounts);
+  }
+
   has_from_list(items, count) {
     return InventoryModule.has_from_list(this, items, count);
   }
@@ -796,7 +806,7 @@ export class StateManager {
   }
 
   async loadRules(source) {
-    this.eventBus.publish('stateManager:loadingRules', { source }, 'stateManager');
+    this.eventBus.publish('stateManager:loadingRules', { source });
     log('info', `[StateManager] Attempting to load rules from source:`, source);
 
     if (
@@ -825,7 +835,7 @@ export class StateManager {
         this.eventBus.publish('stateManager:rulesLoadFailed', {
           source,
           error,
-        }, 'stateManager');
+        });
         this.rules = null; // Ensure rules are null on failure
         return; // Exit early
       }
@@ -844,7 +854,7 @@ export class StateManager {
         this.eventBus.publish('stateManager:rulesLoadFailed', {
           source: 'directData',
           error: 'Malformed direct rules data',
-        }, 'stateManager');
+        });
         this.rules = null; // Ensure rules are null on failure
         return; // Exit early
       }
@@ -861,7 +871,7 @@ export class StateManager {
       this.eventBus.publish('stateManager:rulesLoadFailed', {
         source,
         error: 'Invalid rules source type',
-      }, 'stateManager');
+      });
       this.rules = null;
       return; // Exit early
     }

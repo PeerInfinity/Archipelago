@@ -1,5 +1,6 @@
 // UI Class for this module
 import { LocationUI } from './locationUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -24,6 +25,7 @@ export const moduleInfo = {
 
 let moduleDispatcher = null;
 let moduleId = 'locations'; // Store module ID
+let _moduleEventBus = null;
 
 export function getDispatcher() {
   // if (!moduleDispatcher) {
@@ -32,6 +34,20 @@ export function getDispatcher() {
   //   );
   // }
   return moduleDispatcher;
+}
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'locations'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'locations'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'locations'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
 }
 
 /**
@@ -55,6 +71,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('stateManager:locationCollectionChanged');
   registrationApi.registerEventBusPublisher('ui:activatePanel');
   registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
+  // ui:locationClicked removed - discovery is handled via dispatcher on user:locationCheck
 }
 
 export function initialize(mId, priorityIndex, initializationApi) {
@@ -64,11 +81,13 @@ export function initialize(mId, priorityIndex, initializationApi) {
     `[${moduleId} Module] Initializing with priority ${priorityIndex}...`
   );
   moduleDispatcher = initializationApi.getDispatcher();
+  _moduleEventBus = initializationApi.getEventBus();
   log('info', `[${moduleId} Module] Dispatcher stored.`);
 
   // No specific async operations for initialization, so return a simple cleanup
   return () => {
     log('info', `[${moduleId} Module] Cleaning up...`);
     moduleDispatcher = null;
+    _moduleEventBus = null;
   };
 }

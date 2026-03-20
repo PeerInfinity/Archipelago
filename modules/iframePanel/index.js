@@ -1,5 +1,6 @@
 // iframePanel module entry point
 import { IframePanelUI } from './iframePanelUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -9,6 +10,7 @@ export const moduleInfo = {
   icon: '🖼️',
   column: 3, // Right column
   description: 'Iframe Panel display panel.',
+  allowMultipleInstances: true,
 };
 
 // Helper function for logging with fallback
@@ -24,7 +26,7 @@ function log(level, message, ...data) {
 
 // Store module-level references
 let moduleEventBus = null;
-const moduleId = 'iframePanel';
+let moduleId = 'iframePanel';
 
 export async function register(registrationApi) {
     log('info', `[${moduleId} Module] Registering...`);
@@ -59,8 +61,9 @@ export async function register(registrationApi) {
 }
 
 export async function initialize(mId, priorityIndex, initializationApi) {
+    moduleId = mId;
     log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
-    
+
     // Store API references
     moduleEventBus = initializationApi.getEventBus();
     
@@ -69,16 +72,28 @@ export async function initialize(mId, priorityIndex, initializationApi) {
         moduleEventBus.subscribe('iframe:loadUrl', (data) => {
             // This will be handled by the active iframePanel instance
             log('debug', 'Received iframe:loadUrl event', data);
-        }, moduleId);
+        });
 
         moduleEventBus.subscribe('iframe:unload', (data) => {
             // This will be handled by the active iframePanel instance
             log('debug', 'Received iframe:unload event', data);
-        }, moduleId);
+        });
     }
     
     log('info', `[${moduleId} Module] Initialization complete.`);
 }
 
-// Export eventBus for use by UI components
-export { moduleEventBus };
+// Export eventBus getter for use by UI components
+export function getModuleEventBus() {
+  if (moduleEventBus) return moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'iframePanel'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'iframePanel'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'iframePanel'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}

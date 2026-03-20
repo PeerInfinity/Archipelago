@@ -1,4 +1,5 @@
 import { PlayerIdUtils } from '../../shared/playerIdUtils.js';
+import { profiler } from '../../shared/profiler.js';
 
 /**
  * StateManager Reachability Engine Module
@@ -212,6 +213,7 @@ export function computeReachableRegions(sm) {
   }
 
   sm._computing = true;
+  profiler.start('computeReachableRegions');
 
   try {
     // Get start regions and initialize BFS
@@ -329,6 +331,7 @@ export function computeReachableRegions(sm) {
     sm.cacheValid = true;
   } finally {
     sm._computing = false;
+    profiler.end('computeReachableRegions');
   }
 
   return sm.knownReachableRegions;
@@ -355,6 +358,7 @@ export function computeReachableRegions(sm) {
  * @returns {boolean} True if new regions were found in this pass
  */
 export function runBFSPass(sm) {
+  profiler.start('runBFSPass');
   let newRegionsFound = false;
   const passStartRegions = new Set(sm.knownReachableRegions);
 
@@ -385,12 +389,33 @@ export function runBFSPass(sm) {
       }
 
       // Check if exit is traversable using the *injected* evaluateRule engine
-      const snapshotInterfaceContext = sm._createSelfSnapshotInterface();
+      // Create an enhanced exit object with parent_region info for attribute access
+      const enhancedExit = {
+        ...exit,
+        parent_region_name: fromRegion,
+        parent_region: fromRegion  // Also add parent_region directly for simpler access
+      };
+
+      // Normalize the exit name for variable binding (matches Python exporter convention)
+      // "Kiki Skip" -> "kikiskip"
+      const normalizedExitName = exit.name?.toLowerCase().replace(/\s+/g, '');
+
+      // Build context variables for the exit's access rule evaluation
+      // This binds the exit under its normalized name so rules like "kikiskip.parent_region" work
+      const exitContextVariables = {
+        entrance: enhancedExit,
+        currentEntrance: enhancedExit,
+        currentExit: exit.name
+      };
+      // Add the normalized name binding if valid
+      if (normalizedExitName) {
+        exitContextVariables[normalizedExitName] = enhancedExit;
+      }
+
+      const snapshotInterfaceContext = sm._createSelfSnapshotInterface(exitContextVariables);
       // Set parent_region context for exit evaluation - needs to be the region object, not just the name
       // TODO PHASE 3: When regions becomes Map, use: sm.regions.get(fromRegion)
       snapshotInterfaceContext.parent_region = sm.regions.get(fromRegion);
-      // Set currentExit so get_entrance can detect self-references
-      snapshotInterfaceContext.currentExit = exit.name;
 
       const ruleEvaluationResult = exit.access_rule
         ? sm.evaluateRuleFromEngine(
@@ -501,14 +526,15 @@ export function runBFSPass(sm) {
     }
   }
 
+  profiler.end('runBFSPass');
   return newRegionsFound;
 }
 
 /**
  * Get the starting regions for BFS traversal
  *
- * Start regions are where the player begins. Usually "Menu" by default.
- * Can be configured per-game or per-seed.
+ * Start regions are where the player begins.
+ * Can be configured per-game or per-seed. Falls back to first region in static data.
  *
  * @param {Object} sm - StateManager instance
  * @returns {string[]} Array of starting region names
@@ -532,7 +558,13 @@ export function getStartRegions(sm) {
     sm._logDebug(`[ReachabilityEngine] Unexpected startRegions value: ${typeof sm.startRegions}`, sm.startRegions);
   }
 
-  return ['Menu'];
+  // Fall back to first region from static data
+  const staticData = sm.staticDataCache;
+  if (staticData?.regions?.size > 0) {
+    return [staticData.regions.keys().next().value];
+  }
+
+  return [];
 }
 
 /**
@@ -563,38 +595,38 @@ export function isRegionReachable(sm, regionName) {
  * @returns {boolean} Whether the location is accessible
  */
 export function isLocationAccessible(sm, location) {
-  // The check for serverProvidedUncheckedLocations was removed from here.
-  // A location being unchecked by the server does not mean it's inaccessible by rules.
-
-  // Recursion protection: if we're already computing reachable regions,
-  // use the current state instead of triggering another computation
-  const reachableRegions = sm._computing
-    ? sm.knownReachableRegions
-    : computeReachableRegions(sm);
-  if (!reachableRegions.has(location.region)) {
-    return false;
-  }
-  if (!location.access_rule) {
-    // Event locations with no access rule are only accessible if you don't already have the event item
-    // This matches Python's behavior where event items can only be collected once
-    if (location.item && location.item.event && location.item.name) {
-      // Check if we already have this event item
-      const itemCount = sm.inventory && sm.inventory[location.item.name];
-      if (itemCount && itemCount > 0) {
-        // Already have this event, location is not accessible (can't collect again)
-        return false;
-      }
-    }
-    // No access rule means accessible (for non-event locations or events we don't have yet)
-    return true;
-  }
-
-  // Use the *injected* evaluateRule engine
+  profiler.start('isLocationAccessible');
   try {
-    const snapshotInterface = sm._createSelfSnapshotInterface();
-    // Add the current location to the context so rules can access it
-    snapshotInterface.currentLocation = location;
-    snapshotInterface.location = location; // Also set as 'location' for resolveName()
+    // The check for serverProvidedUncheckedLocations was removed from here.
+    // A location being unchecked by the server does not mean it's inaccessible by rules.
+
+    // Recursion protection: if we're already computing reachable regions,
+    // use the current state instead of triggering another computation
+    const reachableRegions = sm._computing
+      ? sm.knownReachableRegions
+      : computeReachableRegions(sm);
+    if (!reachableRegions.has(location.region)) {
+      return false;
+    }
+    if (!location.access_rule) {
+      // Event locations with no access rule are only accessible if you don't already have the event item
+      // This matches Python's behavior where event items can only be collected once
+      if (location.item && location.item.event && location.item.name) {
+        // Check if we already have this event item
+        const itemCount = sm.inventory && sm.inventory[location.item.name];
+        if (itemCount && itemCount > 0) {
+          // Already have this event, location is not accessible (can't collect again)
+          return false;
+        }
+      }
+      // No access rule means accessible (for non-event locations or events we don't have yet)
+      return true;
+    }
+
+    // Use the *injected* evaluateRule engine
+    // Pass location via contextVariables so it's available to resolveName() for boss defeat rules
+    const snapshotInterface = sm._createSelfSnapshotInterface({ location, currentLocation: location });
+
     return sm.evaluateRuleFromEngine(
       location.access_rule,
       snapshotInterface
@@ -607,6 +639,8 @@ export function isLocationAccessible(sm, location) {
       location.access_rule
     );
     return false;
+  } finally {
+    profiler.end('isLocationAccessible');
   }
 }
 

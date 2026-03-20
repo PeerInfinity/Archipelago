@@ -2,13 +2,11 @@
   "schema_version": 3,
   "game_name": "ChecksFinder",
   "game_directory": "checksfinder",
-  "archipelago_version": "0.6.5",
+  "archipelago_version": "0.6.7",
   "generation_seed": 1,
+  "seed_name": "14089154938208861744",
   "player_names": {
     "1": "Player1"
-  },
-  "world_classes": {
-    "1": "ChecksFinderWorld"
   },
   "regions": {
     "1": {
@@ -19,8 +17,7 @@
             "name": "New Board",
             "connected_region": "Board",
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             }
           }
         ],
@@ -34,631 +31,511 @@
             "name": "Tile 1",
             "id": 81000,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 2",
             "id": 81001,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Map Width",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 3",
             "id": 81002,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Map Width",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 4",
             "id": 81003,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Map Width",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 5",
             "id": 81004,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "rule": "True_"
             },
             "item": {
               "name": "Map Height",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 6",
             "id": 81005,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 1
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 1
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 7",
             "id": 81006,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 2
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 2
+              }
             },
             "item": {
               "name": "Map Width",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 8",
             "id": 81007,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 3
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 3
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 9",
             "id": 81008,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 4
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 4
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 10",
             "id": 81009,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 5
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 5
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 11",
             "id": 81010,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 6
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 6
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 12",
             "id": 81011,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 7
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 7
+              }
             },
             "item": {
               "name": "Map Height",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 13",
             "id": 81012,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 8
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 8
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 14",
             "id": 81013,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 9
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 9
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 15",
             "id": 81014,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 10
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 10
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 16",
             "id": 81015,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 11
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 11
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 17",
             "id": 81016,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 12
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 12
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 18",
             "id": 81017,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 13
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 13
+              }
             },
             "item": {
               "name": "Map Height",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 19",
             "id": 81018,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 14
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 14
+              }
             },
             "item": {
               "name": "Map Height",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 20",
             "id": 81019,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 15
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 15
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 21",
             "id": 81020,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 16
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 16
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 22",
             "id": 81021,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 17
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 17
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 23",
             "id": 81022,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 18
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 18
+              }
             },
             "item": {
               "name": "Map Bombs",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 24",
             "id": 81023,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 19
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 19
+              }
             },
             "item": {
               "name": "Map Width",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           },
           {
             "name": "Tile 25",
             "id": 81024,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_from_list",
-              "args": [
-                {
-                  "type": "constant",
-                  "value": [
-                    "Map Width",
-                    "Map Height",
-                    "Map Bombs"
-                  ]
-                },
-                {
-                  "type": "constant",
-                  "value": 20
-                }
-              ]
+              "rule": "HasFromList",
+              "args": {
+                "items": [
+                  "Map Width",
+                  "Map Height",
+                  "Map Bombs"
+                ],
+                "count": 20
+              }
             },
             "item": {
               "name": "Map Height",
               "player": 1,
               "advancement": true,
               "type": "None"
-            }
+            },
+            "locked": false
           }
         ]
       }
@@ -680,12 +557,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 10
+        "max_count": 5
       },
       "Map Height": {
         "name": "Map Height",
@@ -693,12 +567,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 10
+        "max_count": 5
       },
       "Map Bombs": {
         "name": "Map Bombs",
@@ -706,12 +577,9 @@
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "useful": false,
-        "trap": false,
-        "event": false,
+        "classification": "progression",
         "type": null,
-        "max_count": 30
+        "max_count": 15
       }
     }
   },
@@ -722,10 +590,13 @@
   },
   "itempool_counts": {
     "1": {
-      "Map Bombs": 30,
-      "Map Height": 10,
-      "Map Width": 10
+      "Map Bombs": 15,
+      "Map Height": 5,
+      "Map Width": 5
     }
+  },
+  "canonical_placements": {
+    "1": {}
   },
   "progression_mapping": {
     "1": {}
@@ -733,19 +604,86 @@
   "starting_items": {
     "1": []
   },
-  "settings": {
+  "world": {
     "1": {
       "game": "ChecksFinder",
-      "assume_bidirectional_exits": false,
-      "use_resolved_items": false
+      "world_class_name": "ChecksFinderWorld",
+      "options": {
+        "accessibility": 0,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "non_local_items": [],
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": []
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        }
+      },
+      "world_description": "ChecksFinder is a game where you avoid mines and collect checks by beating boards!\nYou win when you get all your items and beat the last board!",
+      "slot_data": {
+        "world_seed": 122746603,
+        "seed_name": "14089154938208861744",
+        "player_name": "Player1",
+        "player_id": 1,
+        "client_version": 7,
+        "race": false
+      },
+      "web": {
+        "theme": "grass",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to playing Archipelago ChecksFinder.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "SunCat"
+            ]
+          }
+        ]
+      },
+      "world_directory": "checksfinder"
     }
   },
+  "exporter": {},
   "game_info": {
     "1": {
-      "name": "ChecksFinder",
-      "rule_format": {
-        "version": "1.0"
+      "completion_condition": {
+        "type": "state_method",
+        "method": "has_all_counts",
+        "args": [
+          {
+            "type": "constant",
+            "value": {
+              "Map Bombs": 15,
+              "Map Height": 5,
+              "Map Width": 5
+            }
+          }
+        ]
       }
     }
-  }
+  },
+  "helpers": {}
 }

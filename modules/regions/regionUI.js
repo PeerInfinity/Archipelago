@@ -5,11 +5,11 @@ import commonUI from '../commonUI/index.js';
 import messageHandler from '../client/core/messageHandler.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import settingsManager from '../../app/core/settingsManager.js';
-import eventBus from '../../app/core/eventBus.js';
 import { debounce } from '../commonUI/index.js';
 // Import the exported dispatcher from the module's index
-import { moduleDispatcher } from './index.js';
-import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { moduleDispatcher, getModuleEventBus } from './index.js';
+import { createSnapshotInterface } from '../shared/snapshotInterface.js';
+import { getRegionMovesFromPath } from '../shared/pathUtils.js';
 import {
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
@@ -36,6 +36,7 @@ export class RegionUI {
   constructor(container, componentState) {
     this.container = container;
     this.componentState = componentState;
+    Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
 
     // Add instance property for unsubscribe handles
     this.unsubscribeHandles = [];
@@ -60,6 +61,15 @@ export class RegionUI {
     this.navigationTarget = null; // Add navigation target state
     this.isDiscoveryModeActive = false; // Track discovery mode state
 
+    // Discovery settings cache
+    this.discoverySettings = {
+      undiscoveredDisplay: 'hidden',
+      clickDiscoversLocation: true,
+      clickDiscoversRegion: false,
+      disableLocationCheckUI: false,
+      showUndiscoveredDetails: false
+    };
+
     // Create root element first (needed for DisplaySettingsManager)
     this.rootElement = this.createRootElement();
 
@@ -70,7 +80,7 @@ export class RegionUI {
     this.expansionState = new ExpansionStateManager();
 
     // Create the navigation manager
-    this.navigationManager = new NavigationManager(eventBus);
+    this.navigationManager = new NavigationManager(this.eventBus);
 
     // Create the path analyzer and block builder
     this.pathAnalyzer = new PathAnalyzerUI(this);
@@ -83,7 +93,7 @@ export class RegionUI {
     this.stateManager = stateManager;
 
     // Create the event coordinator (note: subscribeToEvents called in initialize())
-    this.eventCoordinator = new EventCoordinator(eventBus, this);
+    this.eventCoordinator = new EventCoordinator(this.eventBus, this);
 
     this.regionsContainer = this.rootElement.querySelector(
       '#region-details-container' // Changed selector
@@ -117,15 +127,20 @@ export class RegionUI {
         log('error', '[RegionUI] Failed to initialize display settings:', error);
       });
 
+      // Load initial discovery settings
+      this.loadDiscoverySettings().catch(error => {
+        log('error', '[RegionUI] Failed to load discovery settings:', error);
+      });
+
       this.isInitialized = true; // Mark that basic panel setup is done.
       log(
         'info',
         '[RegionUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
 
-      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+      this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'regions');
+    this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
@@ -213,6 +228,10 @@ export class RegionUI {
             <label style="margin-right: 10px;">
               <input type="checkbox" id="show-paths" checked />
               Show Paths
+            </label>
+            <label style="margin-right: 10px; display: none;"> <!-- Controlled by discovery mode -->
+              <input type="checkbox" id="region-show-undiscovered" checked />
+              Show Undiscovered
             </label>
           </div>
           <div style="border-top: 1px solid #555; padding-top: 10px;">
@@ -338,7 +357,8 @@ export class RegionUI {
 
           // If no navigation regions remain, show the start region
           if (this.visitedRegions.length === 0) {
-            this.showStartRegion('Menu');
+            const startRegion = this.getPrimaryStartRegion();
+            if (startRegion) this.showStartRegion(startRegion);
           }
         }
 
@@ -355,6 +375,12 @@ export class RegionUI {
         this.displaySettings.setSetting('showPaths', this.showPaths, true);
         this.renderAllRegions();
       });
+    }
+
+    // Show Undiscovered checkbox (discovery mode)
+    const showUndiscoveredCheckbox = this.rootElement.querySelector('#region-show-undiscovered');
+    if (showUndiscoveredCheckbox) {
+      showUndiscoveredCheckbox.addEventListener('change', () => this.renderAllRegions());
     }
 
     // Visibility checkboxes for region block elements
@@ -414,7 +440,7 @@ export class RegionUI {
    */
   updateFromPlayerStatePath(path, regionCounts) {
     if (!path || path.length === 0) {
-      log('warn', '[RegionUI] Received empty path from playerState');
+      // Path is empty before any moves are made — this is normal at startup
       return;
     }
     
@@ -423,9 +449,20 @@ export class RegionUI {
     this.visitedRegions = [];
     this.nextUID = 1;
     
-    // Filter for only regionMove entries
-    const regionMoves = path.filter(entry => entry.type === 'regionMove');
-    
+    const regionMoves = getRegionMovesFromPath(path);
+
+    // Include the start region (source of the first move) so the full path is shown
+    if (regionMoves.length > 0 && regionMoves[0].sourceRegion) {
+      const startRegion = regionMoves[0].sourceRegion;
+      const uid = this.nextUID++;
+      this.visitedRegions.push({
+        name: startRegion,
+        expanded: false,
+        uid: uid,
+      });
+      this.expansionState.setExpanded(startRegion, false, 'navigation', uid);
+    }
+
     regionMoves.forEach((pathEntry, index) => {
       const uid = this.nextUID++;
       const isLastRegion = index === regionMoves.length - 1;
@@ -434,7 +471,7 @@ export class RegionUI {
       const expanded = isLastRegion;
 
       this.visitedRegions.push({
-        name: pathEntry.region,
+        name: pathEntry.destinationRegion,
         expanded: expanded, // Note: This property is kept for backward compatibility but not used
         uid: uid,
         exitUsed: pathEntry.exitUsed,
@@ -443,7 +480,7 @@ export class RegionUI {
 
       // Update expansion state manager
       this.expansionState.setExpanded(
-        pathEntry.region,
+        pathEntry.destinationRegion,
         expanded,
         'navigation',
         pathEntry.instanceNumber || uid
@@ -458,6 +495,24 @@ export class RegionUI {
     // Renamed from renderAllRegions to update, to be consistent with other panels
     log('info', '[RegionUI] update() called, calling renderAllRegions().');
     this.renderAllRegions();
+  }
+
+  /**
+   * Get the primary start region name from stateManager, falling back to
+   * the first region in static data if stateManager doesn't have start regions yet.
+   * @returns {string|null} The start region name, or null if no regions available
+   */
+  getPrimaryStartRegion() {
+    const startRegions = this.stateManager.getStartRegions?.();
+    if (Array.isArray(startRegions) && startRegions.length > 0) {
+      return startRegions[0];
+    }
+    // Fallback: use the first region from static data
+    const staticData = this.stateManager.getStaticData();
+    if (staticData && staticData.regions && staticData.regions.size > 0) {
+      return staticData.regions.keys().next().value;
+    }
+    return null;
   }
 
   async showStartRegion(startRegionName) {
@@ -544,11 +599,11 @@ export class RegionUI {
       if (!isLastRegion && currentIndex >= 0) {
         // Navigating backwards - trim the path at this region
         log('info', `[RegionUI] Navigating backwards to ${oldRegionName} instance ${instanceNumber}`);
-        if (eventBus) {
-          eventBus.publish('playerState:trimPath', {
+        if (this.eventBus) {
+          this.eventBus.publish('playerState:trimPath', {
             regionName: oldRegionName,
             instanceNumber: instanceNumber
-          }, 'regions');
+          });
         }
         return;
       }
@@ -704,7 +759,7 @@ export class RegionUI {
     resetUnknownEvaluationCounter();
 
     // Create snapshot interface
-    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const snapshotInterface = createSnapshotInterface(snapshot, staticData);
     if (!snapshotInterface) {
       log('error', '[RegionUI] Failed to create snapshot interface. Rendering may be incomplete.');
       return;
@@ -751,9 +806,10 @@ export class RegionUI {
       };
     });
 
-    // Handle empty case - show Menu if needed
+    // Handle empty case - show start region if needed
     if (regionsToRender.length === 0) {
-      const success = this.showStartRegion('Menu'); // showStartRegion adds to this.visitedRegions
+      const startRegion = this.getPrimaryStartRegion();
+      const success = startRegion ? this.showStartRegion(startRegion) : false;
       if (success) {
         // Re-compute regionsToRender from the now updated this.visitedRegions
         regionsToRender = this.navigationManager.computeRegionsToRender(
@@ -774,7 +830,7 @@ export class RegionUI {
       } else {
         log(
           'warn',
-          "[RegionUI] Failed to set start region 'Menu'. Panel might remain empty."
+          '[RegionUI] Failed to set start region. Panel might remain empty.'
         );
       }
     }
@@ -782,6 +838,11 @@ export class RegionUI {
     // Get section order for rendering
     const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
     const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
+
+    // Filter out regions that don't exist in static data (e.g. placeholder region before rules load)
+    regionsToRender = regionsToRender.filter(region =>
+      region.isSkipIndicator || staticData.regions.has(region.name)
+    );
 
     // Delegate rendering to RegionRenderer
     this.regionRenderer.renderRegions(
@@ -797,7 +858,8 @@ export class RegionUI {
         sortMethod,
         originalRegionOrder: this.originalRegionOrder,
         useColorblind,
-        sectionOrder
+        sectionOrder,
+        discoverySettings: this.discoverySettings
       }
     );
 
@@ -815,6 +877,19 @@ export class RegionUI {
    * @param {string} regionName - The name of the region to navigate to.
    */
   navigateToRegion(regionName) {
+    // Verify the panel can actually render before attempting navigation.
+    // During rules reload, snapshot/data may be stale and renderAllRegions would bail.
+    const snapshot = stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+    if (!this.isInitialized || !snapshot || !staticData || !staticData.regions || !staticData.items) {
+      log('info', `[RegionUI] navigateToRegion: Panel not ready for navigation to "${regionName}". Skipping.`);
+      return;
+    }
+    if (!staticData.regions.get(regionName)) {
+      log('info', `[RegionUI] navigateToRegion: Region "${regionName}" not found in current game data. Skipping.`);
+      return;
+    }
+
     this.navigationTarget = regionName; // Set navigation target
 
     if (!this.regionsContainer) {
@@ -860,36 +935,39 @@ export class RegionUI {
       this.renderAllRegions();
     }
 
-    // Defer scrolling to allow DOM updates from renderAllRegions to complete.
+    // Defer scrolling to allow DOM updates (including debounced re-renders) to complete.
+    this._scrollToRegionBlock(regionName, 0);
+  }
+
+  /**
+   * Scroll to a region block in the DOM, retrying once if not found immediately
+   * (debounced re-renders during rules reload can clear the DOM between render and scroll)
+   * @param {string} regionName - The region to scroll to
+   * @param {number} attempt - Current attempt (0 or 1)
+   * @private
+   */
+  _scrollToRegionBlock(regionName, attempt) {
     setTimeout(() => {
-      const regionBlock = this.regionsContainer.querySelector(
-        // Query for the data-region attribute which should be stable.
+      const regionBlock = this.regionsContainer?.querySelector(
         `.region-block[data-region="${regionName}"]`
       );
 
       if (regionBlock) {
-        log(
-          'info',
-          `[RegionUI] navigateToRegion: Scrolling to "${regionName}". Block found.`
-        );
-        regionBlock.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-
+        log('info', `[RegionUI] navigateToRegion: Scrolling to "${regionName}". Block found.`);
+        regionBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         regionBlock.classList.add('highlight-region');
         setTimeout(() => {
           regionBlock.classList.remove('highlight-region');
-          this.navigationTarget = null; // Clear navigation target after highlight
+          this.navigationTarget = null;
         }, 1500);
+      } else if (attempt === 0) {
+        // Retry once after debounced renders settle (debounce is 50ms)
+        this._scrollToRegionBlock(regionName, 1);
       } else {
-        log(
-          'warn',
-          `[RegionUI] navigateToRegion: Region block for "${regionName}" NOT FOUND after render and defer. Cannot scroll.`
-        );
-        this.navigationTarget = null; // Clear navigationTarget if block not found
+        log('info', `[RegionUI] navigateToRegion: Region block for "${regionName}" not found after retry. Skipping scroll.`);
+        this.navigationTarget = null;
       }
-    }, 0); // Small delay to allow DOM reflow
+    }, attempt === 0 ? 0 : 100);
   }
 
   /**
@@ -1019,6 +1097,35 @@ export class RegionUI {
         node.insertBefore(symbolSpan, node.firstChild); // Insert at beginning
       }
     });
+  }
+
+  /**
+   * Load discovery settings from settingsManager
+   */
+  async loadDiscoverySettings() {
+    try {
+      this.discoverySettings.undiscoveredDisplay = await settingsManager.getSetting(
+        'moduleSettings.discovery.undiscoveredDisplay', 'hidden'
+      );
+      this.discoverySettings.clickDiscoversLocation = await settingsManager.getSetting(
+        'moduleSettings.discovery.clickDiscoversLocation', true
+      );
+      this.discoverySettings.clickDiscoversRegion = await settingsManager.getSetting(
+        'moduleSettings.discovery.clickDiscoversRegion', false
+      );
+      this.discoverySettings.disableLocationCheckUI = await settingsManager.getSetting(
+        'moduleSettings.discovery.disableLocationCheckUI', false
+      );
+      this.discoverySettings.showUndiscoveredDetails = await settingsManager.getSetting(
+        'moduleSettings.discovery.showUndiscoveredDetails', false
+      );
+      this.isDiscoveryModeActive = await settingsManager.getSetting(
+        'moduleSettings.discovery.enableDiscoveryMode', false
+      );
+      log('info', '[RegionUI] Discovery settings loaded:', this.discoverySettings);
+    } catch (error) {
+      log('error', '[RegionUI] Error loading discovery settings:', error);
+    }
   }
 
   /**

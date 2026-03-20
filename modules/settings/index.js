@@ -1,6 +1,22 @@
 // UI Class for this module
 import SettingsUI from './settingsUI.js';
+import eventBus from '../../app/core/eventBus.js';
 
+let _moduleEventBus = null;
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'settings'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'settings'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'settings'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -51,9 +67,7 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', 
     `[Settings Module] Initializing with priority ${priorityIndex}...`
   );
-  // const eventBus = initializationApi.getEventBus();
-  // const settings = await initializationApi.getSettings(); // Maybe get initial settings?
-  // const dispatcher = initializationApi.getDispatcher();
+  _moduleEventBus = initializationApi.getEventBus();
 
   // SettingsUI fetches/updates settings via the imported settingsManager singleton directly.
   // No specific initialization steps required here based on current plan.

@@ -29,7 +29,7 @@ async function loadAdventureRulesAndSetupWindow(testController, targetRegion = '
     jsonData: rulesData,
     selectedPlayerId: '1',
     sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-  }, 'tests');
+  });
 
   await rulesLoadedPromise;
   testController.reportCondition('Adventure rules loaded in main app', true);
@@ -52,7 +52,7 @@ async function loadAdventureRulesAndSetupWindow(testController, targetRegion = '
   testController.eventBus.publish('ui:activatePanel', {
     panelId: 'windowPanel',
     config: { windowName: 'textAdventure' }
-  }, 'tests');
+  });
 
   const windowPanelReady = await testController.pollForCondition(
     () => {
@@ -78,7 +78,7 @@ async function loadAdventureRulesAndSetupWindow(testController, targetRegion = '
 
   testController.eventBus.publish('window:loadUrl', {
     url: './modules/textAdventure-remote/index-window.html'
-  }, 'tests');
+  });
 
   const windowLoaded = await windowLoadedPromise;
   testController.reportCondition('Window opened successfully', !!windowLoaded);
@@ -340,7 +340,7 @@ export async function textAdventureWindowLocationCheckCommandTest(testController
         stateChangeReceived = true;
       };
 
-      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler, 'test-window');
+      testController.eventBus.subscribe('stateManager:snapshotUpdated', stateChangeHandler);
 
       const commandSent = sendCommandToWindow('check Blue Labyrinth 0');
       testController.reportCondition('Location check command sent to window', commandSent);
@@ -516,7 +516,7 @@ export async function textAdventureWindowConnectionTest(testController) {
     testController.reportCondition('WindowAdapter core available', typeof window.windowAdapterCore !== 'undefined');
 
     // Create window panel
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' });
 
     const windowPanelCreated = await testController.pollForCondition(
       () => {
@@ -535,7 +535,7 @@ export async function textAdventureWindowConnectionTest(testController) {
 
     testController.eventBus.publish('window:loadUrl', {
       url: './modules/textAdventure-remote/index-window.html'
-    }, 'tests');
+    });
 
     const windowOpened = await windowOpenedPromise;
     testController.reportCondition('Window opened event received', !!windowOpened);
@@ -553,7 +553,7 @@ export async function textAdventureWindowConnectionTest(testController) {
 
     // Test window manager panel
     testController.log('Testing window manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' });
 
     const windowManagerCreated = await testController.pollForCondition(
       () => {
@@ -601,7 +601,7 @@ export async function textAdventureWindowManagerUITest(testController) {
       jsonData: rulesData,
       selectedPlayerId: '1',
       sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
-    }, 'tests');
+    });
 
     await rulesLoadedPromise;
     testController.reportCondition('Adventure rules loaded in main app', true);
@@ -631,7 +631,7 @@ export async function textAdventureWindowManagerUITest(testController) {
 
     // Step 3: Create window manager panel
     testController.log('Creating window manager panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowManagerPanel' });
 
     const managerPanelReady = await testController.pollForCondition(
       () => {
@@ -646,7 +646,7 @@ export async function textAdventureWindowManagerUITest(testController) {
 
     // Step 4: Create window panel
     testController.log('Creating window panel...');
-    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' }, 'tests');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'windowPanel' });
 
     const windowPanelReady = await testController.pollForCondition(
       () => {

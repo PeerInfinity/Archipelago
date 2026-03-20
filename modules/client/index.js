@@ -10,6 +10,7 @@ import messageHandler, {
 } from './core/messageHandler.js';
 import LocationManager from './core/locationManager.js';
 import stateManagerProxySingleton from '../stateManager/stateManagerProxySingleton.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -247,7 +248,7 @@ export function register(registrationApi) {
           unsubscribe();
           resolve(chatData);
         }
-      }, 'client-chat-waiter');
+      });
     });
   });
 
@@ -291,7 +292,7 @@ export function register(registrationApi) {
           unsubscribe();
           resolve(bounceData);
         }
-      }, 'client-ready-waiter');
+      });
     });
   });
 
@@ -462,7 +463,17 @@ export function getClientModuleDispatcher() {
 
 // ADDED: Export event bus for use by other files in this module
 export function getClientModuleEventBus() {
-  return moduleEventBus;
+  if (moduleEventBus) return moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'client'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'client'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'client'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
 }
 
 // Export setter for MainContentUI instance

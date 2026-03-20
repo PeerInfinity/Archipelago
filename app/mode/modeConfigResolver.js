@@ -61,13 +61,13 @@ export async function loadModesConfiguration(fetchJson, logger) {
 function getDefaultModesConfig() {
   return {
     default: {
-      moduleConfig: { path: './modules.json', enabled: true },
+      moduleConfig: { path: './module-configs/modules.json', enabled: true },
       rulesConfig: {
-        path: './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json',
+        autoResolve: true,
         enabled: true,
       },
-      layoutConfig: { path: './layout_presets.json', enabled: true },
-      userSettings: { path: './settings.json', enabled: true },
+      layoutConfig: { path: './layout-configs/layout_presets.json', enabled: true },
+      userSettings: { path: './settings/settings.json', enabled: true },
     },
   };
 }

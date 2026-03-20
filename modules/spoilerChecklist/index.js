@@ -1,6 +1,8 @@
 // frontend/modules/spoilerChecklist/index.js
 
 import { SpoilerChecklistUI } from './spoilerChecklistUI.js';
+import { CrossPlayerItemSync } from './crossPlayerItemSync.js';
+import eventBus from '../../app/core/eventBus.js';
 
 // Helper function for logging
 function log(level, message, ...data) {
@@ -10,6 +12,28 @@ function log(level, message, ...data) {
     const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
     consoleMethod(`[spoilerChecklistModule] ${message}`, ...data);
   }
+}
+
+// --- Module Scope Variables ---
+let _moduleEventBus = null;
+const crossPlayerItemSync = new CrossPlayerItemSync();
+
+export function getModuleEventBus() {
+  if (_moduleEventBus) return _moduleEventBus;
+  // Fallback wrapper before initialize() runs (e.g., GoldenLayout component creation)
+  return {
+    publish: (event, data) => eventBus.publish(event, data, 'spoilerChecklist'),
+    subscribe: (event, callback) => eventBus.subscribe(event, callback, 'spoilerChecklist'),
+    unsubscribe: (event, callback) => eventBus.unsubscribe(event, callback, 'spoilerChecklist'),
+    publishAs: (event, data, source) => eventBus.publish(event, data, source),
+    getAllPublishers: () => eventBus.getAllPublishers(),
+    getAllSubscribers: () => eventBus.getAllSubscribers(),
+    getAllPublishCounts: () => eventBus.getAllPublishCounts(),
+  };
+}
+
+export function getCrossPlayerItemSync() {
+  return crossPlayerItemSync;
 }
 
 // --- Module Info ---
@@ -35,6 +59,16 @@ export function register(registrationApi) {
   // Declare that this module sends 'user:locationCheck' via the dispatcher
   // (We use the locations module's dispatcher, so we don't need to register as sender)
 
+  // Register checklist-specific public functions.
+  // Sphere-inventory computation (computeCrossPlayerItems, grantItemsUpToSphere, etc.)
+  // is registered by the sphereState module.
+  registrationApi.registerPublicFunction(moduleInfo.name, 'getCrossPlayerItemSync', () => crossPlayerItemSync);
+  registrationApi.registerPublicFunction(moduleInfo.name, 'syncReceivedItems',
+    () => crossPlayerItemSync.sync());
+
+  // Register event publisher for sync completion
+  registrationApi.registerEventBusPublisher('spoilerChecklist:itemsSynced');
+
   log('info', '[spoilerChecklist Module] Registration complete.');
 }
 
@@ -47,7 +81,7 @@ export function register(registrationApi) {
 export async function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', `[${moduleId} Module] Initializing with priority ${priorityIndex}...`);
 
-  // No specific initialization needed beyond panel registration
+  _moduleEventBus = initializationApi.getEventBus();
 
   log('info', `[${moduleId} Module] Initialization complete.`);
 }

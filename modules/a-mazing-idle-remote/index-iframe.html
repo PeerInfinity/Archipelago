@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<!--
+  A-Mazing-Idle by ImGregHenry (https://imgreghenry.github.io/A-Mazing-Idle/)
+  Integrated with permission from the author.
+  This file adapts the game's HTML structure with Archipelago integration hooks.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <base href="https://imgreghenry.github.io/A-Mazing-Idle/">
+    <title>A-Mazing-Idle (Archipelago)</title>
+
+    <!-- Game dependencies (CDN) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/erosson/swarm-numberformat/v0.4.0/dist/swarm-numberformat.js"></script>
+    <script src="https://cdn.rawgit.com/MikeMcl/decimal.js/v7.0.1/decimal.js"></script>
+
+    <!-- Pre-bundle hooks: intercept globals before game initializes -->
+    <script>
+    (function() {
+        var LOG = '[PreBundle]';
+
+        // --- setInterval intercept: capture the 20s auto-save callback ---
+        var origSetInterval = window.setInterval;
+        window.setInterval = function(fn, delay) {
+            var id = origSetInterval.apply(window, arguments);
+            if (delay === 20000) {
+                console.log(LOG, 'Captured save timer (id=' + id + ', delay=' + delay + ')');
+                window.__saveTimerCallback = fn;
+                window.__saveTimerId = id;
+            }
+            return id;
+        };
+
+        // --- Map.prototype.set intercept: capture stats Map ---
+        // The game creates stats Maps in this order:
+        //   1. STATS_TO_UI_ID_MAP: stat key → DOM element ID (string values, module-level)
+        //   2. StatsManager.statsMap: stat key → 0 (initStatsMap, in constructor)
+        //   3. Deserialized statsMap: stat key → saved values (reloadFromLocalStorage)
+        // Step 3 REPLACES the Map from step 2 via Serializable.deserializeProperty.
+        // We always capture the latest numeric Map, so we get the final one from step 3.
+        //
+        // Note: Upgrade Map stores Upgrade objects (not numbers) as values, and
+        // deserialization updates upgradeLevel in-place rather than replacing the Map.
+        // We can't usefully capture it via Map.prototype.set.
+        var origMapSet = Map.prototype.set;
+        Map.prototype.set = function(key, value) {
+            // Capture BIOME_UPGRADE_UNLOCKS map: first entry is ("BIOME", 0)
+            if (key === 'BIOME' && value === 0 && this.size === 0) {
+                window.__biomeUpgradeUnlocks = this;
+                console.log(LOG, 'Captured BIOME_UPGRADE_UNLOCKS map');
+            }
+            if (key === 'TOTAL_MAZES_COMPLETED' && typeof value === 'number') {
+                // Always update ref — later Maps replace earlier ones (step 3 replaces step 2)
+                if (window.__statsMap !== this) {
+                    window.__statsMap = this;
+                    console.log(LOG, 'Captured stats Map (' + this.size + ' entries, value=' + value + ')');
+                }
+                // Fire a custom event on every stat update
+                window.dispatchEvent(new CustomEvent('amazingIdle:statsUpdated', {
+                    detail: { key: key, value: value }
+                }));
+            }
+            return origMapSet.call(this, key, value);
+        };
+
+        // --- localStorage.setItem intercept: notify on every game save ---
+        var origSetItem = Storage.prototype.setItem;
+        Storage.prototype.setItem = function(key, value) {
+            var result = origSetItem.call(this, key, value);
+            if (key === 'a-mazing-idle') {
+                window.dispatchEvent(new CustomEvent('amazingIdle:saveWritten', {
+                    detail: { length: value.length }
+                }));
+            }
+            return result;
+        };
+
+        // --- jQuery .css() intercept: capture tile/maze wall data and player movement ---
+        // The game renders tiles via individual .css('border-top', '2.5px solid #ea80fc')
+        // calls (2-arg, hyphenated). Walls use shorthand; open passages use separate
+        // -width and -style calls. Player/bot movement uses .css('background-color', ...).
+        if (typeof $ !== 'undefined' && $.fn) {
+            var origCss = $.fn.css;
+            var tileIdPattern = /^(-?\d+)_(-?\d+)$/;
+            var mazeRenderTimer = null;
+            var isNewRender = true;
+
+            // Map CSS property names → wall index (0=UP, 1=RIGHT, 2=DOWN, 3=LEFT)
+            // Covers both shorthand ('border-top') and split ('border-top-style') forms
+            var WALL_INDEX = {};
+            ['top', 'right', 'bottom', 'left'].forEach(function(side, idx) {
+                WALL_INDEX['border-' + side] = idx;
+                WALL_INDEX['border-' + side + '-style'] = idx;
+                // camelCase variants
+                var camel = side.charAt(0).toUpperCase() + side.slice(1);
+                WALL_INDEX['border' + camel] = idx;
+                WALL_INDEX['border' + camel + 'Style'] = idx;
+            });
+
+            // Wall values: 'wall' | 'open' | 'destructible' | null
+            window.__mazeData = {
+                grid: {},       // "x_y" → { x, y, walls: [up,right,down,left], visited, hasPlayer }
+                sizeX: 0,      // maze width (interior tiles only)
+                sizeY: 0,      // maze height (interior tiles only)
+                exitTile: null, // { x, y } of the exit boundary tile
+                generation: 0,  // incremented each new maze
+                toArray: function() {
+                    var arr = [];
+                    for (var y = 0; y < this.sizeY; y++) {
+                        arr[y] = [];
+                        for (var x = 0; x < this.sizeX; x++) {
+                            arr[y][x] = this.grid[x + '_' + y] || null;
+                        }
+                    }
+                    return arr;
+                }
+            };
+
+            function parseWall(cssValue) {
+                if (!cssValue || cssValue === '') return null;
+                var v = String(cssValue);
+                if (v.indexOf('solid') !== -1) return 'wall';
+                if (v.indexOf('hidden') !== -1) return 'open';
+                if (v.indexOf('dotted') !== -1) return 'destructible';
+                return null;
+            }
+
+            function onMazeRenderComplete() {
+                isNewRender = true;
+                window.__mazeData.generation++;
+
+                // Recalculate true interior size: border tiles have all-null walls,
+                // interior tiles have at least one non-null wall.
+                var grid = window.__mazeData.grid;
+                var maxX = 0, maxY = 0;
+                for (var key in grid) {
+                    var t = grid[key];
+                    if (t.x < 0 || t.y < 0) continue;
+                    var hasWalls = false;
+                    for (var w = 0; w < 4; w++) { if (t.walls[w] !== null) { hasWalls = true; break; } }
+                    if (hasWalls) {
+                        if (t.x + 1 > maxX) maxX = t.x + 1;
+                        if (t.y + 1 > maxY) maxY = t.y + 1;
+                    }
+                }
+                window.__mazeData.sizeX = maxX;
+                window.__mazeData.sizeY = maxY;
+
+                // Detect exit: interior edge tile with an 'open' wall facing outside
+                window.__mazeData.exitTile = null;
+                for (var key2 in grid) {
+                    var t2 = grid[key2];
+                    if (t2.x < 0 || t2.y < 0 || t2.x >= maxX || t2.y >= maxY) continue;
+                    if (t2.y === 0 && t2.walls[0] === 'open') { window.__mazeData.exitTile = { x: t2.x, y: t2.y, side: 'top' }; break; }
+                    if (t2.x === maxX - 1 && t2.walls[1] === 'open') { window.__mazeData.exitTile = { x: t2.x, y: t2.y, side: 'right' }; break; }
+                    if (t2.y === maxY - 1 && t2.walls[2] === 'open') { window.__mazeData.exitTile = { x: t2.x, y: t2.y, side: 'bottom' }; break; }
+                    if (t2.x === 0 && t2.walls[3] === 'open') { window.__mazeData.exitTile = { x: t2.x, y: t2.y, side: 'left' }; break; }
+                }
+                var tileCount = Object.keys(window.__mazeData.grid).length;
+                console.log(LOG, 'Maze captured (gen=' + window.__mazeData.generation +
+                    ', ' + window.__mazeData.sizeX + 'x' + window.__mazeData.sizeY +
+                    ', ' + tileCount + ' tiles' +
+                    (window.__mazeData.exitTile ?
+                        ', exit=' + window.__mazeData.exitTile.x + ',' + window.__mazeData.exitTile.y : '') +
+                    ')');
+                window.dispatchEvent(new CustomEvent('amazingIdle:mazeRendered', {
+                    detail: {
+                        generation: window.__mazeData.generation,
+                        sizeX: window.__mazeData.sizeX,
+                        sizeY: window.__mazeData.sizeY,
+                        tileCount: tileCount,
+                        exitTile: window.__mazeData.exitTile
+                    }
+                }));
+            }
+
+            $.fn.css = function() {
+                var result = origCss.apply(this, arguments);
+
+                // Only handle setter calls (2-arg or object form)
+                var prop, val, propsObj;
+                if (arguments.length >= 2 && typeof arguments[0] === 'string') {
+                    prop = arguments[0];
+                    val = arguments[1];
+                } else if (arguments.length === 1 && arguments[0] !== null &&
+                           typeof arguments[0] === 'object' && !Array.isArray(arguments[0])) {
+                    propsObj = arguments[0];
+                } else {
+                    return result;
+                }
+
+                // Quick filter for 2-arg form
+                if (prop) {
+                    var wallIdx = WALL_INDEX[prop];
+                    var isBgColor = (prop === 'background-color' || prop === 'backgroundColor');
+                    // Skip border-X-width (no wall info) and unrelated properties
+                    if (wallIdx === undefined && !isBgColor) return result;
+                    if (prop.indexOf('-width') !== -1 || prop.indexOf('Width') !== -1) return result;
+                }
+
+                for (var i = 0; i < this.length; i++) {
+                    var el = this[i];
+                    if (!el.id) continue;
+                    var match = tileIdPattern.exec(el.id);
+                    if (!match) continue;
+                    var x = parseInt(match[1]);
+                    var y = parseInt(match[2]);
+                    var key = match[0];
+
+                    // --- Process wall data ---
+                    if (prop && WALL_INDEX[prop] !== undefined) {
+                        if (isNewRender) {
+                            window.__mazeData.grid = {};
+                            window.__mazeData.sizeX = 0;
+                            window.__mazeData.sizeY = 0;
+                            window.__mazeData.exitTile = null;
+                            isNewRender = false;
+                        }
+                        var tile = window.__mazeData.grid[key];
+                        if (!tile) {
+                            tile = { x: x, y: y, walls: [null,null,null,null], visited: false, bgColor: '' };
+                            window.__mazeData.grid[key] = tile;
+                        }
+                        var wallType = parseWall(val);
+                        if (wallType !== null) {
+                            tile.walls[WALL_INDEX[prop]] = wallType;
+                        }
+                        if (mazeRenderTimer) clearTimeout(mazeRenderTimer);
+                        mazeRenderTimer = setTimeout(onMazeRenderComplete, 50);
+                    }
+
+                    // --- Process background color (player/bot movement) ---
+                    var bgVal = null;
+                    if (prop && (prop === 'background-color' || prop === 'backgroundColor')) {
+                        bgVal = val;
+                    } else if (propsObj) {
+                        bgVal = propsObj.backgroundColor || propsObj['background-color'];
+                    }
+                    if (bgVal !== null && bgVal !== undefined) {
+                        var tile2 = window.__mazeData.grid[key];
+                        if (tile2) {
+                            var bg = String(bgVal);
+                            var oldBg = tile2.bgColor || '';
+                            tile2.bgColor = bg;
+                            // Any non-empty/non-transparent bg = visited tile
+                            // Colors vary by biome (ColorManager), so detect generically
+                            if (bg && bg !== '' && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                                tile2.visited = true;
+                                // First color on a previously uncolored tile = player/bot arrived
+                                if (!oldBg || oldBg === '' || oldBg === 'transparent' || oldBg === 'rgba(0, 0, 0, 0)') {
+                                    window.dispatchEvent(new CustomEvent('amazingIdle:playerMoved', {
+                                        detail: { x: x, y: y, key: key, color: bg }
+                                    }));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            };
+
+            console.log(LOG, 'jQuery .css() hook installed for tile data capture');
+        } else {
+            console.warn(LOG, 'jQuery not available, skipping tile data hooks');
+        }
+
+        console.log(LOG, 'All hooks installed, waiting for bundle...');
+    })();
+    </script>
+
+    <!-- Game bundle (resolved via base href) -->
+    <script src="public/bundle-0.2.0.js"></script>
+
+    <!-- Game fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Russo+One">
+
+    <!-- Game CSS (resolved via base href) -->
+    <link rel="stylesheet" href="css/arrow.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+    <link rel="stylesheet" href="css/ui.css">
+
+    <style>
+        /* Connection status bar - matches textAdventure-remote pattern */
+        .connection-status {
+            background: #2d2d2d;
+            border-bottom: 1px solid #555;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #cecece;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+
+        /* Hide connection status when running in iframe panel (parent shows status) */
+        .iframe-embedded .connection-status {
+            display: none;
+        }
+
+        .connection-status.connected {
+            background: #0a3318;
+            border-bottom-color: #3c7a3c;
+            color: #c8f7c8;
+        }
+
+        .connection-status.error {
+            background: #5d2a2a;
+            border-bottom-color: #8c3c3c;
+            color: #f7c8c8;
+        }
+    </style>
+</head>
+<body id="body">
+    <!-- CONNECTION STATUS BAR -->
+    <div class="connection-status" id="connectionStatus">
+        Connecting to Archipelago...
+    </div>
+
+    <!-- DUMMY ID -->
+    <div id="noop"></div>
+
+    <!-- HEADER NAV BAR -->
+    <div class="nav">
+      <div class="nav-left">
+        <div class="upgradeRow" id="buyBiomeUpgrade"></div>
+        <div id="points">Points:</div>
+        <div>(<span id="averagePointsEarnedPerSecond"></span>&nbsp;pts/s )</div>
+      </div>
+      <div class="nav-right">
+        <button id="statsButton">
+          <div class="button_label">Stats</div>
+        </button>
+        <button id="settingsButton">
+          <div class="button_label">Settings</div>
+        </button>
+      </div>
+    </div>
+
+    <div id="root">
+      <!-- LEFT COLUMN -->
+      <div id="leftSplit">
+        <!-- MAZE COMPLETION REQUIREMENTS -->
+        <div id="mazeCompletionRequirementsPanel">
+          <span>Completion Requirements: </span>
+          <div id="mazeCompletionRequirementsTilesVisitedPanel">
+            <div id="mazeCompletionRequirementsTilesVisitedXMark" class="xMark"></div>
+            <div id="mazeCompletionRequirementsTilesVisitedCheckMark" class="checkMark"></div>
+            <span id="mazeCompletionRequirementsTilesVisitedCount"></span>
+            <span>&nbsp;tiles visited</span>
+          </div>
+          <div id="mazeCompletionRequirementsMazeKeysPanel">
+            <div id="mazeCompletionRequirementsMazeKeysXMark" class="xMark"></div>
+            <div id="mazeCompletionRequirementsMazeKeysCheckMark" class="checkMark"></div>
+            <span id="mazeCompletionRequirementsMazeKeysCount"></span>
+            <span>&nbsp;maze keys found</span>
+          </div>
+        </div>
+        <!-- ICON PANEL -->
+        <div id="iconPanel">
+          <div id="accumulatorPanel">
+            <div id="wallPhasingPanel">
+              <div id="wallPhasingIcon"><span id="wallPhasingIconTooltip" class="tooltip"></span></div>&nbsp;
+              <span id="wallPhasingCount"></span>
+            </div>
+            <div id="destructibleWallPhasingPanel">
+              <div id="destructibleWallPhasingIcon"><span id="destructibleWallPhasingIconTooltip" class="tooltip"></span></div>&nbsp;
+              <span id="destructibleWallPhasingCount"></span>
+            </div>
+          </div>
+          <div id="iconItemsPanel">
+            <span id="iconImgText">Items:</span>
+            <div id="iconFruitImg" class="iconImg"><span id="iconFruitImgTooltip" class="tooltip"></span></div>
+            <div id="iconBrainImg" class="iconImg"><span id="iconBrainImgTooltip" class="tooltip"></span></div>
+            <div id="iconGhostImg" class="iconImg"><span id="iconGhostImgTooltip" class="tooltip"></span></div>
+            <div id="iconKeyImg" class="iconImg"><span id="iconKeyImgTooltip" class="tooltip"></span></div>
+            <div id="iconUnlimitedSplitsImg" class="iconImg"><span id="iconUnlimitedSplitsImgTooltip" class="tooltip"></span></div>
+            <div id="iconBlackHoleImg" class="iconImg"><span id="iconBlackHoleImgTooltip" class="tooltip"></span></div>
+            <span id="iconTileMultiplierTimer" class="iconTimerText"></span>
+            <div id="iconTileMultiplierImg" class="iconImg"><span id="iconTileMultiplierImgTooltip" class="tooltip"></span></div>
+            <span id="iconSpeedUpTimer" class="iconTimerText"></span>
+            <div id="iconSpeedUpImg" class="iconImg"><span id="iconSpeedUpImgTooltip" class="tooltip"></span></div>
+            <div id="iconDeadEndImg" class="iconImg"><span id="iconDeadEndImgTooltip" class="tooltip"></span></div>
+            <div id="iconDestructibleWallImg" class="iconImg"><span id="iconDestructibleWallImgTooltip" class="tooltip"></span></div>
+          </div>
+        </div>
+        <!-- MAZE -->
+        <table id="maze">
+          <tbody></tbody>
+        </table>
+        <!-- ARROW KEYS -->
+        <div id="arrowKeysPanel">
+          <div id="arrowKeysPanelTopRow">
+            <button id="arrowTopRowFillerButton" class="arrowButton"><div class="arrow_button">&#8593;</div></button>
+            <button id="arrowKeyUpButton" class="arrowButton"><div class="arrow_button">&#8593;</div></button>
+          </div>
+          <div id="arrowKeysPanelBottomRow">
+            <button id="arrowKeyLeftButton" class="arrowButton"><div class="arrow_button">&#8592;</div></button>
+            <button id="arrowKeyDownButton" class="arrowButton"><div class="arrow_button">&#8595;</div></button>
+            <button id="arrowKeyRightButton" class="arrowButton"><div class="arrow_button">&#8594;</div></button>
+          </div>
+        </div>
+        <!-- TOGGLES -->
+        <div id="togglesPanel">
+          <h3>Toggles</h3>
+          <div id="toggleAutoMovePanel">
+            <input id="toggleAutoMoveCheckbox" type="checkbox" checked="true" />
+            <label for="toggleAutoMoveCheckbox">Bot Auto Move</label>
+          </div>
+          <div id="toggleSplitsPanel">
+            <input id="toggleSplitsCheckbox" type="checkbox" checked="true" />
+            <label for="toggleSplitsCheckbox">Bot Splitting</label>
+          </div>
+          <div id="toggleMergingPanel">
+            <input id="toggleMergingCheckbox" type="checkbox" checked="true" />
+            <label for="toggleMergingCheckbox">Bot Merging</label>
+          </div>
+          <div id="toggleSmartMergePanel">
+            <input id="toggleSmartMergeCheckbox" type="checkbox" checked="true" />
+            <label for="toggleSmartMergeCheckbox">Bot Smart Merge</label>
+          </div>
+          <div id="toggleMarkDeadendsPanel">
+            <input id="toggleMarkDeadendsCheckbox" type="checkbox" checked="true" />
+            <label for="toggleMarkDeadendsCheckbox">Remember Deadends</label>
+          </div>
+          <div id="toggleDestructibleWallPhasingPanel">
+            <input id="toggleDestructibleWallPhasingCheckbox" type="checkbox" checked="true" />
+            <label for="toggleDestructibleWallPhasingCheckbox">Destructible Wall Phasing</label>
+          </div>
+          <div id="toggleExtraMazeEntrancePanel">
+            <input id="toggleExtraMazeEntranceCheckbox" type="checkbox" checked="true" />
+            <label for="toggleExtraMazeEntranceCheckbox">Extra Maze Entrance</label>
+          </div>
+          <div id="toggleBotFrustrationPanel">
+            <input id="toggleBotFrustrationCheckbox" type="checkbox" checked="true" />
+            <label for="toggleBotFrustrationCheckbox">Bot Frustration</label>
+          </div>
+          <div id="togglePlayerWallPhasingPanel">
+            <input id="togglePlayerWallPhasingCheckbox" type="checkbox" checked="true" />
+            <label for="togglePlayerWallPhasingCheckbox">Player Wall Phasing</label>
+          </div>
+        </div>
+        <!-- EXPERIMENTS PANEL -->
+        <div id="experimentsPanel">
+          <h3>Experiments</h3>
+          <button id="experimentNewMaze"><div class="button_label">New Maze</div></button>
+          <div>
+            <input id="experimentFreeModeCheckbox" type="checkbox" />
+            <label for="experimentFreeModeCheckbox">Free Mode</label>
+          </div>
+          <div>
+            <input id="experimentSellModeCheckbox" type="checkbox" />
+            <label for="experimentSellModeCheckbox">Sell Mode</label>
+          </div>
+          <div>
+            <input id="experimentUnlockAllUpgradesCheckbox" type="checkbox" />
+            <label for="experimentUnlockAllUpgradesCheckbox">Unlock All Upgrades <br>(except upgrades with pre-requisites)</label>
+          </div>
+          <div>
+            <input id="experimentUnlockAllItemsCheckbox" type="checkbox" />
+            <label for="experimentUnlockAllItemsCheckbox">Unlock All Items</label>
+          </div>
+          <br>
+          <div>
+            <label>Maze Grid Type</label>
+            <select id="experimentMazeGridTypeSelector"></select>
+          </div>
+          <div>
+            <label>Maze Grid Size/Tier</label>
+            <select id="experimentMazeGridSizeSelector"></select>
+          </div>
+          <div>
+            <label>Maze Algorithm</label>
+            <select id="experimentMazeGridAlgorithmSelector"></select>
+          </div>
+          <br>
+          <span>Tile Count: <span id="experimentTileCount"></span></span>
+        </div>
+      </div>
+
+      <!-- UPGRADES: MIDDLE COLUMN -->
+      <div id="rightSplit">
+        <div id="leftUpgrades">
+          <!-- MAZE UPGRADES -->
+          <h2 id="mazeUpgradeHeader">Maze Upgrades!</h2>
+          <div id="mazeUpgradePanel">
+            <div class="upgradeRow" id="buyExperimentsPanelUpgrade"></div>
+            <div class="upgradeRow" id="buyPointsPerVisit"></div>
+            <div class="upgradeRow" id="buyPointsPerRevisit"></div>
+            <div class="upgradeRow" id="buyMazeCompletionBonusUpgrade"></div>
+            <div class="upgradeRow" id="buyMazeEntranceSpawnChanceUpgrade"></div>
+          </div>
+
+          <!-- BOT UPGRADES -->
+          <h2 id="botUpgradeHeader">Bot Upgrades!</h2>
+          <div id="botUpgradePanel">
+            <div class="upgradeRow" id="buyTogglePanelUpgrade"></div>
+            <div class="upgradeRow" id="buyBotAutoMove"></div>
+            <div class="upgradeRow" id="buyBotMoveFaster"></div>
+            <div class="upgradeRow" id="buyBotAvoidRevisitLastPosition"></div>
+            <div class="upgradeRow" id="buyBotPrioritizeUnvisited"></div>
+            <div class="upgradeRow" id="buyBotAutoExitMaze"></div>
+            <div class="upgradeRow" id="buyBotRememberDeadEnds"></div>
+            <div class="upgradeRow" id="buyBotSplitDirections"></div>
+            <div class="upgradeRow" id="buyBotRememberLastPathwayUpgrade"></div>
+            <div class="upgradeRow" id="buySplitBotAutoMerge"></div>
+            <div class="upgradeRow" id="buyBotSmartMergeUpgrade"></div>
+            <div class="upgradeRow" id="buyBotFrustrationUpgrade"></div>
+            <div class="upgradeRow" id="buyDestructibleWallPhasingUpgrade"></div>
+            <div class="upgradeRow" id="buyDestructibleWallPhasingTotalUpgrade"></div>
+            <div class="upgradeRow" id="buyDestructibleWallPhasingFrequencyUpgrade"></div>
+            <div class="upgradeRow" id="buyBotLuckyGuess"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div id="rightUpgrades">
+          <!-- ITEM UPGRADES -->
+          <h2 id="itemUpgradeHeader">Item Upgrades!</h2>
+          <div id="itemUpgradePanel">
+            <div class="upgradeRow" id="buyFruitPickupPointsUpgrade"></div>
+            <div class="upgradeRow" id="buyFruitSpawnRateUpgrade"></div>
+            <div class="upgradeRow" id="buyBrainTileDistanceUpgrade"></div>
+            <div class="upgradeRow" id="buyBrainSpawnRateUpgrade"></div>
+            <div class="upgradeRow" id="buyDeadEndItemSpawnRateUpgrade"></div>
+            <div class="upgradeRow" id="buySpeedUpDurationUpgrade"></div>
+            <div class="upgradeRow" id="buySpeedUpSpawnRateUpgrade"></div>
+            <div class="upgradeRow" id="buySpeedUpMultiplierStrengthUpgrade"></div>
+            <div class="upgradeRow" id="buySpeedUpStackingUpgrade"></div>
+            <div class="upgradeRow" id="buyTileMultiplierDurationUpgrade"></div>
+            <div class="upgradeRow" id="buyTileMultiplierSpawnRateUpgrade"></div>
+            <div class="upgradeRow" id="buyTileMultiplierStrengthUpgrade"></div>
+            <div class="upgradeRow" id="buyTileMultiplierStackingUpgrade"></div>
+          </div>
+
+          <!-- MOVEMENT UPGRADES -->
+          <h2 id="movementUpgradeHeader">Manual Movement!</h2>
+          <div id="movementUpgradePanel">
+            <div class="upgradeRow" id="buyPlayerWallPhasingUpgrade"></div>
+            <div class="upgradeRow" id="buyPlayerWallPhasingFrequencyUpgrade"></div>
+            <div class="upgradeRow" id="buyPlayerWallPhasingTotal"></div>
+            <div class="upgradeRow" id="buyPlayerMoveIndependently"></div>
+            <div class="upgradeRow" id="buyPlayerTeleportToBot"></div>
+            <div class="upgradeRow" id="buyBotTeleportToPlayer"></div>
+            <div class="upgradeRow" id="buyClickToMoveUpgrade"></div>
+            <div class="upgradeRow" id="buyClickToMoveTileDistanceUpgrade"></div>
+            <div class="upgradeRow" id="buyClickToMoveSpeedMultiplierUpgrade"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEV PANEL -->
+      <div id="devSplit">
+        <div id="devPanel">
+          <div>
+            <label>UpgradeType</label>
+            <select id="devUpgradeSelector"></select>
+          </div>
+          <button id="devShowUpgradeDataButton"><div class="button_label">Show Upgrade Costs</div></button>
+          <button id="devShowMazeConfigsButton"><div class="button_label">Biome Maze Configs</div></button>
+          <button id="devShowMazeGridTileCountsButton"><div class="button_label">Maze Tile Counts</div></button>
+          <button id="devCSVMazeGridTileCountsButton"><div class="button_label">CSV Maze Tile Counts</div></button>
+          <button id="devResetToBaseBiomeUpgrades"><div class="button_label">Reset Biome Upgrades</div></button>
+          <button id="devClearPointsButton"><div class="button_label">Reset Points</div></button>
+          <button id="devClearDevResultTableButton"><div class="button_label">Clear Table</div></button>
+          <button id="devStartSpeedRunButton"><div class="button_label">Speed Run!</div></button>
+          <input id="devSpeedRunAutoPurchase" type="checkbox" checked="true" />
+          <label for="devSpeedRunAutoPurchase">Speed Run Auto Purchase</label>
+          <input id="devShowSingleMazeData" type="checkbox" checked="true" />
+          <label for="devShowSingleMazeData">Show Single Maze Data</label>
+          <span>Speed Run Iterations:</span>
+          <select id="devNumSpeedRunIterationsSelector"></select>
+          <span>Speed Run Points Limit:</span>
+          <select id="devSpeedRunPointsLimitSelector"></select>
+          <span>Max Maze Iterations:</span>
+          <select id="devSpeedRunMaxMazesSelector"></select>
+        </div>
+        <div id="devSpeedRunAvgResult"></div>
+        <table id="devResultTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-content">
+        <h3>Saving</h3>
+        <button id="openControlsModalButton"><div class="button_label">Controls</div></button>
+        <button id="helpButton"><div class="button_label">HELP!</div></button>
+        <button id="changeLogButton"><div class="button_label">Change Log</div></button>
+        <button id="manualSaveGameButton"><div class="button_label">Save Game</div></button>
+        <br><br>
+        <button id="copySaveJson"><div class="button_label">Export Save JSON (Copy)</div></button>
+        <button id="importSaveOpenModalButton"><div class="button_label">Import Save JSON</div></button>
+        <br><br>
+        <button id="newGame"><div class="button_label">New Game</div></button>
+        <button id="clearAllStats"><div class="button_label">Reset All Stats</div></button>
+      </div>
+    </div>
+
+    <!-- STATS MODAL -->
+    <div id="statsModal" class="modal">
+      <div class="modal-content">
+        <h1>Maze Stats!</h1>
+        <input type="checkbox" id="statsTripometerDisplayCheckbox" />
+        <label for="statsTripometerDisplayCheckbox">Display tripomoter (temporary stats)</label>
+        <br><br>
+        <button id="resetTripometerStatsButton"><div class="button_label">Reset Tripometer</div></button>
+        <div class="statsContent">
+          <div class="statsContentPanel">
+            <h2>Points earned</h2>
+            <div>Total: <span id="statsTotalPointsEarned"></span></div>
+            <div>Total Spent: <span id="statsTotalPointsSpent"></span></div>
+            <br>
+            <div>Visited Tiles: <span id="statsTotalPointsEarnedFromVisitedTiles"></span></div>
+            <div>Revisited Tiles: <span id="statsTotalPointsEarnedFromRevisitedTiles"></span></div>
+            <div>Maze Completion Bonus: <span id="statsTotalPointsEarnedFromMazeCompletions"></span></div>
+            <div>Fruit Item Pickups: <span id="statsTotalPointsEarnedFromFruits"></span></div>
+            <h2>Maze Stats</h2>
+            <div>Total Time Played: <span id="statsTotalTimePlayed"></span></div>
+            <div>Total Time in Current Biome: <span id="statsTotalTimePlayedInCurrentBiome"></span></div>
+            <div>Total Unique Tiles Visited: <span id="statsTotalTilesVisited"></span></div>
+            <div>Total Tiles Revisited: <span id="statsTotalTilesRevisited"></span></div>
+            <div>Total Mazes Completed: <span id="statsTotalMazesCompleted"></span></div>
+            <div>Total Destructible Walls Destroyed: <span id="statsTotalDestructibleWallsDestroyed"></span></div>
+          </div>
+          <div class="statsContentPanel">
+            <h2>Bot Stats</h2>
+            <div>Total Bot Splits: <span id="statsTotalNumberOfBotSplits"></span></div>
+            <div>Total Bot Merges: <span id="statsTotalNumberOfBotMerges"></span></div>
+            <div>Total Dead Ends Marked: <span id="statsTotalDeadEndsMarked"></span></div>
+            <div>Total Lucky Guesses: <span id="statsTotalLuckyGuesses"></span></div>
+            <div>Total Remember Last Pathways: <span id="statsTotalRememberLastPathways"></span></div>
+            <h2>Item Pickup Stats</h2>
+            <div>Fruits: <span id="statsTotalFruitItemsPickedUp"></span></div>
+            <div>Brains: <span id="statsTotalBrainItemsPickedUp"></span></div>
+            <div>Brain Maze Solves: <span id="statsTotalBrainItemMazeSolves"></span></div>
+            <div>Black Holes: <span id="statsTotalBlackHoleItemsPickedUp"></span></div>
+            <div>Dead Ends: <span id="statsTotalDeadEndItemsPickedUp"></span></div>
+            <div>Dead Ends Marked By Item: <span id="statsTotalDeadEndsMarkedByItemPickup"></span></div>
+            <div>Maze Keys: <span id="statsTotalKeyItemsPickedUp"></span></div>
+            <br>
+            <div>Tile Multipliers: <span id="statsTileMultiplierItemsPickedUp"></span></div>
+            <div>Tile Multiplier Points: <span id="statsTileMultiplierItemPointsEarned"></span></div>
+            <div>Multiplier Duration: <span id="statsTileMultiplierItemDuration"></span></div>
+            <div>Speed Ups Used: <span id="statsSpeedUpItemsPickedUp"></span></div>
+            <div>Speed Up Duration: <span id="statsSpeedUpItemDuration"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFLINE POINTS MODAL -->
+    <div id="offlineModal" class="modal">
+      <div class="modal-content">
+        <h2>Welcome Back to A-Mazing-Idle!</h2>
+        <p>You were offline for: <span id="offlineModalDuration"></span> seconds</p>
+        <p>Offline earning time: <span id="offlineModalMaxOfflineTime"></span> seconds</p>
+        <br>
+        <p>Offline points rate: <span id="offlineModalPointsPerSecond"></span> pts/second</p>
+        <b><p>Total Points Earned: <span id="offlineModalPointsEarned"></span> pts</p></b>
+      </div>
+    </div>
+
+    <!-- HELP MODAL -->
+    <div id="helpModal" class="modal">
+      <div class="modal-content">
+        <h2>Welcome to A Mazing Idle!</h2>
+        <p>The objective of this game is to earn more points by completing mazes, picking up fruits, and unlocking new biomes!</p>
+      </div>
+    </div>
+
+    <!-- NEW GAME CONFIRMATION -->
+    <div id="newGameConfirmationModal" class="modal">
+      <div class="modal-content">
+        <h2>New Game</h2>
+        <p>Are you sure you want to start a new game?</p>
+        <br><br>
+        <button id="confirmNewGameButton"><div class="button_label">NEW GAME!</div></button>
+        <br><br>
+        <button id="cancelNewGameButton"><div class="button_label">Cancel</div></button>
+      </div>
+    </div>
+
+    <!-- SAVE VERSION MODAL -->
+    <div id="saveVersionWarningModal" class="modal">
+      <div class="modal-content">
+        <h2>WARNING: Your saved game is from an older version!</h2>
+        <p>Game content and save data may not work as expected.</p>
+      </div>
+    </div>
+
+    <!-- CONTROLS MODAL -->
+    <div id="controlsModal" class="modal">
+      <div class="modal-content">
+        <h2>Game Controls</h2>
+        <p>Move: Arrow Keys or WASD<br>
+        Teleport bot to player: Q<br>
+        Teleport player to bot: E<br>
+        Close menu: Escape</p>
+      </div>
+    </div>
+
+    <!-- CHANGE LOG MODAL -->
+    <div id="changeLogModal" class="modal">
+      <div class="modal-content">
+        <h2>Change Log: <span id="changeLogCurrentVersion"></span></h2>
+        <p id="changeLogText"></p>
+      </div>
+    </div>
+
+    <!-- SAVE TOAST -->
+    <div id="saveToastModal">
+      <div>Game Saved!</div>
+    </div>
+
+    <!-- IMPORT SAVE MODAL -->
+    <div id="importSaveModal" class="modal">
+      <div class="modal-content">
+        <h2>Import Save JSON!</h2>
+        <p>WARNING: This is non-reversible and will delete your current save. Recommend you save again first!</p>
+        <textarea id="importSaveTextArea"></textarea>
+        <div id="importSaveButtonRowDiv">
+          <button id="importSaveModalButton"><div class="button_label">Import Save (No Going Back!)</div></button>
+          <p id="importSaveErrorLabel"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Archipelago integration client (dynamic import to bypass base href resolution) -->
+    <script type="module">
+        // <base href> redirects all relative URL resolution to the game's GitHub origin.
+        // new URL() ignores <base> and resolves against the explicit base argument,
+        // so using location.href gives us the actual document URL regardless of deploy path.
+        const clientUrl = new URL('./mazeGameClient.js', location.href).href;
+        import(clientUrl);
+    </script>
+</body>
+</html>

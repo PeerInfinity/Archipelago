@@ -24,31 +24,32 @@
  * Output: Boolean, number, or structured data based on function purpose
  */
 
-// Import ALTTP helper functions for progressive item handling
-import { has as alttpHas, count as alttpCount } from '../alttp/alttpLogic.js';
+// Import generic helper functions for progressive item handling
+import { helperFunctions as genericHelpers } from '../generic/genericLogic.js';
+const { has: genericHas, count: genericCount } = genericHelpers;
 
 /**
  * Helper function to check if player has an item.
- * Uses ALTTP's has() function which handles progressive items via progressionMapping.
+ * Uses generic has() function which handles progressive items via progressionMapping.
  * @param {Object} snapshot - State snapshot
  * @param {Object} staticData - Static data with progressionMapping
  * @param {string} itemName - Name of the item
  * @returns {boolean} True if player has the item
  */
 function hasItem(snapshot, staticData, itemName) {
-  return alttpHas(snapshot, staticData, itemName);
+  return genericHas(snapshot, staticData, itemName);
 }
 
 /**
  * Helper function to get item count.
- * Uses ALTTP's count() function which handles progressive items via progressionMapping.
+ * Uses generic count() function which handles progressive items via progressionMapping.
  * @param {Object} snapshot - State snapshot
  * @param {Object} staticData - Static data with progressionMapping
  * @param {string} itemName - Name of the item
  * @returns {number} Count of the item
  */
 function getItemCount(snapshot, staticData, itemName) {
-  return alttpCount(snapshot, staticData, itemName);
+  return genericCount(snapshot, staticData, itemName);
 }
 
 // Export generic has/count functions for use by snapshot interface

@@ -1,4 +1,5 @@
 import eventBus from './eventBus.js';
+import { deepMerge } from '../../utils/settingsMerger.js';
 
 
 // Helper function for logging with fallback
@@ -11,11 +12,12 @@ function log(level, message, ...data) {
   }
 }
 
-// const SETTINGS_STORAGE_KEY = 'appSettings'; // No longer using localStorage directly
+// const SETTINGS_STORAGE_KEY = 'appSettings'; // Not currently used; mode system has its own keys
 
 class SettingsManager {
   constructor() {
     this.settings = null;
+    this._defaultSettings = null; // Stores the initial/default settings for merge base
     this.isLoading = true; // Will be set to false once settings are loaded or provided
     this.loadPromise = null; // Initialize to null, created by ensureLoaded if needed
     // log('info', 'SettingsManager initializing...');
@@ -23,11 +25,12 @@ class SettingsManager {
 
   setInitialSettings(initialSettings) {
     if (initialSettings && typeof initialSettings === 'object') {
-      log('info', 
+      log('info',
         '[SettingsManager] Setting initial settings directly:',
         initialSettings
       );
       this.settings = JSON.parse(JSON.stringify(initialSettings)); // Deep copy
+      this._defaultSettings = JSON.parse(JSON.stringify(initialSettings)); // Store defaults for merging
       this.isLoading = false;
       // If there was a loadPromise, it's now irrelevant or should be handled.
       // For simplicity, ensureLoaded will check isLoading and this.settings.
@@ -43,19 +46,20 @@ class SettingsManager {
 
   async _loadSettingsFromServer() {
     try {
-      const response = await fetch('/frontend/settings.json');
+      const response = await fetch('./settings/settings.json');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       this.settings = await response.json();
-      log('info', 
-        'Settings loaded successfully from /frontend/settings.json:',
+      this._defaultSettings = JSON.parse(JSON.stringify(this.settings)); // Store defaults for merging
+      log('info',
+        'Settings loaded successfully from ./settings/settings.json:',
         this.settings
       );
       // Add validation against schema maybe?
     } catch (error) {
-      log('error', 
-        'Error loading settings from /frontend/settings.json:',
+      log('error',
+        'Error loading settings from ./settings/settings.json:',
         error
       );
       // Fallback to some default or handle error state
@@ -210,15 +214,21 @@ class SettingsManager {
     return false; // Value was the same, no update
   }
 
-  // updateSettings might need rework depending on how OptionsUI provides data
-  // For now, assume it provides the full structure like before, but make it async.
+  // Merges user-provided settings on top of defaults, ensuring new default keys
+  // are never lost when the user applies partial or edited settings.
   async updateSettings(newSettings) {
     await this.ensureLoaded();
     if (typeof newSettings !== 'object' || newSettings === null) {
       log('error', 'updateSettings received invalid input:', newSettings);
       return;
     }
-    this.settings = JSON.parse(JSON.stringify(newSettings)); // Deep copy/overwrite
+    // Merge user settings on top of defaults so that any keys the user omitted
+    // fall back to their default values rather than being deleted.
+    if (this._defaultSettings) {
+      this.settings = deepMerge(this._defaultSettings, newSettings);
+    } else {
+      this.settings = JSON.parse(JSON.stringify(newSettings));
+    }
     log('info', 'Settings object updated:', this.settings);
     eventBus.publish('settings:changed', {
       key: '*', // Indicate general change
@@ -297,6 +307,25 @@ class SettingsManager {
   async getGeneralSettings() {
     await this.ensureLoaded();
     return this.settings?.generalSettings ?? {};
+  }
+
+  /**
+   * Resets in-memory settings to the defaults loaded from settings.json.
+   * Publishes 'settings:changed' event.
+   * @returns {Promise<void>}
+   */
+  async resetToDefaults() {
+    if (!this._defaultSettings) {
+      log('warn', 'No default settings available for reset.');
+      return;
+    }
+    this.settings = JSON.parse(JSON.stringify(this._defaultSettings));
+    log('info', 'Settings reset to defaults.');
+    eventBus.publish('settings:changed', {
+      key: '*',
+      value: this.settings,
+      settings: await this.getSettings(),
+    }, 'core');
   }
 }
 

@@ -28,6 +28,7 @@ export class DisplaySettingsManager {
       showName: true,
       showLabel1: false,
       showLabel2: false,
+      useSubstitutedNames: true,
 
       // From UI controls (now also persisted)
       showReachable: true,
@@ -69,6 +70,7 @@ export class DisplaySettingsManager {
       this.settings.showName = await this.settingsManager.getSetting('moduleSettings.regions.showName', true);
       this.settings.showLabel1 = await this.settingsManager.getSetting('moduleSettings.regions.showLabel1', false);
       this.settings.showLabel2 = await this.settingsManager.getSetting('moduleSettings.regions.showLabel2', false);
+      this.settings.useSubstitutedNames = await this.settingsManager.getSetting('generalSettings.useSubstitutedNames', true);
 
       // Load UI control settings (now persisted)
       this.settings.showAll = await this.settingsManager.getSetting('moduleSettings.regions.showAll', false);
@@ -216,7 +218,8 @@ export class DisplaySettingsManager {
     const elements = [];
 
     if (this.settings.showName && (regionData.name || regionData)) {
-      const name = typeof regionData === 'string' ? regionData : regionData.name;
+      const rawName = typeof regionData === 'string' ? regionData : regionData.name;
+      const name = (this.settings.useSubstitutedNames && regionData.displayName) ? regionData.displayName : rawName;
       elements.push({ type: 'name', text: name });
     }
 
@@ -244,8 +247,8 @@ export class DisplaySettingsManager {
   async handleSettingsChanged(event) {
     const { key, value } = event;
 
-    // Check if this is a region-related setting
-    if (key === '*' || key.startsWith('colorblindMode.regions') || key.startsWith('moduleSettings.regions')) {
+    // Check if this is a region-related setting or the substituted names toggle
+    if (key === '*' || key.startsWith('colorblindMode.regions') || key.startsWith('moduleSettings.regions') || key.startsWith('generalSettings.useSubstitutedNames')) {
       logger.info(`External setting changed: ${key}`);
 
       // Reload all persisted settings to stay in sync

@@ -60,8 +60,9 @@ class MobileLayoutManager {
    * Initialize the mobile layout manager
    * @param {HTMLElement} container - The container element for mobile layout
    * @param {Object} layoutPresets - Layout presets configuration
+   * @param {string} activeLayoutId - Which layout preset to use (e.g. "default", "metamath")
    */
-  initialize(container, layoutPresets = null) {
+  initialize(container, layoutPresets = null, activeLayoutId = 'default') {
     if (this.isInitialized) {
       log('warn', 'MobileLayoutManager already initialized');
       return;
@@ -69,9 +70,11 @@ class MobileLayoutManager {
 
     this.container = container;
     this.layoutPresets = layoutPresets;
+    this.activeLayoutId = activeLayoutId;
     this.setupMobileLayout();
     this.attachEventListeners();
     this.isInitialized = true;
+    eventBus.publish('panelManager:initialized', {}, 'mobileLayoutManager');
 
     log('info', 'MobileLayoutManager initialized');
 
@@ -96,9 +99,11 @@ class MobileLayoutManager {
     this.columnPanels = []; // Reset column panels
     this.columnActivePanels = []; // Reset active panels
 
-    // Try to get panel order from default preset in layout_presets.json
-    if (this.layoutPresets && this.layoutPresets.default) {
-      const defaultLayout = this.layoutPresets.default;
+    // Get panel order from the active layout preset in layout-configs/layout_presets.json
+    const layoutId = this.activeLayoutId || 'default';
+    const activeLayout = this.layoutPresets && (this.layoutPresets[layoutId] || this.layoutPresets.default);
+    if (activeLayout) {
+      const defaultLayout = activeLayout;
       if (defaultLayout.root && defaultLayout.root.content) {
         // Determine number of columns from the layout
         this.columnCount = defaultLayout.root.content.length;
@@ -461,6 +466,10 @@ class MobileLayoutManager {
     if (panel.element) {
       panel.element.style.display = 'block';
 
+      // Emit 'show' on the mock container element so panels using
+      // container.on('show', ...) (e.g. proofGraph) get notified
+      panel.element.dispatchEvent(new CustomEvent('show'));
+
       // Notify the panel it's being shown (some panels might need to refresh)
       if (panel.instance) {
         if (typeof panel.instance.onShow === 'function') {
@@ -518,9 +527,7 @@ class MobileLayoutManager {
         width: this.contentArea.clientWidth,
         height: this.contentArea.clientHeight,
         on: (event, handler) => {
-          if (event === 'destroy') {
-            panelContainer.addEventListener('destroy', handler);
-          }
+          panelContainer.addEventListener(event, handler);
         },
         emit: (event) => {
           panelContainer.dispatchEvent(new CustomEvent(event));

@@ -184,7 +184,7 @@ export const testLogic = {
         );
 
         // Activate the Tests panel when auto-starting
-        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' }, 'tests');
+        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' });
 
         setTimeout(() => {
           // Add timeout to auto-start to prevent infinite waiting
@@ -437,21 +437,21 @@ export const testLogic = {
 
     if (eventBusInstance) {
       const testsToPublish = await this.getTests();
-      eventBusInstance.publish('tests:listUpdated', { tests: testsToPublish }, 'tests');
+      eventBusInstance.publish('tests:listUpdated', { tests: testsToPublish });
       if (autoStartChanged) {
         eventBusInstance.publish('tests:autoStartConfigChanged', {
           autoStartEnabled: TestState.shouldAutoStartTests(),
-        }, 'tests');
+        });
       }
       if (hideDisabledChanged) {
         eventBusInstance.publish('tests:hideDisabledConfigChanged', {
           hideDisabledEnabled: TestState.shouldHideDisabledTests(),
-        }, 'tests');
+        });
       }
       if (randomizeOrderChanged) {
         eventBusInstance.publish('tests:randomizeOrderConfigChanged', {
           randomizeOrderEnabled: TestState.shouldRandomizeOrder(),
-        }, 'tests');
+        });
       }
     }
 
@@ -474,7 +474,7 @@ export const testLogic = {
         autoStartEnabled: TestState.shouldAutoStartTests(),
         testCount: currentTests.length,
         enabledTestCount: currentTests.filter((t) => t.enabled).length,
-      }, 'tests');
+      });
     }
 
     // Check if we should auto-start tests now that loaded state is fully applied
@@ -486,7 +486,7 @@ export const testLogic = {
 
       // Activate the Tests panel when auto-starting
       if (eventBusInstance) {
-        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' }, 'tests');
+        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' });
       }
 
       // Use setTimeout to ensure this happens after the current call stack completes
@@ -543,7 +543,7 @@ export const testLogic = {
     if (eventBusInstance) {
       eventBusInstance.publish('tests:autoStartConfigChanged', {
         autoStartEnabled: shouldAutoStart,
-      }, 'tests');
+      });
     }
   },
   shouldHideDisabledTests() {
@@ -554,7 +554,7 @@ export const testLogic = {
     if (eventBusInstance) {
       eventBusInstance.publish('tests:hideDisabledConfigChanged', {
         hideDisabledEnabled: shouldHide,
-      }, 'tests');
+      });
     }
   },
 
@@ -567,7 +567,7 @@ export const testLogic = {
     if (eventBusInstance) {
       eventBusInstance.publish('tests:randomizeOrderConfigChanged', {
         randomizeOrderEnabled: shouldRandomize,
-      }, 'tests');
+      });
     }
   },
 
@@ -577,7 +577,7 @@ export const testLogic = {
     if (eventBusInstance)
       eventBusInstance.publish('tests:listUpdated', {
         tests: await this.getTests(),
-      }, 'tests');
+      });
   },
 
   async updateTestOrder(testId, direction) {
@@ -586,7 +586,7 @@ export const testLogic = {
       if (eventBusInstance)
         eventBusInstance.publish('tests:listUpdated', {
           tests: await this.getTests(),
-        }, 'tests');
+        });
     }
   },
 
@@ -609,7 +609,7 @@ export const testLogic = {
         testId,
         status,
         eventWaitingFor,
-      }, 'tests');
+      });
   },
 
   _addTestCondition(testId, description, status) {
@@ -632,7 +632,7 @@ export const testLogic = {
         testId,
         description,
         status,
-      }, 'tests');
+      });
   },
 
   _emitLogMessage(testId, message, type) {
@@ -653,7 +653,7 @@ export const testLogic = {
     
     TestState.addTestLog(testId, message, type || 'info');
     if (eventBusInstance)
-      eventBusInstance.publish('tests:logAdded', { testId, message, type }, 'tests');
+      eventBusInstance.publish('tests:logAdded', { testId, message, type });
   },
 
   _emitTestCompleted(testId, overallStatus) {
@@ -699,7 +699,7 @@ export const testLogic = {
         name: test ? test.name : testId,
         overallStatus: finalStatus ? 'passed' : 'failed',
         conditions: test ? test.conditions : [],
-      }, 'tests');
+      });
       log(
         'info',
         `[_emitTestCompleted] test:completed event published successfully`
@@ -821,6 +821,9 @@ export const testLogic = {
   },
 
   async runAllEnabledTests() {
+    // Set started flag immediately for Playwright to detect
+    window.__playwrightTestsStarted__ = true;
+
     await initializeTestDiscovery();
 
     const tests = TestState.getTestsForExecution();
@@ -840,8 +843,8 @@ export const testLogic = {
       if (eventBusInstance) {
         eventBusInstance.publish('tests:allRunsStarted', {
           testCount: 0,
-        }, 'tests');
-        eventBusInstance.publish('tests:allRunsCompleted', { summary }, 'tests');
+        });
+        eventBusInstance.publish('tests:allRunsCompleted', { summary });
       }
 
       // Set Playwright completion flags even when no tests run
@@ -857,7 +860,7 @@ export const testLogic = {
     if (eventBusInstance)
       eventBusInstance.publish('tests:allRunsStarted', {
         testCount: enabledTests.length,
-      }, 'tests');
+      });
 
     for (const test of enabledTests) {
       log('info', `[TestLogic] Starting test: ${test.name} (${test.id})`);
@@ -873,7 +876,7 @@ export const testLogic = {
             resolve();
           }
         };
-        eventBusInstance.subscribe('tests:completed', specificEventListener, 'tests');
+        eventBusInstance.subscribe('tests:completed', specificEventListener);
       });
 
       // Start the test
@@ -911,7 +914,7 @@ export const testLogic = {
     log('info', '[TestLogic] All enabled tests completed:', summary);
 
     if (eventBusInstance)
-      eventBusInstance.publish('tests:allRunsCompleted', { summary }, 'tests');
+      eventBusInstance.publish('tests:allRunsCompleted', { summary });
 
     // Set Playwright completion flags for automated testing
     this._setPlaywrightCompletionFlags(summary, finalTests);
@@ -930,7 +933,7 @@ export const testLogic = {
       eventBusInstance.publish('tests:allTestsChanged', {
         enabled,
         testCount: tests.length,
-      }, 'tests');
+      });
     }
   },
 

@@ -615,6 +615,12 @@ select:hover {
   opacity: 0.8;
 }
 
+.exit-item.undiscovered,
+.location-item.undiscovered,
+.entrance-item.undiscovered {
+  opacity: 0.5;
+}
+
 #regions-panel {
   flex-grow: 1;
   overflow-y: auto;
@@ -643,6 +649,22 @@ select:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.region-header:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.region-expand-indicator {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: auto;
+  padding-left: 8px;
+  user-select: none;
 }
 
 .region-details {
@@ -909,6 +931,30 @@ select {
   50% {
     background-color: rgba(255, 255, 0, 0.3);
   }
+}
+
+/* Path-used badges for entrance/exit highlighting */
+.path-used-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 193, 7, 0.25);
+  border: 2px solid #FFC107;
+}
+
+.path-used-badge img {
+  width: 14px;
+  height: 14px;
+}
+
+.entrance-wrapper.path-used,
+.exit-wrapper.path-used {
+  border-color: #FFC107 !important;
+  background-color: rgba(255, 193, 7, 0.12) !important;
 }
 
 .region-controls {

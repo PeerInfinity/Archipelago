@@ -1,8 +1,7 @@
 // UI component for text adventure module
 import { TextAdventureParser } from './textAdventureParser.js';
 import { TextAdventureLogic } from './textAdventureLogic.js';
-import { moduleDispatcher } from './index.js';
-import eventBus from '../../app/core/eventBus.js';
+import { moduleDispatcher, getModuleEventBus } from './index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -19,10 +18,12 @@ export class TextAdventureUI {
     constructor(container, componentState) {
         this.container = container;
         this.componentState = componentState;
-        
+
+        Object.defineProperty(this, 'eventBus', { get: () => getModuleEventBus(), configurable: true });
+
         // Initialize components
         this.parser = new TextAdventureParser();
-        this.logic = new TextAdventureLogic(eventBus, moduleDispatcher);
+        this.logic = new TextAdventureLogic(this.eventBus, moduleDispatcher);
         
         // UI elements
         this.rootElement = null;
@@ -122,32 +123,27 @@ export class TextAdventureUI {
     }
 
     setupEventSubscriptions() {
-        if (eventBus) {
+        if (this.eventBus) {
             // Subscribe to message events
-            const messageUnsubscribe = eventBus.subscribe('textAdventure:messageAdded', (data) => {
+            const messageUnsubscribe = this.eventBus.subscribe('textAdventure:messageAdded', (data) => {
                 this.displayMessage(data.message);
-            }, 'textAdventureUI');
+            });
             this.unsubscribeHandles.push(messageUnsubscribe);
 
             // Subscribe to custom data loaded event
-            const customDataUnsubscribe = eventBus.subscribe('textAdventure:customDataLoaded', () => {
+            const customDataUnsubscribe = this.eventBus.subscribe('textAdventure:customDataLoaded', () => {
                 this.updateDisplay();
-            }, 'textAdventureUI');
+            });
             this.unsubscribeHandles.push(customDataUnsubscribe);
 
             // Subscribe to history cleared event
-            const historyClearedUnsubscribe = eventBus.subscribe('textAdventure:historyCleared', () => {
+            const historyClearedUnsubscribe = this.eventBus.subscribe('textAdventure:historyCleared', () => {
                 this.clearDisplay();
-            }, 'textAdventureUI');
+            });
             this.unsubscribeHandles.push(historyClearedUnsubscribe);
 
-            // Subscribe to rules loaded event to show initial message
-            const rulesUnsubscribe = eventBus.subscribe('stateManager:rulesLoaded', () => {
-                // Clear and show initial message, but let logic handle region display
-                this.clearDisplay();
-                this.displayMessage('Rules loaded! Your adventure begins...');
-            }, 'textAdventureUI');
-            this.unsubscribeHandles.push(rulesUnsubscribe);
+            // Note: Rules loaded message and region display are now handled by TextAdventureLogic
+            // This ensures proper message ordering (Rules loaded -> Region info)
         }
     }
 
@@ -228,7 +224,7 @@ Load a rules file to begin your adventure.`;
                             unsubscribeFunc = null;
                         }
                     };
-                    unsubscribeFunc = eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureUI-oneTime');
+                    unsubscribeFunc = this.eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate);
                 } else if (checkResult.shouldRedisplayRegion) {
                     // For unsuccessful checks (already checked, inaccessible), display immediately
                     this.logic.displayCurrentRegion();

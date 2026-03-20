@@ -1,5 +1,8 @@
 // eventCoordinator.js
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
+import settingsManager from '../../app/core/settingsManager.js';
+import { centralRegistry } from '../../app/core/centralRegistry.js';
+import { getCostDataManager } from './index.js';
 
 const logger = createUniversalLogger('loopUI:EventCoordinator');
 
@@ -20,6 +23,8 @@ export class EventCoordinator {
     this.eventBus = eventBus;
     this.loopUI = loopUI; // Reference to LoopUI instance for callbacks
     this.eventSubscriptions = [];
+    this._stateManagerReady = false;
+    this._savedDiscoverySettings = null; // Settings saved before loop mode override
 
     logger.debug('EventCoordinator constructed');
   }
@@ -41,8 +46,7 @@ export class EventCoordinator {
     const subscribe = (eventName, handler) => {
       const unsubscribe = this.eventBus.subscribe(
         eventName,
-        handler.bind(this),
-        'loops'
+        handler.bind(this)
       );
       this.eventSubscriptions.push(unsubscribe);
     };
@@ -53,9 +57,7 @@ export class EventCoordinator {
     // XP changes
     subscribe('loopState:xpChanged', this._handleXPChanged);
 
-    // Pause state changes
-    subscribe('loopState:paused', this._handlePaused);
-    subscribe('loopState:resumed', this._handleResumed);
+    // Pause state changes (single authoritative event)
     subscribe('loopState:pauseStateChanged', this._handlePauseStateChanged);
 
     // Queue updates
@@ -76,14 +78,20 @@ export class EventCoordinator {
     // Queue completed
     subscribe('loopState:queueCompleted', this._handleQueueCompleted);
 
-    // State manager ready
+    // State manager events
     subscribe('stateManager:ready', this._handleStateManagerReady);
+    subscribe('stateManager:snapshotUpdated', this._handleSnapshotUpdated);
+    subscribe('stateManager:rulesLoaded', this._handleRulesLoaded);
 
     // Discovery events
     subscribe('discovery:locationDiscovered', this._handleDiscoveryChanged);
     subscribe('discovery:exitDiscovered', this._handleDiscoveryChanged);
     subscribe('discovery:regionDiscovered', this._handleDiscoveryChanged);
     subscribe('discovery:changed', this._handleDiscoveryChanged);
+
+    // Discovery mode and settings changes
+    subscribe('discovery:modeChanged', this._handleDiscoveryModeChanged);
+    subscribe('discovery:settingsChanged', this._handleDiscoverySettingsChanged);
 
     // Loop reset
     subscribe('loopState:loopReset', this._handleLoopReset);
@@ -96,6 +104,9 @@ export class EventCoordinator {
 
     // Loop mode toggle
     subscribe('loops:setLoopMode', this._handleSetLoopMode);
+
+    // PlayerState path updates (keeps loops panel in sync with regions panel)
+    subscribe('playerState:pathUpdated', this._handlePathUpdated);
 
     logger.info(`Subscribed to ${this.eventSubscriptions.length} events`);
   }
@@ -134,32 +145,12 @@ export class EventCoordinator {
   }
 
   /**
-   * Handle paused event
-   * @private
-   */
-  _handlePaused(data) {
-    if (this.loopUI.isLoopModeActive) {
-      this.loopUI._updatePauseButtonState(true);
-    }
-  }
-
-  /**
-   * Handle resumed event
-   * @private
-   */
-  _handleResumed(data) {
-    if (this.loopUI.isLoopModeActive) {
-      this.loopUI._updatePauseButtonState(false);
-    }
-  }
-
-  /**
    * Handle pause state changed event
    * @private
    */
   _handlePauseStateChanged(data) {
     if (this.loopUI.isLoopModeActive) {
-      this.loopUI._updatePauseButtonState(data.isPaused);
+      this.loopUI._updatePauseButtonState(data.isPaused, data.processingState);
     }
   }
 
@@ -180,13 +171,11 @@ export class EventCoordinator {
    */
   _handleAutoRestartChanged(data) {
     if (!this.loopUI.isLoopModeActive) return;
-    const autoRestartBtn = this.loopUI.rootElement?.querySelector(
+    const autoRestartCheckbox = this.loopUI.rootElement?.querySelector(
       '#loop-ui-toggle-auto-restart'
     );
-    if (autoRestartBtn) {
-      autoRestartBtn.textContent = data.autoRestart
-        ? 'Restart when queue complete'
-        : 'Pause when queue complete';
+    if (autoRestartCheckbox) {
+      autoRestartCheckbox.checked = data.autoRestart;
     }
   }
 
@@ -245,10 +234,14 @@ export class EventCoordinator {
    * @private
    */
   _handleQueueCompleted(data) {
-    if (!this.loopUI.isLoopModeActive) return;
-    const actionContainer = this.loopUI.rootElement.querySelector('#current-action-container');
-    if (actionContainer) {
-      actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
+    // Status line is now updated by _handlePauseStateChanged via the
+    // loopState:pauseStateChanged event published after queue completion.
+
+    // Auto-remove completed actions when the loop ends
+    const loopState = this.loopUI.getLoopState ? this.loopUI.getLoopState() : null;
+    if (loopState?.autoRemoveCompleted) {
+      loopState.removeCompletedActions();
+      this.loopUI.renderLoopPanel();
     }
   }
 
@@ -257,11 +250,45 @@ export class EventCoordinator {
    * @private
    */
   _handleStateManagerReady(data) {
-    logger.info('Received stateManager:ready - static data should be available');
+    this._stateManagerReady = true;
     if (this.loopUI.isLoopModeActive) {
+      this._enableDiscoveryForLoopMode();
+      // If no regions are expanded yet (e.g. auto-entered loop mode before data loaded),
+      // expand the first region now that the path has real region names
+      if (this.loopUI.expansionState.expandedRegions.size === 0) {
+        const actionQueue = this.loopUI.getActionQueue();
+        const firstRegion = actionQueue.length > 0 ? actionQueue[0].sourceRegion : null;
+        if (firstRegion) {
+          this.loopUI.expansionState.setRegionExpanded(firstRegion, true);
+        }
+      }
       logger.info('Re-rendering loop panel with full static data');
       this.loopUI.renderLoopPanel();
     }
+  }
+
+  /**
+   * Handle snapshot updated event — re-render to reflect accessibility changes
+   * @private
+   */
+  _handleSnapshotUpdated(data) {
+    if (this.loopUI.isLoopModeActive) {
+      // Auto-remove completed actions if enabled
+      const loopState = this.loopUI.getLoopState ? this.loopUI.getLoopState() : null;
+      if (loopState?.autoRemoveCompleted) {
+        loopState.removeCompletedActions();
+      }
+      this.loopUI.renderLoopPanel();
+    }
+  }
+
+  /**
+   * Handle rules loaded event — reset UI for new game/seed
+   * @private
+   */
+  _handleRulesLoaded(data) {
+    logger.info('Received stateManager:rulesLoaded - resetting loops UI');
+    this.loopUI.renderLoopPanel();
   }
 
   /**
@@ -270,7 +297,50 @@ export class EventCoordinator {
    */
   _handleDiscoveryChanged(data) {
     if (this.loopUI.isLoopModeActive) {
+      const loopState = this.loopUI.getLoopState ? this.loopUI.getLoopState() : null;
+      if (loopState?.autoRemoveCompleted) {
+        // Disable repeat-explore for any regions that are now fully explored
+        loopState.disableRepeatForExploredRegions();
+        // Remove completed actions from the queue
+        loopState.removeCompletedActions();
+      }
       this.loopUI.renderLoopPanel();
+    }
+  }
+
+  /**
+   * Handle discovery mode changed event
+   * @private
+   */
+  _handleDiscoveryModeChanged(data) {
+    if (data && typeof data.active === 'boolean') {
+      this.loopUI.isDiscoveryModeActive = data.active;
+      logger.info(`Discovery mode changed: ${this.loopUI.isDiscoveryModeActive}`);
+      if (this.loopUI.isLoopModeActive) {
+        this.loopUI.renderLoopPanel();
+      }
+    }
+  }
+
+  /**
+   * Handle discovery settings changed event
+   * @private
+   */
+  _handleDiscoverySettingsChanged(data) {
+    if (data && data.settings) {
+      this.loopUI.discoverySettings.undiscoveredDisplay = data.settings.undiscoveredDisplay ?? 'hidden';
+      this.loopUI.discoverySettings.clickDiscoversLocation = data.settings.clickDiscoversLocation ?? true;
+      this.loopUI.discoverySettings.clickDiscoversRegion = data.settings.clickDiscoversRegion ?? false;
+      this.loopUI.discoverySettings.disableLocationCheckUI = data.settings.disableLocationCheckUI ?? false;
+      this.loopUI.discoverySettings.showUndiscoveredDetails = data.settings.showUndiscoveredDetails ?? false;
+      this.loopUI.discoverySettings.showUndiscoveredRegionNames = data.settings.showUndiscoveredRegionNames ?? false;
+      if (typeof data.settings.enableDiscoveryMode === 'boolean') {
+        this.loopUI.isDiscoveryModeActive = data.settings.enableDiscoveryMode;
+      }
+      logger.info('Discovery settings updated');
+      if (this.loopUI.isLoopModeActive) {
+        this.loopUI.renderLoopPanel();
+      }
     }
   }
 
@@ -280,6 +350,12 @@ export class EventCoordinator {
    */
   _handleLoopReset(data) {
     if (this.loopUI.isLoopModeActive) {
+      // Auto-remove completed actions when the loop resets
+      const loopState = this.loopUI.getLoopState ? this.loopUI.getLoopState() : null;
+      if (loopState?.autoRemoveCompleted) {
+        loopState.removeCompletedActions();
+      }
+
       this.loopUI._handleLoopReset(data);
       if (data.mana) {
         this.loopUI._updateManaDisplay(data.mana.current, data.mana.max);
@@ -305,13 +381,11 @@ export class EventCoordinator {
     this.loopUI._updatePauseButtonState(loopState.isPaused);
 
     // Update auto-restart button
-    const autoRestartBtn = this.loopUI.rootElement.querySelector(
+    const autoRestartCheckbox = this.loopUI.rootElement.querySelector(
       '#loop-ui-toggle-auto-restart'
     );
-    if (autoRestartBtn) {
-      autoRestartBtn.textContent = loopState.autoRestartQueue
-        ? 'Restart when queue complete'
-        : 'Pause when queue complete';
+    if (autoRestartCheckbox) {
+      autoRestartCheckbox.checked = loopState.autoRestartQueue;
     }
 
     // Update speed slider
@@ -335,6 +409,29 @@ export class EventCoordinator {
   }
 
   /**
+   * Handle playerState path updated event.
+   * Re-renders the loops panel when the path changes, and triggers
+   * auto-resume when in the waiting state and new actions are appended.
+   * @private
+   */
+  _handlePathUpdated(data) {
+    if (!this.loopUI.isLoopModeActive) return;
+
+    // Check for auto-resume before re-rendering
+    const loopState = this.loopUI.getLoopState?.();
+    if (loopState && loopState.getProcessingState() === 'waiting') {
+      const queue = loopState.getActionQueue();
+      if (queue.length > loopState.currentActionIndex) {
+        loopState.resumeProcessing();
+        return; // resumeProcessing will trigger its own UI updates
+      }
+    }
+
+    logger.info('Received playerState:pathUpdated, re-rendering loop panel');
+    this.loopUI.renderLoopPanel();
+  }
+
+  /**
    * Handle set loop mode event
    * @private
    */
@@ -348,7 +445,37 @@ export class EventCoordinator {
     switch (action) {
       case 'enable':
         if (!this.loopUI.isLoopModeActive) {
-          this.loopUI.toggleLoopMode();
+          // Check if cost data needs to be generated first
+          const costDataManager = getCostDataManager();
+          if (costDataManager && !costDataManager.isLoaded()) {
+            // Cost data not loaded — check if sphere log is already available
+            // (sphereState:dataLoaded may have already fired before this handler ran)
+            const generateCosts = async () => {
+              logger.info('Auto-generating costs before entering loop mode');
+              await this.loopUI._handleGenerateCostsInline();
+              // _handleGenerateCostsInline enables loop mode on success
+            };
+
+            const getSphereLogFn = centralRegistry.getPublicFunction('loopsCostDebugger', 'getSphereLog')
+              || (() => null);
+            const sphereLog = getSphereLogFn();
+
+            if (sphereLog && sphereLog.length > 0) {
+              // Sphere data already available — generate costs immediately
+              logger.info('Sphere data already available — generating costs now');
+              generateCosts();
+            } else {
+              // Wait for sphere log to become available
+              logger.info('No cost data loaded — waiting for sphereState:dataLoaded to auto-generate costs');
+              const unsubscribe = this.eventBus.subscribe('sphereState:dataLoaded', async () => {
+                unsubscribe();
+                logger.info('sphereState:dataLoaded received — auto-generating costs');
+                await generateCosts();
+              });
+            }
+          } else {
+            this.loopUI.toggleLoopMode();
+          }
           // Activate the loops panel when entering loop mode
           if (panelManagerInstance) {
             try {
@@ -381,6 +508,67 @@ export class EventCoordinator {
         }
         break;
     }
+
+    // Apply or restore discovery settings based on loop mode state
+    if (this.loopUI.isLoopModeActive && this._stateManagerReady) {
+      this._enableDiscoveryForLoopMode();
+    } else if (!this.loopUI.isLoopModeActive && this._savedDiscoverySettings) {
+      this._restoreDiscoverySettings();
+    }
+  }
+
+  /**
+   * Enable discovery mode with loop-appropriate settings
+   * Saves the current settings first so they can be restored on exit
+   * @private
+   */
+  async _enableDiscoveryForLoopMode() {
+    const prefix = 'moduleSettings.discovery.';
+
+    // Save current settings before overwriting
+    this._savedDiscoverySettings = {
+      enableDiscoveryMode: await settingsManager.getSetting(`${prefix}enableDiscoveryMode`, false),
+      regionDiscoveryTrigger: await settingsManager.getSetting(`${prefix}regionDiscoveryTrigger`, 'onEnter'),
+      autoDiscoverLocations: await settingsManager.getSetting(`${prefix}autoDiscoverLocations`, false),
+      autoDiscoverExits: await settingsManager.getSetting(`${prefix}autoDiscoverExits`, false),
+      undiscoveredDisplay: await settingsManager.getSetting(`${prefix}undiscoveredDisplay`, 'hidden'),
+      showUndiscoveredRegionNames: await settingsManager.getSetting(`${prefix}showUndiscoveredRegionNames`, false),
+      clickDiscoversRegion: await settingsManager.getSetting(`${prefix}clickDiscoversRegion`, false),
+      disableLocationCheckUI: await settingsManager.getSetting(`${prefix}disableLocationCheckUI`, false),
+    };
+    logger.info('Saved pre-loop discovery settings');
+
+    // Apply loop mode settings
+    await settingsManager.updateSetting(`${prefix}enableDiscoveryMode`, true);
+    await settingsManager.updateSetting(`${prefix}regionDiscoveryTrigger`, 'onExitDiscovered');
+    await settingsManager.updateSetting(`${prefix}autoDiscoverLocations`, false);
+    await settingsManager.updateSetting(`${prefix}autoDiscoverExits`, false);
+    await settingsManager.updateSetting(`${prefix}undiscoveredDisplay`, 'placeholder');
+    await settingsManager.updateSetting(`${prefix}showUndiscoveredRegionNames`, false);
+    await settingsManager.updateSetting(`${prefix}clickDiscoversRegion`, false);
+    await settingsManager.updateSetting(`${prefix}disableLocationCheckUI`, true);
+    logger.info('Discovery mode enabled with loop settings');
+  }
+
+  /**
+   * Restore discovery settings to what they were before loop mode was entered
+   * @private
+   */
+  async _restoreDiscoverySettings() {
+    const prefix = 'moduleSettings.discovery.';
+    const saved = this._savedDiscoverySettings;
+
+    await settingsManager.updateSetting(`${prefix}enableDiscoveryMode`, saved.enableDiscoveryMode);
+    await settingsManager.updateSetting(`${prefix}regionDiscoveryTrigger`, saved.regionDiscoveryTrigger);
+    await settingsManager.updateSetting(`${prefix}autoDiscoverLocations`, saved.autoDiscoverLocations);
+    await settingsManager.updateSetting(`${prefix}autoDiscoverExits`, saved.autoDiscoverExits);
+    await settingsManager.updateSetting(`${prefix}undiscoveredDisplay`, saved.undiscoveredDisplay);
+    await settingsManager.updateSetting(`${prefix}showUndiscoveredRegionNames`, saved.showUndiscoveredRegionNames);
+    await settingsManager.updateSetting(`${prefix}clickDiscoversRegion`, saved.clickDiscoversRegion);
+    await settingsManager.updateSetting(`${prefix}disableLocationCheckUI`, saved.disableLocationCheckUI);
+
+    this._savedDiscoverySettings = null;
+    logger.info('Discovery settings restored to pre-loop values');
   }
 }
 
