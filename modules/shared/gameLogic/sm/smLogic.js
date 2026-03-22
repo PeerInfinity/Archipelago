@@ -2175,7 +2175,14 @@ export const helperFunctions = {
   canGetBackFromRidleyZone,
   canReachCacatacAlleyFromBotowoon,
   wnot,
-  knowsSnailClip
+  knowsSnailClip,
+  knowsAccessSpringBallWithSpringBallBombJumps,
+  knowsAccessSpringBallWithSpringBallJump,
+  knowsAccessSpringBallWithXRayClimb,
+  knowsCrystalFlashClip,
+  knowsSuitlessCrystalFlashClip,
+  canCrystalFlash,
+  canCrystalFlashClip
 };
 
 /**
@@ -2611,10 +2618,10 @@ export function canUseCrocRoomToChargeSpeed(snapshot, staticData) {
  * @returns {Object} SMBool
  */
 export function canAccessShaktoolFromPantsRoom(snapshot, staticData) {
-  // Full implementation matching Python graph_helpers.py:823-843
-  // Two main paths: Puyo Clip (Ice-based) or Grapple Block path
+  // Full implementation matching Python graph_helpers.py:823-844
+  // Four main paths: Puyo Clip, Grapple Block, XRay Climb, Crystal Flash Clip
   return wor(snapshot, staticData,
-    // Puyo clip path: Ice + (Gravity+PuyoClip OR Gravity+XRay+PuyoClipXRay OR SuitlessPuyoClip)
+    // Path 1: Puyo clip - Ice + (Gravity+PuyoClip OR Gravity+XRay+PuyoClipXRay OR SuitlessPuyoClip)
     wand(snapshot, staticData,
       haveItem(snapshot, staticData, 'Ice'),
       wor(snapshot, staticData,
@@ -2630,7 +2637,7 @@ export function canAccessShaktoolFromPantsRoom(snapshot, staticData) {
         knowsSuitlessPuyoClip(snapshot, staticData)
       )
     ),
-    // Grapple block path: Grapple + various methods to get through
+    // Path 2: Grapple block - Grapple + various methods to get through
     wand(snapshot, staticData,
       haveItem(snapshot, staticData, 'Grapple'),
       wor(snapshot, staticData,
@@ -2652,8 +2659,16 @@ export function canAccessShaktoolFromPantsRoom(snapshot, staticData) {
               haveItem(snapshot, staticData, 'Bomb'),
               wor(snapshot, staticData,
                 knowsAccessSpringBallWithBombJumps(snapshot, staticData),
-                canInfiniteBombJump(snapshot, staticData)
+                wand(snapshot, staticData,
+                  haveItem(snapshot, staticData, 'SpringBall'),
+                  knowsAccessSpringBallWithSpringBallBombJumps(snapshot, staticData)
+                )
               )
+            ),
+            // SpringBall jump path
+            wand(snapshot, staticData,
+              haveItem(snapshot, staticData, 'SpringBall'),
+              knowsAccessSpringBallWithSpringBallJump(snapshot, staticData)
             )
           )
         ),
@@ -2663,7 +2678,14 @@ export function canAccessShaktoolFromPantsRoom(snapshot, staticData) {
           knowsAccessSpringBallWithFlatley(snapshot, staticData)
         )
       )
-    )
+    ),
+    // Path 3: XRay climb
+    wand(snapshot, staticData,
+      haveItem(snapshot, staticData, 'XRayScope'),
+      knowsAccessSpringBallWithXRayClimb(snapshot, staticData)
+    ),
+    // Path 4: Crystal flash clip
+    canCrystalFlashClip(snapshot, staticData)
   );
 }
 
@@ -3245,4 +3267,99 @@ export function knowsAccessSpringBallWithFlatley(snapshot, staticData) {
   }
   // Default: disabled (not in Regular preset)
   return { bool: false, difficulty: 0 };
+}
+
+export function knowsAccessSpringBallWithSpringBallBombJumps(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithSpringBallBombJumps technique
+  // Requires SpringBall + Bomb (bounce on sand and bomb jump through grapple hole)
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithSpringBallBombJumps' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithSpringBallBombJumps;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: enabled in Regular preset with difficulty 10
+  return { bool: true, difficulty: 10 };
+}
+
+export function knowsAccessSpringBallWithSpringBallJump(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithSpringBallJump technique
+  // Requires SpringBall (spring ball jump through grapple hole)
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithSpringBallJump' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithSpringBallJump;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsAccessSpringBallWithXRayClimb(snapshot, staticData) {
+  // Check exported knows settings for AccessSpringBallWithXRayClimb technique
+  // Requires XRayScope (inbounds X-Ray climbing past grapple hole)
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('AccessSpringBallWithXRayClimb' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.AccessSpringBallWithXRayClimb;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsCrystalFlashClip(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('CrystalFlashClip' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.CrystalFlashClip;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function knowsSuitlessCrystalFlashClip(snapshot, staticData) {
+  const playerId = getPlayerId(snapshot, staticData);
+  const knowsSettings = staticData?.world?.[playerId]?.knows || {};
+
+  if ('SuitlessCrystalFlashClip' in knowsSettings) {
+    const [enabled, difficulty] = knowsSettings.SuitlessCrystalFlashClip;
+    return { bool: enabled, difficulty: enabled ? difficulty : 0 };
+  }
+  // Default: disabled (not in Regular preset)
+  return { bool: false, difficulty: 0 };
+}
+
+export function canCrystalFlash(snapshot, staticData) {
+  // Simplified: requires PowerBombs, Missiles, Supers, and enough ammo
+  // Python: canUsePowerBombs + itemCountOk('Missile', 2) + itemCountOk('Super', 2) + itemCountOk('PowerBomb', 3)
+  return wand(snapshot, staticData,
+    canUsePowerBombs(snapshot, staticData),
+    itemCountOk(snapshot, staticData, 'Missile', 2),
+    itemCountOk(snapshot, staticData, 'Super', 2),
+    itemCountOk(snapshot, staticData, 'PowerBomb', 3));
+}
+
+export function canCrystalFlashClip(snapshot, staticData) {
+  // Python graph_helpers.py:303-310
+  // canCrystalFlash + (Gravity+Bombs+knowsCrystalFlashClip OR knowsSuitlessCrystalFlashClip+4PBs)
+  return wand(snapshot, staticData,
+    canCrystalFlash(snapshot, staticData),
+    wor(snapshot, staticData,
+      wand(snapshot, staticData,
+        haveItem(snapshot, staticData, 'Gravity'),
+        canUseBombs(snapshot, staticData),
+        knowsCrystalFlashClip(snapshot, staticData)
+      ),
+      wand(snapshot, staticData,
+        knowsSuitlessCrystalFlashClip(snapshot, staticData),
+        itemCountOk(snapshot, staticData, 'PowerBomb', 4)
+      )
+    )
+  );
 }

@@ -3,7 +3,7 @@
 import MainContentUI from './ui/mainContentUI.js';
 import storage from './core/storage.js';
 import connection from './core/connection.js';
-import { loadMappingsFromStorage } from './utils/idMapping.js';
+import { loadMappingsFromStorage, getServerLocationId } from './utils/idMapping.js';
 import messageHandler, {
   handleUserLocationCheckForClient,
   handleUserItemCheckForClient,
@@ -325,6 +325,25 @@ export function register(registrationApi) {
       isConnected: coreConnection ? coreConnection.isConnected() : false,
       isHandshakeComplete: coreMessageHandler.getClientSlot() !== null && coreMessageHandler.getClientSlot() !== undefined,
     };
+  });
+
+  // Register public function for batch-sending location checks to the server
+  // Used by the timer after batchCheckLocations to notify the server
+  registrationApi.registerPublicFunction(moduleInfo.name, 'sendBatchLocationChecks', async (locationNames) => {
+    if (!coreMessageHandler || !coreConnection?.isConnected()) return;
+    const serverIds = [];
+    for (const name of locationNames) {
+      let serverId = null;
+      if (coreMessageHandler.serverLocationNameToId?.has(name)) {
+        serverId = coreMessageHandler.serverLocationNameToId.get(name);
+      } else {
+        serverId = await getServerLocationId(name, stateManagerProxySingleton);
+      }
+      if (serverId !== null) serverIds.push(serverId);
+    }
+    if (serverIds.length > 0) {
+      coreMessageHandler._internalSendLocationChecks(serverIds);
+    }
   });
 }
 

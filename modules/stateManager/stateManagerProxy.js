@@ -1660,6 +1660,15 @@ export class StateManagerProxy {
     );
   }
 
+  async batchCheckLocations(locationNames, addItems = true) {
+    return this._sendCommand(
+      'batchCheckLocations',
+      { locationNames, addItems },
+      true,
+      30000 // 30 second timeout for batch operations
+    );
+  }
+
   async uncheckLocation(locationName) {
     return this._sendCommand(
       StateManagerProxy.COMMANDS.UNCHECK_LOCATION,

@@ -1,0 +1,3010 @@
+{
+  "schema_version": 3,
+  "game_name": "Mega Man 3 WorldGen",
+  "game_directory": "mm3_worldgen",
+  "archipelago_version": "0.6.7",
+  "generation_seed": 1,
+  "seed_name": "14089154938208861744",
+  "player_names": {
+    "1": "Player1"
+  },
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "exits": [
+          {
+            "name": "To Needle Man Stage",
+            "connected_region": "Needle Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Needle Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Magnet Man Stage",
+            "connected_region": "Magnet Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Magnet Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Gemini Man Stage",
+            "connected_region": "Gemini Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Gemini Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Hard Man Stage",
+            "connected_region": "Hard Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Hard Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Top Man Stage",
+            "connected_region": "Top Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Top Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Snake Man Stage",
+            "connected_region": "Snake Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Snake Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Spark Man Stage",
+            "connected_region": "Spark Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Spark Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Shadow Man Stage",
+            "connected_region": "Shadow Man Stage",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Shadow Man Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Doc Robot (Needle) - Air",
+            "connected_region": "Doc Robot (Needle) - Air",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_rush_vertical",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Doc Robot (Needle) Access Codes"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "To Doc Robot (Gemini) - Flash",
+            "connected_region": "Doc Robot (Gemini) - Flash",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Doc Robot (Gemini) Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Doc Robot (Shadow) - Wood",
+            "connected_region": "Doc Robot (Shadow) - Wood",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Doc Robot (Shadow) Access Codes"
+              }
+            }
+          },
+          {
+            "name": "To Doc Robot (Spark) - Metal",
+            "connected_region": "Doc Robot (Spark) - Metal",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_rush_vertical",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "HasAny",
+                  "args": {
+                    "items": [
+                      "Gemini Laser",
+                      "Shadow Blade"
+                    ]
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Doc Robot (Spark) Access Codes"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "To Break Man",
+            "connected_region": "Break Man",
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Doc Robot (Gemini) - Completed",
+                  "Doc Robot (Needle) - Completed",
+                  "Doc Robot (Shadow) - Completed",
+                  "Doc Robot (Spark) - Completed"
+                ]
+              }
+            }
+          }
+        ],
+        "locations": []
+      },
+      "Needle Man Stage": {
+        "name": "Needle Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Needle Man - Defeated",
+            "id": 1,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Needle Cannon - Received",
+            "id": 257,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Shadow Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Rush Jet - Received",
+            "id": 273,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Needle Man Stage - E-Tank",
+            "id": 513,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Gemini Laser",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Magnet Man Stage": {
+        "name": "Magnet Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Magnet Man - Defeated",
+            "id": 2,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Needle Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Magnet Missile - Received",
+            "id": 258,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Needle) Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Gemini Man Stage": {
+        "name": "Gemini Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Gemini Man - Defeated",
+            "id": 3,
+            "access_rule": {
+              "rule": "has_any_rush",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Laser - Received",
+            "id": 259,
+            "access_rule": {
+              "rule": "has_any_rush",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Man Stage - 1-Up 1",
+            "id": 522,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Man Stage - Mystery Tank",
+            "id": 524,
+            "access_rule": {
+              "rule": "Or",
+              "children": [
+                {
+                  "rule": "has_rush_vertical",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "HasAny",
+                  "args": {
+                    "items": [
+                      "Gemini Laser",
+                      "Shadow Blade"
+                    ]
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Shadow Blade",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Man Stage - 1-Up 2",
+            "id": 527,
+            "access_rule": {
+              "rule": "has_any_rush",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Man Stage - E-Tank 1",
+            "id": 528,
+            "access_rule": {
+              "rule": "has_any_rush",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Gemini Man Stage - E-Tank 2",
+            "id": 531,
+            "access_rule": {
+              "rule": "has_any_rush",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Spark Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Hard Man Stage": {
+        "name": "Hard Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Hard Man - Defeated",
+            "id": 4,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Doc Robot (Shadow) Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Hard Knuckle - Received",
+            "id": 260,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Hard Man Stage - E-Tank",
+            "id": 534,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Doc Robot (Gemini) Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Top Man Stage": {
+        "name": "Top Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Top Man - Defeated",
+            "id": 5,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Rush Jet",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Top Spin - Received",
+            "id": 261,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Top Man Stage - 1-Up",
+            "id": 544,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Snake Man Stage": {
+        "name": "Snake Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Snake Man - Defeated",
+            "id": 6,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Search Snake - Received",
+            "id": 262,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Search Snake",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Snake Man Stage - Mystery Tank 1",
+            "id": 549,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Gemini Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Snake Man Stage - Mystery Tank 2",
+            "id": 550,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Spark Man Stage": {
+        "name": "Spark Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Spark Man - Defeated",
+            "id": 7,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Spark Shock - Received",
+            "id": 263,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Shadow Man Stage": {
+        "name": "Shadow Man Stage",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Shadow Man - Defeated",
+            "id": 8,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Shadow Blade - Received",
+            "id": 264,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Top Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Rush Marine - Received",
+            "id": 274,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Doc Robot (Needle) - Air": {
+        "name": "Doc Robot (Needle) - Air",
+        "exits": [
+          {
+            "name": "To Doc Robot (Needle) - Crash",
+            "connected_region": "Doc Robot (Needle) - Crash",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_rush_jet",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "CanReachLocation",
+                  "args": {
+                    "location_name": "Doc Robot (Air) - Defeated"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Doc Robot (Air) - Defeated",
+            "id": 16,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Needle) - 1-Up 1",
+            "id": 563,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Hard Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Needle) - E-Tank 1",
+            "id": 564,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Top Spin",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Doc Robot (Needle) - Crash": {
+        "name": "Doc Robot (Needle) - Crash",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doc Robot (Crash) - Defeated",
+            "id": 17,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Spark) Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Needle) - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Needle) - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Doc Robot (Gemini) - Flash": {
+        "name": "Doc Robot (Gemini) - Flash",
+        "exits": [
+          {
+            "name": "To Doc Robot (Gemini) - Bubble",
+            "connected_region": "Doc Robot (Gemini) - Bubble",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "can_traverse_long_water",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "has_rush_vertical",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "CanReachLocation",
+                  "args": {
+                    "location_name": "Doc Robot (Flash) - Defeated"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Doc Robot (Flash) - Defeated",
+            "id": 18,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Rush Marine",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Gemini) - Mystery Tank 1",
+            "id": 573,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Magnet Missile",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Gemini) - Mystery Tank 2",
+            "id": 574,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Doc Robot (Gemini) - Bubble": {
+        "name": "Doc Robot (Gemini) - Bubble",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doc Robot (Bubble) - Defeated",
+            "id": 19,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Spark Shock",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Gemini) - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Gemini) - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Doc Robot (Shadow) - Wood": {
+        "name": "Doc Robot (Shadow) - Wood",
+        "exits": [
+          {
+            "name": "To Doc Robot (Shadow) - Heat",
+            "connected_region": "Doc Robot (Shadow) - Heat",
+            "access_rule": {
+              "rule": "CanReachLocation",
+              "args": {
+                "location_name": "Doc Robot (Wood) - Defeated"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Doc Robot (Wood) - Defeated",
+            "id": 20,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Rush Coil",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Doc Robot (Shadow) - Heat": {
+        "name": "Doc Robot (Shadow) - Heat",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doc Robot (Heat) - Defeated",
+            "id": 21,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Shadow) - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Shadow) - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Doc Robot (Spark) - Metal": {
+        "name": "Doc Robot (Spark) - Metal",
+        "exits": [
+          {
+            "name": "To Doc Robot (Spark) - Quick",
+            "connected_region": "Doc Robot (Spark) - Quick",
+            "access_rule": {
+              "rule": "CanReachLocation",
+              "args": {
+                "location_name": "Doc Robot (Metal) - Defeated"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Doc Robot (Metal) - Defeated",
+            "id": 22,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Doc Robot (Spark) - Quick": {
+        "name": "Doc Robot (Spark) - Quick",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doc Robot (Quick) - Defeated",
+            "id": 23,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Doc Robot (Spark) - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Doc Robot (Spark) - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Break Man": {
+        "name": "Break Man",
+        "exits": [
+          {
+            "name": "To Wily Stage 1",
+            "connected_region": "Wily Stage 1",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Break Man"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Break Man - Defeated",
+            "id": 15,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Break Man",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Break Man",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
+      "Wily Stage 1": {
+        "name": "Wily Stage 1",
+        "exits": [
+          {
+            "name": "To Wily Stage 2",
+            "connected_region": "Wily Stage 2",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Wily Stage 1 - Completed"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Kamegoro Maker - Defeated",
+            "id": 9,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 1 - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "has_rush_vertical",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Wily Stage 1 - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 1 - 1-Up 1",
+            "id": 584,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 1 - E-Tank 1",
+            "id": 585,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 1 - 1-Up 2",
+            "id": 587,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Hard Knuckle"
+              }
+            },
+            "item": {
+              "name": "Snake Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 1 - E-Tank 2",
+            "id": 591,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "has_rush_vertical",
+                  "_original_ast_type": "rb_defined_helper"
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Hard Knuckle"
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Wily Stage 2": {
+        "name": "Wily Stage 2",
+        "exits": [
+          {
+            "name": "To Wily Stage 3",
+            "connected_region": "Wily Stage 3",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Wily Stage 2 - Completed"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Yellow Devil MK-II - Defeated",
+            "id": 10,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Needle Cannon",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 2 - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Wily Stage 2 - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 2 - 1-Up 1",
+            "id": 598,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 2 - E-Tank 1",
+            "id": 604,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 2 - E-Tank 2",
+            "id": 606,
+            "access_rule": {
+              "rule": "has_rush_jet",
+              "_original_ast_type": "rb_defined_helper"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Wily Stage 3": {
+        "name": "Wily Stage 3",
+        "exits": [
+          {
+            "name": "To Wily Stage 4",
+            "connected_region": "Wily Stage 4",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Wily Stage 3 - Completed"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Holograph Mega Man - Defeated",
+            "id": 11,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 3 - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wily Stage 3 - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 3 - E-Tank 1",
+            "id": 611,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 3 - 1-Up 1",
+            "id": 612,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 3 - Mystery Tank 1",
+            "id": 618,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 3 - Mystery Tank 2",
+            "id": 619,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Wily Stage 4": {
+        "name": "Wily Stage 4",
+        "exits": [
+          {
+            "name": "To Wily Stage 5",
+            "connected_region": "Wily Stage 5",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Wily Stage 4 - Completed"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Wily Stage 4 - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "can_defeat_enough_rbms",
+              "_original_ast_type": "helper",
+              "_converted_from_ast": true,
+              "args": [
+                {
+                  "rule": "OptionValue",
+                  "args": {
+                    "option": "wily_4_requirement"
+                  }
+                },
+                {
+                  "rule": "Constant",
+                  "args": {
+                    "value": {
+                      "0": [],
+                      "1": [],
+                      "2": [],
+                      "3": [],
+                      "4": [],
+                      "5": [],
+                      "6": [],
+                      "7": []
+                    }
+                  },
+                  "_converted_from_ast": true
+                }
+              ]
+            },
+            "item": {
+              "name": "Wily Stage 4 - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 4 - Mystery Tank",
+            "id": 629,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 4 - 1-Up",
+            "id": 631,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Wily Stage 5": {
+        "name": "Wily Stage 5",
+        "exits": [
+          {
+            "name": "To Wily Stage 6",
+            "connected_region": "Wily Stage 6",
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Wily Stage 5 - Completed"
+              }
+            }
+          }
+        ],
+        "locations": [
+          {
+            "name": "Wily Machine 3 - Defeated",
+            "id": 13,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 5 - Completed",
+            "id": null,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Wily Stage 5 - Completed",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 5 - Mystery Tank 1",
+            "id": 642,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Hard Knuckle",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 5 - Mystery Tank 2",
+            "id": 643,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Wily Stage 6": {
+        "name": "Wily Stage 6",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Gamma - Defeated",
+            "id": null,
+            "access_rule": {
+              "rule": "HasAll",
+              "args": {
+                "items": [
+                  "Hard Knuckle",
+                  "Search Snake",
+                  "Shadow Blade"
+                ]
+              }
+            },
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Wily Stage 6 - Mystery Tank 1",
+            "id": 644,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 6 - Mystery Tank 2",
+            "id": 645,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 6 - 1-Up",
+            "id": 648,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "Wily Stage 6 - E-Tank",
+            "id": 649,
+            "access_rule": {
+              "rule": "True_"
+            },
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Needle Cannon": {
+        "name": "Needle Cannon",
+        "id": 1,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Magnet Missile": {
+        "name": "Magnet Missile",
+        "id": 2,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Gemini Laser": {
+        "name": "Gemini Laser",
+        "id": 3,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Hard Knuckle": {
+        "name": "Hard Knuckle",
+        "id": 4,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Top Spin": {
+        "name": "Top Spin",
+        "id": 5,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Search Snake": {
+        "name": "Search Snake",
+        "id": 6,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Spark Shock": {
+        "name": "Spark Shock",
+        "id": 7,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Shadow Blade": {
+        "name": "Shadow Blade",
+        "id": 8,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Rush Coil": {
+        "name": "Rush Coil",
+        "id": 17,
+        "groups": [
+          "Everything",
+          "Rush"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Rush Marine": {
+        "name": "Rush Marine",
+        "id": 18,
+        "groups": [
+          "Everything",
+          "Rush"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Rush Jet": {
+        "name": "Rush Jet",
+        "id": 19,
+        "groups": [
+          "Everything",
+          "Rush"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up": {
+        "name": "1-Up",
+        "id": 32,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 8,
+        "hint_text": "1 Up"
+      },
+      "Weapon Energy (L)": {
+        "name": "Weapon Energy (L)",
+        "id": 33,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 22
+      },
+      "Health Energy (L)": {
+        "name": "Health Energy (L)",
+        "id": 34,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "filler",
+        "type": null,
+        "max_count": 3
+      },
+      "E-Tank": {
+        "name": "E-Tank",
+        "id": 35,
+        "groups": [
+          "Everything"
+        ],
+        "classification": "useful",
+        "type": null,
+        "max_count": 9,
+        "hint_text": "E Tank"
+      },
+      "Needle Man Access Codes": {
+        "name": "Needle Man Access Codes",
+        "id": 257,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Magnet Man Access Codes": {
+        "name": "Magnet Man Access Codes",
+        "id": 258,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Gemini Man Access Codes": {
+        "name": "Gemini Man Access Codes",
+        "id": 259,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Hard Man Access Codes": {
+        "name": "Hard Man Access Codes",
+        "id": 260,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Top Man Access Codes": {
+        "name": "Top Man Access Codes",
+        "id": 261,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Snake Man Access Codes": {
+        "name": "Snake Man Access Codes",
+        "id": 262,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Spark Man Access Codes": {
+        "name": "Spark Man Access Codes",
+        "id": 263,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Shadow Man Access Codes": {
+        "name": "Shadow Man Access Codes",
+        "id": 264,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Doc Robot (Needle) Access Codes": {
+        "name": "Doc Robot (Needle) Access Codes",
+        "id": 273,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Doc Robot (Gemini) Access Codes": {
+        "name": "Doc Robot (Gemini) Access Codes",
+        "id": 275,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Doc Robot (Spark) Access Codes": {
+        "name": "Doc Robot (Spark) Access Codes",
+        "id": 279,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Doc Robot (Shadow) Access Codes": {
+        "name": "Doc Robot (Shadow) Access Codes",
+        "id": 280,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "classification": "progression",
+        "type": null,
+        "max_count": 1
+      },
+      "Doc Robot (Needle) - Completed": {
+        "name": "Doc Robot (Needle) - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Doc Robot (Needle)   Completed"
+      },
+      "Doc Robot (Gemini) - Completed": {
+        "name": "Doc Robot (Gemini) - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Doc Robot (Gemini)   Completed"
+      },
+      "Doc Robot (Shadow) - Completed": {
+        "name": "Doc Robot (Shadow) - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Doc Robot (Shadow)   Completed"
+      },
+      "Doc Robot (Spark) - Completed": {
+        "name": "Doc Robot (Spark) - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Doc Robot (Spark)   Completed"
+      },
+      "Break Man": {
+        "name": "Break Man",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wily Stage 1 - Completed": {
+        "name": "Wily Stage 1 - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Wily Stage 1   Completed"
+      },
+      "Wily Stage 2 - Completed": {
+        "name": "Wily Stage 2 - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Wily Stage 2   Completed"
+      },
+      "Wily Stage 3 - Completed": {
+        "name": "Wily Stage 3 - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Wily Stage 3   Completed"
+      },
+      "Wily Stage 4 - Completed": {
+        "name": "Wily Stage 4 - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Wily Stage 4   Completed"
+      },
+      "Wily Stage 5 - Completed": {
+        "name": "Wily Stage 5 - Completed",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1,
+        "hint_text": "Wily Stage 5   Completed"
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Rush",
+      "Stages",
+      "Weapons"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1-Up": 8,
+      "Break Man": 1,
+      "Doc Robot (Gemini) - Completed": 1,
+      "Doc Robot (Gemini) Access Codes": 1,
+      "Doc Robot (Needle) - Completed": 1,
+      "Doc Robot (Needle) Access Codes": 1,
+      "Doc Robot (Shadow) - Completed": 1,
+      "Doc Robot (Shadow) Access Codes": 1,
+      "Doc Robot (Spark) - Completed": 1,
+      "Doc Robot (Spark) Access Codes": 1,
+      "E-Tank": 9,
+      "Gemini Laser": 1,
+      "Gemini Man Access Codes": 1,
+      "Hard Knuckle": 1,
+      "Hard Man Access Codes": 1,
+      "Health Energy (L)": 3,
+      "Magnet Man Access Codes": 1,
+      "Magnet Missile": 1,
+      "Needle Cannon": 1,
+      "Needle Man Access Codes": 1,
+      "Rush Coil": 1,
+      "Rush Jet": 1,
+      "Rush Marine": 1,
+      "Search Snake": 1,
+      "Shadow Blade": 1,
+      "Shadow Man Access Codes": 1,
+      "Snake Man Access Codes": 1,
+      "Spark Man Access Codes": 1,
+      "Spark Shock": 1,
+      "Top Man Access Codes": 1,
+      "Top Spin": 1,
+      "Victory": 1,
+      "Weapon Energy (L)": 22,
+      "Wily Stage 1 - Completed": 1,
+      "Wily Stage 2 - Completed": 1,
+      "Wily Stage 3 - Completed": 1,
+      "Wily Stage 4 - Completed": 1,
+      "Wily Stage 5 - Completed": 1
+    }
+  },
+  "canonical_placements": {
+    "1": {
+      "Break Man - Defeated": "Weapon Energy (L)",
+      "Doc Robot (Air) - Defeated": "Weapon Energy (L)",
+      "Doc Robot (Gemini) - Mystery Tank 2": "Weapon Energy (L)",
+      "Doc Robot (Heat) - Defeated": "Weapon Energy (L)",
+      "Doc Robot (Metal) - Defeated": "Weapon Energy (L)",
+      "Gemini Laser - Received": "Weapon Energy (L)",
+      "Gemini Man Stage - 1-Up 2": "Weapon Energy (L)",
+      "Gemini Man Stage - E-Tank 1": "Weapon Energy (L)",
+      "Hard Knuckle - Received": "Weapon Energy (L)",
+      "Holograph Mega Man - Defeated": "Weapon Energy (L)",
+      "Needle Man - Defeated": "Weapon Energy (L)",
+      "Rush Jet - Received": "Weapon Energy (L)",
+      "Snake Man Stage - Mystery Tank 2": "Weapon Energy (L)",
+      "Spark Man - Defeated": "Weapon Energy (L)",
+      "Top Man Stage - 1-Up": "Weapon Energy (L)",
+      "Wily Stage 1 - 1-Up 1": "Weapon Energy (L)",
+      "Wily Stage 1 - E-Tank 1": "Weapon Energy (L)",
+      "Wily Stage 1 - E-Tank 2": "Weapon Energy (L)",
+      "Wily Stage 2 - E-Tank 1": "Weapon Energy (L)",
+      "Wily Stage 3 - E-Tank 1": "Weapon Energy (L)",
+      "Wily Stage 4 - Mystery Tank": "Weapon Energy (L)",
+      "Wily Stage 6 - 1-Up": "Weapon Energy (L)",
+      "Needle Cannon - Received": "Shadow Man Access Codes",
+      "Needle Man Stage - E-Tank": "Gemini Laser",
+      "Magnet Man - Defeated": "Needle Man Access Codes",
+      "Magnet Missile - Received": "Doc Robot (Needle) Access Codes",
+      "Gemini Man - Defeated": "1-Up",
+      "Kamegoro Maker - Defeated": "1-Up",
+      "Rush Marine - Received": "1-Up",
+      "Shadow Man - Defeated": "1-Up",
+      "Wily Stage 2 - 1-Up 1": "1-Up",
+      "Wily Stage 2 - E-Tank 2": "1-Up",
+      "Wily Stage 4 - 1-Up": "1-Up",
+      "Wily Stage 5 - Mystery Tank 2": "1-Up",
+      "Doc Robot (Quick) - Defeated": "E-Tank",
+      "Gemini Man Stage - 1-Up 1": "E-Tank",
+      "Snake Man - Defeated": "E-Tank",
+      "Spark Shock - Received": "E-Tank",
+      "Top Spin - Received": "E-Tank",
+      "Wily Machine 3 - Defeated": "E-Tank",
+      "Wily Stage 3 - 1-Up 1": "E-Tank",
+      "Wily Stage 6 - Mystery Tank 1": "E-Tank",
+      "Wily Stage 6 - Mystery Tank 2": "E-Tank",
+      "Gemini Man Stage - Mystery Tank": "Shadow Blade",
+      "Gemini Man Stage - E-Tank 2": "Spark Man Access Codes",
+      "Hard Man - Defeated": "Doc Robot (Shadow) Access Codes",
+      "Hard Man Stage - E-Tank": "Doc Robot (Gemini) Access Codes",
+      "Top Man - Defeated": "Rush Jet",
+      "Search Snake - Received": "Search Snake",
+      "Snake Man Stage - Mystery Tank 1": "Gemini Man Access Codes",
+      "Shadow Blade - Received": "Top Man Access Codes",
+      "Doc Robot (Needle) - 1-Up 1": "Hard Man Access Codes",
+      "Doc Robot (Needle) - E-Tank 1": "Top Spin",
+      "Doc Robot (Crash) - Defeated": "Doc Robot (Spark) Access Codes",
+      "Doc Robot (Needle) - Completed": "Doc Robot (Needle) - Completed",
+      "Doc Robot (Flash) - Defeated": "Rush Marine",
+      "Doc Robot (Gemini) - Mystery Tank 1": "Magnet Missile",
+      "Doc Robot (Bubble) - Defeated": "Spark Shock",
+      "Doc Robot (Gemini) - Completed": "Doc Robot (Gemini) - Completed",
+      "Doc Robot (Wood) - Defeated": "Rush Coil",
+      "Doc Robot (Shadow) - Completed": "Doc Robot (Shadow) - Completed",
+      "Doc Robot (Spark) - Completed": "Doc Robot (Spark) - Completed",
+      "Break Man": "Break Man",
+      "Wily Stage 1 - Completed": "Wily Stage 1 - Completed",
+      "Wily Stage 1 - 1-Up 2": "Snake Man Access Codes",
+      "Yellow Devil MK-II - Defeated": "Needle Cannon",
+      "Wily Stage 2 - Completed": "Wily Stage 2 - Completed",
+      "Wily Stage 3 - Completed": "Wily Stage 3 - Completed",
+      "Wily Stage 3 - Mystery Tank 1": "Health Energy (L)",
+      "Wily Stage 3 - Mystery Tank 2": "Health Energy (L)",
+      "Wily Stage 6 - E-Tank": "Health Energy (L)",
+      "Wily Stage 4 - Completed": "Wily Stage 4 - Completed",
+      "Wily Stage 5 - Completed": "Wily Stage 5 - Completed",
+      "Wily Stage 5 - Mystery Tank 1": "Hard Knuckle",
+      "Gamma - Defeated": "Victory"
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Magnet Man Access Codes"
+    ]
+  },
+  "world": {
+    "1": {
+      "game": "Mega Man 3 WorldGen",
+      "world_class_name": "MM3World",
+      "count_non_advancement_items": true,
+      "options": {
+        "accessibility": 0,
+        "consumables": 1,
+        "death_link": false,
+        "enemy_weakness": false,
+        "energy_link": false,
+        "exclude_locations": [],
+        "item_links": [],
+        "local_items": [],
+        "music_shuffle": 0,
+        "non_local_items": [],
+        "palette_shuffle": 0,
+        "plando_items": [],
+        "priority_locations": [],
+        "progression_balancing": 50,
+        "random_weakness": 0,
+        "randomize_items": false,
+        "reduce_flashing": false,
+        "start_hints": [],
+        "start_inventory": {},
+        "start_location_hints": [],
+        "starting_robot_master": 1,
+        "strict_weakness": false,
+        "use_canonical_options": true,
+        "wily_4_requirement": 8
+      },
+      "option_definitions": {
+        "accessibility": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "full",
+            "2": "minimal"
+          },
+          "default": 0,
+          "display_name": "Accessibility"
+        },
+        "consumables": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "none",
+            "1": "1up_etank",
+            "2": "weapon_health",
+            "3": "all"
+          },
+          "default": 1,
+          "display_name": "Consumables"
+        },
+        "death_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Death Link"
+        },
+        "enemy_weakness": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Random Enemy Weaknesses"
+        },
+        "energy_link": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "EnergyLink"
+        },
+        "music_shuffle": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "none",
+            "1": "shuffled",
+            "2": "randomized",
+            "3": "no_music"
+          },
+          "default": 0,
+          "display_name": "Music Shuffle"
+        },
+        "palette_shuffle": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "none",
+            "1": "shuffled",
+            "2": "randomized",
+            "3": "singularity"
+          },
+          "default": 0,
+          "display_name": "Palette Shuffle"
+        },
+        "progression_balancing": {
+          "type": "range",
+          "range_start": 0,
+          "range_end": 99,
+          "default": 50,
+          "display_name": "Progression Balancing"
+        },
+        "random_weakness": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "none",
+            "1": "shuffled",
+            "2": "randomized"
+          },
+          "default": 0,
+          "display_name": "Random Boss Weaknesses"
+        },
+        "randomize_items": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Randomize Items"
+        },
+        "reduce_flashing": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Reduce Flashing"
+        },
+        "starting_robot_master": {
+          "type": "choice",
+          "name_lookup": {
+            "0": "needle_man",
+            "1": "magnet_man",
+            "2": "gemini_man",
+            "3": "hard_man",
+            "4": "top_man",
+            "5": "snake_man",
+            "6": "spark_man",
+            "7": "shadow_man"
+          },
+          "default": "random",
+          "display_name": "Starting Robot Master"
+        },
+        "strict_weakness": {
+          "type": "toggle",
+          "default": false,
+          "display_name": "Strict Boss Weaknesses"
+        },
+        "use_canonical_options": {
+          "type": "toggle",
+          "default": true,
+          "display_name": "Use Canonical Options"
+        },
+        "wily_4_requirement": {
+          "type": "range",
+          "range_start": 1,
+          "range_end": 8,
+          "default": 8,
+          "display_name": "Wily 4 Requirement"
+        }
+      },
+      "weapon_damage": {
+        "0": [
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3,
+          1,
+          1,
+          1,
+          0
+        ],
+        "1": [
+          4,
+          1,
+          1,
+          0,
+          2,
+          4,
+          2,
+          1,
+          0,
+          1,
+          1,
+          2,
+          4,
+          2,
+          4,
+          2,
+          0,
+          3,
+          1,
+          1,
+          1,
+          0
+        ],
+        "2": [
+          1,
+          4,
+          2,
+          4,
+          1,
+          0,
+          0,
+          1,
+          4,
+          2,
+          4,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          3,
+          1,
+          0,
+          1,
+          0
+        ],
+        "3": [
+          7,
+          2,
+          4,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          4,
+          2,
+          0,
+          4,
+          1,
+          1,
+          1,
+          0,
+          3,
+          1,
+          1,
+          1,
+          0
+        ],
+        "4": [
+          0,
+          2,
+          2,
+          4,
+          7,
+          2,
+          2,
+          2,
+          4,
+          1,
+          2,
+          7,
+          0,
+          2,
+          2,
+          2,
+          0,
+          1,
+          5,
+          4,
+          7,
+          4
+        ],
+        "5": [
+          1,
+          1,
+          2,
+          0,
+          4,
+          2,
+          1,
+          7,
+          0,
+          1,
+          1,
+          4,
+          1,
+          1,
+          2,
+          7,
+          0,
+          4,
+          0,
+          7,
+          0,
+          2
+        ],
+        "6": [
+          1,
+          1,
+          5,
+          0,
+          1,
+          4,
+          0,
+          1,
+          0,
+          4,
+          1,
+          1,
+          1,
+          0,
+          4,
+          1,
+          0,
+          1,
+          0,
+          7,
+          4,
+          2
+        ],
+        "7": [
+          0,
+          7,
+          1,
+          0,
+          1,
+          1,
+          4,
+          1,
+          2,
+          1,
+          4,
+          1,
+          0,
+          4,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        "8": [
+          2,
+          7,
+          2,
+          0,
+          1,
+          2,
+          4,
+          4,
+          2,
+          2,
+          0,
+          1,
+          2,
+          4,
+          2,
+          4,
+          0,
+          1,
+          3,
+          2,
+          2,
+          2
+        ]
+      },
+      "wily_4_weapons": {
+        "0": [],
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      },
+      "world_description": "Following his second defeat by Mega Man, Dr. Wily has finally come to his senses. He and Dr. Light begin work on\nGamma, a giant peacekeeping robot. However, Gamma's power source, the Energy Elements, are being guarded by the\nRobot Masters sent to retrieve them. It's up to Mega Man to retrieve the Energy Elements and defeat the mastermind\nbehind the Robot Masters' betrayal.",
+      "wily_4_requirement": 8,
+      "slot_data": {
+        "death_link": 0,
+        "weapon_damage": {
+          "0": [
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            3,
+            1,
+            1,
+            1,
+            0
+          ],
+          "1": [
+            4,
+            1,
+            1,
+            0,
+            2,
+            4,
+            2,
+            1,
+            0,
+            1,
+            1,
+            2,
+            4,
+            2,
+            4,
+            2,
+            0,
+            3,
+            1,
+            1,
+            1,
+            0
+          ],
+          "2": [
+            1,
+            4,
+            2,
+            4,
+            1,
+            0,
+            0,
+            1,
+            4,
+            2,
+            4,
+            1,
+            1,
+            0,
+            0,
+            1,
+            0,
+            3,
+            1,
+            0,
+            1,
+            0
+          ],
+          "3": [
+            7,
+            2,
+            4,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            4,
+            2,
+            0,
+            4,
+            1,
+            1,
+            1,
+            0,
+            3,
+            1,
+            1,
+            1,
+            0
+          ],
+          "4": [
+            0,
+            2,
+            2,
+            4,
+            7,
+            2,
+            2,
+            2,
+            4,
+            1,
+            2,
+            7,
+            0,
+            2,
+            2,
+            2,
+            0,
+            1,
+            5,
+            4,
+            7,
+            4
+          ],
+          "5": [
+            1,
+            1,
+            2,
+            0,
+            4,
+            2,
+            1,
+            7,
+            0,
+            1,
+            1,
+            4,
+            1,
+            1,
+            2,
+            7,
+            0,
+            4,
+            0,
+            7,
+            0,
+            2
+          ],
+          "6": [
+            1,
+            1,
+            5,
+            0,
+            1,
+            4,
+            0,
+            1,
+            0,
+            4,
+            1,
+            1,
+            1,
+            0,
+            4,
+            1,
+            0,
+            1,
+            0,
+            7,
+            4,
+            2
+          ],
+          "7": [
+            0,
+            7,
+            1,
+            0,
+            1,
+            1,
+            4,
+            1,
+            2,
+            1,
+            4,
+            1,
+            0,
+            4,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            7,
+            0
+          ],
+          "8": [
+            2,
+            7,
+            2,
+            0,
+            1,
+            2,
+            4,
+            4,
+            2,
+            2,
+            0,
+            1,
+            2,
+            4,
+            2,
+            4,
+            0,
+            1,
+            3,
+            2,
+            2,
+            2
+          ]
+        },
+        "wily_4_weapons": {
+          "0": [],
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": []
+        }
+      },
+      "web": {
+        "theme": "partyTime",
+        "tutorials": [
+          {
+            "name": "Multiworld Setup Guide",
+            "description": "A guide to setting up the Mega Man 3 randomizer connected to an Archipelago Multiworld.",
+            "language": "English",
+            "file_name": "setup_en.md",
+            "link": "setup/en",
+            "authors": [
+              "Silvris"
+            ]
+          }
+        ]
+      },
+      "world_directory": "mm3_worldgen"
+    }
+  },
+  "exporter": {},
+  "game_info": {
+    "1": {
+      "completion_condition": {
+        "type": "item_check",
+        "item": "Victory"
+      }
+    }
+  },
+  "helpers": {
+    "1": {
+      "can_defeat_enough_rbms": {
+        "params": [
+          "required",
+          "boss_requirements"
+        ],
+        "body": {
+          "type": "block",
+          "statements": [
+            {
+              "type": "assign",
+              "name": "can_defeat",
+              "value": {
+                "type": "constant",
+                "value": 0
+              }
+            },
+            {
+              "type": "for_iter",
+              "iterable": {
+                "type": "function_call",
+                "function": {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "boss_requirements"
+                  },
+                  "attr": "items"
+                }
+              },
+              "body": [
+                {
+                  "type": "if_statement",
+                  "test": {
+                    "type": "compare",
+                    "left": {
+                      "type": "name",
+                      "name": "boss"
+                    },
+                    "op": "in",
+                    "right": {
+                      "type": "constant",
+                      "value": {
+                        "0": "Needle Man Defeated",
+                        "1": "Magnet Man Defeated",
+                        "2": "Gemini Man Defeated",
+                        "3": "Hard Man Defeated",
+                        "4": "Top Man Defeated",
+                        "5": "Snake Man Defeated",
+                        "6": "Spark Man Defeated",
+                        "7": "Shadow Man Defeated"
+                      }
+                    }
+                  },
+                  "body": [
+                    {
+                      "type": "if_statement",
+                      "test": {
+                        "type": "state_method",
+                        "method": "has_all",
+                        "args": [
+                          {
+                            "type": "map",
+                            "function": {
+                              "type": "lambda",
+                              "params": [
+                                "x"
+                              ],
+                              "body": {
+                                "type": "subscript",
+                                "value": {
+                                  "type": "constant",
+                                  "value": {
+                                    "1": "Needle Cannon",
+                                    "2": "Magnet Missile",
+                                    "3": "Gemini Laser",
+                                    "4": "Hard Knuckle",
+                                    "5": "Top Spin",
+                                    "6": "Search Snake",
+                                    "7": "Spark Shock",
+                                    "8": "Shadow Blade"
+                                  }
+                                },
+                                "index": {
+                                  "type": "name",
+                                  "name": "x"
+                                }
+                              }
+                            },
+                            "iterable": {
+                              "type": "name",
+                              "name": "reqs"
+                            }
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "type": "assign",
+                          "name": "can_defeat",
+                          "op": "+=",
+                          "value": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        },
+                        {
+                          "type": "if_statement",
+                          "test": {
+                            "type": "compare",
+                            "left": {
+                              "type": "name",
+                              "name": "can_defeat"
+                            },
+                            "op": ">=",
+                            "right": {
+                              "type": "name",
+                              "name": "required"
+                            }
+                          },
+                          "body": [
+                            {
+                              "type": "return",
+                              "value": {
+                                "type": "constant",
+                                "value": true
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "vars": [
+                "boss",
+                "reqs"
+              ]
+            },
+            {
+              "type": "return",
+              "value": {
+                "type": "constant",
+                "value": false
+              }
+            }
+          ]
+        },
+        "param_mappings": {
+          "required": "wily_4_requirement"
+        }
+      },
+      "can_traverse_long_water": {
+        "type": "state_method",
+        "method": "has_any",
+        "args": [
+          {
+            "type": "constant",
+            "value": [
+              "Rush Jet",
+              "Rush Marine"
+            ]
+          }
+        ]
+      },
+      "has_any_rush": {
+        "type": "state_method",
+        "method": "has_any",
+        "args": [
+          {
+            "type": "constant",
+            "value": [
+              "Rush Coil",
+              "Rush Jet",
+              "Rush Marine"
+            ]
+          }
+        ]
+      },
+      "has_rush_jet": {
+        "type": "item_check",
+        "item": "Rush Jet"
+      },
+      "has_rush_vertical": {
+        "type": "state_method",
+        "method": "has_any",
+        "args": [
+          {
+            "type": "constant",
+            "value": [
+              "Rush Coil",
+              "Rush Jet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "is_canonical": true
+}

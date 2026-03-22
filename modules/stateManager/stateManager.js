@@ -569,6 +569,16 @@ export class StateManager {
   }
 
   /**
+   * Batch check multiple locations with a single reachability computation
+   * @param {string[]} locationNames - Array of location names to check
+   * @param {boolean} addItems - Whether to add placed items to inventory (default: true)
+   * @returns {{ checked: string[], count: number }}
+   */
+  batchCheckLocations(locationNames, addItems = true) {
+    return LocationCheckingModule.batchCheckLocations(this, locationNames, addItems);
+  }
+
+  /**
    * Clear all checked locations
    */
   clearCheckedLocations(options = { sendUpdate: true }) {

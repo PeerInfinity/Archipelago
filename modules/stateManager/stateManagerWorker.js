@@ -713,6 +713,7 @@ async function handleMessage(message) {
       case 'getFullSnapshot':
       case 'getFullSnapshotQuery':
       case 'checkLocation':
+      case 'batchCheckLocations':
       case 'evaluateRuleRequest':
       case 'getStaticData':
         if (!workerInitialized || !stateManagerInstance) {
@@ -860,6 +861,37 @@ async function handleMessage(message) {
                   type: 'queryResponse',
                   queryId: message.queryId,
                   error: `Error processing checkLocation: ${error.message}`,
+                });
+              }
+            }
+
+          } else if (message.command === 'batchCheckLocations') {
+            try {
+              const locationNames = message.payload.locationNames;
+              const addItems = message.payload.addItems !== undefined ? message.payload.addItems : true;
+              log('info', `[SMW] batchCheckLocations: ${locationNames.length} locations`);
+
+              const result = stateManagerInstance.batchCheckLocations(locationNames, addItems);
+              log('info', `[SMW] batchCheckLocations: checked ${result.count} locations`);
+
+              if (message.expectResponse === true) {
+                self.postMessage({
+                  type: 'queryResponse',
+                  queryId: message.queryId,
+                  result: {
+                    success: true,
+                    checked: result.checked,
+                    count: result.count,
+                  },
+                });
+              }
+            } catch (error) {
+              log('error', `[SMW] batchCheckLocations error:`, error.message);
+              if (message.expectResponse === true) {
+                self.postMessage({
+                  type: 'queryResponse',
+                  queryId: message.queryId,
+                  error: `Error processing batchCheckLocations: ${error.message}`,
                 });
               }
             }

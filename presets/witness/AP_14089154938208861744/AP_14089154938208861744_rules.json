@@ -89,6 +89,12 @@
                     "item_name": "Progressive Symmetry",
                     "count": 2
                   }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Symmetry Island Upper"
+                  }
                 }
               ]
             },
@@ -105,10 +111,27 @@
             "name": "Desert Laser Activated",
             "id": null,
             "access_rule": {
-              "rule": "CanReachRegion",
-              "args": {
-                "region_name": "Desert Outside"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Desert Elevator Room"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Desert Outside"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Desert Outside"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "+1 Laser (Unredirected)",
@@ -132,6 +155,18 @@
                   }
                 },
                 {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Quarry Boathouse Upper Back"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Quarry Stoneworks Upper Floor"
+                  }
+                },
+                {
                   "rule": "HasAllCounts",
                   "args": {
                     "items": {
@@ -141,6 +176,12 @@
                       "Progressive Stars": 2,
                       "Shapers": 1
                     }
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Outside Quarry"
                   }
                 }
               ]
@@ -158,10 +199,33 @@
             "name": "Shadows Laser Activated",
             "id": null,
             "access_rule": {
-              "rule": "CanReachRegion",
-              "args": {
-                "region_name": "Shadows Laser Room"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows Laser Room"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows Ledge"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows Laser Room"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "+1 Laser",
@@ -196,6 +260,18 @@
             "access_rule": {
               "rule": "And",
               "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Monastery"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Outside Monastery"
+                  }
+                },
                 {
                   "rule": "CanReachRegion",
                   "args": {
@@ -243,6 +319,12 @@
             "access_rule": {
               "rule": "And",
               "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Jungle"
+                  }
+                },
                 {
                   "rule": "CanReachRegion",
                   "args": {
@@ -368,13 +450,31 @@
         ],
         "locations": [
           {
+            "name": "Tutorial Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Tutorial"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Tutorial Front Left",
             "id": 158004,
             "access_rule": {
               "rule": "True_"
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -388,7 +488,7 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -402,9 +502,9 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Slowness",
+              "name": "Colored Squares",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -436,7 +536,7 @@
               }
             },
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -465,6 +565,24 @@
         ],
         "locations": [
           {
+            "name": "Outside Tutorial Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Tutorial"
+              }
+            },
+            "item": {
+              "name": "+4 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Outside Tutorial Shed Row 5",
             "id": 158017,
             "access_rule": {
@@ -474,7 +592,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -524,6 +642,24 @@
         ],
         "locations": [
           {
+            "name": "Outside Tutorial Path To Outpost Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Tutorial Path To Outpost"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Outside Tutorial Outpost Entry Panel",
             "id": 158011,
             "access_rule": {
@@ -534,9 +670,9 @@
               }
             },
             "item": {
-              "name": "Negative Shapers",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -561,6 +697,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Outside Tutorial Outpost Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Tutorial Outpost"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Outside Tutorial Outpost Exit Panel",
             "id": 158012,
@@ -605,8 +759,34 @@
       },
       "Orchard Beyond First Gate": {
         "name": "Orchard Beyond First Gate",
-        "exits": [],
+        "exits": [
+          {
+            "name": "Orchard Beyond First Gate to Orchard End",
+            "connected_region": "Orchard End",
+            "access_rule": {
+              "rule": "True_"
+            }
+          }
+        ],
         "locations": [
+          {
+            "name": "Orchard Beyond First Gate Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Orchard Beyond First Gate"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Orchard Apple Tree 5",
             "id": 158075,
@@ -614,12 +794,36 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Sound Dots",
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          }
+        ]
+      },
+      "Orchard End": {
+        "name": "Orchard End",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Orchard End Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Orchard End"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
               "player": 1,
               "advancement": true,
               "type": "None"
             },
-            "locked": false
+            "locked": true,
+            "event": true
           }
         ]
       },
@@ -780,9 +984,9 @@
               }
             },
             "item": {
-              "name": "Progressive Stars",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -805,6 +1009,24 @@
         ],
         "locations": [
           {
+            "name": "Inside Glass Factory Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Inside Glass Factory"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Glass Factory Back Wall 5",
             "id": 158032,
             "access_rule": {
@@ -814,7 +1036,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -848,7 +1070,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -913,13 +1135,24 @@
             "name": "Symmetry Island Lower Panel",
             "id": 158040,
             "access_rule": {
-              "rule": "HasAll",
-              "args": {
-                "items": [
-                  "Progressive Dots",
-                  "Progressive Symmetry"
-                ]
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Glass Factory"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Progressive Dots",
+                      "Progressive Symmetry"
+                    ]
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -949,6 +1182,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Symmetry Island Lower Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Symmetry Island Lower"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Symmetry Island Right 5",
             "id": 158045,
@@ -982,7 +1233,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Bonk",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1002,7 +1253,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1019,9 +1270,9 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Boat",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -1053,6 +1304,24 @@
         "exits": [],
         "locations": [
           {
+            "name": "Symmetry Island Upper Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Symmetry Island Upper"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Symmetry Island Laser Yellow 3",
             "id": 158067,
             "access_rule": {
@@ -1063,7 +1332,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1141,13 +1410,31 @@
         ],
         "locations": [
           {
+            "name": "Desert Outside Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Desert Outside"
+              }
+            },
+            "item": {
+              "name": "+6 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Desert Surface 8",
             "id": 158084,
             "access_rule": {
               "rule": "True_"
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1232,6 +1519,24 @@
         ],
         "locations": [
           {
+            "name": "Desert Pond Room Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Desert Pond Room"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Desert Pond Room 5",
             "id": 158095,
             "access_rule": {
@@ -1273,9 +1578,9 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Triangles",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -1285,8 +1590,26 @@
       "Desert Flood Room Underwater": {
         "name": "Desert Flood Room Underwater",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Desert Flood Room Underwater Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Desert Flood Room Underwater"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Desert Elevator Room": {
         "name": "Desert Elevator Room",
@@ -1300,6 +1623,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Desert Elevator Room Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Desert Elevator Room"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Desert Elevator Room Hexagonal",
             "id": 158113,
@@ -1379,6 +1720,24 @@
         ],
         "locations": [
           {
+            "name": "Outside Quarry Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Quarry"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Quarry Entry 1 Panel",
             "id": 158118,
             "access_rule": {
@@ -1388,9 +1747,9 @@
               }
             },
             "item": {
-              "name": "Shapers",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -1399,16 +1758,33 @@
             "name": "Quarry Laser Panel",
             "id": 158702,
             "access_rule": {
-              "rule": "HasAllCounts",
-              "args": {
-                "items": {
-                  "Colored Squares": 1,
-                  "Eraser": 1,
-                  "Progressive Dots": 1,
-                  "Progressive Stars": 2,
-                  "Shapers": 1
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Quarry Boathouse Upper Back"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Quarry Stoneworks Upper Floor"
+                  }
+                },
+                {
+                  "rule": "HasAllCounts",
+                  "args": {
+                    "items": {
+                      "Colored Squares": 1,
+                      "Eraser": 1,
+                      "Progressive Dots": 1,
+                      "Progressive Stars": 2,
+                      "Shapers": 1
+                    }
+                  }
                 }
-              }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -1525,6 +1901,24 @@
         ],
         "locations": [
           {
+            "name": "Quarry Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Quarry"
+              }
+            },
+            "item": {
+              "name": "+5 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Quarry Stoneworks Entry Left Panel",
             "id": 158121,
             "access_rule": {
@@ -1534,7 +1928,7 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1625,7 +2019,7 @@
               }
             },
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1720,6 +2114,24 @@
         ],
         "locations": [
           {
+            "name": "Quarry Stoneworks Upper Floor Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Quarry Stoneworks Upper Floor"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Quarry Stoneworks Upper Row 8",
             "id": 158141,
             "access_rule": {
@@ -1774,7 +2186,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1841,6 +2253,24 @@
         ],
         "locations": [
           {
+            "name": "Quarry Boathouse Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Quarry Boathouse"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Quarry Boathouse Intro Left",
             "id": 158146,
             "access_rule": {
@@ -1850,7 +2280,7 @@
               }
             },
             "item": {
-              "name": "Bonk",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -1870,9 +2300,9 @@
               }
             },
             "item": {
-              "name": "Power Surge",
+              "name": "Progressive Stars",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -1937,7 +2367,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2048,6 +2478,24 @@
         ],
         "locations": [
           {
+            "name": "Shadows Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Shadows"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Shadows Intro 8",
             "id": 158173,
             "access_rule": {
@@ -2068,7 +2516,7 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2109,20 +2557,71 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Shadows Ledge Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Shadows Ledge"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Shadows Laser Room": {
         "name": "Shadows Laser Room",
         "exits": [],
         "locations": [
           {
+            "name": "Shadows Laser Room Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Shadows Laser Room"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Shadows Laser Panel",
             "id": 158703,
             "access_rule": {
-              "rule": "True_"
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows Ledge"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Shadows"
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2194,6 +2693,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Keep Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Keep Hedge Maze 1",
             "id": 158193,
@@ -2275,13 +2792,31 @@
         ],
         "locations": [
           {
+            "name": "Keep 3rd Maze Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep 3rd Maze"
+              }
+            },
+            "item": {
+              "name": "+3 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Keep Hedge Maze 3",
             "id": 158195,
             "access_rule": {
               "rule": "True_"
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2316,7 +2851,7 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Bonk",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2338,6 +2873,24 @@
         ],
         "locations": [
           {
+            "name": "Keep 2nd Pressure Plate Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep 2nd Pressure Plate"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Keep Pressure Plates 2",
             "id": 158200,
             "access_rule": {
@@ -2350,7 +2903,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2392,6 +2945,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Keep 3rd Pressure Plate Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep 3rd Pressure Plate"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Keep Pressure Plates 3",
             "id": 158202,
@@ -2442,6 +3013,24 @@
         ],
         "locations": [
           {
+            "name": "Keep 4th Pressure Plate Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep 4th Pressure Plate"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Keep Pressure Plates 4",
             "id": 158204,
             "access_rule": {
@@ -2455,9 +3044,9 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Progressive Dots",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -2477,10 +3066,54 @@
         ],
         "locations": [
           {
+            "name": "Keep Tower Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Keep Tower"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Keep Laser Panel Hedges",
             "id": 158704,
             "access_rule": {
-              "rule": "True_"
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 2nd Maze"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 3rd Maze"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 4th Maze"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -2494,17 +3127,46 @@
             "name": "Keep Laser Panel Pressure Plates",
             "id": 158705,
             "access_rule": {
-              "rule": "HasAllCounts",
-              "args": {
-                "items": {
-                  "Black/White Squares": 1,
-                  "Colored Squares": 1,
-                  "Progressive Dots": 1,
-                  "Progressive Stars": 2,
-                  "Progressive Symmetry": 1,
-                  "Shapers": 1
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 2nd Pressure Plate"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 3rd Pressure Plate"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep 4th Pressure Plate"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Keep"
+                  }
+                },
+                {
+                  "rule": "HasAllCounts",
+                  "args": {
+                    "items": {
+                      "Black/White Squares": 1,
+                      "Colored Squares": 1,
+                      "Progressive Dots": 1,
+                      "Progressive Stars": 2,
+                      "Progressive Symmetry": 1,
+                      "Shapers": 1
+                    }
+                  }
                 }
-              }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -2527,7 +3189,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Shipwreck Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Shipwreck"
+              }
+            },
+            "item": {
+              "name": "+5 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Monastery Obelisk": {
         "name": "Monastery Obelisk",
@@ -2558,6 +3239,27 @@
             "access_rule": {
               "rule": "True_"
             }
+          },
+          {
+            "name": "Outside Monastery to Monastery Garden",
+            "connected_region": "Monastery Garden",
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Monastery"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Dots"
+                  }
+                }
+              ]
+            }
           }
         ],
         "locations": [
@@ -2565,13 +3267,24 @@
             "name": "Monastery Outside 3",
             "id": 158212,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Progressive Dots"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Monastery"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Dots"
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Slowness",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2582,15 +3295,32 @@
             "name": "Monastery Laser Panel",
             "id": 158706,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Progressive Dots"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Monastery"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Outside Monastery"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Dots"
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Rotated Shapers",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -2613,13 +3343,48 @@
         ],
         "locations": [
           {
+            "name": "Inside Monastery Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Inside Monastery"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Monastery Inside 4",
             "id": 158217,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Progressive Dots"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Inside Monastery"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Outside Monastery"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Dots"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Slowness",
@@ -2631,11 +3396,53 @@
           }
         ]
       },
+      "Monastery Garden": {
+        "name": "Monastery Garden",
+        "exits": [],
+        "locations": [
+          {
+            "name": "Monastery Garden Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Monastery Garden"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
+      },
       "Monastery North Shutters": {
         "name": "Monastery North Shutters",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Monastery North Shutters Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Monastery North Shutters"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Town Obelisk": {
         "name": "Town Obelisk",
@@ -2728,6 +3535,24 @@
         ],
         "locations": [
           {
+            "name": "Town Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Town"
+              }
+            },
+            "item": {
+              "name": "+5 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Town Cargo Box Entry Panel",
             "id": 158219,
             "access_rule": {
@@ -2776,9 +3601,9 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Progressive Symmetry",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -2796,9 +3621,9 @@
               }
             },
             "item": {
-              "name": "Progressive Dots",
+              "name": "Slowness",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -2807,13 +3632,24 @@
             "name": "Town Church Entry Panel",
             "id": 158226,
             "access_rule": {
-              "rule": "HasAll",
-              "args": {
-                "items": [
-                  "Progressive Stars",
-                  "Rotated Shapers"
-                ]
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Town"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Progressive Stars",
+                      "Rotated Shapers"
+                    ]
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -2898,10 +3734,21 @@
             "name": "Town Tall Hexagonal",
             "id": 158224,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Progressive Symmetry"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Town"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Progressive Symmetry"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -2918,23 +3765,52 @@
         "exits": [],
         "locations": [
           {
-            "name": "Town Wooden Rooftop",
-            "id": 158240,
+            "name": "Town Wooden Rooftop Easter Egg",
+            "id": null,
             "access_rule": {
-              "rule": "HasAllCounts",
+              "rule": "CanReachRegion",
               "args": {
-                "items": {
-                  "Eraser": 1,
-                  "Progressive Dots": 2,
-                  "Rotated Shapers": 1,
-                  "Shapers": 1
-                }
+                "region_name": "Town Wooden Rooftop"
               }
             },
             "item": {
-              "name": "Boat",
+              "name": "+1 Easter Egg",
               "player": 1,
               "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Town Wooden Rooftop",
+            "id": 158240,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Town"
+                  }
+                },
+                {
+                  "rule": "HasAllCounts",
+                  "args": {
+                    "items": {
+                      "Eraser": 1,
+                      "Progressive Dots": 2,
+                      "Rotated Shapers": 1,
+                      "Shapers": 1
+                    }
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Slowness",
+              "player": 1,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -2957,16 +3833,27 @@
             "name": "Town Church Lattice",
             "id": 158227,
             "access_rule": {
-              "rule": "HasAll",
-              "args": {
-                "items": [
-                  "Progressive Stars",
-                  "Rotated Shapers"
-                ]
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Town"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Progressive Stars",
+                      "Rotated Shapers"
+                    ]
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -2991,6 +3878,24 @@
         ],
         "locations": [
           {
+            "name": "Town RGB House Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Town RGB House"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Town RGB House Sound Room Right",
             "id": 158243,
             "access_rule": {
@@ -3000,7 +3905,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3027,7 +3932,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3048,9 +3953,9 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Triangles",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -3322,6 +4227,24 @@
         ],
         "locations": [
           {
+            "name": "Town Tower Top Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Town Tower Top"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Town Laser Panel",
             "id": 158708,
             "access_rule": {
@@ -3369,7 +4292,7 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3394,6 +4317,24 @@
         ],
         "locations": [
           {
+            "name": "Windmill Interior Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Windmill Interior"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Windmill Theater Entry Panel",
             "id": 158248,
             "access_rule": {
@@ -3403,9 +4344,9 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Progressive Stars",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -3475,6 +4416,24 @@
         ],
         "locations": [
           {
+            "name": "Theater Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Theater"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Theater Exit Left Panel",
             "id": 158249,
             "access_rule": {
@@ -3507,9 +4466,9 @@
               }
             },
             "item": {
-              "name": "Progressive Stars",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -3527,7 +4486,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Southern Peninsula Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Southern Peninsula"
+              }
+            },
+            "item": {
+              "name": "+5 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Jungle": {
         "name": "Jungle",
@@ -3559,15 +4537,33 @@
         ],
         "locations": [
           {
+            "name": "Jungle Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Jungle"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Jungle First Row 3",
             "id": 158254,
             "access_rule": {
               "rule": "True_"
             },
             "item": {
-              "name": "Progressive Dots",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -3579,7 +4575,7 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3590,13 +4586,24 @@
             "name": "Jungle Popup Wall 6",
             "id": 158265,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Sound Dots"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Jungle"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Sound Dots"
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3607,10 +4614,21 @@
             "name": "Jungle Laser Panel",
             "id": 158709,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Sound Dots"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Jungle"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Sound Dots"
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -3625,8 +4643,26 @@
       "Jungle Under Popup Wall": {
         "name": "Jungle Under Popup Wall",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Jungle Under Popup Wall Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Jungle Under Popup Wall"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Outside Jungle River": {
         "name": "Outside Jungle River",
@@ -3634,6 +4670,13 @@
           {
             "name": "Outside Jungle River to Main Island",
             "connected_region": "Main Island",
+            "access_rule": {
+              "rule": "True_"
+            }
+          },
+          {
+            "name": "Outside Jungle River to Monastery Garden",
+            "connected_region": "Monastery Garden",
             "access_rule": {
               "rule": "True_"
             }
@@ -3678,6 +4721,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Outside Bunker Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Bunker"
+              }
+            },
+            "item": {
+              "name": "+3 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Bunker Entry Panel",
             "id": 158268,
@@ -3748,7 +4809,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3787,19 +4848,48 @@
         ],
         "locations": [
           {
-            "name": "Bunker Glass Room 3",
-            "id": 158281,
+            "name": "Bunker Glass Room Easter Egg",
+            "id": null,
             "access_rule": {
-              "rule": "HasAll",
+              "rule": "CanReachRegion",
               "args": {
-                "items": [
-                  "Black/White Squares",
-                  "Colored Squares"
-                ]
+                "region_name": "Bunker Glass Room"
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
+            "name": "Bunker Glass Room 3",
+            "id": 158281,
+            "access_rule": {
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Bunker"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Black/White Squares",
+                      "Colored Squares"
+                    ]
+                  }
+                }
+              ]
+            },
+            "item": {
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3839,7 +4929,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -3879,7 +4969,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Bunker Under Elevator Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Bunker Under Elevator"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Bunker Elevator": {
         "name": "Bunker Elevator",
@@ -3976,7 +5085,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Bunker Green Room Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Bunker Green Room"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Bunker Laser Platform": {
         "name": "Bunker Laser Platform",
@@ -3997,7 +5125,7 @@
               "rule": "True_"
             },
             "item": {
-              "name": "Progressive Symmetry",
+              "name": "Progressive Dots",
               "player": 1,
               "advancement": true,
               "type": "None"
@@ -4029,6 +5157,24 @@
         ],
         "locations": [
           {
+            "name": "Outside Swamp Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Outside Swamp"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Swamp Entry Panel",
             "id": 158287,
             "access_rule": {
@@ -4038,7 +5184,7 @@
               }
             },
             "item": {
-              "name": "Rotated Shapers",
+              "name": "Progressive Symmetry",
               "player": 1,
               "advancement": true,
               "type": "None"
@@ -4059,6 +5205,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Swamp Entry Area Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Swamp Entry Area"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Swamp Intro Front 6",
             "id": 158293,
@@ -4178,6 +5342,24 @@
         ],
         "locations": [
           {
+            "name": "Swamp Platform Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Swamp Platform"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Swamp Platform Row 4",
             "id": 158316,
             "access_rule": {
@@ -4204,7 +5386,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -4242,6 +5424,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Swamp Cyan Underwater Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Swamp Cyan Underwater"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Swamp Cyan Underwater 5",
             "id": 158311,
@@ -4294,13 +5494,24 @@
             "name": "Swamp Between Bridges Near Row 4",
             "id": 158306,
             "access_rule": {
-              "rule": "Has",
-              "args": {
-                "item_name": "Shapers"
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Platform"
+                  }
+                },
+                {
+                  "rule": "Has",
+                  "args": {
+                    "item_name": "Shapers"
+                  }
+                }
+              ]
             },
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -4349,13 +5560,30 @@
             "name": "Swamp Between Bridges Far Row 4",
             "id": 158322,
             "access_rule": {
-              "rule": "HasAll",
-              "args": {
-                "items": [
-                  "Rotated Shapers",
-                  "Shapers"
-                ]
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Between Bridges Near"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Platform"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Rotated Shapers",
+                      "Shapers"
+                    ]
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -4422,9 +5650,9 @@
               }
             },
             "item": {
-              "name": "Eraser",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -4542,16 +5770,57 @@
         ],
         "locations": [
           {
+            "name": "Swamp Near Boat Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Swamp Near Boat"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Swamp Beyond Rotating Bridge 4",
             "id": 158332,
             "access_rule": {
-              "rule": "HasAll",
-              "args": {
-                "items": [
-                  "Rotated Shapers",
-                  "Shapers"
-                ]
-              }
+              "rule": "And",
+              "children": [
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Between Bridges Far"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Between Bridges Near"
+                  }
+                },
+                {
+                  "rule": "CanReachRegion",
+                  "args": {
+                    "region_name": "Swamp Platform"
+                  }
+                },
+                {
+                  "rule": "HasAll",
+                  "args": {
+                    "items": [
+                      "Rotated Shapers",
+                      "Shapers"
+                    ]
+                  }
+                }
+              ]
             },
             "item": {
               "name": "Speed Boost",
@@ -4763,6 +6032,24 @@
         ],
         "locations": [
           {
+            "name": "Swamp Laser Area Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Swamp Laser Area"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Swamp Laser Panel",
             "id": 158711,
             "access_rule": {
@@ -4790,9 +6077,9 @@
               }
             },
             "item": {
-              "name": "Colored Squares",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -4823,7 +6110,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Treehouse Beach Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Beach"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Treehouse Entry Area": {
         "name": "Treehouse Entry Area",
@@ -4860,7 +6166,7 @@
               }
             },
             "item": {
-              "name": "Functioning Brain",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -4894,9 +6200,9 @@
               }
             },
             "item": {
-              "name": "Progressive Symmetry",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "type": "None"
             },
             "locked": false
@@ -4919,6 +6225,24 @@
         ],
         "locations": [
           {
+            "name": "Treehouse Yellow Bridge Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Yellow Bridge"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Treehouse Yellow Bridge 9",
             "id": 158354,
             "access_rule": {
@@ -4928,7 +6252,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -4996,7 +6320,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Treehouse Junction Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Junction"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Treehouse First Purple Bridge": {
         "name": "Treehouse First Purple Bridge",
@@ -5036,9 +6379,9 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Eraser",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -5077,7 +6420,7 @@
               }
             },
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5102,6 +6445,24 @@
         ],
         "locations": [
           {
+            "name": "Treehouse Drawbridge Platform Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Drawbridge Platform"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Treehouse Drawbridge Panel",
             "id": 158404,
             "access_rule": {
@@ -5111,7 +6472,7 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5139,6 +6500,24 @@
           }
         ],
         "locations": [
+          {
+            "name": "Treehouse Second Purple Bridge Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Second Purple Bridge"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Treehouse Second Purple Bridge 7",
             "id": 158368,
@@ -5223,7 +6602,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5289,7 +6668,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5307,8 +6686,26 @@
       "Treehouse Green Bridge Left House": {
         "name": "Treehouse Green Bridge Left House",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Treehouse Green Bridge Left House Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Green Bridge Left House"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Treehouse Laser Room Front Platform": {
         "name": "Treehouse Laser Room Front Platform",
@@ -5356,14 +6753,50 @@
       "Treehouse Laser Room Back Platform": {
         "name": "Treehouse Laser Room Back Platform",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Treehouse Laser Room Back Platform Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Laser Room Back Platform"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Treehouse Burned House": {
         "name": "Treehouse Burned House",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Treehouse Burned House Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Treehouse Burned House"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Treehouse Laser Room": {
         "name": "Treehouse Laser Room",
@@ -5424,7 +6857,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "Mountainside Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountainside"
+              }
+            },
+            "item": {
+              "name": "+4 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Mountaintop": {
         "name": "Mountaintop",
@@ -5449,13 +6901,31 @@
         ],
         "locations": [
           {
+            "name": "Mountaintop Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountaintop"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Mountaintop River Shape",
             "id": 158405,
             "access_rule": {
               "rule": "True_"
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5578,7 +7048,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5650,7 +7120,7 @@
               }
             },
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -5682,13 +7152,49 @@
       "Mountain Floor 1 Trash Pillar": {
         "name": "Mountain Floor 1 Trash Pillar",
         "exits": [],
-        "locations": [],
-        "dynamically_added": true
+        "locations": [
+          {
+            "name": "Mountain Floor 1 Trash Pillar Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountain Floor 1 Trash Pillar"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Mountain Floor 1 Back Section": {
         "name": "Mountain Floor 1 Back Section",
         "exits": [],
         "locations": [
+          {
+            "name": "Mountain Floor 1 Back Section Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountain Floor 1 Back Section"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
           {
             "name": "Mountain Floor 1 Back Row 3",
             "id": 158423,
@@ -5873,6 +7379,24 @@
         ],
         "locations": [
           {
+            "name": "Mountain Floor 2 Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountain Floor 2"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Mountain Floor 2 Near Row 5",
             "id": 158430,
             "access_rule": {
@@ -5887,9 +7411,9 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Negative Shapers",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "type": "None"
             },
             "locked": false
@@ -5958,7 +7482,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -6091,7 +7615,7 @@
               }
             },
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -6261,7 +7785,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -6312,6 +7836,24 @@
         ],
         "locations": [
           {
+            "name": "Mountain Bottom Floor Pillars Room Easter Egg",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "Mountain Bottom Floor Pillars Room"
+              }
+            },
+            "item": {
+              "name": "+1 Easter Egg",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          },
+          {
             "name": "Mountain Bottom Floor Right Pillar 4",
             "id": 158525,
             "access_rule": {
@@ -6325,7 +7867,7 @@
               }
             },
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "type": "None"
@@ -6430,7 +7972,26 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "The Ocean Easter Eggs",
+            "id": null,
+            "access_rule": {
+              "rule": "CanReachRegion",
+              "args": {
+                "region_name": "The Ocean"
+              }
+            },
+            "item": {
+              "name": "+2 Easter Eggs",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": true,
+            "event": true
+          }
+        ]
       },
       "Easter Eggs": {
         "name": "Easter Eggs",
@@ -6443,7 +8004,674 @@
             }
           }
         ],
-        "locations": []
+        "locations": [
+          {
+            "name": "3 Easter Eggs Collected",
+            "id": 160002,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 6
+              }
+            },
+            "item": {
+              "name": "Shapers",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "6 Easter Eggs Collected",
+            "id": 160005,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 12
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "9 Easter Eggs Collected",
+            "id": 160008,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 18
+              }
+            },
+            "item": {
+              "name": "Power Surge",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "12 Easter Eggs Collected",
+            "id": 160011,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 24
+              }
+            },
+            "item": {
+              "name": "Bonk",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "15 Easter Eggs Collected",
+            "id": 160014,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 30
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "18 Easter Eggs Collected",
+            "id": 160017,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 36
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "21 Easter Eggs Collected",
+            "id": 160020,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 42
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "24 Easter Eggs Collected",
+            "id": 160023,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 48
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "27 Easter Eggs Collected",
+            "id": 160026,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 54
+              }
+            },
+            "item": {
+              "name": "Bonk",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "30 Easter Eggs Collected",
+            "id": 160029,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 60
+              }
+            },
+            "item": {
+              "name": "Puzzle Skip",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "33 Easter Eggs Collected",
+            "id": 160032,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 66
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "36 Easter Eggs Collected",
+            "id": 160035,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 72
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "39 Easter Eggs Collected",
+            "id": 160038,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 78
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "42 Easter Eggs Collected",
+            "id": 160041,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 84
+              }
+            },
+            "item": {
+              "name": "Puzzle Skip",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "45 Easter Eggs Collected",
+            "id": 160044,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 90
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "48 Easter Eggs Collected",
+            "id": 160047,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 96
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "51 Easter Eggs Collected",
+            "id": 160050,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 102
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "54 Easter Eggs Collected",
+            "id": 160053,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 108
+              }
+            },
+            "item": {
+              "name": "Sound Dots",
+              "player": 1,
+              "advancement": true,
+              "type": "None"
+            },
+            "locked": false
+          },
+          {
+            "name": "57 Easter Eggs Collected",
+            "id": 160056,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Slowness",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "60 Easter Eggs Collected",
+            "id": 160059,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "63 Easter Eggs Collected",
+            "id": 160062,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "66 Easter Eggs Collected",
+            "id": 160065,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "69 Easter Eggs Collected",
+            "id": 160068,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "72 Easter Eggs Collected",
+            "id": 160071,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "75 Easter Eggs Collected",
+            "id": 160074,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "78 Easter Eggs Collected",
+            "id": 160077,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Slowness",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "81 Easter Eggs Collected",
+            "id": 160080,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "84 Easter Eggs Collected",
+            "id": 160083,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "87 Easter Eggs Collected",
+            "id": 160086,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "90 Easter Eggs Collected",
+            "id": 160089,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "93 Easter Eggs Collected",
+            "id": 160092,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "96 Easter Eggs Collected",
+            "id": 160095,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "99 Easter Eggs Collected",
+            "id": 160098,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Slowness",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "102 Easter Eggs Collected",
+            "id": 160101,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "105 Easter Eggs Collected",
+            "id": 160104,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Speed Boost",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          },
+          {
+            "name": "108 Easter Eggs Collected",
+            "id": 160107,
+            "access_rule": {
+              "rule": "Has",
+              "args": {
+                "item_name": "Egg",
+                "count": 110
+              }
+            },
+            "item": {
+              "name": "Functioning Brain",
+              "player": 1,
+              "advancement": false,
+              "type": "None"
+            },
+            "locked": false,
+            "progress_type": "EXCLUDED"
+          }
+        ]
       }
     }
   },
@@ -6674,7 +8902,7 @@
         ],
         "classification": "filler",
         "type": null,
-        "max_count": 84
+        "max_count": 113
       },
       "Puzzle Skip": {
         "name": "Puzzle Skip",
@@ -6694,7 +8922,7 @@
         ],
         "classification": "trap",
         "type": null,
-        "max_count": 14
+        "max_count": 19
       },
       "Power Surge": {
         "name": "Power Surge",
@@ -6704,7 +8932,7 @@
         ],
         "classification": "trap",
         "type": null,
-        "max_count": 5
+        "max_count": 6
       },
       "Bonk": {
         "name": "Bonk",
@@ -6714,7 +8942,7 @@
         ],
         "classification": "trap",
         "type": null,
-        "max_count": 2
+        "max_count": 3
       },
       "Functioning Brain": {
         "name": "Functioning Brain",
@@ -9410,6 +11638,50 @@
         "type": "Event",
         "max_count": 1
       },
+      "+1 Easter Egg": {
+        "name": "+1 Easter Egg",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 40
+      },
+      "+4 Easter Eggs": {
+        "name": "+4 Easter Eggs",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 2
+      },
+      "+2 Easter Eggs": {
+        "name": "+2 Easter Eggs",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 15
+      },
+      "+6 Easter Eggs": {
+        "name": "+6 Easter Eggs",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
       "+1 Laser (Redirected)": {
         "name": "+1 Laser (Redirected)",
         "id": null,
@@ -9420,6 +11692,28 @@
         "event": true,
         "type": "Event",
         "max_count": 1
+      },
+      "+5 Easter Eggs": {
+        "name": "+5 Easter Eggs",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 4
+      },
+      "+3 Easter Eggs": {
+        "name": "+3 Easter Eggs",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "classification": "progression",
+        "event": true,
+        "type": "Event",
+        "max_count": 2
       },
       "Desert Laser Redirection": {
         "name": "Desert Laser Redirection",
@@ -9468,28 +11762,34 @@
   },
   "itempool_counts": {
     "1": {
+      "+1 Easter Egg": 40,
       "+1 Laser": 10,
       "+1 Laser (Redirected)": 1,
       "+1 Laser (Unredirected)": 1,
+      "+2 Easter Eggs": 15,
+      "+3 Easter Eggs": 2,
+      "+4 Easter Eggs": 2,
+      "+5 Easter Eggs": 4,
+      "+6 Easter Eggs": 1,
       "Black/White Squares": 1,
       "Boat": 1,
-      "Bonk": 2,
+      "Bonk": 3,
       "Colored Squares": 1,
       "Desert Laser Redirection": 1,
       "Eraser": 1,
       "Functioning Brain": 1,
       "Mountain Entry": 1,
       "Negative Shapers": 1,
-      "Power Surge": 5,
+      "Power Surge": 6,
       "Progressive Dots": 2,
       "Progressive Stars": 2,
       "Progressive Symmetry": 2,
       "Puzzle Skip": 11,
       "Rotated Shapers": 1,
       "Shapers": 1,
-      "Slowness": 14,
+      "Slowness": 19,
       "Sound Dots": 1,
-      "Speed Boost": 84,
+      "Speed Boost": 113,
       "Triangles": 1,
       "Victory": 1
     }
@@ -9518,7 +11818,7 @@
         "door_groupings": 0,
         "early_caves": 0,
         "early_symbol_item": true,
-        "easter_egg_hunt": 0,
+        "easter_egg_hunt": 2,
         "elevators_come_to_you": [
           "Quarry Elevator"
         ],
@@ -9647,7 +11947,7 @@
             "4": "very_hard",
             "5": "extreme"
           },
-          "default": 0,
+          "default": 2,
           "display_name": "Easter Egg Hunt"
         },
         "hint_amount": {
@@ -11390,10 +13690,17 @@
           ],
           "Orchard Beyond First Gate": [
             {
+              "target_region": "Orchard End"
+            },
+            {
               "target_region": "Orchard"
             }
           ],
-          "Orchard End": [],
+          "Orchard End": [
+            {
+              "target_region": "Orchard Beyond First Gate"
+            }
+          ],
           "Main Island": [
             {
               "target_region": "Outside Tutorial"
@@ -11833,6 +14140,9 @@
             },
             {
               "target_region": "Inside Monastery"
+            },
+            {
+              "target_region": "Monastery Garden"
             }
           ],
           "Inside Monastery": [
@@ -11843,7 +14153,14 @@
               "target_region": "Outside Monastery"
             }
           ],
-          "Monastery Garden": [],
+          "Monastery Garden": [
+            {
+              "target_region": "Outside Monastery"
+            },
+            {
+              "target_region": "Outside Jungle River"
+            }
+          ],
           "Monastery North Shutters": [
             {
               "target_region": "Inside Monastery"
@@ -12005,6 +14322,9 @@
           "Outside Jungle River": [
             {
               "target_region": "Main Island"
+            },
+            {
+              "target_region": "Monastery Garden"
             }
           ],
           "Jungle Vault": [],
@@ -12630,9 +14950,331 @@
           "Mountaintop Mountain Entry Panel Solved": [
             "Mountain Entry",
             "0x17C34"
+          ],
+          "Quarry Easter Eggs": [
+            "+5 Easter Eggs",
+            "Quarry"
+          ],
+          "Town Easter Eggs": [
+            "+5 Easter Eggs",
+            "Town"
+          ],
+          "Southern Peninsula Easter Eggs": [
+            "+5 Easter Eggs",
+            "Southern Peninsula"
+          ],
+          "Shipwreck Easter Eggs": [
+            "+5 Easter Eggs",
+            "Shipwreck"
+          ],
+          "The Ocean Easter Eggs": [
+            "+2 Easter Eggs",
+            "The Ocean"
+          ],
+          "Mountain Bottom Floor Pillars Room Easter Egg": [
+            "+1 Easter Egg",
+            "Mountain Bottom Floor Pillars Room"
+          ],
+          "Keep 3rd Maze Easter Eggs": [
+            "+3 Easter Eggs",
+            "Keep 3rd Maze"
+          ],
+          "Town Tower Top Easter Egg": [
+            "+1 Easter Egg",
+            "Town Tower Top"
+          ],
+          "Mountain Floor 1 Trash Pillar Easter Egg": [
+            "+1 Easter Egg",
+            "Mountain Floor 1 Trash Pillar"
+          ],
+          "Quarry Stoneworks Upper Floor Easter Eggs": [
+            "+2 Easter Eggs",
+            "Quarry Stoneworks Upper Floor"
+          ],
+          "Desert Pond Room Easter Eggs": [
+            "+2 Easter Eggs",
+            "Desert Pond Room"
+          ],
+          "Bunker Glass Room Easter Egg": [
+            "+1 Easter Egg",
+            "Bunker Glass Room"
+          ],
+          "Treehouse Junction Easter Eggs": [
+            "+2 Easter Eggs",
+            "Treehouse Junction"
+          ],
+          "Inside Glass Factory Easter Eggs": [
+            "+2 Easter Eggs",
+            "Inside Glass Factory"
+          ],
+          "Outside Tutorial Path To Outpost Easter Egg": [
+            "+1 Easter Egg",
+            "Outside Tutorial Path To Outpost"
+          ],
+          "Quarry Boathouse Easter Eggs": [
+            "+2 Easter Eggs",
+            "Quarry Boathouse"
+          ],
+          "Outside Quarry Easter Eggs": [
+            "+2 Easter Eggs",
+            "Outside Quarry"
+          ],
+          "Orchard Beyond First Gate Easter Egg": [
+            "+1 Easter Egg",
+            "Orchard Beyond First Gate"
+          ],
+          "Symmetry Island Lower Easter Eggs": [
+            "+2 Easter Eggs",
+            "Symmetry Island Lower"
+          ],
+          "Shadows Ledge Easter Egg": [
+            "+1 Easter Egg",
+            "Shadows Ledge"
+          ],
+          "Swamp Laser Area Easter Egg": [
+            "+1 Easter Egg",
+            "Swamp Laser Area"
+          ],
+          "Orchard End Easter Egg": [
+            "+1 Easter Egg",
+            "Orchard End"
+          ],
+          "Treehouse Green Bridge Left House Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Green Bridge Left House"
+          ],
+          "Mountainside Easter Eggs": [
+            "+4 Easter Eggs",
+            "Mountainside"
+          ],
+          "Outside Bunker Easter Eggs": [
+            "+3 Easter Eggs",
+            "Outside Bunker"
+          ],
+          "Monastery North Shutters Easter Egg": [
+            "+1 Easter Egg",
+            "Monastery North Shutters"
+          ],
+          "Inside Monastery Easter Egg": [
+            "+1 Easter Egg",
+            "Inside Monastery"
+          ],
+          "Shadows Laser Room Easter Egg": [
+            "+1 Easter Egg",
+            "Shadows Laser Room"
+          ],
+          "Keep Tower Easter Eggs": [
+            "+2 Easter Eggs",
+            "Keep Tower"
+          ],
+          "Outside Tutorial Easter Eggs": [
+            "+4 Easter Eggs",
+            "Outside Tutorial"
+          ],
+          "Treehouse Second Purple Bridge Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Second Purple Bridge"
+          ],
+          "Windmill Interior Easter Eggs": [
+            "+2 Easter Eggs",
+            "Windmill Interior"
+          ],
+          "Bunker Green Room Easter Egg": [
+            "+1 Easter Egg",
+            "Bunker Green Room"
+          ],
+          "Bunker Under Elevator Easter Egg": [
+            "+1 Easter Egg",
+            "Bunker Under Elevator"
+          ],
+          "Town RGB House Easter Eggs": [
+            "+2 Easter Eggs",
+            "Town RGB House"
+          ],
+          "Desert Outside Easter Eggs": [
+            "+6 Easter Eggs",
+            "Desert Outside"
+          ],
+          "Keep 4th Pressure Plate Easter Egg": [
+            "+1 Easter Egg",
+            "Keep 4th Pressure Plate"
+          ],
+          "Mountain Floor 2 Easter Egg": [
+            "+1 Easter Egg",
+            "Mountain Floor 2"
+          ],
+          "Shadows Easter Eggs": [
+            "+2 Easter Eggs",
+            "Shadows"
+          ],
+          "Swamp Entry Area Easter Egg": [
+            "+1 Easter Egg",
+            "Swamp Entry Area"
+          ],
+          "Treehouse Laser Room Back Platform Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Laser Room Back Platform"
+          ],
+          "Keep 2nd Pressure Plate Easter Eggs": [
+            "+2 Easter Eggs",
+            "Keep 2nd Pressure Plate"
+          ],
+          "Monastery Garden Easter Egg": [
+            "+1 Easter Egg",
+            "Monastery Garden"
+          ],
+          "Jungle Easter Eggs": [
+            "+2 Easter Eggs",
+            "Jungle"
+          ],
+          "Outside Swamp Easter Eggs": [
+            "+2 Easter Eggs",
+            "Outside Swamp"
+          ],
+          "Desert Elevator Room Easter Egg": [
+            "+1 Easter Egg",
+            "Desert Elevator Room"
+          ],
+          "Theater Easter Egg": [
+            "+1 Easter Egg",
+            "Theater"
+          ],
+          "Tutorial Easter Egg": [
+            "+1 Easter Egg",
+            "Tutorial"
+          ],
+          "Town Wooden Rooftop Easter Egg": [
+            "+1 Easter Egg",
+            "Town Wooden Rooftop"
+          ],
+          "Jungle Under Popup Wall Easter Egg": [
+            "+1 Easter Egg",
+            "Jungle Under Popup Wall"
+          ],
+          "Treehouse Yellow Bridge Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Yellow Bridge"
+          ],
+          "Symmetry Island Upper Easter Egg": [
+            "+1 Easter Egg",
+            "Symmetry Island Upper"
+          ],
+          "Treehouse Drawbridge Platform Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Drawbridge Platform"
+          ],
+          "Swamp Cyan Underwater Easter Egg": [
+            "+1 Easter Egg",
+            "Swamp Cyan Underwater"
+          ],
+          "Outside Tutorial Outpost Easter Egg": [
+            "+1 Easter Egg",
+            "Outside Tutorial Outpost"
+          ],
+          "Keep 3rd Pressure Plate Easter Egg": [
+            "+1 Easter Egg",
+            "Keep 3rd Pressure Plate"
+          ],
+          "Keep Easter Egg": [
+            "+1 Easter Egg",
+            "Keep"
+          ],
+          "Mountaintop Easter Egg": [
+            "+1 Easter Egg",
+            "Mountaintop"
+          ],
+          "Mountain Floor 1 Back Section Easter Egg": [
+            "+1 Easter Egg",
+            "Mountain Floor 1 Back Section"
+          ],
+          "Swamp Platform Easter Egg": [
+            "+1 Easter Egg",
+            "Swamp Platform"
+          ],
+          "Swamp Near Boat Easter Egg": [
+            "+1 Easter Egg",
+            "Swamp Near Boat"
+          ],
+          "Desert Flood Room Underwater Easter Egg": [
+            "+1 Easter Egg",
+            "Desert Flood Room Underwater"
+          ],
+          "Treehouse Burned House Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Burned House"
+          ],
+          "Treehouse Beach Easter Egg": [
+            "+1 Easter Egg",
+            "Treehouse Beach"
           ]
         },
         "VICTORY_LOCATION": "0x3D9A9",
+        "AVAILABLE_EASTER_EGGS_PER_REGION": {
+          "Quarry": 5,
+          "Town": 5,
+          "Southern Peninsula": 5,
+          "Shipwreck": 5,
+          "The Ocean": 2,
+          "Mountain Bottom Floor Pillars Room": 1,
+          "Keep 3rd Maze": 3,
+          "Town Tower Top": 1,
+          "Mountain Floor 1 Trash Pillar": 1,
+          "Quarry Stoneworks Upper Floor": 2,
+          "Desert Pond Room": 2,
+          "Bunker Glass Room": 1,
+          "Treehouse Junction": 2,
+          "Inside Glass Factory": 2,
+          "Outside Tutorial Path To Outpost": 1,
+          "Quarry Boathouse": 2,
+          "Outside Quarry": 2,
+          "Orchard Beyond First Gate": 1,
+          "Symmetry Island Lower": 2,
+          "Shadows Ledge": 1,
+          "Swamp Laser Area": 1,
+          "Orchard End": 1,
+          "Treehouse Green Bridge Left House": 1,
+          "Mountainside": 4,
+          "Outside Bunker": 3,
+          "Monastery North Shutters": 1,
+          "Inside Monastery": 1,
+          "Shadows Laser Room": 1,
+          "Keep Tower": 2,
+          "Outside Tutorial": 4,
+          "Treehouse Second Purple Bridge": 1,
+          "Windmill Interior": 2,
+          "Bunker Green Room": 1,
+          "Bunker Under Elevator": 1,
+          "Town RGB House": 2,
+          "Desert Outside": 6,
+          "Keep 4th Pressure Plate": 1,
+          "Mountain Floor 2": 1,
+          "Shadows": 2,
+          "Swamp Entry Area": 1,
+          "Treehouse Laser Room Back Platform": 1,
+          "Keep 2nd Pressure Plate": 2,
+          "Monastery Garden": 1,
+          "Jungle": 2,
+          "Outside Swamp": 2,
+          "Desert Elevator Room": 1,
+          "Theater": 1,
+          "Tutorial": 1,
+          "Town Wooden Rooftop": 1,
+          "Jungle Under Popup Wall": 1,
+          "Treehouse Yellow Bridge": 1,
+          "Symmetry Island Upper": 1,
+          "Treehouse Drawbridge Platform": 1,
+          "Swamp Cyan Underwater": 1,
+          "Outside Tutorial Outpost": 1,
+          "Keep 3rd Pressure Plate": 1,
+          "Keep": 1,
+          "Mountaintop": 1,
+          "Mountain Floor 1 Back Section": 1,
+          "Swamp Platform": 1,
+          "Swamp Near Boat": 1,
+          "Desert Flood Room Underwater": 1,
+          "Treehouse Burned House": 1,
+          "Treehouse Beach": 1
+        },
         "ALWAYS_EVENT_NAMES_BY_HEX": {
           "0x00509": "+1 Laser",
           "0x012FB": "+1 Laser (Unredirected)",
@@ -12831,7 +15473,43 @@
           "0x09DE0": 158710,
           "0x03615": 158711,
           "0x03613": 158712,
-          "0xFFF80": 159800
+          "0xFFF80": 159800,
+          "0xee202": 160002,
+          "0xee205": 160005,
+          "0xee208": 160008,
+          "0xee20b": 160011,
+          "0xee20e": 160014,
+          "0xee211": 160017,
+          "0xee214": 160020,
+          "0xee217": 160023,
+          "0xee21a": 160026,
+          "0xee21d": 160029,
+          "0xee220": 160032,
+          "0xee223": 160035,
+          "0xee226": 160038,
+          "0xee229": 160041,
+          "0xee22c": 160044,
+          "0xee22f": 160047,
+          "0xee232": 160050,
+          "0xee235": 160053,
+          "0xee238": 160056,
+          "0xee23b": 160059,
+          "0xee23e": 160062,
+          "0xee241": 160065,
+          "0xee244": 160068,
+          "0xee247": 160071,
+          "0xee24a": 160074,
+          "0xee24d": 160077,
+          "0xee250": 160080,
+          "0xee253": 160083,
+          "0xee256": 160086,
+          "0xee259": 160089,
+          "0xee25c": 160092,
+          "0xee25f": 160095,
+          "0xee262": 160098,
+          "0xee265": 160101,
+          "0xee268": 160104,
+          "0xee26b": 160107
         },
         "CHECK_LOCATION_TABLE": {
           "Tutorial Front Left": 158004,
@@ -12965,221 +15643,227 @@
           "Bunker Laser Panel": 158710,
           "Swamp Laser Panel": 158711,
           "Treehouse Laser Panel": 158712,
-          "Town Pet the Dog": 159800
+          "Town Pet the Dog": 159800,
+          "3 Easter Eggs Collected": 160002,
+          "6 Easter Eggs Collected": 160005,
+          "9 Easter Eggs Collected": 160008,
+          "12 Easter Eggs Collected": 160011,
+          "15 Easter Eggs Collected": 160014,
+          "18 Easter Eggs Collected": 160017,
+          "21 Easter Eggs Collected": 160020,
+          "24 Easter Eggs Collected": 160023,
+          "27 Easter Eggs Collected": 160026,
+          "30 Easter Eggs Collected": 160029,
+          "33 Easter Eggs Collected": 160032,
+          "36 Easter Eggs Collected": 160035,
+          "39 Easter Eggs Collected": 160038,
+          "42 Easter Eggs Collected": 160041,
+          "45 Easter Eggs Collected": 160044,
+          "48 Easter Eggs Collected": 160047,
+          "51 Easter Eggs Collected": 160050,
+          "54 Easter Eggs Collected": 160053,
+          "57 Easter Eggs Collected": 160056,
+          "60 Easter Eggs Collected": 160059,
+          "63 Easter Eggs Collected": 160062,
+          "66 Easter Eggs Collected": 160065,
+          "69 Easter Eggs Collected": 160068,
+          "72 Easter Eggs Collected": 160071,
+          "75 Easter Eggs Collected": 160074,
+          "78 Easter Eggs Collected": 160077,
+          "81 Easter Eggs Collected": 160080,
+          "84 Easter Eggs Collected": 160083,
+          "87 Easter Eggs Collected": 160086,
+          "90 Easter Eggs Collected": 160089,
+          "93 Easter Eggs Collected": 160092,
+          "96 Easter Eggs Collected": 160095,
+          "99 Easter Eggs Collected": 160098,
+          "102 Easter Eggs Collected": 160101,
+          "105 Easter Eggs Collected": 160104,
+          "108 Easter Eggs Collected": 160107
         }
       },
       "log_ids_to_hints": {
-        "4807": [
-          "Progressive Dots can be found at Town RGB House Entry Panel.",
-          158225,
+        "246015": [
+          "Boat can be found at Symmetry Island Scenery Outlines 5.",
+          158063,
           1
         ],
         "207358": [
-          "Progressive Dots can be found at Town RGB House Entry Panel.",
-          158225,
-          1
-        ],
-        "211767": [
-          "Progressive Dots can be found at Town RGB House Entry Panel.",
-          158225,
-          1
-        ],
-        "1889": [
-          "Boat can be found at Town Wooden Rooftop.",
-          158240,
-          1
-        ],
-        "246028": [
-          "Boat can be found at Town Wooden Rooftop.",
-          158240,
-          1
-        ],
-        "246018": [
-          "Boat can be found at Town Wooden Rooftop.",
-          158240,
-          1
-        ],
-        "211711": [
-          "Rotated Shapers can be found at Swamp Entry Panel.",
-          158287,
-          1
-        ],
-        "246013": [
-          "Rotated Shapers can be found at Swamp Entry Panel.",
-          158287,
-          1
-        ],
-        "207368": [
-          "Rotated Shapers can be found at Swamp Entry Panel.",
-          158287,
-          1
-        ],
-        "211159": [
-          "Quarry Stoneworks Control Room Left contains Speed Boost.",
-          158143,
-          1
-        ],
-        "211146": [
-          "Quarry Stoneworks Control Room Left contains Speed Boost.",
-          158143,
-          1
-        ],
-        "246003": [
-          "Quarry Stoneworks Control Room Left contains Speed Boost.",
-          158143,
-          1
-        ],
-        "207370": [
-          "Swamp Purple Underwater contains Speed Boost.",
-          158333,
-          1
-        ],
-        "246022": [
-          "Swamp Purple Underwater contains Speed Boost.",
-          158333,
-          1
-        ],
-        "246027": [
-          "Swamp Purple Underwater contains Speed Boost.",
-          158333,
-          1
-        ],
-        "246007": [
-          "In the Bunker area, you will find 1 progression item.",
-          "hinted_area:Bunker",
-          1
-        ],
-        "246019": [
-          "In the Bunker area, you will find 1 progression item.",
-          "hinted_area:Bunker",
-          1
-        ],
-        "246004": [
-          "In the Bunker area, you will find 1 progression item.",
-          "hinted_area:Bunker",
-          1
-        ],
-        "246015": [
-          "In the Desert area, you will find 1 progression item.",
-          "hinted_area:Desert",
-          1
-        ],
-        "211133": [
-          "In the Desert area, you will find 1 progression item.",
-          "hinted_area:Desert",
-          1
-        ],
-        "246030": [
-          "In the Desert area, you will find 1 progression item.",
-          "hinted_area:Desert",
-          1
-        ],
-        "246026": [
-          "In the Jungle area, you will find 1 progression item.",
-          "hinted_area:Jungle",
-          1
-        ],
-        "4601": [
-          "In the Jungle area, you will find 1 progression item.",
-          "hinted_area:Jungle",
-          1
-        ],
-        "1871": [
-          "In the Jungle area, you will find 1 progression item.",
-          "hinted_area:Jungle",
-          1
-        ],
-        "5559": [
-          "In the Quarry area, you will find 1 progression item.",
-          "hinted_area:Quarry",
+          "Boat can be found at Symmetry Island Scenery Outlines 5.",
+          158063,
           1
         ],
         "211137": [
-          "In the Quarry area, you will find 1 progression item.",
-          "hinted_area:Quarry",
-          1
-        ],
-        "5568": [
-          "In the Quarry area, you will find 1 progression item.",
-          "hinted_area:Quarry",
-          1
-        ],
-        "246021": [
-          "Sound Dots can be found at Orchard Apple Tree 5.",
-          158075,
-          1
-        ],
-        "1891": [
-          "Sound Dots can be found at Orchard Apple Tree 5.",
-          158075,
-          1
-        ],
-        "207360": [
-          "Sound Dots can be found at Orchard Apple Tree 5.",
-          158075,
-          1
-        ],
-        "5569": [
-          "Treehouse Left Orange Bridge 15 contains Slowness.",
-          158390,
-          1
-        ],
-        "246029": [
-          "Treehouse Left Orange Bridge 15 contains Slowness.",
-          158390,
-          1
-        ],
-        "211766": [
-          "Treehouse Left Orange Bridge 15 contains Slowness.",
-          158390,
-          1
-        ],
-        "246025": [
-          "Triangles can be found at Desert Flood Room 6.",
-          158110,
-          1
-        ],
-        "207367": [
-          "Triangles can be found at Desert Flood Room 6.",
-          158110,
-          1
-        ],
-        "246023": [
-          "Triangles can be found at Desert Flood Room 6.",
-          158110,
+          "Boat can be found at Symmetry Island Scenery Outlines 5.",
+          158063,
           1
         ],
         "211145": [
-          "",
-          -1,
-          -1
+          "Progressive Dots can be found at Keep Pressure Plates 4.",
+          158204,
+          1
         ],
-        "211368": [
-          "",
-          -1,
-          -1
+        "5559": [
+          "Progressive Dots can be found at Keep Pressure Plates 4.",
+          158204,
+          1
         ],
-        "246017": [
-          "",
-          -1,
-          -1
+        "246003": [
+          "Progressive Dots can be found at Keep Pressure Plates 4.",
+          158204,
+          1
         ],
-        "246069": [
-          "",
-          -1,
-          -1
+        "246004": [
+          "Progressive Dots can be found at Bunker Laser Panel.",
+          158710,
+          1
         ],
-        "246020": [
-          "",
-          -1,
-          -1
+        "246007": [
+          "Progressive Dots can be found at Bunker Laser Panel.",
+          158710,
+          1
         ],
-        "1290": [
-          "",
-          -1,
-          -1
+        "4601": [
+          "Progressive Dots can be found at Bunker Laser Panel.",
+          158710,
+          1
+        ],
+        "211146": [
+          "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+          158239,
+          1
         ],
         "246016": [
+          "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+          158239,
+          1
+        ],
+        "246026": [
+          "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+          158239,
+          1
+        ],
+        "246030": [
+          "Tutorial Patio Floor contains Speed Boost.",
+          158010,
+          1
+        ],
+        "1889": [
+          "Tutorial Patio Floor contains Speed Boost.",
+          158010,
+          1
+        ],
+        "246022": [
+          "Tutorial Patio Floor contains Speed Boost.",
+          158010,
+          1
+        ],
+        "4807": [
+          "In the Swamp area, you will find 1 progression item.",
+          "hinted_area:Swamp",
+          1
+        ],
+        "211767": [
+          "In the Swamp area, you will find 1 progression item.",
+          "hinted_area:Swamp",
+          1
+        ],
+        "246019": [
+          "In the Swamp area, you will find 1 progression item.",
+          "hinted_area:Swamp",
+          1
+        ],
+        "1871": [
+          "In the Symmetry Island area, you will find 1 progression item.",
+          "hinted_area:Symmetry Island",
+          1
+        ],
+        "211766": [
+          "In the Symmetry Island area, you will find 1 progression item.",
+          "hinted_area:Symmetry Island",
+          1
+        ],
+        "207368": [
+          "In the Symmetry Island area, you will find 1 progression item.",
+          "hinted_area:Symmetry Island",
+          1
+        ],
+        "246023": [
+          "In the Shadows area, you will find no progression items.",
+          "hinted_area:Shadows",
+          0
+        ],
+        "246021": [
+          "In the Shadows area, you will find no progression items.",
+          "hinted_area:Shadows",
+          0
+        ],
+        "207360": [
+          "In the Shadows area, you will find no progression items.",
+          "hinted_area:Shadows",
+          0
+        ],
+        "211133": [
+          "In the Windmill & Theater area, you will find 1 progression item.",
+          "hinted_area:Windmill & Theater",
+          1
+        ],
+        "246013": [
+          "In the Windmill & Theater area, you will find 1 progression item.",
+          "hinted_area:Windmill & Theater",
+          1
+        ],
+        "211711": [
+          "In the Windmill & Theater area, you will find 1 progression item.",
+          "hinted_area:Windmill & Theater",
+          1
+        ],
+        "246025": [
+          "9 Easter Eggs Collected contains Power Surge.",
+          160008,
+          1
+        ],
+        "207367": [
+          "9 Easter Eggs Collected contains Power Surge.",
+          160008,
+          1
+        ],
+        "5569": [
+          "9 Easter Eggs Collected contains Power Surge.",
+          160008,
+          1
+        ],
+        "2575": [
+          "Shapers can be found at 3 Easter Eggs Collected.",
+          160002,
+          1
+        ],
+        "246028": [
+          "Shapers can be found at 3 Easter Eggs Collected.",
+          160002,
+          1
+        ],
+        "207359": [
+          "Shapers can be found at 3 Easter Eggs Collected.",
+          160002,
+          1
+        ],
+        "211369": [
+          "Shadows Intro 8 contains Speed Boost.",
+          158173,
+          1
+        ],
+        "246020": [
+          "Shadows Intro 8 contains Speed Boost.",
+          158173,
+          1
+        ],
+        "1290": [
+          "Shadows Intro 8 contains Speed Boost.",
+          158173,
+          1
+        ],
+        "246017": [
           "",
           -1,
           -1
@@ -13189,12 +15873,12 @@
           -1,
           -1
         ],
-        "207359": [
+        "246069": [
           "",
           -1,
           -1
         ],
-        "211369": [
+        "211368": [
           "",
           -1,
           -1
@@ -13204,7 +15888,37 @@
           -1,
           -1
         ],
-        "2575": [
+        "5568": [
+          "",
+          -1,
+          -1
+        ],
+        "246027": [
+          "",
+          -1,
+          -1
+        ],
+        "211159": [
+          "",
+          -1,
+          -1
+        ],
+        "207370": [
+          "",
+          -1,
+          -1
+        ],
+        "246018": [
+          "",
+          -1,
+          -1
+        ],
+        "1891": [
+          "",
+          -1,
+          -1
+        ],
+        "246029": [
           "",
           -1,
           -1
@@ -13236,15 +15950,81 @@
         "+1 Laser",
         "+1 Laser",
         "Mountain Entry",
+        "+5 Easter Eggs",
+        "+5 Easter Eggs",
+        "+5 Easter Eggs",
+        "+5 Easter Eggs",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+3 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+4 Easter Eggs",
+        "+3 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+4 Easter Eggs",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+6 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+2 Easter Eggs",
+        "+2 Easter Eggs",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
+        "+1 Easter Egg",
         "Puzzle Skip",
         "Black/White Squares",
         "Boat",
+        "Bonk",
         "Bonk",
         "Bonk",
         "Colored Squares",
         "Eraser",
         "Functioning Brain",
         "Negative Shapers",
+        "Power Surge",
         "Power Surge",
         "Power Surge",
         "Power Surge",
@@ -13282,7 +16062,41 @@
         "Slowness",
         "Slowness",
         "Slowness",
+        "Slowness",
+        "Slowness",
+        "Slowness",
+        "Slowness",
+        "Slowness",
         "Sound Dots",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
+        "Speed Boost",
         "Speed Boost",
         "Speed Boost",
         "Speed Boost",
@@ -13505,7 +16319,43 @@
           "0x09DE0": 158710,
           "0x03615": 158711,
           "0x03613": 158712,
-          "0xFFF80": 159800
+          "0xFFF80": 159800,
+          "0xee202": 160002,
+          "0xee205": 160005,
+          "0xee208": 160008,
+          "0xee20b": 160011,
+          "0xee20e": 160014,
+          "0xee211": 160017,
+          "0xee214": 160020,
+          "0xee217": 160023,
+          "0xee21a": 160026,
+          "0xee21d": 160029,
+          "0xee220": 160032,
+          "0xee223": 160035,
+          "0xee226": 160038,
+          "0xee229": 160041,
+          "0xee22c": 160044,
+          "0xee22f": 160047,
+          "0xee232": 160050,
+          "0xee235": 160053,
+          "0xee238": 160056,
+          "0xee23b": 160059,
+          "0xee23e": 160062,
+          "0xee241": 160065,
+          "0xee244": 160068,
+          "0xee247": 160071,
+          "0xee24a": 160074,
+          "0xee24d": 160077,
+          "0xee250": 160080,
+          "0xee253": 160083,
+          "0xee256": 160086,
+          "0xee259": 160089,
+          "0xee25c": 160092,
+          "0xee25f": 160095,
+          "0xee262": 160098,
+          "0xee265": 160101,
+          "0xee268": 160104,
+          "0xee26b": 160107
         },
         "item_id_to_door_hexes": {
           "159100": [
@@ -14832,116 +17682,8 @@
           211498,
           211718,
           246059,
-          974848,
-          974849,
-          974850,
-          974851,
-          974852,
-          974853,
-          974854,
-          974855,
-          974856,
-          974857,
-          974858,
-          974859,
-          974860,
-          974861,
-          974862,
-          974863,
-          974864,
-          974865,
-          974866,
-          974867,
           974868,
-          974869,
-          974870,
-          974871,
-          974872,
-          974873,
-          974874,
-          974875,
-          974876,
-          974877,
-          974878,
-          974879,
-          974880,
-          974881,
-          974882,
-          974883,
-          974884,
-          974885,
-          974886,
-          974887,
-          974888,
-          974889,
-          974890,
-          974891,
-          974892,
-          974893,
-          974894,
-          974895,
-          974896,
-          974897,
-          974898,
-          974899,
-          974900,
-          974901,
-          974902,
-          974903,
-          974904,
-          974905,
-          974906,
-          974907,
-          974908,
-          974909,
-          974910,
-          974911,
-          974912,
-          974913,
-          974914,
-          974915,
-          974916,
-          974917,
-          974918,
-          974919,
-          974920,
-          974921,
-          974922,
-          974923,
-          974924,
-          974925,
           974926,
-          974927,
-          974928,
-          974929,
-          974930,
-          974931,
-          974932,
-          974933,
-          974934,
-          974935,
-          974936,
-          974937,
-          974938,
-          974939,
-          974940,
-          974941,
-          974942,
-          974943,
-          974944,
-          974945,
-          974946,
-          974947,
-          974948,
-          974949,
-          974950,
-          974951,
-          974952,
-          974953,
-          974954,
-          974955,
-          974956,
-          974957,
           974958,
           974959,
           974960,
@@ -14950,115 +17692,77 @@
           974963,
           974964,
           974965,
-          974966,
-          974967,
           975361,
-          975362,
           975363,
           975364,
-          975365,
           975366,
           975367,
-          975368,
           975369,
           975370,
-          975371,
           975372,
           975373,
-          975374,
           975375,
           975376,
-          975377,
           975378,
           975379,
-          975380,
           975381,
           975382,
-          975383,
           975384,
           975385,
-          975386,
           975387,
           975388,
-          975389,
           975390,
           975391,
-          975392,
           975393,
           975394,
-          975395,
           975396,
           975397,
-          975398,
           975399,
           975400,
-          975401,
           975402,
           975403,
-          975404,
           975405,
           975406,
-          975407,
           975408,
           975409,
-          975410,
           975411,
           975412,
-          975413,
           975414,
           975415,
-          975416,
           975417,
           975418,
-          975419,
           975420,
           975421,
-          975422,
           975423,
           975424,
-          975425,
           975426,
           975427,
-          975428,
           975429,
           975430,
-          975431,
           975432,
           975433,
-          975434,
           975435,
           975436,
-          975437,
           975438,
           975439,
-          975440,
           975441,
           975442,
-          975443,
           975444,
           975445,
-          975446,
           975447,
           975448,
-          975449,
           975450,
           975451,
-          975452,
           975453,
           975454,
-          975455,
           975456,
           975457,
-          975458,
           975459,
           975460,
-          975461,
           975462,
           975463,
-          975464,
           975465,
           975466,
-          975467,
           975468,
           975469,
           975470,
@@ -15109,217 +17813,187 @@
         ],
         "hunt_entities": [],
         "log_ids_to_hints": {
-          "4807": [
-            "Progressive Dots can be found at Town RGB House Entry Panel.",
-            158225,
+          "246015": [
+            "Boat can be found at Symmetry Island Scenery Outlines 5.",
+            158063,
             1
           ],
           "207358": [
-            "Progressive Dots can be found at Town RGB House Entry Panel.",
-            158225,
-            1
-          ],
-          "211767": [
-            "Progressive Dots can be found at Town RGB House Entry Panel.",
-            158225,
-            1
-          ],
-          "1889": [
-            "Boat can be found at Town Wooden Rooftop.",
-            158240,
-            1
-          ],
-          "246028": [
-            "Boat can be found at Town Wooden Rooftop.",
-            158240,
-            1
-          ],
-          "246018": [
-            "Boat can be found at Town Wooden Rooftop.",
-            158240,
-            1
-          ],
-          "211711": [
-            "Rotated Shapers can be found at Swamp Entry Panel.",
-            158287,
-            1
-          ],
-          "246013": [
-            "Rotated Shapers can be found at Swamp Entry Panel.",
-            158287,
-            1
-          ],
-          "207368": [
-            "Rotated Shapers can be found at Swamp Entry Panel.",
-            158287,
-            1
-          ],
-          "211159": [
-            "Quarry Stoneworks Control Room Left contains Speed Boost.",
-            158143,
-            1
-          ],
-          "211146": [
-            "Quarry Stoneworks Control Room Left contains Speed Boost.",
-            158143,
-            1
-          ],
-          "246003": [
-            "Quarry Stoneworks Control Room Left contains Speed Boost.",
-            158143,
-            1
-          ],
-          "207370": [
-            "Swamp Purple Underwater contains Speed Boost.",
-            158333,
-            1
-          ],
-          "246022": [
-            "Swamp Purple Underwater contains Speed Boost.",
-            158333,
-            1
-          ],
-          "246027": [
-            "Swamp Purple Underwater contains Speed Boost.",
-            158333,
-            1
-          ],
-          "246007": [
-            "In the Bunker area, you will find 1 progression item.",
-            "hinted_area:Bunker",
-            1
-          ],
-          "246019": [
-            "In the Bunker area, you will find 1 progression item.",
-            "hinted_area:Bunker",
-            1
-          ],
-          "246004": [
-            "In the Bunker area, you will find 1 progression item.",
-            "hinted_area:Bunker",
-            1
-          ],
-          "246015": [
-            "In the Desert area, you will find 1 progression item.",
-            "hinted_area:Desert",
-            1
-          ],
-          "211133": [
-            "In the Desert area, you will find 1 progression item.",
-            "hinted_area:Desert",
-            1
-          ],
-          "246030": [
-            "In the Desert area, you will find 1 progression item.",
-            "hinted_area:Desert",
-            1
-          ],
-          "246026": [
-            "In the Jungle area, you will find 1 progression item.",
-            "hinted_area:Jungle",
-            1
-          ],
-          "4601": [
-            "In the Jungle area, you will find 1 progression item.",
-            "hinted_area:Jungle",
-            1
-          ],
-          "1871": [
-            "In the Jungle area, you will find 1 progression item.",
-            "hinted_area:Jungle",
-            1
-          ],
-          "5559": [
-            "In the Quarry area, you will find 1 progression item.",
-            "hinted_area:Quarry",
+            "Boat can be found at Symmetry Island Scenery Outlines 5.",
+            158063,
             1
           ],
           "211137": [
-            "In the Quarry area, you will find 1 progression item.",
-            "hinted_area:Quarry",
-            1
-          ],
-          "5568": [
-            "In the Quarry area, you will find 1 progression item.",
-            "hinted_area:Quarry",
-            1
-          ],
-          "246021": [
-            "Sound Dots can be found at Orchard Apple Tree 5.",
-            158075,
-            1
-          ],
-          "1891": [
-            "Sound Dots can be found at Orchard Apple Tree 5.",
-            158075,
-            1
-          ],
-          "207360": [
-            "Sound Dots can be found at Orchard Apple Tree 5.",
-            158075,
-            1
-          ],
-          "5569": [
-            "Treehouse Left Orange Bridge 15 contains Slowness.",
-            158390,
-            1
-          ],
-          "246029": [
-            "Treehouse Left Orange Bridge 15 contains Slowness.",
-            158390,
-            1
-          ],
-          "211766": [
-            "Treehouse Left Orange Bridge 15 contains Slowness.",
-            158390,
-            1
-          ],
-          "246025": [
-            "Triangles can be found at Desert Flood Room 6.",
-            158110,
-            1
-          ],
-          "207367": [
-            "Triangles can be found at Desert Flood Room 6.",
-            158110,
-            1
-          ],
-          "246023": [
-            "Triangles can be found at Desert Flood Room 6.",
-            158110,
+            "Boat can be found at Symmetry Island Scenery Outlines 5.",
+            158063,
             1
           ],
           "211145": [
-            "",
-            -1,
-            -1
+            "Progressive Dots can be found at Keep Pressure Plates 4.",
+            158204,
+            1
           ],
-          "211368": [
-            "",
-            -1,
-            -1
+          "5559": [
+            "Progressive Dots can be found at Keep Pressure Plates 4.",
+            158204,
+            1
           ],
-          "246017": [
-            "",
-            -1,
-            -1
+          "246003": [
+            "Progressive Dots can be found at Keep Pressure Plates 4.",
+            158204,
+            1
           ],
-          "246069": [
-            "",
-            -1,
-            -1
+          "246004": [
+            "Progressive Dots can be found at Bunker Laser Panel.",
+            158710,
+            1
           ],
-          "246020": [
-            "",
-            -1,
-            -1
+          "246007": [
+            "Progressive Dots can be found at Bunker Laser Panel.",
+            158710,
+            1
           ],
-          "1290": [
-            "",
-            -1,
-            -1
+          "4601": [
+            "Progressive Dots can be found at Bunker Laser Panel.",
+            158710,
+            1
+          ],
+          "211146": [
+            "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+            158239,
+            1
           ],
           "246016": [
+            "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+            158239,
+            1
+          ],
+          "246026": [
+            "Progressive Symmetry can be found at Town Wooden Roof Lower Row 5.",
+            158239,
+            1
+          ],
+          "246030": [
+            "Tutorial Patio Floor contains Speed Boost.",
+            158010,
+            1
+          ],
+          "1889": [
+            "Tutorial Patio Floor contains Speed Boost.",
+            158010,
+            1
+          ],
+          "246022": [
+            "Tutorial Patio Floor contains Speed Boost.",
+            158010,
+            1
+          ],
+          "4807": [
+            "In the Swamp area, you will find 1 progression item.",
+            "hinted_area:Swamp",
+            1
+          ],
+          "211767": [
+            "In the Swamp area, you will find 1 progression item.",
+            "hinted_area:Swamp",
+            1
+          ],
+          "246019": [
+            "In the Swamp area, you will find 1 progression item.",
+            "hinted_area:Swamp",
+            1
+          ],
+          "1871": [
+            "In the Symmetry Island area, you will find 1 progression item.",
+            "hinted_area:Symmetry Island",
+            1
+          ],
+          "211766": [
+            "In the Symmetry Island area, you will find 1 progression item.",
+            "hinted_area:Symmetry Island",
+            1
+          ],
+          "207368": [
+            "In the Symmetry Island area, you will find 1 progression item.",
+            "hinted_area:Symmetry Island",
+            1
+          ],
+          "246023": [
+            "In the Shadows area, you will find no progression items.",
+            "hinted_area:Shadows",
+            0
+          ],
+          "246021": [
+            "In the Shadows area, you will find no progression items.",
+            "hinted_area:Shadows",
+            0
+          ],
+          "207360": [
+            "In the Shadows area, you will find no progression items.",
+            "hinted_area:Shadows",
+            0
+          ],
+          "211133": [
+            "In the Windmill & Theater area, you will find 1 progression item.",
+            "hinted_area:Windmill & Theater",
+            1
+          ],
+          "246013": [
+            "In the Windmill & Theater area, you will find 1 progression item.",
+            "hinted_area:Windmill & Theater",
+            1
+          ],
+          "211711": [
+            "In the Windmill & Theater area, you will find 1 progression item.",
+            "hinted_area:Windmill & Theater",
+            1
+          ],
+          "246025": [
+            "9 Easter Eggs Collected contains Power Surge.",
+            160008,
+            1
+          ],
+          "207367": [
+            "9 Easter Eggs Collected contains Power Surge.",
+            160008,
+            1
+          ],
+          "5569": [
+            "9 Easter Eggs Collected contains Power Surge.",
+            160008,
+            1
+          ],
+          "2575": [
+            "Shapers can be found at 3 Easter Eggs Collected.",
+            160002,
+            1
+          ],
+          "246028": [
+            "Shapers can be found at 3 Easter Eggs Collected.",
+            160002,
+            1
+          ],
+          "207359": [
+            "Shapers can be found at 3 Easter Eggs Collected.",
+            160002,
+            1
+          ],
+          "211369": [
+            "Shadows Intro 8 contains Speed Boost.",
+            158173,
+            1
+          ],
+          "246020": [
+            "Shadows Intro 8 contains Speed Boost.",
+            158173,
+            1
+          ],
+          "1290": [
+            "Shadows Intro 8 contains Speed Boost.",
+            158173,
+            1
+          ],
+          "246017": [
             "",
             -1,
             -1
@@ -15329,12 +18003,12 @@
             -1,
             -1
           ],
-          "207359": [
+          "246069": [
             "",
             -1,
             -1
           ],
-          "211369": [
+          "211368": [
             "",
             -1,
             -1
@@ -15344,7 +18018,37 @@
             -1,
             -1
           ],
-          "2575": [
+          "5568": [
+            "",
+            -1,
+            -1
+          ],
+          "246027": [
+            "",
+            -1,
+            -1
+          ],
+          "211159": [
+            "",
+            -1,
+            -1
+          ],
+          "207370": [
+            "",
+            -1,
+            -1
+          ],
+          "246018": [
+            "",
+            -1,
+            -1
+          ],
+          "1891": [
+            "",
+            -1,
+            -1
+          ],
+          "246029": [
             "",
             -1,
             -1
@@ -15575,7 +18279,26 @@
             13775
           ]
         },
-        "precompleted_puzzles": [],
+        "precompleted_puzzles": [
+          975449,
+          975464,
+          975437,
+          975446,
+          975434,
+          975431,
+          975467,
+          975428,
+          975443,
+          975452,
+          975455,
+          975458,
+          975425,
+          975440,
+          975416,
+          975422,
+          975419,
+          975461
+        ],
         "panel_hunt_required_absolute": 0,
         "puzzle_randomization": 0,
         "shuffle_symbols": true,
@@ -15619,7 +18342,7 @@
         "death_link_amnesty": 1,
         "puzzle_randomization_seed": 9335755,
         "shuffle_dog": 1,
-        "easter_egg_hunt": 0
+        "easter_egg_hunt": 2
       },
       "web": {
         "theme": "jungle",
@@ -15667,6 +18390,17 @@
   },
   "game_info": {
     "1": {
+      "accumulator_rules": [
+        {
+          "pattern": "^\\+(\\d+) Easter Eggs?$",
+          "extract_value": true,
+          "target": "Egg",
+          "discriminator": null
+        }
+      ],
+      "prog_items_init": {
+        "Egg": 0
+      },
       "completion_condition": {
         "type": "item_check",
         "item": "Victory"

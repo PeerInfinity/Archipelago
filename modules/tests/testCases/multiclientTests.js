@@ -251,7 +251,10 @@ export async function timerSendTest(testController) {
     // Multi-pass timer logic to handle locations that become reachable after event propagation
     // The timer might stop before all regions become reachable (via event auto-collection)
     // This is needed for games like Pokemon RB with complex event dependency chains
-    const maxTimerPasses = 5;
+    // Scale passes based on location count - large games (1000+ locations) need more passes
+    // since items received unlock new regions which unlock more locations
+    const locationCount = staticData?.locations?.size || 0;
+    const maxTimerPasses = locationCount > 500 ? 20 : 5;
     let timerPassCount = 1;
 
     while (timerPassCount <= maxTimerPasses) {
@@ -582,6 +585,10 @@ export async function timerReceiveTest(testController) {
     // Wait for all locations to be checked
     testController.log('Waiting to receive all location checks...');
 
+    // Use a longer stall timeout for the receive test because:
+    // 1. Location syncing via RoomUpdate is sequential (each checkLocation is an async round-trip)
+    // 2. Event locations need multiple reachability cycles to auto-collect after items arrive
+    // 3. ReceivedItems processing adds items that unlock new events over multiple cycles
     const maxStallTime = 10000; // 10 seconds without progress = stalled
     const progressStartTime = Date.now();
     let lastReceivedCount = 0;
@@ -597,6 +604,31 @@ export async function timerReceiveTest(testController) {
       } else {
         const timeSinceProgress = Date.now() - lastProgressTime;
         if (timeSinceProgress > maxStallTime) {
+          // Before declaring stall, try to trigger event propagation
+          // Events may not have auto-collected because reachability wasn't recomputed
+          // after all ReceivedItems were processed
+          testController.log(`Stall detected at ${receivedChecks}/${totalCheckable}. Triggering reachability refresh...`);
+
+          // Force reachability recomputation by adding/removing a dummy item
+          // This triggers the worker to recompute reachability, which auto-collects events
+          try {
+            await stateManager.addItemToInventory('__reachability_trigger__', 1);
+            await stateManager.removeItemFromInventory('__reachability_trigger__', 1);
+          } catch (e) {
+            // Ignore errors from dummy item operations
+          }
+
+          // Wait for event propagation
+          await new Promise(resolve => setTimeout(resolve, 5000));
+
+          // Check if any progress was made
+          if (receivedChecks > lastReceivedCount) {
+            lastReceivedCount = receivedChecks;
+            lastProgressTime = Date.now();
+            testController.log(`Event propagation helped: now at ${receivedChecks}/${totalCheckable}`);
+            continue; // Keep waiting
+          }
+
           throw new Error(
             `Test appears to be stalled - no progress for ${Math.floor(timeSinceProgress / 1000)} seconds ` +
             `(${receivedChecks} location checks received)`

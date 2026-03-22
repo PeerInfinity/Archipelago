@@ -3765,48 +3765,35 @@
                     {
                       "rule": "Compare",
                       "args": {
-                        "left": {
-                          "rule": "OptionValue",
-                          "args": {
-                            "option": "enemy_health"
-                          }
-                        },
+                        "left": 1,
                         "op": "in",
                         "right": [
-                          0,
-                          1
-                        ],
-                        "_original_ast_type": "compare"
-                      },
-                      "_converted_from_ast": true
+                          "easy",
+                          "default"
+                        ]
+                      }
                     },
                     {
                       "rule": "can_kill_standard_start",
-                      "_original_ast_type": "helper",
-                      "_converted_from_ast": true,
+                      "_original_ast_type": "rb_defined_helper",
                       "args": [
                         {
                           "rule": "Constant",
                           "args": {
                             "value": 1
-                          },
-                          "_converted_from_ast": true
+                          }
                         }
                       ]
                     }
                   ]
                 },
                 {
-                  "rule": "Has",
+                  "rule": "HasAllCounts",
                   "args": {
-                    "item_name": "Small Key (Hyrule Castle)",
-                    "count": 2
-                  }
-                },
-                {
-                  "rule": "Has",
-                  "args": {
-                    "item_name": "Big Key (Hyrule Castle)"
+                    "items": {
+                      "Small Key (Hyrule Castle)": 2,
+                      "Big Key (Hyrule Castle)": 1
+                    }
                   }
                 }
               ]
