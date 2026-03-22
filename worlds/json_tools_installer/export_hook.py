@@ -34,6 +34,20 @@ def export_post_output_hook(multiworld: "MultiWorld", output_dir: str, filename_
 
     jt = get_json_tools_settings()
 
+    # Auto-detect Rule Builder availability and fall back to ast format if needed.
+    # The rule_builder format requires the fork's extended rule_builder package;
+    # without it, fall back to ast format which works with vanilla Archipelago.
+    rules_format = jt.rules_json_format
+    if rules_format in ("rule_builder", "both"):
+        try:
+            from rule_builder import BOOLEAN_RULE_TYPES  # noqa: F401
+        except (ImportError, AttributeError):
+            logger.info(
+                "Extended Rule Builder not available, falling back to 'ast' format "
+                "(was '%s')", rules_format
+            )
+            rules_format = "ast"
+
     # Export rules data after create_playthrough so sphere_log.jsonl is included.
     # The exporter uses cached _cached_slot_data instead of calling fill_slot_data,
     # so it won't repopulate caches that were cleared by stage_modify_multidata.
@@ -43,7 +57,7 @@ def export_post_output_hook(multiworld: "MultiWorld", output_dir: str, filename_
         filename_base,
         jt.update_frontend_presets,
         jt.skip_preset_copy_if_rules_identical,
-        jt.rules_json_format,
+        rules_format,
         clear_game_presets=jt.clear_game_presets,
         clear_all_presets=jt.clear_all_presets,
     )

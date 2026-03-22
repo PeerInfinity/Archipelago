@@ -22,6 +22,7 @@ from kivy.uix.label import Label
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, BooleanProperty, NumericProperty
 
@@ -405,22 +406,24 @@ class InstallerApp(App):
     def _show_rule_builder_warning(self):
         """Show a warning about rule_builder replacing vanilla files."""
         content = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        warn_label = Label(
+        warn_text = TextInput(
             text=(
                 "WARNING: Installing Rule Builder will replace the vanilla\n"
                 "rule_builder/ directory with the extended version from\n"
                 "this project.\n\n"
                 "A backup of the existing rule_builder/ directory will be\n"
-                "created automatically before overwriting.\n\n"
-                "You can restore the original files later via the CLI:\n"
+                "saved to json_tools_backups/components/rule_builder/.\n\n"
+                "The original will be restored automatically when you\n"
+                "uninstall. To restore manually:\n\n"
+                "  source .venv/bin/activate\n"
                 "  python -m worlds.json_tools_installer.cli.install --restore-rule-builder"
             ),
-            halign='left',
-            valign='top',
+            readonly=True,
             size_hint_y=0.8,
+            background_color=(0.2, 0.2, 0.2, 1),
+            foreground_color=(1, 1, 1, 1),
         )
-        warn_label.bind(size=warn_label.setter('text_size'))
-        content.add_widget(warn_label)
+        content.add_widget(warn_text)
 
         ok_btn = Button(text='OK', size_hint_y=None, height=40)
         content.add_widget(ok_btn)
@@ -751,6 +754,13 @@ For more information, see the README.md file."""
             for comp in installed:
                 remove_component(comp)
                 self.update_progress(50 + (len(installed) * 10))
+
+            # Uninstall monkey patch hooks
+            try:
+                from ..monkey_patches.hooks import uninstall_hooks
+                uninstall_hooks()
+            except Exception:
+                pass
 
             from ..config import clear_installation
             clear_installation(self.installer_config)

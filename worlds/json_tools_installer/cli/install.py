@@ -311,6 +311,14 @@ def do_uninstall(config: InstallerConfig, dry_run: bool = False) -> bool:
             if remove_component(comp):
                 print(f"    - Removed {comp}")
 
+        # Uninstall monkey patch hooks
+        try:
+            from ..monkey_patches.hooks import uninstall_hooks
+            uninstall_hooks()
+            print("    - Uninstalled monkey patch hooks")
+        except Exception as e:
+            print(f"  [WARN] Could not uninstall hooks: {e}")
+
         clear_installation(config)
 
     print("\n  [OK] Uninstallation complete")

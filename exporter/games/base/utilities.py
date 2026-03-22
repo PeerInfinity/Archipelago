@@ -7,7 +7,19 @@ handler instance state.
 import re
 from typing import Any, Callable, Dict, Optional
 
-from world_generator._sanitization import sanitize_for_helper_name
+try:
+    from world_generator._sanitization import sanitize_for_helper_name
+except (ImportError, AttributeError):
+    # Fallback when world_generator's package init triggers imports that require
+    # the fork's extended rule_builder (which may not be installed).
+    # Replicates sanitize_for_helper_name from world_generator/_sanitization.py.
+    def sanitize_for_helper_name(name: str) -> str:
+        result = re.sub(r'[^a-zA-Z0-9_]', '_', name)
+        result = re.sub(r'_+', '_', result)
+        result = result.strip('_')
+        if result and not result[0].isalpha():
+            result = 'item_' + result
+        return result.lower()
 
 
 def extract_closure_vars(rule_func: Callable) -> Dict[str, Any]:

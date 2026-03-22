@@ -515,6 +515,9 @@ def remove_component(
     """
     Remove an installed component.
 
+    For components with clean_before_extract (e.g. rule_builder), restores
+    the most recent backup if one exists, so the vanilla version is put back.
+
     Args:
         component_name: Name of the component to remove.
         root: Root directory (default: Archipelago root).
@@ -539,5 +542,9 @@ def remove_component(
             else:
                 path.unlink()
             removed = True
+
+    # Restore backup for components that replaced vanilla directories
+    if comp.clean_before_extract and removed:
+        restore_component_backup(component_name, root)
 
     return removed

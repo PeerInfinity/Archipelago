@@ -16,7 +16,12 @@ import Utils
 from .analyzer import analyze_rule, reset_analyze_rule_counter
 from .analyzer.cache import clear_caches as clear_analyzer_caches
 from .games import get_game_export_handler, clear_handler_cache
-from .converter import convert_rules_file_to_rule_builder
+try:
+    from .converter import convert_rules_file_to_rule_builder
+except (ImportError, AttributeError):
+    # Converter requires the fork's extended rule_builder package.
+    # When unavailable, rule_builder format is not supported — ast format still works.
+    convert_rules_file_to_rule_builder = None  # type: ignore[assignment]
 from .constants import (
     MAX_RULE_SIZE_KB,
     MAX_INTERIM_EXPORT_SIZE_MB_BASE, MAX_INTERIM_EXPORT_SIZE_MB_PER_EXTRA_GAME,
@@ -2592,10 +2597,15 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
     rb_data = None
 
     if rules_json_format in ("rule_builder", "both"):
+        if convert_rules_file_to_rule_builder is None:
+            logger.warning("Rule Builder converter not available (extended rule_builder not installed), falling back to AST format")
+            rules_json_format = "ast"
+
+    if rules_json_format in ("rule_builder", "both"):
         # Convert to Rule Builder format
         with profiler.section("convert_to_rule_builder"):
             try:
-                rb_data, conversion_warnings = convert_rules_file_to_rule_builder(cleaned_data)
+                rb_data, conversion_warnings = convert_rules_file_to_rule_builder(cleaned_data)  # type: ignore[misc]
                 if conversion_warnings:
                     logger.debug(f"Format conversion warnings: {len(conversion_warnings)} warnings")
                     for warning in conversion_warnings[:5]:  # Log first 5 warnings
