@@ -495,7 +495,9 @@ def _make_hashable(value: Any) -> Any:
         items = cast(set[Any], value)
         return frozenset(_make_hashable(item) for item in items)
     elif dataclasses.is_dataclass(value) and not isinstance(value, type):
-        return tuple(_make_hashable(getattr(value, f.name)) for f in dataclasses.fields(value))
+        # Include the class identity to distinguish different rule types with identical field values
+        # (e.g., True_.Resolved and False_.Resolved both have only player and caching_enabled fields)
+        return (type(value).__qualname__, *(_make_hashable(getattr(value, f.name)) for f in dataclasses.fields(value)))
     return value
 
 

@@ -21,7 +21,6 @@ from pathlib import Path
 # Worlds that have ROM-less patches available
 PATCHABLE_WORLDS = [
     "alttp",
-    "apsudoku",
     "dkc3",
     "ff1",
     "lufia2ac",

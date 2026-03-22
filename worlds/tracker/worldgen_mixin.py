@@ -164,6 +164,7 @@ class WorldgenMixin:
         """
         try:
             import importlib
+            import importlib.util
             import sys
             from world_generator.generator import WorldGenerator
             from worlds import AutoWorld
@@ -197,6 +198,11 @@ class WorldgenMixin:
 
             self.logger.info(f"Generated world files in {output_dir}")
 
+            # Invalidate import caches so Python's FileFinder detects newly created
+            # worldgen directories. This is critical for parallel fuzzer runs where
+            # fork() inherits the parent's cached directory listings.
+            importlib.invalidate_caches()
+
             # Check if module was previously imported
             full_module_name = f"worlds.{module_name}"
             if full_module_name in sys.modules:
@@ -218,9 +224,23 @@ class WorldgenMixin:
                 self.logger.info(f"Reloading module: {full_module_name}")
                 importlib.reload(sys.modules[full_module_name])
             else:
-                # Import the module for the first time
+                # Import the module for the first time.
+                # Use spec_from_file_location for explicit file-based loading to avoid
+                # relying on cached directory listings in forked processes. This is more
+                # reliable than importlib.import_module() for dynamically generated modules.
+                init_path = output_dir / '__init__.py'
                 self.logger.info(f"Importing new world module: {full_module_name}")
-                importlib.import_module(full_module_name)
+                spec = importlib.util.spec_from_file_location(
+                    full_module_name,
+                    str(init_path.resolve()),
+                    submodule_search_locations=[str(output_dir.resolve())]
+                )
+                if spec is None or spec.loader is None:
+                    self.logger.error(f"Could not create module spec for {full_module_name}")
+                    return False
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[full_module_name] = module
+                spec.loader.exec_module(module)
 
             # Verify the world was registered
             if worldgen_game_name not in AutoWorld.AutoWorldRegister.world_types:
@@ -416,14 +436,32 @@ class WorldgenMixin:
         rules_filename = f"AP_{self.seed_name}_rules.json"
 
         candidates = []
+        presets_dir = project_root / "frontend" / "presets"
 
-        # 1. WorldGen preset directory
-        worldgen_preset_path = project_root / "frontend" / "presets" / f"{world_directory}_worldgen" / seed_dir_name / rules_filename
+        # 1. WorldGen preset directory (always highest priority for UT tracking)
+        worldgen_preset_path = presets_dir / f"{world_directory}_worldgen" / seed_dir_name / rules_filename
         candidates.append(worldgen_preset_path)
 
-        # 2. Original preset directory
-        original_preset_path = project_root / "frontend" / "presets" / world_directory / seed_dir_name / rules_filename
-        candidates.append(original_preset_path)
+        # 2. Search all other preset directories matching this world
+        # This catches the base directory, _vanilla, and any other exporter variants.
+        # Sorted by modification time (newest first) so the most recent export wins
+        # when the same seed exists in multiple directories from different option sets.
+        if presets_dir.exists():
+            other_preset_candidates = []
+            for dir_entry in presets_dir.iterdir():
+                if (dir_entry.is_dir()
+                        and dir_entry.name != f"{world_directory}_worldgen"
+                        and (dir_entry.name == world_directory
+                             or dir_entry.name.startswith(f"{world_directory}_"))):
+                    candidate = dir_entry / seed_dir_name / rules_filename
+                    other_preset_candidates.append(candidate)
+
+            # Sort by modification time (newest first) to prefer the most recent export
+            other_preset_candidates.sort(
+                key=lambda p: p.stat().st_mtime if p.exists() else 0,
+                reverse=True
+            )
+            candidates.extend(other_preset_candidates)
 
         # 3. Output directory (extracted from ZIP)
         output_dir_path = Path(output_path()) / rules_filename

@@ -16,7 +16,7 @@ def create_regions(multiworld: MultiWorld, player: int) -> None:
     """Create all regions, locations, and connections."""
 
     # Create all regions
-    region_names = ["Menu", "Distant Roost", "Distant Roost (2)", "Titanic Plains", "Titanic Plains (2)", "Verdant Falls", "Abandoned Aqueduct", "Wetland Aspect", "Rallypoint Delta", "Scorched Acres", "Abyssal Depths", "Siren's Call", "Sundered Grove", "Sky Meadow", "Commencement", "OrderedStage_5", "OrderedStage_1", "OrderedStage_2", "OrderedStage_3", "OrderedStage_4", "Hidden Realm: A Moment, Fractured", "Hidden Realm: A Moment, Whole", "Void Fields", "Victory", "Petrichor V", "Hidden Realm: Bulwark's Ambry", "Hidden Realm: Bazaar Between Time", "Hidden Realm: Gilded Coast"]
+    region_names = ["Menu", "Distant Roost", "Titanic Plains", "Verdant Falls", "Abandoned Aqueduct", "Wetland Aspect", "Rallypoint Delta", "Scorched Acres", "Abyssal Depths", "Siren's Call", "Sundered Grove", "Sky Meadow", "Commencement", "OrderedStage_5", "OrderedStage_1", "OrderedStage_2", "OrderedStage_3", "OrderedStage_4", "Hidden Realm: A Moment, Fractured", "Hidden Realm: A Moment, Whole", "Void Fields", "Victory", "Petrichor V", "Hidden Realm: Bulwark's Ambry", "Hidden Realm: Bazaar Between Time", "Hidden Realm: Gilded Coast"]
 
     regions = {}
     for region_name in region_names:
@@ -55,14 +55,10 @@ def create_regions(multiworld: MultiWorld, player: int) -> None:
 
     # Create entrances
     _create_entrance(regions["Menu"], regions["Distant Roost"], "Menu -> Distant Roost")
-    _create_entrance(regions["Menu"], regions["Distant Roost (2)"], "Menu -> Distant Roost (2)")
     _create_entrance(regions["Menu"], regions["Titanic Plains"], "Menu -> Titanic Plains")
-    _create_entrance(regions["Menu"], regions["Titanic Plains (2)"], "Menu -> Titanic Plains (2)")
     _create_entrance(regions["Menu"], regions["Verdant Falls"], "Menu -> Verdant Falls")
     _create_entrance(regions["Distant Roost"], regions["OrderedStage_1"], "Distant Roost -> OrderedStage_1")
-    _create_entrance(regions["Distant Roost (2)"], regions["OrderedStage_1"], "Distant Roost (2) -> OrderedStage_1")
     _create_entrance(regions["Titanic Plains"], regions["OrderedStage_1"], "Titanic Plains -> OrderedStage_1")
-    _create_entrance(regions["Titanic Plains (2)"], regions["OrderedStage_1"], "Titanic Plains (2) -> OrderedStage_1")
     _create_entrance(regions["Verdant Falls"], regions["OrderedStage_1"], "Verdant Falls -> OrderedStage_1")
     _create_entrance(regions["Abandoned Aqueduct"], regions["OrderedStage_2"], "Abandoned Aqueduct -> OrderedStage_2")
     _create_entrance(regions["Wetland Aspect"], regions["OrderedStage_2"], "Wetland Aspect -> OrderedStage_2")

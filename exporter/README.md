@@ -1,8 +1,52 @@
 # Exporter
 
-The exporter module converts Archipelago game logic (Python rules, regions, items) into JSON format for use by the web frontend and other tools.
+The exporter converts Archipelago game logic — Python rules, regions, items, locations, and options — into JSON files that the [web frontend](../frontend/README.md) uses for item tracking and logic visualization. It is the bridge between Archipelago's Python-based randomizer and the browser-based tracker.
 
-## Quick Start
+## How It Works
+
+During seed generation (`python Generate.py ...`), Archipelago builds an in-memory `MultiWorld` object containing all the game logic: which items exist, which locations are available, what rules govern access, and how regions connect. The exporter hooks into this process (via the `json_tools_installer` post-output hook) and converts that Python object graph into JSON.
+
+The core of this conversion is **rule analysis**: Python access-rule functions (lambdas like `lambda state: state.has('Sword')`) are decompiled via AST analysis into a portable JSON representation (e.g., `{"type": "has", "args": ["Sword"]}`). Game-specific handlers customize the export for each of the 43+ supported games.
+
+The exporter produces two main output formats:
+- **Rules JSON** — A complete JSON export of rules, regions, items, locations, and options. Available in Rule Builder format (default) or Archipelago-CC AST format.
+- **Pickle** — A compressed `dill` pickle of the entire `MultiWorld` object, preserving lambdas and closures directly. Faster to load since no regeneration is needed.
+
+## Usage
+
+The exporter runs automatically during seed generation when enabled in `host.yaml`. No manual invocation is needed for normal use.
+
+### Enabling Export
+
+Configure which exports to produce in `host.yaml` under `json_tools`:
+
+```yaml
+json_tools:
+  save_rules_json: true           # Export rules as JSON
+  rules_json_format: "rule_builder" # "rule_builder", "ast", or "both"
+  save_tracker_pickle: true       # Export multiworld as pickle
+  update_frontend_presets: true   # Copy exports to frontend/presets/
+  save_sphere_log: true           # Export sphere log (playthrough data)
+```
+
+Or use a preset to configure common combinations:
+
+```bash
+python scripts/setup/update_host_settings.py full-spoilers    # enables rules JSON + sphere log
+python scripts/setup/update_host_settings.py ut-pickle         # enables pickle export
+```
+
+### Running Seed Generation
+
+Once configured, just run seed generation as normal:
+
+```bash
+python Generate.py --weights_file_path "Templates/GameName.yaml" --multi 1 --seed 1
+```
+
+The exporter runs automatically after generation completes. Output goes to the same directory as other seed files, and optionally copies to `frontend/presets/` for the web tracker.
+
+### Programmatic Use
 
 ```python
 from exporter import export_game_rules
@@ -12,7 +56,7 @@ export_game_rules(
     multiworld,
     output_dir="frontend/presets/",
     filename_base="rules",
-    rules_json_format="rule_builder"  # or "archipelago_cc"
+    rules_json_format="rule_builder"  # or "ast" or "both"
 )
 ```
 
@@ -240,6 +284,8 @@ The exporter produces JSON files containing:
 
 ## Related Documentation
 
+- **[Format Converter](converter/README.md)** - Bidirectional conversion between Rule Builder and AST formats
+- **[JSON Schema](../frontend/schema/README.md)** - Schema documentation for the rules files the exporter produces
 - **[World Generator Guide](../docs/json/developer/guides/world-generator.md)** - Convert JSON back to Python worlds
 - **[Testing Pipeline](../docs/json/developer/guides/testing-pipeline.md)** - How exports are validated
 - **[Rule Types Reference](../docs/json/developer/reference/rule-types-reference.md)** - Supported rule types

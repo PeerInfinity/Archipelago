@@ -1,5 +1,7 @@
 # Maze Metagame
 
+Live demo: **[Standard](https://peerinfinity.github.io/Archipelago-CC/?metagame=mazegame)** | **[With Loops](https://peerinfinity.github.io/Archipelago-CC/?metagame=mazegameloops)**
+
 The Maze Metagame integrates [A-Mazing-Idle](https://imgreghenry.github.io/A-Mazing-Idle/) as a meta-progression layer on top of the Archipelago tracker. Before you can move to a new region or check a location, you must complete a maze challenge.
 
 ## How It Works

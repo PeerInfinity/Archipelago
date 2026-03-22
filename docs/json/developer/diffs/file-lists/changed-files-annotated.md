@@ -1,6 +1,6 @@
 # Changed Files (Annotated)
 
-Files modified from their upstream versions (commit `0de09cd7`).
+Files modified from their upstream versions (commit `fb45a2f8`).
 
 ## Root Directory (5 files)
 
@@ -31,14 +31,6 @@ Files modified from their upstream versions (commit `0de09cd7`).
   Added `skip_required_files` global, `Group.__getattribute__` bypass for missing ROM paths, and early extraction from host.yaml `json_tools` section.
 
   [Diff](../diff-files/core-files.diff) | [Skip Required Files Proposal](../../proposals/skip-required-files-proposal.md)
-
-## `.github/` (1 files)
-
-- `.github/pyright-config.json`
-
-  Removed 3 entries from pyright exclude list (`cached_world.py`, `options.py`, `test_rule_builder.py`) because the fork consolidates `cached_world.py` into `rules.py`.
-
-  [Diff](../diff-files/config-files.diff)
 
 ## `.github/workflows/` (1 files)
 
@@ -95,14 +87,6 @@ Files modified from their upstream versions (commit `0de09cd7`).
   Added `check_rom_available()` to skip ROM generation when `skip_required_files` is enabled.
 
   [Diff](../diff-files/world-init-files.diff) | [Skip Required Files Proposal](../../proposals/skip-required-files-proposal.md)
-
-## `worlds/apsudoku/` (1 files)
-
-- `worlds/apsudoku/__init__.py`
-
-  Added skip_required_files support to bypass generation prerequisites.
-
-  [Diff](../diff-files/world-init-files.diff)
 
 ## `worlds/dkc3/` (1 files)
 
@@ -192,4 +176,4 @@ Files modified from their upstream versions (commit `0de09cd7`).
 
 ---
 
-**Total:** 27 changed files
+**Total:** 25 changed files

@@ -169,8 +169,11 @@ class ShapezWorld(World):
                 self.category_random_logic_amounts = {cat: self.passthrough[SLOTDATA.cat_buildings_amount(cat)]
                                                       for cat in [CATEGORY.belt_low, CATEGORY.miner_low,
                                                                   CATEGORY.processors_low, CATEGORY.painting_low]}
-                # Forces balancers, tunnel, and trash to not appear in regen to make UT more accurate
-                self.options.early_balancer_tunnel_and_trash.value = 0
+                # Preserve the early_balancer_tunnel_and_trash option from the player's YAML
+                # so that region connection rules (includeuseful flag) match the original
+                # generation. Previously forcing this to 0 removed balancer/tunnel/trash
+                # requirements from region transitions, making UT more permissive than
+                # the server when the option was 3_buildings or 5_buildings.
                 return
 
         # "MAM" goal is supposed to be longer than vanilla, but to not have more options than necessary,

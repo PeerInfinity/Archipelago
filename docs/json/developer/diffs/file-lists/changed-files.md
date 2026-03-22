@@ -1,6 +1,6 @@
 # Changed Files
 
-Files modified from their upstream versions (commit `0de09cd7`).
+Files modified from their upstream versions (commit `fb45a2f8`).
 
 ## Root Directory (5 files)
 
@@ -10,12 +10,6 @@ Files modified from their upstream versions (commit `0de09cd7`).
 README.md
 pytest.ini
 settings.py
-```
-
-## `.github/` (1 files)
-
-```
-.github/pyright-config.json
 ```
 
 ## `.github/workflows/` (1 files)
@@ -45,12 +39,6 @@ test/general/test_rule_builder.py
 ```
 worlds/alttp/Rules.py
 worlds/alttp/__init__.py
-```
-
-## `worlds/apsudoku/` (1 files)
-
-```
-worlds/apsudoku/__init__.py
 ```
 
 ## `worlds/dkc3/` (1 files)
@@ -116,4 +104,4 @@ worlds/yoshisisland/__init__.py
 
 ---
 
-**Total:** 27 changed files
+**Total:** 25 changed files

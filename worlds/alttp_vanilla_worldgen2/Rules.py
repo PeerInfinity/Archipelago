@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from worlds.generic.Rules import location_item_name, item_name_in_location_names
 from BaseClasses import CollectionState
 
-from rule_builder import True_, False_, And, CanReachLocation, CanReachRegion, False_, Has, HasAll, HasAllCounts, HasAny, HasGroup, HelperCall, Or
+from rule_builder import True_, False_, And, CanReachLocation, CanReachRegion, Compare, False_, Has, HasAll, HasAllCounts, HasAny, HasGroup, HelperCall, Or
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
@@ -1445,8 +1445,10 @@ def set_rules(world: "World") -> None:
         And(HelperCall(helper_func=can_kill_standard_start, helper_name="can_kill_standard_start", args=(1,)), Has('Small Key (Hyrule Castle)'))
     )
 
-    multiworld.get_location("Hyrule Castle - Zelda's Chest", player).access_rule = \
-        lambda state: (((((state.multiworld.worlds[player].options.enemy_health in (0, 1))) or (can_kill_standard_start(state, player, 1)))) and (state.has('Small Key (Hyrule Castle)', player, 2)) and (state.has('Big Key (Hyrule Castle)', player)))
+    world.set_rule(
+        multiworld.get_location("Hyrule Castle - Zelda's Chest", player),
+        And(Or(Compare(1, "in", ('easy', 'default')), HelperCall(helper_func=can_kill_standard_start, helper_name="can_kill_standard_start", args=(1,))), HasAllCounts({'Small Key (Hyrule Castle)': 2, 'Big Key (Hyrule Castle)': 1}))
+    )
 
     world.set_rule(
         multiworld.get_location("Hyrule Castle - Map Guard Key Drop", player),

@@ -26,7 +26,6 @@ from ..config import (
 # Worlds that have ROM-less patches available
 ROMLESS_WORLDS = [
     "alttp",
-    "apsudoku",
     "dkc3",
     "ff1",
     "lufia2ac",

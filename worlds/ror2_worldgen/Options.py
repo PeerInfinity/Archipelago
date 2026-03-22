@@ -67,6 +67,11 @@ class DeathLink(Toggle):
     display_name = "Death Link"
     default = False
 
+class DlcSots(Toggle):
+    """Option for Enable DLC - SOTS."""
+    display_name = "Enable DLC - SOTS"
+    default = False
+
 class DlcSotv(Toggle):
     """Option for Enable DLC - SOTV."""
     display_name = "Enable DLC - SOTV"
@@ -205,6 +210,10 @@ class ScavengersPerStage(Range):
     range_end = 1
     default = 0
 
+class ShowSeerPortals(DefaultOnToggle):
+    """Option for Show Seer Portals."""
+    display_name = "Show Seer Portals"
+
 class ShrineUseStep(Range):
     """Option for Shrine use Step."""
     display_name = "Shrine use Step"
@@ -218,6 +227,11 @@ class ShrinesPerStage(Range):
     range_start = 2
     range_end = 20
     default = 5
+
+class StageVariants(Toggle):
+    """Option for Include Stage Variants."""
+    display_name = "Include Stage Variants"
+    default = False
 
 class StartWithRevive(DefaultOnToggle):
     """Option for Start with a Revive."""
@@ -265,6 +279,7 @@ class Victory(Choice):
     option_mithrix = 1
     option_voidling = 2
     option_limbo = 3
+    option_falseson = 4
     default = 0
 
 class VoidItem(Range):
@@ -300,6 +315,7 @@ class RiskofRain2WorldGenOptions(PerGameCommonOptions):
     combat_trap: CombatTrap
     common_item: CommonItem
     death_link: DeathLink
+    dlc_sots: DlcSots
     dlc_sotv: DlcSotv
     enable_lunar: EnableLunar
     enable_trap: EnableTrap
@@ -321,8 +337,10 @@ class RiskofRain2WorldGenOptions(PerGameCommonOptions):
     require_stages: RequireStages
     scanner_per_stage: ScannerPerStage
     scavengers_per_stage: ScavengersPerStage
+    show_seer_portals: ShowSeerPortals
     shrine_use_step: ShrineUseStep
     shrines_per_stage: ShrinesPerStage
+    stage_variants: StageVariants
     start_with_revive: StartWithRevive
     teleport_trap: TeleportTrap
     time_warp_trap: TimeWarpTrap

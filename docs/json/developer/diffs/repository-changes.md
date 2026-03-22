@@ -2,14 +2,14 @@
 
 This document tracks the differences between this repository and the upstream Archipelago repository.
 
-**Upstream commit:** `0de09cd7` (Core: Better scaling explicit indirect conditions #4582)
-**Upstream date:** February 21, 2026
+**Upstream commit:** `fb45a2f8` (Rule Builder: Fix count resolution when Oring HasAnyCount #6048)
+**Upstream date:** March 20, 2026
 **Upstream version:** 0.6.7
-**Last updated:** 2026-03-18
+**Last updated:** 2026-03-20
 
 ## Summary
 
-- **Modified upstream files:** 27
+- **Modified upstream files:** 26
 - **New top-level directories:** 16
 - **New files in existing directories:** 29
 - **Auto-generated world directories:** 59
@@ -114,7 +114,7 @@ worlds/RomlessUtils.py
 
 ## Modified Files
 
-The following 27 files have been modified from the upstream version:
+The following 26 files have been modified from the upstream version:
 
 ### Core Files (see diff-files/core-files.diff)
 ```
@@ -124,7 +124,6 @@ settings.py
 ### Configuration Files (see diff-files/config-files.diff)
 ```
 .gitattributes
-.github/pyright-config.json
 .github/workflows/codeql-analysis.yml
 .gitignore
 pytest.ini
@@ -144,6 +143,7 @@ Note: `rule_builder/` exists in upstream (merged from PR #5048). The fork extend
 worlds/alttp/Rules.py
 worlds/landstalker/Hints.py
 worlds/lufia2ac/Options.py
+worlds/shapez/__init__.py
 ```
 
 ### Test Files (modified)
@@ -157,7 +157,6 @@ test/general/test_rule_builder.py
 ### World Init Files (see diff-files/world-init-files.diff)
 ```
 worlds/alttp/__init__.py
-worlds/apsudoku/__init__.py
 worlds/dkc3/__init__.py
 worlds/ff1/__init__.py
 worlds/lufia2ac/__init__.py
@@ -181,7 +180,6 @@ Note: `BaseClasses.py`, `Main.py`, `Utils.py`, `CommonClient.py`, and `Launcher.
 ### World Implementations (skip_required_files support)
 Modified world implementations to support generation without ROM files:
 - A Link to the Past (alttp)
-- AP Sudoku (apsudoku)
 - Donkey Kong Country 3 (dkc3)
 - Final Fantasy I (ff1)
 - Lufia II Ancient Cave (lufia2ac)
@@ -205,7 +203,6 @@ Modified world implementations to support generation without ROM files:
 ### Configuration Files
 - **.gitignore** - Added patterns for project-specific files
 - **.gitattributes** - Merge strategy for .gitignore and README.md
-- **.github/pyright-config.json** - Removed 3 entries from exclude list (`rule_builder/cached_world.py`, `rule_builder/options.py`, `test/general/test_rule_builder.py`) because the fork consolidates `cached_world.py` into `rules.py` and the test file path differs
 - **pytest.ini** - Added `test_json` to testpaths for fork-specific test modules
 - **README.md** - Documentation updates
 
@@ -298,9 +295,9 @@ The following major components were developed specifically for this project:
   - Comprehensive automated testing infrastructure
   - 59 auto-generated worldgen packages + 8 second-generation worldgen2 packages from JSON rules
 
-- The latest sync from upstream was performed on February 21, 2026, bringing the fork up to Archipelago 0.6.7 (commit `0de09cd7`)
+- The latest sync from upstream was performed on March 20, 2026, bringing the fork up to Archipelago 0.6.7 (commit `fb45a2f8`)
 
-- Most changes are additions rather than modifications, with only 27 files modified from upstream
+- Most changes are additions rather than modifications, with only 26 files modified from upstream
 
 - The majority of the ~2,000 new files are contained within:
   - `frontend/` - Web client (~400 files)
@@ -310,6 +307,6 @@ The following major components were developed specifically for this project:
 
 ---
 
-**Last updated:** 2026-03-18
-**Base commit:** 0de09cd7 (Core: Better scaling explicit indirect conditions #4582)
+**Last updated:** 2026-03-20
+**Base commit:** fb45a2f8 (Rule Builder: Fix count resolution when Oring HasAnyCount #6048)
 **Upstream version:** 0.6.7

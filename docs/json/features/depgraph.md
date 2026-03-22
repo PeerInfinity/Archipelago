@@ -1,5 +1,7 @@
 # DepGraph APWorld
 
+**[Live demo](https://peerinfinity.github.io/Archipelago-CC/?mode=depgraph)**
+
 Turn any directed acyclic graph (DAG) into a playable Archipelago world. Nodes become items and locations, edges become access rules. Includes bundled example graphs and supports custom graphs in JSON, DOT, or CSV format.
 
 ## How It Works

@@ -662,6 +662,16 @@ class ExpressionVisitorMixin(BaseVisitorMixin):
                             return {'type': 'constant', 'value': subscript_result.value}
                         # Handle callable results (functions from closure)
                         elif callable(subscript_result):
+                            # Check if this is a bound method of Region.can_reach
+                            if (hasattr(subscript_result, '__self__')
+                                    and hasattr(subscript_result, '__name__')
+                                    and subscript_result.__name__ == 'can_reach'
+                                    and hasattr(subscript_result.__self__, 'entrances')
+                                    and hasattr(subscript_result.__self__, 'name')):
+                                region_name = subscript_result.__self__.name
+                                logging.debug(f"visit_Subscript: Detected Region.can_reach bound method for region '{region_name}'")
+                                return {'type': 'can_reach', 'region': region_name}
+
                             logging.debug(f"Subscript result is callable (type: {type(subscript_result).__name__}), analyzing it as a rule function")
                             # Import analyze_rule to avoid circular dependency
                             from ..analysis import analyze_rule
@@ -691,6 +701,20 @@ class ExpressionVisitorMixin(BaseVisitorMixin):
                                 analyzed_items = []
                                 for idx, item_func in enumerate(subscript_result):
                                     try:
+                                        # Check if this is a bound method of Region.can_reach
+                                        # These carry the region name on __self__ and should be
+                                        # converted directly to CanReachRegion rules rather than
+                                        # analyzed from source (which loses the region identity)
+                                        if (hasattr(item_func, '__self__')
+                                                and hasattr(item_func, '__name__')
+                                                and item_func.__name__ == 'can_reach'
+                                                and hasattr(item_func.__self__, 'entrances')
+                                                and hasattr(item_func.__self__, 'name')):
+                                            region_name = item_func.__self__.name
+                                            logging.debug(f"visit_Subscript: Detected Region.can_reach bound method for region '{region_name}'")
+                                            analyzed_items.append({'type': 'can_reach', 'region': region_name})
+                                            continue
+
                                         item_result = analyze_rule(
                                             rule_func=item_func,
                                             closure_vars=self.closure_vars.copy(),

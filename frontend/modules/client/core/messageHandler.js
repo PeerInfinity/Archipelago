@@ -685,103 +685,155 @@ export class MessageHandler {
     if (serverLocationIds && serverLocationIds.length > 0) {
       let locationsMarked = 0;
 
+      let syncErrors = 0;
+
+      // Track locations we've already synced in this call to handle cumulative RoomUpdates
+      // (the server sends ALL checked locations each time, not just new ones)
+      if (!this._syncedLocationIds) {
+        this._syncedLocationIds = new Set();
+      }
+
       for (const id of serverLocationIds) {
-        const name = getLocationNameFromServerId(id, stateManager);
-        if (name && name !== `Location ${id}`) {
-          // Get current snapshot to check accessibility BEFORE attempting the check
-          const snapshotBefore = stateManager.getSnapshot();
-          const locationReachability = snapshotBefore?.locationReachability || {};
+        // Skip locations we've already synced in a previous RoomUpdate
+        if (this._syncedLocationIds.has(id)) {
+          continue;
+        }
 
-          // Check if this location is already checked (skip if so)
-          if (locationReachability[name] === 'checked') {
-            // Already checked, no need to do anything
-            continue;
-          }
+        try {
+          let name = getLocationNameFromServerId(id, stateManager);
+          if (name && name !== `Location ${id}`) {
+            // Verify the name exists in the stateManager's static data
+            // The DataPackage may use different names than the rules JSON
+            // (e.g., "Introductions" vs "Quest: Introductions" in Stardew Valley)
+            const sd = stateManager.getStaticData ? stateManager.getStaticData() : null;
+            if (sd && sd.locations && sd.locations instanceof Map && !sd.locations.has(name)) {
+              // Name from DataPackage doesn't match rules JSON - try to find by ID
+              let foundByIdName = null;
+              for (const [locName, locData] of sd.locations) {
+                if (locData.id === id) {
+                  foundByIdName = locName;
+                  break;
+                }
+              }
+              if (foundByIdName) {
+                name = foundByIdName;
+              }
+            }
+            // Get current snapshot to check accessibility BEFORE attempting the check
+            const snapshotBefore = stateManager.getSnapshot();
+            const locationReachability = snapshotBefore?.locationReachability || {};
 
-          // Check if location is accessible according to frontend logic
-          const isAccessible = locationReachability[name] === 'reachable';
+            // Check if this location is already checked (skip if so)
+            if (locationReachability[name] === 'checked') {
+              // Already checked, track and skip
+              this._syncedLocationIds.add(id);
+              continue;
+            }
 
-          if (!isAccessible) {
-            // Location is inaccessible according to frontend logic, but server says it was checked
-            // Capture state before force-checking
-            const stateBefore = {
-              inventory: { ...(snapshotBefore?.inventory || {}) },
-              accessibleLocations: Object.entries(locationReachability)
-                .filter(([, status]) => status === 'reachable')
-                .map(([locName]) => locName),
-              accessibleRegions: Object.entries(snapshotBefore?.regionReachability || {})
-                .filter(([, status]) => status === 'reachable')
-                .map(([regName]) => regName)
-            };
+            // Check if location is accessible according to frontend logic
+            const isAccessible = locationReachability[name] === 'reachable';
 
-            // Force-check the location to maintain server sync
-            await stateManager.checkLocation(name, false, true); // forceCheck = true
-            locationsMarked++;
+            if (!isAccessible) {
+              // Location is inaccessible according to frontend logic, but server says it was checked
+              // Capture state before force-checking
+              const stateBefore = {
+                inventory: { ...(snapshotBefore?.inventory || {}) },
+                accessibleLocations: Object.entries(locationReachability)
+                  .filter(([, status]) => status === 'reachable')
+                  .map(([locName]) => locName),
+                accessibleRegions: Object.entries(snapshotBefore?.regionReachability || {})
+                  .filter(([, status]) => status === 'reachable')
+                  .map(([regName]) => regName)
+              };
 
-            // Get state after the force-check
-            const snapshotAfter = stateManager.getSnapshot();
-            const locationReachabilityAfter = snapshotAfter?.locationReachability || {};
-            const stateAfter = {
-              inventory: { ...(snapshotAfter?.inventory || {}) },
-              accessibleLocations: Object.entries(locationReachabilityAfter)
-                .filter(([, status]) => status === 'reachable')
-                .map(([locName]) => locName),
-              accessibleRegions: Object.entries(snapshotAfter?.regionReachability || {})
-                .filter(([, status]) => status === 'reachable')
-                .map(([regName]) => regName)
-            };
+              // Force-check the location to maintain server sync
+              await stateManager.checkLocation(name, false, true); // forceCheck = true
+              locationsMarked++;
+              this._syncedLocationIds.add(id);
 
-            // Generate sphere logs for debugging
-            const playerId = snapshotBefore?.player?.id || '1';
-            const sphereLogOptions = {
-              locationName: name,
-              playerId,
-              stateBefore,
-              stateAfter
-            };
+              // Get state after the force-check
+              const snapshotAfter = stateManager.getSnapshot();
+              const locationReachabilityAfter = snapshotAfter?.locationReachability || {};
+              const stateAfter = {
+                inventory: { ...(snapshotAfter?.inventory || {}) },
+                accessibleLocations: Object.entries(locationReachabilityAfter)
+                  .filter(([, status]) => status === 'reachable')
+                  .map(([locName]) => locName),
+                accessibleRegions: Object.entries(snapshotAfter?.regionReachability || {})
+                  .filter(([, status]) => status === 'reachable')
+                  .map(([regName]) => regName)
+              };
 
-            // 1. Diagnostic log: Shows actual state (with the bug)
-            const diagnosticLogContent = generateInaccessibleLocationSphereLog(sphereLogOptions);
-            const diagnosticDownloadUrl = createSphereLogDownloadUrl(diagnosticLogContent);
-            const diagnosticFileName = generateSphereLogFilename(name, 'diagnostic');
+              // Generate sphere logs for debugging
+              const playerId = snapshotBefore?.player?.id || '1';
+              const sphereLogOptions = {
+                locationName: name,
+                playerId,
+                stateBefore,
+                stateAfter
+              };
 
-            // 2. Regression test log: Shows expected state (location should be accessible)
-            const regressionLogContent = generateRegressionTestSphereLog(sphereLogOptions);
-            const regressionDownloadUrl = createSphereLogDownloadUrl(regressionLogContent);
-            const regressionFileName = generateSphereLogFilename(name, 'regression');
+              // 1. Diagnostic log: Shows actual state (with the bug)
+              const diagnosticLogContent = generateInaccessibleLocationSphereLog(sphereLogOptions);
+              const diagnosticDownloadUrl = createSphereLogDownloadUrl(diagnosticLogContent);
+              const diagnosticFileName = generateSphereLogFilename(name, 'diagnostic');
 
-            // Log detailed error message
-            const errorMessage = `[INACCESSIBLE LOCATION DETECTED]
+              // 2. Regression test log: Shows expected state (location should be accessible)
+              const regressionLogContent = generateRegressionTestSphereLog(sphereLogOptions);
+              const regressionDownloadUrl = createSphereLogDownloadUrl(regressionLogContent);
+              const regressionFileName = generateSphereLogFilename(name, 'regression');
+
+              // Log detailed error message
+              const errorMessage = `[INACCESSIBLE LOCATION DETECTED]
 Location: ${name}
 Server ID: ${id}
 The server says this location was checked, but frontend logic says it should be inaccessible.
 Location was force-checked to maintain server sync.`;
 
-            log('error', errorMessage);
-            log('error', `Download diagnostic sphere log: ${diagnosticDownloadUrl}`);
-            log('error', `Download regression test sphere log: ${regressionDownloadUrl}`);
+              log('error', errorMessage);
+              log('error', `Download diagnostic sphere log: ${diagnosticDownloadUrl}`);
+              log('error', `Download regression test sphere log: ${regressionDownloadUrl}`);
 
-            // Publish to console UI with both download links
-            this.eventBus?.publish('ui:printToConsole', {
-              message: errorMessage,
-              type: 'error',
-              downloads: [
-                { url: diagnosticDownloadUrl, fileName: diagnosticFileName, label: 'Diagnostic Log (actual state)' },
-                { url: regressionDownloadUrl, fileName: regressionFileName, label: 'Regression Test (expected state)' }
-              ]
-            });
+              // Publish to console UI with both download links
+              this.eventBus?.publish('ui:printToConsole', {
+                message: errorMessage,
+                type: 'error',
+                downloads: [
+                  { url: diagnosticDownloadUrl, fileName: diagnosticFileName, label: 'Diagnostic Log (actual state)' },
+                  { url: regressionDownloadUrl, fileName: regressionFileName, label: 'Regression Test (expected state)' }
+                ]
+              });
 
+            } else {
+              // Normal case - location is accessible, check it normally
+              await stateManager.checkLocation(name, false);
+              locationsMarked++;
+              this._syncedLocationIds.add(id);
+            }
           } else {
-            // Normal case - location is accessible, check it normally
-            await stateManager.checkLocation(name, false);
-            locationsMarked++;
+            log(
+              'warn',
+              `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
+            );
           }
-        } else {
-          log(
-            'warn',
-            `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
-          );
+        } catch (syncError) {
+          syncErrors++;
+          // Only log first 3 sync errors to avoid spam
+          if (syncErrors <= 3) {
+            log(
+              'warn',
+              `[MessageHandler _syncLocationsFromServer] Error syncing location ID ${id}: ${syncError.message || syncError}`
+            );
+          }
+          // Continue processing remaining locations instead of aborting the batch
         }
+      }
+
+      if (syncErrors > 0) {
+        log(
+          'warn',
+          `[MessageHandler _syncLocationsFromServer] ${syncErrors} location(s) failed to sync (continued processing remaining).`
+        );
       }
 
       if (locationsMarked > 0) {

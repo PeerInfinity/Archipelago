@@ -71,18 +71,19 @@ rsync -a \
     --exclude='.github' \
     --exclude='README.md' \
     --exclude='.gitignore' \
+    --exclude='CLAUDE.md' \
     "$SOURCE_DIR/" "$DEST_DIR/"
 echo "  Files copied"
 
 # Step 4: Restore non-root README.md and .gitignore files
 echo -e "${GREEN}Step 4: Restoring non-root README.md and .gitignore files...${NC}"
 cd "$SOURCE_DIR"
-find . \( -name "README.md" -o -name ".gitignore" \) -not -path "./README.md" -not -path "./.gitignore" -print0 | \
+find . \( -name "README.md" -o -name ".gitignore" \) -not -path "./README.md" -not -path "./.gitignore" -not -path "./.github/*" -print0 | \
     xargs -0 -I {} sh -c 'dest="'"$DEST_DIR"'/{}"; mkdir -p "$(dirname "$dest")"; cp "{}" "$dest"'
 
 # Count files restored
-SOURCE_COUNT=$(find "$SOURCE_DIR" \( -name "README.md" -o -name ".gitignore" \) -not -path "$SOURCE_DIR/README.md" -not -path "$SOURCE_DIR/.gitignore" | wc -l)
-DEST_COUNT=$(find "$DEST_DIR" \( -name "README.md" -o -name ".gitignore" \) -not -path "$DEST_DIR/README.md" -not -path "$DEST_DIR/.gitignore" | wc -l)
+SOURCE_COUNT=$(find "$SOURCE_DIR" \( -name "README.md" -o -name ".gitignore" \) -not -path "$SOURCE_DIR/README.md" -not -path "$SOURCE_DIR/.gitignore" -not -path "$SOURCE_DIR/.github/*" | wc -l)
+DEST_COUNT=$(find "$DEST_DIR" \( -name "README.md" -o -name ".gitignore" \) -not -path "$DEST_DIR/README.md" -not -path "$DEST_DIR/.gitignore" -not -path "$DEST_DIR/.github/*" | wc -l)
 echo "  Restored $DEST_COUNT of $SOURCE_COUNT files"
 
 if [ "$SOURCE_COUNT" -ne "$DEST_COUNT" ]; then

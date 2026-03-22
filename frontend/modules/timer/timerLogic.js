@@ -424,15 +424,18 @@ export class TimerLogic {
     // staticData.locations is always a Map after initialization
     const locationsArray = Array.from(staticData.locations.values());
 
-    let locationToCheck = null;
+    // Use a Set for O(1) lookup instead of O(n) Array.includes
+    const checkedSet = new Set(snapshot.checkedLocations || []);
+
+    // Collect ALL accessible unchecked locations for batch dispatch
+    const locationsToCheck = [];
     let uncheckedCount = 0;
     let inaccessibleCount = 0;
     let skippedEventCount = 0;
     let skippedAlreadyAttemptedCount = 0;
 
     for (const loc of locationsArray) {
-      const isChecked = snapshot.checkedLocations?.includes(loc.name);
-      if (isChecked) continue;
+      if (checkedSet.has(loc.name)) continue;
 
       // Skip event locations (determined by item's event flag, not location.id)
       // Locations with id=null may still be manually checkable (e.g., DLCQuest coin pickups)
@@ -455,29 +458,69 @@ export class TimerLogic {
 
       if (isAccessible) {
         // isLocationAccessible already considers parent region reachability internally
-        locationToCheck = loc;
-        break;
+        locationsToCheck.push(loc);
       } else {
         inaccessibleCount++;
       }
     }
 
-    if (locationToCheck) {
-      // Mark this location as attempted before dispatching
-      this.attemptedChecks.add(locationToCheck.name);
-      log('info',
-        `[TimerLogic] Auto-found location to check: ${locationToCheck.name} (tracked in attempted checks)`
-      );
-      this.dispatcher.publish(
-        'user:locationCheck',
-        {
-          locationName: locationToCheck.name,
-          regionName: locationToCheck.region || locationToCheck.parent_region,
-          originator: 'TimerModuleAuto', // Differentiate from QuickCheck
-          originalDOMEvent: false,
-        },
-        { initialTarget: 'bottom' }
-      );
+    if (locationsToCheck.length > 0) {
+      // Mark all as attempted before dispatching
+      for (const loc of locationsToCheck) {
+        this.attemptedChecks.add(loc.name);
+      }
+
+      if (locationsToCheck.length === 1) {
+        // Single location - use existing dispatch flow
+        log('info',
+          `[TimerLogic] Auto-found location to check: ${locationsToCheck[0].name} (tracked in attempted checks)`
+        );
+        this.dispatcher.publish(
+          'user:locationCheck',
+          {
+            locationName: locationsToCheck[0].name,
+            regionName: locationsToCheck[0].region || locationsToCheck[0].parent_region,
+            originator: 'TimerModuleAuto',
+            originalDOMEvent: false,
+          },
+          { initialTarget: 'bottom' }
+        );
+      } else if (typeof this.stateManager.batchCheckLocations === 'function') {
+        // Multiple locations - use batch check for efficiency (single BFS pass)
+        log('info',
+          `[TimerLogic] Batch-checking ${locationsToCheck.length} accessible locations`
+        );
+        const locationNames = locationsToCheck.map(loc => loc.name);
+
+        // Batch check via stateManager (single BFS pass instead of N individual ones)
+        // Items are added locally from the rules JSON
+        this.stateManager.batchCheckLocations(locationNames).then(() => {
+          // After batch check completes locally, notify the server about all checked locations
+          const sendBatchLocationChecks = window.centralRegistry?.getPublicFunction('client', 'sendBatchLocationChecks');
+          if (sendBatchLocationChecks) {
+            sendBatchLocationChecks(locationNames);
+          }
+        }).catch(err => {
+          log('warn', `[TimerLogic] Batch check error: ${err.message}`);
+        });
+      } else {
+        // Fallback: dispatch individually if batch not available
+        log('info',
+          `[TimerLogic] Dispatching ${locationsToCheck.length} accessible locations individually`
+        );
+        for (const loc of locationsToCheck) {
+          this.dispatcher.publish(
+            'user:locationCheck',
+            {
+              locationName: loc.name,
+              regionName: loc.region || loc.parent_region,
+              originator: 'TimerModuleAuto',
+              originalDOMEvent: false,
+            },
+            { initialTarget: 'bottom' }
+          );
+        }
+      }
       return true;
     } else {
       if (skippedAlreadyAttemptedCount > 0) {
@@ -514,11 +557,11 @@ export class TimerLogic {
           // Check again for accessible locations in the updated snapshot
           // staticData.locations is always a Map after initialization
           const locationsArrayUpdated = Array.from(updatedStaticData.locations.values());
+          const updatedCheckedSet = new Set(updatedSnapshot.checkedLocations || []);
 
-          let newLocationToCheck = null;
+          const newLocationsToCheck = [];
           for (const loc of locationsArrayUpdated) {
-            const isChecked = updatedSnapshot.checkedLocations?.includes(loc.name);
-            if (isChecked) continue;
+            if (updatedCheckedSet.has(loc.name)) continue;
 
             // Skip event locations (determined by item's event flag)
             if (isEventLocation(loc, updatedStaticData.items)) continue;
@@ -526,27 +569,43 @@ export class TimerLogic {
 
             const isAccessible = updatedSnapshotInterface.isLocationAccessible(loc.name);
             if (isAccessible) {
-              newLocationToCheck = loc;
-              break;
+              newLocationsToCheck.push(loc);
             }
           }
 
-          if (newLocationToCheck) {
-            // Found a newly accessible location after recalculation!
-            this.attemptedChecks.add(newLocationToCheck.name);
+          if (newLocationsToCheck.length > 0) {
+            // Found newly accessible locations after recalculation!
+            for (const loc of newLocationsToCheck) {
+              this.attemptedChecks.add(loc.name);
+            }
             log('info',
-              `[TimerLogic] Found newly accessible location after recalculation: ${newLocationToCheck.name}`
+              `[TimerLogic] Found ${newLocationsToCheck.length} newly accessible location(s) after recalculation`
             );
-            this.dispatcher.publish(
-              'user:locationCheck',
-              {
-                locationName: newLocationToCheck.name,
-                regionName: newLocationToCheck.region || newLocationToCheck.parent_region,
-                originator: 'TimerModuleAuto',
-                originalDOMEvent: false,
-              },
-              { initialTarget: 'bottom' }
-            );
+
+            if (newLocationsToCheck.length > 1 && typeof this.stateManager.batchCheckLocations === 'function') {
+              const locationNames = newLocationsToCheck.map(loc => loc.name);
+              this.stateManager.batchCheckLocations(locationNames).then(() => {
+                const sendBatchLocationChecks = window.centralRegistry?.getPublicFunction('client', 'sendBatchLocationChecks');
+                if (sendBatchLocationChecks) {
+                  sendBatchLocationChecks(locationNames);
+                }
+              }).catch(err => {
+                log('warn', `[TimerLogic] Batch check error: ${err.message}`);
+              });
+            } else {
+              for (const loc of newLocationsToCheck) {
+                this.dispatcher.publish(
+                  'user:locationCheck',
+                  {
+                    locationName: loc.name,
+                    regionName: loc.region || loc.parent_region,
+                    originator: 'TimerModuleAuto',
+                    originalDOMEvent: false,
+                  },
+                  { initialTarget: 'bottom' }
+                );
+              }
+            }
             return true;
           } else {
             log('info', '[TimerLogic] No new accessible locations found after recalculation');

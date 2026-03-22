@@ -194,6 +194,58 @@ export function checkLocation(sm, locationName, addItems = true, forceCheck = fa
 }
 
 /**
+ * Batch checks multiple locations with a single reachability computation.
+ * Much more efficient than calling checkLocation() individually for each location,
+ * as it avoids N separate BFS passes and N snapshot updates.
+ *
+ * @param {Object} sm - StateManager instance
+ * @param {string[]} locationNames - Array of location names to check
+ * @param {boolean} addItems - Whether to add placed items to inventory (default: true)
+ * @returns {{ checked: string[], count: number }} Result of batch operation
+ */
+export function batchCheckLocations(sm, locationNames, addItems = true) {
+  const checked = [];
+  const currentPlayerId = sm.playerId;
+  const countNonAdvancement = sm.rules?.world?.[currentPlayerId]?.count_non_advancement_items ?? false;
+
+  // Use batch update to defer reachability computation until all locations are processed
+  sm.beginBatchUpdate(true);
+
+  for (const locationName of locationNames) {
+    // Skip already checked
+    if (sm.checkedLocations.has(locationName)) continue;
+
+    // Find the location data
+    const location = sm.locations.get(locationName);
+    if (!location) continue;
+
+    // Mark as checked
+    sm.checkedLocations.add(locationName);
+    checked.push(locationName);
+
+    // Grant item from location (if addItems is true)
+    if (addItems && location.item && typeof location.item.name === 'string') {
+      const itemPlayerId = location.item.player;
+      const isCrossPlayerItem = itemPlayerId !== undefined && String(itemPlayerId) !== String(currentPlayerId);
+
+      if (!isCrossPlayerItem) {
+        const shouldAddItem = !sm.spoilerTestMode || location.item.advancement !== false || countNonAdvancement;
+        if (shouldAddItem) {
+          // Use public addItemToInventory which queues in batch mode
+          sm.addItemToInventory(location.item.name, 1);
+        }
+      }
+    }
+  }
+
+  // Commit: applies all batched inventory changes, one BFS pass, one snapshot update
+  sm.commitBatchUpdate();
+
+  sm._logDebug(`[StateManager Class] Batch checked ${checked.length} locations`);
+  return { checked, count: checked.length };
+}
+
+/**
  * Clears all checked locations
  *
  * @param {Object} sm - StateManager instance

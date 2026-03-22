@@ -315,8 +315,21 @@ These files are located in the `scripts/lib/` subdirectory to clearly separate l
 - **`docs/generate-file-diff-lists.py`** - Generate categorized file diff lists comparing fork vs upstream Archipelago
   ```bash
   python scripts/docs/generate-file-diff-lists.py                           # Generate all diff lists
-  python scripts/docs/generate-file-diff-lists.py --upstream-commit 0de09cd7  # Specify upstream commit
+  python scripts/docs/generate-file-diff-lists.py --upstream-commit fb45a2f8  # Specify upstream commit
   python scripts/docs/generate-file-diff-lists.py --dry-run                 # Preview without writing
+  ```
+
+- **`docs/check-annotations.py`** - Verify that every item in the fork-vs-upstream diff has a corresponding entry in `file-annotations.json`. Reports missing annotations and stale entries.
+  ```bash
+  python scripts/docs/check-annotations.py --upstream-commit fb45a2f8       # Check against specific commit
+  python scripts/docs/check-annotations.py                                  # Check against latest upstream/main
+  ```
+
+### Release Scripts (scripts/release/)
+
+- **`release/sync-to-stable.sh`** - Sync the dev repository to the stable repository (`PeerInfinity/Archipelago` @ `JSONExport`) via rsync. Deletes all files in the destination (preserving `.git`, `.github`, `README.md`, `.gitignore`, `.claude`), copies all files from dev, then restores non-root `README.md` and `.gitignore` files.
+  ```bash
+  bash scripts/release/sync-to-stable.sh /path/to/stable/Archipelago
   ```
 
 ### Utility Scripts (scripts/utils/)

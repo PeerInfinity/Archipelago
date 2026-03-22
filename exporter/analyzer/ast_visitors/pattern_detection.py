@@ -349,14 +349,20 @@ class PatternDetectionMixin(BaseVisitorMixin):
     def _is_multiworld_get_region_call(self, node) -> Optional[str]:
         """
         Detect the pattern: state.multiworld.get_region('Region Name', player)
+        or: multiworld.get_region('Region Name', player)
         Returns the region name if matched, None otherwise.
 
-        AST structure:
-        Call
-          func=Attribute(attr='get_region')
-            value=Attribute(attr='multiworld')
-              value=Name(id='state')
-          args=[Constant('Region Name'), Name(id='player')]
+        AST structures:
+        1) Call
+             func=Attribute(attr='get_region')
+               value=Attribute(attr='multiworld')
+                 value=Name(id='state')
+             args=[Constant('Region Name'), Name(id='player')]
+
+        2) Call
+             func=Attribute(attr='get_region')
+               value=Name(id='multiworld')
+             args=[Constant('Region Name'), Name(id='player')]
         """
         if not isinstance(node, ast.Call):
             return None
@@ -366,14 +372,21 @@ class PatternDetectionMixin(BaseVisitorMixin):
         if not isinstance(func, ast.Attribute) or func.attr != 'get_region':
             return None
 
-        # Check the object is state.multiworld
-        multiworld_attr = func.value
-        if not isinstance(multiworld_attr, ast.Attribute) or multiworld_attr.attr != 'multiworld':
-            return None
+        # Check the object is state.multiworld or just multiworld
+        obj = func.value
+        matched = False
 
-        # Check it's accessing 'state' or 'world'
-        state_name = multiworld_attr.value
-        if not isinstance(state_name, ast.Name) or state_name.id not in ('state', 'world'):
+        # Pattern 1: state.multiworld.get_region() or world.multiworld.get_region()
+        if isinstance(obj, ast.Attribute) and obj.attr == 'multiworld':
+            state_name = obj.value
+            if isinstance(state_name, ast.Name) and state_name.id in ('state', 'world'):
+                matched = True
+
+        # Pattern 2: multiworld.get_region() where multiworld is a closure variable
+        if not matched and isinstance(obj, ast.Name) and obj.id == 'multiworld':
+            matched = True
+
+        if not matched:
             return None
 
         # Get the region name from the first argument

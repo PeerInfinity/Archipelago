@@ -1,12 +1,12 @@
 # Upstream Rule Builder Changes
 
-Comparison of the upstream Rule Builder between its initial introduction (PR #5048, commit `286769a0`) and the current upstream target (commit `0de09cd7`).
+Comparison of the upstream Rule Builder between its initial introduction (PR #5048, commit `286769a0`) and the current upstream target (commit `fb45a2f8`).
 
 The Rule Builder did not exist at the previous fork base (`1dd91ec85`). It was added entirely within the 23-commit range being synced.
 
 ## Commits
 
-Three commits between `286769a0` and `0de09cd7` touch the Rule Builder or its integration points:
+Commits between `286769a0` and `fb45a2f8` that touch the Rule Builder or its integration points:
 
 | Commit | PR | Description |
 |--------|-----|-------------|
@@ -14,6 +14,7 @@ Three commits between `286769a0` and `0de09cd7` touch the Rule Builder or its in
 | `8b91f9ff` | [#5933](https://github.com/ArchipelagoMW/Archipelago/pull/5933) | Make `region.connect()` and `add_event()` support Rule Builder |
 | `c505b1c3` | [#5912](https://github.com/ArchipelagoMW/Archipelago/pull/5912) | Add missing `filtered_resolution` arg to rule `__init__` and `from_dict` |
 | `0de09cd7` | [#4582](https://github.com/ArchipelagoMW/Archipelago/pull/4582) | Better scaling explicit indirect conditions (performance optimization in `CollectionState`, not Rule Builder specific) |
+| `fb45a2f8` | [#6048](https://github.com/ArchipelagoMW/Archipelago/pull/6048) | Fix count resolution when Or-ing HasAnyCount (bug fix: `items[item] < count` → `count < items[item]` in `Or.Resolved.resolve()`) |
 
 ## Files
 

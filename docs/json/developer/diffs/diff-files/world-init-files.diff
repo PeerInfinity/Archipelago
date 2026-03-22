@@ -1,6 +1,8 @@
+diff --git a/worlds/alttp/__init__.py b/worlds/alttp/__init__.py
+index 2b9916283..3b8434bb5 100644
 --- a/worlds/alttp/__init__.py
 +++ b/worlds/alttp/__init__.py
-@@ -5,6 +5,7 @@
+@@ -5,6 +5,7 @@ import threading
  import typing
  
  import settings
@@ -8,7 +10,7 @@
  from BaseClasses import Item, CollectionState, Tutorial, MultiWorld
  from worlds.AutoWorld import World, WebWorld, LogicMixin
  from .Client import ALTTPSNIClient
-@@ -312,10 +313,13 @@
+@@ -312,10 +313,13 @@ class ALTTPWorld(World):
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld):
          rom_file = get_base_rom_path()
@@ -24,7 +26,7 @@
          for player in multiworld.get_game_players(cls.game):
              if multiworld.worlds[player].use_enemizer:
                  check_enemizer(multiworld.worlds[player].enemizer_path)
-@@ -577,6 +581,12 @@
+@@ -577,6 +581,12 @@ class ALTTPWorld(World):
  
          self.pushed_shop_inventories.wait()
  
@@ -37,7 +39,7 @@
          try:
              use_enemizer = self.use_enemizer
  
-@@ -683,8 +693,8 @@
+@@ -683,8 +693,8 @@ class ALTTPWorld(World):
          # wait for self.rom_name to be available.
          self.rom_name_available_event.wait()
          rom_name = getattr(self, "rom_name", None)
@@ -48,22 +50,11 @@
              new_name = base64.b64encode(bytes(self.rom_name)).decode()
              multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
  
---- a/worlds/apsudoku/__init__.py
-+++ b/worlds/apsudoku/__init__.py
-@@ -30,5 +30,9 @@
- 
-     @classmethod
-     def stage_assert_generate(cls, multiworld):
--        raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
-+        from settings import skip_required_files
-+        if not skip_required_files:
-+            raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
-+        import logging
-+        logging.getLogger("APSudoku").warning("APSudoku normally cannot be used for generating worlds, but skip_required_files is set. Generation will continue for testing purposes.")
- 
+diff --git a/worlds/dkc3/__init__.py b/worlds/dkc3/__init__.py
+index 1dabeb053..0ac3bad4f 100644
 --- a/worlds/dkc3/__init__.py
 +++ b/worlds/dkc3/__init__.py
-@@ -16,6 +16,7 @@
+@@ -16,6 +16,7 @@ from .Names import ItemName, LocationName
  from .Options import DKC3Options, dkc3_option_groups
  from .Regions import create_regions, connect_regions
  from .Rom import LocalRom, patch_rom, get_base_rom_path, DKC3DeltaPatch
@@ -71,7 +62,7 @@
  from .Rules import set_rules
  
  
-@@ -73,9 +74,7 @@
+@@ -73,9 +74,7 @@ class DKC3World(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -82,7 +73,7 @@
  
      def _get_slot_data(self):
          return {
-@@ -156,6 +155,12 @@
+@@ -156,6 +155,12 @@ class DKC3World(World):
          self.multiworld.itempool += itempool
  
      def generate_output(self, output_directory: str):
@@ -95,7 +86,7 @@
          try:
              rom = LocalRom(get_base_rom_path())
              patch_rom(self, rom, self.active_level_list)
-@@ -173,7 +178,7 @@
+@@ -173,7 +178,7 @@ class DKC3World(World):
              raise
          finally:
              self.rom_name_available_event.set()  # make sure threading continues and errors are collected
@@ -104,7 +95,7 @@
                  os.unlink(rompath)
  
      def modify_multidata(self, multidata: dict):
-@@ -181,8 +186,8 @@
+@@ -181,8 +186,8 @@ class DKC3World(World):
          # wait for self.rom_name to be available.
          self.rom_name_available_event.wait()
          rom_name = getattr(self, "rom_name", None)
@@ -115,9 +106,11 @@
              new_name = base64.b64encode(bytes(self.rom_name)).decode()
              multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
  
+diff --git a/worlds/ff1/__init__.py b/worlds/ff1/__init__.py
+index 39df9020e..ed32afaaa 100644
 --- a/worlds/ff1/__init__.py
 +++ b/worlds/ff1/__init__.py
-@@ -60,9 +60,13 @@
+@@ -60,9 +60,13 @@ class FF1World(World):
          # Fail generation if there are no items in the pool
          for player in multiworld.get_game_players(cls.game):
              items = multiworld.worlds[player].options.items.value
@@ -134,9 +127,11 @@
  
      def create_regions(self):
          locations = self.options.locations.value
+diff --git a/worlds/lufia2ac/__init__.py b/worlds/lufia2ac/__init__.py
+index 96de24a4b..6f630d1e1 100644
 --- a/worlds/lufia2ac/__init__.py
 +++ b/worlds/lufia2ac/__init__.py
-@@ -8,6 +8,7 @@
+@@ -8,6 +8,7 @@ import settings
  from BaseClasses import Item, ItemClassification, Location, MultiWorld, Region, Tutorial
  from Options import PerGameCommonOptions
  from Utils import __version__
@@ -144,7 +139,7 @@
  from worlds.AutoWorld import WebWorld, World
  from worlds.generic.Rules import add_rule, CollectionRule, set_rule
  from .Client import L2ACSNIClient  # noqa: F401
-@@ -73,9 +74,7 @@
+@@ -73,9 +74,7 @@ class L2ACWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
@@ -155,7 +150,7 @@
  
          # # uncomment this section to recreate the basepatch
          # # (you will need to provide "asar.py" as well as an Asar library in the basepatch directory)
-@@ -193,6 +192,10 @@
+@@ -193,6 +192,10 @@ class L2ACWorld(World):
      def generate_output(self, output_directory: str) -> None:
          rom_path: str = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
  
@@ -166,9 +161,11 @@
          try:
              rom_bytearray = bytearray(apply_basepatch(get_base_rom_bytes()))
              # start and stop indices are offsets in the ROM file, not LoROM mapped SNES addresses
+diff --git a/worlds/mmbn3/__init__.py b/worlds/mmbn3/__init__.py
+index 80716977d..53ba94ae2 100644
 --- a/worlds/mmbn3/__init__.py
 +++ b/worlds/mmbn3/__init__.py
-@@ -8,6 +8,7 @@
+@@ -8,6 +8,7 @@ from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region,
  from worlds.AutoWorld import WebWorld, World
  
  from .Rom import MMBN3DeltaPatch, LocalRom, get_base_rom_path
@@ -176,7 +173,7 @@
  from .Items import MMBN3Item, ItemData, item_table, all_items, item_frequencies, items_by_id, ItemType, item_groups
  from .Locations import Location, MMBN3Location, all_locations, location_table, location_data_table, \
      secret_locations, jobs, location_groups
-@@ -462,6 +463,10 @@
+@@ -462,6 +463,10 @@ class MMBN3World(World):
      def generate_output(self, output_directory: str) -> None:
          rompath: str = ""
  
@@ -187,7 +184,7 @@
          try:
              world = self.multiworld
              player = self.player
-@@ -529,9 +534,7 @@
+@@ -529,9 +534,7 @@ class MMBN3World(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
@@ -198,9 +195,11 @@
  
      def create_item(self, name: str) -> "Item":
          item = item_table[name]
+diff --git a/worlds/oot/__init__.py b/worlds/oot/__init__.py
+index d9465f176..45b92fa33 100644
 --- a/worlds/oot/__init__.py
 +++ b/worlds/oot/__init__.py
-@@ -202,8 +202,15 @@
+@@ -202,8 +202,15 @@ class OOTWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -217,7 +216,7 @@
  
  
      # Option parsing, handling incompatible options, building useful-item table
-@@ -1075,6 +1082,27 @@
+@@ -1075,6 +1082,27 @@ class OOTWorld(World):
              for entrance in all_entrances:
                  self.multiworld.spoiler.set_entrance(entrance, entrance.replaces, 'entrance', self.player)
  
@@ -245,7 +244,7 @@
          if self.hints != 'none':
              self.hint_data_available.wait()
  
-@@ -1225,8 +1253,10 @@
+@@ -1225,8 +1253,10 @@ class OOTWorld(World):
  
      def modify_multidata(self, multidata: dict):
  
@@ -258,9 +257,11 @@
  
          # Remove undesired items from start_inventory
          # This is because we don't want them to show up in the autotracker,
+diff --git a/worlds/smw/__init__.py b/worlds/smw/__init__.py
+index 56ca82abb..d951722a5 100644
 --- a/worlds/smw/__init__.py
 +++ b/worlds/smw/__init__.py
-@@ -18,6 +18,7 @@
+@@ -18,6 +18,7 @@ from .Options import SMWOptions, smw_option_groups
  from .Presets import smw_options_presets
  from .Regions import create_regions, connect_regions
  from .Rom import LocalRom, patch_rom, get_base_rom_path, SMWDeltaPatch
@@ -268,7 +269,7 @@
  from .Rules import set_rules
  
  
-@@ -77,9 +78,7 @@
+@@ -77,9 +78,7 @@ class SMWWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -279,7 +280,7 @@
  
      def fill_slot_data(self) -> dict:
          slot_data = self.options.as_dict(
-@@ -215,6 +214,12 @@
+@@ -215,6 +214,12 @@ class SMWWorld(World):
  
      def generate_output(self, output_directory: str):
          rompath = ""  # if variable is not declared finally clause may fail
@@ -292,7 +293,7 @@
          try:
              multiworld = self.multiworld
              player = self.player
-@@ -241,8 +246,8 @@
+@@ -241,8 +246,8 @@ class SMWWorld(World):
          # wait for self.rom_name to be available.
          self.rom_name_available_event.wait()
          rom_name = getattr(self, "rom_name", None)
@@ -303,9 +304,11 @@
              new_name = base64.b64encode(bytes(self.rom_name)).decode()
              multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
  
+diff --git a/worlds/soe/__init__.py b/worlds/soe/__init__.py
+index 8de83da7e..6e31ffdc0 100644
 --- a/worlds/soe/__init__.py
 +++ b/worlds/soe/__init__.py
-@@ -10,6 +10,7 @@
+@@ -10,6 +10,7 @@ import pyevermizer  # from package
  import settings
  from BaseClasses import Item, ItemClassification, Location, LocationProgressType, Region, Tutorial
  from Utils import output_path
@@ -313,7 +316,7 @@
  from worlds.AutoWorld import WebWorld, World
  from worlds.generic.Rules import add_item_rule, set_rule
  from .logic import SoEPlayerLogic
-@@ -220,9 +221,7 @@
+@@ -220,9 +221,7 @@ class SoEWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, _: "MultiWorld") -> None:
@@ -324,7 +327,7 @@
  
      def create_regions(self) -> None:
          # exclude 'hidden' on easy
-@@ -444,8 +443,10 @@
+@@ -444,8 +443,10 @@ class SoEWorld(World):
                          line = f'{loc.type},{loc.index}:{soe_item.type},{soe_item.index}\n'
                      f.write(line.encode('utf-8'))
  
@@ -337,9 +340,11 @@
              if (pyevermizer.main(rom_file, out_file, placement_file, self.multiworld.seed_name, self.connect_name,
                                   self.evermizer_seed, flags, money, exp, switches)):
                  raise RuntimeError()
+diff --git a/worlds/tloz/__init__.py b/worlds/tloz/__init__.py
+index da347c752..36329791f 100644
 --- a/worlds/tloz/__init__.py
 +++ b/worlds/tloz/__init__.py
-@@ -4,6 +4,7 @@
+@@ -4,6 +4,7 @@ from pkgutil import get_data
  
  import bsdiff4
  import Utils
@@ -347,7 +352,7 @@
  import settings
  import typing
  
-@@ -119,9 +120,7 @@
+@@ -119,9 +120,7 @@ class TLoZWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -358,7 +363,7 @@
  
      def create_item(self, name: str):
          return TLoZItem(name, item_table[name].classification, self.item_name_to_id[name], self.player)
-@@ -280,6 +279,11 @@
+@@ -280,6 +279,11 @@ class TLoZWorld(World):
          return rom_data
  
      def generate_output(self, output_directory: str):
@@ -370,7 +375,7 @@
          try:
              patched_rom = self.apply_randomizer()
              outfilebase = 'AP_' + self.multiworld.seed_name
-@@ -310,7 +314,7 @@
+@@ -310,7 +314,7 @@ class TLoZWorld(World):
          import base64
          self.rom_name_available_event.wait()
          rom_name = getattr(self, "rom_name", None)
@@ -379,9 +384,11 @@
              new_name = base64.b64encode(bytes(self.rom_name)).decode()
              multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
  
+diff --git a/worlds/yoshisisland/__init__.py b/worlds/yoshisisland/__init__.py
+index f1aba3018..30c43c76a 100644
 --- a/worlds/yoshisisland/__init__.py
 +++ b/worlds/yoshisisland/__init__.py
-@@ -7,6 +7,7 @@
+@@ -7,6 +7,7 @@ from typing import List, Set, TextIO, Dict
  from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
  from worlds.AutoWorld import World, WebWorld
  import settings
@@ -389,7 +396,7 @@
  from .Items import get_item_names_per_category, item_table, filler_items, trap_items
  from .Locations import get_locations
  from .Regions import init_areas
-@@ -84,9 +85,7 @@
+@@ -84,9 +85,7 @@ class YoshisIslandWorld(World):
  
      @classmethod
      def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
@@ -400,7 +407,7 @@
  
      def fill_slot_data(self) -> Dict[str, List[int]]:
          return {
-@@ -340,6 +339,12 @@
+@@ -340,6 +339,12 @@ class YoshisIslandWorld(World):
  
      def generate_output(self, output_directory: str) -> None:
          rompath = ""  # if variable is not declared finally clause may fail
@@ -413,7 +420,7 @@
          try:
              world = self.multiworld
              player = self.player
-@@ -362,7 +367,7 @@
+@@ -362,7 +367,7 @@ class YoshisIslandWorld(World):
          # wait for self.rom_name to be available.
          self.rom_name_available_event.wait()
          rom_name = getattr(self, "rom_name", None)

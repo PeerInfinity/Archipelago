@@ -19,9 +19,24 @@ This installer allows vanilla Archipelago users to easily install the JSON Tools
 
 ### Option 1: Install as APWorld
 
-1. Download `json_tools_installer.apworld` from the [`apworlds/`](../../apworlds/) directory in this repository
-2. Place in your Archipelago `custom_worlds/` directory
-3. Restart the Launcher to load the new APWorld
+If you already have Archipelago running from source, place the APWorld and launch:
+
+1. Download [`json_tools_installer.apworld`](https://github.com/PeerInfinity/Archipelago-CC/raw/main/apworlds/json_tools_installer.apworld) into your Archipelago `custom_worlds/` directory
+2. Restart the Launcher to load the new APWorld
+
+If you need to set up Archipelago from source first:
+
+```bash
+git clone https://github.com/ArchipelagoMW/Archipelago.git
+cd Archipelago
+mkdir -p custom_worlds
+wget -O custom_worlds/json_tools_installer.apworld \
+    https://github.com/PeerInfinity/Archipelago-CC/raw/main/apworlds/json_tools_installer.apworld
+python3 -m venv .venv
+source .venv/bin/activate
+python ModuleUpdate.py -y
+python Launcher.py
+```
 
 ### Option 2: From Source
 

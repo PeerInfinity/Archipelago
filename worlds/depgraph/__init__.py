@@ -110,7 +110,7 @@ class DepGraphWorld(World):
             remaining = num_starting - 1
             if remaining > 0:
                 import random
-                candidates = list(range(2, self.num_nodes + 1))
+                candidates = list(range(2, self.num_nodes))  # exclude final node
                 random.shuffle(candidates)
                 self.starting_node_set.update(candidates[:remaining])
 

@@ -1,0 +1,635 @@
+diff --git a/test/general/test_rule_builder.py b/test/general/test_rule_builder.py
+index 81003dcd8..cc18f7d14 100644
+--- a/test/general/test_rule_builder.py
++++ b/test/general/test_rule_builder.py
+@@ -11,9 +11,16 @@ from rule_builder.cached_world import CachedRuleBuilderWorld
+ from rule_builder.options import Operator, OptionFilter
+ from rule_builder.rules import (
+     And,
++    Arithmetic,
++    ASTRule,
+     CanReachEntrance,
+     CanReachLocation,
+     CanReachRegion,
++    Compare,
++    CountFromList,
++    CountGroup,
++    CountItem,
++    EntranceAccessRuleCall,
+     False_,
+     Filtered,
+     Has,
+@@ -25,9 +32,14 @@ from rule_builder.rules import (
+     HasFromListUnique,
+     HasGroup,
+     HasGroupUnique,
++    MaxValue,
++    MinValue,
++    OptionValue,
+     Or,
+     Rule,
+     True_,
++    UniqueCount,
++    WeightedSum,
+ )
+ from test.general import setup_solo_multiworld
+ from test.param import classvar_matrix
+@@ -1342,3 +1354,598 @@ class TestExplain(RuleBuilderTestCase):
+             "& False)",
+         )
+         assert str(self.resolved_rule) == " ".join(expected)
++
++
++class TestCountItem(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_evaluate_no_items(self) -> None:
++        rule = CountItem("Item 1")
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++
++    def test_evaluate_with_items(self) -> None:
++        rule = CountItem("Item 1")
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++    def test_get_value_returns_count(self) -> None:
++        rule = CountItem("Item 1")
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 0)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 1)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 2)
++
++    def test_in_compare_context(self) -> None:
++        """CountItem.get_value() must return actual count for Compare to work."""
++        rule = Compare(CountItem("Item 1"), ">=", 3)
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        for _ in range(2):
++            self.state.collect(self.world.create_item("Item 1"))
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++
++class TestCountFromList(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_evaluate_no_items(self) -> None:
++        rule = CountFromList("Item 1", "Item 2")
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++
++    def test_evaluate_with_items(self) -> None:
++        rule = CountFromList("Item 1", "Item 2")
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++    def test_get_value_cumulative(self) -> None:
++        """CountFromList counts cumulative occurrences across all items in the list."""
++        rule = CountFromList("Item 1", "Item 2")
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 0)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 1)
++        self.state.collect(self.world.create_item("Item 2"))
++        self.assertEqual(resolved.get_value(self.state), 2)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 3)
++
++    def test_duplicate_items_in_list(self) -> None:
++        """Duplicate item names in the list count the same item multiple times."""
++        rule = CountFromList("Item 1", "Item 1", "Item 2")
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        # Item 1 appears twice in list, so count = 1 + 1 = 2 (from count_from_list)
++        # Plus Item 2 count = 0, total = 2
++        self.assertEqual(resolved.get_value(self.state), 2)
++
++    def test_in_compare_context(self) -> None:
++        rule = Compare(CountFromList("Item 1", "Item 2"), ">=", 2)
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 2"))
++        self.assertTrue(resolved(self.state))
++
++
++class TestCountGroup(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_evaluate_no_items(self) -> None:
++        rule = CountGroup("Group 1")
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++
++    def test_evaluate_with_items(self) -> None:
++        rule = CountGroup("Group 1")
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++    def test_get_value_returns_group_count(self) -> None:
++        """CountGroup.get_value() returns count of items from the named group."""
++        rule = CountGroup("Group 1")  # Group 1 = {Item 1, Item 2, Item 3}
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 0)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 1)
++        self.state.collect(self.world.create_item("Item 2"))
++        self.assertEqual(resolved.get_value(self.state), 2)
++        # Item 4 is in Group 2, not Group 1
++        self.state.collect(self.world.create_item("Item 4"))
++        self.assertEqual(resolved.get_value(self.state), 2)
++
++    def test_in_compare_context(self) -> None:
++        rule = Compare(CountGroup("Group 1"), ">=", 3)
++        resolved = rule.resolve(self.world)
++        for item_name in ("Item 1", "Item 2"):
++            self.state.collect(self.world.create_item(item_name))
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 3"))
++        self.assertTrue(resolved(self.state))
++
++
++class TestCompare(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_literal_comparison(self) -> None:
++        rule = Compare(5, ">=", 3)
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++    def test_all_operators(self) -> None:
++        for op, left, right, expected in [
++            ("==", 3, 3, True),
++            ("==", 3, 4, False),
++            ("!=", 3, 4, True),
++            ("!=", 3, 3, False),
++            ("<", 2, 3, True),
++            ("<", 3, 3, False),
++            (">", 4, 3, True),
++            (">", 3, 3, False),
++            ("<=", 3, 3, True),
++            ("<=", 4, 3, False),
++            (">=", 3, 3, True),
++            (">=", 2, 3, False),
++        ]:
++            with self.subTest(op=op, left=left, right=right):
++                rule = Compare(left, op, right)
++                resolved = rule.resolve(self.world)
++                self.assertEqual(resolved(self.state), expected)
++
++    def test_rule_operand_with_get_value(self) -> None:
++        """Compare uses get_value() on rule operands that have it."""
++        rule = Compare(CountItem("Item 1"), "==", 2)
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++    def test_boolean_rule_operand(self) -> None:
++        """Compare falls back to boolean evaluation for rules without get_value."""
++        rule = Compare(Has("Item 1"), "==", True)
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++
++class TestArithmetic(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_literal_addition(self) -> None:
++        rule = Arithmetic(3, "+", 4)
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 7)
++
++    def test_all_operators(self) -> None:
++        for op, left, right, expected in [
++            ("+", 3, 4, 7),
++            ("-", 10, 3, 7),
++            ("*", 3, 4, 12),
++            ("/", 10, 4, 2.5),
++            ("//", 10, 3, 3),
++            ("%", 10, 3, 1),
++            ("**", 2, 3, 8),
++        ]:
++            with self.subTest(op=op):
++                rule = Arithmetic(left, op, right)
++                resolved = rule.resolve(self.world)
++                self.assertEqual(resolved.get_value(self.state), expected)
++
++    def test_division_by_zero(self) -> None:
++        for op in ("/", "//", "%"):
++            with self.subTest(op=op):
++                rule = Arithmetic(10, op, 0)
++                resolved = rule.resolve(self.world)
++                self.assertEqual(resolved.get_value(self.state), 0)
++
++    def test_evaluate_as_boolean(self) -> None:
++        rule_truthy = Arithmetic(3, "+", 4)
++        rule_falsy = Arithmetic(3, "-", 3)
++        self.assertTrue(rule_truthy.resolve(self.world)(self.state))
++        self.assertFalse(rule_falsy.resolve(self.world)(self.state))
++
++    def test_with_rule_operands(self) -> None:
++        """Arithmetic resolves Rule operands via get_value()."""
++        rule = Arithmetic(CountItem("Item 1"), "*", 2)
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 0)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 2)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertEqual(resolved.get_value(self.state), 4)
++
++    def test_in_compare_context(self) -> None:
++        """Arithmetic result used in a Compare expression."""
++        rule = Compare(Arithmetic(CountItem("Item 1"), "+", CountItem("Item 2")), ">=", 3)
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 2"))
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++
++class TestMinValue(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_literal_values(self) -> None:
++        rule = MinValue(3, 5)
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 3)
++
++    def test_with_rule_operands(self) -> None:
++        rule = MinValue(CountItem("Item 1"), 2)
++        resolved = rule.resolve(self.world)
++        # min(0, 2) = 0
++        self.assertEqual(resolved.get_value(self.state), 0)
++        self.state.collect(self.world.create_item("Item 1"))
++        # min(1, 2) = 1
++        self.assertEqual(resolved.get_value(self.state), 1)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 1"))
++        # min(3, 2) = 2 (capped)
++        self.assertEqual(resolved.get_value(self.state), 2)
++
++    def test_evaluate_as_boolean(self) -> None:
++        self.assertTrue(MinValue(3, 5).resolve(self.world)(self.state))
++        self.assertFalse(MinValue(0, 5).resolve(self.world)(self.state))
++
++    def test_in_compare_context(self) -> None:
++        """MinValue can cap a count for use in Compare."""
++        rule = Compare(MinValue(CountItem("Item 1"), 2), ">=", 2)
++        resolved = rule.resolve(self.world)
++        for _ in range(5):
++            self.state.collect(self.world.create_item("Item 1"))
++        # min(5, 2) = 2, 2 >= 2 is True
++        self.assertTrue(resolved(self.state))
++
++
++class TestMaxValue(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_literal_values(self) -> None:
++        rule = MaxValue(3, 5)
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 5)
++
++    def test_with_rule_operands(self) -> None:
++        rule = MaxValue(CountItem("Item 1"), 2)
++        resolved = rule.resolve(self.world)
++        # max(0, 2) = 2
++        self.assertEqual(resolved.get_value(self.state), 2)
++        self.state.collect(self.world.create_item("Item 1"))
++        # max(1, 2) = 2
++        self.assertEqual(resolved.get_value(self.state), 2)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 1"))
++        # max(3, 2) = 3
++        self.assertEqual(resolved.get_value(self.state), 3)
++
++    def test_evaluate_as_boolean(self) -> None:
++        self.assertTrue(MaxValue(0, 5).resolve(self.world)(self.state))
++        self.assertFalse(MaxValue(0, 0).resolve(self.world)(self.state))
++
++    def test_in_compare_context(self) -> None:
++        """MaxValue as a floor in Compare."""
++        rule = Compare(MaxValue(CountItem("Item 1"), 1), ">=", 1)
++        resolved = rule.resolve(self.world)
++        # max(0, 1) = 1, 1 >= 1 is True even with no items
++        self.assertTrue(resolved(self.state))
++
++
++class TestWeightedSum(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_below_threshold(self) -> None:
++        rule = WeightedSum(threshold=3.0, items=[("Item 1", 1.0), ("Item 2", 1.0)])
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 2"))
++        # 1*1.0 + 1*1.0 = 2.0 < 3.0
++        self.assertFalse(resolved(self.state))
++
++    def test_meets_threshold(self) -> None:
++        rule = WeightedSum(threshold=3.0, items=[("Item 1", 1.0), ("Item 2", 1.0)])
++        resolved = rule.resolve(self.world)
++        for _ in range(2):
++            self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 2"))
++        # 2*1.0 + 1*1.0 = 3.0 >= 3.0
++        self.assertTrue(resolved(self.state))
++
++    def test_fractional_weights(self) -> None:
++        rule = WeightedSum(threshold=1.0, items=[("Item 1", 0.5), ("Item 2", 0.5)])
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        # 1*0.5 = 0.5 < 1.0
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 2"))
++        # 1*0.5 + 1*0.5 = 1.0 >= 1.0
++        self.assertTrue(resolved(self.state))
++
++    def test_count_multiplies_weight(self) -> None:
++        """Multiple copies of the same item multiply the weight."""
++        rule = WeightedSum(threshold=2.0, items=[("Item 1", 0.5)])
++        resolved = rule.resolve(self.world)
++        for _ in range(3):
++            self.state.collect(self.world.create_item("Item 1"))
++        # 3*0.5 = 1.5 < 2.0
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        # 4*0.5 = 2.0 >= 2.0
++        self.assertTrue(resolved(self.state))
++
++    def test_item_dependencies(self) -> None:
++        rule = WeightedSum(threshold=1.0, items=[("Item 1", 0.5), ("Item 2", 0.5)])
++        resolved = rule.resolve(self.world)
++        deps = resolved.item_dependencies()
++        self.assertIn("Item 1", deps)
++        self.assertIn("Item 2", deps)
++
++
++class TestUniqueCount(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_below_threshold(self) -> None:
++        rule = UniqueCount(threshold=2.0, items=[("Item 1", 1.0), ("Item 2", 1.0)])
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        # Only 1 unique item with weight 1.0, total = 1.0 < 2.0
++        self.assertFalse(resolved(self.state))
++
++    def test_meets_threshold(self) -> None:
++        rule = UniqueCount(threshold=2.0, items=[("Item 1", 1.0), ("Item 2", 1.0)])
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        self.state.collect(self.world.create_item("Item 2"))
++        # 2 unique items, total = 2.0 >= 2.0
++        self.assertTrue(resolved(self.state))
++
++    def test_duplicates_do_not_increase_count(self) -> None:
++        """Unlike WeightedSum, multiple copies of the same item don't add more weight."""
++        rule = UniqueCount(threshold=2.0, items=[("Item 1", 1.0), ("Item 2", 1.0)])
++        resolved = rule.resolve(self.world)
++        for _ in range(5):
++            self.state.collect(self.world.create_item("Item 1"))
++        # 5 copies of Item 1, but unique count only counts weight once: 1.0 < 2.0
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 2"))
++        # Now 2 unique items: 1.0 + 1.0 = 2.0 >= 2.0
++        self.assertTrue(resolved(self.state))
++
++    def test_fractional_weights(self) -> None:
++        rule = UniqueCount(threshold=1.0, items=[("Item 1", 0.5), ("Item 2", 0.5), ("Item 3", 0.5)])
++        resolved = rule.resolve(self.world)
++        self.state.collect(self.world.create_item("Item 1"))
++        # 1 unique: 0.5 < 1.0
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 2"))
++        # 2 unique: 0.5 + 0.5 = 1.0 >= 1.0
++        self.assertTrue(resolved(self.state))
++
++    def test_item_dependencies(self) -> None:
++        rule = UniqueCount(threshold=1.0, items=[("Item 1", 0.5), ("Item 2", 0.5)])
++        resolved = rule.resolve(self.world)
++        deps = resolved.item_dependencies()
++        self.assertIn("Item 1", deps)
++        self.assertIn("Item 2", deps)
++
++
++class TestOptionValue(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_evaluate_toggle_true(self) -> None:
++        self.world.options.toggle_option.value = 1  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
++        rule = OptionValue("toggle_option")
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++    def test_evaluate_toggle_false(self) -> None:
++        self.world.options.toggle_option.value = 0  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
++        rule = OptionValue("toggle_option")
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++
++    def test_get_value_returns_numeric(self) -> None:
++        self.world.options.choice_option.value = 2  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
++        rule = OptionValue("choice_option")
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 2)
++
++    def test_missing_option_evaluate_true(self) -> None:
++        """Missing options default to True for evaluation."""
++        rule = OptionValue("nonexistent_option")
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++    def test_missing_option_get_value_zero(self) -> None:
++        """Missing options default to 0 for numeric value."""
++        rule = OptionValue("nonexistent_option")
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.get_value(self.state), 0)
++
++    def test_in_compare_context(self) -> None:
++        self.world.options.choice_option.value = 2  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
++        rule = Compare(OptionValue("choice_option"), ">=", 2)
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++
++class TestEntranceAccessRuleCall(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++        region1 = Region("Region 1", self.player, self.multiworld)
++        region2 = Region("Region 2", self.player, self.multiworld)
++        self.multiworld.regions.extend([region1, region2])
++        self.world.create_entrance(region1, region2, Has("Item 1"))
++
++    def test_entrance_accessible(self) -> None:
++        rule = EntranceAccessRuleCall("Region 1 -> Region 2")
++        resolved = rule.resolve(self.world)
++        self.assertFalse(resolved(self.state))
++        self.state.collect(self.world.create_item("Item 1"))
++        self.assertTrue(resolved(self.state))
++
++    def test_missing_entrance_returns_true(self) -> None:
++        """Missing entrances conservatively return True."""
++        rule = EntranceAccessRuleCall("Nonexistent Entrance")
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++    def test_entrance_dependencies(self) -> None:
++        rule = EntranceAccessRuleCall("Region 1 -> Region 2")
++        resolved = rule.resolve(self.world)
++        deps = resolved.entrance_dependencies()
++        self.assertIn("Region 1 -> Region 2", deps)
++
++
++class TestASTRule(RuleBuilderTestCase):
++    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
++    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
++    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
++    player: int = 1
++
++    @override
++    def setUp(self) -> None:
++        super().setUp()
++        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
++        self.world = self.multiworld.worlds[1]
++        self.state = self.multiworld.state
++
++    def test_always_returns_true(self) -> None:
++        """ASTRule is a fallback that always returns True."""
++        rule = ASTRule(rule_data={"type": "some_unknown_type", "args": []})
++        resolved = rule.resolve(self.world)
++        self.assertTrue(resolved(self.state))
++
++    def test_explain_str(self) -> None:
++        rule = ASTRule(rule_data={"type": "custom_check"})
++        resolved = rule.resolve(self.world)
++        self.assertEqual(resolved.explain_str(), "[AST:custom_check]")
++
++    def test_str(self) -> None:
++        rule = ASTRule(rule_data={"type": "custom_check"})
++        resolved = rule.resolve(self.world)
++        self.assertEqual(str(resolved), "ASTRule(custom_check)")

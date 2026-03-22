@@ -728,7 +728,65 @@ class RuleConverterMixin:
                     self.required_imports.add('False_')
                     return 'False_()'
 
+            # Detect type mismatch: numeric option value vs string list.
+            # The exporter resolves Choice option values to integers (e.g., enemy_health=1
+            # for "default"), but the comparison targets are string key names
+            # (e.g., ["easy", "default"]). Since int will never match strings at runtime,
+            # resolve statically: look up the option's string key for the integer value
+            # using the game's option class definitions, then evaluate the comparison.
+            static_result = self._try_resolve_option_in_comparison(left, right, op)
+            if static_result is not None:
+                if static_result:
+                    self.required_imports.add('True_')
+                    return 'True_()'
+                else:
+                    self.required_imports.add('False_')
+                    return 'False_()'
+
         return f'Compare({left_code}, "{op}", {right_code})'
+
+    @staticmethod
+    def _try_resolve_option_in_comparison(left: Any, right: Any, op: str) -> Optional[bool]:
+        """Try to statically resolve an int-vs-string-list 'in'/'not in' comparison.
+
+        The exporter resolves Choice option values to integers (e.g., enemy_health=0
+        for "easy"), but comparison targets remain as string key names (["easy",
+        "default"]).  Since ``0 in ["easy", "default"]`` is always False at runtime
+        (int != str), we resolve statically by looking up the option's string key for
+        the integer value via the Choice class ``name_lookup`` table.
+
+        Returns True/False if resolvable, None otherwise.
+        """
+        # Only applies when left is an integer and right is a list of strings
+        if not isinstance(left, (int, float)) or isinstance(left, bool):
+            return None
+        if not isinstance(right, list) or not right or not all(isinstance(s, str) for s in right):
+            return None
+
+        # The string targets are option key names (e.g., "easy", "default").
+        # Try to find the matching Choice class by checking which Archipelago
+        # option class has these exact key names.
+        try:
+            from Options import Choice
+            import worlds  # noqa: F811
+            # Search all loaded option classes for one that has all the target keys
+            for option_cls in Choice.__subclasses__():
+                # Check if all target strings are valid option keys for this class
+                options_dict = getattr(option_cls, 'options', {})
+                if all(key in options_dict for key in right):
+                    # Found the matching option class - look up the key for our value
+                    name_lookup = getattr(option_cls, 'name_lookup', {})
+                    int_value = int(left)
+                    if int_value in name_lookup:
+                        key_name = name_lookup[int_value]
+                        result = key_name in right
+                        if op == 'not in':
+                            result = not result
+                        return result
+        except Exception:
+            pass
+
+        return None
 
     def _is_placement_lookup(self, operand: Any) -> bool:
         """Check if an operand is a placement_lookup rule."""

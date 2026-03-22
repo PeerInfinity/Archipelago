@@ -4,13 +4,13 @@
 
 [📖 Learn about fuzz tests](../tests/test-fuzz.md)
 
-**Generated:** 2026-02-14 02:28:14 UTC
+**Generated:** 2026-03-22 17:48:53 UTC
 
-**Source Data Created:** 2026-01-25T04:56:06.693744
+**Source Data Created:** 2026-03-22T03:15:17.768209+00:00
 
-**Source Data Last Updated:** 2026-01-25T04:56:06.693751
+**Source Data Last Updated:** 2026-03-22T03:15:17.768218+00:00
 
-**Seed Mode:** Fixed (seed=1)
+**Seed Mode:** Random
 
 **Runs Per Game:** 10
 
@@ -20,13 +20,13 @@
 
 ## Summary
 
-- **Total Games:** 49
-- **Games with 100% Pass Rate:** 26 (53.1%)
-- **Games with Failures:** 23 (46.9%)
-- **Total Fuzz Runs:** 490
-- **Successful Runs:** 326 (66.5%)
-- **Generation Failures:** 55
-- **Test Failures:** 109
+- **Total Games:** 50
+- **Games with 100% Pass Rate:** 35 (70.0%)
+- **Games with Failures:** 15 (30.0%)
+- **Total Fuzz Runs:** 500
+- **Successful Runs:** 325 (65.0%)
+- **Generation Failures:** 10
+- **Test Failures:** 102
 - **Timed Out Runs:** 0
 
 ## Test Results
@@ -34,14 +34,14 @@
 | Game Name | Result | Total | Success | Gen Fail | Test Fail | Timeout | Success Rate | Rules Size |
 |-----------|:------:|:-----:|:-------:|:--------:|:---------:|:-------:|:------------:|:----------:|
 | A Dance of Fire and Ice | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| A Difficult Game About Climbing | ❌ | 10 | 9 | 1 | 0 | 0 | 90.0% | N/A |
+| A Difficult Game About Climbing | ✅ | 10 | 9 | 0 | 0 | 0 | 90.0% | N/A |
 | Actraiser | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | An Untitled Story | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Another Crabs Treasure | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
 | Autopelago | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Brotato | ❌ | 10 | 7 | 3 | 0 | 0 | ⚠️ 70.0% | N/A |
+| Brotato | ✅ | 10 | 7 | 0 | 0 | 0 | ⚠️ 70.0% | N/A |
 | Castlevania: Dawn of Sorrow | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Cuphead | ❌ | 10 | 0 | 10 | 0 | 0 | ❌ 0.0% | N/A |
+| Cuphead | ✅ | 10 | 0 | 0 | 0 | 0 | ❌ 0.0% | N/A |
 | DORONKO WANKO | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
 | Diddy Kong Racing | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Dome Keeper | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
@@ -49,36 +49,37 @@
 | Hatsune Miku Project Diva Mega Mix+ | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Here Comes Niko! | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Isles Of Sea And Sky | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Ittle Dew 2 | ❌ | 10 | 9 | 1 | 0 | 0 | 90.0% | N/A |
+| Ittle Dew 2 | ✅ | 10 | 9 | 0 | 0 | 0 | 90.0% | N/A |
 | Jigsaw | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| K-On! After School Live!! | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
+| K-On! After School Live!! | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Kingdom Hearts Birth by Sleep | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Kingdom Hearts Chain of Memories | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Kingdom Hearts RE Chain of Memories | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Kirby Super Star | ❌ | 10 | 0 | 10 | 0 | 0 | ❌ 0.0% | N/A |
-| League of Legends | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Lil Gator Game | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
+| Kirby Super Star | ✅ | 10 | 0 | 0 | 0 | 0 | ❌ 0.0% | N/A |
+| League of Legends | ❌ | 10 | 6 | 0 | 4 | 0 | ⚠️ 60.0% | N/A |
+| Lil Gator Game | ❌ | 10 | 0 | 10 | 0 | 0 | ❌ 0.0% | N/A |
 | Little Witch Nobeta | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
-| Luigi's Mansion | ❌ | 10 | 7 | 3 | 0 | 0 | ⚠️ 70.0% | N/A |
+| Luigi's Mansion | ✅ | 10 | 3 | 0 | 0 | 0 | ❌ 30.0% | N/A |
 | MetroCUBEvania | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Metroid Fusion | ❌ | 10 | 0 | 1 | 9 | 0 | ❌ 0.0% | N/A |
-| Rain World | ❌ | 10 | 0 | 7 | 3 | 0 | ❌ 0.0% | N/A |
+| Metroid Fusion | ❌ | 10 | 0 | 0 | 9 | 0 | ❌ 0.0% | N/A |
+| PlateUp | ❌ | 10 | 0 | 0 | 3 | 0 | ❌ 0.0% | N/A |
+| Rain World | ❌ | 10 | 0 | 0 | 3 | 0 | ❌ 0.0% | N/A |
 | Ratchet & Clank 2 | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Rift Wizard | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Simon Tatham's Portable Puzzle Collection | ❌ | 10 | 8 | 0 | 2 | 0 | ⚠️ 80.0% | N/A |
-| Sonic Heroes | ❌ | 10 | 0 | 10 | 0 | 0 | ❌ 0.0% | N/A |
-| Sonic the Hedgehog 1 | ❌ | 10 | 7 | 0 | 3 | 0 | ⚠️ 70.0% | N/A |
+| Simon Tatham's Portable Puzzle Collection | ❌ | 10 | 2 | 0 | 8 | 0 | ❌ 20.0% | N/A |
+| Sonic Heroes | ✅ | 10 | 0 | 0 | 0 | 0 | ❌ 0.0% | N/A |
+| Sonic the Hedgehog 1 | ❌ | 10 | 9 | 0 | 1 | 0 | 90.0% | N/A |
 | Spinball | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Star Fox 64 | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
-| Star Wars Episode I Racer | ❌ | 10 | 9 | 1 | 0 | 0 | 90.0% | N/A |
+| Star Wars Episode I Racer | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Super Cat Planet | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
 | Symphony of the Night | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | TOEM: A Photo Adventure | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | Tevi | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
 | TurnipBoy | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Vampire Survivors | ❌ | 10 | 4 | 6 | 0 | 0 | ❌ 40.0% | N/A |
+| Vampire Survivors | ✅ | 10 | 4 | 0 | 0 | 0 | ❌ 40.0% | N/A |
 | Watery Words | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
-| Wordipelago | ❌ | 10 | 0 | 2 | 8 | 0 | ❌ 0.0% | N/A |
+| Wordipelago | ❌ | 10 | 0 | 0 | 10 | 0 | ❌ 0.0% | N/A |
 | Yu-Gi-Oh! Dungeon Dice Monsters | ❌ | 10 | 6 | 0 | 4 | 0 | ⚠️ 60.0% | N/A |
 | Zelda II: The Adventure of Link | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
 | osu! | ✅ | 10 | 10 | 0 | 0 | 0 | **100.0%** | N/A |
@@ -167,6 +168,7 @@ These templates are excluded from testing:
 
 ## Notes
 
+- *Italic game names* are in the exclude list for this test type
 - **Result:** ✅ if all fuzz runs passed (0 failures, 0 timeouts), ❌ otherwise
 - **Total:** Number of fuzz runs attempted for this game
 - **Success:** Number of runs where spoiler test completed successfully

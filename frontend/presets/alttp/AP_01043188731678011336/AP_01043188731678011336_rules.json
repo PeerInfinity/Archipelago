@@ -3944,16 +3944,11 @@
                     {
                       "rule": "Compare",
                       "args": {
-                        "left": {
-                          "rule": "OptionValue",
-                          "args": {
-                            "option": "enemy_health"
-                          }
-                        },
+                        "left": 1,
                         "op": "in",
                         "right": [
-                          0,
-                          1
+                          "easy",
+                          "default"
                         ],
                         "_original_ast_type": "compare"
                       },

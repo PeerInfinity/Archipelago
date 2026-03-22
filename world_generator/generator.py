@@ -6,7 +6,6 @@ process of converting a JSON rules file into an Archipelago world package.
 """
 
 import json
-import os
 import logging
 from pathlib import Path
 from typing import List, Optional, Dict

@@ -1,5 +1,7 @@
 # Metamath for Archipelago
 
+**[Live demo](https://peerinfinity.github.io/Archipelago-CC/?mode=metamath)**
+
 ## Overview
 
 Metamath is a unique Archipelago world that transforms mathematical proofs into gameplay. Each theorem or axiom in a mathematical proof becomes both a location (proving it) and an item (the ability to use it in other proofs). Navigate logical dependencies across the multiworld to complete your proof!

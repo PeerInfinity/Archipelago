@@ -1,5 +1,7 @@
 # Loops Mode
 
+**[Live demo](https://peerinfinity.github.io/Archipelago-CC/?mode=loops)**
+
 Loops is an incremental/idle game mode layered on top of the Archipelago tracker. Instead of checking locations directly, you queue actions and watch them execute automatically, spending mana on each action. When mana runs out, the loop resets and you start again — but with XP earned from previous loops reducing future costs.
 
 Inspired by idle games like [Idle Loops](https://stopsign.github.io/idleLoops/), [Stuck in Time](https://store.steampowered.com/app/1681110/Stuck_In_Time/), and [Increlution](https://store.steampowered.com/app/1593350/Increlution/).

@@ -1,6 +1,6 @@
 # Deleted Files
 
-Files removed from directories that still exist (upstream commit `0de09cd7`).
+Files removed from directories that still exist (upstream commit `fb45a2f8`).
 
 No individual files have been deleted from existing directories.
 

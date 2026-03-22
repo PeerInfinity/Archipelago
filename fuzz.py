@@ -36,6 +36,11 @@ import Utils
 import settings
 
 from Generate import main as GenMain
+try:
+    from Generate import PlayerFilesError
+except ImportError:
+    class PlayerFilesError(Exception):
+        pass
 from Fill import FillError
 from Main import main as ERmain
 from settings import get_settings
@@ -232,6 +237,9 @@ def _apply_single_constraint(game_options, constraint, mutual_exclusions, option
     elif "ensure_any" in constraint:
         _handle_ensure_any(option_value, constraint)
 
+    elif "sum_cap" in constraint:
+        _handle_sum_cap(game_options, constraint, option_defs)
+
 
 def _handle_if_selected(option_value, constraint):
     if constraint["if_selected"] not in option_value:
@@ -329,6 +337,26 @@ def _handle_ensure_any(option_value, constraint):
         choice = random.choice(required_values)
         if choice not in option_value:
             option_value.append(choice)
+
+
+def _handle_sum_cap(game_options, constraint, option_defs):
+    all_option_names = [o for o in constraint["sum_cap"] if o in game_options]
+    cap = int(constraint["max_capacity"])
+    total = sum(game_options[o] for o in all_option_names)
+
+    if total <= cap:
+        return
+
+    random.shuffle(all_option_names)
+    for name in all_option_names:
+        if total <= cap:
+            break
+        rest_sum = total - game_options[name]
+        option_def = option_defs[name]
+        max_allowed = cap - rest_sum
+        new_value = max(option_def.range_start, min(game_options[name], max_allowed))
+        game_options[name] = new_value
+        total = rest_sum + new_value
 
 
 # Adapted from archipelago'd generate_yaml_templates
@@ -658,6 +686,10 @@ def gen_wrapper(yaml_path, apworld_name, i, args, queue, tmp):
                 if raised:
                     is_timeout = isinstance(raised, TimeoutError)
                     is_option_error = exception_in_causes(raised, OptionError)
+                    if not is_option_error and isinstance(raised, PlayerFilesError):
+                        is_option_error = all(
+                            exception_in_causes(e, OptionError) for e in raised.exceptions
+                        )
 
                     if is_timeout:
                         outcome = GenOutcome.Timeout
@@ -677,6 +709,8 @@ def gen_wrapper(yaml_path, apworld_name, i, args, queue, tmp):
 
                 if outcome == GenOutcome.Timeout:
                     extra = f"[...] Generation killed here after {args.timeout}s"
+                elif isinstance(raised, PlayerFilesError):
+                    extra = str(raised)
                 else:
                     extra = "".join(traceback.format_exception(raised))
 
@@ -960,9 +994,6 @@ if __name__ == "__main__":
             world.__module__.split(".")[1]
             for world in AutoWorldRegister.world_types.values()
         ]
-        if "apsudoku" in valid_worlds:
-            valid_worlds.remove("apsudoku")
-
         yamls_per_run_bounds = [int(arg) for arg in args.yamls_per_run.split("-")]
 
         if len(yamls_per_run_bounds) not in {1, 2}:

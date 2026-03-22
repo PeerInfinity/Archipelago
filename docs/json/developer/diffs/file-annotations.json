@@ -153,12 +153,6 @@
 
         "_section: Changed Files - GitHub Config": "",
 
-        ".github/pyright-config.json": {
-            "description": "Removed 3 entries from pyright exclude list (`cached_world.py`, `options.py`, `test_rule_builder.py`) because the fork consolidates `cached_world.py` into `rules.py`.",
-            "links": [
-                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/config-files.diff"}
-            ]
-        },
         ".github/workflows/codeql-analysis.yml": {
             "description": "Added explicit `security-events`, `actions`, and `contents` permissions for safer fork operation.",
             "links": [
@@ -222,6 +216,12 @@
                 {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-minor-fixes.diff"}
             ]
         },
+        "worlds/shapez/__init__.py": {
+            "description": "Removed forced `early_balancer_tunnel_and_trash = 0` override during UT regeneration that made UT more permissive than the server.",
+            "links": [
+                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-minor-fixes.diff"}
+            ]
+        },
 
         "_section: Changed Files - World Init (skip_required_files)": "",
 
@@ -230,12 +230,6 @@
             "links": [
                 {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"},
                 {"title": "Skip Required Files Proposal", "path": "docs/json/developer/proposals/skip-required-files-proposal.md"}
-            ]
-        },
-        "worlds/apsudoku/__init__.py": {
-            "description": "Added skip_required_files support to bypass generation prerequisites.",
-            "links": [
-                {"title": "Diff", "path": "docs/json/developer/diffs/diff-files/world-init-files.diff"}
             ]
         },
         "worlds/dkc3/__init__.py": {

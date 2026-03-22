@@ -1,17 +1,8 @@
---- a/worlds/lufia2ac/Options.py
-+++ b/worlds/lufia2ac/Options.py
-@@ -219,7 +219,7 @@
-         "random-high": ["venge_ghost", "white_dragon_x3", "fire_dragon", "ghost_ship", "tank"],
-         "random-sinistral": ["gades_c", "amon", "erim", "daos"],
-     }
--    extra_options = set(random_groups)
-+    extra_options = list(random_groups)
- 
-     @property
-     def flag(self) -> int:
+diff --git a/worlds/landstalker/Hints.py b/worlds/landstalker/Hints.py
+index 366925c64..54a430c58 100644
 --- a/worlds/landstalker/Hints.py
 +++ b/worlds/landstalker/Hints.py
-@@ -128,7 +128,7 @@
+@@ -128,7 +128,7 @@ def generate_random_hints(world: "LandstalkerWorld"):
      hint_texts.append(f"Did you know that your world contains {int(percent)} percent of all progression items?")
  
      # Shuffle hint texts and hint source names, and pair the two of those together
@@ -20,3 +11,34 @@
      random.shuffle(hint_texts)
  
      hint_count = min(world.options.hint_count.value, len(hint_texts))
+diff --git a/worlds/lufia2ac/Options.py b/worlds/lufia2ac/Options.py
+index 1b3a39dde..b9754c873 100644
+--- a/worlds/lufia2ac/Options.py
++++ b/worlds/lufia2ac/Options.py
+@@ -219,7 +219,7 @@ class Boss(RandomGroupsChoice):
+         "random-high": ["venge_ghost", "white_dragon_x3", "fire_dragon", "ghost_ship", "tank"],
+         "random-sinistral": ["gades_c", "amon", "erim", "daos"],
+     }
+-    extra_options = set(random_groups)
++    extra_options = list(random_groups)
+ 
+     @property
+     def flag(self) -> int:
+diff --git a/worlds/shapez/__init__.py b/worlds/shapez/__init__.py
+index 67d6c22cf..55c33573e 100644
+--- a/worlds/shapez/__init__.py
++++ b/worlds/shapez/__init__.py
+@@ -169,8 +169,11 @@ class ShapezWorld(World):
+                 self.category_random_logic_amounts = {cat: self.passthrough[SLOTDATA.cat_buildings_amount(cat)]
+                                                       for cat in [CATEGORY.belt_low, CATEGORY.miner_low,
+                                                                   CATEGORY.processors_low, CATEGORY.painting_low]}
+-                # Forces balancers, tunnel, and trash to not appear in regen to make UT more accurate
+-                self.options.early_balancer_tunnel_and_trash.value = 0
++                # Preserve the early_balancer_tunnel_and_trash option from the player's YAML
++                # so that region connection rules (includeuseful flag) match the original
++                # generation. Previously forcing this to 0 removed balancer/tunnel/trash
++                # requirements from region transitions, making UT more permissive than
++                # the server when the option was 3_buildings or 5_buildings.
+                 return
+ 
+         # "MAM" goal is supposed to be longer than vanilla, but to not have more options than necessary,

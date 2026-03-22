@@ -62,6 +62,7 @@ MAX_FINAL_EXPORT_SIZE_MB_PER_EXTRA_GAME = 1
 SAFE_TO_SORT_KEYS = {
     'allowed_legendary_hunt_encounters',
     'dependencies',
+    'dexsanity_encounter_types',  # Pokemon Emerald: OptionList from set, order non-deterministic
     'disabled_entities',
     'enabled_filler_buffs',
     'exclude_locations',

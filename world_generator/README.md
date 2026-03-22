@@ -1,6 +1,23 @@
 # World Generator
 
-The world generator converts JSON rules files (exported from Archipelago worlds) into complete Python world packages that can be used with Archipelago.
+The world generator converts JSON rules files into complete, functional Archipelago world packages. Its primary purpose is enabling the [Universal Tracker's worldgen tracking mode](../docs/json/features/universal-tracker.md) — rebuilding a game's logic from exported JSON so the tracker can evaluate reachability and explain rules for any game.
+
+## How It Fits Into Tracking
+
+The standard Universal Tracker works by regenerating a world from YAML template files. This breaks for games with randomized logic (entrance shuffle, random starting locations, etc.) because the regenerated world won't match the actual seed.
+
+The worldgen tracking mode solves this. During seed generation, the [exporter](../exporter/README.md) captures the game's actual logic — items, locations, regions, access rules, options — into a `_rules.json` file. When the tracker connects to a server, it uses the world generator to rebuild the world from that JSON, producing a world that matches the real seed exactly.
+
+Because the rebuilt world uses [Rule Builder](../rule_builder/README.md) objects for all access rules, the tracker gets full `/explain` support — colored rule trees showing why a location is or isn't reachable given your current items. This works for every game, even those without native Rule Builder integration, since all rules are converted to Rule Builder objects during the rebuild.
+
+The tracker's [hybrid mode](../worlds/tracker/docs/hybrid-mode.md) automatically selects the best tracking mode per game based on fuzz test results, trying worldgen first, then falling back to pickle or original regeneration.
+
+## Other Uses
+
+- **Testing and validation** — Generate a worldgen copy of any game and compare its behavior against the original to verify the export pipeline.
+- **Bootstrapping new worlds** — Start from an exported rules file and customize the generated code, rather than writing everything from scratch.
+
+Generated worlds use the `_worldgen` suffix by convention (e.g., `tunic_worldgen`) to avoid conflicts with the original world.
 
 ## Quick Start
 
@@ -188,8 +205,10 @@ No external packages required.
 ## Related Documentation
 
 - **[World Generator Guide](../docs/json/developer/guides/world-generator.md)** - Detailed usage guide
+- **[World Generator Tests](../docs/json/developer/tests/test-world-generator.md)** - Round-trip testing documentation
 - **[Exporter](../exporter/README.md)** - Creates the JSON files this consumes
 - **[Rule Builder](../rule_builder/README.md)** - Rule definition system used in generated worlds
+- **[Universal Tracker Enhancements](../docs/json/features/universal-tracker.md)** - Tracking modes that use generated worlds
 - **[CLAUDE.md](../CLAUDE.md)** - Quick reference with common commands
 
 ## Example Workflow

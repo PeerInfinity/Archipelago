@@ -157,7 +157,7 @@ class MetamathWorld(World):
             remaining = num_starting - 1
             if remaining > 0:
                 import random
-                candidates = list(range(2, self.num_statements + 1))
+                candidates = list(range(2, self.num_statements))  # exclude final statement
                 random.shuffle(candidates)
                 self.starting_statements.update(candidates[:remaining])
 

@@ -2,11 +2,11 @@
 
 This document describes the modifications made to the fuzzer compared to the original [Archipelago-fuzzer](https://github.com/Eijebong/Archipelago-fuzzer) by Eijebong.
 
-- **Original version:** 0.5.1
+- **Original version:** 0.5.1 (updated 2026-03-20 with upstream commits through 2026-03-14)
 - **Modified version:** 0.5.1-modified
 - **Location in this repository:** `fuzz.py`
 - **Original copy for comparison:** `scripts/test/fixtures/fuzzer_original/`
-- **Last compared:** 2026-02-03
+- **Last compared:** 2026-03-20
 
 ## Summary of Changes
 
@@ -246,9 +246,9 @@ parser.add_argument("--stop-on-first-failure", default=False, action="store_true
 
 | Metric | Value |
 |--------|-------|
-| Original lines (v0.5.1) | 991 |
-| Modified lines | 1146 |
-| Lines added | 155 |
+| Original lines (v0.5.1) | 1019 |
+| Modified lines | 1188 |
+| Lines added | 169 |
 
 ---
 

@@ -4,11 +4,11 @@
 
 [📖 Learn about this test](../tests/test-multiworld-ut-fuzz.md)
 
-**Generated:** 2026-02-14 02:28:14 UTC
+**Generated:** 2026-03-22 17:48:53 UTC
 
-**Source Data Created:** 2026-02-06T03:37:31.298631
+**Source Data Created:** 2026-03-22T02:25:04.357209+00:00
 
-**Source Data Last Updated:** 2026-02-06T04:22:40.033535
+**Source Data Last Updated:** 2026-03-22T03:19:00.695569+00:00
 
 **Seed Mode:** Fixed (seed=1)
 
@@ -16,16 +16,16 @@
 
 **Max Players:** 10
 
-**Templates Considered:** 59
+**Templates Considered:** 69
 
 ## Summary
 
-- **Total Games Tested:** 59
-- **Games Passed:** 57
+- **Total Games Tested:** 69
+- **Games Passed:** 64
 - **Games Failed:** 0
-- **Games with All Generations Failed:** 2
+- **Games with All Generations Failed:** 5
 - **Games Pending (< 2 players):** 0
-- **Rejected Games:** 2
+- **Rejected Games:** 5
 
 ## Test Results
 
@@ -38,9 +38,11 @@
 | Adventure | adventure | 5 | 10 | ✅ Passed | **100%** (3/3) |
 | Aquaria | aquaria | 6 | 10 | ✅ Passed | **100%** (3/3) |
 | Baking Adventure | bakingadventure | 7 | 10 | ✅ Passed | **100%** (3/3) |
-| Bumper Stickers | bumpstik | 8 | 10 | ✅ Passed | **100%** (3/3) |
-| Castlevania - Circle of the Moon | cvcotm | 9 | 10 | ✅ Passed | **100%** (3/3) |
+| Bomb Rush Cyberfunk | bomb_rush_cyberfunk | 8 | 10 | ✅ Passed | **100%** (3/3) |
+| Bumper Stickers | bumpstik | 9 | 10 | ✅ Passed | **100%** (3/3) |
+| Castlevania - Circle of the Moon | cvcotm | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Castlevania 64 | cv64 | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| Celeste (Open World) | celeste_open_world | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Celeste 64 | celeste64 | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | ChecksFinder | checksfinder | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Choo-Choo Charles | cccharles | 10 | 10 | ✅ Passed | **100%** (3/3) |
@@ -49,41 +51,49 @@
 | DLCQuest | dlcquest | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | DOOM 1993 | doom_1993 | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | DOOM II | doom_ii | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Dark Souls III | dark_souls_3 | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| DepGraph | depgraph | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Donkey Kong Country 3 | dkc3 | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| EarthBound | earthbound | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Factorio | factorio | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Faxanadu | faxanadu | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| Final Fantasy Mystic Quest | ffmq | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Heretic | heretic | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Hylics 2 | hylics2 | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Inscryption | inscryption | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Landstalker - The Treasures of King Nole | landstalker | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| Lingo | lingo | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
 | Links Awakening DX | ladx | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Lufia II Ancient Cave | lufia2ac | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Mario & Luigi Superstar Saga | mlss | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Math Adventure | mathadventure | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Mega Man 2 | mm2 | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| Mega Man 3 | mm3 | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | MegaMan Battle Network 3 | mmbn3 | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Meritous | meritous | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Meritous | meritous | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Metamath | metamath | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Muse Dash | musedash | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Muse Dash | musedash | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Noita | noita | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Old School Runescape | osrs | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
-| Overcooked! 2 | overcooked2 | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
-| Paint | paint | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Old School Runescape | osrs | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Overcooked! 2 | overcooked2 | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Paint | paint | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Raft | raft | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
 | Risk of Rain 2 | ror2 | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
-| Saving Princess | saving_princess | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Satisfactory | satisfactory | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Saving Princess | saving_princess | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Secret of Evermore | soe | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
 | Shivers | shivers | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
-| Sonic Adventure 2 Battle | sa2b | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Subnautica | subnautica | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Super Mario 64 | sm64ex | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| Super Mario Land 2 | marioland2 | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| Sonic Adventure 2 Battle | sa2b | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Subnautica | subnautica | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| Super Mario 64 | sm64ex | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
+| Super Mario Land 2 | marioland2 | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
 | Super Mario World | smw | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
-| TOEM original | toem_original | 10 | 10 | ✅ Passed | **100%** (3/3) |
-| TOEM rule builder | toem_rule_builder | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
-| Terraria | terraria | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| TOEM original | toem_original | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| TOEM rule builder | toem_rule_builder | 10 | 10 | ✅ Passed | 33% (1/3, 2 gen fail) |
+| TUNIC | tunic | 10 | 10 | ✅ Passed | 67% (2/3, 1 gen fail) |
+| Terraria | terraria | 10 | 10 | 🔴 All Gen Failed | 🔴 0% (0/3, 3 gen fail) |
 | The Legend of Zelda | tloz | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | The Messenger | messenger | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | The Wind Waker | tww | 10 | 10 | ✅ Passed | **100%** (3/3) |
+| The Witness | witness | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Timespinner | timespinner | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | Undertale | undertale | 10 | 10 | ✅ Passed | **100%** (3/3) |
 | VVVVVV | v6 | 10 | 10 | ✅ Passed | **100%** (3/3) |
@@ -93,7 +103,7 @@
 
 ## Successfully Integrated Games
 
-The following 57 games successfully integrate into a multiworld:
+The following 64 games successfully integrate into a multiworld:
 
 | # | World Directory | Game Name |
 |:-:|-----------------|----------|
@@ -104,56 +114,63 @@ The following 57 games successfully integrate into a multiworld:
 | 5 | adventure | Adventure |
 | 6 | aquaria | Aquaria |
 | 7 | bakingadventure | Baking Adventure |
-| 8 | bumpstik | Bumper Stickers |
-| 9 | cvcotm | Castlevania - Circle of the Moon |
-| 10 | cv64 | Castlevania 64 |
-| 11 | celeste64 | Celeste 64 |
-| 12 | checksfinder | ChecksFinder |
-| 13 | cccharles | Choo-Choo Charles |
-| 14 | civ_6 | Civilization VI |
-| 15 | codingadventure | Coding Adventure |
-| 16 | dlcquest | DLCQuest |
-| 17 | doom_1993 | DOOM 1993 |
-| 18 | doom_ii | DOOM II |
-| 19 | dark_souls_3 | Dark Souls III |
-| 20 | dkc3 | Donkey Kong Country 3 |
-| 21 | factorio | Factorio |
-| 22 | faxanadu | Faxanadu |
-| 23 | heretic | Heretic |
-| 24 | hylics2 | Hylics 2 |
-| 25 | inscryption | Inscryption |
-| 26 | landstalker | Landstalker - The Treasures of King Nole |
-| 27 | ladx | Links Awakening DX |
-| 28 | lufia2ac | Lufia II Ancient Cave |
-| 29 | mlss | Mario & Luigi Superstar Saga |
-| 30 | mathadventure | Math Adventure |
-| 31 | mm2 | Mega Man 2 |
-| 32 | mmbn3 | MegaMan Battle Network 3 |
-| 33 | meritous | Meritous |
-| 34 | metamath | Metamath |
-| 35 | musedash | Muse Dash |
-| 36 | noita | Noita |
-| 37 | osrs | Old School Runescape |
-| 38 | overcooked2 | Overcooked! 2 |
-| 39 | paint | Paint |
-| 40 | ror2 | Risk of Rain 2 |
-| 41 | saving_princess | Saving Princess |
-| 42 | shivers | Shivers |
-| 43 | sa2b | Sonic Adventure 2 Battle |
-| 44 | subnautica | Subnautica |
-| 45 | sm64ex | Super Mario 64 |
-| 46 | marioland2 | Super Mario Land 2 |
-| 47 | toem_original | TOEM original |
-| 48 | terraria | Terraria |
-| 49 | tloz | The Legend of Zelda |
-| 50 | messenger | The Messenger |
-| 51 | tww | The Wind Waker |
-| 52 | timespinner | Timespinner |
-| 53 | undertale | Undertale |
-| 54 | v6 | VVVVVV |
-| 55 | wargroove | Wargroove |
-| 56 | yoshisisland | Yoshi's Island |
-| 57 | shapez | shapez |
+| 8 | bomb_rush_cyberfunk | Bomb Rush Cyberfunk |
+| 9 | bumpstik | Bumper Stickers |
+| 10 | cvcotm | Castlevania - Circle of the Moon |
+| 11 | cv64 | Castlevania 64 |
+| 12 | celeste_open_world | Celeste (Open World) |
+| 13 | celeste64 | Celeste 64 |
+| 14 | checksfinder | ChecksFinder |
+| 15 | cccharles | Choo-Choo Charles |
+| 16 | civ_6 | Civilization VI |
+| 17 | codingadventure | Coding Adventure |
+| 18 | dlcquest | DLCQuest |
+| 19 | doom_1993 | DOOM 1993 |
+| 20 | doom_ii | DOOM II |
+| 21 | depgraph | DepGraph |
+| 22 | dkc3 | Donkey Kong Country 3 |
+| 23 | earthbound | EarthBound |
+| 24 | factorio | Factorio |
+| 25 | faxanadu | Faxanadu |
+| 26 | ffmq | Final Fantasy Mystic Quest |
+| 27 | heretic | Heretic |
+| 28 | hylics2 | Hylics 2 |
+| 29 | inscryption | Inscryption |
+| 30 | landstalker | Landstalker - The Treasures of King Nole |
+| 31 | ladx | Links Awakening DX |
+| 32 | lufia2ac | Lufia II Ancient Cave |
+| 33 | mlss | Mario & Luigi Superstar Saga |
+| 34 | mm2 | Mega Man 2 |
+| 35 | mm3 | Mega Man 3 |
+| 36 | mmbn3 | MegaMan Battle Network 3 |
+| 37 | meritous | Meritous |
+| 38 | metamath | Metamath |
+| 39 | musedash | Muse Dash |
+| 40 | noita | Noita |
+| 41 | osrs | Old School Runescape |
+| 42 | overcooked2 | Overcooked! 2 |
+| 43 | paint | Paint |
+| 44 | raft | Raft |
+| 45 | ror2 | Risk of Rain 2 |
+| 46 | satisfactory | Satisfactory |
+| 47 | saving_princess | Saving Princess |
+| 48 | soe | Secret of Evermore |
+| 49 | shivers | Shivers |
+| 50 | sa2b | Sonic Adventure 2 Battle |
+| 51 | subnautica | Subnautica |
+| 52 | toem_original | TOEM original |
+| 53 | toem_rule_builder | TOEM rule builder |
+| 54 | tunic | TUNIC |
+| 55 | tloz | The Legend of Zelda |
+| 56 | messenger | The Messenger |
+| 57 | tww | The Wind Waker |
+| 58 | witness | The Witness |
+| 59 | timespinner | Timespinner |
+| 60 | undertale | Undertale |
+| 61 | v6 | VVVVVV |
+| 62 | wargroove | Wargroove |
+| 63 | yoshisisland | Yoshi's Island |
+| 64 | shapez | shapez |
 
 
 ## Rejected Games
@@ -162,8 +179,11 @@ These games failed to integrate into the multiworld:
 
 | Game Name | World Directory | Reason | Details |
 |-----------|-----------------|--------|--------|
+| Lingo | lingo | All generation attempts failed | - |
+| Super Mario 64 | sm64ex | All generation attempts failed | - |
+| Super Mario Land 2 | marioland2 | All generation attempts failed | - |
 | Super Mario World | smw | All generation attempts failed | - |
-| TOEM rule builder | toem_rule_builder | All generation attempts failed | - |
+| Terraria | terraria | All generation attempts failed | - |
 
 ## Notes
 

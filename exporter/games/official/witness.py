@@ -19,6 +19,17 @@ class WitnessGameExportHandler(GenericGameExportHandler):
     # Enable upfront item adding for sphere test compatibility
     ADD_SPHERE_ITEMS_UPFRONT = True
 
+    # Easter Egg accumulator: items like "+1 Easter Egg", "+6 Easter Eggs"
+    # add their numeric value to the "Egg" counter used by Has("Egg", count=N) rules
+    ACCUMULATOR_RULES = [{
+        'pattern': r'^\+(\d+) Easter Eggs?$',
+        'extract_value': True,
+        'target': 'Egg',
+        'discriminator': None,
+    }]
+
+    PROG_ITEMS_INIT = {'Egg': 0}
+
     # Mapping of laser activation locations to the regions containing their panels
     LASER_ACTIVATION_TO_REGION = {
         'Bunker Laser Activated': 'Bunker Laser Platform',

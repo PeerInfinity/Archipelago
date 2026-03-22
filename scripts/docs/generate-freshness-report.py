@@ -121,13 +121,6 @@ REGENERATION_COMMANDS: Dict[str, Tuple[str, str, Optional[str], Optional[str]]] 
         'Test UT Fuzzer',
         'test-ut-fuzz.yml'
     ),
-    r'test-results-multiworld-ut-fuzz\.md$': (
-        'python scripts/test/test-multiworld-ut-fuzz.py -p',
-        'Run multiworld UT fuzz tests',
-        'Test Multiworld UT Fuzz Assembly',
-        'test-multiworld-ut-fuzz.yml'
-    ),
-
     # Spoiler fuzz tests
     r'test-results-spoiler-fuzz\.md$': (
         'python scripts/test/test-all-spoiler-fuzz.py -p',
@@ -372,21 +365,6 @@ WORKFLOW_OVERVIEW = [
             ('test-results-fuzz-summary.md', 'python scripts/docs/generate_fuzz_summary_chart.py'),
             ('test-results-fuzz-summary-apworlds.md', 'python scripts/docs/generate_fuzz_summary_chart.py --apworld'),
         ],
-    },
-    {
-        'name': 'Test Multiworld UT Fuzz Assembly',
-        'file': 'test-multiworld-ut-fuzz.yml',
-        'description': 'Tests Universal Tracker with incrementally assembled multiworld games.',
-        'inputs': [
-            ('runs_per_test', 'number (default: 3)'),
-            ('max_players', 'number (default: 10)'),
-            ('seed', 'number (default: 1)'),
-            ('timeout', 'number (default: 60)'),
-        ],
-        'results': [
-            ('default', 'scripts/output/multiworld-ut-fuzz/test-results-fixed-seed.json', ['test-results-multiworld-ut-fuzz.md']),
-        ],
-        'derived_docs': [],
     },
     {
         'name': 'Test World Generator',

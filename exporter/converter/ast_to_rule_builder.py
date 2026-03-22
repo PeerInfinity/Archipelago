@@ -121,6 +121,9 @@ class ASTToRuleBuilder:
             'setting_value': self._convert_setting_value,  # Legacy
             'option_value': self._convert_option_value,
             'world_attribute': self._convert_world_attribute,
+
+            # Region references (from multiworld.get_region() calls)
+            'region_reference': self._convert_region_reference,
         }
 
     def convert(self, rule: Dict[str, Any]) -> ConversionResult:
@@ -1570,6 +1573,16 @@ class ASTToRuleBuilder:
         if rule.get('use_current_key'):
             args['use_current_key'] = True
         return self._make_rule('WorldAttribute', args)
+
+    def _convert_region_reference(self, rule: Dict[str, Any]) -> Dict[str, Any]:
+        """Convert region_reference to a Constant with the region name string.
+
+        Region references come from multiworld.get_region('Region Name', player) calls.
+        When used as arguments to helper functions (like can_bomb_clip), the helper
+        already handles string-to-region conversion, so we just need the name.
+        """
+        region = rule.get('region', '')
+        return self._make_custom_rule('Constant', {'value': region})
 
     # -------------------------------------------------------------------------
     # Unknown Type Handler
