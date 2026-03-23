@@ -35,6 +35,9 @@ jobs:
       - name: Build frontend bundle
         run: npm run build
 
+      - name: Remove dist from gitignore for deploy
+        run: sed -i '/^dist\/$/d' frontend/.gitignore
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
