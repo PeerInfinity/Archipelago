@@ -725,11 +725,11 @@ export class LoopState {
    * @param {number} speed - Speed multiplier (1.0 = normal speed)
    */
   setGameSpeed(speed) {
-    // Allow Infinity for instant mode, otherwise cap at 100
+    // Allow Infinity for instant mode, otherwise cap at 1000
     if (speed === Infinity) {
       this.gameSpeed = Infinity;
     } else {
-      this.gameSpeed = Math.max(0.1, Math.min(100, speed));
+      this.gameSpeed = Math.max(0.1, Math.min(1000, speed));
     }
 
     // Reset the _lastFrameTime to ensure smooth speed transitions
@@ -1495,7 +1495,7 @@ export class LoopState {
     this.regionXP = new Map(state.regionXP || []);
 
     // Load game speed
-    this.gameSpeed = state.gameSpeed ?? 10;
+    this.gameSpeed = state.gameSpeed ?? 100;
 
     // Load auto-restart setting
     this.autoRestartQueue = state.autoRestartQueue ?? false;

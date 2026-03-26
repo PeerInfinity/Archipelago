@@ -54,9 +54,20 @@ export class MetaGameLogic {
     console.log('MetaGameLogic.loadConfiguration called with:', filePath);
 
     try {
+      // Translate config-relative paths to frontend-root-relative paths.
+      // Paths in knownMetaGames.js are relative to the metaGame module (./configs/X),
+      // but dynamic import() resolves relative to the calling module/bundle.
+      // Use window.location.href as base to work in both bundled and unbundled modes
+      // (same approach as moduleLoader.js).
+      let resolvedPath = filePath;
+      if (filePath.startsWith('./configs/')) {
+        resolvedPath = `./modules/metaGame/configs/${filePath.substring('./configs/'.length)}`;
+      }
+      resolvedPath = new URL(resolvedPath, window.location.href).href;
+
       // Dynamically import the configuration file
-      console.log('About to import configuration module from:', filePath);
-      const configModule = await import(filePath);
+      console.log('About to import configuration module from:', resolvedPath);
+      const configModule = await import(resolvedPath);
       console.log('Configuration module imported successfully:', configModule);
       
       // Check if the module has the expected structure

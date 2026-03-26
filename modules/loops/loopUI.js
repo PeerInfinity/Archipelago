@@ -202,7 +202,7 @@ export class LoopUI {
                 <div class="speed-controls">
                   <label for="loop-ui-game-speed">Speed:</label>
                   <input type="range" id="loop-ui-game-speed" min="0.5" max="1000" step="0.5" value="100" />
-                  <span id="loop-ui-speed-value">1.0x</span>
+                  <input type="number" id="loop-ui-speed-value" min="0.1" max="1000" step="0.5" value="100" style="width: 60px;" />x
                 </div>
                 <label class="instant-mode-label"><input type="checkbox" id="loop-ui-toggle-instant" /> Instant</label>
                 <label class="auto-restart-label"><input type="checkbox" id="loop-ui-toggle-auto-restart" /> Auto-restart when queue complete</label>
@@ -404,40 +404,55 @@ export class LoopUI {
       log('warn', 'LoopUI: Import label/button or file input not found.');
     }
 
-    // Game speed slider
+    // Game speed slider and input box
     const speedSlider = querySelector('#loop-ui-game-speed');
-    const speedValueSpan = querySelector('#loop-ui-speed-value'); // Use span ID
-    if (speedSlider && speedValueSpan) {
+    const speedInput = querySelector('#loop-ui-speed-value');
+    if (speedSlider && speedInput) {
       const newSpeedSlider = speedSlider.cloneNode(true);
       speedSlider.parentNode.replaceChild(newSpeedSlider, speedSlider);
-      newSpeedSlider.max = 100;
+      newSpeedSlider.max = 1000;
       newSpeedSlider.value = loopState.gameSpeed;
-      speedValueSpan.textContent = `${loopState.gameSpeed.toFixed(1)}x`;
+      speedInput.value = loopState.gameSpeed;
       newSpeedSlider.addEventListener('input', async () => {
         const speed = parseFloat(newSpeedSlider.value);
         loopState.setGameSpeed(speed);
-        speedValueSpan.textContent = `${speed.toFixed(1)}x`;
+        speedInput.value = loopState.gameSpeed;
         // Persist speed setting via DisplaySettingsManager
         await this.displaySettings.setSetting('defaultSpeed', speed, true);
       });
+      speedInput.addEventListener('change', async () => {
+        const speed = parseFloat(speedInput.value) || 100;
+        loopState.setGameSpeed(speed);
+        speedInput.value = loopState.gameSpeed;
+        newSpeedSlider.value = loopState.gameSpeed;
+        await this.displaySettings.setSetting('defaultSpeed', loopState.gameSpeed, true);
+      });
     } else {
-      log('warn', 'LoopUI: Speed slider or value span not found.');
+      log('warn', 'LoopUI: Speed slider or speed input not found.');
     }
 
     // Instant mode checkbox
     const instantCheckbox = querySelector('#loop-ui-toggle-instant');
     if (instantCheckbox) {
       const currentSpeedSlider = querySelector('#loop-ui-game-speed');
+      const currentSpeedInput = querySelector('#loop-ui-speed-value');
       instantCheckbox.checked = loopState.instantMode;
       if (currentSpeedSlider) {
         currentSpeedSlider.disabled = loopState.instantMode;
+      }
+      if (currentSpeedInput) {
+        currentSpeedInput.disabled = loopState.instantMode;
       }
       instantCheckbox.addEventListener('change', async () => {
         const enabled = instantCheckbox.checked;
         loopState.setInstantMode(enabled);
         const slider = querySelector('#loop-ui-game-speed');
+        const input = querySelector('#loop-ui-speed-value');
         if (slider) {
           slider.disabled = enabled;
+        }
+        if (input) {
+          input.disabled = enabled;
         }
         await this.displaySettings.setSetting('instantMode', enabled, true);
       });

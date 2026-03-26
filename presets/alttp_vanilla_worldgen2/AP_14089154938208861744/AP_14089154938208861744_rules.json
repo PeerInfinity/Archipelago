@@ -3740,46 +3740,13 @@
             "name": "Hyrule Castle - Zelda's Chest",
             "id": 60169,
             "access_rule": {
-              "rule": "And",
-              "children": [
-                {
-                  "rule": "Or",
-                  "children": [
-                    {
-                      "rule": "Compare",
-                      "args": {
-                        "left": 1,
-                        "op": "in",
-                        "right": [
-                          "easy",
-                          "default"
-                        ]
-                      }
-                    },
-                    {
-                      "rule": "can_kill_standard_start",
-                      "_original_ast_type": "rb_defined_helper",
-                      "args": [
-                        {
-                          "rule": "Constant",
-                          "args": {
-                            "value": 1
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "rule": "HasAllCounts",
-                  "args": {
-                    "items": {
-                      "Small Key (Hyrule Castle)": 2,
-                      "Big Key (Hyrule Castle)": 1
-                    }
-                  }
+              "rule": "HasAllCounts",
+              "args": {
+                "items": {
+                  "Small Key (Hyrule Castle)": 2,
+                  "Big Key (Hyrule Castle)": 1
                 }
-              ]
+              }
             },
             "item": {
               "name": "Lamp",

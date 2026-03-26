@@ -388,12 +388,12 @@ export class EventCoordinator {
       autoRestartCheckbox.checked = loopState.autoRestartQueue;
     }
 
-    // Update speed slider
+    // Update speed slider and input
     const speedSlider = this.loopUI.rootElement.querySelector('#loop-ui-game-speed');
-    const speedValueSpan = this.loopUI.rootElement.querySelector('#loop-ui-speed-value');
-    if (speedSlider && speedValueSpan) {
+    const speedInput = this.loopUI.rootElement.querySelector('#loop-ui-speed-value');
+    if (speedSlider && speedInput) {
       speedSlider.value = loopState.gameSpeed;
-      speedValueSpan.textContent = `${loopState.gameSpeed.toFixed(1)}x`;
+      speedInput.value = loopState.gameSpeed;
     }
   }
 
