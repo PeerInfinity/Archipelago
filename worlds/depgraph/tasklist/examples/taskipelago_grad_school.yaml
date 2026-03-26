@@ -1,0 +1,83 @@
+name: GradStudent
+game: Taskipelago
+description: Example Taskipelago YAML (grad school theme, from Taskipelago README)
+Taskipelago:
+  tasks:
+    - Read chapter 1
+    - Read chapter 2
+    - Read chapter 3
+    - Write literature review
+    - Outline thesis proposal
+    - Draft introduction
+    - Run experiment 1
+    - Analyze experiment 1 data
+    - Run experiment 2
+    - Analyze experiment 2 data
+    - Write results section
+    - Write discussion section
+    - Compile full draft
+    - Submit to advisor
+  rewards:
+    - Coffee break
+    - Snack break
+    - Walk outside
+    - Movie night
+    - Video game session
+    - Nice dinner out
+    - Sleep in tomorrow
+    - Dessert
+    - Buy that book
+    - Podcast episode
+    - Day off
+    - Weekend trip planning
+    - Celebrate with friends
+    - You did it!
+  reward_types:
+    - junk
+    - junk
+    - useful
+    - useful
+    - useful
+    - useful
+    - progression
+    - junk
+    - progression
+    - junk
+    - useful
+    - useful
+    - progression
+    - progression
+  task_prereqs:
+    - ""
+    - "1"
+    - "2"
+    - "1, 2, 3"
+    - "4"
+    - "5"
+    - ""
+    - "7"
+    - ""
+    - "9"
+    - "8, 10"
+    - "11"
+    - "6, 12"
+    - "13"
+  reward_prereqs:
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+  lock_prereqs: true
+  death_link_pool: []
+  death_link_weights: []
+  death_link_amnesty: 0

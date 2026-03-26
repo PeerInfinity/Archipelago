@@ -20,6 +20,18 @@
   ],
   "ut_fuzz_exclude_list": [
     {
+      "name": "Ape Escape.yaml",
+      "reason": "Causes cascade timeout: all subsequent games in the same split hang after this game runs. Orphaned processes block the next fuzz.py startup."
+    },
+    {
+      "name": "Hammerwatch.yaml",
+      "reason": "Causes cascade timeout: all subsequent games in the same split hang after this game runs. Orphaned processes block the next fuzz.py startup."
+    },
+    {
+      "name": "Kingdom Hearts RE Chain of Memories.yaml",
+      "reason": "Causes cascade timeout: all subsequent games in the same split hang after this game runs. Orphaned processes block the next fuzz.py startup."
+    },
+    {
       "name": "Tevi.yaml",
       "reason": "Confirmed culprit in split 8 hang pattern: when Tevi runs before another game in the same split, the subsequent game hangs for the full 900s timeout. Multiple games were affected (XCOM 2, Yu-Gi-Oh! DDM, Yu-Gi-Oh! FM, Zelda II, osu!, PlateUp) before this was isolated. Likely causes orphaned processes that block the next game's fuzz.py startup."
     }

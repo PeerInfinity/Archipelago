@@ -179,7 +179,8 @@ Examples:
 
     parser.add_argument(
         '--seed',
-        default='1',
+        type=int,
+        default=1,
         help='Seed number (default: 1)'
     )
 

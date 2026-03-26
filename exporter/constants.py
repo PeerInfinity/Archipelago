@@ -68,6 +68,8 @@ SAFE_TO_SORT_KEYS = {
     'exclude_locations',
     'goal',
     'move_rando_actions',
+    'own_itempool',  # The Witness: built from dict.values() iteration, order non-deterministic
+    'precompleted_puzzles',  # The Witness: built from set iteration, order non-deterministic
     'StartingRecipies',  # Satisfactory: set iteration order is non-deterministic
 }
 
@@ -75,6 +77,8 @@ SAFE_TO_SORT_KEYS = {
 # These are dicts where the insertion order comes from non-deterministic sources
 # (e.g., set iteration in original world code) but the order has no semantic meaning.
 SAFE_TO_SORT_DICT_KEYS = {
+    'AVAILABLE_EASTER_EGGS_PER_REGION',  # The Witness: built from set/dict iteration
+    'EVENT_ITEM_PAIRS',  # The Witness: built from dict iteration, order non-deterministic
     'item_classification_overrides',
     'ter_goals',  # Terraria: built from set iteration order
     'added_hint_types',       # OOT: keys inserted via set iteration over hint_dist_keys

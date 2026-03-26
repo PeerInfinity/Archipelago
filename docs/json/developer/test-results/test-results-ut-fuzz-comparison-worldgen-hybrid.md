@@ -1,6 +1,6 @@
 # Universal Tracker Fuzz Test Comparison: Worldgen vs Hybrid
 
-**Generated:** 2026-03-22 17:48:53 UTC
+**Generated:** 2026-03-24 19:12:10 UTC
 
 **Source Data Last Updated:** 2026-03-21T18:02:56
 
@@ -59,14 +59,14 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Final Fantasy | ✅ | N/A | ✅ | ✅ | 50.3KB |
 | Final Fantasy Mystic Quest | ✅ | N/A | 13.9KB | ✅ | 548.1KB |
 | Heretic | ✅ | N/A | ✅ | ✅ | 367.6KB |
-| Hollow Knight | ❌ 8/100 | N/A | ✅ | ✅ | 3501.1KB |
+| Hollow Knight | ❌ | N/A | ✅ | ✅ | 3501.1KB |
 | Hylics 2 | ✅ | N/A | ✅ | ✅ | 100.4KB |
 | Inscryption | ✅ | N/A | 8.0KB | ✅ | 84.3KB |
 | Jak and Daxter: The Precursor Legacy | ❌ 1/100 | N/A | 21.7KB | 4.6KB | 257.9KB |
 | Journey to Ascension | ❌ | N/A | ✅ | ✅ | 48.3KB |
-| Kingdom Hearts | ❌ 18/99 | N/A | ✅ | ✅ | 748.7KB |
+| Kingdom Hearts | ❌ 45/100 | N/A | ✅ | ✅ | 748.7KB |
 | Kingdom Hearts 2 | ❌ | N/A | 20.4KB | ✅ | 1630.7KB |
-| Kirby's Dream Land 3 | ❌ | N/A | 10.1KB | ✅ | 528.7KB |
+| Kirby's Dream Land 3 | ⚠️ 88/98 | N/A | 10.1KB | ✅ | 528.7KB |
 | Landstalker - The Treasures of King Nole | ✅ | N/A | 3.6KB | ✅ | 209.2KB |
 | Lingo | ❌ 2/45 | N/A | 38.2KB | 10.7KB | 940.0KB |
 | Links Awakening DX | ✅ | N/A | 7.3KB | ✅ | 703.1KB |
@@ -83,7 +83,7 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Old School Runescape | ✅ | N/A | 1.0KB | ✅ | 305.2KB |
 | Overcooked! 2 | ✅ | N/A | 28.5KB | ✅ | 488.3KB |
 | Paint | ✅ | N/A | 2.7KB | ✅ | 123.5KB |
-| Pokemon Emerald | ❌ 31/92 | N/A | 5.2KB | 8.7KB | 1350.2KB |
+| Pokemon Emerald | ❌ 32/92 | N/A | 5.2KB | 8.7KB | 1350.2KB |
 | Pokemon Red and Blue | ❌ | N/A | 12.2KB | 13.0KB | 1270.2KB |
 | Raft | ❌ | N/A | 6.5KB | ✅ | 198.4KB |
 | Risk of Rain 2 | ✅ | N/A | ✅ | ✅ | 131.4KB |
@@ -112,9 +112,9 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Undertale | ✅ | N/A | ✅ | ✅ | 56.3KB |
 | VVVVVV | ✅ | N/A | 3.8KB | ✅ | 22.7KB |
 | Wargroove | ✅ | N/A | ✅ | ✅ | 44.1KB |
-| Yacht Dice | ❌ 1/100 | N/A | 0.9KB | 285.0KB | 248.5KB |
+| Yacht Dice | ❌ | N/A | 0.9KB | 285.0KB | 248.5KB |
 | Yoshi's Island | ✅ | N/A | 9.2KB | ✅ | 295.3KB |
-| Yu-Gi-Oh! 2006 | ❌ 34/100 | N/A | 1.3KB | 21.4KB | 644.0KB |
+| Yu-Gi-Oh! 2006 | ❌ | N/A | 1.3KB | 21.4KB | 644.0KB |
 | Zillion | ❌ | N/A | ✅ | ✅ | 321.2KB |
 | shapez | ✅ | N/A | ✅ | ✅ | 153.8KB |
 

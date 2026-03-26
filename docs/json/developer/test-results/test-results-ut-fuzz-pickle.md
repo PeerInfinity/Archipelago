@@ -6,11 +6,11 @@
 
 [📖 Learn about fuzz tests](../tests/test-fuzz.md)
 
-**Generated:** 2026-03-22 17:48:53 UTC
+**Generated:** 2026-03-24 19:12:10 UTC
 
-**Source Data Created:** 2026-03-22T05:31:57.675742+00:00
+**Source Data Created:** 2026-03-24T03:34:39.043481+00:00
 
-**Source Data Last Updated:** 2026-03-22T05:31:57.675752+00:00
+**Source Data Last Updated:** 2026-03-24T03:34:39.043491+00:00
 
 **Universal Tracker Version:** Pickle (loads serialized multiworld)
 
@@ -28,10 +28,10 @@
 - **Games with 100% Pass Rate:** 74 (84.1%)
 - **Games with Failures:** 14 (15.9%)
 - **Total Fuzz Runs:** 8800
-- **Successful Runs:** 7780 (88.4%)
-- **Failed Runs:** 716
-- **Timed Out Runs:** 16
-- **Ignored Runs:** 288
+- **Successful Runs:** 7944 (90.3%)
+- **Failed Runs:** 549
+- **Timed Out Runs:** 20
+- **Ignored Runs:** 287
 
 ### Expected vs Unexpected Results (based on tracking-mode-config.json)
 
@@ -107,10 +107,10 @@
 | *Satisfactory* | ❌ | 100 | 0 | 100 | 0 | 0 | ❌ 0.0% |
 | Saving Princess | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | *Secret of Evermore* | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
-| Shivers | ❌ | 100 | 0 | 99 | 1 | 0 | ❌ 0.0% |
+| Shivers | ❌ | 100 | 99 | 0 | 1 | 0 | 99.0% |
 | Sonic Adventure 2 Battle | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
-| *Starcraft 2* | ❌ | 100 | 0 | 98 | 0 | 2 | ❌ 0.0% |
-| *Stardew Valley* | ❌ | 100 | 19 | 81 | 0 | 0 | ❌ 19.0% |
+| *Starcraft 2* | ❌ | 100 | 0 | 99 | 0 | 1 | ❌ 0.0% |
+| *Stardew Valley* | ❌ | 100 | 14 | 86 | 0 | 0 | ❌ 14.0% |
 | Subnautica | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | Super Mario 64 | ✅ | 100 | 99 | 0 | 0 | 1 | 99.0% |
 | Super Mario Land 2 | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
@@ -121,7 +121,7 @@
 | *TUNIC* | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | Terraria | ✅ | 100 | 98 | 0 | 0 | 2 | 98.0% |
 | The Legend of Zelda | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
-| The Messenger | ❌ | 100 | 7 | 93 | 0 | 0 | ❌ 7.0% |
+| The Messenger | ❌ | 100 | 81 | 19 | 0 | 0 | ⚠️ 81.0% |
 | The Wind Waker | ✅ | 100 | 54 | 0 | 0 | 46 | ⚠️ 54.0% |
 | *The Witness* | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | Timespinner | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
@@ -131,7 +131,7 @@
 | *Yacht Dice* | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | Yoshi's Island | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 | Yu-Gi-Oh! 2006 | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
-| Zillion | ❌ | 100 | 79 | 0 | 14 | 7 | ⚠️ 79.0% |
+| Zillion | ❌ | 100 | 75 | 0 | 18 | 7 | ⚠️ 75.0% |
 | shapez | ✅ | 100 | 100 | 0 | 0 | 0 | **100.0%** |
 
 ## Results Breakdown
@@ -231,12 +231,12 @@ Games NOT expected to pass pickle mode and failed as expected.
 | Ocarina of Time | 100 | 96 | 2 | 0 | 96.0% |
 | Pokemon Emerald | 100 | 86 | 6 | 0 | 86.0% |
 | Satisfactory | 100 | 0 | 100 | 0 | 0.0% |
-| Shivers | 100 | 0 | 99 | 1 | 0.0% |
-| Starcraft 2 | 100 | 0 | 98 | 0 | 0.0% |
-| Stardew Valley | 100 | 19 | 81 | 0 | 19.0% |
+| Shivers | 100 | 99 | 0 | 1 | 99.0% |
+| Starcraft 2 | 100 | 0 | 99 | 0 | 0.0% |
+| Stardew Valley | 100 | 14 | 86 | 0 | 14.0% |
 | Super Metroid | 100 | 51 | 8 | 0 | 51.0% |
-| The Messenger | 100 | 7 | 93 | 0 | 7.0% |
-| Zillion | 100 | 79 | 0 | 14 | 79.0% |
+| The Messenger | 100 | 81 | 19 | 0 | 81.0% |
+| Zillion | 100 | 75 | 0 | 18 | 75.0% |
 
 ## Notes
 

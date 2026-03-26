@@ -63,6 +63,13 @@ class TrackerCore(PickleMixin, WorldgenMixin, TrackerTestingMixin, TrackerCoreBa
         # Initialize base class
         super().__init__(logger, print_list, print_count)
 
+        # When True, initalize_tracker_core filters modes by per-game passing_modes
+        # from tracking-mode-config.json. When False, all available modes are tried
+        # in fallback_order without filtering (legacy behavior with config ordering).
+        # The real TrackerClient uses True (hybrid mode); standalone fuzz tests
+        # should set False so the config doesn't prevent testing a specific mode.
+        self.use_tracking_mode_config: bool = True
+
         # Initialize mixins
         self._init_pickle_mixin()
         self._init_worldgen_mixin()
@@ -297,12 +304,17 @@ class TrackerCore(PickleMixin, WorldgenMixin, TrackerTestingMixin, TrackerCoreBa
             self._log_debug("config_based_tracking", {
                 "fallback_order": fallback_order,
                 "passing_modes": passing_modes,
+                "use_tracking_mode_config": self.use_tracking_mode_config,
                 "game": self.game
             })
 
-            # Try modes in fallback order, but only if they pass for this game
+            # Try modes in fallback order.
+            # When use_tracking_mode_config is True (hybrid mode), only try modes
+            # that are in the game's passing_modes list from the config.
+            # When False (standalone mode tests), try all modes - the config
+            # provides ordering but should not prevent testing a specific mode.
             for mode in fallback_order:
-                if passing_modes and mode not in passing_modes:
+                if self.use_tracking_mode_config and passing_modes and mode not in passing_modes:
                     self.logger.debug(f"Skipping {mode} mode for {self.game}: not in passing modes {passing_modes}")
                     continue
 

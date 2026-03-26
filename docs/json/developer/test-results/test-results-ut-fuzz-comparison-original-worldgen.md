@@ -1,8 +1,8 @@
 # Universal Tracker Fuzz Test Comparison: Original vs Worldgen
 
-**Generated:** 2026-03-22 17:48:53 UTC
+**Generated:** 2026-03-24 19:12:10 UTC
 
-**Source Data Last Updated:** 2026-03-22T05:22:37
+**Source Data Last Updated:** 2026-03-24T03:06:02
 
 This report compares fuzz test results between the Original Universal Tracker (FarisTheAncient) and the Worldgen Universal Tracker (regenerates world from rules.json).
 
@@ -33,14 +33,14 @@ This report compares fuzz test results between the Original Universal Tracker (F
 | A Link to the Past | ❌ | ✅ | 14.0KB | ✅ | 664.0KB |
 | A Short Hike | ✅ | ✅ | ✅ | ✅ | 74.4KB |
 | APQuest | ✅ | ✅ | ✅ | ✅ | 11.0KB |
-| Adventure | ⚠️ 86/100 | ✅ | ✅ | ✅ | 25.7KB |
+| Adventure | ⚠️ 89/100 | ✅ | ✅ | ✅ | 25.7KB |
 | Aquaria | ✅ | ✅ | 1.8KB | ✅ | 277.3KB |
 | Baking Adventure | ✅ | ✅ | ✅ | ✅ | 17.9KB |
 | Blasphemous | ✅ | ❌ | ✅ | ✅ | 2760.8KB |
 | Bomb Rush Cyberfunk | ✅ | ❌ | 1.4KB | 40.3KB | 325.3KB |
 | Bumper Stickers | ✅ | ✅ | ✅ | ✅ | 50.4KB |
 | Castlevania - Circle of the Moon | ✅ | ✅ | 4.0KB | ✅ | 93.8KB |
-| Castlevania 64 | ❌ 6/100 | ✅ | ✅ | ✅ | 137.8KB |
+| Castlevania 64 | ❌ 10/100 | ✅ | ✅ | ✅ | 137.8KB |
 | Celeste (Open World) | ❌ 46/100 | ❌ | ✅ | ✅ | 1039.8KB |
 | Celeste 64 | ✅ | ✅ | 4.1KB | ✅ | 53.6KB |
 | ChecksFinder | ✅ | ✅ | ✅ | ✅ | 16.4KB |
@@ -51,39 +51,39 @@ This report compares fuzz test results between the Original Universal Tracker (F
 | DOOM 1993 | ⚠️ 99/100 | ✅ | ✅ | ✅ | 281.9KB |
 | DOOM II | ✅ | ✅ | ✅ | ✅ | 327.5KB |
 | Dark Souls III | ✅ | ✅ | ✅ | ✅ | 1034.1KB |
-| DepGraph | ⚠️ 81/100 | ✅ | ✅ | ✅ | 201.9KB |
+| DepGraph | ⚠️ 82/100 | ✅ | ✅ | ✅ | 201.9KB |
 | Donkey Kong Country 3 | ⚠️ 52/100 | ✅ | ✅ | ✅ | 122.4KB |
-| EarthBound | ❌ 29/100 | ✅ | ✅ | ✅ | 337.6KB |
+| EarthBound | ❌ 30/100 | ✅ | ✅ | ✅ | 337.6KB |
 | Factorio | ❌ | ✅ | 8.8KB | ✅ | 290.1KB |
-| Faxanadu | ❌ 17/100 | ✅ | ✅ | ✅ | 68.1KB |
+| Faxanadu | ❌ 16/100 | ✅ | ✅ | ✅ | 68.1KB |
 | Final Fantasy | ✅ | ✅ | ✅ | ✅ | 50.3KB |
 | Final Fantasy Mystic Quest | ⚠️ 89/100 | ✅ | 13.9KB | ✅ | 548.1KB |
 | Heretic | ✅ | ✅ | ✅ | ✅ | 367.6KB |
-| Hollow Knight | ❌ 9/100 | ❌ 8/100 | ✅ | ✅ | 3501.1KB |
+| Hollow Knight | ❌ 9/100 | ❌ | ✅ | ✅ | 3501.1KB |
 | Hylics 2 | ✅ | ✅ | ✅ | ✅ | 100.4KB |
 | Inscryption | ✅ | ✅ | 8.0KB | ✅ | 84.3KB |
 | Jak and Daxter: The Precursor Legacy | ⚠️ 62/100 | ❌ 1/100 | 21.7KB | 4.6KB | 257.9KB |
 | Journey to Ascension | ❌ | ❌ | ✅ | ✅ | 48.3KB |
-| Kingdom Hearts | ❌ 18/100 | ❌ 18/99 | ✅ | ✅ | 748.7KB |
+| Kingdom Hearts | ❌ 19/99 | ❌ 45/100 | ✅ | ✅ | 748.7KB |
 | Kingdom Hearts 2 | ❌ 44/100 | ❌ | 20.4KB | ✅ | 1630.7KB |
-| Kirby's Dream Land 3 | ❌ | ❌ | 10.1KB | ✅ | 528.7KB |
+| Kirby's Dream Land 3 | ❌ | ⚠️ 88/98 | 10.1KB | ✅ | 528.7KB |
 | Landstalker - The Treasures of King Nole | ❌ 31/100 | ✅ | 3.6KB | ✅ | 209.2KB |
-| Lingo | ❌ 19/45 | ❌ 2/45 | 38.2KB | 10.7KB | 940.0KB |
+| Lingo | ❌ 20/45 | ❌ 2/45 | 38.2KB | 10.7KB | 940.0KB |
 | Links Awakening DX | ❌ 23/100 | ✅ | 7.3KB | ✅ | 703.1KB |
 | Lufia II Ancient Cave | ✅ | ✅ | ✅ | ✅ | 122.8KB |
 | Mario & Luigi Superstar Saga | ✅ | ✅ | ✅ | ✅ | 395.5KB |
-| Mega Man 2 | ⚠️ 95/100 | ✅ | ✅ | ✅ | 51.7KB |
+| Mega Man 2 | ⚠️ 93/100 | ✅ | ✅ | ✅ | 51.7KB |
 | Mega Man 3 | ❌ | ✅ | ✅ | ✅ | 71.7KB |
 | MegaMan Battle Network 3 | ✅ | ✅ | ✅ | ✅ | 204.7KB |
 | Meritous | ✅ | ✅ | ✅ | ✅ | 57.0KB |
-| Metamath | ⚠️ 89/100 | ⚠️ 99/100 | ✅ | ✅ | 56.0KB |
+| Metamath | ⚠️ 90/100 | ⚠️ 99/100 | ✅ | ✅ | 56.0KB |
 | Muse Dash | ❌ | ✅ | ✅ | ✅ | 228.3KB |
 | Noita | ✅ | ✅ | ✅ | ✅ | 73.9KB |
 | Ocarina of Time | ❌ | ❌ | ✅ | ✅ | 1274.4KB |
 | Old School Runescape | ✅ | ✅ | 1.0KB | ✅ | 305.2KB |
 | Overcooked! 2 | ❌ 9/100 | ✅ | 28.5KB | ✅ | 488.3KB |
 | Paint | ✅ | ✅ | 2.7KB | ✅ | 123.5KB |
-| Pokemon Emerald | ⚠️ 56/92 | ❌ 31/92 | 5.2KB | 8.7KB | 1350.2KB |
+| Pokemon Emerald | ⚠️ 55/92 | ❌ 32/92 | 5.2KB | 8.7KB | 1350.2KB |
 | Pokemon Red and Blue | ❌ | ❌ | 12.2KB | 13.0KB | 1270.2KB |
 | Raft | ✅ | ❌ | 6.5KB | ✅ | 198.4KB |
 | Risk of Rain 2 | ✅ | ✅ | ✅ | ✅ | 131.4KB |
@@ -94,27 +94,27 @@ This report compares fuzz test results between the Original Universal Tracker (F
 | Shivers | ❌ | ✅ | ✅ | ✅ | 150.1KB |
 | Sonic Adventure 2 Battle | ❌ 6/100 | ✅ | ✅ | ✅ | 262.2KB |
 | Starcraft 2 | ❌ | ❌ | 29.3KB | 90.1KB | 1086.9KB |
-| Stardew Valley | ❌ 10/100 | ❌ | 20.0KB | 9.8KB | 2558.2KB |
-| Subnautica | ❌ 12/100 | ✅ | 2.2KB | ✅ | 205.5KB |
+| Stardew Valley | ❌ 6/99 | ❌ | 20.0KB | 9.8KB | 2558.2KB |
+| Subnautica | ❌ 13/100 | ✅ | 2.2KB | ✅ | 205.5KB |
 | Super Mario 64 | ❌ 28/100 | ✅ | ✅ | ✅ | 101.2KB |
-| Super Mario Land 2 | ❌ 24/100 | ✅ | 96.3KB | ✅ | 919.1KB |
+| Super Mario Land 2 | ❌ 20/100 | ✅ | 96.3KB | ✅ | 919.1KB |
 | Super Mario World | ⚠️ 55/100 | ✅ | ✅ | ✅ | 177.7KB |
-| Super Metroid | ❌ 6/99 | ❌ | 61.0KB | 119.4KB | 625.1KB |
+| Super Metroid | ❌ 6/100 | ❌ | 61.0KB | 119.4KB | 625.1KB |
 | TOEM original | ✅ | ✅ | 0.6KB | ✅ | 99.7KB |
 | TOEM rule builder | ✅ | ✅ | 0.5KB | ✅ | 99.7KB |
 | TUNIC | ✅ | ⚠️ 58/100 | 3.1KB | ✅ | 649.2KB |
 | Terraria | ⚠️ 98/100 | ✅ | 16.9KB | ✅ | 279.0KB |
 | The Legend of Zelda | ✅ | ✅ | ✅ | ✅ | 554.6KB |
-| The Messenger | ❌ 9/100 | ✅ | 15.2KB | ✅ | 210.4KB |
+| The Messenger | ❌ 7/100 | ✅ | 15.2KB | ✅ | 210.4KB |
 | The Wind Waker | ❌ 4/57 | ✅ | 7.0KB | ✅ | 250.2KB |
 | The Witness | ✅ | ❌ 15/100 | 14.6KB | ✅ | 468.1KB |
-| Timespinner | ❌ 6/100 | ✅ | 2.2KB | ✅ | 262.9KB |
+| Timespinner | ❌ 4/100 | ✅ | 2.2KB | ✅ | 262.9KB |
 | Undertale | ✅ | ✅ | ✅ | ✅ | 56.3KB |
 | VVVVVV | ⚠️ 64/100 | ✅ | 3.8KB | ✅ | 22.7KB |
 | Wargroove | ✅ | ✅ | ✅ | ✅ | 44.1KB |
-| Yacht Dice | ❌ 1/100 | ❌ 1/100 | 0.9KB | 285.0KB | 248.5KB |
-| Yoshi's Island | ❌ 25/100 | ✅ | 9.2KB | ✅ | 295.3KB |
-| Yu-Gi-Oh! 2006 | ❌ 34/100 | ❌ 34/100 | 1.3KB | 21.4KB | 644.0KB |
+| Yacht Dice | ❌ 1/100 | ❌ | 0.9KB | 285.0KB | 248.5KB |
+| Yoshi's Island | ❌ 22/100 | ✅ | 9.2KB | ✅ | 295.3KB |
+| Yu-Gi-Oh! 2006 | ❌ 34/100 | ❌ | 1.3KB | 21.4KB | 644.0KB |
 | Zillion | ❌ | ❌ | ✅ | ✅ | 321.2KB |
 | shapez | ✅ | ✅ | ✅ | ✅ | 153.8KB |
 

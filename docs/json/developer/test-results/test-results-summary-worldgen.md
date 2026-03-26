@@ -1,6 +1,6 @@
 # Archipelago Template Test Results Summary (WorldGen)
 
-**Generated:** 2026-03-22 17:48:53 UTC
+**Generated:** 2026-03-24 19:12:10 UTC
 
 **Source Data Created:** 2026-03-21T22:57:37.647834+00:00
 
@@ -66,10 +66,10 @@ Of the 51 templates passing all 4 tests:
 |-----------|--------------|-----------|------------------|-----------------|------------------|---------------------|----------|----------|------------|
 | A Hat in Time WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | 18.2KB | ✅ | 235.3KB |
 | A Hat in Time WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 232.5KB |
-| A Link to the Past Vanilla WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 666.1KB |
-| A Link to the Past Vanilla WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 664.6KB |
-| A Link to the Past WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | 14.0KB | ✅ | 667.8KB |
-| A Link to the Past WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 665.2KB |
+| A Link to the Past Vanilla WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 665.1KB |
+| A Link to the Past Vanilla WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 663.6KB |
+| A Link to the Past WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | 14.0KB | ✅ | 666.8KB |
+| A Link to the Past WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 664.2KB |
 | A Short Hike WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 79.4KB |
 | A Short Hike WorldGen2 | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 79.4KB |
 | APQuest WorldGen | ✅ Passed | ✅ Passed | ✅ Passed | ✅ Passed | ✅ | ✅ | ✅ | ✅ | 11.8KB |
@@ -137,10 +137,10 @@ Of the 51 templates passing all 4 tests:
 |------|-----------|------------|
 | 1 | Super Mario Land 2 WorldGen | 920.6KB |
 | 2 | Links Awakening DX WorldGen | 696.9KB |
-| 3 | A Link to the Past WorldGen | 667.8KB |
-| 4 | A Link to the Past Vanilla WorldGen | 666.1KB |
-| 5 | A Link to the Past WorldGen2 | 665.2KB |
-| 6 | A Link to the Past Vanilla WorldGen2 | 664.6KB |
+| 3 | A Link to the Past WorldGen | 666.8KB |
+| 4 | A Link to the Past Vanilla WorldGen | 665.1KB |
+| 5 | A Link to the Past WorldGen2 | 664.2KB |
+| 6 | A Link to the Past Vanilla WorldGen2 | 663.6KB |
 | 7 | Final Fantasy Mystic Quest WorldGen | 556.7KB |
 | 8 | Overcooked! 2 WorldGen | 485.8KB |
 | 9 | Mario & Luigi Superstar Saga WorldGen | 403.9KB |

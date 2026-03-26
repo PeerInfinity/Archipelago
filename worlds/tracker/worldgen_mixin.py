@@ -415,17 +415,22 @@ class WorldgenMixin:
         project_root = Path(__file__).parent.parent.parent
 
         # Try to load world mapping for game -> directory conversion
-        world_mapping_path = project_root / "scripts" / "data" / "world-mapping.json"
+        # Check both bundled (world-mapping.json) and unofficial (world-mapping-unofficial.json)
         world_directory = None
+        mapping_dir = project_root / "scripts" / "data"
 
-        if world_mapping_path.exists():
-            try:
-                with open(world_mapping_path) as f:
-                    world_mapping = json.load(f)
-                if self.game in world_mapping:
-                    world_directory = world_mapping[self.game].get('world_directory')
-            except Exception as e:
-                self.logger.debug(f"Failed to load world mapping: {e}")
+        for mapping_filename in ("world-mapping.json", "world-mapping-unofficial.json"):
+            if world_directory:
+                break
+            mapping_path = mapping_dir / mapping_filename
+            if mapping_path.exists():
+                try:
+                    with open(mapping_path) as f:
+                        world_mapping = json.load(f)
+                    if self.game in world_mapping:
+                        world_directory = world_mapping[self.game].get('world_directory')
+                except Exception as e:
+                    self.logger.debug(f"Failed to load {mapping_filename}: {e}")
 
         # Fall back to deriving directory name from game name
         if not world_directory:

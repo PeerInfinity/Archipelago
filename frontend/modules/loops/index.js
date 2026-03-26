@@ -178,7 +178,7 @@ export function register(registrationApi) {
       defaultSpeed: {
         type: 'number',
         minimum: 0.1,
-        default: 10,
+        default: 100,
         label: 'Default Loop Speed',
       },
       autoRestart: {
@@ -305,7 +305,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
 
       loopStateSingleton.initialize();
       // Apply settings
-      loopStateSingleton.setGameSpeed(moduleSettings?.defaultSpeed ?? 10);
+      loopStateSingleton.setGameSpeed(moduleSettings?.defaultSpeed ?? 100);
       loopStateSingleton.setAutoRestartQueue(
         moduleSettings?.autoRestart ?? false
       );

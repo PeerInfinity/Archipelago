@@ -24,6 +24,8 @@ Usage:
 import argparse
 import json
 import os
+import queue as queue_module
+import signal
 import shutil
 import subprocess
 import sys
@@ -351,56 +353,121 @@ def run_fuzzer_test(
         cmd.extend(["--ut-version", ut_version])
 
     print(f"  Running: {' '.join(cmd[:10])}...")
+    # Inactivity timeout: if no output is received for this many seconds,
+    # assume the game is hung. Set to 2x the per-generation timeout plus
+    # a buffer for initial world loading / YAML generation overhead.
+    inactivity_timeout = max(timeout * 2 + 60, 180)
+
     print(f"  Process timeout: {process_timeout}s")
+    print(f"  Inactivity timeout: {inactivity_timeout}s")
 
     try:
         # Stream output in real-time for progress visibility
-        # Use Popen to capture stderr while streaming stdout
+        # Use Popen to capture stderr while streaming stdout.
+        # start_new_session=True puts fuzz.py and its multiprocessing Pool
+        # workers into their own process group so we can kill them all at once.
         proc = subprocess.Popen(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            cwd=str(PROJECT_ROOT)
+            cwd=str(PROJECT_ROOT),
+            start_new_session=True
         )
 
-        # Set up a timer to kill the process if it exceeds the timeout
+        # Save PGID immediately — we need it even after fuzz.py exits, because
+        # orphan child processes (Pool workers, Manager, world-spawned processes)
+        # may still be alive with this PGID.
+        pgid = os.getpgid(proc.pid)
+
+        def _kill_process_group(reason: str):
+            """Kill fuzz.py and all its child processes (Pool workers, Manager)."""
+            try:
+                print(f"    {reason}")
+                os.killpg(pgid, signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                pass  # Already dead or not permitted
+
+        # Set up a timer to kill the process if it exceeds the overall timeout
         process_timed_out = [False]  # Use list to allow modification in nested function
 
         def kill_on_timeout():
             process_timed_out[0] = True
-            print(f"    Process timeout ({process_timeout}s) exceeded, killing...")
-            proc.kill()
+            _kill_process_group(f"Process timeout ({process_timeout}s) exceeded, killing...")
 
         timer = threading.Timer(process_timeout, kill_on_timeout)
         timer.start()
 
         try:
-            # Read and print stdout in real-time
+            # Read stdout in a background thread, with inactivity detection.
+            # A reader thread feeds lines into a queue; the main thread pulls
+            # from it with a timeout. This avoids select/buffered-IO mismatches
+            # and correctly detects when fuzz.py produces no output (hung workers).
             stdout_lines = []
+            line_queue: queue_module.Queue = queue_module.Queue()
+
+            def _reader_thread():
+                try:
+                    for line in iter(proc.stdout.readline, ''):
+                        line_queue.put(line)
+                except (ValueError, OSError):
+                    pass  # Pipe closed
+                finally:
+                    line_queue.put(None)  # Sentinel: reader is done
+
+            reader = threading.Thread(target=_reader_thread, daemon=True)
+            reader.start()
+
             while True:
-                line = proc.stdout.readline()
-                if line:
-                    print(f"    {line.rstrip()}")
-                    stdout_lines.append(line)
-                    sys.stdout.flush()
-                elif proc.poll() is not None:
-                    # Process finished, read any remaining output
-                    for remaining_line in proc.stdout:
-                        print(f"    {remaining_line.rstrip()}")
-                        stdout_lines.append(remaining_line)
+                try:
+                    line = line_queue.get(timeout=inactivity_timeout)
+                except queue_module.Empty:
+                    # No output for inactivity_timeout seconds
+                    if proc.poll() is not None:
+                        break  # Process already exited
+                    process_timed_out[0] = True
+                    _kill_process_group(
+                        f"No output for {inactivity_timeout}s, game appears hung, killing..."
+                    )
+                    try:
+                        proc.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        pass
                     break
+
+                if line is None:
+                    break  # Reader thread finished (process exited / pipe closed)
+
+                print(f"    {line.rstrip()}")
+                stdout_lines.append(line)
+                sys.stdout.flush()
 
             # Get stderr after process completes
             stderr_output = proc.stderr.read()
             returncode = proc.returncode
         finally:
             timer.cancel()
+            # Always kill the entire process group after each game, even on
+            # normal completion. Some worlds spawn background processes during
+            # generation (network servers, file watchers, etc.) that survive
+            # fuzz.py's os._exit(). These orphan processes can hold resources
+            # (ports, locks, shared memory) that block subsequent fuzz.py
+            # invocations from importing worlds, causing a cascade of timeouts.
+            try:
+                os.killpg(pgid, signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                pass  # All processes already exited cleanly
+            # Reap fuzz.py to avoid zombies
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                pass
 
-        # Check if we timed out
+        # Check if we timed out (either overall process timeout or inactivity timeout)
         if process_timed_out[0]:
-            result["error"] = f"Process timed out after {process_timeout} seconds"
-            result["elapsed_seconds"] = time.perf_counter() - start_time
+            elapsed = time.perf_counter() - start_time
+            result["error"] = f"Process timed out after {elapsed:.0f} seconds (no output)"
+            result["elapsed_seconds"] = elapsed
             return result
 
         # Check for report.json
@@ -837,7 +904,7 @@ def main():
             stop_on_first_failure=args.stop_on_first_failure,
             number_by_seed=args.number_by_seed,
             original_seeded=(args.ut_version == "original_seeded"),
-            ut_version=args.ut_version,
+            ut_version=ut_version,
             process_timeout=args.process_timeout
         )
 

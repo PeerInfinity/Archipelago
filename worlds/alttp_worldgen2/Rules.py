@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from worlds.generic.Rules import location_item_name, item_name_in_location_names
 from BaseClasses import CollectionState
 
-from rule_builder import True_, False_, And, CanReachLocation, CanReachRegion, Compare, False_, Has, HasAll, HasAllCounts, HasAny, HasGroup, HelperCall, Or
+from rule_builder import True_, False_, And, CanReachLocation, CanReachRegion, False_, Has, HasAll, HasAllCounts, HasAny, HasGroup, HelperCall, Or
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
@@ -1415,7 +1415,7 @@ def set_rules(world: "World") -> None:
 
     world.set_rule(
         multiworld.get_location("Hyrule Castle - Zelda's Chest", player),
-        And(Or(Compare(1, "in", ('easy', 'default')), HelperCall(helper_func=can_kill_most_things, helper_name="can_kill_most_things", args=(1,))), HasAllCounts({'Small Key (Hyrule Castle)': 4, 'Big Key (Hyrule Castle)': 1}))
+        HasAllCounts({'Small Key (Hyrule Castle)': 4, 'Big Key (Hyrule Castle)': 1})
     )
 
     world.set_rule(

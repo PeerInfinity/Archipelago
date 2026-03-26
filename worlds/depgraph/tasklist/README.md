@@ -362,3 +362,87 @@ the multiworld.
 Use `--seed` to get the same dependency structure from the same task list. This
 is useful if you want to regenerate the same graph layout across multiple
 Archipelago seeds, or if you want to share a specific graph with others.
+
+---
+
+# Taskipelago YAML to DepGraph Converter
+
+## Overview
+
+[Taskipelago](https://github.com/barretg/Taskipelago) is a separate Archipelago
+apworld that also turns to-do lists into playable multiworld games. If you have
+an existing Taskipelago YAML file, this converter translates it into a
+DepGraph-compatible JSON graph so you can use it with DepGraph's features
+(entrance rule modes, multiple graph formats, frontend visualization, etc.).
+
+## How It Works
+
+Taskipelago uses parallel lists with index-based prereqs:
+
+```yaml
+Taskipelago:
+  tasks: [Read chapter 1, Read chapter 2, Write review]
+  task_prereqs: ["", "1", "1, 2"]
+  reward_prereqs: ["", "", "1"]
+```
+
+The converter:
+1. Parses the `tasks` list into DepGraph nodes
+2. Merges `task_prereqs` and `reward_prereqs` into unified `depends_on` edges
+   (in DepGraph, completing a node grants both the item and the event)
+3. Validates the graph (range checks, cycle detection)
+4. Adds a synthetic "All Tasks Complete!" final node (optional)
+5. Preserves reward names and types in node descriptions
+
+## Usage
+
+```bash
+# Basic conversion
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py my_taskipelago.yaml
+
+# Specify output file
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py my_taskipelago.yaml -o my_day.json
+
+# Custom title
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py my_taskipelago.yaml --title "Wednesday Grind"
+
+# Skip the final node
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py my_taskipelago.yaml --no-final-node
+
+# Preview without writing
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py my_taskipelago.yaml --dry-run
+```
+
+## Example
+
+See `examples/taskipelago_grad_school.yaml` for a sample Taskipelago YAML.
+Convert it with:
+
+```bash
+python worlds/depgraph/tasklist/taskipelago_to_depgraph.py \
+    worlds/depgraph/tasklist/examples/taskipelago_grad_school.yaml \
+    --dry-run
+```
+
+Then use the output with DepGraph:
+
+```yaml
+name: TaskPlayer
+game: DepGraph
+DepGraph:
+  graph_file: /path/to/taskipelago_grad_school_depgraph.json
+  randomize_items: true
+  starting_nodes: 10
+```
+
+## What Carries Over and What Doesn't
+
+| Taskipelago Feature | DepGraph Equivalent |
+|--------------------|--------------------|
+| `tasks` | Node labels |
+| `task_prereqs` | `depends_on` edges |
+| `reward_prereqs` | Merged into `depends_on` edges |
+| `rewards` | Preserved in node descriptions |
+| `reward_types` | Preserved in node descriptions (DepGraph items are all progression) |
+| `death_link_*` | Not supported by DepGraph — ignored |
+| `lock_prereqs` | Not applicable (DepGraph enforces logic via entrance rules) |

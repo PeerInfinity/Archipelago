@@ -29,7 +29,7 @@ export class DisplaySettingsManager {
       colorblindMode: false,
 
       // Loop-specific settings (persisted)
-      defaultSpeed: 10,
+      defaultSpeed: 100,
       autoRestart: false,
       instantMode: false,
       loopModeEnabled: false,
@@ -60,7 +60,7 @@ export class DisplaySettingsManager {
       this.settings.colorblindMode = await this.settingsManager.getSetting('colorblindMode.loops', false);
 
       // Load loop-specific settings from settingsManager (defaults from settings.json)
-      this.settings.defaultSpeed = await this.settingsManager.getSetting('moduleSettings.loops.defaultSpeed', 10);
+      this.settings.defaultSpeed = await this.settingsManager.getSetting('moduleSettings.loops.defaultSpeed', 100);
       this.settings.autoRestart = await this.settingsManager.getSetting('moduleSettings.loops.autoRestart', false);
       this.settings.loopModeEnabled = await this.settingsManager.getSetting('moduleSettings.loops.loopModeEnabled', false);
 
@@ -87,7 +87,7 @@ export class DisplaySettingsManager {
     // Read slider value for game speed
     const speedSlider = this.rootElement.querySelector('#loop-ui-speed-slider');
     if (speedSlider) {
-      this.settings.defaultSpeed = parseFloat(speedSlider.value) || 10;
+      this.settings.defaultSpeed = parseFloat(speedSlider.value) || 100;
     }
 
     logger.debug('Settings synced from UI');
@@ -105,11 +105,11 @@ export class DisplaySettingsManager {
 
     // Update speed slider if it exists
     const speedSlider = this.rootElement.querySelector('#loop-ui-speed-slider');
-    const speedValueSpan = this.rootElement.querySelector('#loop-ui-speed-value');
+    const speedInput = this.rootElement.querySelector('#loop-ui-speed-value');
     if (speedSlider) {
       speedSlider.value = this.settings.defaultSpeed;
-      if (speedValueSpan) {
-        speedValueSpan.textContent = `${this.settings.defaultSpeed.toFixed(1)}x`;
+      if (speedInput) {
+        speedInput.value = this.settings.defaultSpeed;
       }
     }
 
@@ -125,6 +125,9 @@ export class DisplaySettingsManager {
       instantCheckbox.checked = this.settings.instantMode;
       if (speedSlider) {
         speedSlider.disabled = this.settings.instantMode;
+      }
+      if (speedInput) {
+        speedInput.disabled = this.settings.instantMode;
       }
     }
 

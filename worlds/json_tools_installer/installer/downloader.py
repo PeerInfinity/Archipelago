@@ -18,7 +18,7 @@ from ..config import SourceConfig
 REQUIREMENTS_FILENAME = "json_tools_installer_requirements.json"
 
 # Approximate archive size in bytes (GitHub sometimes omits Content-Length)
-APPROXIMATE_ARCHIVE_SIZE = 37 * 1024 * 1024  # ~37 MB
+APPROXIMATE_ARCHIVE_SIZE = 42 * 1024 * 1024  # ~42 MB
 
 
 @dataclass

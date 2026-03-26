@@ -212,25 +212,32 @@ def generate_init_py(data: ExtractedData, canonical_seed: Optional[int] = None) 
     world_class = data.metadata.world_class_name
 
     # Build canonical placements dict (only needed if canonical_seed is enabled)
-    # Use canonical_placements if available, otherwise fall back to original_placements
-    placement_entries = []
+    # canonical_class_attr_entries: vanilla locations for the exporter (from canonical_placements)
+    # original_seed_placement_entries: actual seed 1 placements for _place_original_items()
     canonical_class_attr_entries = []  # For the class attribute (exporter to read)
+    original_seed_placement_entries = []  # For actual item placement at runtime
     advancement_loc_entries = []  # Locations that should have advancement items
     if canonical_seed is not None:
-        # Prefer canonical_placements (from world class attribute) over original_placements
-        placements_source = data.canonical_placements if data.canonical_placements else data.original_placements
-        for loc_name, item_name in placements_source.items():
+        # canonical_placements class attribute uses vanilla locations (for exporter)
+        canonical_source = data.canonical_placements if data.canonical_placements else data.original_placements
+        for loc_name, item_name in canonical_source.items():
             if item_name:  # Skip empty placements
                 loc_escaped = loc_name.replace('\\', '\\\\').replace('"', '\\"')
                 item_escaped = item_name.replace('\\', '\\\\').replace('"', '\\"')
-                placement_entries.append(f'        "{loc_escaped}": "{item_escaped}",')
                 canonical_class_attr_entries.append(f'        "{loc_escaped}": "{item_escaped}",')
+
+        # original_seed_placements uses actual seed 1 placements (for _place_original_items)
+        for loc_name, item_name in data.original_placements.items():
+            if item_name:  # Skip empty placements
+                loc_escaped = loc_name.replace('\\', '\\\\').replace('"', '\\"')
+                item_escaped = item_name.replace('\\', '\\\\').replace('"', '\\"')
+                original_seed_placement_entries.append(f'        "{loc_escaped}": "{item_escaped}",')
                 # Track locations that should have advancement items
                 if data.canonical_placement_advancements.get(loc_name, False):
                     advancement_loc_entries.append(f'        "{loc_escaped}",')
 
-    placements_content = '\n'.join(placement_entries)
     canonical_class_attr_content = '\n'.join(canonical_class_attr_entries)
+    original_seed_placements_content = '\n'.join(original_seed_placement_entries)
     advancement_loc_content = '\n'.join(advancement_loc_entries)
 
     # Build canonical advancement dict (maps location -> original advancement value)
@@ -390,18 +397,24 @@ def generate_init_py(data: ExtractedData, canonical_seed: Optional[int] = None) 
             self._place_original_items()
 
     def _place_original_items(self) -> None:
-        """Place items in their canonical locations when not randomized.
+        """Place items in their original seed locations when not randomized.
 
+        Uses original_seed_placements (actual seed 1 placements) rather than
+        canonical_placements (vanilla locations) to match the original world's output.
         Process advancement locations first to ensure they get advancement items.
         This is critical for cross-validation in spoiler tests, where item
         advancement flags determine whether items are counted.
         """
+        # Use original_seed_placements (actual seed 1 placements) for placement.
+        # canonical_placements contains vanilla locations for the exporter.
+        placements = getattr(self, 'original_seed_placements', self.canonical_placements)
+
         # Two-pass placement: first advancement locations, then the rest
         advancement_locs = getattr(self, 'advancement_locations', set())
 
         # Sort locations to process advancement locations first
         sorted_placements = sorted(
-            self.canonical_placements.items(),
+            placements.items(),
             key=lambda x: 0 if x[0] in advancement_locs else 1
         )
 
@@ -689,6 +702,19 @@ def generate_init_py(data: ExtractedData, canonical_seed: Optional[int] = None) 
 '''
     else:
         canonical_placements_section = ''
+
+    # Generate original_seed_placements class attribute (actual seed 1 item placements)
+    # This is what _place_original_items() uses to reproduce the exact original seed.
+    # It may differ from canonical_placements when the original world randomizes items.
+    original_seed_placements_section = ''
+    if canonical_seed is not None and original_seed_placements_content:
+        original_seed_placements_section = f'''
+    # Original seed placements - actual item placements from the original seed generation
+    # Used by _place_original_items() to reproduce exact original item placement
+    original_seed_placements: ClassVar[Dict[str, str]] = {{
+{original_seed_placements_content}
+    }}
+'''
 
     # Generate canonical_placement_advancements class attribute (for items with mixed classification)
     canonical_placement_advancements_section = ''
@@ -1155,7 +1181,7 @@ class {world_class}(RuleWorldMixin, World):
     item_name_groups: ClassVar[Dict[str, frozenset]] = {{
 {item_name_groups_content}
     }}
-{accumulator_rules_section}{prog_items_init_section}{progression_mapping_section}{placement_type_section}{preset_label_section}{canonical_placements_section}{canonical_placement_advancements_section}{init_section}{generate_early_section}
+{accumulator_rules_section}{prog_items_init_section}{progression_mapping_section}{placement_type_section}{preset_label_section}{canonical_placements_section}{original_seed_placements_section}{canonical_placement_advancements_section}{init_section}{generate_early_section}
     def create_regions(self) -> None:
         """Create regions, locations, and connections."""
         create_regions(self.multiworld, self.player)

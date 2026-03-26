@@ -1022,6 +1022,10 @@ if __name__ == "__main__":
             while True:
                 try:
                     pid, apworld_name, i, yamls_dir, out_buf = queue.get()
+                except (KeyboardInterrupt, EOFError):
+                    break
+
+                try:
                     os.kill(pid, signal.SIGTERM)
 
                     extra = f"[...] Generation killed here after {args.timeout}s"
@@ -1031,16 +1035,13 @@ if __name__ == "__main__":
                     run_id = get_run_id(i, args)
                     dump_generation_output(outcome, apworld_name, run_id, yamls_dir, out_buf, extra)
                     gen_callback(yamls_dir, apworld_name, i, args, outcome)
-                except KeyboardInterrupt:
-                    break
-                except EOFError:
-                    break
                 except Exception as exc:
                     extra = "[...] Exception while timing out:\n {}".format("\n".join(traceback.format_exception(exc)))
                     run_id = get_run_id(i, args)
                     dump_generation_output(GenOutcome.Timeout, apworld_name, run_id, yamls_dir, out_buf, extra)
                     gen_callback(yamls_dir, apworld_name, i, args, outcome)
-                    continue
+                finally:
+                    queue.task_done()
 
         timeout_handler = threading.Thread(target=handle_timeouts)
         timeout_handler.daemon = True

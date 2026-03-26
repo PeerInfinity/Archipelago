@@ -19,7 +19,8 @@ The modifications add several features:
 6. **Early termination** via a `--stop-on-first-failure` argument
 7. **ALttP entrance shuffle seed handling** for deterministic regeneration
 
-Additionally, there are bug fixes for specific edge cases encountered during testing.
+Additionally, there are bug fixes for specific edge cases encountered during testing:
+8. **Timeout hang fix** — added missing `queue.task_done()` call in the timeout handler to prevent the fuzzer from hanging indefinitely when a worker times out
 
 ### Features from Upstream (Backported)
 
@@ -247,8 +248,8 @@ parser.add_argument("--stop-on-first-failure", default=False, action="store_true
 | Metric | Value |
 |--------|-------|
 | Original lines (v0.5.1) | 1019 |
-| Modified lines | 1188 |
-| Lines added | 169 |
+| Modified lines | 1189 |
+| Lines added | 170 |
 
 ---
 

@@ -150,6 +150,11 @@ class Hook(BaseHook):
         if self.ut_version in (None, 'pickle', 'hybrid'):
             self.ut_core.auto_discover_pickle()
 
+        # Only use config-based passing_modes filtering in hybrid mode.
+        # Standalone mode tests (worldgen, pickle, original) should try whichever
+        # files are available without the config preventing a specific mode.
+        self.ut_core.use_tracking_mode_config = (self.ut_version == 'hybrid')
+
         # initalize_tracker_core will use pickle/worldgen-based tracking if paths are set,
         # or try original_seeded (resolving seed from seed name/rules JSON), then original
         self.ut_core.initalize_tracker_core(mw.worlds[1].__class__,slot_data)

@@ -1,8 +1,8 @@
 # Universal Tracker Fuzz Test Comparison: Worldgen vs Pickle
 
-**Generated:** 2026-03-22 17:48:53 UTC
+**Generated:** 2026-03-24 19:12:10 UTC
 
-**Source Data Last Updated:** 2026-03-22T05:31:57
+**Source Data Last Updated:** 2026-03-24T03:34:39
 
 This report compares fuzz test results between the Worldgen Universal Tracker (regenerates world from rules.json) and the Pickle-based Universal Tracker (loads serialized multiworld).
 
@@ -59,14 +59,14 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Final Fantasy | ✅ | ✅ | ✅ | ✅ | 50.3KB |
 | Final Fantasy Mystic Quest | ✅ | ✅ | 13.9KB | ✅ | 548.1KB |
 | Heretic | ✅ | ✅ | ✅ | ✅ | 367.6KB |
-| Hollow Knight | ❌ 8/100 | ✅ | ✅ | ✅ | 3501.1KB |
+| Hollow Knight | ❌ | ✅ | ✅ | ✅ | 3501.1KB |
 | Hylics 2 | ✅ | ✅ | ✅ | ✅ | 100.4KB |
 | Inscryption | ✅ | ✅ | 8.0KB | ✅ | 84.3KB |
 | Jak and Daxter: The Precursor Legacy | ❌ 1/100 | ✅ | 21.7KB | 4.6KB | 257.9KB |
 | Journey to Ascension | ❌ | ❌ | ✅ | ✅ | 48.3KB |
-| Kingdom Hearts | ❌ 18/99 | ✅ | ✅ | ✅ | 748.7KB |
+| Kingdom Hearts | ❌ 45/100 | ✅ | ✅ | ✅ | 748.7KB |
 | Kingdom Hearts 2 | ❌ | ❌ 44/95 | 20.4KB | ✅ | 1630.7KB |
-| Kirby's Dream Land 3 | ❌ | ✅ | 10.1KB | ✅ | 528.7KB |
+| Kirby's Dream Land 3 | ⚠️ 88/98 | ✅ | 10.1KB | ✅ | 528.7KB |
 | Landstalker - The Treasures of King Nole | ✅ | ✅ | 3.6KB | ✅ | 209.2KB |
 | Lingo | ❌ 2/45 | ✅ | 38.2KB | 10.7KB | 940.0KB |
 | Links Awakening DX | ✅ | ❌ 23/100 | 7.3KB | ✅ | 703.1KB |
@@ -83,7 +83,7 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Old School Runescape | ✅ | ✅ | 1.0KB | ✅ | 305.2KB |
 | Overcooked! 2 | ✅ | ✅ | 28.5KB | ✅ | 488.3KB |
 | Paint | ✅ | ✅ | 2.7KB | ✅ | 123.5KB |
-| Pokemon Emerald | ❌ 31/92 | ⚠️ 86/92 | 5.2KB | 8.7KB | 1350.2KB |
+| Pokemon Emerald | ❌ 32/92 | ⚠️ 86/92 | 5.2KB | 8.7KB | 1350.2KB |
 | Pokemon Red and Blue | ❌ | ✅ | 12.2KB | 13.0KB | 1270.2KB |
 | Raft | ❌ | ✅ | 6.5KB | ✅ | 198.4KB |
 | Risk of Rain 2 | ✅ | ✅ | ✅ | ✅ | 131.4KB |
@@ -91,10 +91,10 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | Satisfactory | ✅ | ❌ | 41.8KB | ✅ | 1619.5KB |
 | Saving Princess | ✅ | ✅ | ✅ | ✅ | 33.6KB |
 | Secret of Evermore | ❌ | ✅ | 5.6KB | 7.5KB | 415.0KB |
-| Shivers | ✅ | ❌ | ✅ | ✅ | 150.1KB |
+| Shivers | ✅ | ✅ | ✅ | ✅ | 150.1KB |
 | Sonic Adventure 2 Battle | ✅ | ✅ | ✅ | ✅ | 262.2KB |
 | Starcraft 2 | ❌ | ❌ | 29.3KB | 90.1KB | 1086.9KB |
-| Stardew Valley | ❌ | ❌ 19/100 | 20.0KB | 9.8KB | 2558.2KB |
+| Stardew Valley | ❌ | ❌ 14/100 | 20.0KB | 9.8KB | 2558.2KB |
 | Subnautica | ✅ | ✅ | 2.2KB | ✅ | 205.5KB |
 | Super Mario 64 | ✅ | ✅ | ✅ | ✅ | 101.2KB |
 | Super Mario Land 2 | ✅ | ✅ | 96.3KB | ✅ | 919.1KB |
@@ -105,16 +105,16 @@ This report compares fuzz test results between the Worldgen Universal Tracker (r
 | TUNIC | ⚠️ 58/100 | ✅ | 3.1KB | ✅ | 649.2KB |
 | Terraria | ✅ | ✅ | 16.9KB | ✅ | 279.0KB |
 | The Legend of Zelda | ✅ | ✅ | ✅ | ✅ | 554.6KB |
-| The Messenger | ✅ | ❌ 7/100 | 15.2KB | ✅ | 210.4KB |
+| The Messenger | ✅ | ⚠️ 81/100 | 15.2KB | ✅ | 210.4KB |
 | The Wind Waker | ✅ | ✅ | 7.0KB | ✅ | 250.2KB |
 | The Witness | ❌ 15/100 | ✅ | 14.6KB | ✅ | 468.1KB |
 | Timespinner | ✅ | ✅ | 2.2KB | ✅ | 262.9KB |
 | Undertale | ✅ | ✅ | ✅ | ✅ | 56.3KB |
 | VVVVVV | ✅ | ✅ | 3.8KB | ✅ | 22.7KB |
 | Wargroove | ✅ | ✅ | ✅ | ✅ | 44.1KB |
-| Yacht Dice | ❌ 1/100 | ✅ | 0.9KB | 285.0KB | 248.5KB |
+| Yacht Dice | ❌ | ✅ | 0.9KB | 285.0KB | 248.5KB |
 | Yoshi's Island | ✅ | ✅ | 9.2KB | ✅ | 295.3KB |
-| Yu-Gi-Oh! 2006 | ❌ 34/100 | ✅ | 1.3KB | 21.4KB | 644.0KB |
+| Yu-Gi-Oh! 2006 | ❌ | ✅ | 1.3KB | 21.4KB | 644.0KB |
 | Zillion | ❌ | ✅ | ✅ | ✅ | 321.2KB |
 | shapez | ✅ | ✅ | ✅ | ✅ | 153.8KB |
 
