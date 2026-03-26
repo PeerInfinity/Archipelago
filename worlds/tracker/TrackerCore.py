@@ -405,7 +405,7 @@ class TrackerCore(PickleMixin, WorldgenMixin, TrackerTestingMixin, TrackerCoreBa
                 if item_loc > 0 and item_player == self.slot and item_loc in location_id_to_name:
                     world_item.location = self.multiworld.get_location(location_id_to_name[item_loc], self.player_id)
                 # Use server's item_flags directly for classification
-                world_item.classification = item_flags
+                world_item.classification = ItemClassification(item_flags)
                 state.collect(world_item, True)
                 if world_item.advancement:
                     prog_items[world_item.name] += 1
