@@ -26,6 +26,7 @@ If you already have Archipelago running from source, place the APWorld and launc
 
 If you need to set up Archipelago from source first:
 
+**Linux / macOS:**
 ```bash
 git clone https://github.com/ArchipelagoMW/Archipelago.git
 cd Archipelago
@@ -34,6 +35,18 @@ wget -O custom_worlds/json_tools_installer.apworld \
     https://github.com/PeerInfinity/Archipelago-CC/raw/main/apworlds/json_tools_installer.apworld
 python3 -m venv .venv
 source .venv/bin/activate
+python ModuleUpdate.py -y
+python Launcher.py
+```
+
+**Windows (cmd.exe):**
+```cmd
+git clone https://github.com/ArchipelagoMW/Archipelago.git
+cd Archipelago
+mkdir custom_worlds
+curl -L -o custom_worlds\json_tools_installer.apworld https://github.com/PeerInfinity/Archipelago-CC/raw/main/apworlds/json_tools_installer.apworld
+python -m venv .venv
+.venv\Scripts\activate.bat
 python ModuleUpdate.py -y
 python Launcher.py
 ```

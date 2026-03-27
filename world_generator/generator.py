@@ -73,7 +73,7 @@ class WorldGenerator:
             return Path('worlds') / self.data.metadata.game_directory
 
         # Fallback - extract from JSON without full parsing
-        with open(self.json_path, 'r') as f:
+        with open(self.json_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
             game_dir = json_data.get('game_directory', 'unknown_game')
             return Path('worlds') / str(game_dir)
@@ -82,7 +82,7 @@ class WorldGenerator:
         """Load and parse the JSON rules file."""
         logger.info(f"Loading JSON from {self.json_path}")
 
-        with open(self.json_path, 'r') as f:
+        with open(self.json_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
 
         # Apply name substitutions if present (e.g. Metamath generic → meaningful names)
@@ -219,14 +219,14 @@ class WorldGenerator:
         }
         manifest_path = output_dir / 'archipelago.json'
         if not dry_run:
-            manifest_path.write_text(json.dumps(manifest, indent=4))
+            manifest_path.write_text(json.dumps(manifest, indent=4), encoding='utf-8')
             logger.info(f"Wrote manifest to {manifest_path}")
         else:
             logger.info(f"Would write: {manifest_path}")
 
         # Export options for canonical seed generation
         # This allows worldgen worlds to reproduce the exact original seed when seed=1
-        with open(self.json_path, 'r') as f:
+        with open(self.json_path, 'r', encoding='utf-8') as f:
             source_json = json.load(f)
 
         # Extract options from world section
@@ -236,7 +236,7 @@ class WorldGenerator:
         if options_data:
             options_path = output_dir / '_worldgen_options.json'
             if not dry_run:
-                options_path.write_text(json.dumps(options_data, indent=2))
+                options_path.write_text(json.dumps(options_data, indent=2), encoding='utf-8')
                 logger.info(f"Wrote worldgen options to {options_path}")
 
         for filename, content in files.items():
@@ -291,7 +291,7 @@ class WorldGenerator:
                 tutorial_md = docs_dir / tutorial.file_name
                 if not tutorial_md.exists() or self.force:
                     tutorial_content = f"# {tutorial.name}\n\n{tutorial.description}\n"
-                    tutorial_md.write_text(tutorial_content)
+                    tutorial_md.write_text(tutorial_content, encoding='utf-8')
                 tutorial_files_created.add(tutorial.file_name)
 
         # Create setup_en.md if no tutorials created it
@@ -299,13 +299,13 @@ class WorldGenerator:
             setup_md = docs_dir / 'setup_en.md'
             if not setup_md.exists() or self.force:
                 setup_content = f"# {self.data.metadata.game_name} Setup Guide\n\nGenerated world package.\n"
-                setup_md.write_text(setup_content)
+                setup_md.write_text(setup_content, encoding='utf-8')
 
         # Create game info file (en_GameName.md) for WebHost integration
         game_info_md = docs_dir / f'en_{self.data.metadata.game_name}.md'
         if not game_info_md.exists() or self.force:
             game_info_content = f"# {self.data.metadata.game_name}\n\nGenerated world package.\n"
-            game_info_md.write_text(game_info_content)
+            game_info_md.write_text(game_info_content, encoding='utf-8')
 
     def _write_file(self, file_path: Path, content: str) -> None:
         """Write content to a file."""
@@ -314,7 +314,7 @@ class WorldGenerator:
             return
 
         logger.info(f"Writing: {file_path}")
-        file_path.write_text(content)
+        file_path.write_text(content, encoding='utf-8')
 
     def validate(self) -> List[str]:
         """

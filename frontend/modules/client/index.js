@@ -204,14 +204,20 @@ export function register(registrationApi) {
       return false;
     }
     // Store player name if provided
-    if (playerName && coreStorage) {
-      try {
-        const settings = JSON.parse(coreStorage.getItem('clientSettings') || '{}');
-        if (!settings.connection) settings.connection = {};
-        settings.playerName = playerName;
-        coreStorage.setItem('clientSettings', JSON.stringify(settings));
-      } catch (e) {
-        log('error', '[Client Module] Error storing player name:', e);
+    if (playerName) {
+      if (coreStorage) {
+        try {
+          const settings = JSON.parse(coreStorage.getItem('clientSettings') || '{}');
+          if (!settings.connection) settings.connection = {};
+          settings.playerName = playerName;
+          coreStorage.setItem('clientSettings', JSON.stringify(settings));
+        } catch (e) {
+          log('error', '[Client Module] Error storing player name:', e);
+        }
+      }
+      // Set on messageHandler so _handleRoomInfo uses it directly
+      if (coreMessageHandler) {
+        coreMessageHandler.clientSlotName = playerName;
       }
     }
     return coreConnection.requestConnect(serverAddress);
@@ -432,6 +438,10 @@ export async function postInitialize(api, config) {
         log('info', '[Client Module] Player name stored successfully');
       } catch (e) {
         log('error', '[Client Module] Error storing player name from URL:', e);
+      }
+      // Set on messageHandler so _handleRoomInfo uses it directly
+      if (coreMessageHandler) {
+        coreMessageHandler.clientSlotName = playerNameParam;
       }
     }
 

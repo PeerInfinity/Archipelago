@@ -41,16 +41,32 @@ export class InventoryUI {
     this._createBaseUI();
 
     const readyHandler = async (eventPayload) => {
-      log('info', 
+      log('info',
         '[InventoryUI app:readyForUiDataLoad] Received. Setting up base UI and event listeners.'
       );
       this.attachEventBusListeners();
       this.dispatcher = getDispatcher(); // Get dispatcher here
       this.isInitialized = true;
-      log('info', 
-        '[InventoryUI app:readyForUiDataLoad] Base setup complete. Awaiting StateManager readiness.'
-      );
       this.eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+
+      // stateManager:ready may have already fired before we subscribed.
+      // If static data is available, initialize the UI immediately.
+      const staticData = stateManager.getStaticData();
+      if (staticData?.items && staticData?.groups && !this.itemData) {
+        log('info',
+          '[InventoryUI app:readyForUiDataLoad] Static data already available, initializing immediately.'
+        );
+        this.itemData = staticData.items;
+        this.groupNames = Array.isArray(staticData.groups)
+          ? staticData.groups
+          : Object.keys(staticData.groups || {});
+        this.initializeUI(this.itemData, this.groupNames);
+        this.updateDisplay();
+      } else {
+        log('info',
+          '[InventoryUI app:readyForUiDataLoad] Base setup complete. Awaiting StateManager readiness.'
+        );
+      }
     };
     this.eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 

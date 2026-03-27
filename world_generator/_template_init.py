@@ -343,7 +343,7 @@ def generate_init_py(data: ExtractedData, canonical_seed: Optional[int] = None) 
             return  # No options file, use defaults
 
         try:
-            with open(options_path, 'r') as f:
+            with open(options_path, 'r', encoding='utf-8') as f:
                 options_data = json.load(f)
         except (json.JSONDecodeError, IOError):
             return  # Can't read options, use defaults

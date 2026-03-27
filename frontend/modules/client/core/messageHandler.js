@@ -171,24 +171,25 @@ export class MessageHandler {
     // Use injected eventBus
     this.eventBus?.publish('game:roomInfo', data);
 
-    // Get slot name from settings or prompt
-    let slotName;
-    try {
-      const storedSettings = storage.getItem('clientSettings');
-      if (storedSettings) {
-        const settings = JSON.parse(storedSettings);
-        slotName = settings.playerName;
+    // Use clientSlotName if already set (from UI prompt or programmatic connect),
+    // otherwise fall back to localStorage
+    if (!this.clientSlotName) {
+      try {
+        const storedSettings = storage.getItem('clientSettings');
+        if (storedSettings) {
+          const settings = JSON.parse(storedSettings);
+          this.clientSlotName = settings.playerName || 'Player1';
+        }
+      } catch (e) {
+        log('error', 'Error reading playerName from storage:', e);
       }
-    } catch (e) {
-      log('error', 'Error reading playerName from storage:', e);
     }
 
-    // Fall back to prompt if no stored playerName
-    if (!slotName) {
-      slotName = prompt('Enter your slot name:', 'Player1');
+    if (!this.clientSlotName) {
+      this.clientSlotName = 'Player1';
     }
 
-    this.clientSlotName = slotName;
+    const slotName = this.clientSlotName;
 
     // Determine the game name - prefer stateManager's loaded rules over RoomInfo
     // This ensures multiworld scenarios use the correct player-specific game

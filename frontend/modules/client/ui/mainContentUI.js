@@ -4,6 +4,7 @@ import ConsoleUI from './consoleUI.js';
 import { stateManagerProxySingleton as stateManager } from '../../stateManager/index.js';
 import messageHandler from '../core/messageHandler.js';
 import connection from '../core/connection.js';
+import storage from '../core/storage.js';
 import {
   setMainContentUIInstance,
   getClientModuleDispatcher,
@@ -268,6 +269,40 @@ class MainContentUI {
     log('info', '[MainContentUI] Elements initialized and references stored');
   }
 
+  /**
+   * Prompt the user for their player/slot name, pre-filled from localStorage.
+   * Saves the entered name to localStorage and sets it on the messageHandler.
+   * Returns the name, or null if the user cancelled.
+   */
+  _promptPlayerName() {
+    let storedName = '';
+    try {
+      const storedSettings = storage.getItem('clientSettings');
+      if (storedSettings) {
+        const settings = JSON.parse(storedSettings);
+        storedName = settings.playerName || '';
+      }
+    } catch (e) {
+      log('error', '[MainContentUI] Error reading playerName from storage:', e);
+    }
+
+    const slotName = prompt('Enter your slot name:', storedName || 'Player1');
+    if (!slotName) return null;
+
+    // Save to localStorage for next time
+    try {
+      const settings = JSON.parse(storage.getItem('clientSettings') || '{}');
+      settings.playerName = slotName;
+      storage.setItem('clientSettings', JSON.stringify(settings));
+    } catch (e) {
+      log('error', '[MainContentUI] Error saving playerName to storage:', e);
+    }
+
+    // Set on messageHandler so _handleRoomInfo doesn't need to prompt
+    this.messageHandler.clientSlotName = slotName;
+    return slotName;
+  }
+
   attachEventListeners() {
     if (this.connectButton && this.serverAddressInput) {
       this.connectButton.addEventListener('click', () => {
@@ -275,12 +310,15 @@ class MainContentUI {
         if (this.connection.isConnected()) {
           this.connection.disconnect();
         } else {
+          const slotName = this._promptPlayerName();
+          if (!slotName) return; // User cancelled the prompt
+
           const serverAddress =
             this.serverAddressInput.value || 'ws://localhost:38281';
           if (typeof this.connection.requestConnect === 'function') {
             this.connection.requestConnect(serverAddress, '');
           } else {
-            log('error', 
+            log('error',
               '[MainContentUI] this.connection.requestConnect is not a function. Connection attempt failed.'
             );
           }
@@ -789,12 +827,18 @@ class MainContentUI {
       'connect',
       'Connect to server. Usage: connect [addr]',
       (args) => {
+        const slotName = this._promptPlayerName();
+        if (!slotName) {
+          this.appendConsoleMessage('Connection cancelled.', 'system');
+          return;
+        }
+
         const serverAddress = args || 'ws://localhost:38281';
         this.appendConsoleMessage(
           `Connecting to ${serverAddress}...`,
           'system'
         );
-        
+
         if (this.connection && typeof this.connection.requestConnect === 'function') {
           const success = this.connection.requestConnect(serverAddress, '');
           if (!success) {
